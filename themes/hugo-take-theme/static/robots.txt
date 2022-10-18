@@ -1,3 +1,0 @@
-Sitemap: https://takeokunn.xyz/sitemap.xml
-
-User-agent: *
