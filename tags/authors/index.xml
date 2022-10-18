@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>authors on Minimo</title><link>http://www.example.com/tags/authors/</link><description>Recent content in authors on Minimo</description><generator>Hugo -- gohugo.io</generator><lastBuildDate>Tue, 26 Sep 2017 06:00:00 +0600</lastBuildDate><atom:link href="http://www.example.com/tags/authors/index.xml" rel="self" type="application/rss+xml"/><item><title>Authors Setup Guide</title><link>http://www.example.com/docs/authors/</link><pubDate>Tue, 26 Sep 2017 06:00:00 +0600</pubDate><guid>http://www.example.com/docs/authors/</guid><description>Minimo supports multiple authors for your site. Just make sure you have the following configuration in your site&amp;rsquo;s config.toml:
+[taxonomies] author = &amp;#34;authors&amp;#34; Minimo treats Authors as a Hugo Taxonomy.
+Author&amp;rsquo;s Profile For adding an author to your site:
+Create data/authors folder in your site&amp;rsquo;s root directory Create a file with the filename format: &amp;lt;username&amp;gt;.toml Now, add information about the author using the structure below:
+/data/authors/muniftanjim.toml
+id = &amp;#34;muniftanjim&amp;#34; [email] username = &amp;#34;muniftanjim&amp;#34; host = &amp;#34;gmail.</description></item></channel></rss>

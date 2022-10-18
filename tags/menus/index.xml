@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>menus on Minimo</title><link>http://www.example.com/tags/menus/</link><description>Recent content in menus on Minimo</description><generator>Hugo -- gohugo.io</generator><lastBuildDate>Wed, 27 Sep 2017 10:00:00 +0600</lastBuildDate><atom:link href="http://www.example.com/tags/menus/index.xml" rel="self" type="application/rss+xml"/><item><title>Menus Setup Guide</title><link>http://www.example.com/docs/menus/</link><pubDate>Wed, 27 Sep 2017 10:00:00 +0600</pubDate><guid>http://www.example.com/docs/menus/</guid><description>Minimo has three menus.
+Main Menu Sidebar Menu Social Menu Main Menu name: main
+Main menu is located at the top of the site.
+Check Hugo&amp;rsquo;s Menus Documentation for information about managing this menu.
+You can hide the Main Menu using the following option in your config.toml file:
+[params.settings] hideMainMenu = true Sidebar Menu name: sidebar
+Social Menu is available as Widget: sidebar_menu. Add it to the sidebar Widget Area to use it.</description></item></channel></rss>
