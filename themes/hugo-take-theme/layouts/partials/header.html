@@ -1,0 +1,52 @@
+<header>
+    <nav class="navbar nav-shadow" role="navigation" aria-label="main navigation">
+        <div class="container">
+            <div class="navbar-brand">
+                <a href="/" class="navbar-item">
+                    <img src="{{ .Site.Params.image }}" alt="icon">
+                </a>
+                <div class="navbar-sp">
+                    <div class="buttons">
+                        <a href="https://github.com/{{ .Site.Params.github }}" class="button">
+                            <span class="icon">
+                                <i class="fab fa-github"></i>
+                            </span>
+                        </a>
+                        <a href="https://twitter.com/{{ .Site.Params.twitter }}" class="button">
+                            <span class="icon">
+                                <i class="fab fa-twitter"></i>
+                            </span>
+                        </a>
+                        {{ range .AlternativeOutputFormats }}
+                            <a href="{{ .Permalink }}" class="button">
+                                <span class="icon"><i class="fas fa-rss"></i></span>
+                            </a>
+                        {{ end }}
+                    </div>
+                </div>
+            </div>
+            <div class="navbar-menu">
+                <div class="navbar-end">
+                    <div class="navbar-item">
+                        <div class="buttons">
+                            <a href="https://github.com/{{ .Site.Params.github }}" class="button">
+                                <span class="icon"><i class="fab fa-github"></i></span>
+                                <span>GitHub</span>
+                            </a>
+                            <a href="https://twitter.com/{{ .Site.Params.twitter }}" class="button">
+                                <span class="icon"><i class="fab fa-twitter"></i></span>
+                                <span>Twitter</span>
+                            </a>
+                            {{ range .AlternativeOutputFormats }}
+                                <a href="{{ .Permalink }}" class="button">
+                                    <span class="icon"><i class="fas fa-rss"></i></span>
+                                    <span>RSS</span>
+                                </a>
+                            {{ end }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>

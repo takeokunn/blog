@@ -1,0 +1,40 @@
+body {
+    font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, Helvetica Neue, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    color: $font-color;
+}
+
+a {
+    color: $green;
+}
+
+// for icon
+.fa-twitter {
+    color: $twitter-color;
+}
+
+.fa-github {
+    color: $github-color;
+}
+
+.fa-rss {
+    color: $rss-color;
+}
+
+// for blog
+h2:before {
+    content: "## ";
+}
+
+h3:before {
+    content: "### ";
+}
+
+h4:before {
+    content: "#### ";
+}
+
+h5:before {
+    content: "##### ";
+}

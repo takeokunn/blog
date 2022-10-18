@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ja" dir="ltr" prefix="og: https://ogp.me/ns#">
+{{- partial "head.html" . -}}
+<body>
+    {{- partial "header.html" . -}}
+    {{- block "main" . }}{{- end }}
+    {{- partial "footer.html" . -}}
+
+    <!-- script -->
+    {{ $script := resources.Get "js/index.js" | minify | fingerprint }}
+    <script src="{{ $script.Permalink }}" async></script>
+    <script src="https://use.fontawesome.com/releases/v5.3.1/js/all.js" async></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.20.0/components/prism-core.min.js" async></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.20.0/plugins/autoloader/prism-autoloader.min.js" async></script>
+    <script src="https://www.google-analytics.com/analytics.js" async></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id={{ .Site.Params.gtag }}" async></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', '{{ .Site.Params.gtag }}');
+    </script>
+</body>
+</html>
