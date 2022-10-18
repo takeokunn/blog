@@ -1,0 +1,111 @@
+main.single {
+    padding-top: 2.5em;
+    word-wrap: break-word;
+    @media screen and (max-width: 1023px) {
+        padding: 2.5rem 1.5rem;
+    }
+    article {
+        h1 {
+            line-height: 40px;
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        ul.info {
+            display: flex;
+            margin-bottom: .5rem;
+            > li {
+                &:first-of-type {
+                    margin-right: 10px;
+                }
+                svg {
+                    position: relative;
+                    top: 1px;
+                }
+                span {
+                    font-size: 1rem;
+                    > a {
+                        color: $green;
+                        text-decoration: underline;
+                    }
+                }
+
+                > a {
+                    font-weight: bold;
+                    &:after {
+                        content: ', ';
+                    }
+                    &:last-of-type {
+                        &:after {
+                            content: '';
+                        }
+                    }
+                }
+            }
+        }
+        > .content {
+            margin: 2rem 0;
+            font-size: 1.2rem;
+            hr {
+                font-size: 1.5rem;
+                margin: 2rem 0 4.5rem;
+                border: 0;
+                background: none;
+                overflow: visible;
+                text-align: center;
+                &::after {
+                    content: "...";
+                    letter-spacing: .6em;
+                }
+            }
+            p {
+                word-break: break-word;
+            }
+            a {
+                color: $green;
+                text-decoration: underline;
+            }
+            code {
+                color: $red;
+            }
+            pre {
+                background: rgba(0, 0, 0, .05);
+                font-size: 1rem;
+                .number {
+                    margin: 0;
+                    padding: 0;
+                    background: none;
+                    min-width: 0;
+                    vertical-align: inherit;
+                    font-size: inherit;
+                }
+            }
+            h2 {
+                font-size: 2.1rem;
+            }
+            h3 {
+                font-size: 1.7rem;
+            }
+        }
+    }
+
+    .recent-wrapper {
+        ul {
+            margin-bottom: 3rem;
+            li {
+                margin-bottom: 0.5rem;
+                p {
+                    &.label {
+                        font-size: 0.8rem;
+                    }
+                    &.title {
+                        font-size: 1.4rem;
+                        > a {
+                            color: $font-color;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

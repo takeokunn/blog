@@ -40,7 +40,7 @@
     {{ if .Params.eyecatch }}
         <meta property="og:image" content="{{ .Params.eyecatch | absURL }}">
     {{ else }}
-        <meta property="og:image" content="{{ .Site.Params.image | absURL }}">
+        <meta property="og:image" content="{{ .Site.Params.ogpImage | absURL }}">
     {{ end }}
     {{ if .Summary }}
         <meta property="og:description" content="{{ .Summary }}">
@@ -69,6 +69,7 @@
     <!-- cdn -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.20.0/themes/prism.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/themes/prism-okaidia.min.css">
 
     <!-- style -->
     {{ $style := resources.Get "scss/index.scss" | resources.ToCSS | minify | fingerprint }}

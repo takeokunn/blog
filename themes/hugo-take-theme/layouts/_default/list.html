@@ -1,3 +1,68 @@
 {{ define "main" }}
-  <p>list</p>
+
+<main class="list container">
+    {{ if .IsHome }}
+        <section class="hero">
+            <div class="hero-body has-text-centered">
+                <h1 class="title">takeokunn's blog</h1>
+                <h2 class="subtitle">poem driven development</h2>
+            </div>
+        </section>
+    {{ end }}
+
+    {{ if and .Title (eq .Type "tags") }}
+        <section class="hero">
+            <div class="hero-body has-text-centered">
+                <h1 class="title">#{{ .Title }}</h1>
+            </div>
+        </section>
+    {{ end }}
+
+    {{ $pages := union .RegularPages .Sections }}
+    {{ if .IsHome }}
+        {{ $pages = where site.RegularPages "Type" "in" site.Params.mainSections }}
+    {{ end }}
+
+    {{ $paginator := .Paginate $pages }}
+    <div class="columns">
+        <div class="column is-half is-offset-one-quarter">
+            <ul class="posts">
+                {{ range $index, $page := $paginator.Pages }}
+                    <li class="post">
+                        <p class="title">
+                            <a href="{{ .Permalink }}">{{ .Title }}</a>
+                        </p>
+                        <ul class="info">
+                            <li>
+                                <span class="icon"><i class="far fa-calendar-alt"></i></span>
+                                <time>{{ .Date | time.Format ":date_medium" }}</time>
+                            </li>
+                            {{ if .Params.tags }}
+                                <li>
+                                    <span>#</span>
+                                    {{ range .Params.tags }}
+                                        {{ $href := print (absURL "tags/") (urlize .) }}
+                                        <a href="{{ $href }}">{{ . }}</a>
+                                    {{ end }}
+                                </li>
+                            {{ end }}
+                        </ul>
+                        <p class="description">{{ .Description }}</p>
+                    </li>
+                {{ end }}
+            </ul>
+            {{ if gt $paginator.TotalPages 1 }}
+                <nav class="pagination">
+                    {{ if $paginator.HasPrev }}
+                        <a class="btn" href="{{ $paginator.Prev.URL }}">← Prev Page</a>
+                    {{ end }}
+                    {{ if $paginator.HasNext }}
+                        <a class="btn ml-auto" href="{{ $paginator.Next.URL }}">Next Page →</a>
+                    {{ end }}
+                </nav>
+            {{ end }}
+        </div>
+    </div>
+</main>
+
 {{ end }}

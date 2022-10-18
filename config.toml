@@ -5,7 +5,8 @@ theme = "hugo-take-theme"
 [params]
 author = 'takeokunn'
 description = "takeokunn's blog"
-image = "ogp.png"
+ogpImage = "ogp.png"
+icon = "icon.png"
 gtag = "UA-135483596-1"
 twitter = "takeokunn"
 github = "takeokunn"
