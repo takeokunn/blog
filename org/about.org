@@ -1,0 +1,10 @@
+#+HUGO_BASE_DIR: ../
+#+HUGO_SECTION: ./
+
+#+title: About me
+
+Hi, I'm takeokunn.
+
+- Job: Web Developer
+- Live: Nerima, Tokyo
+- Love: Emacs

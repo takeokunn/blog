@@ -1,0 +1,9 @@
+#+HUGO_BASE_DIR: ../../
+#+HUGO_SECTION: posts/fleeting
+
+:PROPERTIES:
+:ID:       57DC0C73-79A2-4A0A-B364-7A919A7BB430
+:END:
+#+title: emacs
+
+emacsとはhackerのためのツールです。。。。。。

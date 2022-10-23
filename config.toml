@@ -1,6 +1,7 @@
 baseURL = "http://example.com"
 title = "takeokunn's blog"
 theme = "hugo-take-theme"
+canonifyurls = true
 
 [params]
 author = 'takeokunn'
@@ -10,3 +11,6 @@ icon = "icon.png"
 gtag = "UA-135483596-1"
 twitter = "takeokunn"
 github = "takeokunn"
+
+[taxonomies]
+tag = "tags"

@@ -3,3 +3,22 @@
 /assets/jsconfig.json
 hugo_stats.json
 /.hugo_build.lock
+
+# content
+content/posts/dialy
+!content/posts/dialy/_index.md
+
+content/posts/fleeting
+!content/posts/fleeting/_index.md
+
+content/posts/index
+!content/posts/index/_index.md
+
+content/posts/literature
+!content/posts/literature/_index.md
+
+content/posts/permanent
+!content/posts/permanent/_index.md
+
+content/posts/structure
+!content/posts/structure/_index.md
