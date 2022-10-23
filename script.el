@@ -14,5 +14,3 @@
                      (file-expand-wildcards "org/**/*.org")))
     (with-current-buffer (find-file f)
       (org-hugo-export-wim-to-md))))
-
-;; (export-org-files)
