@@ -1,0 +1,6 @@
+* takeokunn's blog
+
+#+begin_src shell
+$ emacs --batch -l script.el -f export-org-files
+$ hugo server
+#+end_src
