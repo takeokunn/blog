@@ -6,4 +6,4 @@
 :END:
 #+title: emacs
 
-emacsとはhackerのためのツールです。。。。。。
+Emacsは本物のhackerのためのテキストエディタです。

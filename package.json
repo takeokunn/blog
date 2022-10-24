@@ -1,0 +1,26 @@
+{
+  "private": true,
+  "name": "blog",
+  "description": "takeokunn's blog",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "textlint org/**/*.org",
+    "lint:fix": "textlint --fix org/**/*.org"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/takeokunn/blog.git"
+  },
+  "devDependencies": {
+    "textlint": "^12.2.2",
+    "textlint-filter-rule-node-types": "^1.1.0",
+    "textlint-plugin-org": "^0.3.4",
+    "textlint-rule-ginger": "^2.2.1",
+    "textlint-rule-no-dropping-the-ra": "^3.0.0",
+    "textlint-rule-preset-ja-spacing": "^2.2.0",
+    "textlint-rule-preset-ja-technical-writing": "^7.0.0",
+    "textlint-rule-spellcheck-tech-word": "^5.0.0",
+    "textlint-rule-spellchecker": "^2.2.1",
+    "textlint-rule-write-good": "^2.0.0"
+  }
+}
