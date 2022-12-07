@@ -2,14 +2,19 @@
 :ID:       7622D819-68E9-4265-83D5-40E1AC66F930
 :END:
 
-#+HUGO_BASE_DIR: ../../
-#+HUGO_SECTION: posts/fleeting
-
 #+TITLE: fluent-bitをDockerで動かす
 #+DATE: 2022-12-07
+#+HUGO_BASE_DIR: ../../
+#+HUGO_SECTION: posts/fleeting
+#+HUGO_TAGS: fluent-bit docker
+#+HUGO_DESCRIPTION: fluent-bitをDockerで動かす方法のメモ
 
-* fluent-bitをDockerで動かす
-** プロジェクト構成
+* fluent-bitとは
+
+* プロジェクト構成
+
+以下のように適当なディレクトリを作成する。
+
 #+begin_src shell
   [I] ~/projects/fluent-bit-sandbox (*´ω｀*) < tree .
   .
@@ -56,7 +61,7 @@
       Name stdout
       Match *
 #+end_src
-** 実行方法
+* 実行方法
 #+begin_src shell
   $ docker compose up
 
