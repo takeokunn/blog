@@ -3,6 +3,8 @@
 
 #+TITLE: About me
 #+DESCRIPTION: About me
+#+STARTUP: content
+#+STARTUP: nohideblocks
 
 * Basic
 

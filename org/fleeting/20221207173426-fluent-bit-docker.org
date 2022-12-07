@@ -8,6 +8,8 @@
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/fleeting
 #+HUGO_TAGS: fleeting fluent-bit docker
+#+STARTUP: content
+#+STARTUP: nohideblocks
 
 * プロジェクト構成
 

@@ -8,6 +8,8 @@
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/permanent
 #+HUGO_TAGS: permanent docker fluent-bit
+#+STARTUP: content
+#+STARTUP: nohideblocks
 
 * はじめに
 

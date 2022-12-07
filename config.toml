@@ -6,7 +6,7 @@ canonifyurls = true
 [params]
 author = 'takeokunn'
 description = "takeokunn's blog"
-ogpImage = "ogp.png"
+ogpImage = "http://takeokunn.org/ogp.png"
 icon = "icon.png"
 gtag = "UA-135483596-1"
 twitter = "takeokunn"
