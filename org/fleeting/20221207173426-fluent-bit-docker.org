@@ -3,11 +3,11 @@
 :END:
 
 #+TITLE: fluent-bitをDockerで動かす
-#+HUGO_DESCRIPTION: fluent-bitをDockerで動かす方法のメモ
+#+DESCRIPTION: fluent-bitをDockerで動かす方法のメモ
 #+DATE: 2022-12-07
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/fleeting
-#+HUGO_TAGS: fluent-bit docker
+#+HUGO_TAGS: fleeting fluent-bit docker
 
 * プロジェクト構成
 
@@ -60,6 +60,9 @@
       Match *
 #+end_src
 * 実行方法
+
+~docker compose up~ を立ち上げると上記の ~[INPUT]~ に記述したdummyのinputが出力される
+
 #+begin_src shell
   $ docker compose up
 

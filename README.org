@@ -8,7 +8,7 @@ Hugo theme is [[https://github.com/takeokunn/hugo-take-theme][takeokunn/hugo-tak
 
 ** Build locally
 
-generate org to html:
+generate org to markdown:
 
 #+begin_src shell
   $ emacs --batch -l script.el -f export-org-files
@@ -18,4 +18,9 @@ run hugo server:
 
 #+begin_src shell
   $ hugo server
+#+end_src
+
+update theme:
+#+begin_src shell
+  git submodule update --remote --recursive
 #+end_src

@@ -3,11 +3,11 @@
 :END:
 
 #+title: fluent-bitに入門する
-#+HUGO_DESCRIPTION: fluent-bitに入門する
+#+DESCRIPTION: fluent-bitに入門する
 #+DATE: 2022-12-07
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/permanent
-#+HUGO_TAGS: docker fluent-bit
+#+HUGO_TAGS: permanent docker fluent-bit
 
 * はじめに
 
