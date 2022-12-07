@@ -6,6 +6,6 @@ draft = false
 
 Hi, I'm takeokunn.
 
--   Job: Web Developer
+-   Job: Web Engineer
 -   Live: Nerima, Tokyo
 -   Love: Emacs
