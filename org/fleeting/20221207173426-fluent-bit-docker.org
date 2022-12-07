@@ -14,7 +14,7 @@
 以下のように適当なディレクトリを作成する。
 
 #+begin_src shell
-  [I] ~/projects/fluent-bit-sandbox (*´ω｀*) < tree .
+  $ tree .
   .
   ├── Dockerfile
   ├── application.conf
