@@ -1,4 +1,4 @@
-baseURL = "http://example.com"
+baseURL = "http://takeokunn.org/"
 title = "takeokunn's blog"
 theme = "hugo-take-theme"
 canonifyurls = true
