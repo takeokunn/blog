@@ -3,13 +3,15 @@
 :END:
 
 #+TITLE: fluent-bitをDockerで動かす
+#+HUGO_DESCRIPTION: fluent-bitをDockerで動かす方法のメモ
 #+DATE: 2022-12-07
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/fleeting
 #+HUGO_TAGS: fluent-bit docker
-#+HUGO_DESCRIPTION: fluent-bitをDockerで動かす方法のメモ
 
 * fluent-bitとは
+
+~fluent-bit~ は ~fluentd~ のC実装であり、単体のバイナリで動いて高速で動くすごいやつ。
 
 * プロジェクト構成
 
