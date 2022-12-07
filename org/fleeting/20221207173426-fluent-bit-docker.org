@@ -61,7 +61,7 @@
 #+end_src
 * 実行方法
 
-~docker compose up~ を立ち上げると上記の ~[INPUT]~ に記述したdummyのinputが出力される
+~docker compose up~ を立ち上げると上記の ~[INPUT]~ に記述したdummyのinputが出力される。
 
 #+begin_src shell
   $ docker compose up
