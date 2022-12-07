@@ -1,7 +1,7 @@
 #+HUGO_BASE_DIR: ../
 #+HUGO_SECTION: ./
 
-#+title: About me
+#+TITLE: About me
 
 Hi, I'm takeokunn.
 
