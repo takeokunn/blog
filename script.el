@@ -10,7 +10,8 @@
 (defun export-org-files ()
   "Re-exports all Org-roam files to Hugo markdown."
   (interactive)
-  (dolist (f (append (file-expand-wildcards "org/*.org")
-                     (file-expand-wildcards "org/**/*.org")))
-    (with-current-buffer (find-file f)
-      (org-hugo-export-wim-to-md))))
+  (let ((org-id-extra-files (directory-files-recursively default-directory "org")))
+    (dolist (f (append (file-expand-wildcards "org/*.org")
+                       (file-expand-wildcards "org/**/*.org")))
+      (with-current-buffer (find-file f)
+        (org-hugo-export-wim-to-md)))))

@@ -9,10 +9,6 @@
 #+HUGO_SECTION: posts/fleeting
 #+HUGO_TAGS: fluent-bit docker
 
-* fluent-bitとは
-
-~fluent-bit~ は ~fluentd~ のC実装であり、単体のバイナリで動いて高速で動くすごいやつ。
-
 * プロジェクト構成
 
 以下のように適当なディレクトリを作成する。

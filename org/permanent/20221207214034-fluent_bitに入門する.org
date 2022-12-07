@@ -1,0 +1,22 @@
+:PROPERTIES:
+:ID:       E4B1AA1E-52C0-4A8F-91F3-F4119ACE2BC6
+:END:
+
+#+title: fluent-bitに入門する
+#+HUGO_DESCRIPTION: fluent-bitに入門する
+#+DATE: 2022-12-07
+#+HUGO_BASE_DIR: ../../
+#+HUGO_SECTION: posts/permanent
+#+HUGO_TAGS: docker fluent-bit
+
+* はじめに
+
+複数のサーバを管理すればする程、loggingの重要性が高まります。
+
+* fluent-bitとは
+
+fluent-bitは高速なlogging libraryです。
+
+* 環境構築
+
+[[id:7622D819-68E9-4265-83D5-40E1AC66F930][fluent-bitをDockerで動かす]] を参考に作る
