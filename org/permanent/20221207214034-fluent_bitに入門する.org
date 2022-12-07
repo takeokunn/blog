@@ -19,7 +19,7 @@
 
 fluent-bitは高速なlogging libraryです。
 
-[[file:~/.ghq/github.com/takeokunn/blog/static/images/A53EA3D4-B9C5-4885-9E28-A36801B82581.png][image]]
+[[file:~/.ghq/github.com/takeokunn/blog/static/images/A53EA3D4-B9C5-4885-9E28-A36801B82581.png]]
 
 * 環境構築
 
