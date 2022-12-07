@@ -21,7 +21,7 @@
     },
     "textlint-rule-spellchecker": {
       "skipWords": ["takeokunn"]
-    }
+    },
     "textlint-rule-write-good": true,
     "preset-ja-spacing": true,
     "textlint-rule-no-dropping-the-ra": true,
