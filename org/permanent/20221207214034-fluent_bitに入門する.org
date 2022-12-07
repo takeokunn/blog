@@ -19,4 +19,4 @@ fluent-bitは高速なlogging libraryです。
 
 * 環境構築
 
-[[id:7622D819-68E9-4265-83D5-40E1AC66F930][fluent-bitをDockerで動かす]] を参考に作る
+[[id:7622D819-68E9-4265-83D5-40E1AC66F930][fluent-bitをDockerで動かす]] を参考に作る。
