@@ -13,7 +13,7 @@
 #+STARTUP: content
 #+STARTUP: nohideblocks
 
-* 3行で纏めると
+* 結論
 
 - ~aws-sdk-php~ の ~v3.245.0~ で ~AwcClient~ のconstructorの引数が変わった
 - ~SqsClient~ などの継承してるclassにも影響が出る

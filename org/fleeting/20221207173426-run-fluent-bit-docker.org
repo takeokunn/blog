@@ -75,3 +75,33 @@
   fluent-bit-sandbox-fluentbit-1  | [2] *-firelens-*: [1668664186.900453923, {"date"=>"2022-01-23T03:10:33.317817Z", "source"=>"stdout", "log"=>"time:2022-01-23T03:10:33+00:00   protocol:HTTP/1.1       status:200      size:1450       reqsize:150     referer:-     vhost:10.10.18.102      reqtime:0.176   cache:- runtime:-       "}]
   fluent-bit-sandbox-fluentbit-1  | [3] *-firelens-*: [1668664187.900391678, {"date"=>"2022-01-23T03:10:33.317817Z", "source"=>"stdout", "log"=>"time:2022-01-23T03:10:33+00:00   protocol:HTTP/1.1       status:200      size:1450       reqsize:150     referer:-     vhost:10.10.18.102      reqtime:0.176   cache:- runtime:-       "}]
 #+end_src
+
+* 解説
+
+特に何も指定せずに ~docker compose up~ をすると ~/fluent-bit/bin/fluent-bit -c /fluent-bit/etc/fluent-bit.conf~ で起動をしている。
+
+#+begin_src shell
+  $ docker compose exec fluentbit /bin/bash
+  bash-4.2# ps aux | grep fluent-bit
+  root         1  0.2  0.5 2442384 46640 ?       Ssl  05:50   0:00 /fluent-bit/bin/fluent-bit -e /fluent-bit/firehose.so -e /fluent-bit/cloudwatch.so -e /fluent-bit/kinesis.so -c /fluent-bit/etc/fluent-bit.conf
+  root        41  0.0  0.0   8996   932 pts/1    S+   05:51   0:00 grep fluent-bit
+#+end_src
+
+デフォルトのconfigである ~/fluent-bit/etc/fluent-bit.conf~ はserverが立っており、tcpでやりとりができるようになっている。
+
+#+begin_src shell
+  $ docker compose exec fluentbit /bin/bash
+  bash-4.2# cat /fluent-bit/etc/fluent-bit.conf
+  [INPUT]
+      Name        forward
+      Listen      0.0.0.0
+      Port        24224
+
+  [OUTPUT]
+      Name cloudwatch
+      Match   **
+      region us-east-1
+      log_group_name fluent-bit-cloudwatch
+      log_stream_prefix from-fluent-bit-
+      auto_create_group true
+#+end_src

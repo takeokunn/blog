@@ -24,7 +24,10 @@
         "takeokunn",
         "mtime",
         "ctime",
-        "nohideblocks"
+        "nohideblocks",
+        "fluent",
+        "fluentd",
+        "laravel"
       ],
       "skipRegExps": [
         "([0-9A-F]{8})-([0-9A-F]{4})-([0-9A-F]{4})-([0-9A-F]{4})-([0-9A-F]{12})"
