@@ -1,0 +1,59 @@
+:PROPERTIES:
+:ID:       04431347-7282-4700-874E-4436E832DC9B
+:mtime:    20221215023738
+:ctime:    20221215023651
+:END:
+
+#+TITLE: RedashのQuery一覧を保存する方法
+#+DESCRIPTION: RedashのQuery一覧を保存する方法
+#+DATE: 2020-05-11
+#+HUGO_BASE_DIR: ../../
+#+HUGO_SECTION: posts/permanent
+#+HUGO_TAGS: permanent redash
+#+STARTUP: content
+#+STARTUP: nohideblocks
+
+仕事でRedashの情報を保存したいという要望があった。
+
+AMIをとるのは大げさだよなぁと思ったのでqueryの一覧を取得する方法について調べてみた。
+
+--------------
+
+とりあえず世の中に同じようなことを考えてる人がいないかを調べてみた。
+
+[[http://ariarijp.hatenablog.com/entry/redash-query-backup-with-redashman][redashmanを使ってRedashのクエリをお手軽にバックアップする]]という記事があった。[[https://github.com/ariarijp/redashman][ariarijp/redashman]]というgolang自作ツールを介してRedashAPIを叩いているようだ。
+
+Redash APIのドキュメントはこれだ。[[https://redash.io/help/user-guide/integrations-and-api/api][Integrations and API]]。
+
+queryのCRUDとdashboardのCRUDが用意されている。api tokenを発行してそれを使えば楽に操作ができるようだ。
+
+[[https://github.com/ariarijp/redashman][ariarijp/redashman]]はすごく良さそうなのだが、自分が欲しいのはqueryの一覧であって豪華なAPI Clientではない。
+
+Golangを入れることすらめんどくさいのだ。
+
+今回の用途では雑にcurlで取得できればよかったので以下のように投げた。
+あとは必要なフォーマットに合わせてよしなにjqを使えば良い。
+
+#+begin_src shell
+  $ curl "https://<redash url>/api/queries" \
+      -H "Accept: application/json" \
+      -H "Authorization: Key <auth key>" \
+      | jq ".results" | jq "map({ id, name, query })"
+#+end_src
+
+responseはこんな感じ。綺麗に出せた。
+
+#+begin_src json
+  [
+      {
+          "id": 13,
+          "name": "ユーザ一覧",
+          "query": "select * from users;"
+      },
+      {
+          "id": 12,
+          "name": "ユーザ詳細",
+          "query": "select * from users where id = 1;"
+      }
+  ]
+#+end_src

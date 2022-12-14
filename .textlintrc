@@ -35,7 +35,10 @@
         "Xlib.error.DisplayConnectionError",
         "webpacker",
         "circleci",
-        "capisorano"
+        "capisorano",
+        "Redash",
+        "jq",
+        "Golang"
       ],
       "skipRegExps": [
         "([0-9A-F]{8})-([0-9A-F]{4})-([0-9A-F]{4})-([0-9A-F]{4})-([0-9A-F]{12})"
