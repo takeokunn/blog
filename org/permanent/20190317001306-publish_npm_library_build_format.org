@@ -1,0 +1,143 @@
+:PROPERTIES:
+:ID:       7AC62BF0-F253-4FBD-92D8-36725EACD91E
+:mtime:    20221215001910
+:ctime:    20221215001851
+:END:
+
+#+TITLE: npm libraryのbuild formatについて
+#+DESCRIPTION: npm libraryのbuild formatについて
+#+DATE: 2019-03-17
+#+HUGO_BASE_DIR: ../../
+#+HUGO_SECTION: posts/permanent
+#+HUGO_TAGS: permanent npm
+#+STARTUP: content
+#+STARTUP: nohideblocks
+
+半年前くらいにnpm package作ってみたいなぁと思って作ってみた時学んだことをまとめていく。
+
+以下の記事で大体理解できたのだが、実際にやってみて細かいところで躓いた部分を書いていく。
+
+- [[https://qiita.com/TsutomuNakamura/items/f943e0490d509f128ae2][初めてのnpmパッケージ公開]]
+- [[https://qiita.com/fnobi/items/f6b1574fb9f4518ed520][3分でできるnpmモジュール]]
+
+ちなみに、repoは [[https://github.com/takeokunn/businesh][takeokunn/businesh]] で、ビジネッシュ翻訳してくれるようなゴミみたいなpackageだ。意外とdownloadがあるのウケる。
+
+#+begin_src js
+  const before_text = '任意の文字列をビジネッシュ・テキストに変換するライブラリです。';
+  businesh.translate(before_text)
+      .then(after_text => {
+          // 半強制のコンテクストをハイクオリティなビジネス的サティスファクション・テキストにコンバートフレキシブルに対応するフィジビリティスタディって、この前読んだビジネス書に書いてあった、実例もたくさんある。
+          console.log(after_text)
+      })
+      .catch(err => console.log(err));
+#+end_src
+
+--------------
+
+~npm~ のpackageと一口に言っても、 ~server side javascript~ なのか、 ~frontend javascript~ なのかで毛色が違う。通常以下のようにライブラリを呼び出す。
+
+frontend:
+
+#+begin_src js
+  import businesh from 'businesh';
+#+end_src
+
+server side:
+
+#+begin_src js
+  const businesh = require('businesh');
+#+end_src
+
+上記のように呼び出すには、以下のようにpackageを提供する必要がある。
+
+frontend:
+
+#+begin_src js
+  export { businesh };
+#+end_src
+
+server side:
+
+#+begin_src js
+  exports.businesh = businesh;
+#+end_src
+
+~javascript~ のmoduleには主に4種類ある。
+
+- AMD
+- CommonJS
+- ES
+- UMD
+
+この辺の記事が参考になる。
+
+- [[https://qiita.com/chuck0523/items/1868a4c04ab4d8cdfb23#commonjs%E3%81%A8amd][[意訳]初学者のためのJavaScriptモジュール講座 Part1#]]
+- [[https://www.davidbcalhoun.com/2014/what-is-amd-commonjs-and-umd/][What is AMD, CommonJS, and UMD?]]
+- [[https://auth0.com/blog/javascript-module-systems-showdown/][JavaScript Module Systems Showdown: CommonJS vs AMD vs ES2015]]
+
+~bundler~ のbuild optionで解決できる。 ~rollup~ を使っているので以下のように設定すれば良い。
+
+[[https://github.com/takeokunn/businesh/blob/master/rollup.config.js][takeokunn/businesh/blob/master/rollup.config.js]]:
+
+#+begin_src js
+  import babel from 'rollup-plugin-babel';
+
+  const default_config = {
+      input: 'src/main.js',
+      moduleName: 'businesh',
+      plugins: [babel({ exclude: 'node_modules/**', runtimeHelpers: true })]
+  };
+
+  export default [
+      {
+          ...default_config,
+          output: {
+              file: 'dist/bundle.cjs.js',
+              format: 'cjs',
+              sourcemap: true
+          }
+      },
+      {
+          ...default_config,
+          output: {
+              file: 'dist/bundle.es.js',
+              format: 'es',
+              sourcemap: true
+          }
+      },
+      {
+          ...default_config,
+          output: {
+              file: 'dist/bundle.umd.js',
+              format: 'umd',
+              sourcemap: true
+          }
+      }
+  ];
+#+end_src
+
+~package.json~ の設定も同時に変える必要がある。
+
+[[https://github.com/takeokunn/businesh/blob/master/package.json#L5-L7][takeokunn/businesh/blob/master/package.json]]抜粋。
+
+#+begin_src json
+  {
+      ...
+      "main": "dist/bundle.cjs.js",
+      "module": "dist/bundle.es.js",
+      "browser": "dist/bundle.umd.js",
+      "repository": "git@github.com:takeokunn/businesh.git",
+      "author": "takeokunn<bararararatty@gmail.com>",
+      ...
+  }
+#+end_src
+
+これでうまく ~npm install~ した時良い感じに読み込むことができる。
+
+ちなみに、イマイチ良い記事がなかったので[[https://github.com/reduxjs/redux/blob/master/package.json][reduxjs/redux]] を参考にした。
+
+--------------
+
+適当に作ったライブラリだったが、 ~build format~ について学べたから良かったかな。
+
+ゴミみたいなやつじゃなくて、もっと社会の役に立つようなものを作れるようになりたい(願望)
