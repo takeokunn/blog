@@ -17,7 +17,7 @@ generate org to markdown:
   $ emacs --batch -l script.el -f export-org-files
 #+end_src
 
-run hugo server:
+run Hugo server:
 
 #+begin_src shell
   $ hugo server
