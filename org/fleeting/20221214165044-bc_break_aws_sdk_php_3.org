@@ -1,14 +1,58 @@
 :PROPERTIES:
 :ID:       5237E27E-BCCE-42D6-8E02-1B5EE1E89B48
-:mtime:    20221214165056
+:mtime:    20221214175217 20221214165056
 :ctime:    20221214165044
 :END:
 
-#+TITLE: bc-break-aws-sdk-php-3
-#+DESCRIPTION: description
+#+TITLE: aws-sdk-php v3.245.0でBC breakをおこす
+#+DESCRIPTION: AwsClientの引数の配列の変更が入ったので壊れるから注意が必要
 #+DATE: 2022-12-14
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/fleeting
 #+HUGO_TAGS: fleeting
 #+STARTUP: content
 #+STARTUP: nohideblocks
+
+* 3行で纏めると
+
+- ~aws-sdk-php~ の ~v3.245.0~ で ~AwcClient~ のconstructorの引数が変わった
+- ~SqsClient~ などの継承してるclassにも影響が出る
+- composer.jsonで ~"aws/aws-sdk-php": "^3.0"~ のように指定してるとversionが上がって事故る
+
+* 現象
+
+2022年11月に ~aws-sdk-php~ の ~v3.245.0~ がリリースされた。
+
+[[https://github.com/aws/aws-sdk-php/releases/tag/3.245.0][https://github.com/aws/aws-sdk-php/releases/tag/3.245.0]]
+
+リリース内容の中に[[https://github.com/aws/aws-sdk-php/pull/2517][Feature bearer token #2517]]という変更があり、これによって ~AwsClient~ の記述の仕方が以下のように変わる。
+
+before:
+#+begin_src php
+  $client = new AwsClient([
+      'version' => 'latest',
+      'region' => $_ENV['AWS_REGION'],
+      'credientials' => [
+          'key' => $_ENV['AWS_ACCESS_KEY_ID'],
+          'secret' => $_ENV['AWS_SECRET_ACCESS_KEY'],
+          'token' => $_ENV['AWS_SESSION_TOKEN'],
+      ]
+  ]);
+#+end_src
+
+after:
+#+begin_src php
+  $client = new AwsClient([
+      'version' => 'latest',
+      'region' => $_ENV['AWS_REGION'],
+      'credientials' => [
+          'key' => $_ENV['AWS_ACCESS_KEY_ID'],
+          'secret' => $_ENV['AWS_SECRET_ACCESS_KEY'],
+      ],
+      'token' => $_ENV['AWS_SESSION_TOKEN'],
+  ]);
+#+end_src
+
+~AwsClient~ は色々なbase classとなっているので呼び出し方に注意が必要になってくる。
+
+[[https://github.com/aws/aws-sdk-php/search?q=%22extends+AwsClient%22][https://github.com/aws/aws-sdk-php/search?q=%22extends+AwsClient%22]]

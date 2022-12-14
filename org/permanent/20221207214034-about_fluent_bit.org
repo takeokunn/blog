@@ -5,7 +5,7 @@
 :END:
 
 #+title: fluent-bitに入門する
-#+DESCRIPTION: fluent-bitに入門する
+#+DESCRIPTION: fluent-bitに入門のしかたについて纏めた
 #+DATE: 2022-12-07
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/permanent
