@@ -32,7 +32,8 @@
         "netstat",
         "npm",
         "axios",
-        "Xlib.error.DisplayConnectionError"
+        "Xlib.error.DisplayConnectionError",
+        "webpacker"
       ],
       "skipRegExps": [
         "([0-9A-F]{8})-([0-9A-F]{4})-([0-9A-F]{4})-([0-9A-F]{4})-([0-9A-F]{12})"

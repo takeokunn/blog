@@ -1,0 +1,145 @@
+:PROPERTIES:
+:ID:       D70946A8-664B-4A85-823F-1E22ED84AC9B
+:mtime:    20221215014752
+:ctime:    20221215014658
+:END:
+
+#+TITLE: WebpackerでBulmaをbuildするとwarningが出るものの調査と対応
+#+DESCRIPTION: WebpackerでBulmaをbuildするとwarningが出るものの調査と対応
+#+DATE: 2019-04-11
+#+HUGO_BASE_DIR: ../../
+#+HUGO_SECTION: posts/permanent
+#+HUGO_TAGS: permanent
+#+STARTUP: content
+#+STARTUP: nohideblocks
+
+「webpackerでbuildするとめっちゃwarning出るんだけど調べてくれない？」
+
+と、会社の先輩から言われたので調査対応をした時学んだことをメモしていく。
+
+--------------
+
+warningの内容は以下だ。(抜粋)
+
+#+begin_src shell
+  $ ./bin/webpack
+  ...
+  WARNING in ./node_modules/css-loader??ref--2-2!./node_modules/postcss-loader/lib??ref--2-3!./node_modules/resolve-url-loader!./node_modules/sass-loader/lib/loader.js??ref--2-5!./app/assets/scss/main.scss
+  (Emitted value instead of an instance of Error) postcss-custom-properties: /Users/node_modules/bulma/sass/grid/columns.sass:501:10: Custom property ignored: not scoped to the top-level :root element (.columns.is-variable.is-3-widescreen-only { ... --columnGap: ... }), in atrule
+  ...
+#+end_src
+
+このwarningが何十個も出てる状態だった。
+
+--------------
+
+エラーの原因は ~bulma~ のコード内にある ~postcss-next~ が良くなかったからだ。
+
+対象のコード抜粋は以下。
+
+#+begin_src scss
+  @if $variable-columns
+    .columns.is-variable
+      --columnGap: 0.75rem
+      margin-left: calc(-1 * var(--columnGap))
+      margin-right: calc(-1 * var(--columnGap))
+      .column
+        padding-left: var(--columnGap)
+        padding-right: var(--columnGap)
+      @for $i from 0 through 8
+        &.is-#{$i}
+          --columnGap: #{$i * 0.25rem}
+        +mobile
+          &.is-#{$i}-mobile
+            --columnGap: #{$i * 0.25rem}
+        +tablet
+          &.is-#{$i}-tablet
+            --columnGap: #{$i * 0.25rem}
+        +tablet-only
+          &.is-#{$i}-tablet-only
+            --columnGap: #{$i * 0.25rem}
+        +touch
+          &.is-#{$i}-touch
+            --columnGap: #{$i * 0.25rem}
+        +desktop
+          &.is-#{$i}-desktop
+            --columnGap: #{$i * 0.25rem}
+        +desktop-only
+          &.is-#{$i}-desktop-only
+            --columnGap: #{$i * 0.25rem}
+        +widescreen
+          &.is-#{$i}-widescreen
+            --columnGap: #{$i * 0.25rem}
+        +widescreen-only
+          &.is-#{$i}-widescreen-only
+            --columnGap: #{$i * 0.25rem}
+        +fullhd
+          &.is-#{$i}-fullhd
+            --columnGap: #{$i * 0.25rem}
+#+end_src
+
+GitHub: [[https://github.com/jgthms/bulma/blob/4caa77dc0f13984347b734657c2d4cd588149087/sass/grid/columns.sass#L467-L504]]
+
+このコミットは2019/03/30にmergeされている。
+
+~--columnGap: #{$i * 0.25rem}~ などtop levelで定義されているのが問題でwarningがたくさん出ている。
+
+--------------
+
+issueにも上がっていた。[[https://github.com/jgthms/bulma/issues/1190]]
+
+解法は数種類ある。
+
+1. ~postcss-cssnext~ のwarningを握りつぶす
+
+~.postcssrc.yml~ を変更して ~warning: false~ にする。
+
+#+begin_src scss
+  plugins:
+    postcss-import: {}
+    postcss-cssnext:
+      features:
+        customProperties:
+          warnings: false
+#+end_src
+
+「warning握りつぶすのは危険なのでできればしたくない」というレビューを頂いた。その通り過ぎるので却下した。
+
+2. ~bulma~ の ~variable~ を変更して対象コードを実行しないようにする。
+
+こんな感じだ。
+
+#+begin_src scss
+  $variable-columns: false;
+  @import '~bulma';
+#+end_src
+
+これが一番良いので採用した。
+
+デメリットは ~variable-gap~ が使えなくなることだが、今回はまだ使う予定なかったので楽に対応できた。
+
+~Experimental~ だしいいよね。
+
+https://bulma.io/documentation/columns/gap/#variable-gap
+
+3. ~@import "~bulma/sass/grid/_all";~ をコメントアウトする
+
+コメントアウトすれば確かに上の問題は握りつぶせる。
+
+がしかし、gridを使えなくなるのは今回の場合駄目なので却下。
+
+4. warningだし無視する
+
+ありっちゃありだけど、直すのが仕事なので却下。
+
+5. ~package.json~ の ~bulma~ のversionを下げる
+
+最新に追従するのめんどくさくなるのでできればしたくない。ので却下。
+
+--------------
+
+~bulma~ の問題なのに ~webpacker~ の仕様だとかの関係のない調査にあまりにも時間がかかりすぎた反省。
+
+「warning握りつぶすのは危険なのでできればしたくない」というレビューがあまりにも的確で且つ意識になかったのですごい良かった。
+
+~webpacker~ の挙動について別途ブログを書きたい。
