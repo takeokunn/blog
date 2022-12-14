@@ -9,7 +9,7 @@
 #+DATE: 2019-04-13
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/permanent
-#+HUGO_TAGS: permanent
+#+HUGO_TAGS: permanent ubuntu
 #+STARTUP: content
 #+STARTUP: nohideblocks
 

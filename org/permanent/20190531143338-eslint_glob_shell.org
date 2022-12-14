@@ -1,0 +1,97 @@
+:PROPERTIES:
+:ID:       9D2C4978-BA6C-4CC3-90D7-B5E4964A2288
+:mtime:    20221215015658
+:ctime:    20221215015644
+:END:
+
+#+TITLE: EsLintでGlobの挙動で詰まった時のメモ
+#+DESCRIPTION: EsLintでGlobの挙動で詰まった時のメモ
+#+DATE: 2019-05-31
+#+HUGO_BASE_DIR: ../../
+#+HUGO_SECTION: posts/permanent
+#+HUGO_TAGS: permanent eslint
+#+STARTUP: content
+#+STARTUP: nohideblocks
+
+詰まった内容は以下だ。
+
+#+begin_example
+同じコマンドを実行しているはずなのに出力される結果が違うので困っています。
+開発環境では通って、circleci上ではエラーが出ている状態です。
+
+A: npm run test:lint
+B: ./node_module/.bin/eslint --debug app/javascript/**/*.{vue,ts}
+
+"scripts": {
+"test:lint": "eslint --debug app/javascript/**/*.{vue,ts}"
+}
+#+end_example
+
+~A~ と ~B~ で同じコードを実行してるはずなので何故か違う結果を吐き出すのだ. ~local~ では ~eslint~ が通るけど ~circleci~ ではコケる、といった問題が起きていて困っていた。
+
+ちなみに、 ~eslint --debug~ で実行ログをみることができる。
+
+ESLint開発者の方と弊社CTOのBTOさんに教えてもらうことによって原因を突き止めることができた。
+
+--------------
+
+原因は、「globの解釈の問題」だ。
+
+そもそもglobとは[[https://ja.wikipedia.org/wiki/%E3%82%B0%E3%83%AD%E3%83%96][Wiki]]によるとこんな感じ。
+
+#+begin_quote
+グロブ（英:
+glob）とは主にUnix系環境において、ワイルドカードでファイル名のセットを指定するパターンのことである。
+#+end_quote
+
+今回の場合だと、2種類の解釈の仕方がある。
+
+- shellでglobが解釈される
+- npmのglobで解釈される
+
+macの標準のshellは ~bash~ なのだが、これだとうまくglobを評価してくれないのだ.一方、circleciのコンテナのshellは ~busybox~ だったのでうまくglobを評価してくれた。
+
+つまり、macではちゃんと動いていなかっただけだったのだ。
+
+そこで以下のようにglob部分を ~'~ で囲った。
+
+#+begin_src json
+  "scripts": {
+      "test:lint": "eslint --debug 'app/javascript/**/*.{vue,ts}'"
+  }
+#+end_src
+
+そうすることにより、 ~npmのglobで解釈される~ ようになり、正常に動くようになった。
+
+内部的にはこれを使っているみたいだ。
+
+[[https://www.npmjs.com/package/glob]]
+
+--------------
+
+この世界にはたくさんのshellがあるようだ。
+
+- dash(debian ash)
+- ash
+- busybox
+- fish shell
+- xonsh shell
+- z shell
+- bash
+- etc
+
+Ubuntu標準は ~dash~ みたいだ。
+
+#+begin_src shell
+  ~/.emacs.d (*´ω｀*) < ll /bin | grep sh
+  -rwxr-xr-x 1 root root 1.1M  5月  3 22:50 bash
+  -rwxr-xr-x 1 root root 119K  1月 25  2018 dash
+  lrwxrwxrwx 1 root root    4  5月  3 22:50 rbash -> bash
+  lrwxrwxrwx 1 root root    4  3月  3 18:34 sh -> dash
+  lrwxrwxrwx 1 root root    4  3月  3 18:34 sh.distrib -> dash
+  lrwxrwxrwx 1 root root    7  3月  7 05:51 static-sh -> busybox
+#+end_src
+
+~sh~ って言うけど、 ~/bin/sh~ に別の ~shell~ の ~symbolic link~ 貼ってるだけのようだ。
+
+一通り使って違いのわかる男になりたい。
