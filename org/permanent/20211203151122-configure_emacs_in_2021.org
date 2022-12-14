@@ -1,0 +1,72 @@
+:PROPERTIES:
+:ID:       1E1F6463-E1FD-43D9-8CEF-346A786F355E
+:mtime:    20221215032357
+:ctime:    20221215032332
+:END:
+
+#+TITLE: 2021年に自分がemacs.dのカスタイマイズしたことについて
+#+DESCRIPTION: 2021年に自分がemacs.dのカスタイマイズしたことについて
+#+DATE: 2021-12-03
+#+HUGO_BASE_DIR: ../../
+#+HUGO_SECTION: posts/permanent
+#+HUGO_TAGS: permanent emacs
+#+STARTUP: content
+#+STARTUP: nohideblocks
+
+この記事は、[[https://qiita.com/advent-calendar/2021/emacs][Emacs Advent Calendar 2021]] 5日目の記事です。
+
+今年も[[https://github.com/takeokunn/.emacs.d][takeokunn/.emacs.d]] をかなり改造した。 ~git log --reverse~ してみるとfirst commitが ~Sat Nov 3 18:15:51 2018 +0900~ のようなので3年使っているようだ。
+
+最初と比べて圧倒的に快適になってはいるものの、分からないことが増えていく一方だ。
+とはいえ使っていくうちに理解が深まっていくのも事実。
+ざっくりやったことについて纏めていく。(去年やったことも含まれているが御愛嬌)
+
+- emacs28にしてlibgccjitを動かした
+  - defaultのcompilerをllvmからgccに変えるとスマホアプリ開発やら他の開発に影響が出るので動かしただけ
+- use-packageからleafへの移行した
+  - caskを消した
+  - 遅延ロードになったお陰で起動が高速になった
+- orgでinit.elを生成するようにした
+  - [[https://github.com/takeokunn/.emacs.d/blob/master/Makefile][Makefile]] 参照
+- GitHub Pagesで見られるようにした
+  - [[https://takeokunn.github.io/.emacs.d/][https://takeokunn.github.io/.emacs.d/]]
+- byte-compileをできる限りでするようにした
+  - 多少のwarningは無視してる
+- ddskkを実用レベルでちゃんと使えるようにした
+  - ddskkの設定は[[https://github.com/takeokunn/dotfiles/blob/master/modules/skk/dot.skk][dotfiles]]で管理してる
+  - AZIKを完全に理解した
+- company周りの設定が増えた
+- wanderlustで自分のGmailを操作できるようにした
+  - しただけでちゃんと運用できてるわけではない
+- elfeedを充実させた
+  - しただけでちゃんと運用できてるわけではない
+- magitを使いこなせるようになった
+  - magit-forgeでGitHubにpull requestを投げられるようにした
+- dap-modeを使えるようになった
+  - なっただけ
+- yasnippetの設定が増えた
+  - snippetをorgで管理するようにした
+    - [[https://github.com/takeokunn/.emacs.d/blob/master/yasnippets.org][https://github.com/takeokunn/.emacs.d/blob/master/yasnippets.org]]
+  - snippet自体も増えた
+  - ivy-yasnippetで検索できるようにしてる
+  - ついでに[[https://github.com/AndreaCrotti/yasnippet-snippets][AndreaCrotti/yasnippet-snippets]]にpull requestを投げたが音沙汰がない
+    - https://github.com/AndreaCrotti/yasnippet-snippets/pull/434
+    - https://github.com/AndreaCrotti/yasnippet-snippets/pull/433
+- tab-modeを使えるようになった
+  - が、実用性あるのか....?ってなってる
+- fish scriptの開発環境が整った
+  - [[https://github.com/takeokunn/fish-repl.el][takeokunn/fish-repl.el]]を作った
+  - [[https://github.com/takeokunn/ob-fish][takeokunn/ob-fish]] を作った
+- org-modeの設定が増えた
+  - 日常的なメモはorgで書くようになった
+  - org-babelを使いこなせるようになった
+  - 工数管理とか細かい使い方が未だに分らない
+- 英語の執筆環境が整った
+  - flycheckとtextlintをちゃんと設定した
+- 言語ごとの開発環境を整えた
+  - php, golang, solidity etc...
+- typescript reactはtreesitterとlspでなんとかするのが最適だと分かった
+- ~M-x~ の候補だがsmexからamxに変えたら欲しい候補が出るようになった
+
+ざくっと思い出せるのはこれくらいなのでまた何かあれば追記をしていくつもり。
+来年はorg-modeを使いこなせるようになりたいなぁ。
