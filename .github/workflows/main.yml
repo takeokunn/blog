@@ -38,6 +38,7 @@ jobs:
         uses: peaceiris/actions-hugo@v2
         with:
           hugo-version: '0.108.0'
+          extended: true
       - name: Build with Hugo
         env:
           HUGO_ENVIRONMENT: production
