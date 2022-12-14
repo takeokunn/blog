@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "blog",
+  "name": "takeokunn's blog",
   "description": "takeokunn's blog",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
