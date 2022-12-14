@@ -1,0 +1,205 @@
+:PROPERTIES:
+:ID:       29F3BA0F-9585-40EC-B033-E3CDBF62EA13
+:mtime:    20221214234327
+:ctime:    20221214234305
+:END:
+
+#+TITLE: Common Lispのquoteについて
+#+DESCRIPTION: Common Lispのquoteについて
+#+DATE: 2019-03-16
+#+HUGO_BASE_DIR: ../../
+#+HUGO_SECTION: posts/permanent
+#+HUGO_TAGS: permanent
+#+STARTUP: content
+#+STARTUP: nohideblocks
+
+stack overflowに以下の2つの質問をした。
+
+- [[https://stackoverflow.com/questions/54868796/cannot-post-slack-webhook-url-in-common-lisp][Cannot post slack webhook url in common lisp]]
+- [[https://stackoverflow.com/questions/55066131/getenv-xxx-is-not-a-lisp-string-or-pointer][(GETENV XXX) is not a Lisp string or pointer Ask Question]]
+
+両方とも ~sds~ という方が答えてくれたのだが、 どうも僕は ~quote~ について理解をしていないことがわかった。
+
+調べたところ、stack overflowに良さそうな記事があったので翻訳をしてみる。
+
+[[https://stackoverflow.com/questions/134887/when-to-use-or-quote-in-lisp][When to use ' (or quote) in Lisp?]]
+
+--------------
+
+~Question~: quoteっていつ使うの?
+
+Lispの入門書を一通り読んだのですが、特殊な演算子(~quote~や~'~)がどんな挙動をするのか理解できませんでしたし、まだ見たことがありません。
+
+どうでしょうか？
+
+~Short Answer~:
+
+デフォルトの評価ルールを使わず、式(symbol or
+s式)を評価せずに入力された型どおりに関数を渡す。
+
+~Long Answer~: /デフォルトの評価ルール/
+
+通常の関数(後述)が呼び出された時、引数はすべて評価される。
+コードは以下。
+
+#+begin_src lisp
+  (* (+ a 2)
+     3)
+#+end_src
+
+~a~ と ~2~ を順に評価することによって ~(+ a 2)~ を評価する。 シンボル ~a~ の現在束縛されている値を調べ、置き換える。 ~a~ は現在~3~という値が束縛されています。
+
+#+begin_src lisp
+  (let ((a 3))
+    (* (+ a 2)
+       3))
+#+end_src
+
+~(+ 3 2)~ は ~3~ と ~2~ が呼び出され ~5~ を返します。 今、元の形は ~(* 5 3)~ となり、=15= が返されます。
+
+/Explain quote Already!/
+
+大丈夫です。上で見たように、関数の引数はすべて評価されてしまうので、 ~value~ ではなく ~symbol~ を渡したいのであれば、それを評価はしたくありません。
+
+Lisp symbols can double both as their values, and markers where you in other languages would have used strings, such as keys to hash tables.
+
+の出番です。LispよりPythonアプリケーションでリソースの割当について作りたいとしましょう。
+
+Pythonのアプリケーションはこんな感じ。
+
+#+begin_example
+print("'(")
+while allocating:
+    if random.random() > 0.5:
+        print(f"(allocate {random.randint(0, 20)})")
+    else:
+        print(f"(free {random.randint(0, 20)})")
+    ...
+print(")")
+#+end_example
+
+出力結果(一部)はこちら。
+
+#+begin_src lisp
+  '((allocate 3)
+    (allocate 7)
+    (free 14)
+    (allocate 19)
+    ...)
+#+end_src
+
+デフォルトの評価ルールが適用されない原因となった引数 ~("tick")~ について述べたことを覚えていますか？
+
+GOOD!
+
+~allocate~ と ~free~ の値が調べられてしまうのは良い挙動ではないです。
+
+Lispでは以下のようになってほしい。
+
+#+begin_src lisp
+  (dolist (entry allocation-log)
+    (case (first entry)
+      (allocate (plot-allocation (second entry)))
+      (free (plot-free (second entry)))))
+#+end_src
+
+上記のデータに対して、一連の関数呼び出しが行われたはずです。
+
+#+begin_src lisp
+  (plot-allocation 3)
+  (plot-allocation 7)
+  (plot-free 14)
+  (plot-allocation 19)
+#+end_src
+
+/But What About list?/
+
+まぁ、引数を評価したい時もあります。数字と文字列を操作して結果のリストを返す気の利いた関数があるとしましょう。間違ったところから始めましょう。
+
+#+begin_example
+(defun mess-with (number string)
+  '(value-of-number (1+ number) something-with-string (length string)))
+
+Lisp> (mess-with 20 "foo")
+(VALUE-OF-NUMBER (1+ NUMBER) SOMETHING-WITH-STRING (LENGTH STRING))
+#+end_example
+
+望んだ結果じゃないです! いくつかの引数を選択的に評価し、他のものは ~symbol~ として残します。
+
+/テイク２/:
+
+#+begin_src lisp
+  (defun mess-with (number string)
+    (list 'value-of-number (1+ number) 'something-with-string (length string)))
+
+  Lisp> (mess-with 20 "foo")
+  (VALUE-OF-NUMBER 21 SOMETHING-WITH-STRING 3)
+#+end_src
+
+/ 単なる ~quote~ ではく、 ~backquote~ /
+
+良いですね! 偶然にも、このパターンは(殆どの)macroでとても一般的なので、そのための特別な構文があります。
+
+backquote:
+
+#+begin_src lisp
+  (defun mess-with (number string)
+    `(value-of-number ,(1+ number) something-with-string ,(length string)))
+#+end_src
+
+quoteを使うのと似ていますが、引数の前にcommaをつけて明示的に評価するoptionがあります。
+
+結果はlistを使用するのと同じですが、macroからコードを生成している場合は、返されるコードのごく一部を評価したいだけなので、backquoteが適しています。
+
+短いリストの場合は、 ~list~ のほうが読みやすくなります。
+
+/Hey, You Forgot About quote!/
+
+quoteは実際何をするのでしょうか? 単にその引数を未評価のまま返します。
+
+最初に通常の関数について言ったことを覚えていますか?
+
+一部の演算子や関数は引数を評価しないようにする必要あることがわかりました。
+
+~if~ のようなものですね、使われないなら ~else~ を評価したくないでしょう。
+~macro~ のような特殊演算子はそのように動作します。
+特別演算子もまた言語の「公理」であり、最小限のルールの集まりであり、それを使用してLispの残りの部分をさまざまな方法で組み合わせることによって実装できます。
+
+~quote~ に戻る。
+
+#+begin_src lisp
+  Lisp> (quote spiffy-symbol)
+  SPIFFY-SYMBOL
+
+  Lisp> 'spiffy-symbol ; ' is just a shorthand ("reader macro"), as shown above
+  SPIFFY-SYMBOL
+#+end_src
+
+sbclと比較してください。
+
+#+begin_example
+Lisp> spiffy-symbol
+debugger invoked on a UNBOUND-VARIABLE in thread #<THREAD "initial thread" RUNNING   {A69F6A9}>:
+  The variable SPIFFY-SYMBOL is unbound.
+
+Type HELP for debugger help, or (SB-EXT:QUIT) to exit from SBCL.
+
+restarts (invokable by number or by possibly-abbreviated name):
+  0: [ABORT] Exit debugger, returning to top level.
+
+(SB-INT:SIMPLE-EVAL-IN-LEXENV SPIFFY-SYMBOL #<NULL-LEXENV>)
+0]
+#+end_example
+
+このスコープには =spiffy-symbol= がないのです！
+
+/Summing Up/
+
+~quote~ 、 ~backquote~ ( ~comma~ 付き)、および ~list~ は、値の ~list~ だけでなく、 ~list~ を作成するために使用するツールの一部ですが見たとおり（構造体を定義する必要がない）軽量データ構造として使用できます。
+
+大規模でのプログラミングにすでにしていて、あなたがより多くを学びたい場合は、Lispのを学習への実践的なアプローチのためにピーター・サイベルの本実践Common Lispのをお勧めします。
+Lispを使っていると最終的には、パッケージも使い始めるでしょう。
+
+~Ron Garret~ の ~The Common Lisp Package~ の ~The Idiot~ の説明を読むと深く理解できることでしょう。
+
+Happy Hacking!
