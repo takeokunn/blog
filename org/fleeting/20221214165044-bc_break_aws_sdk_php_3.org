@@ -1,0 +1,14 @@
+:PROPERTIES:
+:ID:       5237E27E-BCCE-42D6-8E02-1B5EE1E89B48
+:mtime:    20221214165056
+:ctime:    20221214165044
+:END:
+
+#+TITLE: bc-break-aws-sdk-php-3
+#+DESCRIPTION: description
+#+DATE: 2022-12-14
+#+HUGO_BASE_DIR: ../../
+#+HUGO_SECTION: posts/fleeting
+#+HUGO_TAGS: fleeting
+#+STARTUP: content
+#+STARTUP: nohideblocks

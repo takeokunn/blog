@@ -1,4 +1,4 @@
-baseURL = "http://takeokunn.org/"
+baseURL = "https://takeokunn.org/"
 title = "takeokunn's blog"
 theme = "hugo-take-theme"
 canonifyurls = true
@@ -6,7 +6,7 @@ canonifyurls = true
 [params]
 author = 'takeokunn'
 description = "takeokunn's blog"
-ogpImage = "http://takeokunn.org/ogp.png"
+ogpImage = "https://takeokunn.org/ogp.png"
 icon = "icon.png"
 gtag = "UA-135483596-1"
 twitter = "takeokunn"

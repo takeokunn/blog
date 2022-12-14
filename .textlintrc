@@ -20,7 +20,15 @@
       ]
     },
     "textlint-rule-spellchecker": {
-      "skipWords": ["takeokunn"]
+      "skipWords": [
+        "takeokunn",
+        "mtime",
+        "ctime",
+        "nohideblocks"
+      ],
+      "skipRegExps": [
+        "([0-9A-F]{8})-([0-9A-F]{4})-([0-9A-F]{4})-([0-9A-F]{4})-([0-9A-F]{12})"
+      ]
     },
     "textlint-rule-write-good": true,
     "preset-ja-spacing": true,
