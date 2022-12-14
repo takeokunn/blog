@@ -71,7 +71,7 @@ server side:
 
 この辺の記事が参考になる。
 
-- [[https://qiita.com/chuck0523/items/1868a4c04ab4d8cdfb23#commonjs%E3%81%A8amd][[意訳]初学者のためのJavaScriptモジュール講座 Part1#]]
+- [[https://qiita.com/chuck0523/items/1868a4c04ab4d8cdfb23][[意訳]初学者のためのJavaScriptモジュール講座 #Part1]]
 - [[https://www.davidbcalhoun.com/2014/what-is-amd-commonjs-and-umd/][What is AMD, CommonJS, and UMD?]]
 - [[https://auth0.com/blog/javascript-module-systems-showdown/][JavaScript Module Systems Showdown: CommonJS vs AMD vs ES2015]]
 

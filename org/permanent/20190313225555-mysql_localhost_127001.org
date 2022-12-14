@@ -38,8 +38,7 @@
 参考記事はこちら。
 
 - [[https://qiita.com/kuni-nakaji/items/d11219e4ad7c74ece748][調べなきゃ寝れない！と調べたら余計に寝れなくなったソケットの話]]
-- [[https://stackoverflow.com/questions/14973942/tcp-loopback-connection-vs-unix-domain-socket-performance][TCP
-  loopback connection vs Unix Domain Socket performance]]
+- [[https://stackoverflow.com/questions/14973942/tcp-loopback-connection-vs-unix-domain-socket-performance][TCP loopback connection vs Unix Domain Socket performance]]
 
 --------------
 
