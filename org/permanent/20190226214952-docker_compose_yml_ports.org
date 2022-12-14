@@ -9,7 +9,7 @@
 #+DATE: 2019-02-26
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/permanent
-#+HUGO_TAGS: permanent
+#+HUGO_TAGS: permanent docker
 #+STARTUP: content
 #+STARTUP: nohideblocks
 
@@ -34,9 +34,9 @@ portを0にするとどうなるだろうか。
   05e0975ea3d1        nginx               "nginx -g 'daemon of…"   51 seconds ago      Up 49 seconds       0.0.0.0:32768->80/tcp   test_nginx_1
 #+end_src
 
-=0.0.0.0:32768->80/tcp= なんと、 =32768= にforwardされるのだ。
+~0.0.0.0:32768->80/tcp~ なんと、 ~32768~ にforwardされるのだ。
 
-もう一度 =docker-compose up= し直す。
+もう一度 ~docker-compose up~ し直す。
 
 
 #+begin_src shell
@@ -45,7 +45,7 @@ portを0にするとどうなるだろうか。
   05e0975ea3d1        nginx               "nginx -g 'daemon of…"   4 minutes ago       Up 4 seconds        0.0.0.0:32769->80/tcp   test_nginx_1
 #+end_src
 
-=0.0.0.0:32769->80/tcp= こうなる。不思議だ。
+~0.0.0.0:32769->80/tcp~ こうなる。不思議だ。
 
 どこかの記事で読んだのだけれども、被らないようにportをforwardingしてくれるそうな。
 
