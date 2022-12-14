@@ -9,7 +9,7 @@
 #+DATE: 2022-12-14
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/fleeting
-#+HUGO_TAGS: fleeting
+#+HUGO_TAGS: fleeting php
 #+STARTUP: content
 #+STARTUP: nohideblocks
 
