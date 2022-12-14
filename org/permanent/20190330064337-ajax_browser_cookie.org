@@ -1,0 +1,134 @@
+:PROPERTIES:
+:ID:       C59EE651-BB54-4F4B-89C6-B3503DEF3C57
+:mtime:    20221215003252
+:ctime:    20221215003237
+:END:
+
+#+TITLE: AjaxとBrowser Cookie
+#+DESCRIPTION: AjaxとBrowser Cookie
+#+DATE: 2019-03-30
+#+HUGO_BASE_DIR: ../../
+#+HUGO_SECTION: posts/permanent
+#+HUGO_TAGS: permanent
+#+STARTUP: content
+#+STARTUP: nohideblocks
+
+「ブラウザからアクセスするのと、AjaxからアクセスするのってCookieってかわっちゃうの？」という質問をされたので自分なりの答えを書いていく。
+
+Ajaxなのだが、JavaScriptで一番有名なlibraryの[[https://github.com/axios/axios][axios/axios]]を用いて書く。
+
+FetchAPIについては今回は含めない。
+
+--------------
+
+** 結論
+
+基本的にはCookieは変わらない。
+
+同一オリジンの場合は自動的にCookieが使われる。
+
+別オリジンの場合にCookieを使いたいなら ~{ withCredentials: true }~ をoptionに持たせれば良い。
+
+#+begin_src js
+  axios.get('https://www.uuum.jp', { withCredentials: true });
+#+end_src
+
+--------------
+
+そもそもAjaxとはなんだろうか？
+
+[[https://developer.mozilla.org/ja/docs/Web/Guide/AJAX/Getting_Started][MDN]]にこう書いてある。
+
+#+begin_quote
+AJAX は Asynchronous JavaScript And XML の頭文字を取ったものです。
+これは一言で言えば、 XMLHttpRequest オブジェクトを使ってサーバーと通信することです。
+AJAX は JSON, XML, HTML, テキストファイルなど、様々な形式の情報で送受信することができます。
+AJAX の最も魅力的な特徴は「非同期」であること、つまり、サーバーとの通信、データの交換、ページの更新を、ページの再読み込みなしに行うことができる点です。
+#+end_quote
+
+要するに、JavaScriptから通信ができるというだけ。
+
+~XMLHttRequest~ のサンプルは以下。
+
+#+begin_src js
+  const xhr = new XMLHttpRequest();
+  xhr.open("GET", "https://www.uuum.jp");
+  xhr.send();
+
+  console.log(xhr.status); // 200
+#+end_src
+
+これで通信ができる。以上だ。
+
+--------------
+
+axiosのコードを読んでみる。
+
+[[https://github.com/axios/axios/blob/503418718f669fcc674719fd862b355605d7b41f/lib/adapters/xhr.js][axios/lib/adapters/xhr.js]]に ~XMLHttpRequest~ が書いてある。
+
+#+begin_src js
+var request = new XMLHttpRequest();
+#+end_src
+
+~XMLHttpRequest~ を使ってるのが確認できた。
+
+さて、Cookieの扱い方はどうなっているだろうか? ググったら ~withCredentials~ を使えって書いてある。
+
+実際にコード読んでみるとこんな記述がある。
+
+[[https://github.com/axios/axios/blob/503418718f669fcc674719fd862b355605d7b41f/lib/adapters/xhr.js#L103-L105][axios/lib/adapters/xhr.js#L103-L105]]:
+
+#+begin_src js
+  var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
+      cookies.read(config.xsrfCookieName) :
+      undefined;
+#+end_src
+
+同一オリジンの場合や ~withCredentials~ の場合に ~cookies.read~ が走る。
+
+cookiesの定義元を読んで見る。
+
+[[https://github.com/axios/axios/blob/503418718f669fcc674719fd862b355605d7b41f/lib/helpers/cookies.js#L9-L43][axios/lib/helpers/cookies.js]]:
+
+#+begin_src js
+  (function standardBrowserEnv() {
+    return {
+      write: function write(name, value, expires, path, domain, secure) {
+        var cookie = [];
+        cookie.push(name + '=' + encodeURIComponent(value));
+
+        if (utils.isNumber(expires)) {
+          cookie.push('expires=' + new Date(expires).toGMTString());
+        }
+
+        if (utils.isString(path)) {
+          cookie.push('path=' + path);
+        }
+
+        if (utils.isString(domain)) {
+          cookie.push('domain=' + domain);
+        }
+
+        if (secure === true) {
+          cookie.push('secure');
+        }
+
+        document.cookie = cookie.join('; ');
+      },
+
+      read: function read(name) {
+        var match = document.cookie.match(new RegExp('(^|;\\s*)(' + name + ')=([^;]*)'));
+        return (match ? decodeURIComponent(match[3]) : null);
+      },
+
+      remove: function remove(name) {
+        this.write(name, '', Date.now() - 86400000);
+      }
+    };
+  })() :
+#+end_src
+
+~document.cookie~ から取得してきている。
+~document.cookie~ のMDNはこれだ。
+
+[[https://developer.mozilla.org/ja/docs/Web/API/Document/cookie]]
