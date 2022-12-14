@@ -1,0 +1,82 @@
+:PROPERTIES:
+:ID:       F461F483-2C99-4BC1-B122-9409545C5374
+:mtime:    20221215021505
+:ctime:    20221215021444
+:END:
+
+#+TITLE: JavaScriptのthisについて
+#+DESCRIPTION: JavaScriptのthisについて
+#+DATE: 2019-07-01
+#+HUGO_BASE_DIR: ../../
+#+HUGO_SECTION: posts/permanent
+#+HUGO_TAGS: permanent javascript
+#+STARTUP: content
+#+STARTUP: nohideblocks
+
+会社のインターン生にJavaScriptの ~this~ についてドヤ顔で説明してたら、間違って理解していたことがわかってしまった。
+
+同僚と ~this~ がどのような挙動をするのかで盛り上がって楽しかった。
+
+[[https://qiita.com/valley/items/62c9480368f1409c90ae][【JS】ああthisよ。君は今、どのオブジェクトなのか（練習問題あり）]]
+
+同僚の ~@valley~ 氏の記事がおおよそすべてを説明してくれているが、この記事では自分の言葉で ~this~ について説明する。
+
+--------------
+
+元記事ではブラウザで実行していたが、この記事では ~nodejs~ で実行するので ~window -> global~ となる。
+
+#+begin_quote
+結局そのscopeが評価された時のcontextがthisになる。
+関数やオブジェクトが評価されるタイミングはいつなの？ってことを考えればあとは自然とthisを導き出せる。
+functionが評価されるタイミングとlambdaが評価されるタイミングが違うというだけ。
+#+end_quote
+
+例えば、以下のようなスクリプトがある。
+
+~func1~ の関数が評価されるのは実行時なので ~{}~ だが、 ~func2~ の関数が評価されるのはコンパイル時なので ~global~ になる。
+
+#+begin_src js
+  const func1 = () => {
+      console.log(this);
+  };
+
+  const func2 = function () {
+      console.log(this);
+  };
+
+  console.log(func1); // {}
+  console.log(func2); // global
+#+end_src
+
+ファイル分割した場合はどうなるだろうか。以下のようなコードを書いてみた。
+
+~test.js~:
+
+#+begin_src js
+  const { func1, func2 } = require("./test1.js");
+
+  console.log(this.aaa); // undefined
+
+  func1(); // { aaa: 'bbb' }
+  fund2(); // global
+#+end_src
+
+~test1.js~:
+
+#+begin_src js
+  this.aaa = 'bbb';
+
+  const func1 = () => {
+      console.log(this);
+  };
+
+  const func2 = function () {
+      console.log(this);
+  };
+
+  module.exports = { func1, func2 };
+#+end_src
+
+--------------
+
+教えるのも勉強なるし、こうやって深堀するとさらに詳しく慣れて楽しい。
