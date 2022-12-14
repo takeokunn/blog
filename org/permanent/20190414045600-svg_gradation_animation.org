@@ -1,0 +1,62 @@
+:PROPERTIES:
+:ID:       B37E9575-386F-4364-835B-593A3FE3B16D
+:mtime:    20221215004546
+:ctime:    20221215004517
+:END:
+
+#+TITLE: SVGにグラデーションのアニメーションをかける
+#+DESCRIPTION: SVGにグラデーションのアニメーションをかける
+#+DATE: 2019-04-14
+#+HUGO_BASE_DIR: ../../
+#+HUGO_SECTION: posts/permanent
+#+HUGO_TAGS: permanent svg
+#+STARTUP: content
+#+STARTUP: nohideblocks
+
+ソースコードはこんな感じ。
+
+#+begin_src xml
+  <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1000 1000" enable-background="new 0 0 1000 1000" xml:space="preserve">
+      <defs>
+          <linearGradient id="bearGratient" x1="100%" y1="100%">
+              <stop offset="0%" stop-color="#69d2ff" stop-opacity=".5">
+                  <animate attributeName="stop-color" values="#69d2ff;#71dca7;#ffd458;#ffa7de;#69d2ff" dur="14s" repeatCount="indefinite" />
+              </stop>
+              <stop offset="100%" stop-color="#69d2ff" stop-opacity=".5">
+                  <animate attributeName="stop-color" values="#69d2ff;#71dca7;#ffd458;#ffa7de;#69d2ff" dur="14s" repeatCount="indefinite" />
+                  <animate attributeName="offset" values=".95;.80;.60;.40;.20;0;.20;.40;.60;.80;.95" dur="14s" repeatCount="indefinite" />
+              </stop>
+          </linearGradient>
+      </defs>
+      <g fill="url(#bearGratient)" transform="translate(0.000000,511.000000) scale(0.100000,-0.100000)">
+          <path d="/* 中略 *//>
+          <path d="/* 中略 *//>
+          <path d="/* 中略 *//>
+      </g>
+  </svg>
+#+end_src
+
+最初、 ~css~ の ~linear-gradient~ で線形グラデーションをかけようと思ったのだが、どうも ~svg~ には対応していないらしい。
+
+~svg~ のMDNを漁っていたら ~linear​Gradient~ というタグがあった。
+
+[[https://developer.mozilla.org/ja/docs/Web/SVG/Element/linearGradient]]
+
+良いサンプルがなかったので調べていたら、以下のようなsnippetがたくさん落ちていた。
+
+- [[https://code.sololearn.com/Wvac74Zd8Ry3/#html]]
+- [[https://codepen.io/NickNoordijk/pen/VLvxLE]]
+- [[https://codepen.io/samwyness/pen/eZwoLj]]
+
+サンプルコードによるととこんな感じ。
+
+- ~defs~ に ~linearGradient~ を定義する。
+- ~linearGradient~ に ~stop > animate~ 。
+  で時間に合わせたグラデーションをかけることが出来る。
+- 実際に描画する ~SVG~ 要素に上で定義した ~linearGradient~ を ~fill~ する。
+
+これでできた。
+
+--------------
+
+~css~ や ~svg~ を使うことによって描画がものすごい綺麗になるので多用していきたい。
