@@ -5,7 +5,7 @@
 ** 開発体験向上について考えてること
 
 - slug: thinking-about-developer-experience
-- date: 2019-09-30 17:59:12
+- date: 20190930175912
 
 #+begin_src markdown
   会社での仕事の大半はDX向上な気がしているので、普段やってることについてまとめていく。

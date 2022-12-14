@@ -34,7 +34,8 @@
         "axios",
         "Xlib.error.DisplayConnectionError",
         "webpacker",
-        "circleci"
+        "circleci",
+        "capisorano"
       ],
       "skipRegExps": [
         "([0-9A-F]{8})-([0-9A-F]{4})-([0-9A-F]{4})-([0-9A-F]{4})-([0-9A-F]{12})"
