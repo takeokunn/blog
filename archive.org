@@ -1,0 +1,2279 @@
+#+STARTUP: content
+#+STARTUP: nohideblocks
+
+* articles
+** docker-compose.ymlのportsについてのメモ
+
+- slug: docker-compose-yml-ports
+- date: 2019-02-26 21:49:52
+
+#+begin_src markdown
+  面白い挙動をするので記事化する。
+
+  中のコード読んでみたい。
+
+  ```yaml
+  version: '3'
+  services:
+    nginx:
+      image: nginx
+      ports:
+        - 0:80
+  ```
+
+  portを0にするとどうなるだろうか
+
+
+  ```shell
+  ~/D/test (*´ω｀*) < docker ps
+  CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                   NAMES
+  05e0975ea3d1        nginx               "nginx -g 'daemon of…"   51 seconds ago      Up 49 seconds       0.0.0.0:32768->80/tcp   test_nginx_1
+
+  ```
+
+  `0.0.0.0:32768->80/tcp` なんと、 `32768` にforwardされるのだ。
+
+  もう一度 `docker-compose up` し直すと
+
+  ```
+  ~/D/test (*´ω｀*) < docker ps
+  CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                   NAMES
+  05e0975ea3d1        nginx               "nginx -g 'daemon of…"   4 minutes ago       Up 4 seconds        0.0.0.0:32769->80/tcp   test_nginx_1
+  ```
+
+  `0.0.0.0:32769->80/tcp` こうなる。不思議だ。
+
+  どこかの記事で読んだのだけれども、被らないようにportをforwardingしてくれるそうな。
+
+
+  公式ドキュメントのNoteも面白い
+
+  > Note: When mapping ports in the HOST:CONTAINER format, you may experience erroneous results when using a container port lower than 60, because YAML parses numbers in the format xx:yy as a base-60 value. For this reason, we recommend always explicitly specifying your port mappings as strings.
+
+  [https://docs.docker.com/compose/compose-file/](https://docs.docker.com/compose/compose-file/)
+
+  ↑のgoogle翻訳
+
+
+  > 注意：HOST：CONTAINER形式でポートをマッピングする場合、60未満のコンテナポートを使用すると、YAMLがxx：yyの形式の数値を60進数の値として解析するため、誤った結果が生じる可能性があります。このため、ポートマッピングを常に文字列として明示的に指定することをお勧めします。
+#+end_src
+** MySQLのmax_allowed_packetについて
+
+- slug: mysql-max_allowed_packet
+- date: 2019-03-09 20:19:24
+
+#+begin_src markdown
+  先日、カイシャのギョームでこんなことがあった。
+
+  「なんか、普通に投稿はできるんだけど、下書きが保存できないんだよね。ちょっと原因わからない？」
+
+  Railsで書かれている対象のコードを読んだのだが、全く問題がなさそうだ。普通に `ActiveRecord` のメソッドを読んでテキスト情報を保存しているだけだからだ。
+
+  今扱っているプロジェクトは負債が多くてどこが本当に原因なのかはわからなかったので途方に暮れていたら、カイシャの凄腕の人が「 `max_allowed_packet` だったかな」と言い、サクッと直してしまった。
+
+
+  こういうのが技術力なんだなぁとしみじみ思ったので、どういうことが起こっていたのかちゃんと復習して次同じようなことが合った時に後輩にドヤ顔できるようにする。(間違いがあるかもなので指摘してもらえると幸い)
+
+
+  -----------------------------------
+
+  まず、対象の `table` を `show create table` するとこんな感じだった。(一部抜粋)
+
+
+
+  ```
+  CREATE TABLE `drafts` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `dump_obj_encode_in_base64` longtext NOT NULL,
+    `created_at` datetime NOT NULL,
+    `updated_at` datetime NOT NULL,
+    PRIMARY KEY (`id`),
+  ) ENGINE=InnoDB AUTO_INCREMENT=145 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC
+  ```
+
+
+  引き継いだプログラムなのでなぜこうなっていたのか全くわからないが、`dump_obj_encode_in_base64` の型が `longtext` で保存されていた。
+
+  `longtext` は `最長4,294,967,295、または4GB (232 - 1) バイト` と非常にsizeが大きい。
+
+  参考: [BLOB型とTEXT型(DB Online)](https://www.dbonline.jp/mysql/type/index6.html)
+
+
+  mysqlのclientがserver投げられる最大のデータ量はどのくらいだろうか。
+
+  それを定義しているのが `max_allowed_packet` だ。
+
+  現在このブログを書いているPCのMySQL(`Server version: 5.7.25-0ubuntu0.18.04.2 (Ubuntu)`)はどうだろうか。
+
+
+  ```
+  mysql> show variables like 'max_allowed_packet';
+  +--------------------+----------+
+  | Variable_name      | Value    |
+  +--------------------+----------+
+  | max_allowed_packet | 16777216 |
+  +--------------------+----------+
+  1 row in set (0.06 sec)
+
+  ```
+
+  約16MBだった。 `longtext` では全然足りないサイズだ。
+
+
+  RDSはAWS Consoleで変更できたので、ユーザーの少ない時間に再起動をして問題なく動き始めた。
+
+
+  -----------------------------------------------------
+
+
+  `gem: mysql2` では 今のエラーを以下のように表現している。
+
+  [https://github.com/brianmario/mysql2/blob/master/lib/mysql2/error.rb#L18](https://github.com/brianmario/mysql2/blob/master/lib/mysql2/error.rb#L18)
+
+  ```
+  1153 => ConnectionError, # ER_NET_PACKET_TOO_LARGE
+  ```
+
+  `packet too large` は `connection error`
+
+  これはわからない...
+
+
+  ------------------------------------------------------------
+
+  カイシャの凄腕の人が言ってたことを忘れないようにメモをしておく(無断掲載サーセン)
+
+
+  ```
+  ピンポイントで下書きでエラーが出てる
+  ↓
+  下書きテーブルに何かあるのでは＆接続が切れるといえばタイムアウト・コネクション数・パケット長のどれか
+  ↓
+  テーブルを見るとlongtextがある
+
+
+  ちなみにmax_allowed_packetを上げると、MySQLにデータ（SQL文）を流し込む時間も当然長くなるので
+  今度はそこでタイムアウトする懸念があります
+
+  net_write_timeout/net_read_timeoutね
+  ```
+#+end_src
+
+** common-lispのquoteについて
+
+- slug: common-lispdata-command-mode
+- date: 2019-03-16 22:00:21
+
+#+begin_src markdown
+  `common-lisp` うまくなりたいと思って色々頑張ってるつもりなんだけれど中々うまくいかない。
+
+  エディター(`emacs`)ばっか立派になっちゃって、テキストが追いついていない。
+
+  [takeokunn/portfoilo](https://github.com/takeokunn/portfolio)の開発をしていた時、stackoverflowに以下の2つの質問をした。
+
+  ,* [Cannot post slack webhook url in common lisp](https://stackoverflow.com/questions/54868796/cannot-post-slack-webhook-url-in-common-lisp)
+  ,* [(GETENV XXX) is not a Lisp string or pointer Ask Question](https://stackoverflow.com/questions/55066131/getenv-xxx-is-not-a-lisp-string-or-pointer)
+
+  両方とも `sds` という方が答えてくれたのだが、 どうも僕は `quote` について理解をしていないことがわかった。
+
+  調べたところ、stackoverflowに良さそうな記事があったので翻訳をしてみる。
+
+  [When to use ' (or quote) in Lisp?](https://stackoverflow.com/questions/134887/when-to-use-or-quote-in-lisp)
+
+  -----------------------------------------------
+
+  `Question`:
+  quoteっていつ使うの?
+
+  Lispの入門書を一通り読んだのですが、特殊な演算子(`quote`や`'`)がどんな挙動をするのか理解できませんでしたし、まだ見たことがありません。
+
+  どうでしょうか？
+
+
+  `Short Answer`:
+
+  デフォルトの評価ルールを使わず、式(symbol or s式)を評価せずに入力された型どおりに関数を渡す。
+
+  `Long Answer`: *デフォルトの評価ルール*
+
+  通常の関数(後述)が呼び出された時、引数はすべて評価される。
+  コードは以下。
+
+  ```
+  (* (+ a 2)
+     3)
+  ```
+
+  `a` と `2` を順に評価することによって `(+ a 2)` を評価する。
+  シンボル`a`の現在束縛されている値を調べ、置き換える。 `a` は現在`3`という値が束縛されています。
+
+  ```
+  (let ((a 3))
+    (* (+ a 2)
+       3))
+  ```
+
+  `(+ 3 2)` は `3` と `2` が呼び出され `5` を返します。
+  今、元の形は `(* 5 3)` となり、`15` が返されます。
+
+  ,*Explain quote Already!*
+
+  大丈夫です。上で見たように、関数の引数はすべて評価されてしまうので、`value` ではなく `symbol` を渡したいのであれば、それを評価はしたくありません。Lisp symbols can double both as their values, and markers where you in other languages would have used strings, such as keys to hash tables.
+
+
+  ここで `quote` の出番です。lispよりpythonアプリケーションでリソースの割当について作りたいとしましょう。
+
+  pythonのアプリケーションはこんな感じ:
+
+  ```
+  print("'(")
+  while allocating:
+      if random.random() > 0.5:
+          print(f"(allocate {random.randint(0, 20)})")
+      else:
+          print(f"(free {random.randint(0, 20)})")
+      ...
+  print(")")
+  ```
+
+  出力結果(一部):
+  ```
+  '((allocate 3)
+    (allocate 7)
+    (free 14)
+    (allocate 19)
+    ...)
+  ```
+
+  デフォルトの評価ルールが適用されない原因となった引数 `("tick")` について述べたことを覚えていますか？GOOD.
+
+  `allocate` と `free` の値が調べられてしまうのは良い挙動ではないです。
+
+  Lispでは以下のようになってほしい:
+
+  ```
+  (dolist (entry allocation-log)
+    (case (first entry)
+      (allocate (plot-allocation (second entry)))
+      (free (plot-free (second entry)))))
+  ```
+
+  上記のデータに対して、一連の関数呼び出しが行われたはずです。
+
+  ```
+  (plot-allocation 3)
+  (plot-allocation 7)
+  (plot-free 14)
+  (plot-allocation 19)
+  ```
+
+  ,*But What About list?*
+
+  まぁ、引数を評価したい時もあります。数字と文字列を操作して結果のリストを返す気の利いた関数があるとしましょう。間違ったところから始めましょう:
+
+  ```
+  (defun mess-with (number string)
+    '(value-of-number (1+ number) something-with-string (length string)))
+
+  Lisp> (mess-with 20 "foo")
+  (VALUE-OF-NUMBER (1+ NUMBER) SOMETHING-WITH-STRING (LENGTH STRING))
+  ```
+
+  望んだ結果じゃないです！いくつかの引数を選択的に評価し、他のものは `symbol` として残します。
+
+  ,*テイク２*:
+
+  ```
+  (defun mess-with (number string)
+    (list 'value-of-number (1+ number) 'something-with-string (length string)))
+
+  Lisp> (mess-with 20 "foo")
+  (VALUE-OF-NUMBER 21 SOMETHING-WITH-STRING 3)
+  ```
+
+  ,*単なる`quote`ではく、`backquote`*
+
+  良いですね！偶然にも、このパターンは(殆どの)macroでとても一般的なので、そのための特別な構文があります。
+
+  backquote:
+
+  ```
+  (defun mess-with (number string)
+    `(value-of-number ,(1+ number) something-with-string ,(length string)))
+  ```
+
+  quoteを使うのと似ていますが、引数の前にcommaをつけて明示的に評価するoptionがあります。
+  結果はlistを使用するのと同じですが、macroからコードを生成している場合は、返されるコードのごく一部を評価したいだけなので、backquoteが適しています。
+  短いリストの場合は、 `list` のほうが読みやすくなります。
+
+  ,*Hey, You Forgot About quote!*
+
+  quoteは実際何をするのでしょうか？単にその引数を未評価のまま返します。
+  最初に通常の関数について言ったことを覚えていますか？
+  一部の演算子や関数は引数を評価しないようにする必要があることがわかりました。
+  `if` のようなものですね、使われないなら `else` を評価したくないでしょう。
+  `macro` のような特殊演算子はそのように動作します。
+  特別演算子もまた言語の「公理」であり、最小限のルールの集まりであり、それを使用してLispの残りの部分をさまざまな方法で組み合わせることで実装できます。
+
+  `quote`に戻る:
+
+
+  ```
+  Lisp> (quote spiffy-symbol)
+  SPIFFY-SYMBOL
+
+  Lisp> 'spiffy-symbol ; ' is just a shorthand ("reader macro"), as shown above
+  SPIFFY-SYMBOL
+  ```
+
+  sbclと比較してください:
+  ```
+  Lisp> spiffy-symbol
+  debugger invoked on a UNBOUND-VARIABLE in thread #<THREAD "initial thread" RUNNING   {A69F6A9}>:
+    The variable SPIFFY-SYMBOL is unbound.
+
+  Type HELP for debugger help, or (SB-EXT:QUIT) to exit from SBCL.
+
+  restarts (invokable by number or by possibly-abbreviated name):
+    0: [ABORT] Exit debugger, returning to top level.
+
+  (SB-INT:SIMPLE-EVAL-IN-LEXENV SPIFFY-SYMBOL #<NULL-LEXENV>)
+  0]
+  ```
+
+  このスコープには `spiffy-symbol` がないのです！
+
+  ,*Summing Up*
+
+  `quote`、`backquote`（`comma`付き）、および`list`は、値の`list`だけでなく、`list`を作成するために使用するツールの一部ですが、見たとおり、（構造体を定義する必要がない）軽量データ構造として使用できます。
+
+  大規模でのプログラミングにすでにしていて、あなたがより多くを学びたい場合は、Lispのを学習への実践的なアプローチのためにピーター・サイベルの本実践Common Lispのをお勧めします。
+  Lispを使っていると最終的には、パッケージも使い始めるでしょう。
+  `Ron Garret`の`The Common Lisp Package`の`The Idiot`の説明を読むと深く理解できることでしょう。
+
+  Happy Hacking!
+#+end_src
+** MySQLにおけるlocalhostと127.0.0.1
+
+- slug: mysql-localhost-127001
+- date: 2019-03-13 22:55:55
+
+#+begin_src markdown
+  先日、会社のインターンの人にこんなことを聞かれた。
+
+  「localhostと127.0.0.1ってどう違うんですか？」
+
+  `/etc/hosts` に書いてあるとか、そういう月並みな説明はできるのだが、よくよく考えたらうまく説明ができない。どういう仕組で動いているのかなどをきちんと理解してるわけではないことがわかってしまったのだ。
+
+  この記事では `libc` の `gethostbyname` などの `UNIX` の話というよりは、web開発で `MySQL` の `DATABASE_HOST` の `localhost` を `127.0.0.1` に変えたら動いた！について少し
+  深掘りして考えてみようと思う。
+
+  `libc` や `/etc/nsswitch.conf` に関しては、別途調べて別記事にまとめて書く。。。と思う。。。
+
+
+  ----------------
+
+  `MySQL` に接続する方法は２つある。
+
+  ,* unix domain socket
+  ,* tcp
+
+  `unix domain socket` は同一マシン内でのプロセス間通信のことだ。(今はこれくらいの理解)
+
+  `tcp` でもつなぐことができるのだが、 `unix domain socket` のほうが遥かに高速なので基本的にはこちら使うのが一般的らしい。
+
+
+  参考
+
+  ,* [調べなきゃ寝れない！と調べたら余計に寝れなくなったソケットの話](https://qiita.com/kuni-nakaji/items/d11219e4ad7c74ece748)
+  ,* [TCP loopback connection vs Unix Domain Socket performance](https://stackoverflow.com/questions/14973942/tcp-loopback-connection-vs-unix-domain-socket-performance)
+
+  -----------------
+
+  今回は以前あった、「LaravelからMySQLに繋がらない」という問題を再考した。
+
+  まずphp自体は名前解決どうしてるんだろうか、と思い [php/php-src](https://github.com/php/php-src)の対象のコードを読んだ。
+
+  [https://github.com/php/php-src/blob/master/main/network.c#L1307-L1309](https://github.com/php/php-src/blob/master/main/network.c#L1307-L1309)
+
+  ```
+  PHPAPI struct hostent*	php_network_gethostbyname(char *name) {
+  #if !defined(HAVE_GETHOSTBYNAME_R)
+          return gethostbyname(name);
+  #else
+          if (FG(tmp_host_buf)) {
+                  free(FG(tmp_host_buf));
+          }
+
+          FG(tmp_host_buf) = NULL;
+          FG(tmp_host_buf_len) = 0;
+
+          memset(&FG(tmp_host_info), 0, sizeof(struct hostent));
+
+          return gethostname_re(name, &FG(tmp_host_info), &FG(tmp_host_buf), &FG(tmp_host_buf_len));
+  #endif
+  }
+  ```
+
+  `gethostbyname` ちゃんと使ってる....無問題。なんでだろう。。。
+
+  そしたら[詳しいおっさん](https://mobile.twitter.com/bto)が、「mysql とかは localhost で指定すると unix domain socket を優先しようとする」などと教えてくれたので、`mysql-server` を読みに行った。
+
+  repoは [mysql/mysql-server](https://github.com/mysql/mysql-server)  だ。
+
+  対象のコードは以下。`"localhost"` という文字列をgrepすると見つかった。
+
+  [https://github.com/mysql/mysql-server/blob/8.0/sql-common/client.cc#L4275-L4322](https://github.com/mysql/mysql-server/blob/8.0/sql-common/client.cc#L4275-L4322)
+
+  ```
+  #if defined(HAVE_SYS_UN_H)
+    if (!net->vio &&
+        (!mysql->options.protocol ||
+         mysql->options.protocol == MYSQL_PROTOCOL_SOCKET) &&
+        (unix_socket || mysql_unix_port) &&
+        (!host || !strcmp(host, LOCAL_HOST))) {
+      my_socket sock = socket(AF_UNIX, SOCK_STREAM, 0);
+      DBUG_PRINT("info", ("Using socket"));
+      if (sock == SOCKET_ERROR) {
+        set_mysql_extended_error(mysql, CR_SOCKET_CREATE_ERROR, unknown_sqlstate,
+                                 ER_CLIENT(CR_SOCKET_CREATE_ERROR), socket_errno);
+        goto error;
+      }
+
+      net->vio =
+          vio_new(sock, VIO_TYPE_SOCKET, VIO_LOCALHOST | VIO_BUFFERED_READ);
+      if (!net->vio) {
+        DBUG_PRINT("error", ("Unknow protocol %d ", mysql->options.protocol));
+        set_mysql_error(mysql, CR_CONN_UNKNOW_PROTOCOL, unknown_sqlstate);
+        closesocket(sock);
+        goto error;
+      }
+
+      host = LOCAL_HOST;
+      if (!unix_socket) unix_socket = mysql_unix_port;
+      host_info = (char *)ER_CLIENT(CR_LOCALHOST_CONNECTION);
+      DBUG_PRINT("info", ("Using UNIX sock '%s'", unix_socket));
+
+      memset(&UNIXaddr, 0, sizeof(UNIXaddr));
+      UNIXaddr.sun_family = AF_UNIX;
+      strmake(UNIXaddr.sun_path, unix_socket, sizeof(UNIXaddr.sun_path) - 1);
+
+      if (mysql->options.extension && mysql->options.extension->retry_count)
+        my_net_set_retry_count(net, mysql->options.extension->retry_count);
+
+      if (vio_socket_connect(net->vio, (struct sockaddr *)&UNIXaddr,
+                             sizeof(UNIXaddr), get_vio_connect_timeout(mysql))) {
+        DBUG_PRINT("error",
+                   ("Got error %d on connect to local server", socket_errno));
+        set_mysql_extended_error(mysql, CR_CONNECTION_ERROR, unknown_sqlstate,
+                                 ER_CLIENT(CR_CONNECTION_ERROR), unix_socket,
+                                 socket_errno);
+        vio_delete(net->vio);
+        net->vio = 0;
+        goto error;
+      }
+      mysql->options.protocol = MYSQL_PROTOCOL_SOCKET;
+    }
+  #elif defined(_WIN32)
+  ```
+
+  以下の部分が該当箇所だ。パフォーマンスのためか、`LOCAL_HOST` の場合は `socket` で繋いでるっぽい。(if文が分かりづらい....)
+
+  ```
+  if (!net->vio
+      &&
+      (!mysql->options.protocol || mysql->options.protocol == MYSQL_PROTOCOL_SOCKET)
+      &&
+      (unix_socket || mysql_unix_port)
+      &&
+      (!host || !strcmp(host, LOCAL_HOST))) { my_socket sock = socket(AF_UNIX, SOCK_STREAM, 0); /* ... */}
+  ```
+
+  試しに、 `/etc/hosts` で以下のようにしたらどうなるだろうか。
+
+  ```
+  127.0.0.1   hoge
+  ```
+
+  MySQLに繋いでみる。
+
+  ```
+  ~ (*´ω｀*) < mysql -u root --host="hoge" -P 3306
+  Welcome to the MySQL monitor.  Commands end with ; or \g.
+  [省略]
+  ```
+
+  netstatの情報はこんな感じだ。
+
+  ```
+  ~ (*´ω｀*) < netstat -an | grep 3306
+  tcp4       0      0  127.0.0.1.3306         127.0.0.1.50816        ESTABLISHED
+  tcp4       0      0  127.0.0.1.50816        127.0.0.1.3306         ESTABLISHED
+  tcp4       0      0  127.0.0.1.3306         *.*                    LISTEN
+  tcp4       0      0  127.0.0.1.50765        127.0.0.1.3306         TIME_WAIT
+  ```
+
+  localhostで繋ぐとこんな感じ。
+
+  ```
+  ~ ｡+ﾟ(∩´﹏`∩)ﾟ+｡ < mysql -u root -h localhost
+  Welcome to the MySQL monitor.  Commands end with ; or \g.
+  [省略]
+  ```
+
+  netstatの情報はこんな感じだ。
+
+  ```
+  ~ (*´ω｀*) < netstat -an | grep 3306
+  tcp4       0      0  127.0.0.1.3306         *.*                    LISTEN
+  tcp4       0      0  127.0.0.1.50816        127.0.0.1.3306         TIME_WAIT
+  ```
+
+  `tcp` で動いていないことが確認できた。
+
+  -----------------
+
+  正しく説明するにはC言語読む必要が出てくるし、[詳しいおっさん](https://mobile.twitter.com/bto)が近くにいないと厳しい。
+
+  先駆者はいたけどまぁ書いてもいいよね。
+
+  [MySQLでlocalhostと127.0.0.1の違い](https://qiita.com/TanukiTam/items/f6a08740d0fcda0db7be)
+#+end_src
+** npmのlibraryのbuild formatについて
+
+- slug: publish-npm-library-build-format
+- date: 2019-03-17 00:13:06
+
+#+begin_src markdown
+  半年前くらいに`npm` package作ってみたいなぁと思って作ってみた時学んだことをまとめていこうと思う。
+
+  以下の記事で大体理解できたのだが、実際にやってみて細かいところで躓いた部分を書いていく。
+
+  ,* [初めてのnpm パッケージ公開](https://qiita.com/TsutomuNakamura/items/f943e0490d509f128ae2)
+  ,* [3分でできるnpmモジュール](https://qiita.com/fnobi/items/f6b1574fb9f4518ed520)
+
+
+  ちなみに、repoは [takeokunn/businesh](https://github.com/takeokunn/businesh) で、ビジネッシュ翻訳してくれるようなゴミみたいなpackageだ。意外とdownloadがあるのウケる。
+
+  ```
+  const before_text = '任意の文字列をビジネッシュ・テキストに変換するライブラリです。';
+  businesh.translate(before_text)
+      .then(after_text => {
+          // 半強制のコンテクストをハイクオリティなビジネス的サティスファクション・テキストにコンバートフレキシブルに対応するフィジビリティスタディって、この前読んだビジネス書に書いてあった、実例もたくさんある。
+          console.log(after_text)
+      })
+      .catch(err => console.log(err));
+
+  ```
+
+  ------------------------------------------------
+
+  `npm` のpackageと一口に言っても、`server side javascript` なのか、 `frontend javascript` なのかで毛色が違う。通常以下のようにライブラリを呼び出す。
+
+  frontend javascript:
+
+  ```
+  import businesh from 'businesh';
+  ```
+
+  server side javascript:
+
+  ```
+  const businesh = require('businesh');
+  ```
+
+  上記のように呼び出すには、以下のようにpackageを提供する必要がある。
+
+  frontend javascript:
+
+  ```
+  export { businesh };
+  ```
+
+  server side javascript:
+
+  ```
+  exports.businesh = businesh;
+  ```
+
+  `javascript` のmoduleには主に4種類ある。
+
+  ,* AMD
+  ,* CommonJS
+  ,* ES
+  ,* UMD
+
+  この辺の記事が参考になる。
+
+  ,* [[意訳]初学者のためのJavaScriptモジュール講座 Part1#](https://qiita.com/chuck0523/items/1868a4c04ab4d8cdfb23#commonjs%E3%81%A8amd)
+  ,* [What is AMD, CommonJS, and UMD?](https://www.davidbcalhoun.com/2014/what-is-amd-commonjs-and-umd/)
+  ,* [JavaScript Module Systems Showdown: CommonJS vs AMD vs ES2015](https://auth0.com/blog/javascript-module-systems-showdown/)
+
+  `bundler` のbuild optionで解決することができる。`rollup` を使っているので以下のように設定すれば良い。
+
+  [takeokunn/businesh/blob/master/rollup.config.js](https://github.com/takeokunn/businesh/blob/master/rollup.config.js):
+
+  ```
+  import babel from 'rollup-plugin-babel';
+
+  const default_config = {
+      input: 'src/main.js',
+      moduleName: 'businesh',
+      plugins: [babel({ exclude: 'node_modules/**', runtimeHelpers: true })]
+  };
+
+  export default [
+      {
+          ...default_config,
+          output: {
+              file: 'dist/bundle.cjs.js',
+              format: 'cjs',
+              sourcemap: true
+          }
+      },
+      {
+          ...default_config,
+          output: {
+              file: 'dist/bundle.es.js',
+              format: 'es',
+              sourcemap: true
+          }
+      },
+      {
+          ...default_config,
+          output: {
+              file: 'dist/bundle.umd.js',
+              format: 'umd',
+              sourcemap: true
+          }
+      }
+  ];
+  ```
+
+  `package.json` の設定も同時に変える必要がある。
+
+  [takeokunn/businesh/blob/master/package.json](https://github.com/takeokunn/businesh/blob/master/package.json#L5-L7)抜粋:
+
+  ```
+  {
+      ...
+      "main": "dist/bundle.cjs.js",
+      "module": "dist/bundle.es.js",
+      "browser": "dist/bundle.umd.js",
+      "repository": "git@github.com:takeokunn/businesh.git",
+      "author": "takeokunn<bararararatty@gmail.com>",
+      ...
+  }
+
+  ```
+
+  これでうまく `npm install` した時に良い感じに読み込むことができる。
+
+  ちなみに、イマイチ良い記事がなかったので[reduxjs/redux](https://github.com/reduxjs/redux/blob/master/package.json) を参考にした。
+
+  -------------------------------------------------
+
+
+  適当に作ったライブラリだったが、 `build format` について学べたから良かったかな。
+
+  ゴミみたいなやつじゃなくて、もっと社会の役に立つようなものを作れるようになりたい(願望)
+#+end_src
+** AjaxとBrowser Cookie
+
+- slug: ajax-browser-cookie
+- date: 2019-03-30 06:43:37
+
+#+begin_src markdown
+  「ブラウザからアクセスするのと、Ajaxからアクセスするのってクッキーってかわっちゃうの？」という質問をされたので自分なりの答えを書いていこうと思う。
+
+  Ajaxなのだが、javascriptで一番有名なlibraryの[axios/axios](https://github.com/axios/axios)を用いて書く。
+
+  FetchAPIについては今回は含めない。
+
+  ---------------------------------------------------
+
+  #### 結論
+
+  基本的にはcookieは変わらない。
+
+  同一オリジンの場合は自動的にcookieが使われる。
+
+  別オリジンの場合にcookieを使いたいなら `{ withCredentials: true }` をoptionに持たせれば良い。
+
+  ```
+  axios.get('https://www.uuum.jp', { withCredentials: true });
+  ```
+
+  ----------------------------------------------------
+
+
+  そもそもAjaxとはなんだろうか？
+
+  [MDN](https://developer.mozilla.org/ja/docs/Web/Guide/AJAX/Getting_Started)にこう書いてある:
+
+  ```
+
+  AJAX は Asynchronous JavaScript And XML の頭文字を取ったものです。
+  これは一言で言えば、 XMLHttpRequest オブジェクトを使ってサーバーと通信することです。
+  AJAX は JSON, XML, HTML, テキストファイルなど、様々な形式の情報で送受信することができます。
+  AJAX の最も魅力的な特徴は「非同期」であること、つまり、サーバーとの通信、データの交換、ページの更新を、ページの再読み込みなしに行うことができる点です。
+  ```
+
+  要するに、javascriptから通信ができるというだけ。
+
+  `XMLHttRequest` のサンプルは以下:
+
+  ```
+  const xhr = new XMLHttpRequest();
+  xhr.open("GET", "https://www.uuum.jp");
+  xhr.send();
+
+  console.log(xhr.status); // 200
+  ```
+
+  これで通信ができる。以上だ。
+
+  ---------------------------------------------------
+
+  Axiosのコードを読んでみる。
+
+  [axios/lib/adapters/xhr.js](https://github.com/axios/axios/blob/503418718f669fcc674719fd862b355605d7b41f/lib/adapters/xhr.js)に `XMLHttpRequest` が書いてある。
+
+  ```
+  var request = new XMLHttpRequest();
+  ```
+
+  `XMLHttpRequest` を使ってるのが確認できた。
+
+  さて、cookieの扱い方はどうなっているだろうか?ググったら `withCredentials` を使えって書いてある。
+
+  実際にコード読んでみるとこんな記述がある。
+
+  [axios/lib/adapters/xhr.js#L103-L105](https://github.com/axios/axios/blob/503418718f669fcc674719fd862b355605d7b41f/lib/adapters/xhr.js#L103-L105):
+
+  ```
+  var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
+      cookies.read(config.xsrfCookieName) :
+      undefined;
+  ```
+
+  同一オリジンの場合や `withCredentials` の場合に `cookies.read` が走る。
+
+  cookiesの定義元を読んで見る。
+
+  [axios/lib/helpers/cookies.js](https://github.com/axios/axios/blob/503418718f669fcc674719fd862b355605d7b41f/lib/helpers/cookies.js#L9-L43):
+
+  ```
+  (function standardBrowserEnv() {
+    return {
+      write: function write(name, value, expires, path, domain, secure) {
+        var cookie = [];
+        cookie.push(name + '=' + encodeURIComponent(value));
+
+        if (utils.isNumber(expires)) {
+          cookie.push('expires=' + new Date(expires).toGMTString());
+        }
+
+        if (utils.isString(path)) {
+          cookie.push('path=' + path);
+        }
+
+        if (utils.isString(domain)) {
+          cookie.push('domain=' + domain);
+        }
+
+        if (secure === true) {
+          cookie.push('secure');
+        }
+
+        document.cookie = cookie.join('; ');
+      },
+
+      read: function read(name) {
+        var match = document.cookie.match(new RegExp('(^|;\\s*)(' + name + ')=([^;]*)'));
+        return (match ? decodeURIComponent(match[3]) : null);
+      },
+
+      remove: function remove(name) {
+        this.write(name, '', Date.now() - 86400000);
+      }
+    };
+  })() :
+  ```
+
+  `document.cookie` から取得してきている。`document.cookie` のMDNはこれだ。
+
+  [https://developer.mozilla.org/ja/docs/Web/API/Document/cookie](https://developer.mozilla.org/ja/docs/Web/API/Document/cookie)
+#+end_src
+
+** SVGにグラデーションのアニメーションをかける
+
+- slug: svg-gradation-animation
+- date: 2019-04-14 04:56:00
+
+#+begin_src markdown
+  [自分のportfolioサイト](https://portfolio.takeokunn.xyz/) で　`SVG` にグラデーションのアニメーションをかけたのでメモ。
+
+  ![https://takeokunn.xyz/storage/app/media/portfolio-bear.png](https://takeokunn.xyz/storage/app/media/portfolio-bear.png)
+
+  ------------------------------------------
+
+  ソースコードはこんな感じ。
+
+  [takeokunn/portfolio/blob/master/templates/index.html#L9-L28](https://github.com/takeokunn/portfolio/blob/master/templates/index.html#L9-L28):
+
+  ```
+  <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1000 1000" enable-background="new 0 0 1000 1000" xml:space="preserve">
+      <defs>
+          <linearGradient id="bearGratient" x1="100%" y1="100%">
+              <stop offset="0%" stop-color="#69d2ff" stop-opacity=".5">
+                  <animate attributeName="stop-color" values="#69d2ff;#71dca7;#ffd458;#ffa7de;#69d2ff" dur="14s" repeatCount="indefinite" />
+              </stop>
+              <stop offset="100%" stop-color="#69d2ff" stop-opacity=".5">
+                  <animate attributeName="stop-color" values="#69d2ff;#71dca7;#ffd458;#ffa7de;#69d2ff" dur="14s" repeatCount="indefinite" />
+                  <animate attributeName="offset" values=".95;.80;.60;.40;.20;0;.20;.40;.60;.80;.95" dur="14s" repeatCount="indefinite" />
+              </stop>
+          </linearGradient>
+      </defs>
+      <g fill="url(#bearGratient)" transform="translate(0.000000,511.000000) scale(0.100000,-0.100000)">
+          <path d="/* 中略 *//>
+          <path d="/* 中略 *//>
+          <path d="/* 中略 *//>
+      </g>
+  </svg>
+  ```
+
+
+  最初、 `css` の `linear-gradient` で線形グラデーションをかけようと思ったのだが、どうも `SVG` には対応していないらしい。
+
+  `SVG` のMDNを漁っていたら `linear​Gradient` というタグがあった。
+
+  [https://developer.mozilla.org/ja/docs/Web/SVG/Element/linearGradient](https://developer.mozilla.org/ja/docs/Web/SVG/Element/linearGradient)
+
+  良いサンプルがなかったので調べていたら、以下のようなsnippetがたくさん落ちていた。
+
+  ,* [https://code.sololearn.com/Wvac74Zd8Ry3/#html](https://code.sololearn.com/Wvac74Zd8Ry3/#html)
+  ,* [https://codepen.io/NickNoordijk/pen/VLvxLE](https://codepen.io/NickNoordijk/pen/VLvxLE)
+  ,* [https://codepen.io/samwyness/pen/eZwoLj](https://codepen.io/samwyness/pen/eZwoLj)
+
+  サンプルコードによると、
+
+  ,* `defs` に `linearGradient` を定義する
+  ,* `linearGradient` に `stop > animate` で時間に合わせたグラデーションをかけることが出来る
+  ,* 実際に描画する `SVG` 要素に上で定義した `linearGradient` を `fill` する
+
+  これでできた。
+
+  ------------------------------------------
+
+  `css` や `SVG` を使うことによって描画がものすごい綺麗になるので多用していきたい。
+#+end_src
+** Ubuntu FirefoxをEmacs Keybindにする
+
+- slug: ubuntu-firefox-emacs-keybind
+- date: 2019-04-13 09:18:54
+
+#+begin_src markdown
+  普段Chromeを使っているのだが、外で作業するとき電池の消費量が異常だったのでFirefoxの環境も整備する必要が出てきた。
+
+  しかしながら、Emacs脳である自分にはネットサーフィンもEmacsでしたい！という欲求が非常に強い。
+
+  Chromeには[Chromemacs](https://chrome.google.com/webstore/detail/chromemacs/kfdibhbheajeacnkkakomaliggbgndcf)という拡張があるが、FireFoxにはなかったのでなんとかする必要があったのが今回の記事の背景だ。
+
+  --------------------------------------------------------------------------------
+
+  以下の記事を参考した。
+
+  [xkeysnail - もうひとつの Linux 向けキーリマッパ](https://qiita.com/mooz@github/items/c5f25f27847333dd0b37)
+
+  > Firefox が Quantum になり、旧来の XUL ベースのアドオンは動作しなくなった。新たな拡張機能の機構である WebExtensions ではキーボードショートカットに関する API が大幅に制限され、ぼくは拙作のアドオン KeySnail のWebExtensions 化を諦めた。
+
+  この筆者も同じことを考えていて、同じように辛さを感じているようだ。
+
+  この `xkeysnail` は `Firefoxのplugin` ではなくて、 `Linuxのuinputを取得して任意のkeyに変換する` ということをやっている。
+
+  [mooz/xkeysnail](https://github.com/mooz/xkeysnail) の `README.md` に導入方法が書いてある。
+
+  自分の `.config.py` は以下:
+
+  ```
+  # -*- coding: utf-8 -*-
+
+  import re
+  from xkeysnail.transform import *
+
+  define_conditional_modmap(re.compile(r'Firefox'), {
+      Key.CAPSLOCK: Key.LEFT_CTRL,
+  })
+
+  define_keymap(re.compile("Firefox"), {
+      # change tab
+      K("C-f"): K("C-Tab"),
+      K("C-b"): K("C-Shift-Tab"),
+
+      # search
+      K("C-s"): K("C-f"),
+      K("C-s"): K("C-g"),
+      K("C-r"): K("C-Shift-g"),
+
+      # private window
+      K("C-Shift-n"): K("C-Shift-p"),
+
+      # up/down
+      K("C-n"): K("DOWN"),
+      K("C-p"): K("UP"),
+      K("C-v"): K("SPACE"),
+
+      K("C-g"): {
+          # change page
+          K("C-b"): K("C-LEFT_BRACE"),
+          K("C-f"): K("C-RIGHT_BRACE"),
+
+          # reload
+          K("C-r"): K("C-r"),
+
+          # paste
+          K("C-v"): K("C-v"),
+
+          # close
+          K("C-w"): K("C-w"),
+
+          # close
+          K("C-t"): K("C-Shift-t"),
+      }
+  }, "Firefox")
+  ```
+
+  `Firefox` のみ反応してほしいのでこのような設定にした。
+
+  [takeokunn/dotfiles/blob/master/modules/xkeysnail/dot.config.py](https://github.com/takeokunn/dotfiles/blob/master/modules/xkeysnail/dot.config.py)で管理をしてる。
+
+  あとは、 `sudo xkeysnail ~/.config.py` を叩けば有効になる。
+
+  ----------------------------------------------------
+
+  ついでにserviceにも登録しておく。
+
+  `/etc/systemd/system/xkeysnail.service`:
+
+  ```
+  [Unit]
+  Description=xkeysnail
+
+  [Service]
+  KillMode=process
+  ExecStart=/usr/local/bin/xkeysnail /home/take/.config.py
+  ExecStartPre=/usr/bin/xhost +SI:localuser:root
+  Type=simple
+  Restart=always
+
+  # Update DISPLAY to be the same as `echo $DISPLAY` on your graphical terminal.
+  Environment=DISPLAY=:0
+
+  [Install]
+  WantedBy=default.target
+  ```
+
+  `ExecStartPre=/usr/bin/xhost +SI:localuser:root` をしないとどうも `Xlib.error.DisplayConnectionError: Can't connect to display ":0.0": b'No protocol specified\n'` というエラーが出る。(要調査)
+
+
+  以下を叩いて終わり。
+
+  ```
+  $ sudo service xkeysnail enabled
+  $ sudo service xkeysnail start
+  ```
+
+  ----------------------------------------------------
+
+  これで `Firefox` も `Emacs` のように操作ができるようになった。最高。
+
+  微妙に融通の効かない部分とかあるので細かい調整をどんどんしていきたい。
+
+  `Firefox Quantum` の `Key API` がhakableになってくれることを祈るばかり。
+#+end_src
+** WebpackerでBulmaをbuildするとwarningが出るものの調査と対応
+
+- slug: webpacker-bulma-build-warning
+- date: 2019-04-11 11:17:45
+
+#+begin_src markdown
+  「 `webpacker` でbuildするとめっちゃwarning出るんだけど調べてくれない？」
+
+  と、会社の先輩から言われたので調査対応をした時学んだことをメモしていく。
+
+  ---------------------------------------
+
+  warningの内容は以下だ。(抜粋)
+
+  ```
+  $ ./bin/webpack
+  ...
+  WARNING in ./node_modules/css-loader??ref--2-2!./node_modules/postcss-loader/lib??ref--2-3!./node_modules/resolve-url-loader!./node_modules/sass-loader/lib/loader.js??ref--2-5!./app/assets/scss/main.scss
+  (Emitted value instead of an instance of Error) postcss-custom-properties: /Users/node_modules/bulma/sass/grid/columns.sass:501:10: Custom property ignored: not scoped to the top-level :root element (.columns.is-variable.is-3-widescreen-only { ... --columnGap: ... }), in atrule
+  ...
+  ```
+
+  このwarningが何十個も出てる状態だった。
+
+  -----------------------------------------------------------
+
+  エラーの原因は `bulma` のコード内にある `postcss-next` が良くなかったからだ。
+
+  対象のコード抜粋:
+
+  ```
+  @if $variable-columns
+    .columns.is-variable
+      --columnGap: 0.75rem
+      margin-left: calc(-1 * var(--columnGap))
+      margin-right: calc(-1 * var(--columnGap))
+      .column
+        padding-left: var(--columnGap)
+        padding-right: var(--columnGap)
+      @for $i from 0 through 8
+        &.is-#{$i}
+          --columnGap: #{$i * 0.25rem}
+        +mobile
+          &.is-#{$i}-mobile
+            --columnGap: #{$i * 0.25rem}
+        +tablet
+          &.is-#{$i}-tablet
+            --columnGap: #{$i * 0.25rem}
+        +tablet-only
+          &.is-#{$i}-tablet-only
+            --columnGap: #{$i * 0.25rem}
+        +touch
+          &.is-#{$i}-touch
+            --columnGap: #{$i * 0.25rem}
+        +desktop
+          &.is-#{$i}-desktop
+            --columnGap: #{$i * 0.25rem}
+        +desktop-only
+          &.is-#{$i}-desktop-only
+            --columnGap: #{$i * 0.25rem}
+        +widescreen
+          &.is-#{$i}-widescreen
+            --columnGap: #{$i * 0.25rem}
+        +widescreen-only
+          &.is-#{$i}-widescreen-only
+            --columnGap: #{$i * 0.25rem}
+        +fullhd
+          &.is-#{$i}-fullhd
+            --columnGap: #{$i * 0.25rem}
+  ```
+
+
+  GitHub: [https://github.com/jgthms/bulma/blob/4caa77dc0f13984347b734657c2d4cd588149087/sass/grid/columns.sass#L467-L504](https://github.com/jgthms/bulma/blob/4caa77dc0f13984347b734657c2d4cd588149087/sass/grid/columns.sass#L467-L504)
+
+  このコミットは2019/03/30にmergeされている。
+
+  `--columnGap: #{$i * 0.25rem}` などtop levelで定義されているのが問題でwarningがたくさん出ている。
+
+  ------------------------------------------------------------
+
+  issueにも上がっていた。[https://github.com/jgthms/bulma/issues/1190](https://github.com/jgthms/bulma/issues/1190)
+
+  解法は数種類ある。
+
+  1. `postcss-cssnext` のwarningを握りつぶす
+
+  `.postcssrc.yml` を変更して `warning: false` にする:
+
+  ```
+  plugins:
+    postcss-import: {}
+    postcss-cssnext:
+      features:
+        customProperties:
+          warnings: false
+  ```
+
+  「warning握りつぶすのは危険なのでできればしたくない」というレビューを頂いた。その通り過ぎるので却下した。
+
+
+  2. `bulma` の `variable` を変更して対象コードを実行しないようにする。
+
+  こんな感じだ:
+
+  ```
+  $variable-columns: false;
+  @import '~bulma';
+  ```
+
+  これが一番良いので採用した。
+
+  デメリットは `variable-gap` が使えなくなることだが、今回はまだ使う予定はなかったし楽に対応できた。
+
+  `Experimental` だしいいよね。
+
+  https://bulma.io/documentation/columns/gap/#variable-gap
+
+
+  3. `@import "~bulma/sass/grid/_all";` をコメントアウトする
+
+  コメントアウトすれば確かに上の問題は握りつぶせる。
+
+  がしかし、gridを使えなくなるのは今回の場合駄目なので却下。
+
+  4. warningだし無視する
+
+  ありっちゃありだけど、直すのが仕事なので却下。
+
+  5. `package.json` の `bulma` のversionを下げる
+
+  最新に追従するのめんどくさくなるのでできればしたくない。ので却下。
+
+
+  ---------------------------------------------------------
+
+
+  `bulma` の問題なのに `webpacker` の仕様だとかの関係のない調査にあまりにも時間がかかりすぎた反省。
+
+  「warning握りつぶすのは危険なのでできればしたくない」というレビューがあまりにも的確で且つ意識になかったのですごい良かった。
+
+
+  `webpacker` の挙動については別途ブログを書こうと思う。
+#+end_src
+
+** EsLintでGlobの挙動で詰まった時のメモ
+
+- slug: eslint-glob-shell
+- date: 2019-05-31 14:33:38
+
+#+begin_src markdown
+  本業で開発をしている時、 `EsLint` の挙動で詰まったので、その時対処したことをメモしておく.
+
+  ---------------------------------------------------------------
+
+  詰まった内容は以下だ:
+
+  ```
+  同じコマンドを実行しているはずなのに出力される結果が違うので困っています。
+  開発環境では通って、circleci上ではエラーが出ている状態です。
+
+  A: npm run test:lint
+  B: ./node_module/.bin/eslint --debug app/javascript/**/*.{vue,ts}
+
+  "scripts": {
+  "test:lint": "eslint --debug app/javascript/**/*.{vue,ts}"
+  }
+  ```
+
+  `A` と `B` で同じコードを実行してるはずなので何故か違う結果を吐き出すのだ.
+  `local` では `eslint` が通るけど `circleci` ではコケる、といった問題が起きていて困っていた.
+
+  ちなみに、`eslint --debug` で実行ログをみることができる.
+
+
+  ESLint開発者の方と弊社CTOのBTOさんに教えてもらうことによって原因を突き止めることができた.
+
+  ---------------------------------------------------------------
+
+  原因は、「globの解釈の問題」だ.
+
+
+  そもそもglobとは[Wiki](https://ja.wikipedia.org/wiki/%E3%82%B0%E3%83%AD%E3%83%96)によると
+
+  > グロブ（英: glob）とは主にUnix系環境において、ワイルドカードでファイル名のセットを指定するパターンのことである。
+
+
+  今回の場合だと、2種類の解釈の仕方がある.
+
+  ,* shellでglobが解釈される
+  ,* npmのglobで解釈される
+
+  macの標準のshellは `bash` なのだが、これだとうまくglobを評価してくれないのだ.一方、circleciのコンテナのshellは `busybox` だったのでうまくglobを評価してくれた.
+
+
+  つまり、macではちゃんと動いていなかっただけだったのだ.
+
+
+  そこで以下のようにglob部分を `'` で囲った:
+
+  ```
+  "scripts": {
+  "test:lint": "eslint --debug 'app/javascript/**/*.{vue,ts}'"
+  }
+  ```
+
+  そうすることにより、`npmのglobで解釈される` ようになり、正常に動くようになった.
+
+
+  内部的にはこれを使っているみたいだ: [https://www.npmjs.com/package/glob](https://www.npmjs.com/package/glob)
+
+  ------------------------------------------------------------------
+
+  この世界にはたくさんのshellがあるようだ.
+
+
+  ,* dash(debian ash)
+  ,* ash
+  ,* busybox
+  ,* fish shell
+  ,* xonsh shell
+  ,* z shell
+  ,* bash
+  ,* etc...
+
+  ubuntu標準は `dash` みたいだ:
+
+  ```
+
+  ~/.emacs.d (*´ω｀*) < ll /bin | grep sh
+  -rwxr-xr-x 1 root root 1.1M  5月  3 22:50 bash
+  -rwxr-xr-x 1 root root 119K  1月 25  2018 dash
+  lrwxrwxrwx 1 root root    4  5月  3 22:50 rbash -> bash
+  lrwxrwxrwx 1 root root    4  3月  3 18:34 sh -> dash
+  lrwxrwxrwx 1 root root    4  3月  3 18:34 sh.distrib -> dash
+  lrwxrwxrwx 1 root root    7  3月  7 05:51 static-sh -> busybox
+
+  ```
+
+  `sh` って言うけど、 `/bin/sh` に別の `shell` の `symbolic link` 貼ってるだけのようだ.
+
+  一通り使って違いのわかる男になりたい.
+#+end_src
+
+** オフィスにアクセスポイントを導入した時やったこと
+
+- slug: office-access-point
+- date: 2019-05-29 14:46:03
+
+#+begin_src markdown
+  無線ルーターを購入してアクセスポイントを設定した時に学んだことをメモしておく。
+
+  ------------------------------------------------------------
+
+  ### 無線ルーター選定
+
+  ポイントは3点.
+
+  ,* 転送速度
+  ,* セキュリティー
+  ,* 無線端末最大接続数
+
+  #### 転送速度
+
+  種類ありすぎてわけわからないけど、とりあえず `11ac` に対応してればいいかな.GHzが低いほど壁などの障害に強い.
+
+  参考にした記事:
+
+  ,* [無線LAN規格の違い](https://www.iodata.jp/product/network/info/base/kikaku.htm)
+  ,* [帯域幅 「分かりそう」で「分からない」でも「分かった」気になれるIT用語辞典](https://wa3.i-3-i.info/word12111.html)
+  ,* [電波の伝わり方：反射/透過、回析、干渉 | 基礎知識 | ROHM TECH WEB](https://micro.rohm.com/jp/techweb_iot/knowledge/iot01/s-iot01/01-s-iot01/1844)
+  ,* [無線LANよろず講座](http://musenlan.biz/blog/522/)
+
+
+  #### セキュリティー
+
+  `WPA2` に対応してればオッケーという雑な理解.
+
+  参考にした記事:
+
+  ,* [一般家庭における無線LANのセキュリティに関する注意：IPA 独立行政法人 情報処理推進機構](https://www.ipa.go.jp/security/ciadr/wirelesslan.html)
+  ,* [TCP/IP - SNMP](https://www.infraexpert.com/study/tcpip21.html)
+
+
+  #### 無線端末最大接続数
+
+  今回は大体100台くらい繋げられればよかった.
+
+  参考にした記事:
+
+  ,* [BUFFALO 管理者機能搭載アクセスポイント商品比較表](https://www.buffalo.jp/product/other/compare-wireless-business.html)
+
+
+  ### 設置
+
+  これを購入することにした: [BUFFALO インテリジェントモデル PoE対応 11ac/n/a/g/b 866+300Mbps 無線LANアクセスポイント WAPM-1166D](https://www.amazon.co.jp/dp/B00OL61L9S/ref=asc_df_B00OL61L9S2617725/?tag=jpgo-22&creative=9339&creativeASIN=B00OL61L9S&linkCode=df0&hvadid=226974324204&hvpos=1o1&hvnetw=g&hvrand=14998055634270719829&hvpone=&hvptwo=&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=1028853&hvtargid=pla-457493725121)
+
+  オフィスに生えてる野生のケーブルにルーターを差して動かした.端っこの方に適当に置いてるので中央に置き直すつもりだ.
+
+  ### 管理画面から設定
+
+  同一ネットワーク内で `http://192.168.11.100/` を叩くと管理画面に入ることが出来る.
+
+  SSIDの変更やpassowrdの変更、 認証方式の制限などを変更する.
+
+  変更するたび毎回再起動するので注意.
+
+  ### 余談
+
+  POEすごい. イーサネット指すだけで充電できるというの便利だなぁと思った(小学生並みの感想).
+
+  macアドレスでAPへのアクセス制限をかけられることを知れてよかった.
+#+end_src
+
+** JavaScriptのthisについて
+
+- slug: javascript-this-in-depth
+- date: 2019-07-01 05:00:11
+
+#+begin_src markdown
+  会社のインターン生に `Javascript` の `this` についてドヤ顔で説明してたら、間違って理解していたことがわかってしまった。
+
+  同僚と `this` がどういう挙動をするのかで盛り上がって楽しかった。
+
+  [【JS】ああthisよ。君は今、どのオブジェクトなのか（練習問題あり）](https://qiita.com/valley/items/62c9480368f1409c90ae)
+
+  同僚の `@valley` 氏の記事がおおよそすべてを説明してくれているが、この記事では自分の言葉で `this` について説明する。
+
+  -----------------------------------------------------------------------------------------------
+
+  元記事ではブラウザで実行していたが、この記事では `nodejs` で実行するので `window -> global` となる。
+
+  ```
+  結局そのscopeが評価された時のcontextがthisになる。
+  関数やオブジェクトが評価されるタイミングはいつなの？ってことを考えればあとは自然とthisを導き出せる。
+  functionが評価されるタイミングとlambdaが評価されるタイミングが違うというだけ。
+  ```
+
+  例えば、以下のようなスクリプトがある。
+
+  `func1` の関数が評価されるのは実行時なので `{}` だが、 `func2` の関数が評価されるのはコンパイル時なので `global` になる。
+
+  ```
+  const func1 = () => {
+      console.log(this);
+  };
+
+  const func2 = function () {
+      console.log(this);
+  };
+
+  console.log(func1); // {}
+  console.log(func2); // global
+  ```
+
+  ファイル分割した場合はどうなるだろうか。以下のようなコードを書いてみた。
+
+  `test.js`:
+
+  ```
+  const { func1, func2 } = require("./test1.js");
+
+  console.log(this.aaa); // undefined
+
+  func1(); // { aaa: 'bbb' }
+  fund2(); // global
+  ```
+
+  `test1.js`:
+
+  ```
+  this.aaa = 'bbb';
+
+  const func1 = () => {
+      console.log(this);
+  };
+
+  const func2 = function () {
+      console.log(this);
+  };
+
+  module.exports = { func1, func2 };
+  ```
+  ------------------------------------------------------------------
+
+  教えるのも勉強なるし、こうやって深堀するとさらに詳しく慣れて楽しい。
+#+end_src
+
+** 開発体験向上について考えてること
+
+- slug: thinking-about-developer-experience
+- date: 2019-09-30 17:59:12
+
+#+begin_src markdown
+  会社での仕事の大半はDX向上な気がしているので、普段やってることについてまとめていく。
+
+  ------------------------------------------------
+
+  [DX: Developer Experience （開発体験）は重要だ](https://gfx.hatenablog.com/entry/2018/06/28/100103) にDX向上のメリットについて書いてあるのだが、具体的な作業は何かについて書いていないので自分なりのやり方を書いていく。
+
+  最近ずっとRailsばっかだったので、Railsプロジェクトをイメージして書く。
+
+  ,* 環境構築をなるべくDockerでできるようにする
+  ,* 再現性の高い環境構築手順を作成する
+  ,* Editorconfigを入れる
+  ,* インフラ構成を整理する
+  ,* 安全にDeployできるような仕組みを作る
+  ,* CircleCIなどCIサービスを入れる
+  ,* GitFlowを入れる
+  ,* 明らかに使ってないファイルを削除する
+  ,* 使用してる外部サービスを洗い出しておく
+  ,* ソースコードに埋め込まれている鍵をenvに移す
+  ,* [Sentry](https://sentry.io/welcome/) などエラーを検知出来る仕組みを導入する
+  ,* Linterを入れて変更を少なく定期的に修正していく。
+  ,* Rspecのようなテストツールを入れる
+  ,* [dependabot](https://dependabot.com/) を入れる
+  ,* [pull panda](https://pullpanda.com/)を入れる
+  ,* 静的解析ツール(phanなど)を入れる
+  ,* NewRelicなどの監視ツールを入れる
+  ,* 事業リスクになりそうな箇所を洗い出して工数を取ってもらうべく動く
+  ,* 時間を見つけてロジックが複雑な部分をリファクタリングをしていく
+  ,* errorやdeployやcommit通知をslackに流す
+  ,* [git-pr-release](https://github.com/motemen/git-pr-release)を入れる
+
+  > 安全にDeployできるような仕組みを作る
+
+  AWS ECSのようにコンテナマネージドサービスの場合はCircleCIから叩けばよいだろうし、そうでなければとりあえずdeploy用のサーバーを立ててcapisoranoでdeployしちゃっても良いと思う。
+
+  大事なのはlocalに依存しないことと再現性のあること。
+
+  > 使用してる外部サービスを洗い出しておく
+
+  意外とこういうのの洗い出し大事だと思う。使ってないコードの削除も捗るし、抽象化もしやすい。
+
+  > 事業リスクになりそうな箇所を洗い出して工数を取ってもらうべく動く
+
+  技術的負債の説明をできるのはエンジニアしかいないので、対応するかどうか置いといて、きちんと伝えることは大事だと思う。
+
+  > エラー通知やdeploy通知をslackに流す
+
+  DX向上はエンジニア以外はわからないので、「きちんと作業してる」ということを伝えるのは大事だと思う。
+
+  --------------------------------------------------------
+
+  DX向上はエンジニアのための作業だけど、ちゃんとエンジニア以外にも「伝える」こともエンジニアとして大事なんだろうなぁと思う次第
+#+end_src
+
+** エンジニア採用面接で考えていること
+
+- slug: thinking-about-recruit-interview
+- date: 2020-02-02 01:56:51
+
+#+begin_src markdown
+  これはポエムです。
+
+  個人的意見だし、エンジニアの採用面接専門で雇われているわけじゃないので詳しいことやベストプラクティスはわからないです。会社の方針と違う部分もあるし。
+
+  2020年2月時点でカジュアル面接/１次面接の時に僕がやってることについて書いていく。
+
+  -------------
+
+  ## 基本方針
+
+  大事なのは以下の4点な気がしている。
+
+  ,* コミュニケーションはつつがなく取れそうか
+  ,* 技術が好きか
+  ,* 誠実かどうか
+  ,* 現職(前職)について明瞭に説明できるかどうか
+
+  これらを知るために色々な質問をしていく。
+
+  ぶっちゃけ趣味なり仕事なりで作ってるものを楽しそうに話してもらえるのが一番。
+
+  ## やること
+  ### 事前準備
+
+  ,* 人事の方からもらった事前情報を読み込む
+  ,* SNS(github/twitter/youtube/note/instagram/facebook/wantedly/connpass等) を探して一通り見る
+  ,* GitHubに公開してるコードを読む
+  ,* Qiitaや技術ブログを読む
+
+  GitHubや技術記事を公開していないと事前情報が全く無く判断しづらい。
+
+  Fish Shellに以下のようなfunctionを作って一気にrepoをcloneできるようにしている。
+  ```
+  function ghq_all
+      curl "https://api.github.com/users/"(echo $argv)"/repos" | jq -r ".[].clone_url" | xargs -L1 ghq get
+  end
+  ```
+
+  技術ブログやサイトをホスティングしている際は、whoisを読んだり、digったり、DOMを読んだり、Networkを読んでどのように配信してるのかを見る。
+  wordpressだったら `/wp-admin` `/readme.html` が叩けるかどうかなど、セキュリティ意識できているかも見る。
+
+  ### 当日面接
+
+  自社説明はテンプレで話すが、それ以外で話す内容は以下。
+
+  ,* 現職(前職)どんな仕事をしているのか
+  ,* 好きな、得意な技術は何か
+  ,* 直近楽しかった開発は何か、どうやったのか
+  ,* 今後どういう風になりたいのか、それに向けてどういう努力をしているのか
+
+  事前情報を元に↑の内容を話す。
+
+  > * 現職(前職)どんな仕事をしているのか
+
+  業務のどの部分を担当していて、そこで使われている技術は何か、どういう工夫をしているのかなどを明瞭に話せるかどうかを知りたい。
+
+  普通に開発しているだけよりも、 [DX向上](https://takeokunn.xyz/blog/post/thinking-about-developer-experience)とかを行っている方が印象が良い。
+
+  [職業Webエンジニアにおける「実績」と「やりきる力」](https://nazo.hatenablog.com/entry/yarikiru)に良いこと書いてある。定期的に読み直してる。
+
+  > * 好きな(得意)技術は何か
+
+  「Rubyに自信がある」と書いてあったら、それは「Rubyの言語自体に自身がある」のか「RailsのFW自体に自身がある」のか、「Railsを使うの自信がある」のかを正確に知りたい。
+
+  用語を正確に使えているのかどうかと、それに対しての知識がどのくらい深いかどうかと、そのことに対してどのくらい自覚があるのかを見る。
+
+  > * 直近楽しかった開発は何か、どうやったのか
+
+  技術が純粋に好きかどうか、楽しく開発してるということは技術的チャレンジをしている可能性が高いのでなるべく聞くようにしている。
+
+  > * 今後どういう風になりたいのか、それに向けてどういう努力をしているのか
+
+  「勉強中です」っていうのは情報量0なので、「なんの勉強をしていて、どういうロードマップがあって、今どこなのか」みたいな話をしてもらえると理解しやすい。
+
+  ### 面接振り返り
+
+  ,* 話したことを振り返る
+  ,* 社内の面接評価基準と照らし合わせて評価を作成する
+  ,* まとめて人事の方に伝える
+
+  一緒に働いて楽しそうかどうか、活躍できそうかどうかなど社内の面接指標に合わせて評価をする。
+
+  ## まとめ
+
+  1回の面接に結構エネルギーを使うけど、色んな人いるんだなぁって言うのがわかって結構楽しい。
+
+  あと落ちたからといって、必ずしもスキルが足りないとか言うわけでもなく、枠がなかっただけの場合もあるので一々落ち込む必要ないんだなぁってのがわかってよかった。
+#+end_src
+
+** RedashのQuery一覧を保存する方法
+
+- slug: redash-save-query-list
+- date: 2020-05-11 16:43:22
+
+#+begin_src markdown
+  副業でRedashの情報を保存したいという要望があった。
+
+  AMIをとるのは大げさだよなぁと思ったのでqueryの一覧を取得する方法について調べてみた。
+
+  --------
+
+  とりあえず世の中に同じようなことを考えてる人がいないかを調べてみた。
+
+  [redashmanを使ってRedashのクエリをお手軽にバックアップする](http://ariarijp.hatenablog.com/entry/redash-query-backup-with-redashman)という記事があった。[ariarijp/redashman](https://github.com/ariarijp/redashman)というgolang自作ツールを介してRedashAPIを叩いているようだ。
+
+  RedashAPIのドキュメントはこれだ。[Integrations and API](https://redash.io/help/user-guide/integrations-and-api/api)。queryのCRUDとdashboardのCRUDが用意されている。api tokenを発行してそれを使えば楽に操作ができるようだ。
+
+  [ariarijp/redashman](https://github.com/ariarijp/redashman)はすごく良さそうなのだが、自分が欲しいのはqueryの一覧であって豪華なAPI Clientではない。golangを入れることすらめんどくさいのだ。
+
+  今回の用途では雑にcurlで取得できればよかったので以下のように投げた。あとは必要なフォーマットに合わせてよしなにjqを使えば良い。
+
+  ```shell
+  $ curl "https://<redash url>/api/queries" \
+      -H "Accept: application/json" \
+      -H "Authorization: Key <auth key>" \
+      | jq ".results" | jq "map({ id, name, query })"
+  ```
+
+  responseはこんな感じ。綺麗に出せた。
+
+  ```json
+  [
+      {
+          "id": 13,
+          "name": "ユーザ一覧",
+          "query": "select * from users;"
+      },
+      {
+          "id": 12,
+          "name": "ユーザ詳細",
+          "query": "select * from users where id = 1;"
+      }
+  ]
+  ```
+#+end_src
+
+** 半年間毎週dependabotをmergeしたので知見を纏める
+
+- slug: knowledge-dependabot-merge
+- date: 2020-09-09 06:17:55
+
+#+begin_src markdown
+  本業のRailsプロジェクトのdependabotをひたすら毎週月曜日の11時にmergeし続けて半年以上たったのでそろそろ知見をまとめておこうと思う。
+
+  ----------------
+
+  ## はじめに
+
+  世の中のライブラリには大きく分けて3種類ある。
+
+  フレームワークと開発支援ツールと通常のライブラリだ。
+
+  基本的に全部のdependabotの生成したpull requestに関して、CHANGELOGとコードレベルのdiffを読むようにした。CHANGELOGだけでも良かったのだが、多くのOSSのライブラリのversion upはどういう場合に起こるのかなど傾向を掴むためだ。
+
+  ## diffの読み方
+
+  変更頻度の高かった順(takeokunn調べ)に並べるとこんなかんじ。
+
+  ,* テストの追加
+  ,* CI関連の記述の追加
+  ,* ドキュメントの整備
+  ,* 命名の修正
+  ,* 関数の分離や引数の整理
+  ,* 新機能の実装
+
+  業務では有名ライブラリ使っていた影響か、保守的な変更が多かった。
+
+  最近だとblacklistが駄目だとかその辺の変更がめちゃくちゃ多かった印象。
+
+  事故るとしたら「命名の修正」と「関数の分離や引数の整理」の部分だけなのでそれ以外は読み飛ばしても基本的には大丈夫だ。
+
+  ## フレームワークの場合
+
+  RailsやLaravelなど。
+
+  必ずRELEASE NOTEを読んで注意深くあげるようにする。
+
+  マイナーバージョンアップの場合(ver5.1.1→ver5.1.2)はそこまで神経質にならなくても良い。
+
+  メジャーバージョンアップの場合(ver5.2→ver6.0)はテストを充実させる、ステージング環境での十分な検証が必要だ。それでも細かいバグがでるので本当に神経質に確認を取る必要がある。
+
+  こう時にphpstanなどの静的解析でぱぱっと検証できるのが理想だよなぁと思う。Railsにはそういうのがないから辛い。
+
+  ## 通常のライブラリの場合
+
+  FaradayやらDeviseなど。
+
+  CHANGE LOGをみてBreaking Changeがなければmergeしちゃって良い。
+
+  そんなに破壊的変更を入れるライブラリはなかったし、事故もおきなかった。
+
+  テストで検知できるようにはしておきたい。
+
+  ## 開発支援ツールの場合
+
+  RubocopやらEsLintなど。
+
+  基本的にノールックマージして良い。事故ってもCIが落ちるだけなので別にオッケー。
+
+  Rubocopはよくconfigの書式がかわったりするのでなるべく頻度高く上げておかないと後々しんどくなる。
+
+  --------
+
+  ## おわりに
+
+  あたりまえのことしか書いてないが、あたりまえのことをあたりまえにやろう(自戒)
+
+  開発ツールだろうがフレームワークだろうがバージョンを一気にあげるのは本当にきついので普段から上げることをサボらないようにしないとしんどい(しんどい)
+
+  どのプロジェクトにも必ずdependabotはいれたいなーと思うようになったが、CIを圧迫するのだけはなんだかなぁ....
+#+end_src
+
+** TorでIPアドレスを偽装して遊ぶ
+
+- slug: tor-ip-forgeries
+- date: 2020-06-15 21:20:19
+
+#+begin_src markdown
+  Torを使ってみた。技術者倫理的には多分マナー違反なので用法用量を守って正しく遊ぼう。
+
+  --------
+
+  TODO: 解説は後で書く
+
+  無限に投票し続けるコード
+
+  http://www.tuber-town.com/channel_detail/UCORW3zZTUVdVwlY5Mnk8q9Q.html
+
+
+  ```javascript
+  const tr = require('tor-request');
+  const child_process = require('child_process');
+
+  const url = "http://www.tuber-town.com/js/vote.php";
+  const cid = "UCORW3zZTUVdVwlY5Mnk8q9Q";
+  const password = "P@ssw0rd";
+
+  const headers = { "Content-Type": "application/x-www-form-urlencoded" };
+  const form = { val: 1, cid: cid };
+
+  const handleRequestCallback = (err, res, body) => {
+      console.log("res.statusCode = " + res.statusCode);
+  };
+
+  const handleExecCallback = (error, stdout, stderr) => {
+      console.log('stdout: ' + stdout);
+      console.log('stderr: ' + stderr);
+      if (error !== null) {
+          console.log('exec error: ' + error);
+      }
+  };
+
+  const changeNewIp = () => {
+      const signal = `echo -e 'AUTHENTICATE "${password}" \r\nsignal NEWNYM\r\nQUIT' | nc -v 127.0.0.1 9051`;
+      child_process.exec(signal, { shell: '/bin/bash' }, handleExecCallback);
+  };
+
+  changeNewIp();
+  tr.request.post({ url, headers, form }, handleRequestCallback);
+  ```
+#+end_src
+
+** MacでSKKを使い始めて1ヶ月経ったので纏める
+
+- slug: mac-skk-one-month-passed
+- date: 2020-09-15 03:13:13
+
+#+begin_src markdown
+  8/15の深夜にsaizeriyan.phpのdiscordでノリでSKKを使いはじめて早1ヶ月、結構使い込んでいるので所感を纏めておく。
+
+  ------------
+
+  [saizeriyan.php](https://twitter.com/tadsan/status/1288090236115750912)はこちら。適当に配信したり適当に雑談したりする適当なチャンネルでphpとは名ばかりの適当なチャンネル。
+
+  [@tadsan](https://twitter.com/tadsan)にSKKの使い方について教えてもらってもらい、自分なりに色々調べたので纏めておく。
+
+  ## AquaSKK
+
+  > AquaSKK は Mac OS X 用のかな漢字変換プログラムです。多機能エディタ GNU Emacs 用に開発された SKK の思想を受け継ぎ、シンプルで快適な日本語入力環境を目指します。
+
+  [https://aquaskk.osdn.jp/](https://aquaskk.osdn.jp/)
+
+  [キー割り当て](https://aquaskk.osdn.jp/keymap.html)を叩きまくって練習した。
+
+  環境設定は以下のように有効にした。
+
+  ```markdown
+  ,* 入力操作
+      ,* Enterによる確定で改行しない
+      ,* 数値変換を有効にする
+      ,* 入力モードアイコンを表示
+  ,* 拡張設定
+      ,* SKK日本語入力FEP/Egg互換の記号入力を使う
+      ,* 旧かな用ルールを使う
+  ,* 辞書
+      ,* 全部有効
+  ,* その他
+      ,* skkserv
+          ,* 有効にする port: 9999
+          ,* localhost以外からの接続を拒否する
+      ,* 送りあり変換: キャンセルで送り仮名を削除する
+  ```
+
+  [使える『z』、便利な『z』](https://aquaskk.osdn.jp/inside_aquaskk/02.html)や[タブ、使ってますか？](https://aquaskk.osdn.jp/inside_aquaskk/03.html)あたりがめちゃくちゃ良い。
+
+  一ヶ月くらい日常的に使ってようやく辞書が充実してスムーズに入力できるようになってきた。やる気がない時にひらがなで逃げる癖もついてしまったのは内緒。
+
+  そもそも送り仮名なんだっけ?って時はchromeの検索バーで検索しながら辞書登録をするのでオフラインだときついというのはある。
+
+  ## Emacs DDSKK
+
+  [SKK (Simple Kana to Kanji conversion program) Manual](https://ddskk.readthedocs.io/ja/latest/index.html)を参考にしてどういう挙動なのかを調べた。
+
+  ```lisp
+  (leaf ddskk
+    :ensure t
+    :bind
+    ("C-x C-j" . skk-mode)
+    :setq
+    (skk-server-portnum . 9999)
+    (skk-server-host . "localhost"))
+  ```
+
+  基本的にはAquaSKKと同じ挙動をしているのでとっつきやつい。`C-x C-j` でskk-modeにして日本語入力、それ以外は通常通りに入力するような運用をしている。
+
+  AquaSKKはskkservも提供してくれているので辞書の共有がすごい楽だった。
+
+  `RET` は普段 `mark` にしているのでskk-modeの場合だけちゃんと改行するようにしてあげたほうがいいかもみんなどうしてるんだろう...?詳しい人に聞いてみたい。
+
+  解決しました → [Emacs DDSKKの設定メモ](https://takeokunn.xyz/blog/post/mac-skk-one-month-passed)
+
+  ## 今後の展望
+
+  - skkservを自作して動かす
+  - ユーザ定義辞書をどうやって管理すべきか考える
+  - [AZIK](http://hp.vector.co.jp/authors/VA002116/azik/azikinfo.htm)を使いこなす
+  - 顔文字の登録
+
+  使い倒して日本語入力に自信ニキになりたい。
+#+end_src
+
+** 新人教育をしてて一番大事なのは「試行回数」だと思った
+
+- slug: most-important-thing-number-of-trials-for-newbie
+- date: 2020-10-03 01:57:36
+
+#+begin_src markdown
+  3ヶ月~半年くらいで他の社員と遜色無い人もいる。数年やっても向いてないんじゃないかというくらいできない人もいる。少しずつ着実に成長してる人もいる。
+
+  新人教育を1~2年10人くらいやってるのだが、いったい何が違うんだろうとずっと思い続けてきたがようやく自分なりにまとまってきたので書いておく。
+
+  -------------------------------
+
+  ## 前提
+
+  新人とはプログラミング経験年数2年以下くらいのwebエンジニアの初心者を想定している。(自称初心者ではない)
+
+  今勤めている会社では大学生インターンや未経験のような新人を積極的にとってきた。自分はお節介を焼くのが趣味なので、勝手に教えてたら(知識をひけらかしてたら)思ったよりも成長してくれる人が何人かいたし、逆もまた然り。
+
+  最近はAWS業務やrailsを書きつつ新人の育成が仕事になっている。
+
+  僕自身は所々で教えてくれる人はいたものの、ちゃんと「教育」をされたことがないのでよくわらないし、コーチング技術なんてものはわからないし、脳筋なのでフィーリングで書いていく。(大学は情報科いたけど中退しちゃったので専門的なことはわからん)
+
+  ## 新人教育はなんでやるの？
+
+  [ジュニアを採用しない連中はシニアに値しない](https://portalshit.net/2018/10/02/we-should-hire-junior-engineers)という記事にまとまっている。
+
+  エンジニア人口が増えることは人手不足のIT業界にとって良い影響を与え、またOSSにも貢献できると思う(利用することも貢献の一種)。
+
+  幸いなことに、今の会社はそれなりにちゃんとしたエンジニア組織があり育成環境があるのでちゃんと育成すればワークする。母数の少ないシニアエンジニアを採用をするのは難しいので育成するという選択を取るのはそれはそれで正しい判断だと思う。
+
+  個人的には、自分の仕事を ~~押し付けられる~~ できる人材が増えると自分の時間が空くので、他の技術に時間を投資できるようになると思っている。
+
+  ## 一番大事なのは試行回数
+
+  どの分野でもそうだが、結局の所「**試行回数を増やせば増やすほど成長をする**」ので「**試行回数を最大化する**」ように取りくむのが最善だと思う。
+
+  試行回数に関して明確に定義はできないが、「目の前の問題を解決した回数」や「言語やライブラリの仕様を理解すべく取り組んだ回数」などを想定している。「Rubyの四則演算を学ぶ」のと「Rubyのcompilerの実装を読む」のようなレベル差があるものを同等に扱うべきではないが、一旦無視する。
+
+  急速に成長する人は上手に試行回数を増やす方法を知っており、それを忠実に実践できる。そうではない人この限りではない。
+
+  試行回数を増やすには以下のような取り組みが考えられる。
+
+  ,* 問題に取りくむ時間を増やす
+  ,* 既知の問題から推測できるように既知の問題の理解を深める
+  ,* 常に最新の情報をキャッチアップできる仕組みを作る
+  ,* shellやエディタをカスタマイズし効率的に検証できるようにする
+  ,* 必要な情報を取得するために効率的に検索をできるようにする
+  ,* ショートカットキーを駆使し余計な時間を使わないようにする
+  ,* 小さく検証できる環境を用意する
+  ,* 健康的な生活をして集中的に取りくめるようにする
+  ,* 友人や知人にプログラマを増やし、教えてもらえる環境を作る
+  ,* PCの画面を広く使う
+  ,* ひたすらコードを書いて検証する
+  ,* 自分の得た知識が正しいかどうか他者に説明して検証する
+
+  如何に余計なものを排除して試行回数を稼げるかが最も重要だ。
+
+  ## 新人にはざっくり4タイプくらいにわけられる
+
+  なんとなく自分の中で4タイプにわけて、それぞれに合った方法で教える。
+
+  ### 別分野で既に一定の技量があるタイプ
+
+  既に別分野でスキルの身につけ方を知っていて、webプログラミングにも応用できるような人。
+
+  そもそも別分野で知識を深める方法や試行回数を増やす大事さを知っているので勝手に勉強して勝手に伸びるので、こちらから教えることはそんなになくて非常に楽。
+
+  難しい文章を読むのにも抵抗がないので、すぐに普通のプログラマを追いこす場合が多い。
+
+  ### 高負荷に耐えられ、時間で殴れるタイプ
+
+  自分も割とこれなので、一番教えてて楽しいタイプ。
+
+  時間で殴れるので、新しい知識やツールを試す回数が多く成長がめちゃくちゃ速い。
+
+  高負荷に耐えられるので仕事を大量にこなせるし、twitterや社内の技術的な情報のキャッチアップも難無くこなせる。
+
+  高学歴や高専出身が多いイメージ。
+
+  ### 普通のタイプ
+
+  普通にプログラミングを仕事にして、普通に勉強をしているタイプ。
+
+  プログラミングのためだけに生活しているわけではなく、プライベートも重視してるケースが多い。
+
+  twitterにはプログラミングの休憩がてらコード書く狂人だらけだけど、real worldでは普通のタイプが一番多い。
+
+  教える時は情報量をしぼってパンクしないように気をつける必要がある。
+
+  ### 全く向いていないタイプ
+
+  自分なりのやり方に異常に固執したり、こだわりが強い(の割りにデタラメなことを言う)人や、そもそもプログラミング好きではない人だ。
+
+  申し訳ないが、全く向いていない人は一定数いる。
+
+  しょうがない、向いてないのはしょうがないので本人の希望によるけど向いていないものはしょうがない。
+
+  もしかしたら何か別の才能があるかもしれないのでそっちを頑張った方が良いかもしれないし、他の指導者の元で大成するかもしれないので頑張ってほしい。
+
+  ## 新人にはどうなってほしいのかなどを書く
+
+  会社的には「さっさと業務を一人前にこなせる人材になってほしい」というのが本音だろう。
+
+  個人的には上記の通り、「試行回数を最大化するための取り組みを自分で考えて実行してほしい」と思っている。
+  ツールにこだわるのも一つの方法だし、業務でタスクをこなすのも大事。
+  「先輩に聞くのは申し訳ないかな...?」って思う必要は全くなく、それが必要なら躊躇するべきではない。
+
+  多くのエンジニアは3年くらいで転職するので、きちんと職務経歴書に書くことがある状態にしてほしい。
+  いつでも転職できるくらい選択肢をもてている状態にしてあげたいなと思う。
+
+  ## 普段自分が教える時に試してること
+
+  まずは何にせよ信頼関係を築くことから始まる。これほど大事なものはない。
+  どんなに技術的に正しいこと、成長に必要なことを熱弁しても信頼関係がなければ何もはじまらない。
+  なので雑談をしたり、食事に行ったりして兎に角仲良くなることが大事だ。
+
+  自分が1人に教えられるのは精々週に2時間くらいで、それ以外は基本的に本人が頑張る時間だ。
+  問題に取りくむ時に障害になる部分をなるべく排除するべく、まずは以下のようなことをやっている。
+
+  ,* fish shellなどの便利ツールを入れる
+  ,* dotfilesを作らせる
+  ,* 便利なショートカットキーを教える
+  ,* 良い記事にたどりつけるような検索ワードの作り方を教える
+  ,* slackのfeedのチャンネルを教えるたり、お勧めのブログを教える
+
+  慣れてきたら次のことを意識して指摘してる。
+
+  ,* コマンドや函数の挙動について説明させる
+  ,* 「今やりたいこと」と「どうやるのか」を説明させる
+  ,* 技術用語を技術的に説明させる
+
+  意外と「技術的に説明」できないことが多いのだ。
+  ちゃんとした技術用語を使えるのがちゃんとしたエンジニアだと思っているので、こういうのをきちんと答えられるようになってほしいと願っている。
+  わからないことに関してはわからないと言うのも大事だ。
+
+  例えば「Rails勉強しました!」って人に「CookieとSessionの違いはなんですか?」と聞いた時に前者で答える人が多い。
+
+  ,* sessionはサーバで管理してcookieはブラウザで...
+  ,* serverからのresponse headerにset-cookieでsession_idが送られてきて、それ以降はrequest headerのcookieにsession_idを付与してやりとりをする
+
+  ペアプロをする時は、良いコードを書くというよりは悪くないコードを書けるように意識して教えている。
+  変数名や函数分割など悪くないコードを書くテクニックは世の中にいっぱいあるので実践させている。
+
+  ## 新人の質問の仕方について
+
+  twitterで新人エンジニアの質問の仕方について話題になっていた。鉄板ネタの話題だ。
+
+  <blockquote class="twitter-tweet"><p lang="ja" dir="ltr">本当に辛い。<br>辛い。<br><br>エンジニアになれたはいいがわからないことが多すぎる。<br><br>「技術の調べ方について」自分のできうる限りの人に質問したはいいが回答が全く得られない。<br><br>それよりも質問の仕方が悪いと非難される。<br><br>どうすればいいのかわからない。</p>— ゆうき@PythonとJavascriptとPhotoshopとミニマリスト (@yuuki_wifi) <a href="https://twitter.com/yuuki_wifi/status/1309997318708449280?ref_src=twsrc%5Etfw">September 26, 2020</a></blockquote>
+
+  個人的にはそもそも持ってる情報量が少ない新人がかちっとしたフォーマットで質問するのはそもそも無理だと思う。
+
+  経験上大体は情報不足だし、そもそもそのアプローチちがくね?みたいに思うことが多い。
+
+  新人から見ても「適当なこといってるとか思われないかな」とか「自分の調査不足を指摘されないかな」とか不安になるだろう。
+
+  「timesのような個人チャンネルを作ってやったことをlog感覚でながしてもらう」というのが一番良い気がする。
+  後で自分でも振りかえることも出来るし、logが既にあるので説明も省けるし、質問へのハードルが低くてすむ。
+
+  できない自分を見られるのが恥ずかしいと思っている人もいるが、「試行回数を最大化する」ことが大事なので気にする必要はないと思っている。
+  実際、ひたすらtimesに自分の作業を書きまくってものすごく成長した人もいる。
+
+  ## おすすめの勉強法や考え方や記事など
+
+  ### 書籍/記事
+
+  ぱっと思いつくのはこのへん。モチベーションが上がる。
+
+  ,* [情熱プログラマー](https://www.amazon.co.jp/%E6%83%85%E7%86%B1%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9E%E3%83%BC-%E3%82%BD%E3%83%95%E3%83%88%E3%82%A6%E3%82%A7%E3%82%A2%E9%96%8B%E7%99%BA%E8%80%85%E3%81%AE%E5%B9%B8%E3%81%9B%E3%81%AA%E7%94%9F%E3%81%8D%E6%96%B9-Chad-Fowler/dp/4274067939)
+  ,* [ハッカーになろう (How To Become A Hacker）](https://cruel.org/freeware/hacker.html)
+  ,* [十年がかりでプログラムを学ぼう](http://norvig.com/21-days.html)
+  ,* [ハッカーと画家](https://gist.github.com/sifue/b6506ea6b3f3d3a46a0c3bb885cd5ddf)
+  ,* [Clean Coder](https://www.amazon.co.jp/Clean-Coder-%E3%83%97%E3%83%AD%E3%83%95%E3%82%A7%E3%83%83%E3%82%B7%E3%83%A7%E3%83%8A%E3%83%AB%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9E%E3%81%B8%E3%81%AE%E9%81%93-Robert-C-Martin/dp/4048930648)
+
+  ### youtube
+
+  ベテランちというyoutuberの勉強のコツについてすごく面白かった。超おすすめ。
+
+  <iframe width="100%" height="400" src="https://www.youtube.com/embed/n9xm0LdduA4" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+  -----------------------------
+
+  人のこと偉そうに書いて自分はどうなんだって気持ちになるけど、こういうのは思考を整理するという意味でも大事だよね。
+
+  こういうポエムは自分のブログだからこそ書けるのがやっぱ良いね。
+#+end_src
+
+** MacBookProの生前整理をする
+
+- slug: pc-cleaninng-before-out-of-order
+- date: 2020-10-03 00:00:22
+
+#+begin_src markdown
+  PCも人間もいつかはこの世を去る。それが明日かもしれないし、数年後かもしれない。なるべく故障前にデータの移行はやっておきたい。
+
+  ------------
+
+  ## 不要な情報の削除
+
+  まずは整理整頓の基本である不要なモノを捨てるところから。以下のような手順を踖んだら容量カツカツ状態から62GB開けることが出来た。
+
+  [hardlink.pyを使ったらディスクの空き容量が劇的に増えた](https://hnw.hatenablog.com/entry/20131117) こういうのもあるが今回は使わない。
+
+  ### 不要repoの削除
+
+  僕は全てのソースコードをghqで管理している。snippet的なコードは適当なファイルやディレクトリを作って書き、終わったらブログに纏めてから削除するという運用をとっている。
+
+  気になるrepoはすぐにghq getでcloneして容量を食いまくっていたので、以下のscriptでガンガン削除していった。
+
+  [Fish Shellでghqを便利にする](https://takeokunn.xyz/blog/post/fish-shell-ghq-extension) で削除scriptを作ったりもした。
+
+  ```shell
+  $ ls ~/.ghq/github.com | peco | xargs rm -fr
+  $ ghq list --full-path | peco | xargs -L1 rm -fr
+  ```
+
+  ### 不要なbrew packageの削除
+
+  勢いでbrew installしたpackageなどが相当あったので要らないものは削除していった。
+
+  ```shell
+  $ brew list | peco | xargs brew uninstall
+  ```
+
+  ### 不要なnpm/go/gem packageの削除
+
+  普段 `npm i -g xxx` や `go get -u xxx` や `gem install xxx` などで気軽にpackageをいれてたので削除していった。
+
+  ### chromeのcacheやextensionの削除
+
+  意外と大事。新しい環境でも同じ体験ができるように一度消してみるのも良いと思う。
+
+  bookmarkなどは一切使わなく、url barに直接入力する運用をとってるので削除した直後は不便にはなるが、何が必要なのかわかるのでそれはそれで良い。(パスワード周りとか特にそう)
+
+  ### Docker関係の整理
+
+  [Dockerのあれこれを断捨離する](https://qiita.com/ksato9700/items/b0075dc54dfffc64b999) この記事がすごい良かった。Dockerは再現性のある環境なはずなので一度全てを消しても良いと思う。
+
+
+  このへんを適当に 叩くと大体きえてくれる。
+  ```shell
+  $ docker ps -q | xargs docker rm -f
+  $ docker images -q | xargs docker rmi -q
+  $ docker system prune
+  $ docker image prune
+  $ docker container prune
+  $ docker volume prune
+  ```
+
+  ### 不要なDesktop Applicationの削除
+
+  入れたはいいけど使わなかったものは多いと思う。必要ならまたinstallすれば良いので一旦消すというのもあり。VSCodeなどを削除した。
+
+  ### 不要なprocessの削除
+
+  PCを長持ちさせるためにもなるべく余計なprocessはkillしたい。Activity Monitorやhtopでprocessを見ておかしなものがないか、要らないものはないか洗い出す。
+
+  ~~SKYSEAもウィルスバスターもウィルスだよな~~
+
+  ## データの管理
+
+  ### ソースコード
+
+  上記の通り、基本的にはGitHubにあげるようにしている。以前GitHubのprivate repoが有料だったので、takeokunn.xyzのterraformや前職のコードはGitLabにあげている。
+
+  GitLabで管理するのもイマイチ感あるので、GitHubか自宅サーバに移行したい。
+
+  ### dotfiles
+
+  開発に必要なツールのconfigは全て [takeokunn/dotfiles](https://github.com/takeokunn/dotfiles) で一括管理するようにしている。
+
+  dotfilesでは `brew/apt` のpackageを一括でいれられるscriptや、それぞれのツールがコマンド一発で入るようにMakefileを書いている。
+
+  emacsのconfigだけ量が多いのと、github pagesで公開したいので別repoで管理をしている
+
+  [takeokunn/.emacs.d](https://github.com/takeokunn/.emacs.d)
+
+  ### パスワード
+
+  [bitwarden](https://bitwarden.com/)で全てのwebサービスのパスワードを一括管理している。
+  無料だし使い勝手が良いので満足している。
+
+  セキュリティを意識して、MFAを登録できるwebサービスはなるべく全て設定するようにしている。
+
+  やはり、パスワードは人間が覚えるものではない。
+
+  ### ssh keys
+
+  ssh keyを紛失するとサーバにはいれなくなって詰む可能性もあるのでちゃんと管理したい。
+
+  bitwardenに `ssh keys` というフォルダを作ってシークレットメモに貼り付けている。
+
+  ### GoogleDrive
+
+  契約書やちょっとしたファイルなどを管理している。エンジニアリング以外のデータを雑にあつかえるstorage serverとして使っている。情報を整理して綺麗に運用したい。
+
+  ## 今後の課題
+
+  ,* `~/.ssh/config` の管理をどうしよう
+  ,* `.skk-jisyo` の管理をどうしよう
+  ,* `org/*.org` の管理をどうしよう
+  ,* `~/.local/share/fish/fish_history` の管理をどうしよう
+
+  Dropboxを使うと解決するんだけど、個人的には常にDropboxを立ち上げつづけるのはうーんって感じなので良い運用を考えてる。
+
+  shellのhistoryは資産なのでこういうのをうまく管理する方法を知りたい。
+
+  ---------------
+
+  やっぱりpecoが最強なのはゆるがない。
+#+end_src
+
+** TwitterUIDの挙動とJavaScriptのBigIntについて
+
+- slug: twitter-uid-javascript-bigint
+- date: 2020-10-28 05:23:23
+
+#+begin_src markdown
+  twitterのuidについて調べてたら、自分の浮動小数点の挙動についての理解度が低いことがわかったので纏めておく。
+
+  -----------------
+
+  事の発端は、spreadsheet上の人力で管理されているtwitterのユーザ情報をデータベースに入れる作業をしていた時だった。
+
+  以前同じような作業をしたとき結構漏れがあったので、twitter uidの妥当性やscreen nameが本当に存在するかどうかを確認する必要があった。
+
+  [TwitterのIDチェッカー](https://idtwi.com/)などのwebサイトを利用してもよかったが、100件を超える量のデータを手動で確認取るのは面倒だったため、以下のような検証scriptを雑に書いた。
+
+  ```shell
+  #!/bin/bash
+  while read row; do
+      TWITTER_ID=`echo ${row} | cut -d , -f 1`
+      TWITTER_UID=`echo ${row} | cut -d , -f 2`
+      TWITTER_REQUEST_UID=`curl -X GET -H "Authorization: Bearer <TWITTER_TOKEN>" -s "https://api.twitter.com/1.1/users/show.json?screen_name=${TWITTER_ID}" | jq ".id"`
+      if [ ${TWITTER_REQUEST_UID} -ne ${TWITTER_UID} ]; then
+          echo "${TWITTER_ID}: ${TWITTER_UID} → ${TWITTER_REQUEST_UID}"
+      fi
+  done < ~/Desktop/twitter.csv
+  ```
+
+  そうしたら半分くらいのtwitter uidがずれてしまった。明らかにおかしいと思ったので、きちんと調査することにした。
+
+  ------------------------------
+
+  twitter developer documentに `Twitter IDs` という記事がある。
+
+  [https://developer.twitter.com/en/docs/twitter-ids](https://developer.twitter.com/en/docs/twitter-ids)
+
+  これによると、
+
+  ,* ユーザの増加によりtwitterのuidは64bit unsignedでuniqueな値として管理されている
+  ,* javascriptの整数のサイズは53bitに制限されている
+  ,* api responseでは整数(`id`)と文字列(`id_str`)の両方を返すような実装になっている
+
+  ここから分かるのは、自分は↑のshell scriptで `id` を見ていたから正しい値をとれていなかった、`id_str` を使うべきだったことがわかる。
+
+  確かに、以下のように `toString()` をしたらずれることが確認がとれたがどうしてだろうか。また、今回はbash scriptを書いたのにjavascriptと同じ挙動をするのはどうしてなのか調べる必要があることが分かった。
+
+  ```javascript
+  ~ ｡+ﾟ(∩´﹏'∩)ﾟ+｡ < node
+  Welcome to Node.js v15.0.1.
+  Type ".help" for more information.
+  > (10765432100123456789).toString()
+  '10765432100123458000'
+  ```
+
+  ------------------------------
+
+  javascriptの数値については [JavaScriptの数値型完全理解](https://qiita.com/uhyo/items/f9abb94bcc0374d7ed23)が一番良く纏まっていた。
+
+  これによると、javascriptの数値型は全てIEEE 754 倍精度浮動小数点数 (double型)で表現されている。確かに、[MDNのNumberの記事](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Number)にも同じような記述がある。
+
+  double型で安全に表現できる最大値は `Number.MAX_SAFE_INTEGER` で取ることができ、 `Number.isSafeInteger()` などでもチェックできる。
+
+  ```javascript
+  > Number.isSafeInteger(10765432100123456789)
+  false
+  > Number.MAX_SAFE_INTEGER
+  9007199254740991
+  ```
+
+  ただこれではなにかと不都合なので、javascriptにはbigintも用意されている。
+
+  MDNには以下のように書かれているので日常使いするのは辞めておくべきだろう。
+
+  > Number と BigInt との間の型変換は精度が落ちる可能性があるため、 BigInt は値が論理的に253以上になる場合にのみ使用し、この2つの型の間で型変換を行わないこと推奨します。
+
+  [https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/BigInt](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/BigInt)
+
+  先程の巨大な値でも正確に出力することができる。
+
+  ```javascript
+  > (10765432100123456789n).toString()
+  '10765432100123456789'
+  ```
+
+  [caniuse](https://caniuse.com/bigint)を見てるとほとんどのブラウザがBigIntに対応されているので問題なく使えるみたいだ。
+
+  ----------------------------
+
+  浮動小数点にの挙動についてもう少し見てみる。
+
+  ggったらいっぱい出てくるので計算方法は割愛するが、[浮動小数点数型と誤差](https://www.cc.kyoto-su.ac.jp/~yamada/programming/float.html)に分かり易くまとまっている。
+
+  ```
+  double の表す値　＝　(-1)^符号部 × 2^(指数部-1023) × 1.仮数部
+  ```
+
+  ![double](https://www.cc.kyoto-su.ac.jp/~yamada/programming/double.png)
+
+  ,* 符号は、0なら正、1なら負
+  ,* 指数部は、「2^指数」の指数の部分に1023を引いたものが11bit符号無しの整数の形で格納されている
+  ,* 仮数部は、実際の仮数部の先頭の「1」を取り除いた残りが格納されている
+
+  という風に格納される。
+
+  仮数部が52bitだが、double型の精度が53bitなのは `1.仮数部` の `1` 部分もカウントされるからみたいだ。
+
+  [ヒドン(Hidden)ビットで精度を1ビットを稼ぐ](https://news.mynavi.jp/article/architecture-93/)が面白かった。
+
+  今回の問題はjavascriptというよりは浮動小数点の問題なのでbashでも同じ。
+
+  -----------------------------
+
+  昔CSの授業で習った気もするけどすっかり忘れていたので今一度勉強できてよかった。
+#+end_src
+
+** 2021年に自分がemacs.dのカスタイマイズしたことについて
+
+- slug: configure-emacs-in-2021
+- date: 2021-12-03 15:11:22
+
+#+begin_src markdown
+  この記事は、[Emacs Advent Calendar 2021](https://qiita.com/advent-calendar/2021/emacs) 5日目の記事です。
+
+
+  今年も[takeokunn/.emacs.d](https://github.com/takeokunn/.emacs.d) をかなり改造した。
+  `git log --reverse` してみるとfirst commitが `Sat Nov 3 18:15:51 2018 +0900` のようなので3年使っているようだ。
+
+  最初と比べて圧倒的に快適になってはいるものの、分からないことが増えていく一方である。
+  とはいえ使っていくうちに理解が深まっていくのも事実。
+  ざっくりやったことについて纏めていこうと思う。(去年やったことも含まれているかもしれないが御愛嬌)
+
+  ,* emacs28にしてlibgccjitを動かした
+    ,* defaultのcompilerをllvmからgccに変えるとスマホアプリ開発やら他の開発に影響が出るので動かしただけ
+  ,* use-packageからleafへの移行した
+    ,* caskを消した
+    ,* 遅延ロードになったお陰で起動が高速になった
+  ,* orgでinit.elを生成するようにした
+    ,* [Makefile](https://github.com/takeokunn/.emacs.d/blob/master/Makefile) 参照
+  ,* github pagesで見れるようにした
+    ,* https://takeokunn.github.io/.emacs.d/
+  ,* byte-compileをできる限りでするようにした
+    ,* 多少のwarningは無視してる
+  ,* ddskkを実用レベルでちゃんと使えるようにした
+    ,* ddskkの設定は[dotfiles](https://github.com/takeokunn/dotfiles/blob/master/modules/skk/dot.skk) で管理してる
+    ,* AZIKを完全にマスターした
+  ,* company周りの設定が増えた
+  ,* wanderlustで自分のgmailを操作できるようにした
+    ,* しただけでちゃんと運用できてるわけではない
+  ,* elfeedを充実させた
+    ,* しただけでちゃんと運用できてるわけではない
+  ,* magitを使いこなせるようになった
+    ,* magit-forgeでgithubにpull requestを投げれるようにした
+  ,* dap-modeを使えるようになった
+    ,* なっただけ
+  ,* yasnippetの設定が増えた
+    ,* snippetをorgで管理するようにした
+      ,* https://github.com/takeokunn/.emacs.d/blob/master/yasnippets.org
+    ,* snippet自体も増えた
+    ,* ivy-yasnippetで検索できるようにしてる
+    ,* ついでに [AndreaCrotti/yasnippet-snippets](https://github.com/AndreaCrotti/yasnippet-snippets)にpull requestを投げたが音沙汰がない
+      ,* https://github.com/AndreaCrotti/yasnippet-snippets/pull/434
+      ,* https://github.com/AndreaCrotti/yasnippet-snippets/pull/433
+  ,* tab-modeを使えるようになった
+    ,* が、実用性あるのか....?ってなってる
+  ,* fish scriptの開発環境が整った
+    ,* [takeokunn/fish-repl.el](https://github.com/takeokunn/fish-repl.el) を作った
+    ,* [takeokunn/ob-fish](https://github.com/takeokunn/ob-fish) を作った
+  ,* org-modeの設定が増えた
+    ,* 日常的なメモはorgで書くようになった
+    ,* org-babelを使いこなせるようになった
+    ,* 工数管理とか細かい使い方が未だに分らない
+  ,* 英語の執筆環境が整った
+    ,* flycheckとtextlintをちゃんと設定した
+  ,* 言語ごとの開発環境を整えた
+    ,* php, golang, solidity etc...
+  ,* typescript reactはtreesitterとlspでなんとかするのが最適だと分かった
+  ,* `M-x` の候補だがsmexからamxに変えたら欲しい候補が出るようになった
+
+  ざくっと思い出せるのはこれくらいなのでまた何かあれば追記をしていこうと思う。
+  来年はorg-modeを使いこなせるようになりたいなぁ
+#+end_src
