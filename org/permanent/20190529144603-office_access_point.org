@@ -1,0 +1,77 @@
+:PROPERTIES:
+:ID:       BCE76ACA-0503-43F9-A0DD-D4B3C8F4C8C8
+:mtime:    20221215020744
+:ctime:    20221215020719
+:END:
+
+#+TITLE: オフィスにアクセスポイントを導入した時やったこと
+#+DESCRIPTION: description
+#+DATE: 2019-05-29
+#+HUGO_BASE_DIR: ../../
+#+HUGO_SECTION: posts/permanent
+#+HUGO_TAGS: permanent wifi
+#+STARTUP: content
+#+STARTUP: nohideblocks
+
+無線ルーターを購入してアクセスポイントを設定した時に学んだことをメモしておく。
+
+--------------
+
+* 無線ルーター選定
+
+ポイントは3点。
+
+- 転送速度
+- セキュリティー
+- 無線端末 最大接続数
+
+** 転送速度
+
+種類ありすぎてわけわからないけど、とりあえず ~1ac~ に対応してればいいかな.GHzが低いほど壁などの障害に強い。
+
+参考にした記事は以下。
+
+- [[https://www.iodata.jp/product/network/info/base/kikaku.htm][無線LAN規格の違い]]
+- [[https://wa3.i-3-i.info/word12111.html][帯域幅 「分かりそう」で「分からない」でも「分かった」気になれるIT用語辞典]]
+- [[https://micro.rohm.com/jp/techweb_iot/knowledge/iot01/s-iot01/01-s-iot01/1844][電波の伝わり方：反射/透過、回析、干渉 | 基礎知識 | ROHM TECH WEB]]
+- [[http://musenlan.biz/blog/522/][無線LANよろず講座]]
+
+** セキュリティー
+
+~WPA2~ に対応してればオッケーという雑な理解。
+
+参考にした記事は以下。
+
+- [[https://www.ipa.go.jp/security/ciadr/wirelesslan.html][一般家庭における無線LANのセキュリティに関する注意：IPA 独立行政法人 情報処理推進機構]]
+- [[https://www.infraexpert.com/study/tcpip21.html][TCP/IP - SNMP]]
+
+** 無線端末 最大接続数
+
+今回は大体100台くらい繋げられればよかった。
+
+参考にした記事は以下。
+
+- [[https://www.buffalo.jp/product/other/compare-wireless-business.html][BUFFALO 管理者機能搭載アクセスポイント商品比較表]]
+
+** 設置
+
+これを購入することにした。
+
+[[https://www.amazon.co.jp/dp/B00OL61L9S/ref=asc_df_B00OL61L9S2617725/?tag=jpgo-22&creative=9339&creativeASIN=B00OL61L9S&linkCode=df0&hvadid=226974324204&hvpos=1o1&hvnetw=g&hvrand=14998055634270719829&hvpone=&hvptwo=&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=1028853&hvtargid=pla-457493725121][BUFFALO インテリジェントモデル PoE対応 11ac/n/a/g/b 866+300Mbps 無線LANアクセスポイント WAPM-1166D]]
+
+オフィスに生えてる野生のケーブルにルーターを差して動かした。 端っこの方に適当に置いてるので中央に置き直すつもりだ。
+
+* 管理画面から設定
+
+同一ネットワーク内で ~http://192.168.11.100~ を叩くと管理画面に入ることが出来る。
+
+SSIDの変更やpasswordの変更、 認証方式の制限などを変更する。
+
+変更するたび毎回再起動するので注意。
+
+* 余談
+
+POEすごい。
+イーサネット指すだけで充電できるというの便利だなぁと思った(小学生並みの感想)。
+
+macアドレスでAPへのアクセス制限をかけられることを知れてよかった。
