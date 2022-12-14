@@ -43,8 +43,7 @@ jobs:
         env:
           HUGO_ENVIRONMENT: production
           HUGO_ENV: production
-        # run: hugo --minify --baseURL "${{ steps.pages.outputs.base_url }}/"
-        run: hugo --baseURL "${{ steps.pages.outputs.base_url }}/"
+        run: hugo --minify --baseURL "${{ steps.pages.outputs.base_url }}/"
 
       # for github pages
       - name: Setup Pages
