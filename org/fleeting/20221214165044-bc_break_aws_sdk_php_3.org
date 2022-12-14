@@ -45,11 +45,11 @@ after:
   $client = new AwsClient([
       'version' => 'latest',
       'region' => $_ENV['AWS_REGION'],
+      'token' => $_ENV['AWS_SESSION_TOKEN'],
       'credientials' => [
           'key' => $_ENV['AWS_ACCESS_KEY_ID'],
           'secret' => $_ENV['AWS_SECRET_ACCESS_KEY'],
       ],
-      'token' => $_ENV['AWS_SESSION_TOKEN'],
   ]);
 #+end_src
 
