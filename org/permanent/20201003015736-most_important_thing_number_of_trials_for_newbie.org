@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       55489B5F-50EE-4187-A6BA-FE4DA9E8C3A7
-:mtime:    20221215024928
+:mtime:    20221216000501 20221215024928
 :ctime:    20221215024843
 :END:
 
@@ -42,7 +42,7 @@
 
 ** 一番大事なのは試行回数
 
-どの分野でもそうなのだが、結局の所「*試行回数を増やせば増やすほど成長をする*」ので「*試行回数を最大化する*」ように取りくむことこそ最善だろう。
+どの分野でもそうなのだが、結局の所「試行回数を増やせば増やすほど成長をする」ので「試行回数を最大化する」ように取りくむことこそ最善だろう。
 
 試行回数に関して明確に定義はできないが、「目の前の問題を解決した回数」や「言語やライブラリの仕様を理解すべく取り組んだ回数」などを想定している。
 「Rubyの四則演算を学ぶ」のと「Rubyのcompilerの実装を読む」のようなレベル差があるものを同等に扱うべきではないが、一旦無視する。
@@ -192,10 +192,9 @@ Twitterで新人エンジニアの質問の仕方について話題になって�
 
 ベテランちというYouTuberの勉強のコツについてすごく面白かった。超おすすめ。
 
-#+begin_html
-  <iframe width="100%" height="400" src="https://www.youtube.com/embed/n9xm0LdduA4" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-  </iframe>
-#+end_html
+#+begin_export html
+<iframe width="100%" height="400" src="https://www.youtube.com/embed/n9xm0LdduA4" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+#+end_export
 
 --------------
 
