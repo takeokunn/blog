@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       C59EE651-BB54-4F4B-89C6-B3503DEF3C57
-:mtime:    20221215015756 20221215003252
+:mtime:    20221216002134 20221215015756 20221215003252
 :ctime:    20221215003237
 :END:
 
@@ -10,6 +10,7 @@
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/permanent
 #+HUGO_TAGS: permanent javascript
+#+HUGO_DRAFT: false
 #+STARTUP: content
 #+STARTUP: nohideblocks
 

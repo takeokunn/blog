@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       07EC4DCE-C7A0-4299-B4C8-2939D00993B2
-:mtime:    20221215024244
+:mtime:    20221216002243 20221215024244
 :ctime:    20221215024226
 :END:
 
@@ -10,6 +10,7 @@
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/permanent
 #+HUGO_TAGS: permanent dependabot
+#+HUGO_DRAFT: false
 #+STARTUP: content
 #+STARTUP: nohideblocks
 

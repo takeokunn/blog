@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       1409951D-E05B-4DEB-9388-1B6A2185A29B
-:mtime:    20221215031535
+:mtime:    20221216002311 20221215031535
 :ctime:    20221215031447
 :END:
 
@@ -10,6 +10,7 @@
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/permanent
 #+HUGO_TAGS: permanent javascript twitter
+#+HUGO_DRAFT: false
 #+STARTUP: content
 #+STARTUP: nohideblocks
 

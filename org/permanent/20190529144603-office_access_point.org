@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       BCE76ACA-0503-43F9-A0DD-D4B3C8F4C8C8
-:mtime:    20221215020744
+:mtime:    20221216002204 20221215020744
 :ctime:    20221215020719
 :END:
 
@@ -10,6 +10,7 @@
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/permanent
 #+HUGO_TAGS: permanent wifi
+#+HUGO_DRAFT: false
 #+STARTUP: content
 #+STARTUP: nohideblocks
 

@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       956CE9ED-E8B4-43CB-86A7-E64076221DAF
-:mtime:    20221215030657
+:mtime:    20221216002250 20221215030657
 :ctime:    20221215030629
 :END:
 
@@ -10,6 +10,7 @@
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/permanent
 #+HUGO_TAGS: permanent mac
+#+HUGO_DRAFT: false
 #+STARTUP: content
 #+STARTUP: nohideblocks
 

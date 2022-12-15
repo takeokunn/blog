@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       D70946A8-664B-4A85-823F-1E22ED84AC9B
-:mtime:    20221215014752
+:mtime:    20221216002142 20221215014752
 :ctime:    20221215014658
 :END:
 
@@ -10,6 +10,7 @@
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/permanent
 #+HUGO_TAGS: permanent
+#+HUGO_DRAFT: false
 #+STARTUP: content
 #+STARTUP: nohideblocks
 

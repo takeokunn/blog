@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       04431347-7282-4700-874E-4436E832DC9B
-:mtime:    20221215023738
+:mtime:    20221216002328 20221215023738
 :ctime:    20221215023651
 :END:
 
@@ -10,6 +10,7 @@
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/permanent
 #+HUGO_TAGS: permanent redash
+#+HUGO_DRAFT: false
 #+STARTUP: content
 #+STARTUP: nohideblocks
 

@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       E4B1AA1E-52C0-4A8F-91F3-F4119ACE2BC6
-:mtime:    20221214165056
+:mtime:    20221216002326 20221214165056
 :ctime:    20221214165044
 :END:
 
@@ -10,6 +10,7 @@
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/permanent
 #+HUGO_TAGS: permanent fluent-bit
+#+HUGO_DRAFT: false
 #+STARTUP: content
 #+STARTUP: nohideblocks
 

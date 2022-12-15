@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       B37E9575-386F-4364-835B-593A3FE3B16D
-:mtime:    20221215004546
+:mtime:    20221216002158 20221215004546
 :ctime:    20221215004517
 :END:
 
@@ -10,6 +10,7 @@
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/permanent
 #+HUGO_TAGS: permanent svg
+#+HUGO_DRAFT: false
 #+STARTUP: content
 #+STARTUP: nohideblocks
 

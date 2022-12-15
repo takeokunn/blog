@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       EEB6FCD7-1F0A-46FB-8456-4A3DD7175313
-:mtime:    20221215033356 20221215023049
+:mtime:    20221216002330 20221215033356 20221215023049
 :ctime:    20221215022943
 :END:
 
@@ -10,6 +10,7 @@
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/permanent
 #+HUGO_TAGS: permanent recruit
+#+HUGO_DRAFT: false
 #+STARTUP: content
 #+STARTUP: nohideblocks
 

@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       CC208563-771E-4BDE-9A40-D8A2E7948300
-:mtime:    20221214233450
+:mtime:    20221216002026 20221214233450
 :ctime:    20221214233433
 :END:
 
@@ -10,6 +10,7 @@
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/permanent
 #+HUGO_TAGS: permanent mysql
+#+HUGO_DRAFT: false
 #+STARTUP: content
 #+STARTUP: nohideblocks
 

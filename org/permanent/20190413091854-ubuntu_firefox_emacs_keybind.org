@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       CA76CEB5-EB1D-496E-BD5B-BFC181D2A60B
-:mtime:    20221215013749
+:mtime:    20221216002149 20221215013749
 :ctime:    20221215013728
 :END:
 
@@ -10,6 +10,7 @@
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/permanent
 #+HUGO_TAGS: permanent ubuntu
+#+HUGO_DRAFT: false
 #+STARTUP: content
 #+STARTUP: nohideblocks
 
