@@ -402,9 +402,88 @@ Emacs Lispには、Lispで記述された関数を、より効率的に実行で
 #+end_src
 
 ** ライブラリ周りの読み込み
-*** TODO async loadをする
+*** async loadをする
 
-書く。
+[[https://zenn.dev/zk_phi/books/cba129aacd4c1418ade4/viewer/c47f8eb7cd547b95ba91][擬似非同期ロードによる"待たされ感"改善 - Emacs の起動時間を""詰める""]] について。
+
+~run-with-timer~ で起動n秒後にqueue内の処理を順次実行するというアプローチです。
+
+私はpackageを380個程度入れているので、起動した瞬間に使いたいpackageがなかなかdequeueしてくれないという問題が出てきました。
+早く読まれてほしいpackageが以下です。
+
+- dash.elやs.elのようなbasic packages
+- amx
+- magit
+- ddskk
+- projectile
+- swiper/ivy/counsel
+- doom
+
+普通にEmacsを起動した時最初に叩くコマンドは ~projectile~ であることや、 ~EDITOR=emacs git commit~ で立ち上がった時さっさと日本語入力できるようにしたいものです。
+また、fish shellから ~M-g~ でmagitを起動できるようしています。
+
+#+begin_src fish
+  function magit
+      set -l git_root (git rev-parse --show-toplevel)
+      emacs -nw --eval "
+  (progn
+    (add-to-list 'load-path (locate-user-emacs-file \"el-get/dash\"))
+    (add-to-list 'load-path (locate-user-emacs-file \"el-get/compat\"))
+    (add-to-list 'load-path (locate-user-emacs-file \"el-get/transient/lisp\"))
+    (add-to-list 'load-path (locate-user-emacs-file \"el-get/ghub/lisp\"))
+    (add-to-list 'load-path (locate-user-emacs-file \"el-get/magit-pop\"))
+    (add-to-list 'load-path (locate-user-emacs-file \"el-get/with-editor/lisp\"))
+    (add-to-list 'load-path (locate-user-emacs-file \"el-get/magit/lisp\"))
+    (require 'magit)
+    (setq magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1) (magit-status \"$git_root\"))"
+  end
+
+
+  function fish_user_key_bindings
+      bind \eg magit
+  end
+#+end_src
+
+元記事を参考に優先順位高いqueueを処理する機構も作りました。
+
+#+begin_src emacs-lisp
+  (defvar my/delayed-priority-high-configurations '())
+  (defvar my/delayed-priority-high-configuration-timer nil)
+
+  (defvar my/delayed-priority-low-configurations '())
+  (defvar my/delayed-priority-low-configuration-timer nil)
+
+  (add-hook 'emacs-startup-hook
+            (lambda ()
+              (setq my/delayed-priority-high-configuration-timer
+                    (run-with-timer
+                     0.1 0.001
+                     (lambda ()
+                       (if my/delayed-priority-high-configurations
+                           (let ((inhibit-message t))
+                             (eval (pop my/delayed-priority-high-configurations)))
+                         (progn
+                           (cancel-timer my/delayed-priority-high-configuration-timer))))))
+              (setq my/delayed-priority-low-configuration-timer
+                    (run-with-timer
+                     0.3 0.001
+                     (lambda ()
+                       (if my/delayed-priority-low-configurations
+                           (let ((inhibit-message t))
+                             (eval (pop my/delayed-priority-low-configurations)))
+                         (progn
+                           (cancel-timer my/delayed-priority-low-configuration-timer))))))))
+
+  (defmacro with-delayed-execution-priority-high (&rest body)
+    (declare (indent 0))
+    `(setq my/delayed-priority-high-configurations
+           (append my/delayed-priority-high-configurations ',body)))
+
+  (defmacro with-delayed-execution (&rest body)
+    (declare (indent 0))
+    `(setq my/delayed-priority-low-configurations
+           (append my/delayed-priority-low-configurations ',body)))
+#+end_src
 
 *** autoload/with-eval-after-loadを活用する
 
