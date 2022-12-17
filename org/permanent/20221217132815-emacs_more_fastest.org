@@ -1,0 +1,74 @@
+:PROPERTIES:
+:ID:       3FBA1A73-2AE5-4305-BA25-61E67DB91028
+:mtime:    20221217142901 20221217132858
+:ctime:    20221217132815
+:END:
+
+#+TITLE: Emacsを世界最速級で起動し安定的に動かす方法
+#+DESCRIPTION: description
+#+DATE: 2022-12-17
+#+HUGO_BASE_DIR: ../../
+#+HUGO_SECTION: posts/permanent
+#+HUGO_TAGS: permanent emacs
+#+HUGO_DRAFT: true
+#+STARTUP: content
+#+STARTUP: nohideblocks
+
+[[https://qiita.com/advent-calendar/2022/emacs][Emacs Advent Calendar 2022]]19日目です。
+
+[[https://qiita.com/advent-calendar/2022/vim][Vim Advent Calendar 2022]] 3日目の [[https://qiita.com/delphinus/items/fb905e452b2de72f1a0f][爆速で起動する Neovim を作る]] に触発されて、「自分もEmacs版を書くぞ!」ということで書いていきます。
+
+なお、VimとEmacsの比較をしやすくするためになるべく文章の構成を寄せて書いていくのでご了承ください。
+
+* はじめに
+
+「Emacsを高速に起動する」ということに対して、多くのEmacsユーザは興味がありません。
+本来Emacsというのは常に起動し続けるものであり、必要に応じてEmacs Lispを適用し、テキストエディタをカスタマイズしていくものです。
+
+もし貴方が設定を変えずに手軽に高速に起動したい場合は ~emacs --daemon~ でdaemonを立ち上げ、 ~emacsclient~ で繋ぐようにすれば良いでしょう。
+私は他人のdotfilesを読むのが趣味なのですが、多くのEmacsユーザは ~EDITOR=emacsclient~ と設定しています。
+
+また、起動時間のみを考慮するなら ~~/.emacs.d/init.el~ を削除して素で起動すれば良いでしょう。
+そうなると純粋にマシンスペックの勝負になります。
+Emacsは素の状態でも十分魅力的な機能を多数盛り込まれているが、カスタマイズしてこそ真価を発揮するエディタなのでアプローチとしてはイマイチでしょう。
+
+この記事を読む前に [[https://zenn.dev/zk_phi/books/cba129aacd4c1418ade4][Emacs の起動時間を""詰める""]] を熟読することを推奨しています。
+特に以下のChapterは非常に有益なテクニックが詰め込まれており、大幅な速度改善を見込めます。
+
+- [[https://zenn.dev/zk_phi/books/cba129aacd4c1418ade4/viewer/abb04ff2351b3564a1a0][autoload と with-eval-after-load]]
+- [[https://zenn.dev/zk_phi/books/cba129aacd4c1418ade4/viewer/c47f8eb7cd547b95ba91][擬似非同期ロードによる"待たされ感"改善]]
+- [[https://zenn.dev/zk_phi/books/cba129aacd4c1418ade4/viewer/dcebc13578d42055f8a4][その他のテクニック：不要な処理を省くハックたち]]
+
+本のあらすじにも書いてある通り、Emacs自体に既に大量のファイルがある状態で高速に起動する時点で自分の設定を見直さなければならないことは明白でしょう。
+
+#+begin_quote
+しかし、考えてみれば Emacs には 1000 以上の Emacs Lisp ファイルが初めから同梱されているわけで、そこに数十のプラグインを足しただけで爆裂に遅くなるのは、なにか設定にも問題がある気がします。
+#+end_quote
+
+* 起動速度の測り方
+
+#+begin_src shell
+  $ neofetch
+                      'c.          take@obaranoMacBook-Pro.local
+                   ,xNMM.          -----------------------------
+                 .OMMMMo           OS: macOS 13.1 22C65 x86_64
+                 OMMM0,            Host: MacBookPro16,1
+       .;loddo:' loolloddol;.      Kernel: 22.2.0
+     cKMMMMMMMMMMNWMMMMMMMMMM0:    Uptime: 1 day, 18 hours, 29 mins
+   .KMMMMMMMMMMMMMMMMMMMMMMMWd.    Packages: 347 (brew)
+   XMMMMMMMMMMMMMMMMMMMMMMMX.      Shell: fish 3.5.1
+  ;MMMMMMMMMMMMMMMMMMMMMMMM:       Resolution: 1792x1120@2x
+  :MMMMMMMMMMMMMMMMMMMMMMMM:       DE: Aqua
+  .MMMMMMMMMMMMMMMMMMMMMMMMX.      WM: Quartz Compositor
+   kMMMMMMMMMMMMMMMMMMMMMMMMWd.    WM Theme: Blue (Dark)
+   .XMMMMMMMMMMMMMMMMMMMMMMMMMMk   Terminal: tmux
+    .XMMMMMMMMMMMMMMMMMMMMMMMMK.   CPU: Intel i7-9750H (12) @ 2.60GHz
+      kMMMMMMMMMMMMMMMMMMMMMMd     GPU: Intel UHD Graphics 630, AMD Radeon Pro 5300M
+       ;KMMMMMMMWXXWMMMMMMMk.      Memory: 9716MiB / 16384MiB
+         .cooc,.    .,coo:.
+#+end_src
+
+* この記事で達成する目標
+* Emacsを手元でBuildする
+* プラグインの遅延読み込み
+* 更に上を目指すには
