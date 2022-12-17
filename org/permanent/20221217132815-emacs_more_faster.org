@@ -4,7 +4,7 @@
 :ctime:    20221217132815
 :END:
 
-#+TITLE: Emacsを世界最速級で起動し安定的に動かす方法
+#+TITLE: Emacsを世界最速級で起動する方法
 #+DESCRIPTION: description
 #+DATE: 2022-12-17
 #+HUGO_BASE_DIR: ../../
@@ -29,7 +29,7 @@
 もし貴方が設定を変えずに手軽に高速に起動したい場合は ~emacs --daemon~ でdaemonを立ち上げ、 ~emacsclient~ で繋ぐようにすれば良いでしょう。
 私は他人のdotfilesを読むのが趣味なのですが、多くのEmacsユーザは ~EDITOR=emacsclient~ と設定しています。
 
-また、起動時間のみを考慮するなら ~~/.emacs.d/init.el~ を削除して素で起動すれば良いでしょう。
+また、起動時間のみを考慮するなら =~/.emacs.d/init.el= を削除して素で起動すれば良いでしょう。
 そうなると純粋にマシンスペックの勝負になります。
 Emacsは素の状態でも十分魅力的な機能を多数盛り込まれているが、カスタマイズしてこそ真価を発揮するエディタなのでアプローチとしてはイマイチでしょう。
 
@@ -122,12 +122,12 @@ Emacsはざっくり以下のような起動プロセスを踏みます。
 - [[https://github.com/emacs-mirror/emacs/blob/master/lisp/startup.el][lisp/startup.el]] が読み込まれる
 - [[https://github.com/emacs-mirror/emacs/blob/6a390fd42ec4ef97d637899fc93f34ea65639e3c/lisp/startup.el#L577-L850][normal-top-level]] が実行される
 - [[https://github.com/emacs-mirror/emacs/blob/6a390fd42ec4ef97d637899fc93f34ea65639e3c/lisp/startup.el#L1125-L1639][command-line]] が実行される
-- ~~/.emacs.d/early-init.el~ が読み込まれる
+- =~/.emacs.d/early-init.el= が読み込まれる
   - [[https://github.com/emacs-mirror/emacs/blob/6a390fd42ec4ef97d637899fc93f34ea65639e3c/lisp/startup.el#L1358-L1367][https://github.com/emacs-mirror/emacs/blob/6a390fd42ec4ef97d637899fc93f34ea65639e3c/lisp/startup.el#L1358-L1367]]
-- ~~/.emacs.d/init.el~ が読み込まれる
+- =~/.emacs.d/init.el= が読み込まれる
   - [[https://github.com/emacs-mirror/emacs/blob/6a390fd42ec4ef97d637899fc93f34ea65639e3c/lisp/startup.el#L1482-L1507][https://github.com/emacs-mirror/emacs/blob/6a390fd42ec4ef97d637899fc93f34ea65639e3c/lisp/startup.el#L1482-L1507]]
 
-Emacs自体にpatchを当てない限り、 ~~/.emacs.d/early-init.el~ より前には手が出せません。
+Emacs自体にpatchを当てない限り、 =~/.emacs.d/early-init.el= より前には手が出せません。
 [[https://github.com/emacs-mirror/emacs/blob/master/lisp/proced.el][lisp/proced.el]] のような既存のEmacs Lispファイルは[[https://www.emacswiki.org/emacs/DumpingEmacs][portable dumper]]で既に実行可能なbinaryに出力されており、fileをloadすることなく実行されているようです。
 
 Emacsのbuild時に自分の ~init.el~ を読み込ませて ~pdump~ を生成するのが真の最速であり、5ms以内での起動を期待できます。
@@ -249,4 +249,48 @@ NeoVimでは「50ms以下」から「500ms以上」を話題にしているの�
 この記事では当然100ms以下を目指している。
 
 * 具体的なアプローチ方法
-** EmacsをNativeCompでBuildする
+** byte-compileする
+
+こんな感じでbyte-compileする。
+
+#+begin_src shell
+  $ emacs -Q --batch -f batch-byte-compile early-init.el
+  $ emacs -Q --batch -f batch-byte-compile init.el
+#+end_src
+
+** Native Comp編
+*** EmacsをFull Native CompでBuildする
+
+多くの人はpackage managerで落してBuildしたEmacsを使っていることでしょう。
+それだと細かいbuildの設定もできないし、痒い所に手が届きません。
+
+まずは ~git clone~ をします。
+
+#+begin_src shell
+  $ git clone git://git.sv.gnu.org/emacs.git
+  $ cd emacs
+#+end_src
+
+次にNative Compでbuildします。
+私は毎日 ~git pull~ した上で以下のコマンドを叩いてbuildしています。
+
+#+begin_src shell
+  $ ./autogen.sh && ./configure --with-native-compilation=aot --without-ns --without-x --with-libxml2=/usr/bin/xml2-config && make -j8
+  $ sudo make install
+#+end_src
+
+~--with-native-compilation=aot~ が特に重要です。
+
+[[https://blog.tomoya.dev/posts/hello-native-comp-emacs/][ネイティブコンパイルEmacsの登場]]に書いてありますが、2021年4月頃にNative Compがサポートされました。
+~brew install libgccjit~ などをしてちゃんと ~libgccjit~ をinstallする必要がある。
+[[https://www.grugrut.net/posts/202104272222/][EmacsのNative Compilationの性能を測定する]]でも検証されているが、かなりの高速化が期待できます。
+
+[[https://github.com/emacs-mirror/emacs/commit/e245c4f226979ccb717cccc8f82b2b0a0f96bdac][Add --with-native-compilation=aot configuration option]] で ~aot~ を指定してbuildするとEmacsのFull Native Compが実行されるようになりました。
+~make -j <proc>~ でproc数を多くするとPCが固まるので少なめに設定しておく方が吉。
+
+*** init.elとearly-init.elをNative Compする
+
+#+begin_src emacs-lisp
+  (native-compile-async "~/.emacs.d/init.el")
+  (native-compile-async "~/.emacs.d/early-init.el")
+#+end_src
