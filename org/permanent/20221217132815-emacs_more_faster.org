@@ -292,6 +292,8 @@ Emacs Lispで別のファイルを呼び込む際に ~(load "</path/to/dir/file>
 
 *** init.elとearly-init.elをbyte-compileする
 
+[[https://zenn.dev/zk_phi/books/cba129aacd4c1418ade4/viewer/972544d4b66cf5c1a75c][バイトコンパイル - Emacs の起動時間を""詰める""]]について。
+
 Byte Compileの[[https://ayatakesi.github.io/emacs/24.5/elisp_html/Byte-Compilation.html][ドキュメント]]には以下のような記述がある。
 
 #+begin_quote
@@ -333,9 +335,41 @@ Emacs Lispには、Lispで記述された関数を、より効率的に実行で
   (native-compile-async "~/.emacs.d/early-init.el")
 #+end_src
 ** early-init.elについて
-*** TODO 活用方法
+*** 基礎
+[[https://zenn.dev/zk_phi/books/cba129aacd4c1418ade4/viewer/dcebc13578d42055f8a4#early-init.el][early-init.el - Emacs の起動時間を""詰める""]]について。
 
-書く。
+~early~ と書いてある通り、初期段階で読み込まれるものです。
+「初期段階」で読み込まれるとは具体的に何でしょうか？
+~early-init.el~ に書くべき処理とそうでない処理の違いとはなんなのでしょうか？
+
+[[https://www.gnu.org/software/emacs/manual/html_node/emacs/Early-Init-File.html][49.4.6 The Early Init File]]には以下のように記述されています。
+
+#+begin_quote
+By contrast, the normal init files are read after the GUI is initialized.
+#+end_quote
+
+要するに「GUIを初期化するより前に読み込まれる」としか書いてないです。
+
+~early-init.el~ と ~init.el~ が読み込まれる間のコードを読むしかないです。
+
+[[https://github.com/emacs-mirror/emacs/blob/6a390fd42ec4ef97d637899fc93f34ea65639e3c/lisp/startup.el#L1369-L1479][https://github.com/emacs-mirror/emacs/blob/6a390fd42ec4ef97d637899fc93f34ea65639e3c/lisp/startup.el#L1369-L1479]]
+
+実行されてる主な関数は以下。
+
+- startup--update-eln-cache
+- package-activate-all
+- window-system-initialization
+- frame-initialize
+- tool-bar-setup
+- normal-erase-is-backspace-setup-frame
+- tty-register-default-colors
+
+この辺に関係する設定をすれば良いだろう。
+
+またC言語側のコードは先に読まれるはずだ。
+GC関係のコードは[[https://github.com/emacs-mirror/emacs/blob/master/src/alloc.c][src/alloc.c]]に記述されているので、 ~gc-cons-threshold~ に書く方が良いだろう。
+
+余談ですが、EXWM環境の場合 ~(setq frame-inhibit-implied-resize t)~ をするとEXWMがwindow resizeできなくなるので描画がおかしくなるので注意が必要です。
 
 ** Compile時処理
 *** el-get-bundleをeval-when-compile時に落とす
