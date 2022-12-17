@@ -249,17 +249,26 @@ NeoVimでは「50ms以下」から「500ms以上」を話題にしているの�
 この記事では当然100ms以下を目指している。
 
 * 具体的なアプローチ方法
-** byte-compileする
+** TODO early-init.elを活用する
 
-こんな感じでbyte-compileする。
+書く。
+
+** TODO init.elとearly-init.elをbyte-compileする
+
+Byte Compileの[[https://ayatakesi.github.io/emacs/24.5/elisp_html/Byte-Compilation.html][ドキュメント]]には以下のような記述がある。
+
+#+begin_quote
+Emacs Lispには、Lispで記述された関数を、より効率的に実行できるバイトコード(byte-code)と呼ばれる特別な表現に翻訳するコンパイラー(compiler)があります。コンパイラーはLispの関数定義をバイトコードに置き換えます。バイトコード関数が呼び出されたとき、その定義はバイトコードインタープリター(byte-code interpreter)により評価されます。
+#+end_quote
+
+こんな感じでbyte-compileすると良い。
 
 #+begin_src shell
   $ emacs -Q --batch -f batch-byte-compile early-init.el
   $ emacs -Q --batch -f batch-byte-compile init.el
 #+end_src
 
-** Native Comp編
-*** EmacsをFull Native CompでBuildする
+** EmacsをFull Native CompでBuildする
 
 多くの人はpackage managerで落してBuildしたEmacsを使っていることでしょう。
 それだと細かいbuildの設定もできないし、痒い所に手が届きません。
@@ -288,9 +297,25 @@ NeoVimでは「50ms以下」から「500ms以上」を話題にしているの�
 [[https://github.com/emacs-mirror/emacs/commit/e245c4f226979ccb717cccc8f82b2b0a0f96bdac][Add --with-native-compilation=aot configuration option]] で ~aot~ を指定してbuildするとEmacsのFull Native Compが実行されるようになりました。
 ~make -j <proc>~ でproc数を多くするとPCが固まるので少なめに設定しておく方が吉。
 
-*** init.elとearly-init.elをNative Compする
+** TODO init.elとearly-init.elをNative Compする
 
 #+begin_src emacs-lisp
   (native-compile-async "~/.emacs.d/init.el")
   (native-compile-async "~/.emacs.d/early-init.el")
 #+end_src
+
+** TODO async loadをする
+
+書く。
+
+** TODO el-get-bundleをeval-when-compile時に落とす
+
+書く。
+
+** TODO autoload-if-foundを活用する
+
+書く。
+
+** TODO with-eval-after-load
+
+書く。
