@@ -18,12 +18,13 @@
 
 [[https://qiita.com/advent-calendar/2022/vim][Vim Advent Calendar 2022]] 3日目の [[https://qiita.com/delphinus/items/fb905e452b2de72f1a0f][爆速で起動する Neovim を作る]] に触発されて、「自分もEmacs版を書くぞ!」ということで書いていきます。
 
-なお、VimとEmacsの比較をしやすくするためになるべく文章の構成を寄せて書いていくのでご了承ください。
+なお、VimとEmacsの比較をし易くするためになるべく文章の構成を寄せて書くことをご了承ください。
 
 * はじめに
 
 「Emacsを高速に起動する」ということに対して、多くのEmacsユーザは興味がありません。
 本来Emacsというのは常に起動し続けるものであり、必要に応じてEmacs Lispを適用し、テキストエディタをカスタマイズしていくものです。
+現に「Emacs, 起動, 高速化」と検索すると、「4000msを1000msにした」のような秒単位での高速化の記事ばかりみつかります。
 
 もし貴方が設定を変えずに手軽に高速に起動したい場合は ~emacs --daemon~ でdaemonを立ち上げ、 ~emacsclient~ で繋ぐようにすれば良いでしょう。
 私は他人のdotfilesを読むのが趣味なのですが、多くのEmacsユーザは ~EDITOR=emacsclient~ と設定しています。
@@ -44,6 +45,15 @@ Emacsは素の状態でも十分魅力的な機能を多数盛り込まれてい
 #+begin_quote
 しかし、考えてみれば Emacs には 1000 以上の Emacs Lisp ファイルが初めから同梱されているわけで、そこに数十のプラグインを足しただけで爆裂に遅くなるのは、なにか設定にも問題がある気がします。
 #+end_quote
+
+詳細は後述しますが、現在の私のEmacsは15〜25ms程度で起動をします。
+一切設定を読まずに素で起動するコマンド ~emacs -Q~ で起動させると2ms程度です。
+まだまだ高速に起動させる余地はありますが、「高速に起動させることができている」と自負しても問題ないでしょう。
+
+#+begin_example
+  Emacs booting time: 20 [msec] = ‘emacs-init-time’.
+  Loading init files: 10 [msec], of which 1 [msec] for ‘after-init-hook’.
+#+end_example
 
 * 前提
 ** 環境
@@ -92,6 +102,8 @@ Emacsのversionは ~30.0.50~ です。
 - [[https://emacs.takeokunn.org/early-init][early-init]]
 
 2022年現在、 ~init.el~ と ~early-init.el~ は6800行(空白を除くと5800行)程度あります。
+設定を別ファイルに切り分けたりしておらず、 ~init.el~ 1つで管理をしています。
+
 全ての設定を ~org-mode~ で管理しており、GitHub ActionsでbuildをしGitHub Pagesにhostingしています。
 
 ~el-get~ で導入しているpackage数は384個です。
@@ -102,6 +114,58 @@ Emacsのversionは ~30.0.50~ です。
 #+end_src
 
 * 起動速度の測り方
+** そもそも起動速度とはなんなのか
+
+Emacsはざっくり以下のような起動プロセスを踏みます。
+
+- boot処理(C言語)
+- [[https://github.com/emacs-mirror/emacs/blob/master/lisp/startup.el][lisp/startup.el]] が読み込まれる
+- [[https://github.com/emacs-mirror/emacs/blob/6a390fd42ec4ef97d637899fc93f34ea65639e3c/lisp/startup.el#L577-L850][normal-top-level]] が実行される
+- [[https://github.com/emacs-mirror/emacs/blob/6a390fd42ec4ef97d637899fc93f34ea65639e3c/lisp/startup.el#L1125-L1639][command-line]] が実行される
+- ~~/.emacs.d/early-init.el~ が読み込まれる
+  - [[https://github.com/emacs-mirror/emacs/blob/6a390fd42ec4ef97d637899fc93f34ea65639e3c/lisp/startup.el#L1358-L1367][https://github.com/emacs-mirror/emacs/blob/6a390fd42ec4ef97d637899fc93f34ea65639e3c/lisp/startup.el#L1358-L1367]]
+- ~~/.emacs.d/init.el~ が読み込まれる
+  - [[https://github.com/emacs-mirror/emacs/blob/6a390fd42ec4ef97d637899fc93f34ea65639e3c/lisp/startup.el#L1482-L1507][https://github.com/emacs-mirror/emacs/blob/6a390fd42ec4ef97d637899fc93f34ea65639e3c/lisp/startup.el#L1482-L1507]]
+
+Emacs自体にpatchを当てない限り、 ~~/.emacs.d/early-init.el~ より前には手が出せません。
+[[https://github.com/emacs-mirror/emacs/blob/master/lisp/proced.el][lisp/proced.el]] のような既存のEmacs Lispファイルは[[https://www.emacswiki.org/emacs/DumpingEmacs][pdump]]で既に実行可能なbinaryに出力されており、fileをloadすることなく実行されているようです。
+
+Emacsのbuild時に自分の ~init.el~ を読み込ませて ~pdump~ を生成するのが真の最速であり、5ms以内での起動を期待できます。
+たとえ記述がほぼ無いとしても ~init.el~ と ~early-init.el~ を読み込み実行するというのは重いもので、File IOというのは重いものだと実感させられました。
+しかし、それではEmacsのカスタマイズ性というのを殺すことになるので今回は含めないこととします。
+
+** 評価の仕方
+
+高速化する上で重要なのは、評価指標をマシンスペックに依存しない形で評価をすることでしょう。
+
+以下のような ~init.el~ を作成すれば、起動時にどのような処理が行われているのか知ることができます。
+
+~init.el~:
+
+#+begin_src emacs-lisp
+  (require 'profiler)
+  (profiler-start 'cpu)
+
+  ;;; --------- 処理中略 ---------
+
+  (profiler-report)
+  (profiler-stop)
+#+end_src
+
+上記のような処理が空の ~init.el~ を用意して起動すると以下のようなreport bufferが起動するでしょう。
+
+#+begin_example
+    Samples    %   Function
+             7 100% - normal-top-level
+             7 100%  - command-line
+             7 100%   - startup--load-user-init-file
+             7 100%    - load
+             7 100%       byte-code
+             0   0% + ...
+#+end_example
+
+多少ブレがあるものの、自分の ~init.el~ で実行をするとほぼSamples数が15以内で起動するので素に近いと言えるのではないでしょうか。
+
 * この記事で達成する目標
 * Emacsを手元でBuildする
 * プラグインの遅延読み込み
