@@ -249,26 +249,8 @@ NeoVimでは「50ms以下」から「500ms以上」を話題にしているの�
 この記事では当然100ms以下を目指している。
 
 * 具体的なアプローチ方法
-** TODO early-init.elを活用する
-
-書く。
-
-** TODO init.elとearly-init.elをbyte-compileする
-
-Byte Compileの[[https://ayatakesi.github.io/emacs/24.5/elisp_html/Byte-Compilation.html][ドキュメント]]には以下のような記述がある。
-
-#+begin_quote
-Emacs Lispには、Lispで記述された関数を、より効率的に実行できるバイトコード(byte-code)と呼ばれる特別な表現に翻訳するコンパイラー(compiler)があります。コンパイラーはLispの関数定義をバイトコードに置き換えます。バイトコード関数が呼び出されたとき、その定義はバイトコードインタープリター(byte-code interpreter)により評価されます。
-#+end_quote
-
-こんな感じでbyte-compileすると良い。
-
-#+begin_src shell
-  $ emacs -Q --batch -f batch-byte-compile early-init.el
-  $ emacs -Q --batch -f batch-byte-compile init.el
-#+end_src
-
-** EmacsをFull Native CompでBuildする
+** NativeComp
+*** EmacsをFull NativeCompでBuildする
 
 多くの人はpackage managerで落してBuildしたEmacsを使っていることでしょう。
 それだと細かいbuildの設定もできないし、痒い所に手が届きません。
@@ -291,31 +273,126 @@ Emacs Lispには、Lispで記述された関数を、より効率的に実行で
 ~--with-native-compilation=aot~ が特に重要です。
 
 [[https://blog.tomoya.dev/posts/hello-native-comp-emacs/][ネイティブコンパイルEmacsの登場]]に書いてありますが、2021年4月頃にNative Compがサポートされました。
-~brew install libgccjit~ などをしてちゃんと ~libgccjit~ をinstallする必要がある。
+~foo.el~ というファイルから ~foo.eln~ という拡張子のファイルを生成します。
+~brew install libgccjit~ などをしてちゃんと ~libgccjit~ をinstallする必要があります。
 [[https://www.grugrut.net/posts/202104272222/][EmacsのNative Compilationの性能を測定する]]でも検証されているが、かなりの高速化が期待できます。
 
 [[https://github.com/emacs-mirror/emacs/commit/e245c4f226979ccb717cccc8f82b2b0a0f96bdac][Add --with-native-compilation=aot configuration option]] で ~aot~ を指定してbuildするとEmacsのFull Native Compが実行されるようになりました。
-~make -j <proc>~ でproc数を多くするとPCが固まるので少なめに設定しておく方が吉。
+~make -j <proc>~ でproc数を多くすると処理が重すぎてPCが固まるので少なめに設定しておく方が良いです。
 
-** TODO init.elとearly-init.elをNative Compする
+*** NativeCompした結果のファイル(eln)が優先的に読み込まれる
+
+Emacs Lispで別のファイルを呼び込む際に ~(load "</path/to/dir/file>")~ のように書きます。
+
+実際に、[[https://github.com/emacs-mirror/emacs/blob/6a390fd42ec4ef97d637899fc93f34ea65639e3c/lisp/startup.el#L1125-L1639][command-line]]から ~init.el~ や ~early-init.el~ を読み込む時にも ~load~ は使われています。
+
+[[https://github.com/emacs-mirror/emacs/blob/6a390fd42ec4ef97d637899fc93f34ea65639e3c/lisp/startup.el#L1011-L1120][コード(startup--load-user-init-file)]]はここです。
+
+[[https://github.com/emacs-mirror/emacs/blob/6a390fd42ec4ef97d637899fc93f34ea65639e3c/src/lread.c#L1173-L1628][load関数の定義]] を見てみると、優先的に ~.eln~ を読むようになっているようなので早めにNative Compする必要があります。
+
+*** init.elとearly-init.elをbyte-compileする
+
+Byte Compileの[[https://ayatakesi.github.io/emacs/24.5/elisp_html/Byte-Compilation.html][ドキュメント]]には以下のような記述がある。
+
+#+begin_quote
+Emacs Lispには、Lispで記述された関数を、より効率的に実行できるバイトコード(byte-code)と呼ばれる特別な表現に翻訳するコンパイラー(compiler)があります。コンパイラーはLispの関数定義をバイトコードに置き換えます。バイトコード関数が呼び出されたとき、その定義はバイトコードインタープリター(byte-code interpreter)により評価されます。
+#+end_quote
+
+こんな感じでbyte-compileすると良い。
+
+#+begin_src shell
+  $ emacs -Q --batch -f batch-byte-compile early-init.el
+  $ emacs -Q --batch -f batch-byte-compile init.el
+#+end_src
+
+基本的にはnative compが優先的に読まれるので意味がないと言われたらそうなのだが、後述する ~el-get~ はbyte-compile時に発火させるので流す必要があります。
+
+*** NativeCompの設定
+
+~native-comp-speed~ と ~native-comp-async-jobs-number~ を設定すると良いです。
+
+~native-comp-speed~ は最適化オプションで0〜3があります。
+[[https://github.com/emacs-mirror/emacs/blob/6a390fd42ec4ef97d637899fc93f34ea65639e3c/lisp/emacs-lisp/comp.el#L46-L58][ソースコード]]はこちら。
+「Warning: with 3, the compiler is free to perform dangerous optimizations.」と書いてありますが、半年以上この設定で問題なく使えているので気にしなくて良いでしょう。
+
+~native-comp-async-jobs-number~ はjob数で大きめに設定するとPCが極端に重くなってしまうので低めに設定しておくと良いでしょう。
+
+#+begin_src emacs-lisp
+  (with-eval-after-load 'comp
+    (setq native-comp-async-jobs-number 8)
+    (setq native-comp-speed 3))
+#+end_src
+
+*** init.elとearly-init.elをNativeCompする
+
+~native-compile-async~ でNativeCompileできます。
+コンパイル結果の出力は ~*Async-native-compile-log*~ bufferです。
 
 #+begin_src emacs-lisp
   (native-compile-async "~/.emacs.d/init.el")
   (native-compile-async "~/.emacs.d/early-init.el")
 #+end_src
-
-** TODO async loadをする
-
-書く。
-
-** TODO el-get-bundleをeval-when-compile時に落とす
+** early-init.elについて
+*** TODO 活用方法
 
 書く。
 
-** TODO autoload-if-foundを活用する
+** Compile時処理
+*** TODO el-get-bundleをeval-when-compile時に落とす
 
 書く。
 
-** TODO with-eval-after-load
+*** TODO 環境ごとのif文をmacroで定義する
 
 書く。
+
+** ライブラリ周りの読み込み
+*** TODO async loadをする
+
+書く。
+
+*** TODO autoload-if-foundを活用する
+
+書く。
+
+*** TODO with-eval-after-loadを活用する
+
+書く。
+
+** 設定
+*** TODO message を一時的に無効にする
+
+書く。
+
+*** TODO Magic File Name を一時的に無効にする
+
+書く。
+
+*** TODO GCの設定
+
+書く。
+
+* その他
+** TODO add-to-listについて
+
+書く。
+
+** TODO Portable Dumplerについて
+
+[[https://zenn.dev/zk_phi/books/cba129aacd4c1418ade4/viewer/e27557c39fceefe6c4f6#%E3%83%9D%E3%83%BC%E3%82%BF%E3%83%96%E3%83%AB%E3%83%80%E3%83%B3%E3%83%91%E3%83%BC][ポータブルダンパー - Emacs の起動時間を""詰める""]] について。
+
+** TODO init.elの中身を別ファイルに分割して最低限の処理のみにする
+
+書く。
+
+* おわりに
+
+2022年はEmacsとひたすら向きあった1年でした。
+今後10〜15年耐えられる設定とはなんなのかを考えた結果の1つに「起動時間の高速化」というのがありました。
+0から設定を見直し、より高速かつメンテナンス性の高い記述方法はなんなのか、 ~emacs.d~ はどうあるべきか、より善く生きていくためにはどうすれば良いのかを考えつくしました。
+
+Emacs起動時間を高速化するにあたって、Emacs本体のソースコードを読む機会が増えて多くの知識を得ることができました。
+是非皆さんも自分の設定をあらためて見直すきっかけにしていただけると幸いです。
+
+いつもTwitterで疑問に答えてくれるEmacs Hackerの皆さんのお陰でこの記事を書くことができました。
+今後ともよろしくお願いします。
