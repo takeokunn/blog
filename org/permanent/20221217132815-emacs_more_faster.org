@@ -332,58 +332,184 @@ Emacs Lispには、Lispで記述された関数を、より効率的に実行で
   (native-compile-async "~/.emacs.d/init.el")
   (native-compile-async "~/.emacs.d/early-init.el")
 #+end_src
+*** el-getのpackageもNativeCompする
 ** early-init.elについて
 *** TODO 活用方法
 
 書く。
 
 ** Compile時処理
-*** TODO el-get-bundleをeval-when-compile時に落とす
+*** el-get-bundleをeval-when-compile時に落とす
 
-書く。
+私は ~el-get~ ユーザなので他のpackage managerのことはわかりませんが、package installはbyte-compile時に行っています。
+[[https://github.com/dimitri/el-get][dimitri/el-get]]の ~Installation~ を参考に設定していきます。
 
-*** TODO 環境ごとのif文をmacroで定義する
+~eval-when-compile~ はbyte-compile時にしか発火せず、生成された ~elc~ には処理結果が記述されるというものです。
 
-書く。
+私は ~el-get~ で380個程度のpackageを落としている関係上、非常に時間がかかるのでshallow cloneするようにしています。
+
+#+begin_src emacs-lisp
+  (eval-when-compile
+    (add-to-list 'load-path (locate-user-emacs-file "el-get/el-get"))
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/dimitri/el-get/master/el-get-install.el")
+      (goto-char (point-max))
+      (eval-print-last-sexp))
+
+    (with-eval-after-load 'el-get-git
+      (setq el-get-git-shallow-clone t)))
+#+end_src
+
+実際にinstallするpackageは以下のように記述しています。
+
+#+begin_src emacs-lisp
+  (eval-when-compile
+    (el-get-bundle "yasnippet"))
+
+  (eval-when-compile
+    (el-get-bundle takeokunn/yasnippet-org))
+#+end_src
+
+*** 環境ごとのif文をmacroで定義する
+
+私のEmacs環境は3つあります。
+
+- Mac CLI環境
+- Mac GUI環境
+- Guix exwm環境
+
+前提にも書いた通り、今回高速化するにあたって「Mac CLI環境」にフォーカスして話していたが、実際運用している環境は3つあります。
+例えば「Mac環境ではexwm関係のpluginは不要」のような、環境ごとに必要な処理やライブラリが微妙に違うので条件分岐が必要になってきます。
+
+3環境を分岐できるようなmacroを作成し、byte-compile時に条件分岐しました。
+
+#+begin_src emacs-lisp
+  ;;; Mac CLI環境
+  (defmacro when-darwin (&rest body)
+    (when (string= system-type "darwin")
+      `(progn ,@body)))
+
+  ;;; Mac GUI環境
+  (defmacro when-darwin-not-window-system (&rest body)
+    (when (and (string= system-type "darwin")
+               window-system)
+      `(progn ,@body)))
+
+  ;;; Guix exwm環境
+  (defmacro when-guix (&rest body)
+    (when (string= system-type "guix")
+      `(progn ,@body)))
+#+end_src
 
 ** ライブラリ周りの読み込み
-*** TODO async loadをする
+*** async loadをする
 
 書く。
 
-*** TODO autoload-if-foundを活用する
+*** autoload/with-eval-after-loadを活用する
 
-書く。
+[[https://zenn.dev/zk_phi/books/cba129aacd4c1418ade4/viewer/abb04ff2351b3564a1a0][autoload と with-eval-after-load - Emacs の起動時間を""詰める""]]について。
 
-*** TODO with-eval-after-loadを活用する
+~autoload~ の挙動は上記の記事に詳細に書かれているので省きます。
+ただ、 ~autoload~ というのは1つの関数名しか引数に取れないので非常に不便です。
+以下のような ~autoload-if-found~ という関数を作成ました。
 
-書く。
+#+begin_src emacs-lisp
+  (defun autoload-if-found (functions file &optional docstring interactive type)
+    "set autoload iff. FILE has found."
+    (when (locate-library file)
+      (dolist (f functions)
+        (autoload f file docstring interactive type))
+      t))
+#+end_src
+
+使い方はこんな感じです。
+
+#+begin_src emacs-lisp
+  (autoload-if-found '(lsp lsp-deferred) "lsp-mode" nil t)
+#+end_src
+
+~with-eval-after-load~ は ~require~ が実行されたタイミングで読まれるものです。
+~autolaod-if-found~ で全ての処理を遅延してる関係で、全てのpackageに対して丁寧に指定する必要があります。
+もし設定をしなければ、未定義変数になって起動時にWarningなりErrorが吐かれてしまいます。
+
+以下の ~php-mode-~ の例のように、 ~with-eval-after-load~ には3種類の設定をするようにしています。
+
+- hook
+- keybind(map)
+- custom
+
+#+begin_src emacs-lisp
+  (with-eval-after-load 'php-mode
+    ;; hook
+    (add-hook 'php-mode-hook #'lsp-deferred)
+
+    ;; keybind
+    (define-key php-mode-map (kbd "C-c C--") #'php-current-class)
+    (define-key php-mode-map (kbd "C-c C-=") #'php-current-namespace)
+
+    ;; config
+    (setq php-mode-coding-style 'psr2))
+#+end_src
 
 ** 設定
-*** TODO message を一時的に無効にする
+*** Magic File Name を一時的に無効にする
 
-書く。
+[[https://zenn.dev/zk_phi/books/cba129aacd4c1418ade4/viewer/dcebc13578d42055f8a4#magic-file-name-%E3%82%92%E4%B8%80%E6%99%82%E7%9A%84%E3%81%AB%E7%84%A1%E5%8A%B9%E3%81%AB%E3%81%99%E3%82%8B][Magic File Name を一時的に無効にする - Emacs の起動時間を""詰める""]] について。
 
-*** TODO Magic File Name を一時的に無効にする
+FileのI/Oは非常にコストがかかる行為だと改めて感じました。
 
-書く。
+以下の記述を書くだけです。
+書くだけでかなり改善するのでコスパの良い対応だと感じています。
 
-*** TODO GCの設定
+#+begin_src emacs-lisp
+  ;;; 行頭
+  (defconst my/saved-file-name-handler-alist file-name-handler-alist)
+  (setq file-name-handler-alist nil)
 
-書く。
+  ;;; 行末
+  (setq file-name-handler-alist my/saved-file-name-handler-alist)
+#+end_src
+
+*** GCの設定
+
+[[https://zenn.dev/zk_phi/books/cba129aacd4c1418ade4/viewer/dcebc13578d42055f8a4#gc-%E3%82%92%E6%B8%9B%E3%82%89%E3%81%99][GC を減らす - Emacs の起動時間を""詰める""]]について。
+
+起動時にGCが回ることははっきり言ってコストでしかないです。
+起動時に一度もGCを回さない程度の大きさで設定しておくと良いです。
+
+GCが回ったかどうかは前述の「評価の仕方」で ~profile-report~ が出力してくれるので、そこで判断できるでしょう。
+私は ~early-init.el~ に以下のように設定しています。
+
+#+begin_src emacs-lisp
+  (setq gc-cons-threshold (* 128 1024 1024))
+#+end_src
 
 * その他
-** TODO add-to-listについて
+** add-to-listについて
 
-書く。
+[[https://zenn.dev/zk_phi/books/cba129aacd4c1418ade4/viewer/395aeb41a34a616f58bd#%E5%AE%89%E5%85%A8%E3%81%AA%E9%96%A2%E6%95%B0%E3%82%92%E8%AB%A6%E3%82%81%E3%82%8B][安全な関数を諦める - Emacs の起動時間を""詰める""]] について。
+
+~add-to-list~ を使わずに ~push~ を使うほうが重複チェックを行わない関係で速くなるということが書かれています。
+
+~add-to-list~ はプログラミング言語の ~major-mode~ や ~mior-mode~ で設定する時に使うことが多いです。
+私は数十のpackageを入れているのだが、 ~push~ に置き換えて事故って動かなくなったことがあります。
+
+重複チェックをするかどうかで変わる秒数は1msよりも圧倒的に少ないだろうし、安全性を捨てるデメリットと比較してメリットが薄いように感じているので却下しました。
+
+またasync loadしている関係で言語系の処理は遅延読み込みしてるので、起動時には影響が出ないです。
 
 ** TODO Portable Dumplerについて
 
 [[https://zenn.dev/zk_phi/books/cba129aacd4c1418ade4/viewer/e27557c39fceefe6c4f6#%E3%83%9D%E3%83%BC%E3%82%BF%E3%83%96%E3%83%AB%E3%83%80%E3%83%B3%E3%83%91%E3%83%BC][ポータブルダンパー - Emacs の起動時間を""詰める""]] について。
 
-** TODO init.elの中身を別ファイルに分割して最低限の処理のみにする
+** lsp-modeのperformanceについて
 
-書く。
+今回の起動時の高速化には関係ないが、 ~lsp-mode~ を高速化するTipsが公式サイトにあります。
+私は ~lsp-mode~ をヘビーユーズしてるので、パフォーマンスが大幅に改善されて生産性が上がありました。
+
+[[https://emacs-lsp.github.io/lsp-mode/page/performance/][Performance - lsp-mode]]
 
 * おわりに
 
