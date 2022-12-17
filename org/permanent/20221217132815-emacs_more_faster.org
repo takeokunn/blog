@@ -45,7 +45,10 @@ Emacsは素の状態でも十分魅力的な機能を多数盛り込まれてい
 しかし、考えてみれば Emacs には 1000 以上の Emacs Lisp ファイルが初めから同梱されているわけで、そこに数十のプラグインを足しただけで爆裂に遅くなるのは、なにか設定にも問題がある気がします。
 #+end_quote
 
-* 起動速度の測り方
+* 前提
+** 環境
+
+2022年12月現在、 ~Macbook Pro 16-inch, 2019~ の標準モデルを使っています。
 
 #+begin_src shell
   $ neofetch
@@ -68,6 +71,37 @@ Emacsは素の状態でも十分魅力的な機能を多数盛り込まれてい
          .cooc,.    .,coo:.
 #+end_src
 
+Emacsのversionは ~30.0.50~ です。
+日々HEAD buildをしているのでstableのversionとは微妙に差異がありますがそこまで大きな差がでないでしょう。
+
+#+begin_src shell
+  $ emacs -version
+  GNU Emacs 30.0.50
+  Development version 6a390fd42ec4 on master branch; build date 2022-12-17.
+  Copyright (C) 2022 Free Software Foundation, Inc.
+  GNU Emacs comes with ABSOLUTELY NO WARRANTY.
+  You may redistribute copies of GNU Emacs
+  under the terms of the GNU General Public License.
+  For more information about these matters, see the file named COPYING.
+#+end_src
+
+** 設定について
+
+- [[https://github.com/takeokunn/.emacs.d][takeokunn/.emacs.d]]
+- [[https://emacs.takeokunn.org/][init.el]]
+- [[https://emacs.takeokunn.org/early-init][early-init]]
+
+2022年現在、 ~init.el~ と ~early-init.el~ は6800行(空白を除くと5800行)程度あります。
+全ての設定を ~org-mode~ で管理しており、GitHub ActionsでbuildをしGitHub Pagesにhostingしています。
+
+~el-get~ で導入しているpackage数は384個です。
+
+#+begin_src shell
+  $ ls -l ~/.emacs.d/el-get | wc -l
+       384
+#+end_src
+
+* 起動速度の測り方
 * この記事で達成する目標
 * Emacsを手元でBuildする
 * プラグインの遅延読み込み
