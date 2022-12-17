@@ -131,7 +131,7 @@ Emacs自体にpatchを当てない限り、 =~/.emacs.d/early-init.el= より前
 [[https://github.com/emacs-mirror/emacs/blob/master/lisp/proced.el][lisp/proced.el]] のような既存のEmacs Lispファイルは[[https://www.emacswiki.org/emacs/DumpingEmacs][portable dumper]]で既に実行可能なbinaryに出力されており、fileをloadすることなく実行されているようです。
 
 Emacsのbuild時に自分の ~init.el~ を読み込ませて ~pdump~ を生成するのが真の最速であり、5ms以内での起動を期待できます。
-たとえ記述がほぼ無いとしても ~init.el~ と ~early-init.el~ を読み込み実行するというのは重いもので、File IOというのは重いものだと実感させられました。
+たとえ記述がほぼ無いとしても ~init.el~ と ~early-init.el~ を読み込み実行するというのは重いもので、File I/Oというのは重いものだと実感させられました。
 しかし、それではEmacsのカスタマイズ性というのを殺すことになるので今回は含めないこととします。
 
 ** 計測方法
@@ -332,7 +332,6 @@ Emacs Lispには、Lispで記述された関数を、より効率的に実行で
   (native-compile-async "~/.emacs.d/init.el")
   (native-compile-async "~/.emacs.d/early-init.el")
 #+end_src
-*** el-getのpackageもNativeCompする
 ** early-init.elについて
 *** TODO 活用方法
 
@@ -403,7 +402,7 @@ Emacs Lispには、Lispで記述された関数を、より効率的に実行で
 #+end_src
 
 ** ライブラリ周りの読み込み
-*** async loadをする
+*** TODO async loadをする
 
 書く。
 
@@ -500,17 +499,41 @@ GCが回ったかどうかは前述の「評価の仕方」で ~profile-report~ 
 
 またasync loadしている関係で言語系の処理は遅延読み込みしてるので、起動時には影響が出ないです。
 
-** TODO Portable Dumplerについて
+** Portable Dumperについて
 
 [[https://zenn.dev/zk_phi/books/cba129aacd4c1418ade4/viewer/e27557c39fceefe6c4f6#%E3%83%9D%E3%83%BC%E3%82%BF%E3%83%96%E3%83%AB%E3%83%80%E3%83%B3%E3%83%91%E3%83%BC][ポータブルダンパー - Emacs の起動時間を""詰める""]] について。
+
+あらかじめpackageを読み込んでおいた状態のmemoryをdumpする仕組み。
+今回の遅延評価をするアプローチではPortable Dumperは活躍できませんでした。
+
+記述量がほぼない状態のEmacs Lispファイルを用意してmemory dumpして読み込ませてみたところ、180ms程度かかりました。
+[[https://pbs.twimg.com/media/FXEEtR2VsAA-y-r?format=jpg&name=medium]]
+
+そもそもNativeCompしているライブラリはdumpできなかったりと色々な落とし穴があるらしく、非常に使いにくいものとなっています。
+Emacsを自前Buildしたタイミングで生成されるdumpに自分のコードを埋め込むくらいすれば高速になりますが、別途用意をすると非常に遲くなります。
 
 ** lsp-modeのperformanceについて
 
 今回の起動時の高速化には関係ないが、 ~lsp-mode~ を高速化するTipsが公式サイトにあります。
-私は ~lsp-mode~ をヘビーユーズしてるので、パフォーマンスが大幅に改善されて生産性が上がありました。
+私は ~lsp-mode~ をヘビーユーズしてるので、パフォーマンスが大幅に改善されて生産性が上がりました。
 
 [[https://emacs-lsp.github.io/lsp-mode/page/performance/][Performance - lsp-mode]]
 
+** el-getのpackageもNativeCompする
+
+これも今回の起動時の高速化には関係ないが、el-getで落としてきたpackageも一括でNativeCompする方が良いでしょう。
+以下のような関数を用意し、あらかじめ実行しておくと良いです。
+
+~el-get/**/*.el~ と ~elpa/**/*.el~ の全てのファイルを再帰的にNativeCompするため時間がかかります。
+
+#+begin_src emacs-lisp
+  (defun my/native-comp-packages ()
+    (interactive)
+    (native-compile-async "~/.emacs.d/init.el")
+    (native-compile-async "~/.emacs.d/early-init.el")
+    (native-compile-async "~/.emacs.d/el-get" 'recursively)
+    (native-compile-async "~/.emacs.d/elpa" 'recursively))
+#+end_src
 * おわりに
 
 2022年はEmacsとひたすら向きあった1年でした。
