@@ -620,7 +620,6 @@ GCが回ったかどうかは前述の「評価の仕方」で ~profile-report~ 
 今回の遅延評価をするアプローチではPortable Dumperは活躍できませんでした。
 
 記述量がほぼない状態のEmacs Lispファイルを用意してmemory dumpして読み込ませてみたところ、180ms程度かかりました。
-[[https://pbs.twimg.com/media/FXEEtR2VsAA-y-r?format=jpg&name=medium]]
 
 そもそもNativeCompしているライブラリはdumpできなかったりと色々な落とし穴があるらしく、非常に使いにくいものとなっています。
 Emacsを自前Buildしたタイミングで生成されるdumpに自分のコードを埋め込むくらいすれば高速になりますが、別途用意をすると非常に遲くなります。
