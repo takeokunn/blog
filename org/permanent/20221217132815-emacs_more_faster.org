@@ -82,7 +82,7 @@ Emacsは素の状態でも十分魅力的な機能を多数盛り込まれてい
 #+end_src
 
 Emacsのversionは ~30.0.50~ です。
-日々HEAD buildをしているのでstableのversionとは微妙に差異がありますがそこまで大きな差がでないでしょう。
+日々HEAD buildをしているのでstableのversionとは微妙に差異がありますが、起動速度にはそこまで大きな差が出ないでしょう。
 
 #+begin_src shell
   $ emacs -version
@@ -221,7 +221,7 @@ Emacsのbuild時に自分の ~init.el~ を読み込ませて ~pdump~ を生成�
 #+end_example
 
 多少ブレがあるものの、自分の ~init.el~ で実行をするとSamples数が15以内で起動します。
-Sample数が素に近ければ近いほど、高速に動いていると言えるでしょう。
+Sample数が素に近ければ近いほど、高速に動いていると言えます。
 
 * この記事で達成する目標
 
@@ -230,16 +230,16 @@ Sample数が素に近ければ近いほど、高速に動いていると言え�
 
 - 5000ms以上
   - だいぶ遅い
-  - 外部への通信(packageの更新等)が多数走ってしまっている可能性が高い
+  - 外部への通信(パッケージの更新等)が多数走ってしまっている可能性が高い
 - 1000ms 〜 5000ms
   - 一般的な速度
   - 大体のEmacsユーザはこの辺だろう
-  - ~use-package~ などのpackage managerを普通に使って普通に設定してるとこのくらい
+  - パッケージ管理ツールを普通に使って普通に設定してるとこのくらい
 - 100ms 〜 1000ms
-  - ~use-pacakge~ などのpackage managerで高速化をすると大体この辺になる
+  - パッケージ管理ツールで高速化をすると大体この辺になる
   - そこそこ頑張る必要がある
 - 100ms以下
-  - 全ての設定をpackage managerを使わずに素で書いているか、高速化に拘った設定をしている
+  - 全ての設定をパッケージ管理ツールを使わずに素で書いているか、高速化に拘った設定をしている
   - かなり頑張る必要がある
   - ~EDITOR=emacs~ 設定するのを視野に入れられる
 
@@ -249,10 +249,20 @@ NeoVimでは「50ms以下」から「500ms以上」を話題にしているの�
 この記事では当然100ms以下を目指している。
 
 * 具体的なアプローチ方法
+** パッケージ管理ツールについて
+
+多くの人は ~use-package~ や ~leaf~ を使っていることでしょう。
+~use-package~ の実態はパッケージ管理ツールというよりはmacroです。
+
+~use-package~ 内に適切の設定を記述すると、パッケージを落としパスを通し、関数や変数の設定を記述したりする ~s式~ を生成してくれます。
+私は ~use-package~ には疎いので正確なことは書けませんが、~s式~ の効率が良いかと言われたら最高速を叩き出せるものではありません。
+
+普通にEmacsの設定をするなら間違いなく使うべきものですが、今回のようなパフォーマンスを求める場合あまりオススメできるものではありません。
+
 ** NativeComp
 *** EmacsをFull NativeCompでBuildする
 
-多くの人はpackage managerで落してBuildしたEmacsを使っていることでしょう。
+多くの人はHomebrewのようなパッケージマネージャーで落してBuildしたEmacsを使っていることでしょう。
 それだと細かいbuildの設定もできないし、痒い所に手が届きません。
 
 まずは ~git clone~ をします。
@@ -262,7 +272,7 @@ NeoVimでは「50ms以下」から「500ms以上」を話題にしているの�
   $ cd emacs
 #+end_src
 
-次にNative Compでbuildします。
+次にNativeCompでbuildします。
 私は毎日 ~git pull~ した上で以下のコマンドを叩いてbuildしています。
 
 #+begin_src shell
@@ -282,25 +292,25 @@ NeoVimでは「50ms以下」から「500ms以上」を話題にしているの�
 
 *** NativeCompした結果のファイル(eln)が優先的に読み込まれる
 
-Emacs Lispで別のファイルを呼び込む際に ~(load "</path/to/dir/file>")~ のように書きます。
+Emacs Lispで別のファイルを呼び込む際に ~(load "/path/to/dir/file")~ のように書きます。
 
 実際に、[[https://github.com/emacs-mirror/emacs/blob/6a390fd42ec4ef97d637899fc93f34ea65639e3c/lisp/startup.el#L1125-L1639][command-line]]から ~init.el~ や ~early-init.el~ を読み込む時にも ~load~ は使われています。
 
 [[https://github.com/emacs-mirror/emacs/blob/6a390fd42ec4ef97d637899fc93f34ea65639e3c/lisp/startup.el#L1011-L1120][コード(startup--load-user-init-file)]]はここです。
 
-[[https://github.com/emacs-mirror/emacs/blob/6a390fd42ec4ef97d637899fc93f34ea65639e3c/src/lread.c#L1173-L1628][load関数の定義]] を見てみると、優先的に ~.eln~ を読むようになっているようなので早めにNative Compする必要があります。
+[[https://github.com/emacs-mirror/emacs/blob/6a390fd42ec4ef97d637899fc93f34ea65639e3c/src/lread.c#L1173-L1628][load関数の定義]] を見てみると、優先的に ~.eln~ を読むようになっているようなので早めにNativeCompする必要があります。
 
 *** init.elとearly-init.elをbyte-compileする
 
 [[https://zenn.dev/zk_phi/books/cba129aacd4c1418ade4/viewer/972544d4b66cf5c1a75c][バイトコンパイル - Emacs の起動時間を""詰める""]]について。
 
-Byte Compileの[[https://ayatakesi.github.io/emacs/24.5/elisp_html/Byte-Compilation.html][ドキュメント]]には以下のような記述がある。
+Byte Compileの[[https://ayatakesi.github.io/emacs/24.5/elisp_html/Byte-Compilation.html][ドキュメント]]には以下のような記述があります。
 
 #+begin_quote
 Emacs Lispには、Lispで記述された関数を、より効率的に実行できるバイトコード(byte-code)と呼ばれる特別な表現に翻訳するコンパイラー(compiler)があります。コンパイラーはLispの関数定義をバイトコードに置き換えます。バイトコード関数が呼び出されたとき、その定義はバイトコードインタープリター(byte-code interpreter)により評価されます。
 #+end_quote
 
-こんな感じでbyte-compileすると良い。
+こんな感じでbyte-compileすると良いです。
 
 #+begin_src shell
   $ emacs -Q --batch -f batch-byte-compile early-init.el
@@ -317,7 +327,7 @@ Emacs Lispには、Lispで記述された関数を、より効率的に実行で
 [[https://github.com/emacs-mirror/emacs/blob/6a390fd42ec4ef97d637899fc93f34ea65639e3c/lisp/emacs-lisp/comp.el#L46-L58][ソースコード]]はこちら。
 「Warning: with 3, the compiler is free to perform dangerous optimizations.」と書いてありますが、半年以上この設定で問題なく使えているので気にしなくて良いでしょう。
 
-~native-comp-async-jobs-number~ はjob数で大きめに設定するとPCが極端に重くなってしまうので低めに設定しておくと良いでしょう。
+~native-comp-async-jobs-number~ はjob数で大きめに設定するとPCが極端に重くなってしまうので低めに設定しておくことをオススメします。
 
 #+begin_src emacs-lisp
   (with-eval-after-load 'comp
@@ -335,7 +345,7 @@ Emacs Lispには、Lispで記述された関数を、より効率的に実行で
   (native-compile-async "~/.emacs.d/early-init.el")
 #+end_src
 ** early-init.elについて
-*** 基礎
+
 [[https://zenn.dev/zk_phi/books/cba129aacd4c1418ade4/viewer/dcebc13578d42055f8a4#early-init.el][early-init.el - Emacs の起動時間を""詰める""]]について。
 
 ~early~ と書いてある通り、初期段階で読み込まれるものです。
@@ -364,10 +374,10 @@ By contrast, the normal init files are read after the GUI is initialized.
 - normal-erase-is-backspace-setup-frame
 - tty-register-default-colors
 
-この辺に関係する設定をすれば良いだろう。
+この辺に関係する設定をすれば良いでしょう。
 
-またC言語側のコードは先に読まれるはずだ。
-GC関係のコードは[[https://github.com/emacs-mirror/emacs/blob/master/src/alloc.c][src/alloc.c]]に記述されているので、 ~gc-cons-threshold~ に書く方が良いだろう。
+またC言語側のコードは先に読まれるはずです。
+GC関係のコードは[[https://github.com/emacs-mirror/emacs/blob/master/src/alloc.c][src/alloc.c]]に記述されているので、 ~gc-cons-threshold~ は ~early-init.el~ に書く方が良いです。
 
 余談ですが、EXWM環境の場合 ~(setq frame-inhibit-implied-resize t)~ をするとEXWMがwindow resizeできなくなるので描画がおかしくなるので注意が必要です。
 
