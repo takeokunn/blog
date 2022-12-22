@@ -19,3 +19,6 @@ indent_size = 2
 
 [.textlintrc]
 indent_size = 2
+
+[*.toml]
+indent_size = 2

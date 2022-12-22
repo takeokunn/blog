@@ -4,16 +4,16 @@ theme = "hugo-take-theme"
 canonifyurls = true
 
 [params]
-author = 'takeokunn'
-description = "takeokunn's blog"
-ogpImage = "https://takeokunn.org/ogp.png"
-icon = "icon.png"
-gtag = "UA-135483596-1"
-twitter = "takeokunn"
-github = "takeokunn"
+  author = 'takeokunn'
+  description = "takeokunn's blog"
+  ogpImage = "https://takeokunn.org/ogp.png"
+  icon = "icon.png"
+  gtag = "UA-135483596-1"
+  twitter = "takeokunn"
+  github = "takeokunn"
 
 [taxonomies]
-tag = "tags"
+  tag = "tags"
 
 [markup.goldmark.renderer]
-unsafe = true
+  unsafe = true

@@ -1,0 +1,145 @@
+:PROPERTIES:
+:ID:       923E2C2D-EAF9-F6A4-8C43-136BEC60DBBA
+:mtime:    20221222105947
+:ctime:    20221222102844
+:END:
+
+#+TITLE: sitemap.xmlからURLを良い感じに抽出してplaywrightでUIを目視確認する
+#+DESCRIPTION: playwright使ってみた
+#+DATE: 2022-12-22
+#+HUGO_BASE_DIR: ../../
+#+HUGO_SECTION: posts/fleeting
+#+HUGO_TAGS: fleeting
+#+HUGO_DRAFT: false
+#+STARTUP: content
+#+STARTUP: nohideblocks
+
+* やりたいこと
+
+フレームワークや言語のバージョンを上げたり、UI周りのリファクタリングをした際に、500やデザイン崩れがないかを確認したい。
+理想を言うとxUnitのようなテストコードを書いたりする方が良いのだが、テストコードを書くと工数が非常にかかるし、元々テストコードがない環境だとしんどい。
+
+また、テストコードでは当然UIの目視確認まではできない。
+
+サクっと主要なページを目視で眺める方法ないかなと考えてたところ、「確認したいページリストを =sitemap.xml= から生成して良い感じに自動でスクロールすれば良いのでは...?」ということを思いついたので書いていく。
+
+特に拘泥がなかったので [[https://zenn.dev/yusukeiwaki/articles/db1cd8d7aa87ed][2021年現在、Puppeteerを使う理由はなくなった。Playwrightを使おう。]] を読んでPlaywrightを選んだ。
+
+* ソースコード
+
+必要packageは以下の3つ。
+
+#+begin_src shell
+  $ npm install playwright
+  $ npm install axios
+  $ npm install xml2json
+#+end_src
+
+コード全体像は以下。
+
+#+begin_src js
+  const axios = require("axios");
+  const parser = require("xml2json");
+  const { chromium } = require("playwright");
+
+  const BASE_URL = "<edit your url>";
+
+  const fetchSitemap = async () => {
+      const res = await axios.get(`${BASE_URL}/sitemap.xml`);
+      const body = JSON.parse(parser.toJson(res.data));
+      return body.urlset.url.map((url) => url.loc);
+  };
+
+  const filterSitemapUrls = (urls) => {
+      const cb = (path) => {
+          let count = 0;
+
+          return (url) => {
+              if (!url.match(path)) return true;
+              if (count === 3) return false;
+
+              count++;
+              return true;
+          };
+      };
+
+      return urls
+          .filter(cb(/posts\//))
+          .filter(cb(/articles\//));
+  };
+
+  const evaluateScript = async () => {
+      const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+      for (let index = 0; index < document.body.scrollHeight / 10; index += 100) {
+          window.scrollTo(0, index * 10);
+          await delay(1000);
+      }
+  };
+
+  const runSitemapScenarios = async (page) => {
+      const urls = await fetchSitemap();
+      for (const url of filterSitemapUrls(urls)) {
+          await page.goto(url);
+          await page.evaluate(evaluateScript);
+      }
+  };
+
+  const main = async () => {
+      const browser = await chromium.launch({ headless: false });
+      const page = await browser.newPage();
+
+      await runSitemapScenarios(page)
+
+      await browser.close();
+  };
+
+  main();
+#+end_src
+
+* 解説
+
+=<base_url>/sitemap.xml= を =axios= で取得し、 =xml2json= でxmlをjsonに変換後、playwrightで下までスクロールする。
+ただ、純粋に =sitemap.xml= を全て眺めるのは厳しい。
+=/articles/<id>= のような動的に生成されたページを全て見るのは無駄だ。
+
+なので、特定のパターンのURLは先頭3つのみにするなど丸める必要があったので以下のようなコードを書いた。
+
+#+begin_src js
+  const filterSitemapUrls = (urls) => {
+      const cb = (path) => {
+          let count = 0;
+
+          return (url) => {
+              if (!url.match(path)) return true;
+              if (count === 3) return false;
+
+              count++;
+              return true;
+          };
+      };
+
+      return urls
+          .filter(cb(/posts\//))
+          .filter(cb(/articles\//));
+  };
+#+end_src
+
+また、ページを開いてから一番下まで目視確認できるようにゆっくりスクロールするようにした。
+
+#+begin_src js
+  const evaluateScript = async () => {
+      const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+      for (let index = 0; index < document.body.scrollHeight / 10; index += 100) {
+          window.scrollTo(0, index * 10);
+          await delay(1000);
+      }
+  };
+
+  const runSitemapScenarios = async (page) => {
+      const urls = await fetchSitemap();
+      for (const url of filterSitemapUrls(urls)) {
+          await page.goto(url);
+          await page.evaluate(evaluateScript);
+      }
+  };
+#+end_src
