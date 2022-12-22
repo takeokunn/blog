@@ -1,9 +1,9 @@
 version: 2
 updates:
-  - package-ecosystem: "npm"
-    directory: "/"
+  - package-ecosystem: npm
+    directory: /
     schedule:
-      interval: "daily"
-      time: "14:00"
-      timezone: "Asia/Tokyo"
-    target-branch: "main"
+      interval: daily
+      time: 14:00
+      timezone: Asia/Tokyo
+    target-branch: main

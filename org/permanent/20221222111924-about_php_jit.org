@@ -1,0 +1,34 @@
+:PROPERTIES:
+:ID:       C81D01DB-6135-46CD-B491-F35F42002417
+:mtime:    20221222112051
+:ctime:    20221222111924
+:END:
+
+#+TITLE: phpのJITについて書く
+#+DESCRIPTION: phpのJITについて書く
+#+DATE: 2022-12-22
+#+HUGO_BASE_DIR: ../../
+#+HUGO_SECTION: posts/permanent
+#+HUGO_TAGS: permanent
+#+HUGO_DRAFT: true
+#+STARTUP: content
+#+STARTUP: nohideblocks
+
+* はじめに
+
+JITで速くなったーわーいみたいなことを書く。
+
+* インストール方法
+
+=php.ini= の ~OPCache~ の周りの設定を入れる。
+
+* JITの仕組み
+** Tracing JITとは
+
+仕組みを書く。
+
+** Function JITとは
+
+仕組みを書く。
+
+* 終わりに

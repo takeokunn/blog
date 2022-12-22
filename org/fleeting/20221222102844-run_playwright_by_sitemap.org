@@ -4,12 +4,12 @@
 :ctime:    20221222102844
 :END:
 
-#+TITLE: sitemap.xmlからURLを良い感じに抽出してplaywrightでUIを目視確認する
+#+TITLE: sitemap.xmlからURLを良い感じに抽出してPlaywrightでUIを目視確認する
 #+DESCRIPTION: playwright使ってみた
 #+DATE: 2022-12-22
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/fleeting
-#+HUGO_TAGS: fleeting
+#+HUGO_TAGS: fleeting playwright
 #+HUGO_DRAFT: false
 #+STARTUP: content
 #+STARTUP: nohideblocks
