@@ -12,7 +12,7 @@
     "url": "git+https://github.com/takeokunn/blog.git"
   },
   "devDependencies": {
-    "textlint": "^12.2.2",
+    "textlint": "^12.3.1",
     "textlint-filter-rule-node-types": "^1.1.0",
     "textlint-plugin-org": "^0.3.4",
     "textlint-rule-ginger": "^2.2.1",
