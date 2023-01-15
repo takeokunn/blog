@@ -57,7 +57,8 @@
         "exwm",
         "magit",
         "Homebrew",
-        "s"
+        "s",
+        "DynASM"
       ],
       "skipRegExps": [
         "([0-9A-F]{8})-([0-9A-F]{4})-([0-9A-F]{4})-([0-9A-F]{4})-([0-9A-F]{12})"

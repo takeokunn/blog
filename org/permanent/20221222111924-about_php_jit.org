@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       C81D01DB-6135-46CD-B491-F35F42002417
-:mtime:    20230115151905 20230115141644 20221222112051
+:mtime:    20230115161908 20230115151905 20230115141644 20221222112051
 :ctime:    20221222111924
 :END:
 
@@ -34,7 +34,7 @@ JITを正しく使うと、条件によってはアプリケーションの1.5�
 JIT自体の歴史は長く、様々な言語の処理系で実装されています。
 JavaScriptの処理系であるV8 EngineもJITを導入することによって大幅な高速化を実現しました。
 
-Ruby 3.1でYJITが導入されました。
+Ruby 3.1ではYJITが導入されました。
 YJITはShopify社製のJIT Compilerで、同社はRailsアプリケーションが =20%~40%= 程度高速化できたという報告をしています。
 
 PHP、Ruby、JavaScriptのような動的型付け言語は、CやRustのような静的型付け言語よりも実行速度が遅いです。
@@ -45,27 +45,59 @@ PHP、Ruby、JavaScriptのような動的型付け言語は、CやRustのよう�
 JIT Compileは実行時にマシンコードを吐き出し、キャッシュ上に乗せ、再度実行する時にキャッシュ上のマシンコードを実行するというアプローチです。
 マシンコードにすることによって、中間コードにわざわざ変換をしてVM上で変換をする必要がないので高速に動かすことができます。
 
-JITの対比として、C言語のような事前にコンパイルする通常の手法はAOT(Ahead-Of-Time)コンパイルと呼びます。
+ちなみに、JITの対比として、C言語のような事前にコンパイルする通常の手法はAOT(Ahead-Of-Time)コンパイルと呼びます。
+
+JIT Compilerの実装は様々ありますが、PHPではDynASMを使っています。
+DynASMはLuaでも使われており、既に実績を残しています。
+
+* PHPのJITの仕組み
+** 基本的な構造
+
+2023年1月現在、JITはOPCacheのサブセットとして提供されています。
+
+** JITに適したコード
+
+以下のような =A= と =B= のコードはどちらがJITに適したコードでしょうか？
+
+A:
+#+begin_src php
+  function A($a, $b)
+  {
+      return $a + $b;
+  }
+#+end_src
+
+B:
+#+begin_src php
+  declare(strict_types=1);
+
+  function B(float $a, float $b): float
+  {
+      return $a + $b;
+  }
+#+end_src
+
+答えは =B= です。
+
+JIT Compilerは実行時に型情報を集め、最適化されたマシンコードを吐き出します。
+
+=declare(strict_types=1);= は厳格な型検査モードの指定構文です。
+暗黙な型変換を抑えることができます。
+
+PHPは7以降型をより厳格に書けるようになり、PHPStanやPsalmのような静的型検査ができるツールも普及してきています。
+それらのツールを使い、厳格に記述すればするほどJIT Compilerの恩恵を受けることができるでしょう。
 
 * インストール方法
 
 =php.ini= の =OPCache= の周りの設定を入れる。
 
-* Tracing JITとFunction JITについて
-** Tracing JITとは
-
-仕組みを書く。
-
-** Function JITとは
-
-仕組みを書く。
-
 * 終わりに
 
-貴方が関わってるPHPプロジェクトでJITを有効にし、高速化してみては如何でしょうか？
+貴方が関わってるPHPプロジェクトでJITを有効にし、高速化してみては如何でしょうかみたいなポエムを書く。
 
 * 参考記事
 
+- [[https://corsix.github.io/dynasm-doc/index.html][The Unofficial DynASM Documentation]]
 - [[https://shopify.engineering/yjit-just-in-time-compiler-cruby][YJIT: Building a New JIT Compiler for CRuby]]
 - [[https://php.watch/articles/jit-in-depth][PHP JIT in Depth]]
 - [[https://www.slideshare.net/y-uti/jit-70023246][JIT のコードを読んでみた]]
