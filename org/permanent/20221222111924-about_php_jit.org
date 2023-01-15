@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       C81D01DB-6135-46CD-B491-F35F42002417
-:mtime:    20230115161908 20230115151905 20230115141644 20221222112051
+:mtime:    20230115211150 20230115161908 20230115151905 20230115141644 20221222112051
 :ctime:    20221222111924
 :END:
 
@@ -56,6 +56,31 @@ DynASMはLuaでも使われており、既に実績を残しています。
 
 2023年1月現在、JITはOPCacheのサブセットとして提供されています。
 
+* インストール方法
+
+JITを利用するにあたって、 =php.ini= のOPCache周りの設定を有効にする必要があります。
+
+#+begin_src ini
+  [opcache]
+  opcache.enable=1
+  opcache.enable_cli=1
+#+end_src
+
+JITを以下のように有効にします。
+
+#+begin_src ini
+  opcache.jit=tracing ; function
+  opcache.jit_buffer_size = 128M
+#+end_src
+
+~opcache.jit~ のオプションは大きく分けて =tracing= と =function= の2つがあります。
+=tracing= や =function= という文字列はエイリアスであって、4桁の整数値 =CRTO= を直接指定するという高度な使い方もあります。
+
+CRTOはそれぞれ、「C (特定のCPU向けの最適化フラグ)」「R (レジスタの割り付け)」「T (JITを行うトリガ)」「O (最適化レベル)」です。
+
+~opcache.jit_buffer_size~ はコンパイル済みのJITコードを保存する共有メモリの合計サイズです。
+ドキュメントには =0= を指定するとJITが無効になるという記述があります。
+
 * JITに適したコード
 
 以下のような =A= と =B= のコードはどちらがJITに適したコードでしょうか？
@@ -88,32 +113,7 @@ JIT Compilerは実行時に型情報を集め、最適化されたマシンコ�
 PHPは7以降型をより厳格に書けるようになり、PHPStanやPsalmのような静的型検査ができるツールも普及してきています。
 それらのツールを使い、厳格に記述すればするほどJIT Compilerの恩恵を受けることができるでしょう。
 
-* インストール方法
-
-JITを利用するにあたって、 =php.ini= のOPCache周りの設定を有効にする必要があります。
-
-#+begin_src ini
-  [opcache]
-  opcache.enable=1
-  opcache.enable_cli=1
-#+end_src
-
-JITを以下のように有効にします。
-
-#+begin_src ini
-  opcache.jit=tracing ; function
-  opcache.jit_buffer_size = 128M
-#+end_src
-
-~opcache.jit~ のオプションは大きく分けて =tracing= と =function= の2つがあります。
-=tracing= や =function= という文字列はエイリアスであって、4桁の整数値 =CRTO= を直接指定するという高度な使い方もあります。
-
-CRTOはそれぞれ、「C (特定のCPU向けの最適化フラグ)」「R (レジスタの割り付け)」「T (JITを行うトリガ)」「O (最適化レベル)」です。
-
-~opcache.jit_buffer_size~ はコンパイル済みのJITコードを保存する共有メモリの合計サイズです。
-ドキュメントには =0= を指定するとJITが無効になるという記述があります。
-
-* PHP JITのデメリットについて
+* JITのデメリットについて
 
 #+begin_quote
 一般にJITはコンパイルによるオーバーヘッドを伴うため，場合によっては実行がかえって遅くなってしまう場合もあります．このため，JITでは何らかの手段でスクリプトの実行時にプロファイリングにより時間を要する部分を見つけ出し，部分的にコンパイルを行う手法が用いられます．
