@@ -37,6 +37,8 @@ JavaScriptの処理系であるV8 EngineもJITを導入することによって�
 Ruby 3.1ではYJITが導入されました。
 YJITはShopify社製のJIT Compilerで、同社はRailsアプリケーションが =20%~40%= 程度高速化できたという報告をしています。
 
+私の普段使っているEmacsでもJIT Compilerがサポートされて、体感速度として感じられるくらい動作がサクサクになったという実感があります。
+
 PHP、Ruby、JavaScriptのような動的型付け言語は、CやRustのような静的型付け言語よりも実行速度が遅いです。
 遅い理由は様ありますが、実行時に字句解析、構文解析、コンパイルをして中間コードを吐き出し、VM上で実行をしているのが原因です。
 変数や関数の型情報の多くは実行時に決まり、実行時にVM上で最適化が走るので、どうしても遲くなってしまいます。
@@ -50,12 +52,11 @@ JIT Compileは実行時にマシンコードを吐き出し、キャッシュ上
 JIT Compilerの実装は様々ありますが、PHPではDynASMを使っています。
 DynASMはLuaでも使われており、既に実績を残しています。
 
-* PHPのJITの仕組み
-** 基本的な構造
+* TODO PHPのJITの基本的な仕組み
 
 2023年1月現在、JITはOPCacheのサブセットとして提供されています。
 
-** JITに適したコード
+* JITに適したコード
 
 以下のような =A= と =B= のコードはどちらがJITに適したコードでしょうか？
 
@@ -89,7 +90,34 @@ PHPは7以降型をより厳格に書けるようになり、PHPStanやPsalmの�
 
 * インストール方法
 
-=php.ini= の =OPCache= の周りの設定を入れる。
+JITを利用するにあたって、 =php.ini= のOPCache周りの設定を有効にする必要があります。
+
+#+begin_src ini
+  [opcache]
+  opcache.enable=1
+  opcache.enable_cli=1
+#+end_src
+
+JITを以下のように有効にします。
+
+#+begin_src ini
+  opcache.jit=tracing ; function
+  opcache.jit_buffer_size = 128M
+#+end_src
+
+~opcache.jit~ のオプションは大きく分けて =tracing= と =function= の2つがあります。
+=tracing= や =function= という文字列はエイリアスであって、4桁の整数値 =CRTO= を直接指定するという高度な使い方もあります。
+
+CRTOはそれぞれ、「C (特定のCPU向けの最適化フラグ)」「R (レジスタの割り付け)」「T (JITを行うトリガ)」「O (最適化レベル)」です。
+
+~opcache.jit_buffer_size~ はコンパイル済みのJITコードを保存する共有メモリの合計サイズです。
+ドキュメントには =0= を指定するとJITが無効になるという記述があります。
+
+* PHP JITのデメリットについて
+
+#+begin_quote
+一般にJITはコンパイルによるオーバーヘッドを伴うため，場合によっては実行がかえって遅くなってしまう場合もあります．このため，JITでは何らかの手段でスクリプトの実行時にプロファイリングにより時間を要する部分を見つけ出し，部分的にコンパイルを行う手法が用いられます．
+#+end_quote
 
 * 終わりに
 
@@ -101,3 +129,6 @@ PHPは7以降型をより厳格に書けるようになり、PHPStanやPsalmの�
 - [[https://shopify.engineering/yjit-just-in-time-compiler-cruby][YJIT: Building a New JIT Compiler for CRuby]]
 - [[https://php.watch/articles/jit-in-depth][PHP JIT in Depth]]
 - [[https://www.slideshare.net/y-uti/jit-70023246][JIT のコードを読んでみた]]
+- [[https://keens.github.io/blog/2018/12/01/jitarekore/][JITあれこれ]]
+- [[https://blog.tomoya.dev/posts/hello-native-comp-emacs/][ネイティブコンパイルEmacsの登場]]
+- [[https://tech.griphone.co.jp/2021/12/23/php8jit/][PHP8でのJIT導入の背景について調べてみた]]
