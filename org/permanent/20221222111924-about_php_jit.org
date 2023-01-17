@@ -4,7 +4,7 @@
 :ctime:    20221222111924
 :END:
 
-#+TITLE: PHP8から追加されたJITについて学ぼう!(phperkaigi寄稿用)
+#+TITLE: PHP8から追加されたJITについて学ぼう!
 #+DESCRIPTION: PHPのJITについて書く
 #+DATE: 2022-12-22
 #+HUGO_BASE_DIR: ../../
