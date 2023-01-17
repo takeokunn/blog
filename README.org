@@ -23,7 +23,7 @@ run Hugo server:
   $ hugo server
 #+end_src
 
-update theme:
+** Update theme
 
 #+begin_src shell
   $ git submodule update --remote --recursive
