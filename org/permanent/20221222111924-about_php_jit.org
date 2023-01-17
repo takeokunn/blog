@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       C81D01DB-6135-46CD-B491-F35F42002417
-:mtime:    20230117022110
+:mtime:    20230117150509 20230117022110
 :ctime:    20221222111924
 :END:
 
@@ -10,7 +10,7 @@
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/permanent
 #+HUGO_TAGS: permanent
-#+HUGO_DRAFT: true
+#+HUGO_DRAFT: false
 #+STARTUP: content
 #+STARTUP: nohideblocks
 
