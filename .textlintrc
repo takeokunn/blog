@@ -59,7 +59,9 @@
         "Homebrew",
         "s",
         "DynASM",
-        "pecl"
+        "pecl",
+        "Webpacker",
+        "Fluentd"
       ],
       "skipRegExps": [
         "([0-9A-F]{8})-([0-9A-F]{4})-([0-9A-F]{4})-([0-9A-F]{4})-([0-9A-F]{12})"
@@ -68,7 +70,13 @@
     "textlint-rule-write-good": true,
     "preset-ja-spacing": true,
     "textlint-rule-no-dropping-the-ra": true,
-    "ginger": false
+    "ginger": false,
+    "prh": {
+      "rulePaths": [
+        "node_modules/prh/prh-rules/media/WEB+DB_PRESS.yml",
+        "node_modules/prh/prh-rules/media/techbooster.yml"
+      ]
+    }
   },
   "plugins": [
     "org"

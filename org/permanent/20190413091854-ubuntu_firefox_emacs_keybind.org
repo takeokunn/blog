@@ -92,9 +92,9 @@ WebExtensions ではキーボードショートカットに関する API
 
 ~Firefox~ のみ反応してほしいのでこのような設定にした。
 
-[[https://github.com/takeokunn/dotfiles/blob/master/modules/xkeysnail/dot.config.py][takeokunn/dotfiles/blob/master/modules/xkeysnail/dot.config.py]]で管理をしてる。
+[[https://github.com/takeokunn/dotfiles/blob/master/modules/xkeysnail/dot.config.py][takeokunn/dotfiles/blob/master/modules/xkeysnail/dot.config.py]]で管理をしている。
 
-あとは、 ~sudo xkeysnail ~/.config.py~ を叩けば有効になる。
+あとは、 ~sudo xkeysnail ~/.config.py~ をたたけば有効になる。
 
 --------------
 
@@ -135,4 +135,4 @@ $ sudo service xkeysnail start
 
 微妙に融通の効かない部分とかあるので細かい調整をどんどんしていきたい。
 
-~Firefox Quantum~ の ~Key API~ がハックしやすくなってくれることを祈るばかり。
+~Firefox Quantum~ の ~Key API~ がハックしや少なってくれることを祈るばかり。

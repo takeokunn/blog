@@ -20,14 +20,14 @@
 
 なお、VimとEmacsの比較をし易くするためになるべく文章の構成を寄せて書くことをご了承ください。
 
-* はじめに
+* 始めに
 
-「Emacsを高速に起動する」ということに対して、多くのEmacsユーザは興味がありません。
+「Emacsを高速に起動する」ということに対して、多くのEmacsユーザーは興味がありません。
 本来Emacsというのは常に起動し続けるものであり、必要に応じてEmacs Lispを適用し、テキストエディタをカスタマイズしていくものです。
 現に「Emacs, 起動, 高速化」と検索すると、「4000msを1000msにした」のような秒単位での高速化の記事ばかりみつかります。
 
-もし貴方が設定を変えずに手軽に高速に起動したい場合は ~emacs --daemon~ でdaemonを立ち上げ、 ~emacsclient~ で繋ぐようにすれば良いでしょう。
-私は他人のdotfilesを読むのが趣味なのですが、多くのEmacsユーザは ~EDITOR=emacsclient~ と設定しています。
+もしあなたが設定を変えずに手軽に高速に起動したい場合は ~emacs --daemon~ でdaemonを立ち上げ、 ~emacsclient~ でつなぐようにすれば良いでしょう。
+私は他人のdotfilesを読むのが趣味なのですが、多くのEmacsユーザーは ~EDITOR=emacsclient~ と設定しています。
 
 また、起動時間のみを考慮するなら =~/.emacs.d/init.el= を削除して素で起動すれば良いでしょう。
 そうなると純粋にマシンスペックの勝負になります。
@@ -40,7 +40,7 @@ Emacsは素の状態でも十分魅力的な機能を多数盛り込まれてい
 - [[https://zenn.dev/zk_phi/books/cba129aacd4c1418ade4/viewer/c47f8eb7cd547b95ba91][擬似非同期ロードによる"待たされ感"改善]]
 - [[https://zenn.dev/zk_phi/books/cba129aacd4c1418ade4/viewer/dcebc13578d42055f8a4][その他のテクニック：不要な処理を省くハックたち]]
 
-本のあらすじにも書いてある通り、Emacs自体に既に大量のファイルがある状態で高速に起動する時点で自分の設定を見直さなければならないことは明白でしょう。
+本のあらすじにも書いてある通り、Emacs自体にすでに大量のファイルがある状態で高速に起動する時点で自分の設定を見直さなければならないことは明白でしょう。
 
 #+begin_quote
 しかし、考えてみれば Emacs には 1000 以上の Emacs Lisp ファイルが初めから同梱されているわけで、そこに数十のプラグインを足しただけで爆裂に遅くなるのは、なにか設定にも問題がある気がします。
@@ -82,7 +82,7 @@ Emacsは素の状態でも十分魅力的な機能を多数盛り込まれてい
 #+end_src
 
 Emacsのversionは ~30.0.50~ です。
-日々HEAD buildをしているのでstableのversionとは微妙に差異がありますが、起動速度にはそこまで大きな差が出ないでしょう。
+日々HEAD buildをしているので最新のversionとは微妙に差異がありますが、起動速度にはそこまで大きな差が出ないでしょう。
 
 #+begin_src shell
   $ emacs -version
@@ -101,10 +101,10 @@ Emacsのversionは ~30.0.50~ です。
 - [[https://emacs.takeokunn.org/][init.el]]
 - [[https://emacs.takeokunn.org/early-init][early-init]]
 
-2022年現在、 ~init.el~ と ~early-init.el~ は6800行(空白を除くと5800行)程度あります。
+2022年現在、 ~init.el~ と ~early-init.el~ は6800行（空白を除くと5800行）程度あります。
 設定を別ファイルに切り分けたりしておらず、 ~init.el~ 1つで管理をしています。
 
-全ての設定を ~org-mode~ で管理しており、GitHub ActionsでbuildをしGitHub Pagesにhostingしています。
+すべての設定を ~org-mode~ で管理しており、GitHub ActionsでbuildをしGitHub Pagesにhostingしています。
 
 ~el-get~ で導入しているpackage数は384個です。
 
@@ -118,7 +118,7 @@ Emacsのversionは ~30.0.50~ です。
 
 Emacsはざっくり以下のような起動プロセスを踏みます。
 
-- boot処理(C言語)
+- boot処理（C言語）
 - [[https://github.com/emacs-mirror/emacs/blob/master/lisp/startup.el][lisp/startup.el]] が読み込まれる
 - [[https://github.com/emacs-mirror/emacs/blob/6a390fd42ec4ef97d637899fc93f34ea65639e3c/lisp/startup.el#L577-L850][normal-top-level]] が実行される
 - [[https://github.com/emacs-mirror/emacs/blob/6a390fd42ec4ef97d637899fc93f34ea65639e3c/lisp/startup.el#L1125-L1639][command-line]] が実行される
@@ -128,10 +128,10 @@ Emacsはざっくり以下のような起動プロセスを踏みます。
   - [[https://github.com/emacs-mirror/emacs/blob/6a390fd42ec4ef97d637899fc93f34ea65639e3c/lisp/startup.el#L1482-L1507][https://github.com/emacs-mirror/emacs/blob/6a390fd42ec4ef97d637899fc93f34ea65639e3c/lisp/startup.el#L1482-L1507]]
 
 Emacs自体にpatchを当てない限り、 =~/.emacs.d/early-init.el= より前には手が出せません。
-[[https://github.com/emacs-mirror/emacs/blob/master/lisp/proced.el][lisp/proced.el]] のような既存のEmacs Lispファイルは[[https://www.emacswiki.org/emacs/DumpingEmacs][portable dumper]]で既に実行可能なbinaryに出力されており、fileをloadすることなく実行されているようです。
+[[https://github.com/emacs-mirror/emacs/blob/master/lisp/proced.el][lisp/proced.el]] のような既存のEmacs Lispファイルは[[https://www.emacswiki.org/emacs/DumpingEmacs][portable dumper]]ですでに実行可能なbinaryに出力されており、fileをloadすることなく実行されているようです。
 
 Emacsのbuild時に自分の ~init.el~ を読み込ませて ~pdump~ を生成するのが真の最速であり、5ms以内での起動を期待できます。
-たとえ記述がほぼ無いとしても ~init.el~ と ~early-init.el~ を読み込み実行するというのは重いもので、File I/Oというのは重いものだと実感させられました。
+たとえ記述がほぼないとしても ~init.el~ と ~early-init.el~ を読み込み実行するというのは重いもので、File I/Oというのは重いものだと実感させられました。
 しかし、それではEmacsのカスタマイズ性というのを殺すことになるので今回は含めないこととします。
 
 ** 計測方法
@@ -190,7 +190,7 @@ Emacsのbuild時に自分の ~init.el~ を読み込ませて ~pdump~ を生成�
   Loading init files: 10 [msec], of which 1 [msec] for ‘after-init-hook’.
 #+end_example
 
-** 評価の仕方
+** 評価のし方
 
 高速化する上で重要なのは、評価指標をマシンスペックに依存しない形で評価をすることでしょう。
 
@@ -221,30 +221,30 @@ Emacsのbuild時に自分の ~init.el~ を読み込ませて ~pdump~ を生成�
 #+end_example
 
 多少ブレがあるものの、自分の ~init.el~ で実行をするとSamples数が15以内で起動します。
-Sample数が素に近ければ近いほど、高速に動いていると言えます。
+Sample数が素に近ければ近いほど、高速に動いているといえます。
 
 * この記事で達成する目標
 
 皆さんのEmacsの起動速度はどうでしょうか？
-私の感覚になりますが、大体以下のように分類できるでしょう。
+私の感覚になりますが、だいたい以下のように分類できるでしょう。
 
 - 5000ms以上
   - だいぶ遅い
-  - 外部への通信(パッケージの更新等)が多数走ってしまっている可能性が高い
+  - 外部への通信（パッケージの更新等）が多数走ってしまっている可能性が高い
 - 1000ms 〜 5000ms
   - 一般的な速度
-  - 大体のEmacsユーザはこの辺だろう
-  - パッケージ管理ツールを普通に使って普通に設定してるとこのくらい
+  - だいたいのEmacsユーザーはこの辺だろう
+  - パッケージ管理ツールを普通に使って普通に設定しているとこのくらい
 - 100ms 〜 1000ms
-  - パッケージ管理ツールで高速化をすると大体この辺になる
+  - パッケージ管理ツールで高速化をするとだいたいこの辺になる
   - そこそこ頑張る必要がある
 - 100ms以下
-  - 全ての設定をパッケージ管理ツールを使わずに素で書いているか、高速化に拘った設定をしている
+  - すべての設定をパッケージ管理ツールを使わずに素で書いているか、高速化にこだわった設定をしている
   - かなり頑張る必要がある
   - ~EDITOR=emacs~ 設定するのを視野に入れられる
 
 [[https://qiita.com/delphinus/items/fb905e452b2de72f1a0f#3-%E3%81%93%E3%81%AE%E8%A8%98%E4%BA%8B%E3%81%A7%E9%81%94%E6%88%90%E3%81%99%E3%82%8B%E7%9B%AE%E6%A8%99][NeoVimの場合]]はこちら。
-NeoVimでは「50ms以下」から「500ms以上」を話題にしているので明かにEmacsはスタート地点が遅い。
+NeoVimでは「50ms以下」から「500ms以上」を話題にしているので明らかにEmacsはスタート地点が遅い。
 
 この記事では当然100ms以下を目指している。
 
@@ -255,15 +255,15 @@ NeoVimでは「50ms以下」から「500ms以上」を話題にしているの�
 ~use-package~ の実態はパッケージ管理ツールというよりはmacroです。
 
 ~use-package~ 内に適切の設定を記述すると、パッケージを落としパスを通し、関数や変数の設定を記述したりする ~s式~ を生成してくれます。
-私は ~use-package~ には疎いので正確なことは書けませんが、~s式~ の効率が良いかと言われたら最高速を叩き出せるものではありません。
+私は ~use-package~ には疎いので正確なことは書けませんが、~s式~ の効率が良いかといわれたら最高速をたたき出せるものではありません。
 
-普通にEmacsの設定をするなら間違いなく使うべきものですが、今回のようなパフォーマンスを求める場合あまりオススメできるものではありません。
+普通にEmacsの設定をするなら間違いなく使うべきものですが、今回のようなパフォーマンスを求める場合あまりお勧めできるものではありません。
 
 ** NativeComp
 *** EmacsをFull NativeCompでBuildする
 
 多くの人はHomebrewのようなパッケージマネージャーで落してBuildしたEmacsを使っていることでしょう。
-それだと細かいbuildの設定もできないし、痒い所に手が届きません。
+それだと細かいbuildの設定もできないし、かゆい所に手が届きません。
 
 まずは ~git clone~ をします。
 
@@ -273,7 +273,7 @@ NeoVimでは「50ms以下」から「500ms以上」を話題にしているの�
 #+end_src
 
 次にNativeCompでbuildします。
-私は毎日 ~git pull~ した上で以下のコマンドを叩いてbuildしています。
+私は毎日 ~git pull~ したうえで以下のコマンドを叩いてbuildしています。
 
 #+begin_src shell
   $ ./autogen.sh && ./configure --with-native-compilation=aot --without-ns --without-x --with-libxml2=/usr/bin/xml2-config && make -j8
@@ -282,7 +282,7 @@ NeoVimでは「50ms以下」から「500ms以上」を話題にしているの�
 
 ~--with-native-compilation=aot~ が特に重要です。
 
-[[https://blog.tomoya.dev/posts/hello-native-comp-emacs/][ネイティブコンパイルEmacsの登場]]に書いてありますが、2021年4月頃にNative Compがサポートされました。
+[[https://blog.tomoya.dev/posts/hello-native-comp-emacs/][ネイティブコンパイルEmacsの登場]]に書いてありますが、2021年4月ころにNative Compがサポートされました。
 ~foo.el~ というファイルから ~foo.eln~ という拡張子のファイルを生成します。
 ~brew install libgccjit~ などをしてちゃんと ~libgccjit~ をinstallする必要があります。
 [[https://www.grugrut.net/posts/202104272222/][EmacsのNative Compilationの性能を測定する]]でも検証されているが、かなりの高速化が期待できます。
@@ -290,7 +290,7 @@ NeoVimでは「50ms以下」から「500ms以上」を話題にしているの�
 [[https://github.com/emacs-mirror/emacs/commit/e245c4f226979ccb717cccc8f82b2b0a0f96bdac][Add --with-native-compilation=aot configuration option]] で ~aot~ を指定してbuildするとEmacsのFull Native Compが実行されるようになりました。
 ~make -j <proc>~ でproc数を多くすると処理が重すぎてPCが固まるので少なめに設定しておく方が良いです。
 
-*** NativeCompした結果のファイル(eln)が優先的に読み込まれる
+*** NativeCompした結果のファイル（eln）が優先的に読み込まれる
 
 Emacs Lispで別のファイルを呼び込む際に ~(load "/path/to/dir/file")~ のように書きます。
 
@@ -317,7 +317,7 @@ Emacs Lispには、Lispで記述された関数を、より効率的に実行で
   $ emacs -Q --batch -f batch-byte-compile init.el
 #+end_src
 
-基本的にはnative compが優先的に読まれるので意味がないと言われたらそうなのだが、後述する ~el-get~ はbyte-compile時に発火させるので流す必要があります。
+基本的にはnative compが優先的に読まれるので意味がないといわれたらそうなのだが、後述する ~el-get~ はbyte-compile時に発行させるので流す必要があります。
 
 *** NativeCompの設定
 
@@ -327,7 +327,7 @@ Emacs Lispには、Lispで記述された関数を、より効率的に実行で
 [[https://github.com/emacs-mirror/emacs/blob/6a390fd42ec4ef97d637899fc93f34ea65639e3c/lisp/emacs-lisp/comp.el#L46-L58][ソースコード]]はこちら。
 「Warning: with 3, the compiler is free to perform dangerous optimizations.」と書いてありますが、半年以上この設定で問題なく使えているので気にしなくて良いでしょう。
 
-~native-comp-async-jobs-number~ はjob数で大きめに設定するとPCが極端に重くなってしまうので低めに設定しておくことをオススメします。
+~native-comp-async-jobs-number~ はjob数で大きめに設定するとPCが極端に重くなってしまうので低めに設定しておくことをお勧めします。
 
 #+begin_src emacs-lisp
   (with-eval-after-load 'comp
@@ -364,9 +364,9 @@ By contrast, the normal init files are read after the GUI is initialized.
 
 [[https://github.com/emacs-mirror/emacs/blob/6a390fd42ec4ef97d637899fc93f34ea65639e3c/lisp/startup.el#L1369-L1479][https://github.com/emacs-mirror/emacs/blob/6a390fd42ec4ef97d637899fc93f34ea65639e3c/lisp/startup.el#L1369-L1479]]
 
-実行されてる主な関数は以下。
+実行されている主な関数は以下。
 
-- startup--update-eln-cache
+- startup--update-eln-キャッシュ
 - package-activate-all
 - window-system-initialization
 - frame-initialize
@@ -384,10 +384,10 @@ GC関係のコードは[[https://github.com/emacs-mirror/emacs/blob/master/src/a
 ** Compile時処理
 *** el-get-bundleをeval-when-compile時に落とす
 
-私は ~el-get~ ユーザなので他のpackage managerのことはわかりませんが、package installはbyte-compile時に行っています。
+私は ~el-get~ ユーザーなので別のpackage managerのことはわかりませんが、package installはbyte-compile時に行っています。
 [[https://github.com/dimitri/el-get][dimitri/el-get]]の ~Installation~ を参考に設定していきます。
 
-~eval-when-compile~ はbyte-compile時にしか発火せず、生成された ~elc~ には処理結果が記述されるというものです。
+~eval-when-compile~ はbyte-compile時にしか発行せず、生成された ~elc~ には処理結果が記述されるというものです。
 
 私は ~el-get~ で380個程度のpackageを落としている関係上、非常に時間がかかるのでshallow cloneするようにしています。
 
@@ -423,7 +423,7 @@ GC関係のコードは[[https://github.com/emacs-mirror/emacs/blob/master/src/a
 - Guix exwm環境
 
 前提にも書いた通り、今回高速化するにあたって「Mac CLI環境」にフォーカスして話していたが、実際運用している環境は3つあります。
-例えば「Mac環境ではexwm関係のpluginは不要」のような、環境ごとに必要な処理やライブラリが微妙に違うので条件分岐が必要になってきます。
+たとえば「Mac環境ではexwm関係のpluginは不要」のような、環境ごとに必要な処理やライブラリが微妙に違うので条件分岐が必要になってきます。
 
 3環境を分岐できるようなmacroを作成し、byte-compile時に条件分岐しました。
 
@@ -463,7 +463,7 @@ GC関係のコードは[[https://github.com/emacs-mirror/emacs/blob/master/src/a
 - swiper/ivy/counsel
 - doom
 
-普通にEmacsを起動した時最初に叩くコマンドは ~projectile~ であることや、 ~EDITOR=emacs git commit~ で立ち上がった時さっさと日本語入力できるようにしたいものです。
+普通にEmacsを起動した時最初にたたくコマンドは ~projectile~ であることや、 ~EDITOR=emacs git commit~ で立ち上がった時さっさと日本語入力できるようにしたいものです。
 また、fish shellから ~M-g~ でmagitを起動できるようしています。
 
 #+begin_src fish
@@ -553,13 +553,13 @@ GC関係のコードは[[https://github.com/emacs-mirror/emacs/blob/master/src/a
 #+end_src
 
 ~with-eval-after-load~ は ~require~ が実行されたタイミングで読まれるものです。
-~autolaod-if-found~ で全ての処理を遅延してる関係で、全てのpackageに対して丁寧に指定する必要があります。
+~autolaod-if-found~ ですべての処理を遅延している関係で、すべてのpackageに対して丁寧に指定する必要があります。
 もし設定をしなければ、未定義変数になって起動時にWarningなりErrorが吐かれてしまいます。
 
 以下の ~php-mode-~ の例のように、 ~with-eval-after-load~ には3種類の設定をするようにしています。
 
 - hook
-- keybind(map)
+- keybind（map）
 - custom
 
 #+begin_src emacs-lisp
@@ -580,7 +580,7 @@ GC関係のコードは[[https://github.com/emacs-mirror/emacs/blob/master/src/a
 
 [[https://zenn.dev/zk_phi/books/cba129aacd4c1418ade4/viewer/dcebc13578d42055f8a4#magic-file-name-%E3%82%92%E4%B8%80%E6%99%82%E7%9A%84%E3%81%AB%E7%84%A1%E5%8A%B9%E3%81%AB%E3%81%99%E3%82%8B][Magic File Name を一時的に無効にする - Emacs の起動時間を""詰める""]] について。
 
-FileのI/Oは非常にコストがかかる行為だと改めて感じました。
+FileのI/Oは非常にコストがかかる行為だとあらためて感じました。
 
 以下の記述を書くだけです。
 書くだけでかなり改善するのでコスパの良い対応だと感じています。
@@ -598,10 +598,10 @@ FileのI/Oは非常にコストがかかる行為だと改めて感じました�
 
 [[https://zenn.dev/zk_phi/books/cba129aacd4c1418ade4/viewer/dcebc13578d42055f8a4#gc-%E3%82%92%E6%B8%9B%E3%82%89%E3%81%99][GC を減らす - Emacs の起動時間を""詰める""]]について。
 
-起動時にGCが回ることははっきり言ってコストでしかないです。
+起動時にGCが回ることはっきり言ってコストでしかないです。
 起動時に一度もGCを回さない程度の大きさで設定しておくと良いです。
 
-GCが回ったかどうかは前述の「評価の仕方」で ~profile-report~ が出力してくれるので、そこで判断できるでしょう。
+GCが回ったかどうかは前述の「評価のし方」で ~profile-report~ が出力してくれるので、そこで判断できるでしょう。
 私は ~early-init.el~ に以下のように設定しています。
 
 #+begin_src emacs-lisp
@@ -620,24 +620,24 @@ GCが回ったかどうかは前述の「評価の仕方」で ~profile-report~ 
 
 重複チェックをするかどうかで変わる秒数は1msよりも圧倒的に少ないだろうし、安全性を捨てるデメリットと比較してメリットが薄いように感じているので却下しました。
 
-またasync loadしている関係で言語系の処理は遅延読み込みしてるので、起動時には影響が出ないです。
+またasync loadしている関係で言語系の処理は遅延読み込みしているので、起動時には影響が出ないです。
 
-** Portable Dumperについて
+** Porテーブル Dumperについて
 
 [[https://zenn.dev/zk_phi/books/cba129aacd4c1418ade4/viewer/e27557c39fceefe6c4f6#%E3%83%9D%E3%83%BC%E3%82%BF%E3%83%96%E3%83%AB%E3%83%80%E3%83%B3%E3%83%91%E3%83%BC][ポータブルダンパー - Emacs の起動時間を""詰める""]] について。
 
-あらかじめpackageを読み込んでおいた状態のmemoryをdumpする仕組み。
-今回の遅延評価をするアプローチではPortable Dumperは活躍できませんでした。
+あらかじめpackageを読み込んでおいた状態のmemoryをdumpするしくみ。
+今回の遅延評価をするアプローチでは ~Portable Dumper~ は活躍できませんでした。
 
 記述量がほぼない状態のEmacs Lispファイルを用意してmemory dumpして読み込ませてみたところ、180ms程度かかりました。
 
-そもそもNativeCompしているライブラリはdumpできなかったりと色々な落とし穴があるらしく、非常に使いにくいものとなっています。
+そもそもNativeCompしているライブラリはdumpできなかったりといろいろな落とし穴があるらしく、非常に使いにくいものとなっています。
 Emacsを自前Buildしたタイミングで生成されるdumpに自分のコードを埋め込むくらいすれば高速になりますが、別途用意をすると非常に遲くなります。
 
 ** lsp-modeのperformanceについて
 
 今回の起動時の高速化には関係ないが、 ~lsp-mode~ を高速化するTipsが公式サイトにあります。
-私は ~lsp-mode~ をヘビーユーズしてるので、パフォーマンスが大幅に改善されて生産性が上がりました。
+私は ~lsp-mode~ をヘビーユーズしているので、パフォーマンスが大幅に改善されて生産性が上がりました。
 
 [[https://emacs-lsp.github.io/lsp-mode/page/performance/][Performance - lsp-mode]]
 
@@ -646,7 +646,7 @@ Emacsを自前Buildしたタイミングで生成されるdumpに自分のコー
 これも今回の起動時の高速化には関係ないが、el-getで落としてきたpackageも一括でNativeCompする方が良いでしょう。
 以下のような関数を用意し、あらかじめ実行しておくと良いです。
 
-~el-get/**/*.el~ と ~elpa/**/*.el~ の全てのファイルを再帰的にNativeCompするため時間がかかります。
+~el-get/**/*.el~ と ~elpa/**/*.el~ のすべてのファイルを再帰的にNativeCompするため時間がかかります。
 
 #+begin_src emacs-lisp
   (defun my/native-comp-packages ()
@@ -656,14 +656,14 @@ Emacsを自前Buildしたタイミングで生成されるdumpに自分のコー
     (native-compile-async "~/.emacs.d/el-get" 'recursively)
     (native-compile-async "~/.emacs.d/elpa" 'recursively))
 #+end_src
-* おわりに
+* 終わりに
 
 2022年はEmacsとひたすら向きあった1年でした。
 今後10〜15年耐えられる設定とはなんなのかを考えた結果の1つに「起動時間の高速化」というのがありました。
-0から設定を見直し、より高速かつメンテナンス性の高い記述方法はなんなのか、 ~emacs.d~ はどうあるべきか、より善く生きていくためにはどうすれば良いのかを考えつくしました。
+ゼロから設定を見直し、より高速かつメンテナンス性の高い記述方法はなんなのか、 ~emacs.d~ はどうあるべきか、より善く生きていくためにはどうすれば良いのかを考えつくしました。
 
 Emacs起動時間を高速化するにあたって、Emacs本体のソースコードを読む機会が増えて多くの知識を得ることができました。
-是非皆さんも自分の設定をあらためて見直すきっかけにしていただけると幸いです。
+ぜひ皆さんも自分の設定をあらためて見直すきっかけにしていただけると幸いです。
 
-いつもTwitterで疑問に答えてくれるEmacs Hackerの皆さんのお陰でこの記事を書くことができました。
+いつもTwitterで疑問に答えてくれるEmacs Hackerの皆さんのおかげでこの記事を書くことができました。
 今後ともよろしくお願いします。

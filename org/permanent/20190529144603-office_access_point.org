@@ -14,21 +14,21 @@
 #+STARTUP: content
 #+STARTUP: nohideblocks
 
-無線ルーターを購入してアクセスポイントを設定した時に学んだことをメモしておく。
+無線ルータを購入してアクセスポイントを設定した時に学んだことをメモしておく。
 
 --------------
 
-* 無線ルーター選定
+* 無線ルータ選定
 
 ポイントは3点。
 
 - 転送速度
-- セキュリティー
+- セキュリティ
 - 無線端末 最大接続数
 
 ** 転送速度
 
-種類ありすぎてわけわからないけど、とりあえず ~1ac~ に対応してればいいかな.GHzが低いほど壁などの障害に強い。
+種類ありすぎてわけわからないけど、とりあえず ~1ac~ に対応してればよいかな.GHzが低いほど壁などの障害に強い。
 
 参考にした記事は以下。
 
@@ -37,7 +37,7 @@
 - [[https://micro.rohm.com/jp/techweb_iot/knowledge/iot01/s-iot01/01-s-iot01/1844][電波の伝わり方：反射/透過、回析、干渉 | 基礎知識 | ROHM TECH WEB]]
 - [[http://musenlan.biz/blog/522/][無線LANよろず講座]]
 
-** セキュリティー
+** セキュリティ
 
 ~WPA2~ に対応してればオッケーという雑な理解。
 
@@ -48,7 +48,7 @@
 
 ** 無線端末 最大接続数
 
-今回は大体100台くらい繋げられればよかった。
+今回はだいたい100台くらいつなげられればよかった。
 
 参考にした記事は以下。
 
@@ -58,13 +58,15 @@
 
 これを購入することにした。
 
-[[https://www.amazon.co.jp/dp/B00OL61L9S/ref=asc_df_B00OL61L9S2617725/?tag=jpgo-22&creative=9339&creativeASIN=B00OL61L9S&linkCode=df0&hvadid=226974324204&hvpos=1o1&hvnetw=g&hvrand=14998055634270719829&hvpone=&hvptwo=&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=1028853&hvtargid=pla-457493725121][BUFFALO インテリジェントモデル PoE対応 11ac/n/a/g/b 866+300Mbps 無線LANアクセスポイント WAPM-1166D]]
+#+begin_quote
+https://www.amazon.co.jp/dp/B00OL61L9S/ref=asc_df_B00OL61L9S2617725/?tag=jpgo-22&creative=9339&creativeASIN=B00OL61L9S&linkCode=df0&hvadid=226974324204&hvpos=1o1&hvnetw=g&hvrand=14998055634270719829&hvpone=&hvptwo=&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=1028853&hvtargid=pla-457493725121][BUFFALO インテリジェントモデル PoE対応 11ac/n/a/g/b 866+300Mbps 無線LANアクセスポイント WAPM-1166D
+#+end_quote
 
-オフィスに生えてる野生のケーブルにルーターを差して動かした。 端っこの方に適当に置いてるので中央に置き直すつもりだ。
+オフィスに生えている野生のケーブルにルータを差して動かした。 端っこの方に適当に置いているので中央に置き直すつもりだ。
 
 * 管理画面から設定
 
-同一ネットワーク内で ~http://192.168.11.100~ を叩くと管理画面に入ることが出来る。
+同一ネットワーク内で ~http://192.168.11.100~ をたたくと管理画面に入ることができる。
 
 SSIDの変更やpasswordの変更、 認証方式の制限などを変更する。
 
@@ -73,6 +75,6 @@ SSIDの変更やpasswordの変更、 認証方式の制限などを変更する�
 * 余談
 
 POEすごい。
-イーサネット指すだけで充電できるというの便利だなぁと思った(小学生並みの感想)。
+Ethernet指すだけで充電できるというの便利だなぁと思った（小学生並みの感想）。
 
 macアドレスでAPへのアクセス制限をかけられることを知れてよかった。

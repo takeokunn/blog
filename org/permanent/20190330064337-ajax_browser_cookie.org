@@ -71,7 +71,7 @@ axiosのコードを読んでみる。
 var request = new XMLHttpRequest();
 #+end_src
 
-~XMLHttpRequest~ を使ってるのが確認できた。
+~XMLHttpRequest~ を使っているのが確認できた。
 
 さて、Cookieの扱い方はどうなっているだろうか? ググったら ~withCredentials~ を使えって書いてある。
 
@@ -87,7 +87,7 @@ var request = new XMLHttpRequest();
 
 同一オリジンの場合や ~withCredentials~ の場合に ~cookies.read~ が走る。
 
-cookiesの定義元を読んで見る。
+Cookiesの定義元を読んで見る。
 
 [[https://github.com/axios/axios/blob/503418718f669fcc674719fd862b355605d7b41f/lib/helpers/cookies.js#L9-L43][axios/lib/helpers/cookies.js]]:
 

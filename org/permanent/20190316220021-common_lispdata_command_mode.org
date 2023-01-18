@@ -29,18 +29,17 @@ stack overflowに以下の2つの質問をした。
 
 ~Question~: quoteっていつ使うの?
 
-Lispの入門書を一通り読んだのですが、特殊な演算子(~quote~や~'~)がどんな挙動をするのか理解できませんでしたし、まだ見たことがありません。
+Lispの入門書を読んだのですが、特殊な演算子(~quote~や~'~)がどんな挙動をするのか理解できませんでしたし、まだ見たことがありません。
 
 どうでしょうか？
 
 ~Short Answer~:
 
-デフォルトの評価ルールを使わず、式(symbol or
-s式)を評価せずに入力された型どおりに関数を渡す。
+デフォルトの評価ルールを使わず、 =symbol= か =s式= を評価せずに入力された型どおりに関数を渡す。
 
 ~Long Answer~: /デフォルトの評価ルール/
 
-通常の関数(後述)が呼び出された時、引数はすべて評価される。
+通常の関数（後述）が呼び出された時、引数はすべて評価される。
 コードは以下。
 
 #+begin_src lisp
@@ -62,9 +61,9 @@ s式)を評価せずに入力された型どおりに関数を渡す。
 
 大丈夫です。上で見たように、関数の引数はすべて評価されてしまうので、 ~value~ ではなく ~symbol~ を渡したいのであれば、それを評価はしたくありません。
 
-Lisp symbols can double both as their values, and markers where you in other languages would have used strings, such as keys to hash tables.
+=Lisp symbols can double both as their values, and markers where you in other languages would have used strings, such as keys to hash tables.=
 
-の出番です。LispよりPythonアプリケーションでリソースの割当について作りたいとしましょう。
+の出番です。LispよりPythonアプリケーションでリソースの割り当てについて作りたいとしましょう。
 
 Pythonのアプリケーションはこんな感じ。
 
@@ -79,7 +78,7 @@ while allocating:
 print(")")
 #+end_example
 
-出力結果(一部)はこちら。
+出力結果（一部）はこちら。
 
 #+begin_src lisp
   '((allocate 3)
@@ -125,7 +124,7 @@ Lisp> (mess-with 20 "foo")
 (VALUE-OF-NUMBER (1+ NUMBER) SOMETHING-WITH-STRING (LENGTH STRING))
 #+end_example
 
-望んだ結果じゃないです! いくつかの引数を選択的に評価し、他のものは ~symbol~ として残します。
+望んだ結果じゃないです! いくつかの引数を選択的に評価し、別のものは ~symbol~ として残します。
 
 /テイク２/:
 
@@ -139,7 +138,7 @@ Lisp> (mess-with 20 "foo")
 
 / 単なる ~quote~ ではく、 ~backquote~ /
 
-良いですね! 偶然にも、このパターンは(殆どの)macroでとても一般的なので、そのための特別な構文があります。
+良いですね! 偶然にも、このパターンは（ほとんどの）macroでとても一般的ですので、そのための特別な構文があります。
 
 backquote:
 
@@ -150,7 +149,7 @@ backquote:
 
 quoteを使うのと似ていますが、引数の前にcommaをつけて明示的に評価するoptionがあります。
 
-結果はlistを使用するのと同じですが、macroからコードを生成している場合は、返されるコードのごく一部を評価したいだけなので、backquoteが適しています。
+結果はlistを使用するのと同じですが、macroからコードを生成している場合は、返されるコードのごく一部を評価したいだけですので、backquoteが適しています。
 
 短いリストの場合は、 ~list~ のほうが読みやすくなります。
 

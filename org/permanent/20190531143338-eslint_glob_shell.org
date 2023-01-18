@@ -28,11 +28,11 @@ B: ./node_module/.bin/eslint --debug app/javascript/**/*.{vue,ts}
 }
 #+end_example
 
-~A~ と ~B~ で同じコードを実行してるはずなので何故か違う結果を吐き出すのだ. ~local~ では ~eslint~ が通るけど ~circleci~ ではコケる、といった問題が起きていて困っていた。
+~A~ と ~B~ で同じコードを実行しているはずなのでなぜか違う結果を吐き出すのだ. ~local~ では ~eslint~ が通るけど ~circleci~ ではコケる、といった問題が起きていて困っていた。
 
 ちなみに、 ~eslint --debug~ で実行ログをみることができる。
 
-ESLint開発者の方と弊社CTOのBTOさんに教えてもらうことによって原因を突き止めることができた。
+ESLint開発者の方と弊社CTOのBTOさんに教えてもらうことによって原因を突きとめることができた。
 
 --------------
 
@@ -45,7 +45,7 @@ ESLint開発者の方と弊社CTOのBTOさんに教えてもらうことによ�
 glob）とは主にUnix系環境において、ワイルドカードでファイル名のセットを指定するパターンのことである。
 #+end_quote
 
-今回の場合だと、2種類の解釈の仕方がある。
+今回の場合だと、2種類の解釈のし方がある。
 
 - shellでglobが解釈される
 - npmのglobで解釈される
@@ -72,7 +72,7 @@ macの標準のshellは ~bash~ なのだが、これだとうまくglobを評価
 
 この世界にはたくさんのshellがあるようだ。
 
-- dash(debian ash)
+- dash（debian ash）
 - ash
 - busybox
 - fish shell
@@ -93,6 +93,4 @@ Ubuntu標準は ~dash~ みたいだ。
   lrwxrwxrwx 1 root root    7  3月  7 05:51 static-sh -> busybox
 #+end_src
 
-~sh~ って言うけど、 ~/bin/sh~ に別の ~shell~ の ~symbolic link~ 貼ってるだけのようだ。
-
-一通り使って違いのわかる男になりたい。
+~sh~ って言うけど、 ~/bin/sh~ に別の ~shell~ の ~symbolic link~ 貼っているだけのようだ。

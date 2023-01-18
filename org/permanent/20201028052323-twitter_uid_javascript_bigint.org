@@ -14,15 +14,15 @@
 #+STARTUP: content
 #+STARTUP: nohideblocks
 
-TwitterのUIDについて調べてたら、自分の浮動小数点の挙動についての理解度が低かったので調べたことについて纏めておく。
+TwitterのUIDについて調べてたら、自分の浮動小数点の挙動についての理解度が低かったので調べたことについてまとめておく。
 
 --------------
 
-事の発端は、spreadsheet上の人力で管理されているTwitterのユーザ情報をデータベースに入れる作業をしていた時だった。
+ことの発端は、spreadsheet上の人力で管理されているTwitterのユーザー情報をデータベースに入れる作業をしていた時だった。
 
 以前同じような作業をしたとき結構漏れがあったので、Twitter UIDの妥当性やscreen nameが本当に存在するかどうかを確認する必要があった。
 
-[[https://idtwi.com/][TwitterのIDチェッカー]]などのwebサイトを利用してもよかったが、100件を超える量のデータを手動で確認取るのは面倒だったため、以下のような検証scriptを雑に書いた。
+[[https://idtwi.com/][TwitterのIDチェッカー]]などのWebサイトを利用してもよかったが、100件を超える量のデータを手動で確認取るのは面倒だったため、以下のような検証scriptを雑に書いた。
 
 #+begin_src shell
   #!/bin/bash
@@ -46,14 +46,14 @@ Twitter Developer Documentに ~Twitter IDs~ という記事がある。
 
 以下のようなことが書かれていた。
 
-- ユーザの増加によりTwitterのUIDは64bit
+- ユーザーの増加によりTwitterのUIDは64bit
 - unsignedでuniqueな値として管理されている
 - JavaScriptの整数のサイズは53bitに制限されている
 - api responseでは整数(~id~)と文字列(~id_str~)の両方を返すような実装になっている
 
-ここから分かるのは、自分は↑のshell scriptで ~id~ を見ていたから正しい値をとれていなかった、~id_str~ を使うべきだったことがわかる。
+ここから分かるのは、自分は↑のshell scriptで ~id~ を見ていたから正しい値をとれていなかった、~id_str~ を使うべきだったことが分かる。
 
-確かに、以下のように =toString()= をしたらずれることについて確認がとれたがどうしてだろうか。
+たしかに、以下のように =toString()= をしたらずれることについて確認がとれたがどうしてだろうか。
 また、今回はbash scriptを書いたのにJavaScriptと同じ挙動をするのはどうしてなのか調べる必要がある。
 
 
@@ -67,9 +67,9 @@ Twitter Developer Documentに ~Twitter IDs~ という記事がある。
 
 --------------
 
-JavaScriptの数値については [[https://qiita.com/uhyo/items/f9abb94bcc0374d7ed23][JavaScriptの数値型完全理解]]が一番良く纏まっていた。
+JavaScriptの数値については [[https://qiita.com/uhyo/items/f9abb94bcc0374d7ed23][JavaScriptの数値型完全理解]]が一番良くまとまっていた。
 
-これによると、JavaScriptの数値型は全て ~IEEE 754~ 倍精度の浮動小数点(double型)で表現されている。確かに、[[https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Number][MDNのNumberの記事]]にも同じような記述がある。
+これによると、JavaScriptの数値型はすべて ~IEEE 754~ 倍精度の浮動小数点（double型）で表現されている。たしかに、[[https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Number][MDNのNumberの記事]]にも同じような記述がある。
 
 double型で安全に表現できる最大値は ~Number.MAX_SAFE_INTEGER~ で取ることができ、 ~Number.isSafeInteger()~ などでもチェックできる。
 
@@ -80,7 +80,7 @@ double型で安全に表現できる最大値は ~Number.MAX_SAFE_INTEGER~ で�
   9007199254740991
 #+end_src
 
-ただこれではなにかと不都合なので、JavaScriptには ~bigint~ も用意されている。
+ただこれでは何かと不都合ですので、JavaScriptには ~bigint~ も用意されている。
 
 MDNには以下のように書かれているので日常使いするのは辞めておくべきだろう。
 
@@ -92,14 +92,14 @@ Number と BigInt との間の型変換は精度が落ちる可能性がある�
 
 [[https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/BigInt]]
 
-先程の巨大な値でも正確に出力できる。
+さきほどの巨大な値でも正確に出力できる。
 
 #+begin_src shell
   > (10765432100123456789n).toString()
   '10765432100123456789'
 #+end_src
 
-[[https://caniuse.com/bigint][caniuse]]を見てるとほとんどのブラウザがBigIntに対応されているので問題なく使えるみたいだ。
+[[https://caniuse.com/bigint][caniuse]]を見ているとほとんどのブラウザがBigIntに対応されているので問題なく使えるみたいだ。
 
 --------------
 
@@ -115,7 +115,7 @@ double の表す値　＝　(-1)^符号部 × 2^(指数部-1023) × 1.仮数部
 [[https://www.cc.kyoto-su.ac.jp/~yamada/programming/double.png]]
 
 - 符号は、0なら正、1なら負
-- 指数部は、「2^指数」の指数の部分に1023を引いたものが11bit符号無しの整数の形で格納されている
+- 指数部は、「2^指数」の指数の部分に1023を引いたものが11bit符号なしの整数の形で格納されている
 - 仮数部は、実際の仮数部の先頭の「1」を取り除いた残りが格納されている
 
 という風に格納される。
@@ -123,7 +123,7 @@ double の表す値　＝　(-1)^符号部 × 2^(指数部-1023) × 1.仮数部
 仮数部が52bitだが、double型の精度が53bitなのは =1.仮数部= の =1=
 部分もカウントされるからみたいだ。
 
-[[https://news.mynavi.jp/article/architecture-93/][ヒドン(Hidden)ビットで精度を1ビットを稼ぐ]]が面白かった。
+[[https://news.mynavi.jp/article/architecture-93/][ヒドン(Hidden)ビットで精度を1ビットを稼ぐ]]がおもしろかった。
 
 今回の問題はJavaScriptというよりは浮動小数点の問題なのでbashでも同じ。
 

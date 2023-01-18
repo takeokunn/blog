@@ -14,13 +14,13 @@
 #+STARTUP: content
 #+STARTUP: nohideblocks
 
-「webpackerでbuildするとめっちゃwarning出るんだけど調べてくれない？」
+「Webpackerでbuildするとめっちゃwarning出るんだけど調べてくれない？」
 
-と、会社の先輩から言われたので調査対応をした時学んだことをメモしていく。
+と、会社の先輩からいわれたので調査対応をした時学んだことをメモしていく。
 
 --------------
 
-warningの内容は以下だ。(抜粋)
+warningの内容は以下だ（抜粋）
 
 #+begin_src shell
   $ ./bin/webpack
@@ -30,7 +30,7 @@ warningの内容は以下だ。(抜粋)
   ...
 #+end_src
 
-このwarningが何十個も出てる状態だった。
+このwarningが何十個も出ている状態だった。
 
 --------------
 
@@ -104,7 +104,7 @@ issueにも上がっていた。[[https://github.com/jgthms/bulma/issues/1190]]
           warnings: false
 #+end_src
 
-「warning握りつぶすのは危険なのでできればしたくない」というレビューを頂いた。その通り過ぎるので却下した。
+「warning握りつぶすのは危険なのできればしたくない」というレビューをいただいた。その通り過ぎるので却下した。
 
 2. ~bulma~ の ~variable~ を変更して対象コードを実行しないようにする。
 
@@ -119,13 +119,13 @@ issueにも上がっていた。[[https://github.com/jgthms/bulma/issues/1190]]
 
 デメリットは ~variable-gap~ が使えなくなることだが、今回はまだ使う予定なかったので楽に対応できた。
 
-~Experimental~ だしいいよね。
+~Experimental~ だしよいよね。
 
 https://bulma.io/documentation/columns/gap/#variable-gap
 
 3. ~@import "~bulma/sass/grid/_all";~ をコメントアウトする
 
-コメントアウトすれば確かに上の問題は握りつぶせる。
+コメントアウトすればたしかに上の問題は握りつぶせる。
 
 がしかし、gridを使えなくなるのは今回の場合駄目なので却下。
 
@@ -135,12 +135,12 @@ https://bulma.io/documentation/columns/gap/#variable-gap
 
 5. ~package.json~ の ~bulma~ のversionを下げる
 
-最新に追従するのめんどくさくなるのでできればしたくない。ので却下。
+最新に追従するの面倒くさくなるのできればしたくない。ので却下。
 
 --------------
 
 ~bulma~ の問題なのに ~webpacker~ の仕様だとかの関係のない調査にあまりにも時間がかかりすぎた反省。
 
-「warning握りつぶすのは危険なのでできればしたくない」というレビューがあまりにも的確で且つ意識になかったのですごい良かった。
+「warning握りつぶすのは危険なのできればしたくない」というレビューがあまりにも的確でかつ意識になかったのですごい良かった。
 
 ~webpacker~ の挙動について別途ブログを書きたい。

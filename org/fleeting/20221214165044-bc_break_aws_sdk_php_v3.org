@@ -17,8 +17,8 @@
 * 結論
 
 - ~aws-sdk-php~ の ~v3.245.0~ で ~AwcClient~ のconstructorの引数が変わった
-- ~SqsClient~ などの継承してるclassにも影響が出る
-- composer.jsonで ~"aws/aws-sdk-php": "^3.0"~ のように指定してるとversionが上がって事故る
+- ~SqsClient~ などの継承しているclassにも影響が出る
+- Composer.jsonで ~"aws/aws-sdk-php": "^3.0"~ のように指定しているとversionが上がって事故る
 
 * 現象
 
@@ -26,7 +26,7 @@
 
 [[https://github.com/aws/aws-sdk-php/releases/tag/3.245.0][https://github.com/aws/aws-sdk-php/releases/tag/3.245.0]]
 
-リリース内容の中に[[https://github.com/aws/aws-sdk-php/pull/2517][Feature bearer token #2517]]という変更があり、これによって ~AwsClient~ の記述の仕方が以下のように変わる。
+リリース内容の中に[[https://github.com/aws/aws-sdk-php/pull/2517][Feature bearer token #2517]]という変更があり、これによって ~AwsClient~ の記述のし方が以下のように変わる。
 
 before:
 #+begin_src php
@@ -54,6 +54,6 @@ after:
   ]);
 #+end_src
 
-~AwsClient~ は色々なbase classとなっているので呼び出し方に注意が必要になってくる。
+~AwsClient~ はいろいろなbase classとなっているので呼び出し方に注意が必要になってくる。
 
 [[https://github.com/aws/aws-sdk-php/search?q=%22extends+AwsClient%22][https://github.com/aws/aws-sdk-php/search?q=%22extends+AwsClient%22]]

@@ -14,7 +14,7 @@
 #+STARTUP: content
 #+STARTUP: nohideblocks
 
-面白い挙動をするので記事化する。
+おもしろい挙動をするので記事化する。
 
 中のコード読んでみたい。
 
@@ -50,7 +50,7 @@ portを0にするとどうなるだろうか。
 
 どこかの記事で読んだのだけれども、被らないようにportをforwardingしてくれるそうな。
 
-公式ドキュメントのNoteも面白い。
+公式ドキュメントのNoteもおもしろい。
 
 #+begin_quote
 Note: When mapping ports in the HOST:CONTAINER format, you may

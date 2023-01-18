@@ -20,53 +20,53 @@
 
 最初と比べて圧倒的に快適になってはいるものの、分からないことが増えていく一方だ。
 とはいえ使っていくうちに理解が深まっていくのも事実。
-ざっくりやったことについて纏めていく。(去年やったことも含まれているが御愛嬌)
+ざっくりやったことについてまとめていく（去年やったことも含まれているが御愛嬌）
 
 - emacs28にしてlibgccjitを動かした
-  - defaultのcompilerをllvmからgccに変えるとスマホアプリ開発やら他の開発に影響が出るので動かしただけ
+  - defaultのcompilerをllvmからgccに変えるとスマートフォンアプリケーション開発やら別の開発に影響が出るので動かしただけ
 - use-packageからleafへの移行した
   - caskを消した
-  - 遅延ロードになったお陰で起動が高速になった
+  - 遅延ロードになったおかげで起動が高速になった
 - orgでinit.elを生成するようにした
   - [[https://github.com/takeokunn/.emacs.d/blob/master/Makefile][Makefile]] 参照
 - GitHub Pagesで見られるようにした
   - [[https://takeokunn.github.io/.emacs.d/][https://takeokunn.github.io/.emacs.d/]]
 - byte-compileをできる限りでするようにした
-  - 多少のwarningは無視してる
+  - 多少のwarningは無視している
 - ddskkを実用レベルでちゃんと使えるようにした
-  - ddskkの設定は[[https://github.com/takeokunn/dotfiles/blob/master/modules/skk/dot.skk][dotfiles]]で管理してる
+  - ddskkの設定は[[https://github.com/takeokunn/dotfiles/blob/master/modules/skk/dot.skk][dotfiles]]で管理している
   - AZIKを完全に理解した
 - company周りの設定が増えた
 - wanderlustで自分のGmailを操作できるようにした
-  - しただけでちゃんと運用できてるわけではない
+  - しただけでちゃんと運用できているわけではない
 - elfeedを充実させた
-  - しただけでちゃんと運用できてるわけではない
+  - しただけでちゃんと運用できているわけではない
 - magitを使いこなせるようになった
-  - magit-forgeでGitHubにpull requestを投げられるようにした
+  - magit-forgeでGitHubにPull Requestを投げられるようにした
 - dap-modeを使えるようになった
   - なっただけ
 - yasnippetの設定が増えた
   - snippetをorgで管理するようにした
     - [[https://github.com/takeokunn/.emacs.d/blob/master/yasnippets.org][https://github.com/takeokunn/.emacs.d/blob/master/yasnippets.org]]
   - snippet自体も増えた
-  - ivy-yasnippetで検索できるようにしてる
-  - ついでに[[https://github.com/AndreaCrotti/yasnippet-snippets][AndreaCrotti/yasnippet-snippets]]にpull requestを投げたが音沙汰がない
+  - ivy-yasnippetで検索できるようにしている
+  - ついでに[[https://github.com/AndreaCrotti/yasnippet-snippets][AndreaCrotti/yasnippet-snippets]]にPull Requestを投げたが音沙汰がない
     - https://github.com/AndreaCrotti/yasnippet-snippets/pull/434
     - https://github.com/AndreaCrotti/yasnippet-snippets/pull/433
 - tab-modeを使えるようになった
-  - が、実用性あるのか....?ってなってる
+  - が、実用性あるのか....?っていなっている
 - fish scriptの開発環境が整った
   - [[https://github.com/takeokunn/fish-repl.el][takeokunn/fish-repl.el]]を作った
   - [[https://github.com/takeokunn/ob-fish][takeokunn/ob-fish]] を作った
 - org-modeの設定が増えた
   - 日常的なメモはorgで書くようになった
-  - org-babelを使いこなせるようになった
-  - 工数管理とか細かい使い方が未だに分らない
+  - org-Babelを使いこなせるようになった
+  - 工数管理とか細かい使い方がいまだに分らない
 - 英語の執筆環境が整った
   - flycheckとtextlintをちゃんと設定した
 - 言語ごとの開発環境を整えた
   - php, golang, solidity etc...
-- typescript reactはtreesitterとlspでなんとかするのが最適だと分かった
+- TypeScript reactはtreesitterとlspでなんとかするのが最適だと分かった
 - ~M-x~ の候補だがsmexからamxに変えたら欲しい候補が出るようになった
 
 ざくっと思い出せるのはこれくらいなのでまた何かあれば追記をしていくつもり。

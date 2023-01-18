@@ -14,7 +14,7 @@
 #+STARTUP: content
 #+STARTUP: nohideblocks
 
-* はじめに
+* 始めに
 
 複数のサーバを管理すればする程、loggingの重要性が高まります。
 特に2022年はコンテナ最盛期と言っても過言ではないくらいコンテナ化が進んでいています。
@@ -29,10 +29,10 @@ fluent-bitは高速なlogging libraryです。
 
 [[file:../../static/images/A53EA3D4-B9C5-4885-9E28-A36801B82581.png]]
 
-fluentdはRuby実装で、fluent-bitはC実装です。
+FluentdはRuby実装で、fluent-bitはC実装です。
 シングルバイナリで提供できるので、Dockerではfluent-bitの方を用いられることが多いです。
 
-fluent-bitと調べてもあまりまとまった情報がなく、非常にとっつきにくいので後学のために纏めておく。
+fluent-bitと調べてもあまりまとまった情報がなく、非常にとっつきにくいので後学のためにまとめておく。
 
 * 環境構築
 
@@ -45,8 +45,8 @@ fluent-bitは ~input~ ~parser~ ~filter~ ~routing~ 部分を弄ることになる
 それぞれ以下のドキュメントに細かく書いてある。
 [[https://docs.fluentbit.io/manual/pipeline/pipeline-monitoring][https://docs.fluentbit.io/manual/pipeline/pipeline-monitoring]]
 
-input値は様々な値を取ることができる。
+input値挟まざまな値を取ることができる。
 
 [[https://docs.fluentbit.io/manual/pipeline/inputs/dummy][https://docs.fluentbit.io/manual/pipeline/inputs/dummy]]
 
-input値を変えてみたり、filterやoutput(routing)を変えながらどのように風に変化するか弄ってみると良い。
+input値を変えてみたり、filterやoutput（routing）を変えながらどのように風に変化するか弄ってみると良い。

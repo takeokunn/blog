@@ -20,7 +20,7 @@ AMIをとるのは大げさだよなぁと思ったのでqueryの一覧を取得
 
 --------------
 
-とりあえず世の中に同じようなことを考えてる人がいないかを調べてみた。
+とりあえず世の中に同じようなことを考えている人がいないかを調べてみた。
 
 [[http://ariarijp.hatenablog.com/entry/redash-query-backup-with-redashman][redashmanを使ってRedashのクエリをお手軽にバックアップする]]という記事があった。[[https://github.com/ariarijp/redashman][ariarijp/redashman]]というgolang自作ツールを介してRedashAPIを叩いているようだ。
 
@@ -30,7 +30,7 @@ queryのCRUDとdashboardのCRUDが用意されている。api tokenを発行し�
 
 [[https://github.com/ariarijp/redashman][ariarijp/redashman]]はすごく良さそうなのだが、自分が欲しいのはqueryの一覧であって豪華なAPI Clientではない。
 
-Golangを入れることすらめんどくさいのだ。
+Golangを入れることすら面倒くさいのだ。
 
 今回の用途では雑にcurlで取得できればよかったので以下のように投げた。
 あとは必要なフォーマットに合わせてよしなにjqを使えば良い。
@@ -42,7 +42,7 @@ Golangを入れることすらめんどくさいのだ。
       | jq ".results" | jq "map({ id, name, query })"
 #+end_src
 
-responseはこんな感じ。綺麗に出せた。
+responseはこんな感じ。きれいに出せた。
 
 #+begin_src json
   [

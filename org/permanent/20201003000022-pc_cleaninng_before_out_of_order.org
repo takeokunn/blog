@@ -16,13 +16,13 @@
 
 ** 不要な情報の削除
 
-まずは整理整頓の基本である不要なモノを捨てるところから。以下のような手順を踖んだら容量カツカツ状態から62GB開けることが出来た。
+まずは整理整頓の基本である不要なモノを捨てるところから。以下のような手順を踖んだら容量カツカツ状態から62GB開けることができた。
 
 [[https://hnw.hatenablog.com/entry/20131117][hardlink.pyを使ったらディスクの空き容量が劇的に増えた]] こういうのもあるが今回は使わない。
 
 *** 不要repoの削除
 
-僕は全てのソースコードをghqで管理している。snippet的なコードは適当なファイルやディレクトリを作って書き、終わったらブログに纏めてから削除するという運用をとっている。
+僕はすべてのソースコードをghqで管理している。snippet的なコードは適当なファイルやディレクトリを作って書き、終わったらブログにまとめてから削除するという運用をとっている。
 
 気になるrepoはすぐにghq getでcloneして容量を食いまくっていたので、以下のscriptでガンガン削除していった。
 
@@ -33,7 +33,7 @@ $ ghq list --full-path | peco | xargs -L1 rm -fr
 
 *** 不要なbrew packageの削除
 
-勢いでbrew installしたpackageなどが相当あったので要らないものは削除していった。
+勢いでbrew installしたpackageなどが相当あったのでいらないものは削除していった。
 
 #+begin_example
 $ brew list | peco | xargs brew uninstall
@@ -47,13 +47,13 @@ $ brew list | peco | xargs brew uninstall
 
 意外と大事。新しい環境でも同じ体験ができるように一度消してみるのも良いだろう。
 
-bookmarkなどは一切使わなく、url barに直接入力する運用をとってるので削除した直後は不便にはなるが、何が必要なのかわかるのでそれはそれで良い。(パスワード周りとか特にそう)
+bookmarkなどは一切使わなく、url barに直接入力する運用をとっているので削除した直後は不便にはなるが、何が必要なのか分かるのでそれはそれで良い（パスワード周りとか特にそう）
 
 *** Docker関係の整理
 
-[[https://qiita.com/ksato9700/items/b0075dc54dfffc64b999][Dockerのあれこれを断捨離する]] この記事がすごい良かった。Dockerは再現性のある環境なはずなので一度全てを消しても良いだろう。
+[[https://qiita.com/ksato9700/items/b0075dc54dfffc64b999][Dockerのあれこれを断捨離する]] この記事がすごい良かった。Dockerは再現性のある環境なはずなので一度すべてを消しても良いだろう。
 
-このへんを適当に叩くと大体消えてくれる。
+このへんを適当にたたくとだいたい消えてくれる。
 
 #+begin_src shell
   $ docker ps -q | xargs docker rm -f
@@ -66,12 +66,12 @@ bookmarkなどは一切使わなく、url barに直接入力する運用をと�
 
 *** 不要なDesktop Applicationの削除
 
-入れたはいいけど使わなかったものは多いだろう。必要ならまたinstallすれば良いので一旦消すというのもあり。VSCodeなどを削除した。
+入れたはよいけど使わなかったものは多いだろう。必要ならまたinstallすれば良いのでいったん消すというのもあり。VSCodeなどを削除した。
 
 *** 不要なprocessの削除
 
 PCを長持ちさせるためにもなるべく余計なprocessはkillしたい。
-~Activity Monitor~ や ~htop~ でprocessを見ておかしなものがないか、要らないものはないか洗い出す。
+~Activity Monitor~ や ~htop~ でprocessを見ておかしなものがないか、いらないものはないか洗い出す。
 
 +SKYSEAやウィルスバスターはウィルスだよな+
 
@@ -85,7 +85,7 @@ GitLabで管理するのもイマイチ感あるので、GitHubか自宅サー�
 
 *** dotfiles
 
-開発に必要なツールのconfigは全て[[https://github.com/takeokunn/dotfiles][takeokunn/dotfiles]]で一括管理するようにしている。
+開発に必要なツールのconfigはすべて[[https://github.com/takeokunn/dotfiles][takeokunn/dotfiles]]で一括管理するようにしている。
 
 Dotfilesでは ~brew/apt~ のpackageを一括でいれられるscriptや、それぞれのツールがコマンド一発で入るようにMakefileを書いている。
 
@@ -95,10 +95,10 @@ Emacsのconfigだけ量が多いのと、GitHub Pagesで公開したいので別
 
 *** パスワード
 
-[[https://bitwarden.com/][bitwarden]]で全てのwebサービスのパスワードを一括管理している。
+[[https://bitwarden.com/][bitwarden]]ですべてのWebサービスのパスワードを一括管理している。
 無料だし使い勝手が良いので満足している。
 
-セキュリティを意識して、MFAを登録できるwebサービスはなるべく全て設定するようにしている。
+セキュリティを意識して、MFAを登録できるWebサービスはなるべくすべて設定するようにしている。
 
 やはり、パスワードは人間が覚えるものではない。
 
@@ -111,7 +111,7 @@ bitwardenに ~ssh keys~ というフォルダを作ってシークレットメ�
 *** GoogleDrive
 
 契約書やちょっとしたファイルなどを管理している。エンジニアリング以外のデータを雑にあつかえるstorage
-serverとして使っている。情報を整理して綺麗に運用したい。
+serverとして使っている。情報を整理してきれいに運用したい。
 
 ** 今後の課題
 
@@ -120,10 +120,10 @@ serverとして使っている。情報を整理して綺麗に運用したい�
 - ~org/*.org~ の管理をどうしよう
 - ~~/.local/share/fish/fish_history~ の管理をどうしよう
 
-Dropboxを使うと解決するんだけど、個人的には常にDropboxを立ち上げつづけるのはうーんって感じなので良い運用を考えてる。
+Dropboxを使うと解決するんだけど、個人的には常にDropboxを立ち上げ続けるのはうーんって感じなので良い運用を考えている。
 
 shellのhistoryは資産なのでこういうのをうまく管理する方法を知りたい。
 
 --------------
 
-やっぱりpecoは良い。
+やはりpecoは良い。
