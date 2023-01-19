@@ -1,0 +1,160 @@
+:PROPERTIES:
+:ID:       87C9372F-F4AC-4394-B578-0E5E4742E842
+:mtime:    20230119183645 20230119173644 20230119162350
+:ctime:    20230119162342
+:END:
+
+#+TITLE: aws-cliとecs-cliのconfigをorgで管理してdefault値を一切設定しない運用をする
+#+DESCRIPTION: aws-cliとecs-cliのconfigをorgで管理してdefault値を一切設定しない運用をする
+#+DATE: 2023-01-19
+#+HUGO_BASE_DIR: ../../
+#+HUGO_SECTION: posts/permanent
+#+HUGO_TAGS: permanent aws emacs
+#+HUGO_DRAFT: true
+#+STARTUP: content
+#+STARTUP: nohideblocks
+
+* 前提
+
+私は普段以下のような条件でAWSを触っています。
+
+- AWS workspaceを複数社分扱っている
+- SwitchRoleで複数扱っている
+- 手元から頻繁にコマンドをたたく
+
+さまざまな環境で作業をしていると、「想定と違う環境に対してAPIを投げてしまう」「意図したリソースが取得できない」等さまざまなトラブルに直面します。
+全部CI/CDで管理をして、localからは一切なにもしないというのは1つの理想ではあるものの、そうはいかないのが現実というものです。
+
+あらためて自分の手元の環境を見直したところ、そもそもデフォルト値を指定せずにちゃんと指定すれば事故が起きないのではという結論に至ったのでまとめておきます。
+
+* 運用方法
+** org fileですべてを管理する
+
+そもそも設定がゴチャゴチャしたり、ミスをしたり、間違ったコマンドを流してしまうのはどうしてでしょうか？
+答えは簡単で、明示的にコマンドや設定ファイルを用意していないからです。
+
+普段使う設定やコマンドをドキュメントとして管理をし、明示的に変更を加える運用にすれば事故ることが格段に減ります。
+
+その為のツールとしてEmacsの[[https://orgmode.org/ja/][org-mode]]はおあつらえ向きです。
+Markdown同様手軽に文章を書け、分割した設定も管理でき、ファイルに出力でき、 ~org-babel~ を使えばコマンドを実行できます。
+
+たとえば以下のようにコードブロックを作って ~org-babel~ すると ~RESULTS~ に結果が出力されます。
+
+#+begin_src org
+  ,#+begin_src shell
+  echo "hello world"
+  ,#+end_src
+
+  ,#+RESULTS:
+  : hello world
+#+end_src
+
+また、秘匿情報を扱う場合は ~sandbox.org.gpg~ のように接尾辞に ~.gpg~ をつけるとEmacsが勝手にEncryptしてくれるのでセキュアに管理できます。
+私はprivate repoでこのような秘匿情報をorg fileで管理しています。
+
+** aws-cli周り
+
+~~/.aws/config~ は以下のように ~org-mode~ で管理をしています。
+~:noweb-ref~ でimportできるようにして、 ~:tangle~ で出力先を設定し、 ~M-x org-babel-tangle~ でファイルを出力するようにしています。
+
+~~/.aws/config~ と同様 ~~/.aws/credential~ も ~org-mode~ で管理をしています。
+
+**デフォルト値を一切設定しない** 運用にしています。
+
+#+begin_src org
+  ,* aws
+  ,** config
+  ,*** alice
+  ,#+begin_src conf :noweb-ref aws-config-alice
+    [profile alice]
+    source_profile = alice-dev
+    role_arn = arn:aws:iam::xxx
+    region = ap-northeast-1
+    output = json
+  ,#+end_src
+  ,*** bob
+  ,#+begin_src conf :noweb-ref aws-config-bob
+    [profile bob]
+    region = ap-northeast-1
+    output = json
+  ,#+end_src
+  ,*** all
+  ,#+begin_src conf :noweb yes :tangle (expand-file-name "~/.aws/config") :mkdirp yes
+    # alice
+    <<aws-config-alice>>
+
+    # bob
+    <<aws-config-bob>>
+  ,#+end_src
+#+end_src
+
+コマンドを流す時は以下のようにいったんorgファイルに記述したうえで ~org-babel~ なりterminalなりで実行するようにしています。
+~aws~ コマンドは ~--profile~ オプションがあり、 **必ず指定** するようにしています。
+
+https://docs.aws.amazon.com/ja_jp/cli/latest/userguide/cli-configure-profiles.html
+
+#+begin_src org
+  ,* aws commands
+  ,** get s3 buckets list
+  ,#+begin_src shell
+  aws s3 ls --profile alice
+  ,#+end_src
+
+  ,#+RESULTS:
+  | 2022-07-19 | 19:29:50 | demo-bucket |
+#+end_src
+
+terraformを手元から流す場合にも影響が出ますが、以下のように ~terraform init~ をすれば良いでしょう。
+
+[[https://developer.hashicorp.com/terraform/language/settings/backends/configuration#partial-configuration][https://developer.hashicorp.com/terraform/language/settings/backends/configuration#partial-configuration]]
+
+#+begin_src shell
+  terraform init -backend-config="profile=${aws_profile}"
+#+end_src
+
+** ecs-cli周りについて
+
+私は ~ecs-cli~ が大好きなのでこちらも設定しておきます。
+~ecs-cli configure~ で ~~/.ecs/config~ に設定が追加更新されるのですが、これもorgで管理をしています。
+
+~~/.aws/config~ と違って ~~/.ecs/config~ は ~default~ を指定しないとエラーになるので ~dummy~ というものを作っておきました。
+
+#+begin_src org
+  ,** ecs
+  ,*** dummy
+  ,#+begin_src yaml :noweb-ref aws-ecs-dummy
+    dummy:
+      cluster: dummy
+      region: ap-northeast-1
+      default_launch_type: FARGATE
+  ,#+end_src
+  ,*** alice
+  ,#+begin_src yaml :noweb-ref aws-ecs-alice
+    alice-fargate-dev:
+      cluster: alice-fargate-dev
+      region: ap-northeast-1
+      default_launch_type: FARGATE
+  ,#+end_src
+  ,*** config
+  ,#+begin_src yaml :noweb yes :tangle (expand-file-name "~/.ecs/config") :mkdirp yes
+    version: v1
+    default: dummy
+    clusters:
+      <<aws-ecs-dummy>>
+      <<aws-ecs-alice>>
+  ,#+end_src
+#+end_src
+
+~ecs-cli~ の場合、 ~--aws-profile~ と ~--ecs-profile~ という引数で指定できます。
+
+#+begin_src shell
+  ecs-cli \
+      compose \
+          --aws-profile alice \
+          --ecs-profile alice-fargate-dev \
+          --project-name alice-logging \
+          --cluster alice-fargate-dev \
+          --file ./path/to/docker-compose.yml \
+          --ecs-params ./path/to/ecs-params.yml \
+      service up
+#+end_src
