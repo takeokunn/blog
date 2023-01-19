@@ -10,7 +10,7 @@
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/permanent
 #+HUGO_TAGS: permanent aws emacs
-#+HUGO_DRAFT: true
+#+HUGO_DRAFT: false
 #+STARTUP: content
 #+STARTUP: nohideblocks
 
@@ -54,10 +54,10 @@ Markdown同様手軽に文章を書け、分割した設定も管理でき、フ
 
 ** aws-cli周り
 
-~~/.aws/config~ は以下のように ~org-mode~ で管理をしています。
+=~/.aws/config= は以下のように ~org-mode~ で管理をしています。
 ~:noweb-ref~ でimportできるようにして、 ~:tangle~ で出力先を設定し、 ~M-x org-babel-tangle~ でファイルを出力するようにしています。
 
-~~/.aws/config~ と同様 ~~/.aws/credential~ も ~org-mode~ で管理をしています。
+=~/.aws/config= と同様 =~/.aws/credential= も ~org-mode~ で管理をしています。
 
 **デフォルト値を一切設定しない** 運用にしています。
 
@@ -115,9 +115,9 @@ terraformを手元から流す場合にも影響が出ますが、以下のよ�
 ** ecs-cli周りについて
 
 私は ~ecs-cli~ が大好きなのでこちらも設定しておきます。
-~ecs-cli configure~ で ~~/.ecs/config~ に設定が追加更新されるのですが、これもorgで管理をしています。
+~ecs-cli configure~ で =~/.ecs/config= に設定が追加更新されるのですが、これもorgで管理をしています。
 
-~~/.aws/config~ と違って ~~/.ecs/config~ は ~default~ を指定しないとエラーになるので ~dummy~ というものを作っておきました。
+=~/.aws/config= と違って =~/.ecs/config= は ~default~ を指定しないとエラーになるので ~dummy~ というものを作っておきました。
 
 #+begin_src org
   ,** ecs
