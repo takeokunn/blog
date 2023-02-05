@@ -4,7 +4,7 @@ theme = "hugo-take-theme"
 canonifyurls = true
 pygmentsUseClasses = true
 pygmentsCodeFences = true
-markup.highlight.noClasses=false
+markup.highlight.noClasses=true
 
 [params]
   author = 'takeokunn'
