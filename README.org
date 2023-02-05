@@ -26,5 +26,8 @@ run Hugo server:
 ** Update theme
 
 #+begin_src shell
-  $ git submodule update --remote --recursive
+   git submodule update --remote --recursive
 #+end_src
+
+#+RESULTS:
+: Submodule path 'themes/hugo-take-theme': checked out 'be74a71f4c6e07fd0ddcd7d7c4f9a0573d76edbd'

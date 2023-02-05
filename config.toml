@@ -2,6 +2,8 @@ baseURL = "https://takeokunn.org/"
 title = "takeokunn's blog"
 theme = "hugo-take-theme"
 canonifyurls = true
+pygmentsUseClasses = true
+pygmentsCodeFences = true
 
 [params]
   author = 'takeokunn'
