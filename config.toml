@@ -4,7 +4,6 @@ theme = "hugo-take-theme"
 canonifyurls = true
 pygmentsUseClasses = true
 pygmentsCodeFences = true
-markup.highlight.noClasses=true
 
 [params]
   author = 'takeokunn'
@@ -18,5 +17,14 @@ markup.highlight.noClasses=true
 [taxonomies]
   tag = "tags"
 
-[markup.goldmark.renderer]
-  unsafe = true
+[markup]
+  [markup.highlight]
+    codeFences = true
+    guessSyntax = false
+    hl_Lines = ""
+    lineNoStart = 1
+    lineNos = false
+    lineNumbersInTable = true
+    noClasses = true
+    style = "monokai"
+    tabWidth = 4
