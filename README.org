@@ -24,6 +24,6 @@ run Hugo server:
 #+end_src
 
 ** Update theme
-#+begin_src shell :exports none
+#+begin_src shell :results output none
    git submodule update --remote --recursive
 #+end_src
