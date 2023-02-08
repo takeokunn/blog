@@ -2,8 +2,6 @@ baseURL = "https://takeokunn.org/"
 title = "takeokunn's blog"
 theme = "hugo-take-theme"
 canonifyurls = true
-pygmentsUseClasses = true
-pygmentsCodeFences = true
 
 [params]
   author = 'takeokunn'
@@ -16,15 +14,3 @@ pygmentsCodeFences = true
 
 [taxonomies]
   tag = "tags"
-
-[markup]
-  [markup.highlight]
-    codeFences = true
-    guessSyntax = false
-    hl_Lines = ""
-    lineNoStart = 1
-    lineNos = false
-    lineNumbersInTable = true
-    noClasses = true
-    style = "monokai"
-    tabWidth = 4

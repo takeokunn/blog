@@ -11,7 +11,7 @@ Using [[https://github.com/takeokunn/hugo-take-theme][takeokunn/hugo-take-theme]
 
 ** Build locally
 
-generate org to markdown:
+generate Org to Markdown:
 
 #+begin_src shell
   $ emacs --batch -l script.el -f export-org-files
@@ -24,10 +24,6 @@ run Hugo server:
 #+end_src
 
 ** Update theme
-
-#+begin_src shell
+#+begin_src shell :exports none
    git submodule update --remote --recursive
 #+end_src
-
-#+RESULTS:
-: Submodule path 'themes/hugo-take-theme': checked out 'ed4de5e4424625146eef54c555b4a257fff90a7e'
