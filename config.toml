@@ -1,7 +1,6 @@
 baseURL = "https://takeokunn.org/"
 title = "takeokunn's blog"
 theme = "hugo-take-theme"
-canonifyurls = true
 
 [params]
   author = 'takeokunn'
