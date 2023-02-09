@@ -1,0 +1,88 @@
+:PROPERTIES:
+:ID:       E1C13122-4090-47F6-B84E-238CCC981E72
+:mtime:    20230209162746 20230209152725
+:ctime:    20230209152709
+:END:
+
+#+TITLE: VimとNeovimの使い分けと最小構成
+#+DESCRIPTION: VimとNeovimの使い分けと最小構成
+#+DATE: 2023-02-09
+#+HUGO_BASE_DIR: ../../
+#+HUGO_SECTION: posts/fleeting
+#+HUGO_TAGS: fleeting
+#+HUGO_DRAFT: false
+#+STARTUP: content
+#+STARTUP: nohideblocks
+
+* VimとNeovimの運用方針
+
+[[https://mobile.twitter.com/takeokunn/status/1464971704124710915][Twitterではずっと主張してること]] だが、VimとNeovimの設定は共通化しない方が良いと考えています。
+
+以下のような使い分けをしています。
+
+- Vim → サーバ用の最小設定
+- Neovim → 日常的な開発用
+
+コンテナ全盛期の現代といえど、サーバに入って作業をする必要がある人も多いんじゃないでしょうか。
+不自由な環境でちょっとしたファイルを開いて数行変更するだけに関しては、Vimほど適したテキストエディタはないでしょう。
+
+ただ、設定がまったくされていない素Vimでは少々厳しい場面があります。
+~set number relativenumber~ で行番号表示するくらいは欲しいものです。
+ちょっとしたサーバにも持っていけるような最低限の設定を持っておくとサーバ内で安心して作業できます。
+
+一方、通常の開発でもVimを使いたいという要望はあるでしょう。
+現にEmacsをメインで使っている自分もフォールバック先としてNeovimを使うことが多いです。
+Emacs自体は本来安定しているのですが、Emacsを毎朝 ~git pull~ してHEAD Buildしている関係であまり手元環境が安定していないです。
+
+ヘビーカスタマイズをすると、VimとNeovim両方を考慮したコードを書くのはかなり厳しい印象があります。
+最新のVim事情はわかりませんが、Python製Pluginが流行っていた時かなりしんどかったです。
+カスタマイズをする方を完全にNeovim側に寄せることによって、Vimの場合の条件分岐が減るので考慮することが減ります。
+
+* 最低限のVimの設定
+
+以下のcommandをたたけば入ります。
+
+#+begin_src shell
+  curl -s https://raw.githubusercontent.com/takeokunn/dotfiles/master/modules/vim/dot.vimrc > ~/.vimrc
+#+end_src
+
+最低限必要な設定は以下の30行です。
+
+#+begin_src vimrc
+  set encoding=utf-8
+  set fileencoding=utf-8
+  set clipboard+=unnamed
+  set backspace=2
+  set tabstop=2
+  set shiftwidth=2
+  set laststatus=2
+  set statusline=%y
+  set showmatch
+  set wrapscan
+  set hlsearch
+  set showcmd
+  set title
+  set number relativenumber
+  set cursorline
+  set nofoldenable
+  set noswapfile
+  set expandtab
+  set splitbelow
+  set splitright
+  set incsearch
+  set ignorecase
+  set smartcase
+
+  nmap / /\v
+  nmap <Leader><Leader> V
+  nmap <Esc><Esc> :nohlsearch<CR><Esc>
+
+  syntax on
+  filetype plugin indent on
+#+end_src
+
+ファイルを開いて文字列を検索することが多いので以下の設定がお気に入りです。
+
+#+begin_src vimrc
+  nmap <Esc><Esc> :nohlsearch<CR><Esc>
+#+end_src

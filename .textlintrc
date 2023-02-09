@@ -63,7 +63,8 @@
         "Webpacker",
         "Fluentd",
         "aws",
-        "ecs"
+        "ecs",
+        "Neovim"
       ],
       "skipRegExps": [
         "([0-9A-F]{8})-([0-9A-F]{4})-([0-9A-F]{4})-([0-9A-F]{4})-([0-9A-F]{12})"
