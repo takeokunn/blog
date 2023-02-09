@@ -46,7 +46,7 @@ Emacs自体は本来安定しているのですが、Emacsを毎朝 ~git pull~ �
   curl -s https://raw.githubusercontent.com/takeokunn/dotfiles/master/modules/vim/dot.vimrc > ~/.vimrc
 #+end_src
 
-最低限必要な設定は以下の30行です。
+自分が最低限必要な設定は以下の30行です。
 
 #+begin_src vimrc
   set encoding=utf-8
