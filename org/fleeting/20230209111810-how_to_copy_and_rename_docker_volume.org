@@ -10,7 +10,7 @@
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/fleeting
 #+HUGO_TAGS: fleeting docker
-#+HUGO_DRAFT: true
+#+HUGO_DRAFT: false
 #+STARTUP: content
 #+STARTUP: nohideblocks
 
@@ -32,7 +32,7 @@ interfaceとして提供してくれていないだけで、実態はDocker File
   docker volume create --name=my-volume
 #+end_src
 
-* copyやrenameのやり方
+* CopyやRenameのやり方
 
 ~justincormack/nsenter1~ を立ち上げる。
 
