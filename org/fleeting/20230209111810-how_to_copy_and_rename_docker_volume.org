@@ -14,4 +14,39 @@
 #+STARTUP: content
 #+STARTUP: nohideblocks
 
-* 始めに
+* 前提
+
+=docker volume= のデフォルトの機能にcopyやrenameはありません。
+https://matsuand.github.io/docs.docker.jp.onthefly/storage/volumes/
+
+[[https://github.com/moby/moby/issues/31154][Rename docker volume #31154]] というissueも立っているが、対応される見込がない。
+
+interfaceとして提供してくれていないだけで、実態はDocker File System内どこかにはあるはずだ。
+絶対できるはずだという前提のもと調べてみたらできたのでまとめておく。
+
+* 準備
+
+~docker engine~を起動して、~docker volume~ を作成。
+
+#+begin_src shell
+  docker volume create --name=my-volume
+#+end_src
+
+* copyやrenameのやり方
+
+~justincormack/nsenter1~ を立ち上げる。
+
+#+begin_src shell
+  docker run -it --rm --privileged --pid=host justincormack/nsenter1
+#+end_src
+
+~docker volume~ がある場所に移動する。
+
+#+begin_src shell
+  / # cd /var/lib/docker/volumes/
+
+  /var/lib/docker/volumes # ls -la | grep my-volume
+  drwx-----x    3 root     root          4096 Feb  9 02:59 my-volume
+#+end_src
+
+あとは ~cp~ をするなり、 ~mv~ をするなりでよしなに。
