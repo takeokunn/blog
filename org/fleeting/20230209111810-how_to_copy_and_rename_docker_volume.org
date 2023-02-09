@@ -26,7 +26,7 @@ interfaceとして提供してくれていないだけで、実態はDocker File
 
 * 準備
 
-~docker engine~ を起動して、~docker volume~ を作成する。
+~docker engine~ を起動して、 ~docker volume~ を作成する。
 
 #+begin_src shell
   docker volume create --name=my-volume
