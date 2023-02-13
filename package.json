@@ -14,7 +14,7 @@
   "devDependencies": {
     "textlint": "^12.2.2",
     "textlint-filter-rule-node-types": "^1.1.0",
-    "textlint-plugin-org": "^0.3.4",
+    "textlint-plugin-org": "^0.3.5",
     "textlint-rule-ginger": "^2.2.1",
     "textlint-rule-no-dropping-the-ra": "^3.0.0",
     "textlint-rule-preset-ja-spacing": "^2.2.0",
