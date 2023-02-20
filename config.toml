@@ -13,3 +13,6 @@ theme = "hugo-take-theme"
 
 [taxonomies]
   tag = "tags"
+
+[markup.goldmark.renderer]
+  unsafe = true

@@ -24,14 +24,6 @@
 
 [[https://docs.google.com/presentation/d/1WXgJP9oqydr-5Vn1oXDti9Gdfaxc_OhvVg6tgIi5LEs/edit#slide=id.p][phpstan-strict-rulesでよりbetterなphpを手に入れよう]] というタイトルで話しました。
 
-関連するツイートはこのあたりです。
-
-- https://togetter.com/li/2082268?page=9
-- https://togetter.com/li/2082268?page=10
-- https://togetter.com/li/2082268?page=11
-- https://togetter.com/li/2082268?page=12
-- https://togetter.com/li/2082268?page=13
-
 #+begin_export html
 <div class="google-slide">
   <iframe
@@ -45,6 +37,15 @@
   </iframe>
 </div>
 #+end_export
+
+
+関連するツイートはこのあたりです。
+
+- https://togetter.com/li/2082268?page=9
+- https://togetter.com/li/2082268?page=10
+- https://togetter.com/li/2082268?page=11
+- https://togetter.com/li/2082268?page=12
+- https://togetter.com/li/2082268?page=13
 
 YouTubeのアーカイブも残っているので気になる人はこちらから見てください。
 

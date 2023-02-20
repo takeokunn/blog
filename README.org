@@ -14,13 +14,13 @@ Using [[https://github.com/takeokunn/hugo-take-theme][takeokunn/hugo-take-theme]
 generate Org to Markdown:
 
 #+begin_src shell
-  $ emacs --batch -l script.el -f export-org-files
+  emacs --batch -l script.el -f export-org-files
 #+end_src
 
 run Hugo server:
 
 #+begin_src shell
-  $ hugo server
+  hugo server
 #+end_src
 
 ** Update theme
