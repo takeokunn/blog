@@ -9,7 +9,7 @@
 #+DATE: 2022-12-22
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/permanent
-#+HUGO_TAGS: permanent
+#+HUGO_TAGS: permanent php
 #+HUGO_DRAFT: false
 #+STARTUP: content
 #+STARTUP: nohideblocks
