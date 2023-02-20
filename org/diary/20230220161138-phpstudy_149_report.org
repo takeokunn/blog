@@ -19,23 +19,25 @@
 2023-02-15（水）に [[https://www.gmo.jp/csr/partners/office/#gmo-yours][GMO Yours]] で行われた [[https://phpstudy.doorkeeper.jp/events/151021][第149回 PHP勉強会＠東京]] で登壇してきました。
 現地には30人、オンラインの視聴者は20人くらいで非常に和気藹々とした勉強会でした。
 
+#+begin_export html
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">GMO Yours に来てます! <a href="https://twitter.com/hashtag/phpstudy?src=hash&amp;ref_src=twsrc%5Etfw">#phpstudy</a></p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1625810497215029248?ref_src=twsrc%5Etfw">February 15, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+#+end_export
+
 * 登壇
 ** 内容について
 
 [[https://docs.google.com/presentation/d/1WXgJP9oqydr-5Vn1oXDti9Gdfaxc_OhvVg6tgIi5LEs/edit#slide=id.p][phpstan-strict-rulesでよりbetterなphpを手に入れよう]] というタイトルで話しました。
 
 #+begin_export html
-<div class="google-slide">
-  <iframe
-    src="https://docs.google.com/presentation/d/e/2PACX-1vR2CYaDCANUaSo4Aq2RJ82Z0Bh2rxMKTWljxzg9OO-V7fi_7yi0AgaEMCvCdHizHUxFTuVD2HwB9HAi/embed?start=false&loop=false&delayms=3000"
-    frameborder="0"
-    width="960"
-    height="569"
-    allowfullscreen="true"
-    mozallowfullscreen="true"
-    webkitallowfullscreen="true">
-  </iframe>
-</div>
+<iframe
+  src="https://docs.google.com/presentation/d/e/2PACX-1vR2CYaDCANUaSo4Aq2RJ82Z0Bh2rxMKTWljxzg9OO-V7fi_7yi0AgaEMCvCdHizHUxFTuVD2HwB9HAi/embed?start=false&loop=false&delayms=3000"
+  frameborder="0"
+  width="960"
+  height="569"
+  allowfullscreen="true"
+  mozallowfullscreen="true"
+  webkitallowfullscreen="true">
+</iframe>
 #+end_export
 
 
