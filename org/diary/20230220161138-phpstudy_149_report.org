@@ -54,9 +54,18 @@ YouTubeのアーカイブも残っているので気になる人はこちらか�
 [[https://www.youtube.com/live/k0GkmSYhtrQ?feature=share&t=7526][https://www.youtube.com/live/k0GkmSYhtrQ?feature=share&t=7526]]
 
 ** 補足など
-*** Emacsに対してのコメント
+*** Emacsと申します
 
 [[https://dic.pixiv.net/a/%E4%BF%BA%E3%81%8C%E3%82%AC%E3%83%B3%E3%83%80%E3%83%A0%E3%81%A0][~俺がEmacsだ~]]
+
+*** PHPStan Tシャツについて
+
+いつぞやのイベントでたっどさんから託されたTシャツ。
+日本で数人しか持っていない実はレアなやつ。
+
+#+begin_export html
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">日本で数人のPHPStanを着こなしている男 <a href="https://twitter.com/hashtag/phpstudy?src=hash&amp;ref_src=twsrc%5Etfw">#phpstudy</a> <a href="https://t.co/XOW4FRp535">pic.twitter.com/XOW4FRp535</a></p>&mdash; にゃんだーすわん (@tadsan) <a href="https://twitter.com/tadsan/status/1625828730173284353?ref_src=twsrc%5Etfw">February 15, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+#+end_export
 
 *** ~php-src~ を毎朝 ~git pull~ していることについて
 
@@ -66,7 +75,9 @@ YouTubeのアーカイブも残っているので気になる人はこちらか�
 
 ~hanhan~ さんいつもありがとう。
 
-[[https://zenn.dev/hanhan1978][https://zenn.dev/hanhan1978]]
+#+begin_export html
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr"><a href="https://t.co/fGEjRAZuUN">https://t.co/fGEjRAZuUN</a> <a href="https://twitter.com/hashtag/%E4%BB%8A%E9%80%B1%E3%81%AEPHP?src=hash&amp;ref_src=twsrc%5Etfw">#今週のPHP</a> はこちらです。 <a href="https://twitter.com/hashtag/phpstudy?src=hash&amp;ref_src=twsrc%5Etfw">#phpstudy</a></p>&mdash; Ryo Tomidokoro (@hanhan1978) <a href="https://twitter.com/hanhan1978/status/1625827379645153286?ref_src=twsrc%5Etfw">February 15, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+#+end_export
 
 *** 皆さんは会社や個人のプロジェクトでPHPStanを入れていますか?
 
@@ -106,7 +117,7 @@ PHPはとにかく落し穴が多い言語です。
 
 *** phpstanでちゃんと型をつけることによってJITが効くようになり高速化が期待できる
 
-[[id:C81D01DB-6135-46CD-B491-F35F42002417][PHP8から追加されたJITについて学ぼう!]] にも書いたのだが、PHPのJITコンパイラは実行時に型情報を十分に取得してマシンコードを吐き出します。
+[[id:C81D01DB-6135-46CD-B491-F35F42002417][PHP8から追加されたJITについて学ぼう!]] にも書いたんですが、PHPのJITコンパイラは実行時に型情報を十分に取得してマシンコードを吐き出します。
 
 なのでphpstanで暗黙の型変換を許容しないコーディングをしておけばJITにも優しくなるという得点付きです。
 
