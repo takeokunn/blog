@@ -88,6 +88,8 @@ TypeScriptでも ~noImplicitAny~ を有効にするには初期じゃないと�
 
 [[file:../../static/images/27E106C5-239D-4F0F-9504-D6295FFFED78.png]]
 
+出典: [[https://qiita.com/shinichi-takii/items/00aed26f96cf6bb3fe62][PHP isset, empty, is_null の違い早見表]]
+
 また、 ~empty~ はそもそも使わない方が良いよねっていう共感の声もありました。
 
 *** phpstanは初心者PHPerにこそ使ってほしい
