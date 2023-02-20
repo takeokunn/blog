@@ -1,0 +1,110 @@
+:PROPERTIES:
+:ID:       CDFA76B0-3CD7-474F-AABB-7805B7FBCD8B
+:mtime:    20230220171158 20230220161157
+:ctime:    20230220161138
+:END:
+
+#+TITLE: 「第149回 PHP勉強会＠東京」で登壇してきました
+#+DESCRIPTION: description
+#+DATE: 2023-02-20
+#+HUGO_BASE_DIR: ../../
+#+HUGO_SECTION: posts/diary
+#+HUGO_TAGS: diary php phpstudy
+#+HUGO_DRAFT: false
+#+STARTUP: content
+#+STARTUP: nohideblocks
+
+* 始めに
+
+2023-02-15（水）に [[https://www.gmo.jp/csr/partners/office/#gmo-yours][GMO Yours]] で行われた [[https://phpstudy.doorkeeper.jp/events/151021][第149回 PHP勉強会＠東京]] で登壇してきました。
+現地には30人、オンラインの視聴者は20人くらいで非常に和気藹々とした勉強会でした。
+
+* 登壇
+** 内容について
+
+[[https://docs.google.com/presentation/d/1WXgJP9oqydr-5Vn1oXDti9Gdfaxc_OhvVg6tgIi5LEs/edit#slide=id.p][phpstan-strict-rulesでよりbetterなphpを手に入れよう]] というタイトルで話しました。
+
+関連するツイートはこのあたりです。
+
+- https://togetter.com/li/2082268?page=9
+- https://togetter.com/li/2082268?page=10
+- https://togetter.com/li/2082268?page=11
+- https://togetter.com/li/2082268?page=12
+- https://togetter.com/li/2082268?page=13
+
+#+begin_export html
+<div class="google-slide">
+  <iframe
+    src="https://docs.google.com/presentation/d/e/2PACX-1vR2CYaDCANUaSo4Aq2RJ82Z0Bh2rxMKTWljxzg9OO-V7fi_7yi0AgaEMCvCdHizHUxFTuVD2HwB9HAi/embed?start=false&loop=false&delayms=3000"
+    frameborder="0"
+    width="960"
+    height="569"
+    allowfullscreen="true"
+    mozallowfullscreen="true"
+    webkitallowfullscreen="true">
+  </iframe>
+</div>
+#+end_export
+
+YouTubeのアーカイブも残っているので気になる人はこちらから見てください。
+
+[[https://www.youtube.com/live/k0GkmSYhtrQ?feature=share&t=7526][https://www.youtube.com/live/k0GkmSYhtrQ?feature=share&t=7526]]
+
+** 補足など
+*** Emacsに対してのコメント
+
+[[https://dic.pixiv.net/a/%E4%BF%BA%E3%81%8C%E3%82%AC%E3%83%B3%E3%83%80%E3%83%A0%E3%81%A0][~俺がEmacsだ~]]
+
+*** ~php-src~ を毎朝 ~git pull~ していることについて
+
+自分の好きなプロジェクトを毎朝 ~git pull~ して変更を見る行為は季節の移ろいを感じられてお勧めです。
+
+*** hanhanさんの「今週の PHP」を毎週かかさずチェックしよう
+
+~hanhan~ さんいつもありがとう。
+
+[[https://zenn.dev/hanhan1978][https://zenn.dev/hanhan1978]]
+
+*** 皆さんは会社や個人のプロジェクトでPHPStanを入れていますか?
+
+会場は半分くらいの方が手を上げていました。
+
+*** PHPStanのlevelは5より上か下か
+
+会場はさらに半分くらいの方がlevel5よりも上と手を上げていました。
+
+*** PHPStanを入れて良かったかどうか
+
+おおむねみなさん手を上げていました。
+
+*** 初期開発でPHPStan Level Maxを選択
+
+既存のコードがない場合ほど制約を厳しくできて良いですね、という声がちらほらありました。
+TypeScriptでも ~noImplicitAny~ を有効にするには初期じゃないとできない等、既存のコードベースがあるかどうかはかなり大きいです。
+
+*** emptyについて
+
+~isset~ ~empty~ ~is_null~ の比較表をどう頑張っても覚えられないという話をしました。
+
+[[file:../../static/images/27E106C5-239D-4F0F-9504-D6295FFFED78.png][php-cond-compair]]
+
+また、 ~empty~ はそもそも使わない方が良いよねっていう共感の声もありました。
+
+*** phpstanは初心者PHPerにこそ使ってほしい
+
+PHPはとにかく落し穴が多い言語です。
+ベテランのエンジニアほどPHP特有の落し穴について熱く語りがちなのですが、そもそもコードレビューで注意するよりも静的解析で検知してCIで落とすべきだと考えています。
+
+ガードレールを敷いてあげて安全にコードを書ける環境作りこそ、駆け出しのエンジニアに対して我々経験者がやることなのではないでしょうかという話をしました。
+
+ただ自分も年齢的には若手に分類されるので、会場にいるベテラン達には頑張ってもらいたいというあおりもかましてきました。
+
+* 終わりに
+
+PHP勉強会を配信で部分的に見たことは過去にあったが、オフラインで参加するのは初でした。
+どんな人がいるのか不安でだったけどいつも見かけるPHPerが何人もいて安心しました。
+
+発表も多少ネタを入れたのでスベったら嫌だなと不安に思っていたけど、会場が非常に暖かい雰囲気だったのもあり無事に終わってホッとしています。
+
+PHPは別にPHPに精通してなくても参加できるイベントであり、むしろこれからPHPを学びたい人向けの発表の方が多いので楽しめるでしょう。
+初心者にも優しい勉強会なのでぜひPHPに興味がある人は参加してみてはいかがでしょうか？
