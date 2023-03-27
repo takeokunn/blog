@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       9DA3ED10-A90E-412C-9F59-BAAD89AD1E4D
-:mtime:    20230327090209
+:mtime:    20230327090651
 :ctime:    20230327015058
 :END:
 #+TITLE: phperkaigi 2023でパンフレット記事寄稿&登壇してきました
@@ -66,9 +66,7 @@ https://corp.openlogi.com/recruit/
 2023年版「パーフェクトphp」の書籍化、まってます。
 
 #+begin_export html
-<div class="deck-embed js-deck-embed" style="aspect-ratio:1024/575;" data-ratio="1.77777777777778" data-state="processed">
-    <div class="speakerdeck-embed" data-title="false" data-skip-resize="true" data-id="c63c9a6f457f4609917543e6d73ac1a9" data-name="#phperkaigi 名著「パーフェクトPHP」のPart3に出てきたフレームワークを令和5年に書き直したらどんな感じですかね？" data-ratio="1.77777777777778" data-host="speakerdeck.com"></div>
-</div>
+<iframe class="speakerdeck-iframe" frameborder="0" src="https://speakerdeck.com/player/c63c9a6f457f4609917543e6d73ac1a9" title="#phperkaigi 名著「パーフェクトPHP」のPart3に出てきたフレームワークを令和5年に書き直したらどんな感じですかね？" allowfullscreen="true" style="border: 0px; background: padding-box padding-box rgba(0, 0, 0, 0.1); margin: 0px; padding: 0px; border-radius: 6px; box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 40px; width: 100%; height: auto; aspect-ratio: 560 / 314;" data-ratio="1.78343949044586"></iframe>
 #+end_export
 
 *** [Day 1] てきめんさんいつもありがとう
