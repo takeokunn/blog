@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       9DA3ED10-A90E-412C-9F59-BAAD89AD1E4D
-:mtime:    20230327090923
+:mtime:    20230327092143
 :ctime:    20230327015058
 :END:
 #+TITLE: phperkaigi 2023でパンフレット記事寄稿&登壇してきました
@@ -34,7 +34,7 @@ phperkaigiとは、年1回大都会練馬のココネリホールで開催され
 しかし、将来的に ~WEB+DB PRESS~ のような有名な技術誌に寄稿してみたいと思っていたのでとても良い機会に恵まれたなぁという気持ちでいっぱいです。
 また、実際にパンフレットを手に取って自分の記事が載っていることに対しての達成感は何ものにも代えがたいものだなと感じました。
 
-非常に良い経験になったので次回もプロポーザルを出して書きたいと思いました。
+非常に良い経験になったので次回もプロポーザルを出して記事を寄稿しようと思います。
 
 ** スポンサーセッションで登壇をしました
 
@@ -83,8 +83,6 @@ https://corp.openlogi.com/recruit/
 
 *** [Day 1] 会場入り
 
-仕事ぶっちして夜に行った。
-
 #+begin_export html
 <blockquote class="twitter-tweet"><p lang="ja" dir="ltr">仕事ブッチしたので向かう<a href="https://twitter.com/hashtag/phperkaigi?src=hash&amp;ref_src=twsrc%5Etfw">#phperkaigi</a></p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1639185482608410624?ref_src=twsrc%5Etfw">March 24, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 #+end_export
@@ -95,12 +93,15 @@ https://corp.openlogi.com/recruit/
 
 *** [Day 1] NewRelic想像以上に良かった
 
-NewRelicのサポートの方と話した。Ankerの充電器をもらったし、ノベリティのTシャツ愛用してます本当にありがとうございます。
-APMのイメージが強かったけど、想像以上にさまざまなインフラレイヤのメトリクスが取れるようになって、terraform管理もできるしDatadogと遜色ないらしい。
+NewRelicのサポートの方と話しました。
+
+ずっとNewRelicはAPMのイメージが強かったけど、想像以上にさまざまなインフラレイヤのメトリクスが取れるようになって、terraform管理もできるしDatadogと遜色ないらしいです。
 
 #+begin_export html
 <blockquote class="twitter-tweet"><p lang="ja" dir="ltr">datadogの営業の方に「common lispのagentがないんすかwwww」みたいなウザ絡みをした前科をフルに生かしてnewrelicの方にもすれば良かったと反省してる</p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1639214997560758273?ref_src=twsrc%5Etfw">March 24, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 #+end_export
+
+Ankerの充電器をもらいました本当にありがとうございます。
 
 #+begin_export html
 <blockquote class="twitter-tweet"><p lang="ja" dir="ltr">ありがてー <a href="https://t.co/jITyntS0c7">pic.twitter.com/jITyntS0c7</a></p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1639215903773687808?ref_src=twsrc%5Etfw">March 24, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -123,7 +124,7 @@ arrayやっぱつらいよね。
 <blockquote class="twitter-tweet"><p lang="ja" dir="ltr">Next up: 2023/03/25 12:10 Track B / 約10年もののPHPアプリケーションとの付き合い方と、今後10年改善し続けるための取り組みについて / たけてぃ <a href="https://twitter.com/takeokunn?ref_src=twsrc%5Etfw">@takeokunn</a> <a href="https://twitter.com/hashtag/phperkaigi?src=hash&amp;ref_src=twsrc%5Etfw">#phperkaigi</a> <a href="https://twitter.com/hashtag/b?src=hash&amp;ref_src=twsrc%5Etfw">#b</a><a href="https://t.co/bLwyMrjInY">https://t.co/bLwyMrjInY</a></p>&mdash; PHPerKaigi 2023 @3/23-3/25 (@phperkaigi) <a href="https://twitter.com/phperkaigi/status/1639463369202884608?ref_src=twsrc%5Etfw">March 25, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 #+end_export
 
-リアルうすゆきさんとも会えてよかった。配信画面の調整してくれてありがとう。
+リアルうすゆきさんとも会えてよかったです。配信画面の調整してくれてありがとう。
 
 *** [Day 2] ランチ寿司ビール
 
@@ -135,7 +136,7 @@ arrayやっぱつらいよね。
 
 *** [Day 2] あつくんとついに会えた
 
-イキの良い若手と会えたのよかった。うれしくてハグした。
+イキの良い若手と会えたのよかったです。うれしくてハグしました。
 
 #+begin_export html
 <blockquote class="twitter-tweet"><p lang="ja" dir="ltr">リアルあつさんだ!!! <a href="https://twitter.com/atsuPueri?ref_src=twsrc%5Etfw">@atsuPueri</a> <a href="https://twitter.com/hashtag/phperkaigi?src=hash&amp;ref_src=twsrc%5Etfw">#phperkaigi</a></p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1639493572281106432?ref_src=twsrc%5Etfw">March 25, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -143,16 +144,17 @@ arrayやっぱつらいよね。
 
 *** [Day 2] effyさんと設計と品質について語りあった
 
-ソフトウェア開発は人が死なないから品質への関心度が低いという話をした。
-値オブジェクトについてや、品質は要求から始めないから議論が空中戦になる、型というのはプロジェクトの治安が悪いから必要になってしまっている、レガシーコードどの向き合い方について話しました。
+ソフトウェア開発は人が死なないから品質への関心度が低いという話をしました。
 
-信頼境界線という単語が印象的だった。
+値オブジェクトについてや、品質は要求から始めないから議論が空中戦になる、型というのはプロジェクトの治安が悪いから必要になってしまっている、レガシーコードどの向き合い方についてなどを話しました。
+
+信頼境界線という単語が印象的でした。
 
 https://blog.ohgaki.net/how-to-draw-and-protect-trust-boundary
 
 *** [Day 2] LT大会
 
-ペンライトはライブ感があってめちゃくちゃ良いですね。次回こそはLT登壇したい。
+ペンライトはライブ感があってめちゃくちゃ良いですね。次回こそはLT登壇したいです。
 
 #+begin_export html
 <blockquote class="twitter-tweet"><p lang="ja" dir="ltr">LT大会では登壇者の&quot;推し色&quot;のペンライトの波が！！<a href="https://twitter.com/hashtag/peperkaigi?src=hash&amp;ref_src=twsrc%5Etfw">#peperkaigi</a> <a href="https://twitter.com/hashtag/a?src=hash&amp;ref_src=twsrc%5Etfw">#a</a> <a href="https://t.co/iQbOVFHxHD">pic.twitter.com/iQbOVFHxHD</a></p>&mdash; PHPerKaigi 2023 @3/23-3/25 (@phperkaigi) <a href="https://twitter.com/phperkaigi/status/1639179777767792641?ref_src=twsrc%5Etfw">March 24, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -160,9 +162,11 @@ https://blog.ohgaki.net/how-to-draw-and-protect-trust-boundary
 
 *** [Day 2] 懇親会
 
-どうせコミュ障だから端っこでビール飲むことになるだろうなぁと思っていたが、想像以上に多くの人と話せて楽しかった。
+どうせコミュ障だから端っこでビール飲むことになるだろうなぁと思っていたけど、想像以上に多くの人と話せて楽しかったです。
+
 Emacsユーザーのオジサンたちで集まって、実質Emacs懇親会を開催できたのが激熱でした。
-オジサンたちにPCを広げて最新のEmacs事情を熱く語ったり、駆け出しの方にもEmacsの魅力とスタープログラマーへのあこがれを異常な熱量で語れたのが良かったです。周りから変な目で見られてた可能性はあるが。
+
+オジサンたちにPCを広げて最新のEmacs事情を熱く語ったり、駆け出しの方にもEmacsの魅力とスタープログラマーへのあこがれを異常な熱量で語れたのが良かったです。
 
 #+begin_export html
 <blockquote class="twitter-tweet"><p lang="ja" dir="ltr">多分10個くらい離れてるおじさん達にemacsの最新情報を熱く語る実質emacs懇談会だった<a href="https://twitter.com/hashtag/phperkaigi?src=hash&amp;ref_src=twsrc%5Etfw">#phperkaigi</a></p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1639594361532088320?ref_src=twsrc%5Etfw">March 25, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -177,7 +181,7 @@ Emacsユーザーのオジサンたちで集まって、実質Emacs懇親会を�
 #+end_export
 
 結構な相手に認知されていたみたいだけど、プログラムオタクで怖いみたいな印象を持たれているらしいので、もっとフレンドリーな人だと思われる必要があるなと思いました。
-あと、登壇回数やブログ記事を増やして覚えてもらうべく日々頑張るべきだなぁと感じた。
+あと、登壇したりブログ記事をもっと積極的に書いたりして覚えてもらうべく日々頑張るべきだなぁというのも感じました。
 
 #+begin_export html
 <blockquote class="twitter-tweet"><p lang="ja" dir="ltr">あんまプログラマとして強くないのでつよつよエンジニアみたいな紹介のされ方すると申し訳なくなるな</p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1639635867093577731?ref_src=twsrc%5Etfw">March 25, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -193,7 +197,7 @@ Emacsユーザーのオジサンたちで集まって、実質Emacs懇親会を�
 
 * 終わりに
 
-去年当日スタッフをした時、自分はスタッフ業が絶望的に向いていない、簡単なことをやらかすし、本当にダメすぎるなと思ったので、来年は登壇をしたり別の形で貢献しようと考えていました。
+去年と一昨年に当日スタッフをした時、自分はスタッフ業が絶望的に向いていなく、簡単なことをやらかすし本当にダメすぎるなと思ったので、来年は登壇をしたり別の形で貢献しようと考えていました。
 
 #+begin_export html
 <blockquote class="twitter-tweet"><p lang="ja" dir="ltr">疲労するとADHD度が高まりすぎて迷惑をかけすぎるのでスタッフ業はもうできないなという気持ちになってる</p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1639643758445858817?ref_src=twsrc%5Etfw">March 25, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
