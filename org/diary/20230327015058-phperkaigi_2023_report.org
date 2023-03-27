@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       9DA3ED10-A90E-412C-9F59-BAAD89AD1E4D
-:mtime:    20230327090651
+:mtime:    20230327090923
 :ctime:    20230327015058
 :END:
 #+TITLE: phperkaigi 2023でパンフレット記事寄稿&登壇してきました
@@ -78,7 +78,7 @@ https://corp.openlogi.com/recruit/
 #+end_export
 
 #+begin_export html
-https://mobile.twitter.com/takeokunn/status/1639195470378721280
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">てきめんさんが不具合なく日本語をphpで処理できるようにしてくれてると思ってるので日本人phperは感謝した方が良いとまで思ってる</p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1639195470378721280?ref_src=twsrc%5Etfw">March 24, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 #+end_export
 
 *** [Day 1] 会場入り
