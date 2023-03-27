@@ -64,7 +64,13 @@
         "Fluentd",
         "aws",
         "ecs",
-        "Neovim"
+        "Neovim",
+        "phperkaigi",
+        "phper",
+        "OPENLOGI",
+        "emacser",
+        "Anker",
+        "Datadog"
       ],
       "skipRegExps": [
         "([0-9A-F]{8})-([0-9A-F]{4})-([0-9A-F]{4})-([0-9A-F]{4})-([0-9A-F]{12})"

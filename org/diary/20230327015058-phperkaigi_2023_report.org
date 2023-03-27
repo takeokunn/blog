@@ -1,0 +1,206 @@
+:PROPERTIES:
+:ID:       9DA3ED10-A90E-412C-9F59-BAAD89AD1E4D
+:mtime:    20230327090209
+:ctime:    20230327015058
+:END:
+#+TITLE: phperkaigi 2023でパンフレット記事寄稿&登壇してきました
+#+DESCRIPTION: description
+#+DATE: 2023-03-27
+#+HUGO_BASE_DIR: ../../
+#+HUGO_SECTION: posts/diary
+#+HUGO_TAGS: diary php phperkaigi
+#+HUGO_DRAFT: false
+#+STARTUP: content
+#+STARTUP: nohideblocks
+* 始めに
+
+[[https://phperkaigi.jp/2023/][phperkaigi 2023]] に参加しました。
+
+phperkaigiとは、年1回大都会練馬のココネリホールで開催されるphperのためのイベントです。
+よくphpカンファレンスとごっちゃにされがちなので一応書いておくと、phpカンファレンスは秋に蒲田で、phperkaigiは春に大都会練馬で開かれる別のイベントです。
+
+去年一昨年は3日間当日スタッフをやっていましたが、今年はDay1の夜終わり際とDay2全日参加をしました。
+
+* 活動報告
+** パンフレット記事寄稿を書きました
+
+「PHP 8から追加されたJITについて学ぼう!」というテーマで書きました。
+
+パンフレットにもありますが、[[id:C81D01DB-6135-46CD-B491-F35F42002417][こちら]]にもありますので興味のある方はぜひ読んでください。
+
+自分の人生でパンフレット記事の寄稿のような、自分のブログ以外に自分の文章が載ったのは初でした。
+正直自分自身JITについての理解度が低かったり、長文を書くことに慣れていなかったり、そもそも製本して提出する必要があったり、苦労する点は多かったです。
+
+しかし、将来的に ~WEB+DB PRESS~ のような有名な技術誌に寄稿してみたいと思っていたのでとても良い機会に恵まれたなぁという気持ちでいっぱいです。
+また、実際にパンフレットを手に取って自分の記事が載っていることに対しての達成感は何ものにも代えがたいものだなと感じました。
+
+非常に良い経験になったので次回もプロポーザルを出して書きたいと思いました。
+
+** スポンサーセッションで登壇をしました
+
+[[https://fortee.jp/phperkaigi-2023/proposal/e2cfa96e-46d3-46e5-8269-8ee72c658582][約10年もののPHPアプリケーションとの付き合い方と、今後10年改善し続けるための取り組みについて]] というテーマで登壇をしました。
+
+#+begin_export html
+<iframe src="https://docs.google.com/presentation/d/e/2PACX-1vQU-ac8NFjJbWIP9a1vbt1nrXa7_I898CkrRNNUN0aYa8hA3tnzUF2PUw5cPqKe4hTnB8A_o0kigQq2/embed?start=false&loop=false&delayms=3000" frameborder="0" width="960" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+#+end_export
+
+最近入社したにもかかわらず、phperkaigiのスポンサーになってほしいと伝えたところ、一切嫌な顔せずシルバースポンサーになってくれました。
+普段は個人で登壇をしていたのでこういう機会は初でしたが、登壇準備と登壇当日を業務時間として扱ってくれたのが非常にうれしかったです。
+
+ちなみに、当日スタッフをやっていた同僚の ~のりぃさん~ も業務扱いとして参加していました。
+
+#+begin_export html
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr"><a href="https://twitter.com/hashtag/phperkaigi?src=hash&amp;ref_src=twsrc%5Etfw">#phperkaigi</a> 当日スタッフ業務完了！！<br>やり切った！！<br>疲れた！！<br>参加者の皆様、スポンサーの皆様、スタッフの皆様、本当にありがとうございました！<br>久しぶりのオフラインイベント、めちゃくちゃ楽しい。刺戟的な3日間でした！😀✨</p>&mdash; のりぃ (@m_norii) <a href="https://twitter.com/m_norii/status/1639610187727409152?ref_src=twsrc%5Etfw">March 25, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+#+end_export
+
+OPENLOGIでは積極的にphperとemacser採用しています。僕とphpを書きたい人はぜひ応募してください。
+
+https://corp.openlogi.com/recruit/
+
+** イベントで楽しかったこと
+
+楽しかったことを適当にピックアップしてざっくばらんに書いていきます。
+
+*** [Day 0] きんじょうさんの発表よかった
+
+2023年版「パーフェクトphp」の書籍化、まってます。
+
+#+begin_export html
+<div class="deck-embed js-deck-embed" style="aspect-ratio:1024/575;" data-ratio="1.77777777777778" data-state="processed">
+    <div class="speakerdeck-embed" data-title="false" data-skip-resize="true" data-id="c63c9a6f457f4609917543e6d73ac1a9" data-name="#phperkaigi 名著「パーフェクトPHP」のPart3に出てきたフレームワークを令和5年に書き直したらどんな感じですかね？" data-ratio="1.77777777777778" data-host="speakerdeck.com"></div>
+</div>
+#+end_export
+
+*** [Day 1] てきめんさんいつもありがとう
+
+ファンです。いつも応援してます。
+
+#+begin_export html
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">(このタイミングで言うのもあれだけど、陰ながらいつも応援してます)</p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1639192412231991297?ref_src=twsrc%5Etfw">March 24, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+#+end_export
+
+#+begin_export html
+https://mobile.twitter.com/takeokunn/status/1639195470378721280
+#+end_export
+
+*** [Day 1] 会場入り
+
+仕事ぶっちして夜に行った。
+
+#+begin_export html
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">仕事ブッチしたので向かう<a href="https://twitter.com/hashtag/phperkaigi?src=hash&amp;ref_src=twsrc%5Etfw">#phperkaigi</a></p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1639185482608410624?ref_src=twsrc%5Etfw">March 24, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+#+end_export
+
+#+begin_export html
+<blockquote class="twitter-tweet"><p lang="qme" dir="ltr"><a href="https://twitter.com/hashtag/phperkaigi?src=hash&amp;ref_src=twsrc%5Etfw">#phperkaigi</a> <a href="https://t.co/bOtMvLLL14">pic.twitter.com/bOtMvLLL14</a></p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1639190703048921090?ref_src=twsrc%5Etfw">March 24, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+#+end_export
+
+*** [Day 1] NewRelic想像以上に良かった
+
+NewRelicのサポートの方と話した。Ankerの充電器をもらったし、ノベリティのTシャツ愛用してます本当にありがとうございます。
+APMのイメージが強かったけど、想像以上にさまざまなインフラレイヤのメトリクスが取れるようになって、terraform管理もできるしDatadogと遜色ないらしい。
+
+#+begin_export html
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">datadogの営業の方に「common lispのagentがないんすかwwww」みたいなウザ絡みをした前科をフルに生かしてnewrelicの方にもすれば良かったと反省してる</p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1639214997560758273?ref_src=twsrc%5Etfw">March 24, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+#+end_export
+
+#+begin_export html
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">ありがてー <a href="https://t.co/jITyntS0c7">pic.twitter.com/jITyntS0c7</a></p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1639215903773687808?ref_src=twsrc%5Etfw">March 24, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+#+end_export
+
+*** [Day 2] うずらさんの発表よかった
+
+arrayやっぱつらいよね。
+
+#+begin_export html
+<iframe class="speakerdeck-iframe" frameborder="0" src="https://speakerdeck.com/player/084eb5db590e424595c50ec43bb2f5ea" title="PHPの最高機能、配列を捨てよう！！ /  Throw away all PHP array now!!!" allowfullscreen="true" style="border: 0px; background: padding-box padding-box rgba(0, 0, 0, 0.1); margin: 0px; padding: 0px; border-radius: 6px; box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 40px; width: 100%; height: auto; aspect-ratio: 560 / 314;" data-ratio="1.78343949044586"></iframe>
+#+end_export
+
+*** [Day 2] 自分の登壇
+
+事前収録で提出した動画は噛みまくって出来だったので不安でした。
+本番はちゃんとトークできたし、会場でちゃんと笑いを取れたし、言いたいことを全部説明できたので大満足な内容でした。
+
+#+begin_export html
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">Next up: 2023/03/25 12:10 Track B / 約10年もののPHPアプリケーションとの付き合い方と、今後10年改善し続けるための取り組みについて / たけてぃ <a href="https://twitter.com/takeokunn?ref_src=twsrc%5Etfw">@takeokunn</a> <a href="https://twitter.com/hashtag/phperkaigi?src=hash&amp;ref_src=twsrc%5Etfw">#phperkaigi</a> <a href="https://twitter.com/hashtag/b?src=hash&amp;ref_src=twsrc%5Etfw">#b</a><a href="https://t.co/bLwyMrjInY">https://t.co/bLwyMrjInY</a></p>&mdash; PHPerKaigi 2023 @3/23-3/25 (@phperkaigi) <a href="https://twitter.com/phperkaigi/status/1639463369202884608?ref_src=twsrc%5Etfw">March 25, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+#+end_export
+
+リアルうすゆきさんとも会えてよかった。配信画面の調整してくれてありがとう。
+
+*** [Day 2] ランチ寿司ビール
+
+これが本当の[[https://yassu.jp/pukiwiki/index.php?MySQL+%BC%F7%BB%CA%A5%D3%A1%BC%A5%EB%CC%E4%C2%EA][寿司ビール問題]]だ!!!
+
+#+begin_export html
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">寿司ビール問題 <a href="https://t.co/MaxFiqA2iQ">pic.twitter.com/MaxFiqA2iQ</a></p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1639477983860895744?ref_src=twsrc%5Etfw">March 25, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+#+end_export
+
+*** [Day 2] あつくんとついに会えた
+
+イキの良い若手と会えたのよかった。うれしくてハグした。
+
+#+begin_export html
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">リアルあつさんだ!!! <a href="https://twitter.com/atsuPueri?ref_src=twsrc%5Etfw">@atsuPueri</a> <a href="https://twitter.com/hashtag/phperkaigi?src=hash&amp;ref_src=twsrc%5Etfw">#phperkaigi</a></p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1639493572281106432?ref_src=twsrc%5Etfw">March 25, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+#+end_export
+
+*** [Day 2] effyさんと設計と品質について語りあった
+
+ソフトウェア開発は人が死なないから品質への関心度が低いという話をした。
+値オブジェクトについてや、品質は要求から始めないから議論が空中戦になる、型というのはプロジェクトの治安が悪いから必要になってしまっている、レガシーコードどの向き合い方について話しました。
+
+信頼境界線という単語が印象的だった。
+
+https://blog.ohgaki.net/how-to-draw-and-protect-trust-boundary
+
+*** [Day 2] LT大会
+
+ペンライトはライブ感があってめちゃくちゃ良いですね。次回こそはLT登壇したい。
+
+#+begin_export html
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">LT大会では登壇者の&quot;推し色&quot;のペンライトの波が！！<a href="https://twitter.com/hashtag/peperkaigi?src=hash&amp;ref_src=twsrc%5Etfw">#peperkaigi</a> <a href="https://twitter.com/hashtag/a?src=hash&amp;ref_src=twsrc%5Etfw">#a</a> <a href="https://t.co/iQbOVFHxHD">pic.twitter.com/iQbOVFHxHD</a></p>&mdash; PHPerKaigi 2023 @3/23-3/25 (@phperkaigi) <a href="https://twitter.com/phperkaigi/status/1639179777767792641?ref_src=twsrc%5Etfw">March 24, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+#+end_export
+
+*** [Day 2] 懇親会
+
+どうせコミュ障だから端っこでビール飲むことになるだろうなぁと思っていたが、想像以上に多くの人と話せて楽しかった。
+Emacsユーザーのオジサンたちで集まって、実質Emacs懇親会を開催できたのが激熱でした。
+オジサンたちにPCを広げて最新のEmacs事情を熱く語ったり、駆け出しの方にもEmacsの魅力とスタープログラマーへのあこがれを異常な熱量で語れたのが良かったです。周りから変な目で見られてた可能性はあるが。
+
+#+begin_export html
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">多分10個くらい離れてるおじさん達にemacsの最新情報を熱く語る実質emacs懇談会だった<a href="https://twitter.com/hashtag/phperkaigi?src=hash&amp;ref_src=twsrc%5Etfw">#phperkaigi</a></p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1639594361532088320?ref_src=twsrc%5Etfw">March 25, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+#+end_export
+
+#+begin_export html
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">俺もことみんさんみたいに「emacsくんと仲良くなろう！」みたいなテーマで話すべきだなと</p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1639596429185515522?ref_src=twsrc%5Etfw">March 25, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+#+end_export
+
+#+begin_export html
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">おじさん達のemacsに対しての意識改革が必要だなと強く感じた</p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1639597272093822977?ref_src=twsrc%5Etfw">March 25, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+#+end_export
+
+結構な相手に認知されていたみたいだけど、プログラムオタクで怖いみたいな印象を持たれているらしいので、もっとフレンドリーな人だと思われる必要があるなと思いました。
+あと、登壇回数やブログ記事を増やして覚えてもらうべく日々頑張るべきだなぁと感じた。
+
+#+begin_export html
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">あんまプログラマとして強くないのでつよつよエンジニアみたいな紹介のされ方すると申し訳なくなるな</p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1639635867093577731?ref_src=twsrc%5Etfw">March 25, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+#+end_export
+
+#+begin_export html
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">俺みたいな陰キャは登壇したりブログ記事書いたりして相手から声かけてもらえるようにしとかないといけないことを実感した</p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1639638569861120001?ref_src=twsrc%5Etfw">March 25, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+#+end_export
+
+#+begin_export html
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">強いキャラ付け大事なのでみんな異常に好きなコンテンツを作ってアピりまくろう!!!</p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1639641645217124354?ref_src=twsrc%5Etfw">March 25, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+#+end_export
+
+* 終わりに
+
+去年当日スタッフをした時、自分はスタッフ業が絶望的に向いていない、簡単なことをやらかすし、本当にダメすぎるなと思ったので、来年は登壇をしたり別の形で貢献しようと考えていました。
+
+#+begin_export html
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">疲労するとADHD度が高まりすぎて迷惑をかけすぎるのでスタッフ業はもうできないなという気持ちになってる</p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1639643758445858817?ref_src=twsrc%5Etfw">March 25, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+#+end_export
+
+そういう意味では今年はちゃんと自分なりの目標を達成できたし、お祭を精いっぱい楽しめました。
+phperkaigiはスタッフの方々の情熱に支えられているイベントだなぁと毎年しみじみ思わされます。
+毎年本当にありがとうございます。来年も楽しみにしています。
