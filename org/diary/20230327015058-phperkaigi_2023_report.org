@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       9DA3ED10-A90E-412C-9F59-BAAD89AD1E4D
-:mtime:    20230327105123
+:mtime:    20230327140457
 :ctime:    20230327015058
 :END:
 #+TITLE: phperkaigi 2023でパンフレット記事寄稿&登壇してきました
@@ -22,7 +22,7 @@ phperkaigiとは、年1回大都会練馬のココネリホールで開催され
 去年一昨年は3日間当日スタッフをやっていましたが、今年はDay1の夜終わり際とDay2全日参加をしました。
 
 * 活動報告
-** パンフレット記事寄稿を書きました
+** パンフレット記事寄稿しました
 
 [[https://fortee.jp/phperkaigi-2023/speaker/proposal/view/cb553650-e1be-41ca-b6d4-669dc1d7698a][「PHP 8から追加されたJITについて学ぼう!」]]というテーマで書きました。
 
@@ -101,7 +101,7 @@ NewRelicのサポートの方と話しました。
 <blockquote class="twitter-tweet"><p lang="ja" dir="ltr">datadogの営業の方に「common lispのagentがないんすかwwww」みたいなウザ絡みをした前科をフルに生かしてnewrelicの方にもすれば良かったと反省してる</p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1639214997560758273?ref_src=twsrc%5Etfw">March 24, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 #+end_export
 
-Ankerの充電器をもらいました本当にありがとうございます。
+Ankerの充電器をもらいました。本当にありがとうございます。
 
 #+begin_export html
 <blockquote class="twitter-tweet"><p lang="ja" dir="ltr">ありがてー <a href="https://t.co/jITyntS0c7">pic.twitter.com/jITyntS0c7</a></p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1639215903773687808?ref_src=twsrc%5Etfw">March 24, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -117,7 +117,7 @@ arrayやっぱつらいよね。
 
 *** [Day 2] 自分の登壇
 
-事前収録で提出した動画は噛みまくって出来だったので不安でした。
+事前収録で提出した動画は噛みまくってしまったので不安でした。
 本番はちゃんとトークできたし、会場でちゃんと笑いを取れたし、言いたいことを全部説明できたので大満足な内容でした。
 
 #+begin_export html
