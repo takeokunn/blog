@@ -33,7 +33,9 @@ jobs:
       - name: textlint
         run: npm run lint
 
-      # for org file to markdown
+      # for Org to Markdown
+      - name: Prepare sqlite
+        run: sudo apt-get install sqlite3
       - uses: purcell/setup-emacs@master
         with:
           version: 28.2

@@ -11,6 +11,7 @@
 (require 'org-roam)
 
 (setq org-roam-directory "./")
+(setq org-roam-database-connector 'sqlite)
 (org-roam-db-autosync-enable)
 
 (defun export-org-files ()
