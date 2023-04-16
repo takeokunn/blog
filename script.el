@@ -12,6 +12,8 @@
 (setq org-roam-directory default-directory)
 (setq org-roam-db-location (concat default-directory "org-roam.db"))
 
+(org-roam-db-autosync-enable)
+
 (defun export-org-files ()
   "Re-exports all Org-roam files to Hugo markdown."
   (interactive)
