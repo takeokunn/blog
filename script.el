@@ -9,9 +9,9 @@
 (require 'ox-hugo)
 (require 'org-roam)
 
-(setq org-roam-directory "./")
+(setq org-roam-directory default-directory)
 (setq org-roam-database-connector 'sqlite)
-(setq org-roam-db-location "./org-roam.db")
+(setq org-roam-db-location (concat default-directory "org-roam.db"))
 
 (org-roam-db-autosync-enable)
 
