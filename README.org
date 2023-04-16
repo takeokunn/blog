@@ -1,6 +1,5 @@
 #+STARTUP: content
 #+STARTUP: nohideblocks
-
 * takeokunn's braindump
 
 [[https://takeokunn.org][https://takeokunn.org]]

@@ -1,0 +1,99 @@
+:PROPERTIES:
+:ID:       FE468360-61CE-41B5-A345-2FA1B65F88FC
+:mtime:    20230416165734
+:ctime:    20230416154043
+:END:
+
+#+TITLE: ob-phpstanを作った
+#+DESCRIPTION: ob-phpstanを作った
+#+DATE: 2023-04-16
+#+HUGO_BASE_DIR: ../../
+#+HUGO_SECTION: posts/permanent
+#+HUGO_TAGS: emacs org-mode
+#+HUGO_DRAFT: false
+#+STARTUP: content
+#+STARTUP: nohideblocks
+* Introduction
+
+最近[[https://phpstan.org/][phpstan]]を弄ることが増えたのだが、逐一[[https://phpstan.org/try][playground]]を開いてWebエディタ内で編集をするのが面倒に感じていました。
+org-mode内で完結をするようにしたいと考えるのはEmacsユーザーなら当然の発想です。
+そこで今回は ~org-babel~ 経由でphpstanの実行結果をorg内で管理できるようにしました。
+
+* 使い方
+
+[[https://github.com/emacs-php/ob-phpstan][https://github.com/emacs-php/ob-phpstan]]
+
+2023/04/16現在、melpaにはまだ登録をしていないので各自で落してきてパスを通してください。
+
+#+begin_src emacs-lisp
+  (add-to-list 'load-path "/path/to/ob-phpstan.el")
+  (require 'ob-phpstan)
+#+end_src
+
+次に ~php-mode~ を派生させた ~phpstan-mode~ を作成してください。
+
+#+begin_src emacs-lisp
+  (eval-after-load "org" '(add-to-list 'org-src-lang-modes '("phpstan" . phpstan)))
+#+end_src
+
+あとは適宜orgファイル内でコードブロック作成し、 ~org-babel~ を実行してください。
+
+#+begin_src org
+  ,#+begin_src phpstan :level 0
+    class HelloWorld
+    {
+            public function sayHello(DateTimeImutable $date): void
+            {
+                    echo 'Hello, ' . $date->format('j. n. Y');
+            }
+    }
+  ,#+end_src
+
+  ,#+RESULTS:
+  ,#+begin_example
+   ------ ----------------------------------------------------------------------------------
+    Line   /var/folders/z5/sk1q5qj96xg4g87vkcp4hq9h0000gn/T/babel-TGYZJB/phpstan-ulqeYI.php
+   ------ ----------------------------------------------------------------------------------
+    4      Parameter $date of method HelloWorld::sayHello() has invalid type
+           DateTimeImutable.
+   ------ ----------------------------------------------------------------------------------
+
+
+   [ERROR] Found 1 error
+
+  ,#+end_example
+#+end_src
+
+* 実装方法について
+
+~ob-phpstan~ は100行にも満たない小さなコードで実装されています。
+[[https://github.com/emacs-php/ob-phpstan/blob/main/ob-phpstan.el][https://github.com/emacs-php/ob-phpstan/blob/main/ob-phpstan.el]]
+
+- ~org-babel-temp-file~ で一時ファイルを作成
+- コードブロックの頭に ~<?php~ を追加
+- ~with-temp-file~ を使って一時ファイルに文字列を追加
+- ~org-babel-eval~ でphpstanを実行
+
+#+begin_src emacs-lisp
+  (defun org-babel-execute:phpstan (body params)
+    "Org mode fish evaluate function"
+    (let ((tmp-file (org-babel-temp-file "phpstan-" ".php"))
+          (body (concat "<?php\n" body))
+          (level (or (cdr (assoc :level params)) org-babel-phpstan-level)))
+      (with-temp-file tmp-file (insert (org-babel-expand-body:generic body params)))
+      (org-babel-eval (format "%s analyze %s --level %s --no-progress"
+                              org-babel-phpstan-command
+                              (org-babel-process-file-name tmp-file)
+                              level)
+                      "")))
+#+end_src
+
+phpstanの場合、標準入力でプログラムを渡す方法ではなく、ファイルパスを指定する方法しかありません。
+以前[[https://github.com/takeokunn/ob-fish][ob-fish]]を作ったが、 ~org-babel~ 周りの知識はからっきしなので [[https://github.com/lurdan/ob-typescript][ob-typescript]] を参考に実装しました。
+
+* Conclusion
+
+melpaに申請をしたり、ドキュメントを整えたり、まだやることが残っているので順次進めていきます。
+
+今回の実装を通じて ~org-babel~ 周りに詳しくなれました。
+~org-babel~ の実装方法やまとまったドキュメントは存在していないので機会があれば書こうと思いました。
