@@ -27,10 +27,10 @@ jobs:
         with:
           path: node_modules
           key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
-      - name: npm
+      - name: Install npm
         if: steps.cache-npm.outputs.cache-hit != 'true'
         run: npm ci
-      - name: textlint
+      - name: Run textlint
         run: npm run lint
 
       # for Org to Markdown
@@ -39,7 +39,7 @@ jobs:
       - uses: purcell/setup-emacs@master
         with:
           version: 28.2
-      - name: build org files
+      - name: Build org to markdown
         run: emacs --batch -l script.el -f export-org-files
 
       # for Hugo
@@ -55,7 +55,7 @@ jobs:
         run: hugo --minify
 
       # for GitHub Pages
-      - name: Setup Pages
+      - name: Setup GitHub Pages
         id: pages
         uses: actions/configure-pages@v2
       - name: Upload artifact

@@ -12,6 +12,8 @@
 
 (setq org-roam-directory "./")
 (setq org-roam-database-connector 'sqlite)
+(setq org-roam-db-location "./org-roam.db")
+
 (org-roam-db-autosync-enable)
 
 (defun export-org-files ()
