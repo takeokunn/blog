@@ -24,13 +24,14 @@
     ;; Add a new header for the references
     (let* ((backlinks (org-roam-backlinks-get (org-roam-node-at-point))))
       (when (> (length backlinks) 0)
-        (insert "\n\n* Backlinks\n"))
-      (dolist (backlink backlinks)
-        (let* ((source-node (org-roam-backlink-source-node backlink))
-               (node-file (org-roam-node-file source-node))
-               (file-name (file-name-nondirectory node-file))
-               (title (org-roam-node-title source-node)))
-          (insert
-           (format "- [[./%s][%s]]\n" file-name title)))))))
+        (insert "\n\n* Backlinks\n")
+        (dolist (backlink backlinks)
+          (message (concat "backlink: " (org-roam-node-title (org-roam-backlink-source-node backlink))))
+          (let* ((source-node (org-roam-backlink-source-node backlink))
+                 (node-file (org-roam-node-file source-node))
+                 (file-name (file-name-nondirectory node-file))
+                 (title (org-roam-node-title source-node)))
+            (insert
+             (format "- [[./%s][%s]]\n" file-name title))))))))
 
 (add-hook 'org-export-before-processing-functions #'collect-backlinks-string)
