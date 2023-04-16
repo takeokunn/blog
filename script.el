@@ -3,12 +3,12 @@
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (package-refresh-contents)
 (package-initialize)
+(package-install 'emacsql)
 (package-install 'ox-hugo)
 (package-install 'org-roam)
 
 (require 'ox-hugo)
 (require 'org-roam)
-(require 'org-roam-db)
 
 (setq org-roam-directory "./")
 (org-roam-db-autosync-enable)
