@@ -8,6 +8,10 @@
 
 (require 'ox-hugo)
 (require 'org-roam)
+(require 'org-roam-db)
+
+(setq org-roam-directory "./")
+(org-roam-db-autosync-enable)
 
 (defun export-org-files ()
   "Re-exports all Org-roam files to Hugo markdown."
