@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       FE468360-61CE-41B5-A345-2FA1B65F88FC
-:mtime:    20230416165734
+:mtime:    20230416170312
 :ctime:    20230416154043
 :END:
 
@@ -34,6 +34,13 @@ org-mode内で完結をするようにしたいと考えるのはEmacsユーザ�
 
 #+begin_src emacs-lisp
   (eval-after-load "org" '(add-to-list 'org-src-lang-modes '("phpstan" . phpstan)))
+#+end_src
+
+~org-babel-phpstan-command~ に各自で ~phpstan~ へのパスを設定してください。
+
+#+begin_src emacs-lisp
+  (with-eval-after-load 'ob-phpstan
+    (setq org-babel-phpstan-command "/path/to/dir/phpstan"))
 #+end_src
 
 あとは適宜orgファイル内でコードブロック作成し、 ~org-babel~ を実行してください。
