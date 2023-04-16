@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       FE468360-61CE-41B5-A345-2FA1B65F88FC
-:mtime:    20230416170312
+:mtime:    20230416170411
 :ctime:    20230416154043
 :END:
 
@@ -15,7 +15,7 @@
 #+STARTUP: nohideblocks
 * Introduction
 
-最近[[https://phpstan.org/][phpstan]]を弄ることが増えたのだが、逐一[[https://phpstan.org/try][playground]]を開いてWebエディタ内で編集をするのが面倒に感じていました。
+最近[[https://phpstan.org/][phpstan]]を弄ることが増えたのですが、逐一[[https://phpstan.org/try][playground]]を開いてWebエディタ内で編集をするのが面倒に感じていました。
 org-mode内で完結をするようにしたいと考えるのはEmacsユーザーなら当然の発想です。
 そこで今回は ~org-babel~ 経由でphpstanの実行結果をorg内で管理できるようにしました。
 
