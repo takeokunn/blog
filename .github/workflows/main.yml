@@ -29,7 +29,7 @@ jobs:
       # for org file to markdown
       - uses: purcell/setup-emacs@master
         with:
-          version: 28.1
+          version: 28.2
       - name: build org files
         run: emacs --batch -l script.el -f export-org-files
 
