@@ -1,9 +1,8 @@
 :PROPERTIES:
 :ID:       FE468360-61CE-41B5-A345-2FA1B65F88FC
-:mtime:    20230416170411
+:mtime:    20230624150212
 :ctime:    20230416154043
 :END:
-
 #+TITLE: ob-phpstanを作った
 #+DESCRIPTION: ob-phpstanを作った
 #+DATE: 2023-04-16

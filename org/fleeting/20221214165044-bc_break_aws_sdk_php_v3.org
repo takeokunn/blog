@@ -1,9 +1,8 @@
 :PROPERTIES:
 :ID:       5237E27E-BCCE-42D6-8E02-1B5EE1E89B48
-:mtime:    20221216002002 20221214175217 20221214165056
+:mtime:    20230624112721
 :ctime:    20221214165044
 :END:
-
 #+TITLE: aws-sdk-php v3.245.0でBC breakをおこす
 #+DESCRIPTION: AwsClientの引数の配列の変更が入ったので壊れるから注意が必要
 #+DATE: 2022-12-14
@@ -13,7 +12,6 @@
 #+HUGO_DRAFT: false
 #+STARTUP: content
 #+STARTUP: nohideblocks
-
 * 結論
 
 - ~aws-sdk-php~ の ~v3.245.0~ で ~AwcClient~ のconstructorの引数が変わった

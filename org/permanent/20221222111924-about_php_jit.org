@@ -1,9 +1,8 @@
 :PROPERTIES:
 :ID:       C81D01DB-6135-46CD-B491-F35F42002417
-:mtime:    20230117150509 20230117022110
+:mtime:    20230624150429
 :ctime:    20221222111924
 :END:
-
 #+TITLE: PHP8から追加されたJITについて学ぼう!
 #+DESCRIPTION: PHPのJITについて書く
 #+DATE: 2022-12-22
@@ -13,7 +12,6 @@
 #+HUGO_DRAFT: false
 #+STARTUP: content
 #+STARTUP: nohideblocks
-
 * 始めに
 
 2023年現在、PHPは世界中の企業で使われており、最も成功しているプログラミング言語の1つと言っても過言ではないくらい開発者から愛されています。

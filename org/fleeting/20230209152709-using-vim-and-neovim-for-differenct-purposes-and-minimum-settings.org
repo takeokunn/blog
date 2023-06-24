@@ -1,9 +1,8 @@
 :PROPERTIES:
 :ID:       E1C13122-4090-47F6-B84E-238CCC981E72
-:mtime:    20230209162746 20230209152725
+:mtime:    20230624112658
 :ctime:    20230209152709
 :END:
-
 #+TITLE: VimとNeovimの使い分けと最小構成
 #+DESCRIPTION: VimとNeovimの使い分けと最小構成
 #+DATE: 2023-02-09
@@ -13,7 +12,6 @@
 #+HUGO_DRAFT: false
 #+STARTUP: content
 #+STARTUP: nohideblocks
-
 * VimとNeovimの運用方針
 
 [[https://mobile.twitter.com/takeokunn/status/1464971704124710915][Twitterではずっと主張してること]] だが、VimとNeovimの設定は共通化しない方が良いと考えています。

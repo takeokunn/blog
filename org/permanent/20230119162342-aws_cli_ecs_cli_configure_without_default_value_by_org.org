@@ -1,9 +1,8 @@
 :PROPERTIES:
 :ID:       87C9372F-F4AC-4394-B578-0E5E4742E842
-:mtime:    20230119183645 20230119173644 20230119162350
+:mtime:    20230624150433
 :ctime:    20230119162342
 :END:
-
 #+TITLE: aws-cliとecs-cliのconfigをorgで管理してdefault値を一切設定しない運用をする
 #+DESCRIPTION: aws-cliとecs-cliのconfigをorgで管理してdefault値を一切設定しない運用をする
 #+DATE: 2023-01-19
@@ -13,7 +12,6 @@
 #+HUGO_DRAFT: false
 #+STARTUP: content
 #+STARTUP: nohideblocks
-
 * 前提
 
 私は普段以下のような条件でAWSを触っています。

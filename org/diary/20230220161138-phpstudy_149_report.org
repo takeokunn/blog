@@ -1,9 +1,8 @@
 :PROPERTIES:
 :ID:       CDFA76B0-3CD7-474F-AABB-7805B7FBCD8B
-:mtime:    20230220182726 20230220171158 20230220161157
+:mtime:    20230624112731
 :ctime:    20230220161138
 :END:
-
 #+TITLE: 「第149回 PHP勉強会＠東京」で登壇してきました
 #+DESCRIPTION: description
 #+DATE: 2023-02-20
@@ -13,7 +12,6 @@
 #+HUGO_DRAFT: false
 #+STARTUP: content
 #+STARTUP: nohideblocks
-
 * 始めに
 
 2023-02-15（水）に [[https://www.gmo.jp/csr/partners/office/#gmo-yours][GMO Yours]] で行われた [[https://phpstudy.doorkeeper.jp/events/151021][第149回 PHP勉強会＠東京]] で登壇してきました。

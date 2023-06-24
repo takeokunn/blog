@@ -1,9 +1,8 @@
 :PROPERTIES:
 :ID:       D70946A8-664B-4A85-823F-1E22ED84AC9B
-:mtime:    20221216002142 20221215014752
+:mtime:    20230624150304
 :ctime:    20221215014658
 :END:
-
 #+TITLE: WebpackerでBulmaをbuildするとwarningが出るものの調査と対応
 #+DESCRIPTION: WebpackerでBulmaをbuildするとwarningが出るものの調査と対応
 #+DATE: 2019-04-11

@@ -74,7 +74,9 @@
         "ob-phpstan",
         "org-babel",
         "babel",
-        "melpa"
+        "melpa",
+        "gpg",
+        "gnupg"
       ],
       "skipRegExps": [
         "([0-9A-F]{8})-([0-9A-F]{4})-([0-9A-F]{4})-([0-9A-F]{4})-([0-9A-F]{12})"

@@ -1,9 +1,8 @@
 :PROPERTIES:
 :ID:       1C184C94-166F-4D51-9337-04E20A43E299
-:mtime:    20221216002018 20221214232155
+:mtime:    20230624150248
 :ctime:    20221214231958
 :END:
-
 #+TITLE: docker-compose.ymlのportsについてのメモ
 #+DESCRIPTION: docker-compose.ymlのportsについてのメモ
 #+DATE: 2019-02-26

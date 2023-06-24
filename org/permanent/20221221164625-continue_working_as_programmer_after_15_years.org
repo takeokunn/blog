@@ -1,9 +1,8 @@
 :PROPERTIES:
 :ID:       7C7E3436-DC5C-4C6D-A079-8CC38F19F5B3
-:mtime:    20221221164636
+:mtime:    20230624150426
 :ctime:    20221221164625
 :END:
-
 #+TITLE: 15年後もプログラマとして食っていくために努力しなくてはいけないこと
 #+DESCRIPTION: description
 #+DATE: 2022-12-21
@@ -13,7 +12,6 @@
 #+HUGO_DRAFT: true
 #+STARTUP: content
 #+STARTUP: nohideblocks
-
 * 始めに
 
 「エンジニア35歳定年説」について。

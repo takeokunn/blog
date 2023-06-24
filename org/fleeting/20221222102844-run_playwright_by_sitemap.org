@@ -1,9 +1,8 @@
 :PROPERTIES:
 :ID:       923E2C2D-EAF9-F6A4-8C43-136BEC60DBBA
-:mtime:    20221222105947
+:mtime:    20230624112707
 :ctime:    20221222102844
 :END:
-
 #+TITLE: sitemap.xmlからURLを良い感じに抽出してPlaywrightでUIを目視確認する
 #+DESCRIPTION: playwright使ってみた
 #+DATE: 2022-12-22
@@ -13,7 +12,6 @@
 #+HUGO_DRAFT: false
 #+STARTUP: content
 #+STARTUP: nohideblocks
-
 * やりたいこと
 
 フレームワークや言語のバージョンを上げたり、UI周りのリファクタリングをした際に、500やデザイン崩れがないかを確認したい。

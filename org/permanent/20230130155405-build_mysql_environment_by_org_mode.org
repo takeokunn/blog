@@ -1,9 +1,8 @@
 :PROPERTIES:
 :ID:       27ABD117-372F-4295-84C7-532D0B3397AC
-:mtime:    20230130155441
+:mtime:    20230624150450
 :ctime:    20230130155405
 :END:
-
 #+TITLE: org-modeでmysql検証環境を整える
 #+DESCRIPTION: org-modeでmysql検証環境を整える
 #+DATE: 2023-01-30
@@ -13,7 +12,6 @@
 #+HUGO_DRAFT: true
 #+STARTUP: content
 #+STARTUP: nohideblocks
-
 * [WIP] MySQL環境テンプレート
 
 #+begin_src org

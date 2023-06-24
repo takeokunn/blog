@@ -1,9 +1,8 @@
 :PROPERTIES:
 :ID:       CC208563-771E-4BDE-9A40-D8A2E7948300
-:mtime:    20221216002026 20221214233450
+:mtime:    20230624150252
 :ctime:    20221214233433
 :END:
-
 #+TITLE: MySQLのmax_allowed_packetについて
 #+DESCRIPTION: MySQLのmax_allowed_packetについて
 #+DATE: 2019-03-09
