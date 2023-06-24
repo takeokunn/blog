@@ -1,0 +1,44 @@
+:PROPERTIES:
+:ID:       F59F81F7-C0AA-4253-9844-4F2B7BB4AEA5
+:mtime:    20230624104212
+:ctime:    20230624093617
+:END:
+#+TITLE: phpconference福岡2023に参加してきました
+#+DESCRIPTION: description
+#+DATE: 2023-06-24
+#+HUGO_BASE_DIR: ../../
+#+HUGO_SECTION: posts/diary
+#+HUGO_TAGS: diary
+#+HUGO_DRAFT: true
+#+STARTUP: content
+#+STARTUP: nohideblocks
+* Introduction
+* TL;DR
+
+- 福岡旅行楽しかった
+- 普段Twitterでしか会えないPHPerと会えた
+- カンファレンス
+
+* 1日目 移動〜前夜祭
+** 飛行機〜宿
+** 前夜祭
+* 2日目 カンファレンス当日
+** 会場の雰囲気
+** 登壇
+
+※ 敬称略で書いています。
+
+*** 伝えたい！オフラインのカンファレンスに参加するメリットと参加してから200 楽しむために実践してほしいこと @kotomin
+
+https://fortee.jp/phpconfukuoka-2023/proposal/89740c79-2aca-440d-94e2-f227de3a6eb4
+
+- 半分くらい福岡県民
+- リアクションを3割増しで大きくする
+- スピーカーに話しかける
+  - Ask The Speaker
+  - 鉄板集
+- カンファレンス後
+  - 懇親会前に知り合いを作っておく
+
+*** フレームワークが生み出す負債や複雑さについて、PHPUnitと向き合っていく
+** 懇親会
