@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       F59F81F7-C0AA-4253-9844-4F2B7BB4AEA5
-:mtime:    20230624152414
+:mtime:    20230624173758
 :ctime:    20230624093617
 :END:
 #+TITLE: phpカンファレンス福岡2023に参加してきました
@@ -21,17 +21,16 @@
 
 - 福岡旅行楽しかった
 - 普段Twitterでしか会えないPHPerと会えた
-- 2024年1月に北海道カンファレンスがあるみたいなので絶対参加するぞ
 
 * 1日目 移動〜前夜祭
-** TODO 飛行機〜宿
+** 飛行機〜宿
 
 - 成田の第3ターミナルなのに第1ターミナルで降りてしまった
 - ららぽーと行きのバス乗り間違えた
 - 福岡νガンダム
 - 宿は一泊3900円のカプセルホテル
 
-** TODO 前夜祭
+** 前夜祭
 
 - LINE福岡でイベントをやった
 - IRT
@@ -118,14 +117,39 @@ CLOSED: [2023-06-24 Sat 14:56]
 - queryの最適化とconnection管理
 - Eloquentはシャーディングができないから使わなかった
 
-*** The future of tbls and "Documentation as Code" @k1LoW
+*** DONE The future of tbls and "Documentation as Code" @k1LoW
+CLOSED: [2023-06-24 Sat 15:46]
 
 - tblsはCIフレンドリーのドキュメント生成ツール
 - Documentation as Codeについて
+- Documentation as Code+について
+- Documentation as Code++について
+  - BigQueryなどに書き戻すことができる
+  - LLM
 
-*** Monologの実装に学ぶInterfaceの使いどころ @ogi_chotdake_se
-*** Rectorと目指す負債をためないシステム開発〜はじめの一歩〜 @inoco
-*** LT大会
+*** DONE ソフトウェア設計がプロジェクト管理にどのように影響を与えるか @o0h_
+CLOSED: [2023-06-24 Sat 16:11]
+
+- ソフトウェアの弾力性を高めよう
+
+*** DONE PHPの型はいつ消えるのか @aharisu
+CLOSED: [2023-06-24 Sat 17:16]
+
+- 型情報を付けるとエディタが強くなる
+- phpstan使っていこうな
+
+*** DONE PHPerもIaCを使おう! 17年物のインフラをTerraformに大移行 @iwashi623
+CLOSED: [2023-06-24 Sat 17:37]
+
+- 17年もののオンプレを移行する話
+
+*** TODO 自社サービスのAWSインフラをフルリプレースした裏側 @ldhdba
+
+- 昔は雑にインフラを作っていた
+- さすがに強引に作りすぎてた
+- リプレイスするしかない
+
 ** 懇親会
 * 3日目 福岡敢行
-* 総評
+* まとめ
+久々の旅行で楽しかった。
