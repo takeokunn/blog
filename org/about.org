@@ -1,11 +1,9 @@
 #+HUGO_BASE_DIR: ../
 #+HUGO_SECTION: ./
-
 #+TITLE: About me
 #+DESCRIPTION: About me
 #+STARTUP: content
 #+STARTUP: nohideblocks
-
 * Basic
 
 Hi, I'm takeokunn.
