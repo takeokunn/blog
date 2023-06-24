@@ -1,0 +1,57 @@
+:PROPERTIES:
+:ID:       DB5D710F-6168-47D4-9044-1ED3D24D61E6
+:mtime:    20230624152458
+:ctime:    20230624130858
+:END:
+#+TITLE: Emacs内でgpg fileがsaveできなくなった時に対応したことメモ
+#+DESCRIPTION: description
+#+DATE: 2023-06-24
+#+HUGO_BASE_DIR: ../../
+#+HUGO_SECTION: posts/fleeting
+#+HUGO_TAGS: fleeting
+#+HUGO_DRAFT: true
+#+STARTUP: content
+#+STARTUP: nohideblocks
+* Introduction
+
+自分用のメモです。
+何もしていないのに急にgpg fileがEmacsでsaveできなくなったので調査した。
+
+* 問題
+:PROPERTIES:
+:ID:       E5BEA900-D4A1-4431-9774-90AF6CE63D67
+:END:
+
+1. MacでEmacsを起動する
+2. Emacsでgpg fileを開く
+3. 適当に編集する
+4. =C-x C-s= で =save-buffer= を実行するとsaveできずに固まる
+
+* 対応方法
+
+2023/06/24現在、Homebrewで最新のgpgを入れると =v2.4.0= が降ってくる。
+
+#+begin_src shell
+  $ gpg --version
+  gpg (GnuPG) 2.4.0
+#+end_src
+
+gnupgのversionを下げる。
+
+#+begin_src shell
+  $ brew uninstall --ignore-dependencies gpg
+  $ brew install gnupg@2.2
+#+end_src
+
+versionを確認する。
+
+#+begin_src shell
+  $ gpg --version
+  gpg (GnuPG) 2.2.41
+#+end_src
+
+動くことを確認した。
+
+* 原因
+
+なんか書く。
