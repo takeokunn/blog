@@ -1,6 +1,15 @@
 :PROPERTIES:
 :ID:       2F770905-9546-4B02-8D0D-4C37CECEB47F
-:mtime:    20230625014542
+:mtime:    20230625153001
 :ctime:    20230624174832
 :END:
 #+TITLE: build-emacs-from-source-code-every-morning-merit
+#+DESCRIPTION: description
+#+DATE: 2023-06-25
+#+HUGO_BASE_DIR: ../../
+#+HUGO_SECTION: posts/permanent
+#+HUGO_TAGS: permanent
+#+HUGO_DRAFT: true
+#+STARTUP: content
+#+STARTUP: nohideblocks
+fdasfa
