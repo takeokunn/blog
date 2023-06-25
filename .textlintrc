@@ -2,7 +2,8 @@
   "filters": {
     "node-types": {
       "nodeTypes": [
-        "Code"
+        "Code",
+        "Paragraph"
       ]
     }
   },

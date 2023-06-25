@@ -1,0 +1,107 @@
+- [プロジェクト構成](#orgdf8fdfa)
+- [実行方法](#orga42ed64)
+- [解説](#org5d27b32)
+
+
+
+<a id="orgdf8fdfa"></a>
+
+# プロジェクト構成
+
+以下のように適当なディレクトリを作成する。
+
+```shell
+$ tree .
+.
+├── Dockerfile
+├── application.conf
+└── docker-compose.yml
+
+0 directories, 3 files
+```
+
+`Dockerfile`:
+
+```dockerfile
+FROM public.ecr.aws/aws-observability/aws-for-fluent-bit:2.21.3
+
+COPY application.conf /fluent-bit/etc/application.conf
+```
+
+`docker-compose.yml`:
+
+```yaml
+version: "3.8"
+services:
+  fluentbit:
+    build: .
+    command: ["/fluent-bit/bin/fluent-bit", "-c", "/fluent-bit/etc/application.conf"]
+    volumes:
+      - ./application.conf:/fluent-bit/etc/application.conf
+```
+
+`application.conf`:
+
+```conf
+[SERVICE]
+    Flush 5
+    Log_Level info
+
+[INPUT]
+    Name dummy
+    Tag  *-firelens-*
+    Dummy {"date":"2022-01-23T03:10:33.317817Z","source":"stdout","log":"time:2022-01-23T03:10:33+00:00\tprotocol:HTTP/1.1\tstatus:200\tsize:1450\treqsize:150\treferer:-\tvhost:10.10.18.102\treqtime:0.176\tcache:-\truntime:-\t"}
+
+[OUTPUT]
+    Name stdout
+    Match *
+```
+
+
+<a id="orga42ed64"></a>
+
+# 実行方法
+
+`docker compose up` を立ち上げると上記の `[INPUT]` に記述したdummyのinputが出力される。
+
+```shell
+$ docker compose up
+
+fluent-bit-sandbox-fluentbit-1  | [0] *-firelens-*: [1668664184.902488203, {"date"=>"2022-01-23T03:10:33.317817Z", "source"=>"stdout", "log"=>"time:2022-01-23T03:10:33+00:00   protocol:HTTP/1.1       status:200      size:1450       reqsize:150     referer:-     vhost:10.10.18.102      reqtime:0.176   cache:- runtime:-       "}]
+fluent-bit-sandbox-fluentbit-1  | [1] *-firelens-*: [1668664185.900364801, {"date"=>"2022-01-23T03:10:33.317817Z", "source"=>"stdout", "log"=>"time:2022-01-23T03:10:33+00:00   protocol:HTTP/1.1       status:200      size:1450       reqsize:150     referer:-     vhost:10.10.18.102      reqtime:0.176   cache:- runtime:-       "}]
+fluent-bit-sandbox-fluentbit-1  | [2] *-firelens-*: [1668664186.900453923, {"date"=>"2022-01-23T03:10:33.317817Z", "source"=>"stdout", "log"=>"time:2022-01-23T03:10:33+00:00   protocol:HTTP/1.1       status:200      size:1450       reqsize:150     referer:-     vhost:10.10.18.102      reqtime:0.176   cache:- runtime:-       "}]
+fluent-bit-sandbox-fluentbit-1  | [3] *-firelens-*: [1668664187.900391678, {"date"=>"2022-01-23T03:10:33.317817Z", "source"=>"stdout", "log"=>"time:2022-01-23T03:10:33+00:00   protocol:HTTP/1.1       status:200      size:1450       reqsize:150     referer:-     vhost:10.10.18.102      reqtime:0.176   cache:- runtime:-       "}]
+```
+
+
+<a id="org5d27b32"></a>
+
+# 解説
+
+特に何も指定せずに `docker compose up` をすると `/fluent-bit/bin/fluent-bit -c /fluent-bit/etc/fluent-bit.conf` で起動をしている。
+
+```shell
+$ docker compose exec fluentbit /bin/bash
+bash-4.2# ps aux | grep fluent-bit
+root         1  0.2  0.5 2442384 46640 ?       Ssl  05:50   0:00 /fluent-bit/bin/fluent-bit -e /fluent-bit/firehose.so -e /fluent-bit/cloudwatch.so -e /fluent-bit/kinesis.so -c /fluent-bit/etc/fluent-bit.conf
+root        41  0.0  0.0   8996   932 pts/1    S+   05:51   0:00 grep fluent-bit
+```
+
+デフォルトのconfigである `/fluent-bit/etc/fluent-bit.conf` はserverが立っており、tcpでやりとりができるようになっている。
+
+```shell
+$ docker compose exec fluentbit /bin/bash
+bash-4.2# cat /fluent-bit/etc/fluent-bit.conf
+[INPUT]
+    Name        forward
+    Listen      0.0.0.0
+    Port        24224
+
+[OUTPUT]
+    Name cloudwatch
+    Match   **
+    region us-east-1
+    log_group_name fluent-bit-cloudwatch
+    log_stream_prefix from-fluent-bit-
+    auto_create_group true
+```

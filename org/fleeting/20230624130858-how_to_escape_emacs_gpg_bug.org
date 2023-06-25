@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       DB5D710F-6168-47D4-9044-1ED3D24D61E6
-:mtime:    20230625150257
+:mtime:    20230625152241
 :ctime:    20230624130858
 :END:
 #+TITLE: Emacs内でgpg fileがsaveできなくなった時に対応したことメモ
@@ -9,7 +9,7 @@
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/fleeting
 #+HUGO_TAGS: fleeting
-#+HUGO_DRAFT: true
+#+HUGO_DRAFT: false
 #+STARTUP: content
 #+STARTUP: nohideblocks
 * Introduction
@@ -17,42 +17,14 @@
 自分用のメモです。
 何もしていないのに急にgpg fileがEmacsでsaveできなくなったので調査した。
 
-* 問題
-:PROPERTIES:
-:ID:       E5BEA900-D4A1-4431-9774-90AF6CE63D67
-:END:
+* 再現手順
 
 1. MacでEmacsを起動する
 2. Emacsでgpg fileを開く
 3. 適当に編集する
-4. =C-x C-s= で =save-buffer= を実行するとsaveできずに固まる
+4. =C-x C-s= で =save-buffer= を実行するとsaveできずにhangする
 
-* 対応方法
-
-2023/06/24現在、Homebrewで最新のgpgを入れると =v2.4.0= が降ってくる。
-
-#+begin_src shell
-  $ gpg --version
-  gpg (GnuPG) 2.4.0
-#+end_src
-
-gnupgのversionを下げる。
-
-#+begin_src shell
-  $ brew uninstall --ignore-dependencies gpg
-  $ brew install gnupg@2.2
-#+end_src
-
-versionを確認する。
-
-#+begin_src shell
-  $ gpg --version
-  gpg (GnuPG) 2.2.41
-#+end_src
-
-動くことを確認した。
-
-* 原因
+* 原因について
 
 「[[https://stackoverflow.com/questions/76388376/emacs-org-encrypt-entry-hangs-when-file-is-modified][emacs org-encrypt-entry hangs when file is modified - stackoverflow]]」に同様の問題が投稿されていました。
 
@@ -81,6 +53,31 @@ Emacsのcommitに以下のような記述が追加されていました。
 #+end_example
 
 これによると、GnuPGのversionを下げることによってsave時にhangすることを防げるようです。
+自分の手元では =2.4.0= を使っていますが、同様の問題が起きました。
 
-Homebrewで入れる場合はちゃんとlogin shellにパスを通してあげる必要がある。
+Homebrewで入れる場合はちゃんとlogin shellにパスを通してあげる必要があります。
 [[https://github.com/takeokunn/dotfiles/commit/55813ec0e37d78a0965a8736b9ff868c6d3bb64a][https://github.com/takeokunn/dotfiles/commit/55813ec0e37d78a0965a8736b9ff868c6d3bb64a]]
+* 対応方法
+
+2023/06/24現在、Homebrewで最新のgpgを入れると =v2.4.0= が降ってきます。
+
+#+begin_src shell
+  $ gpg --version
+  gpg (GnuPG) 2.4.0
+#+end_src
+
+以下のようにgnupgのversionを下げます。
+
+#+begin_src shell
+  $ brew uninstall --ignore-dependencies gpg
+  $ brew install gnupg@2.2
+#+end_src
+
+versionを確認する。
+
+#+begin_src shell
+  $ gpg --version
+  gpg (GnuPG) 2.2.41
+#+end_src
+
+適当なファイルをsaveができればこの問題は解決。
