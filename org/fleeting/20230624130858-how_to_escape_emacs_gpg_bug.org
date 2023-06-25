@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       DB5D710F-6168-47D4-9044-1ED3D24D61E6
-:mtime:    20230624152458
+:mtime:    20230625150257
 :ctime:    20230624130858
 :END:
 #+TITLE: Emacs内でgpg fileがsaveできなくなった時に対応したことメモ
@@ -54,4 +54,33 @@ versionを確認する。
 
 * 原因
 
-なんか書く。
+「[[https://stackoverflow.com/questions/76388376/emacs-org-encrypt-entry-hangs-when-file-is-modified][emacs org-encrypt-entry hangs when file is modified - stackoverflow]]」に同様の問題が投稿されていました。
+
+Emacsのcommitに以下のような記述が追加されていました。
+[[https://git.savannah.gnu.org/cgit/emacs.git/commit/?h=emacs-29&id=1b9812af80b6ceec8418636dbf84c0fbcd3ab694][https://git.savannah.gnu.org/cgit/emacs.git/commit/?h=emacs-29&id=1b9812af80b6ceec8418636dbf84c0fbcd3ab694]]
+
+#+begin_example
+  diff --git a/etc/PROBLEMS b/etc/PROBLEMS
+  index c0cb5b0..82ab48f 100644
+  --- a/etc/PROBLEMS
+  +++ b/etc/PROBLEMS
+  @@ -516,6 +516,13 @@ directory copy is ineffective.
+   This is due to an arbitrary limit in certain versions of awk.
+   The solution is to use gawk (GNU awk).
+
+  +*** Saving, via EasyPG, a file encrypted with GnuPG hangs
+  +
+  +This is known to happen with GnuPG v2.4.1.  The only known workaround
+  +is to downgrade to a version of GnuPG older than 2.4.1 (or, in the
+  +future, upgrade to a newer version which solves the problem, when such
+  +a fixed version becomes available)
+  +
+   ,** Problems with hostname resolution
+
+   ,*** Emacs does not know your host's fully-qualified domain name.
+#+end_example
+
+これによると、GnuPGのversionを下げることによってsave時にhangすることを防げるようです。
+
+Homebrewで入れる場合はちゃんとlogin shellにパスを通してあげる必要がある。
+[[https://github.com/takeokunn/dotfiles/commit/55813ec0e37d78a0965a8736b9ff868c6d3bb64a][https://github.com/takeokunn/dotfiles/commit/55813ec0e37d78a0965a8736b9ff868c6d3bb64a]]
