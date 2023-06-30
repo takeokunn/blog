@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       F59F81F7-C0AA-4253-9844-4F2B7BB4AEA5
-:mtime:    20230630164448
+:mtime:    20230630172739
 :ctime:    20230624093617
 :END:
 #+TITLE: phpカンファレンス福岡2023に参加してきました
@@ -8,7 +8,7 @@
 #+DATE: 2023-06-24
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/diary
-#+HUGO_TAGS: diary
+#+HUGO_TAGS: diary php
 #+HUGO_DRAFT: false
 #+STARTUP: content
 #+STARTUP: nohideblocks
