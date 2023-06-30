@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       F59F81F7-C0AA-4253-9844-4F2B7BB4AEA5
-:mtime:    20230630163815
+:mtime:    20230630164448
 :ctime:    20230624093617
 :END:
 #+TITLE: phpカンファレンス福岡2023に参加してきました
@@ -126,10 +126,16 @@ https://fortee.jp/phpconfukuoka-2023/proposal/3c651de4-9926-453a-98d2-69b71bb194
 <iframe class="speakerdeck-iframe" frameborder="0" src="https://speakerdeck.com/player/1d1ca7565f9a4d63ab9937e5d6654001" title="レガシー回避のPHP開発術/avoid_php_legacy" allowfullscreen="true" style="border: 0px; background: padding-box padding-box rgba(0, 0, 0, 0.1); margin: 0px; padding: 0px; border-radius: 6px; box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 40px; width: 100%; height: auto; aspect-ratio: 560 / 315;" data-ratio="1.7777777777777777"></iframe>
 #+end_export
 
-感想を語るのもおこがましくなるほどあまりにも良い発表だった。
-レガシーコードを扱ってる人が全員読んでほしい登壇内容だった。
+感想を語るのもおこがましくなるほどあまりにも良い発表でした。
+レガシーコードを扱ってる人が全員読んでほしい登壇内容です。
 
-次のPHPカンファレンスでガッツリレガシーコードとの向き合い方について話すつもり。
+次のPHPカンファレンスでガッツリレガシーコードとの向き合い方について話すつもりなので楽しみにしててください。
+
+また、自分はただ「がんばるぞ」という気合と根性でしか働いてないことを実感しました。
+
+#+begin_export html
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">こういうメンタリティでしか働いてない <a href="https://t.co/fNUGskLaH5">pic.twitter.com/fNUGskLaH5</a></p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1672209845892833280?ref_src=twsrc%5Etfw">June 23, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+#+end_export
 
 *** The future of tbls and "Documentation as Code" @k1LoW
 
