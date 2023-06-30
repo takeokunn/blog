@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       F59F81F7-C0AA-4253-9844-4F2B7BB4AEA5
-:mtime:    20230630162634
+:mtime:    20230630163815
 :ctime:    20230624093617
 :END:
 #+TITLE: phpカンファレンス福岡2023に参加してきました
@@ -289,10 +289,6 @@ https://fortee.jp/phpconfukuoka-2023/proposal/74aaf3b0-f7ba-484a-99ea-d8fba73fa2
 
 昼飯所を探しに散歩してた途中でエンジニアカフェを見つけたので、折角だしということで入りました。
 https://engineercafe.jp/
-
-#+begin_export html
-<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">エンジニアカフェなんてものがあるのか <a href="https://t.co/qXjPYnyINS">pic.twitter.com/qXjPYnyINS</a></p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1672784531991166976?ref_src=twsrc%5Etfw">June 25, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-#+end_export
 
 建物自体は県の文化財らしく、とてもオシャレでした。
 内装は歴史的なテイストを残しつつ、かなりモダンで技術書やモニターやキーボードまで貸し出してくれる充実ぶりでした。
