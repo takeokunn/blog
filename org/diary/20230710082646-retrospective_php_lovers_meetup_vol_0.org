@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       110B7369-0B49-48B4-9151-E39698DB0712
-:mtime:    20230711221838
+:mtime:    20230711223914
 :ctime:    20230710082646
 :END:
 #+TITLE: 「PHP Lovers Meetup vol.0 ~ はじまりは<?phpから」に参加しました
@@ -76,7 +76,7 @@ PHPStanのplaygroundもBrefで動いているというのは初耳でした。
 
 * 懇親会
 
-今回もhanhanさんに熱烈なファンとして「今週のPHPを今週読めることをずっと待ってます」ということを伝えられてよかったです。
+今回もhanhanさんに **熱烈なファン** として「今週のPHPを今週読めることをずっと待ってます」ということを伝えられてよかったです。
 
 #+begin_export html
 <blockquote class="twitter-tweet"><p lang="ja" dir="ltr">hanhanさんに自己破産を勧められて良い日だった</p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1678402753343700994?ref_src=twsrc%5Etfw">July 10, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
