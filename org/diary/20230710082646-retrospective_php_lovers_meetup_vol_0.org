@@ -1,0 +1,104 @@
+:PROPERTIES:
+:ID:       110B7369-0B49-48B4-9151-E39698DB0712
+:mtime:    20230711221236
+:ctime:    20230710082646
+:END:
+#+TITLE: 「PHP Lovers Meetup vol.0 ~ はじまりは<?phpから」に参加しました
+#+DESCRIPTION: description
+#+DATE: 2023-07-10
+#+HUGO_BASE_DIR: ../../
+#+HUGO_SECTION: posts/diary
+#+HUGO_TAGS: diary
+#+HUGO_DRAFT: false
+#+STARTUP: content
+#+STARTUP: nohideblocks
+* Introduction
+
+2023/07/10(Mon)に行われた「PHP Lovers Meetup vol.0 ~ はじまりは<?phpから」に参加しました。
+
+- connpass
+  - https://php-lovers-meetup.connpass.com/event/280822/
+- togetter
+  - https://togetter.com/li/2184479
+- repo
+  - https://github.com/brefphp/bref
+
+PHP-DIやBrefの作者として有名な [[https://twitter.com/matthieunapoli][@matthieunapoli]] 氏が来日するということで [[https://twitter.com/seike460][@seike460]] 氏も福岡から招き、サーバレスフレームワークについて語っていただきました。
+自分はBrefを使ったことがないのでBref本体のコードをダラダラ読みながら登壇を聞いていました。
+
+* 会場の雰囲気
+
+#+begin_export html
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">来た <a href="https://twitter.com/hashtag/phplovers?src=hash&amp;ref_src=twsrc%5Etfw">#phplovers</a> <a href="https://t.co/XU6jAZqOiw">pic.twitter.com/XU6jAZqOiw</a></p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1678341916965113861?ref_src=twsrc%5Etfw">July 10, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+#+end_export
+
+会場は40〜50人程度いて、phpカンファレンスで見慣れた方だらけでした。
+
+#+begin_export html
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">The PHP meetup in Tokyo was an absolute blast!<br>We went from zero code to 1000 requests/second with Laravel in minutes.<br>In the 2nd talk I discovered how Bref is used at a Japanese company.<br>Incredibly friendly vibes, thanks for the warm welcome! And thanks <a href="https://twitter.com/chatii?ref_src=twsrc%5Etfw">@chatii</a> for inviting me! <a href="https://t.co/ghDixRZi5q">pic.twitter.com/ghDixRZi5q</a></p>&mdash; Matthieu Napoli (@matthieunapoli) <a href="https://twitter.com/matthieunapoli/status/1678565763995807744?ref_src=twsrc%5Etfw">July 11, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+#+end_export
+
+直近[[https://gorillavim.connpass.com/event/283937/][ゴリラvim]]でも来たのでpixiv社にはお世話になりっぱなしですね。
+
+* トーク内容
+** 1000 requests per second with PHP, serverless and 10 yen @matthieunapoli
+
+※ 資料は見つけ次第貼ります。
+
+matthieunapoli氏はphperであってsysadminではないのでserverlessを選択したという話を冒頭でしていました。
+なるほど、サーバレスはアプリケーションエンジニア向けコンテンツだよなぁというのを新ためて感じさせられました。
+
+#+begin_export html
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">俺がbusyな時もコンテナみたいに自分が追加されないかな</p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1678349461557497857?ref_src=twsrc%5Etfw">July 10, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+#+end_export
+
+=composer create-project= からlaravel構築し数分でdeployが完了する世界観は素晴しいですね。
+しかもECSよりも格段に安いというのは魅力的です。
+
+PHPStanのplaygroundもBrefで動いているというのは初耳でした。
+
+#+begin_export html
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr"><a href="https://twitter.com/hashtag/phplovers?src=hash&amp;ref_src=twsrc%5Etfw">#phplovers</a> brefで動いてるんだ<a href="https://t.co/j2irKh9KzA">https://t.co/j2irKh9KzA</a></p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1678353000505692160?ref_src=twsrc%5Etfw">July 10, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+#+end_export
+
+** AWS Lambda in production with Bref @seike460
+
+※ 資料は見つけ次第貼ります。
+
+実案件でBrefを使った時にどう楽だったのかという話をしていました。
+アプリケーションエンジニアだけでHerokuのようなノリでdeployできちゃうBrefは本当に便利だなというのが伝わってきました。
+
+#+begin_export html
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">え、サーバレスを全てワンオペしている私を解雇ですか？ <a href="https://twitter.com/hashtag/phplovers?src=hash&amp;ref_src=twsrc%5Etfw">#phplovers</a></p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1678365395709997062?ref_src=twsrc%5Etfw">July 10, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+#+end_export
+
+本番デバッグする時どうしてるのかと言われたらログを見るかSentryのようなツールを入れるかという選択になるのはまーそうだよなという感じでした。
+
+* 懇親会
+
+今回もhanhanさんに熱烈なファンとして「今週のPHPを今週読めることをずっと待ってます」ということを伝えられてよかったです。
+
+#+begin_export html
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">hanhanさんに自己破産を勧められて良い日だった</p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1678402753343700994?ref_src=twsrc%5Etfw">July 10, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+#+end_export
+
+げんえいさんと話してて、カオナビ社はPHPStanのlevelを5に上げたということを聞いてしまい、自分の会社のプロダクトも負けてられないという気持ちが高まりました。
+
+#+begin_export html
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">カオナビさんのphpstanのlevelが5になったという話を聞いて負けてられない!!!!!!!!!!!!という熱い思いが芽生えた</p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1678418964915933192?ref_src=twsrc%5Etfw">July 10, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+#+end_export
+
+会場にいた新卒の方にEmacsについて語っていたのですが、こういうのはよくないような気がするので今後自重します。
+
+#+begin_export html
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">テキストエディタの話をするとニチャアってする悪い癖が出た</p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1678404159291236353?ref_src=twsrc%5Etfw">July 10, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+#+end_export
+
+後日談ですが、Twitterで静的解析あたりについて話すイベントを開催したいよねという話が出たのでもしかしたら企画するかもしれません。
+
+* 感想
+
+登壇してくれた御二方は勿論のこと、素晴しいイベントを企画していただいた [[https://twitter.com/chatii][@chatii]] 氏、 [[https://twitter.com/tadsan][@tadsan]] 氏、 [[https://twitter.com/hanhan1978][@hanhan1978]] 氏に本当には感謝しています。
+結局将来的にサーバレスが世界を席巻するんだろうなとBrefの話を聞いてて本気で思ったので、少しずつ勉強していかなければなと思わされました。
+
+PHP Lovers Meetup続編期待しています。
