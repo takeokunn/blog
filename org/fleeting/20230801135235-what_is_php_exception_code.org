@@ -1,9 +1,9 @@
 :PROPERTIES:
 :ID:       0BFC86EF-E8FF-40A7-9C02-838BDE2E8D7D
-:mtime:    20230801141905
+:mtime:    20230801141955
 :ctime:    20230801135235
 :END:
-#+TITLE: PHPのExceptionのpropertyにあるcodeについて
+#+TITLE: PHP Exceptionのpropertyにあるcodeはuser-defined error code
 #+DESCRIPTION: description
 #+DATE: 2023-08-01
 #+HUGO_BASE_DIR: ../../
