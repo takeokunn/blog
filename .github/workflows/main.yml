@@ -32,6 +32,8 @@ jobs:
         run: npm ci
       - name: Run textlint
         run: npm run lint
+      - name: Run secretlint
+        run: npm run lint:secret
 
       # for Org to Markdown
       - uses: purcell/setup-emacs@master

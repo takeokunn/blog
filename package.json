@@ -5,13 +5,16 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "textlint org/**/*.org",
-    "lint:fix": "textlint --fix org/**/*.org"
+    "lint:fix": "textlint --fix org/**/*.org",
+    "lint:secret": "npx secretlint \"**/*\""
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/takeokunn/blog.git"
   },
   "devDependencies": {
+    "@secretlint/secretlint-rule-preset-recommend": "^7.0.3",
+    "secretlint": "^7.0.3",
     "textlint": "^12.2.2",
     "textlint-filter-rule-node-types": "^1.1.0",
     "textlint-plugin-org": "^0.3.4",
