@@ -1,0 +1,134 @@
+:PROPERTIES:
+:ID:       0BFC86EF-E8FF-40A7-9C02-838BDE2E8D7D
+:mtime:    20230801141905
+:ctime:    20230801135235
+:END:
+#+TITLE: PHPのExceptionのpropertyにあるcodeについて
+#+DESCRIPTION: description
+#+DATE: 2023-08-01
+#+HUGO_BASE_DIR: ../../
+#+HUGO_SECTION: posts/fleeting
+#+HUGO_TAGS: fleeting php
+#+HUGO_DRAFT: true
+#+STARTUP: content
+#+STARTUP: nohideblocks
+* Introduction
+
+仕事でPHPStanの修正をしている時、 =Exception= classのconstructorでcodeを指定しているコードに出くわした。
+=Exception= におけるcodeの扱いについて記述してる記事がなかったので [[https://github.com/php/php-src][php/php-src]] のコードにあたってみた。
+
+* 簡易的な調査
+** Interface定義
+php.netのUser Contributed Notesに以下のような記述がある。(14年前)
+https://www.php.net/manual/en/language.exceptions.php#91159
+
+#+begin_src php
+  <?php
+
+  interface IException
+  {
+      /* Protected methods inherited from Exception class */
+      public function getMessage();                 // Exception message
+      public function getCode();                    // User-defined Exception code
+      public function getFile();                    // Source filename
+      public function getLine();                    // Source line
+      public function getTrace();                   // An array of the backtrace()
+      public function getTraceAsString();           // Formated string of trace
+
+      /* Overrideable methods inherited from Exception class */
+      public function __toString();                 // formated string for display
+      public function __construct($message = null, $code = 0);
+  }
+#+end_src
+
+=code= とは =User-defined Exception code= と書いてある通り、ユーザ側が任意の数値を入れられるものである。
+
+PHPStanを実行すると以下のような型として認識されているようだ。
+
+#+begin_src php
+  public function __construct(string $message = null, int $code = 0);
+#+end_src
+
+** php-srcコードリーディング
+
+Exceptionの定義は以下。
+
+[[https://github.com/php/php-src/blob/3d5f2394741815ab2166bddd25f31f3958dc2895/Zend/zend_exceptions.c#L303-L330][Zend/zend_exceptions.c#L303-L330]]:
+
+#+begin_src c
+  /* {{{ Exception constructor */
+  ZEND_METHOD(Exception, __construct)
+  {
+          zend_string *message = NULL;
+          zend_long   code = 0;
+          zval  tmp, *object, *previous = NULL;
+          zend_class_entry *base_ce;
+
+          object = ZEND_THIS;
+          base_ce = i_get_exception_base(Z_OBJ_P(object));
+
+          if (zend_parse_parameters(ZEND_NUM_ARGS(), "|SlO!", &message, &code, &previous, zend_ce_throwable) == FAILURE) {
+                  RETURN_THROWS();
+          }
+
+          if (message) {
+                  ZVAL_STR(&tmp, message);
+                  zend_update_property_ex(base_ce, Z_OBJ_P(object), ZSTR_KNOWN(ZEND_STR_MESSAGE), &tmp);
+          }
+
+          if (code) {
+                  ZVAL_LONG(&tmp, code);
+                  zend_update_property_ex(base_ce, Z_OBJ_P(object), ZSTR_KNOWN(ZEND_STR_CODE), &tmp);
+          }
+
+          if (previous) {
+                  zend_update_property_ex(base_ce, Z_OBJ_P(object), ZSTR_KNOWN(ZEND_STR_PREVIOUS), previous);
+          }
+  }
+  /* }}} */
+#+end_src
+
+C言語的には =code= は =long long= で定義されている。
+
+[[https://github.com/php/php-src/blob/3d5f2394741815ab2166bddd25f31f3958dc2895/Zend/zend_long.h#L32][Zend/zend_long.h#L32]]:
+
+#+begin_src c
+  typedef int64_t zend_long;
+#+end_src
+
+Exceptionが提供しているmethodは =getCode= のみ。
+
+[[https://github.com/php/php-src/blob/3d5f2394741815ab2166bddd25f31f3958dc2895/Zend/zend_exceptions.c#L441-L452][Zend/zend_exceptions.c#L441-L452]]:
+
+#+begin_src c
+  /* {{{ Get the exception code */
+  ZEND_METHOD(Exception, getCode)
+  {
+          zval *prop, rv;
+
+          ZEND_PARSE_PARAMETERS_NONE();
+
+          prop = GET_PROPERTY(ZEND_THIS, ZEND_STR_CODE);
+          ZVAL_DEREF(prop);
+          ZVAL_COPY(return_value, prop);
+  }
+  /* }}} */
+#+end_src
+
+* 使い方例
+
+以下のように取得できる。
+プロジェクト内でエラーコードをintegerで統一できているなら使い道がありそう。
+
+#+begin_src php
+  try {
+      throw new \Exception('getcode 10', 10);
+  } catch (\Exception $e) {
+      var_dump($e->getMessage());
+      var_dump($e->getCode());
+  }
+#+end_src
+
+#+RESULTS:
+: string(10) "getcode 10"
+: int(10)
