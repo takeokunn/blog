@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       0BFC86EF-E8FF-40A7-9C02-838BDE2E8D7D
-:mtime:    20230801142430
+:mtime:    20230801165023
 :ctime:    20230801135235
 :END:
 #+TITLE: PHP Exceptionのpropertyにあるcodeはuser-defined error code
@@ -115,20 +115,23 @@ Exceptionが提供しているmethodは =getCode= のみ。
   /* }}} */
 #+end_src
 
-* 使い方例
+* 使用例
 
 以下のように取得できる。
 プロジェクト内でエラーコードをintegerで統一できているなら使い道がありそう。
 
-#+begin_src php
+#+begin_src php :exports both
+  const ERROR_CODE = 10;
+
   try {
-      throw new \Exception('getcode 10', 10);
+      throw new \Exception(null, ERROR_CODE);
   } catch (\Exception $e) {
-      var_dump($e->getMessage());
       var_dump($e->getCode());
   }
 #+end_src
 
 #+RESULTS:
-: string(10) "getcode 10"
 : int(10)
+
+phpunitでcodeを元にexcepionする関数 =TestCase#expectExceptionCode= が生えているのでテスト時に使えそう。
+https://github.com/sebastianbergmann/phpunit/blob/main/src/Framework/TestCase.php#L430-L433
