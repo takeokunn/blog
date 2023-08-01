@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       0BFC86EF-E8FF-40A7-9C02-838BDE2E8D7D
-:mtime:    20230801143726
+:mtime:    20230801143814
 :ctime:    20230801135235
 :END:
 #+TITLE: PHP Exceptionのpropertyにあるcodeはuser-defined error code
@@ -115,7 +115,7 @@ Exceptionが提供しているmethodは =getCode= のみ。
   /* }}} */
 #+end_src
 
-* 使い方例
+* 使用例
 
 以下のように取得できる。
 プロジェクト内でエラーコードをintegerで統一できているなら使い道がありそう。
