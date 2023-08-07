@@ -13,7 +13,7 @@
     "url": "git+https://github.com/takeokunn/blog.git"
   },
   "devDependencies": {
-    "@secretlint/secretlint-rule-preset-recommend": "^7.0.3",
+    "@secretlint/secretlint-rule-preset-recommend": "^7.0.6",
     "secretlint": "^7.0.3",
     "textlint": "^13.3.3",
     "textlint-filter-rule-node-types": "^1.1.0",
