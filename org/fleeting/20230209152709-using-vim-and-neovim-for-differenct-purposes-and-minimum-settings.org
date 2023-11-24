@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       E1C13122-4090-47F6-B84E-238CCC981E72
-:mtime:    20230624112658
+:mtime:    20231124114842
 :ctime:    20230209152709
 :END:
 #+TITLE: VimとNeovimの使い分けと最小構成
@@ -71,9 +71,9 @@ Emacs自体は本来安定しているのですが、Emacsを毎朝 ~git pull~ �
   set ignorecase
   set smartcase
 
-  nmap / /\v
-  nmap <Leader><Leader> V
-  nmap <Esc><Esc> :nohlsearch<CR><Esc>
+  nnoremap / /\v
+  nnoremap <Leader><Leader> V
+  nnoremap <Esc><Esc> :nohlsearch<CR><Esc>
 
   syntax on
   filetype plugin indent on
@@ -82,5 +82,5 @@ Emacs自体は本来安定しているのですが、Emacsを毎朝 ~git pull~ �
 ファイルを開いて文字列を検索することが多いので以下の設定がお気に入りです。
 
 #+begin_src vimrc
-  nmap <Esc><Esc> :nohlsearch<CR><Esc>
+  nnoremap <Esc><Esc> :nohlsearch<CR><Esc>
 #+end_src
