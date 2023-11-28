@@ -5,23 +5,14 @@
 (package-initialize)
 (package-install 'ox-hugo)
 (package-install 'org-roam)
+(package-install 'ox-zenn)
 
 (require 'ox-hugo)
+(require 'ox-zenn)
 (require 'org-roam)
 
 (setq org-roam-directory default-directory)
-(setq org-roam-db-location (concat default-directory "org-roam.db"))
-
-(org-roam-db-autosync-enable)
-
-(defun export-org-files ()
-  "Re-exports all Org-roam files to Hugo markdown."
-  (interactive)
-  (let ((org-id-extra-files (directory-files-recursively default-directory "org")))
-    (dolist (f (append (file-expand-wildcards "org/*.org")
-                       (file-expand-wildcards "org/**/*.org")))
-      (with-current-buffer (find-file f)
-        (org-hugo-export-wim-to-md)))))
+(org-roam-db)
 
 (defun collect-backlinks-string (backend)
   (when (org-roam-node-at-point)
@@ -40,3 +31,30 @@
              (format "- [[./%s][%s]]\n" file-name title))))))))
 
 (add-hook 'org-export-before-processing-functions #'collect-backlinks-string)
+
+(defun export-org-roam-files ()
+  "Exports Org-Roam files to Hugo markdown."
+  (interactive)
+  (let ((org-id-extra-files (directory-files-recursively default-directory "org")))
+    (dolist (f (append (file-expand-wildcards "org/*.org")
+                       (file-expand-wildcards "org/diary/*.org")
+                       (file-expand-wildcards "org/fleeting/*.org")
+                       (file-expand-wildcards "org/index/*.org")
+                       (file-expand-wildcards "org/literature/*.org")
+                       (file-expand-wildcards "org/permanent/*.org")
+                       (file-expand-wildcards "org/structure/*.org")))
+      (with-current-buffer (find-file f)
+        (org-hugo-export-wim-to-md)))))
+
+(defun export-org-zenn-files ()
+  "Exports Org files to Zenn markdown."
+  (interactive)
+  (dolist (f (append (file-expand-wildcards "org/zenn/*.org")))
+    (with-current-buffer (find-file f)
+      (org-zenn-export-to-markdown))))
+
+(defun export-org-files ()
+  "Exports All Org files to Markdown."
+  (interactive)
+  (export-org-roam-files)
+  (export-org-zenn-files))

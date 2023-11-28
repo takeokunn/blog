@@ -1,5 +1,5 @@
 #+STARTUP: content
-#+STARTUP: nohideblocks
+#+STARTUP: fold
 * takeokunn's braindump
 
 [[https://takeokunn.org][https://takeokunn.org]]
