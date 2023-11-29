@@ -16,21 +16,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          submodules: recursive
-          fetch-depth: 1
 
       # for npm
-      - name: Cache node_modules
-        id: cache-npm
-        uses: actions/cache@v3
+      - name: setup Node.js
+        uses: actions/setup-node@v4
         with:
-          path: node_modules
-          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
-      - name: Check node version
-        run: node -v
-      - name: Install npm
-        if: steps.cache-npm.outputs.cache-hit != 'true'
+          node-version: latest
+          cache: npm
+      - name: npm ci
         run: npm ci
       - name: Run textlint
         run: npm run lint
