@@ -42,7 +42,7 @@ jobs:
         with:
           version: 29.1
       - name: Build org to markdown
-        run: emacs --batch -l script.el -f export-org-roam-files
+        run: emacs --batch --load script.el --funcall export-org-roam-files
 
       # for Hugo
       - name: Setup Hugo
