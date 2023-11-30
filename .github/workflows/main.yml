@@ -51,15 +51,17 @@ jobs:
           hugo-version: latest
           extended: true
       - name: Build with Hugo
+        run: hugo --minify
         env:
           HUGO_ENVIRONMENT: production
           HUGO_ENV: production
-        run: hugo --minify
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./public
+          url: ${{ steps.deployment.outputs.page_url }}
+
 
   # deploy-zenn:
   #   # needs: ci
