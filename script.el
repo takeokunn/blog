@@ -4,8 +4,8 @@
 (package-refresh-contents)
 (package-initialize)
 (package-install 'ox-hugo)
-(package-install 'org-roam)
 (package-install 'ox-zenn)
+(package-install 'org-roam)
 
 (require 'ox-hugo)
 (require 'ox-zenn)

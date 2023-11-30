@@ -11,30 +11,27 @@ permissions:
   id-token: write
 
 jobs:
-  ci:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+  # ci:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v4
 
-      # for npm
-      - name: setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20.10.0
-          cache: npm
-      - name: npm ci
-        run: npm ci
-      - name: Run textlint
-        run: npm run lint
-      - name: Run secretlint
-        run: npm run lint:secret
+  #     # for npm
+  #     - name: setup Node.js
+  #       uses: actions/setup-node@v4
+  #       with:
+  #         node-version: 20.10.0
+  #         cache: npm
+  #     - name: npm ci
+  #       run: npm ci
+  #     - name: Run textlint
+  #       run: npm run lint
+  #     - name: Run secretlint
+  #       run: npm run lint:secret
 
   deploy-hugo:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    needs: ci
+    # needs: ci
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -58,36 +55,29 @@ jobs:
           HUGO_ENVIRONMENT: production
           HUGO_ENV: production
         run: hugo --minify
-
-      # for GitHub Pages
-      - name: Setup GitHub Pages
-        id: pages
-        uses: actions/configure-pages@v3
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v2
-        with:
-          path: ./public
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v2
-
-  deploy-zenn:
-    needs: ci
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      # for Org to Markdown
-      - uses: purcell/setup-emacs@master
-        with:
-          version: 29.1
-      - name: Build org to markdown
-        run: emacs --batch -l script.el -f export-org-zenn-files
-
-      - name: Deploy zenn
+      - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./zenn
-          publish_branch: zenn
+          publish_dir: ./public
+
+  # deploy-zenn:
+  #   # needs: ci
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v4
+
+  #     # for Org to Markdown
+  #     - uses: purcell/setup-emacs@master
+  #       with:
+  #         version: 29.1
+  #     - name: Build org to markdown
+  #       run: emacs --batch -l script.el -f export-org-zenn-files
+
+  #     - name: Deploy zenn
+  #       uses: peaceiris/actions-gh-pages@v3
+  #       with:
+  #         github_token: ${{ secrets.GITHUB_TOKEN }}
+  #         publish_dir: ./zenn
+  #         publish_branch: zenn
