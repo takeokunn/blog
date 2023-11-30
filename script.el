@@ -49,12 +49,10 @@
 (defun export-org-zenn-files ()
   "Exports Org files to Zenn markdown."
   (interactive)
-  (dolist (f (append (file-expand-wildcards "org/zenn/*.org")))
-    (with-current-buffer (find-file f)
-      (org-zenn-export-to-markdown))))
-
-(defun export-org-files ()
-  "Exports All Org files to Markdown."
-  (interactive)
-  (export-org-roam-files)
-  (export-org-zenn-files))
+  (let ((org-publish-project-alist `(("zenn"
+                                      :base-directory "org/zenn/"
+                                      :base-extension "org"
+                                      :publishing-directory "zenn/"
+                                      :publishing-function org-zenn-publish-to-markdown))))
+    (dolist (f (append (file-expand-wildcards "org/zenn/*.org")))
+      (org-publish-file f))))

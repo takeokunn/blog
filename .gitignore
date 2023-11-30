@@ -8,3 +8,6 @@ node_modules/
 
 content/*
 !content/.gitkeep
+
+zenn/*
+!zenn/.gitkeep
