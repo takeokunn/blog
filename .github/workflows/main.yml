@@ -33,6 +33,9 @@ jobs:
   deploy-hugo:
     # needs: ci
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -57,11 +60,10 @@ jobs:
           HUGO_ENV: production
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
+        id: deployment
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./public
-          url: ${{ steps.deployment.outputs.page_url }}
-
 
   # deploy-zenn:
   #   # needs: ci
