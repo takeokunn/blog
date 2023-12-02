@@ -17,15 +17,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Cache node_modules
-        id: cache-npm
-        uses: actions/cache@v3
+        uses: actions/setup-node@v4
         with:
-          path: node_modules
-          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
-      - name: Check node version
-        run: node -v
+          node-version: latest
       - name: Install npm
-        if: steps.cache-npm.outputs.cache-hit != 'true'
         run: npm ci
       - name: Run textlint
         run: npm run lint
