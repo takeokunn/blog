@@ -15,5 +15,4 @@
                                       :base-extension "org"
                                       :publishing-directory "zenn/"
                                       :publishing-function org-zenn-publish-to-markdown))))
-    (dolist (f (append (file-expand-wildcards "../org/zenn/*.org")))
-      (org-publish-file f))))
+    (org-publish-all t)))

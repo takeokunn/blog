@@ -49,6 +49,13 @@ jobs:
       - name: Build org to markdown
         run: emacs --batch --load scripts/ox-zenn.el --funcall export-org-zenn-files
 
+      - name: Deploy Zenn
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./zenn
+          publish_branch: zenn
+
       # for Org-Roam to Markdown
       - name: Build org to markdown
         run: emacs --batch --load scripts/ox-roam.el --funcall export-org-roam-files
