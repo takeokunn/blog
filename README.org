@@ -10,12 +10,6 @@ Using [[https://github.com/takeokunn/hugo-take-theme][takeokunn/hugo-take-theme]
 
 ** Build locally
 
-generate Org-Zenn to Markdown:
-
-#+begin_src shell
-  emacs --batch --load scripts/ox-zenn.el --funcall export-org-zenn-files
-#+end_src
-
 generate Org-Roam to Markdown:
 
 #+begin_src shell
@@ -31,4 +25,12 @@ run Hugo server:
 ** Update theme
 #+begin_src shell :results output none
    git submodule update --remote --recursive
+#+end_src
+
+** Generate for Zenn
+
+generate Org-Zenn to Markdown:
+
+#+begin_src shell
+  emacs --batch --load scripts/ox-zenn.el --funcall export-org-zenn-files
 #+end_src
