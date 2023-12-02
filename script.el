@@ -12,7 +12,7 @@
 (require 'org-roam)
 
 (setq org-roam-directory default-directory)
-(org-roam-db-sync)
+(org-roam-db)
 
 (defun collect-backlinks-string (backend)
   (when (org-roam-node-at-point)
