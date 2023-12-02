@@ -55,6 +55,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./zenn
           publish_branch: zenn
+          force_orphan: true
 
       # for Org-Roam to Markdown
       - name: Build org to markdown
