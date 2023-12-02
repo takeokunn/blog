@@ -1,11 +1,16 @@
 :PROPERTIES:
 :ID:       7622D819-68E9-4265-83D5-40E1AC66F930
-:mtime:    20231130083805
+:mtime:    20231202110710
 :ctime:    20221214165044
 :END:
 #+TITLE: test
 #+DESCRIPTION: test
-#+DATE: 2022-12-07
+#+DESCRIPTION: description
+#+DATE: 2023-12-02
+#+GFM_TAGS: emacs
+#+GFM_CUSTOM_FRONT_MATTER: :emoji 👍
+#+GFM_CUSTOM_FRONT_MATTER: :type tech
+#+GFM_CUSTOM_FRONT_MATTER: :published true
 #+STARTUP: content
 #+STARTUP: nohideblocks
 * test
