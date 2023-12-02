@@ -11,16 +11,11 @@ permissions:
   id-token: write
 
 jobs:
-  build:
+  ci:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          submodules: recursive
-          fetch-depth: 1
-
-      # for npm
       - name: Cache node_modules
         id: cache-npm
         uses: actions/cache@v3
@@ -36,8 +31,16 @@ jobs:
         run: npm run lint
       - name: Run secretlint
         run: npm run lint:secret
+  build:
+    runs-on: ubuntu-latest
+    needs: ci
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
 
-      # for Org to Markdown
+      # for Org-Roam to Markdown
       - uses: purcell/setup-emacs@master
         with:
           version: 29.1
