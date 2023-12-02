@@ -4,11 +4,9 @@
 (package-refresh-contents)
 (package-initialize)
 (package-install 'ox-hugo)
-(package-install 'ox-zenn)
 (package-install 'org-roam)
 
 (require 'ox-hugo)
-(require 'ox-zenn)
 (require 'org-roam)
 
 (setq org-roam-directory default-directory)
@@ -45,14 +43,3 @@
                        (file-expand-wildcards "org/structure/*.org")))
       (with-current-buffer (find-file f)
         (org-hugo-export-wim-to-md)))))
-
-;; (defun export-org-zenn-files ()
-;;   "Exports Org files to Zenn markdown."
-;;   (interactive)
-;;   (let ((org-publish-project-alist `(("zenn"
-;;                                       :base-directory "org/zenn/"
-;;                                       :base-extension "org"
-;;                                       :publishing-directory "zenn/"
-;;                                       :publishing-function org-zenn-publish-to-markdown))))
-;;     (dolist (f (append (file-expand-wildcards "org/zenn/*.org")))
-;;       (org-publish-file f))))

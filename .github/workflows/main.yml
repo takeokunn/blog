@@ -40,12 +40,18 @@ jobs:
         with:
           submodules: recursive
 
-      # for Org-Roam to Markdown
+      # for Prepare Emacs
       - uses: purcell/setup-emacs@master
         with:
           version: 29.1
+
+      # for Org-Zenn to Markdown
       - name: Build org to markdown
-        run: emacs --batch -l script.el -f export-org-roam-files
+        run: emacs --batch --load scripts/ox-zenn.el --funcall export-org-zenn-files
+
+      # for Org-Roam to Markdown
+      - name: Build org to markdown
+        run: emacs --batch --load scripts/ox-roam.el --funcall export-org-roam-files
 
       # for Hugo
       - name: Setup Hugo
