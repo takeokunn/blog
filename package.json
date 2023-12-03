@@ -1,6 +1,5 @@
 {
   "private": true,
-  "name": "blog",
   "scripts": {
     "lint": "run-s lint:textlint lint:secret",
     "lint:fix": "run-s lint:textlint:fix",
