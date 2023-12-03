@@ -26,7 +26,6 @@ run Hugo server:
 #+begin_src shell :results output none
    git submodule update --remote --recursive
 #+end_src
-
 ** Generate for Zenn
 
 generate Org-Zenn to Markdown:
