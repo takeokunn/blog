@@ -42,6 +42,17 @@ jobs:
       - name: Build org to markdown
         run: emacs --batch --load scripts/ox-roam.el --funcall export-org-roam-files
 
+      # for Generate OGP
+      - name: Setup Go environment
+        uses: actions/setup-go@v4
+        with:
+          go-version: latest
+          check-latest: true
+      - name: Install tcardgen
+        run: go install github.com/qawatake/tcardgen@latest
+      - name: Generate OGP
+        run: tcardgen --output static/ogp --config=ogp.yml content/posts/**/*.md
+
       # for Hugo
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
