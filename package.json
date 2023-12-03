@@ -1,19 +1,16 @@
 {
   "private": true,
-  "name": "takeokunn's blog",
-  "description": "takeokunn's blog",
+  "name": "blog",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "textlint org/**/*.org",
-    "lint:fix": "textlint --fix org/**/*.org",
-    "lint:secret": "npx secretlint \"**/*\""
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/takeokunn/blog.git"
+    "lint": "run-s lint:textlint lint:secret",
+    "lint:fix": "run-s lint:textlint:fix",
+    "lint:textlint": "textlint org/**/*.org",
+    "lint:textlint:fix": "textlint --fix org/**/*.org",
+    "lint:secret": "secretlint \"**/*\""
   },
   "devDependencies": {
     "@secretlint/secretlint-rule-preset-recommend": "^7.1.0",
+    "npm-run-all": "^4.1.5",
     "secretlint": "^7.2.0",
     "textlint": "^12.2.2",
     "textlint-filter-rule-node-types": "^1.1.0",
