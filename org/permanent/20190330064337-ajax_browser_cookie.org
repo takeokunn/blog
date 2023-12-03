@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       C59EE651-BB54-4F4B-89C6-B3503DEF3C57
-:mtime:    20230624150301
+:mtime:    20231203230842
 :ctime:    20221215003237
 :END:
 #+TITLE: AjaxとBrowser Cookie
@@ -8,6 +8,7 @@
 #+DATE: 2019-03-30
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/permanent
+#+HUGO_CATEGORIES: permanent
 #+HUGO_TAGS: permanent javascript
 #+HUGO_DRAFT: false
 #+STARTUP: content

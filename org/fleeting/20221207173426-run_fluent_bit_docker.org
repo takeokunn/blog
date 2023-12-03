@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       7622D819-68E9-4265-83D5-40E1AC66F930
-:mtime:    20230624112725
+:mtime:    20231203230430
 :ctime:    20221214165044
 :END:
 #+TITLE: fluent-bitをDockerで動かす
@@ -8,6 +8,7 @@
 #+DATE: 2022-12-07
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/fleeting
+#+HUGO_CATEGORIES: fleeting
 #+HUGO_TAGS: fleeting fluent-bit docker
 #+HUGO_DRAFT: false
 #+STARTUP: content

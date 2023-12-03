@@ -2,6 +2,7 @@
 #+HUGO_SECTION: ./
 #+TITLE: About me
 #+DESCRIPTION: About me
+#+HUGO_CATEGORIES: about
 #+STARTUP: content
 #+STARTUP: nohideblocks
 * Basic

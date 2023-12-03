@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       5237E27E-BCCE-42D6-8E02-1B5EE1E89B48
-:mtime:    20230624112721
+:mtime:    20231203230640
 :ctime:    20221214165044
 :END:
 #+TITLE: aws-sdk-php v3.245.0でBC breakをおこす
@@ -8,6 +8,7 @@
 #+DATE: 2022-12-14
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/fleeting
+#+HUGO_CATEGORIES: fleeting
 #+HUGO_TAGS: fleeting php
 #+HUGO_DRAFT: false
 #+STARTUP: content

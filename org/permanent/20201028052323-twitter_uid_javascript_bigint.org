@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       1409951D-E05B-4DEB-9388-1B6A2185A29B
-:mtime:    20230624150410
+:mtime:    20231203231038
 :ctime:    20221215031447
 :END:
 #+TITLE: TwitterUIDの挙動とJavaScriptのBigIntについて
@@ -8,6 +8,7 @@
 #+DATE: 2020-10-28
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/permanent
+#+HUGO_CATEGORIES: permanent
 #+HUGO_TAGS: permanent javascript twitter
 #+HUGO_DRAFT: false
 #+STARTUP: content

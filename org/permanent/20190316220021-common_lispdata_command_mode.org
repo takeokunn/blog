@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       29F3BA0F-9585-40EC-B033-E3CDBF62EA13
-:mtime:    20230624150257
+:mtime:    20231203230828
 :ctime:    20221214234305
 :END:
 #+TITLE: Common Lispのquoteについて
@@ -8,6 +8,7 @@
 #+DATE: 2019-03-16
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/permanent
+#+HUGO_CATEGORIES: permanent
 #+HUGO_TAGS: permanent common-lisp
 #+HUGO_DRAFT: false
 #+STARTUP: content

@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       9D2C4978-BA6C-4CC3-90D7-B5E4964A2288
-:mtime:    20230624150351
+:mtime:    20231203230945
 :ctime:    20221215015644
 :END:
 #+TITLE: EsLintでGlobの挙動で詰まった時のメモ
@@ -8,6 +8,7 @@
 #+DATE: 2019-05-31
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/permanent
+#+HUGO_CATEGORIES: permanent
 #+HUGO_TAGS: permanent eslint
 #+HUGO_DRAFT: false
 #+STARTUP: content

@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       1C184C94-166F-4D51-9337-04E20A43E299
-:mtime:    20230624150248
+:mtime:    20231203230809
 :ctime:    20221214231958
 :END:
 #+TITLE: docker-compose.ymlのportsについてのメモ
@@ -8,6 +8,7 @@
 #+DATE: 2019-02-26
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/permanent
+#+HUGO_CATEGORIES: permanent
 #+HUGO_TAGS: permanent docker
 #+HUGO_DRAFT: false
 #+STARTUP: content

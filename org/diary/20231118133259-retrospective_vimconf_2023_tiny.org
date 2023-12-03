@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       212C336E-3686-4262-9816-19009AC306C0
-:mtime:    20231130091715
+:mtime:    20231203230329
 :ctime:    20231118133259
 :END:
 #+TITLE: VimConf 2023 Tinyに参加しました
@@ -8,6 +8,7 @@
 #+DATE: 2023-11-18
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/diary
+#+HUGO_CATEGORIES: diary
 #+HUGO_TAGS: diary
 #+HUGO_DRAFT: true
 #+STARTUP: content

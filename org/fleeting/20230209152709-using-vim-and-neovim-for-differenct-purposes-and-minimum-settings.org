@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       E1C13122-4090-47F6-B84E-238CCC981E72
-:mtime:    20231124114842
+:mtime:    20231203230720
 :ctime:    20230209152709
 :END:
 #+TITLE: VimとNeovimの使い分けと最小構成
@@ -8,6 +8,7 @@
 #+DATE: 2023-02-09
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/fleeting
+#+HUGO_CATEGORIES: fleeting
 #+HUGO_TAGS: fleeting vim
 #+HUGO_DRAFT: false
 #+STARTUP: content

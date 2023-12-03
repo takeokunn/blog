@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       D70946A8-664B-4A85-823F-1E22ED84AC9B
-:mtime:    20230624150304
+:mtime:    20231203230850
 :ctime:    20221215014658
 :END:
 #+TITLE: WebpackerでBulmaをbuildするとwarningが出るものの調査と対応
@@ -8,6 +8,7 @@
 #+DATE: 2019-04-11
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/permanent
+#+HUGO_CATEGORIES: permanent
 #+HUGO_TAGS: permanent
 #+HUGO_DRAFT: false
 #+STARTUP: content

@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       FE468360-61CE-41B5-A345-2FA1B65F88FC
-:mtime:    20230624150212
+:mtime:    20231203231151
 :ctime:    20230416154043
 :END:
 #+TITLE: ob-phpstanを作った
@@ -8,6 +8,7 @@
 #+DATE: 2023-04-16
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/permanent
+#+HUGO_CATEGORIES: permanent
 #+HUGO_TAGS: emacs org-mode
 #+HUGO_DRAFT: false
 #+STARTUP: content

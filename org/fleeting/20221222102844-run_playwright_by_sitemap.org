@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       923E2C2D-EAF9-F6A4-8C43-136BEC60DBBA
-:mtime:    20230624112707
+:mtime:    20231203230647
 :ctime:    20221222102844
 :END:
 #+TITLE: sitemap.xmlからURLを良い感じに抽出してPlaywrightでUIを目視確認する
@@ -8,6 +8,7 @@
 #+DATE: 2022-12-22
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/fleeting
+#+HUGO_CATEGORIES: fleeting
 #+HUGO_TAGS: fleeting playwright
 #+HUGO_DRAFT: false
 #+STARTUP: content

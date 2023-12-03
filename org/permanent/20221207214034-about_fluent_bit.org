@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       E4B1AA1E-52C0-4A8F-91F3-F4119ACE2BC6
-:mtime:    20230624150419
+:mtime:    20231203231050
 :ctime:    20221214165044
 :END:
 #+title: fluent-bitに入門する
@@ -8,6 +8,7 @@
 #+DATE: 2022-12-07
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/permanent
+#+HUGO_CATEGORIES: permanent
 #+HUGO_TAGS: permanent fluent-bit
 #+HUGO_DRAFT: false
 #+STARTUP: content

@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       0BFC86EF-E8FF-40A7-9C02-838BDE2E8D7D
-:mtime:    20230801165023
+:mtime:    20231203230755
 :ctime:    20230801135235
 :END:
 #+TITLE: PHP Exceptionのpropertyにあるcodeはuser-defined error code
@@ -8,6 +8,7 @@
 #+DATE: 2023-08-01
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/fleeting
+#+HUGO_CATEGORIES: fleeting
 #+HUGO_TAGS: fleeting php
 #+HUGO_DRAFT: false
 #+STARTUP: content

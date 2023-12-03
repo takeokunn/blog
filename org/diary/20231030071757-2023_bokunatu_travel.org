@@ -3,6 +3,7 @@
 #+DATE: 2023-10-30
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/diary
+#+HUGO_CATEGORIES: diary
 #+HUGO_TAGS: diary
 #+HUGO_DRAFT: false
 #+STARTUP: content

@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       CDFA76B0-3CD7-474F-AABB-7805B7FBCD8B
-:mtime:    20230624112731
+:mtime:    20231203230216
 :ctime:    20230220161138
 :END:
 #+TITLE: 「第149回 PHP勉強会＠東京」で登壇してきました
@@ -8,6 +8,7 @@
 #+DATE: 2023-02-20
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/diary
+#+HUGO_CATEGORIES: diary
 #+HUGO_TAGS: diary php phpstudy
 #+HUGO_DRAFT: false
 #+STARTUP: content

@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       F461F483-2C99-4BC1-B122-9409545C5374
-:mtime:    20230624150353
+:mtime:    20231203230952
 :ctime:    20221215021444
 :END:
 #+TITLE: JavaScriptのthisについて
@@ -8,6 +8,7 @@
 #+DATE: 2019-07-01
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/permanent
+#+HUGO_CATEGORIES: permanent
 #+HUGO_TAGS: permanent javascript
 #+HUGO_DRAFT: false
 #+STARTUP: content
