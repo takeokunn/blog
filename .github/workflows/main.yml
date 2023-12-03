@@ -49,6 +49,8 @@ jobs:
           go-version: stable
       - name: Install tcardgen
         run: go install github.com/qawatake/tcardgen@latest
+      - name: Create public
+        run: mkdir -p ./public
       - name: Generate OGP
         run: tcardgen --output public/ogp --config=ogp.yml content/posts/**/*.md
 
