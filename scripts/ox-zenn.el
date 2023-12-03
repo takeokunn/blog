@@ -13,6 +13,6 @@
   (let ((org-publish-project-alist `(("zenn"
                                       :base-directory "org/zenn/"
                                       :base-extension "org"
-                                      :publishing-directory "zenn/"
+                                      :publishing-directory "zenn/articles"
                                       :publishing-function org-zenn-publish-to-markdown))))
     (org-publish-all t)))
