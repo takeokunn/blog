@@ -8,7 +8,7 @@ on:
       - zenn
 
 jobs:
-  ci:
+  lint:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
