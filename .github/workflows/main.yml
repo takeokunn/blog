@@ -50,7 +50,7 @@ jobs:
       - name: Install tcardgen
         run: go install github.com/qawatake/tcardgen@latest
       - name: Generate OGP
-        run: tcardgen --output static/ogp --config=ogp.yml content/posts/**/*.md
+        run: tcardgen --output public/ogp --config=ogp.yml content/posts/**/*.md
 
       # for Hugo
       - name: Setup Hugo
