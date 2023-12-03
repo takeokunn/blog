@@ -7,23 +7,10 @@ on:
 
 jobs:
   ci:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Cache node_modules
-        uses: actions/setup-node@v4
-        with:
-          node-version: latest
-          cache: npm
-      - name: Install npm
-        run: npm ci
-      - name: Run textlint
-        run: npm run lint
-      - name: Run secretlint
-        run: npm run lint:secret
+    uses: ./.github/workflows/ci.yml
   build-and-deploy:
     permissions:
+      contents: write
       pages: write
       id-token: write
     environment:
