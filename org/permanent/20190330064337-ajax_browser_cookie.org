@@ -1,16 +1,16 @@
 :PROPERTIES:
 :ID:       C59EE651-BB54-4F4B-89C6-B3503DEF3C57
-:mtime:    20231203232808
+:mtime:    20231204003005
 :ctime:    20221215003237
 :END:
 #+TITLE: AjaxとBrowser Cookie
 #+AUTHOR: takeokunn
 #+DESCRIPTION: AjaxとBrowser Cookie
-#+DATE: 2019-03-30
+#+DATE: 2019-03-30T09:00:00+09:00
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/permanent
 #+HUGO_CATEGORIES: permanent
-#+HUGO_TAGS: permanent javascript
+#+HUGO_TAGS: javascript
 #+HUGO_DRAFT: false
 #+STARTUP: content
 #+STARTUP: nohideblocks

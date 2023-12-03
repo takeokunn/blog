@@ -1,16 +1,16 @@
 :PROPERTIES:
 :ID:       1E1F6463-E1FD-43D9-8CEF-346A786F355E
-:mtime:    20231203232944
+:mtime:    20231204003106
 :ctime:    20221215032332
 :END:
 #+TITLE: 2021年に自分がemacs.dのカスタイマイズしたことについて
 #+AUTHOR: takeokunn
 #+DESCRIPTION: 2021年に自分がemacs.dのカスタイマイズしたことについて
-#+DATE: 2021-12-03
+#+DATE: 2021-12-03T09:00:00+09:00
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/permanent
 #+HUGO_CATEGORIES: permanent
-#+HUGO_TAGS: permanent emacs
+#+HUGO_TAGS: emacs
 #+HUGO_DRAFT: false
 #+STARTUP: content
 #+STARTUP: nohideblocks

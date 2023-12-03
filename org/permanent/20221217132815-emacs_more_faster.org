@@ -1,16 +1,16 @@
 :PROPERTIES:
 :ID:       3FBA1A73-2AE5-4305-BA25-61E67DB91028
-:mtime:    20231203232957
+:mtime:    20231204003113
 :ctime:    20221217132815
 :END:
 #+TITLE: Emacsを世界最速級で起動する方法
 #+AUTHOR: takeokunn
 #+DESCRIPTION: description
-#+DATE: 2022-12-17
+#+DATE: 2022-12-17T09:00:00+09:00
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/permanent
 #+HUGO_CATEGORIES: permanent
-#+HUGO_TAGS: permanent emacs
+#+HUGO_TAGS: emacs
 #+HUGO_DRAFT: false
 #+STARTUP: content
 #+STARTUP: nohideblocks

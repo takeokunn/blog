@@ -1,16 +1,16 @@
 :PROPERTIES:
 :ID:       B37E9575-386F-4364-835B-593A3FE3B16D
-:mtime:    20231203232833
+:mtime:    20231204003023
 :ctime:    20221215004517
 :END:
 #+TITLE: SVGにグラデーションのアニメーションをかける
 #+AUTHOR: takeokunn
 #+DESCRIPTION: SVGにグラデーションのアニメーションをかける
-#+DATE: 2019-04-14
+#+DATE: 2019-04-14T09:00:00+09:00
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/permanent
 #+HUGO_CATEGORIES: permanent
-#+HUGO_TAGS: permanent svg
+#+HUGO_TAGS: svg
 #+HUGO_DRAFT: false
 #+STARTUP: content
 #+STARTUP: nohideblocks

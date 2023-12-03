@@ -1,16 +1,16 @@
 :PROPERTIES:
 :ID:       5237E27E-BCCE-42D6-8E02-1B5EE1E89B48
-:mtime:    20231203232625
+:mtime:    20231204002909
 :ctime:    20221214165044
 :END:
 #+TITLE: aws-sdk-php v3.245.0でBC breakをおこす
 #+AUTHOR: takeokunn
 #+DESCRIPTION: AwsClientの引数の配列の変更が入ったので壊れるから注意が必要
-#+DATE: 2022-12-14
+#+DATE: 2022-12-14T09:00:00+09:00
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/fleeting
 #+HUGO_CATEGORIES: fleeting
-#+HUGO_TAGS: fleeting php
+#+HUGO_TAGS: php
 #+HUGO_DRAFT: false
 #+STARTUP: content
 #+STARTUP: nohideblocks

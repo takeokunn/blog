@@ -1,16 +1,16 @@
 :PROPERTIES:
 :ID:       7AC62BF0-F253-4FBD-92D8-36725EACD91E
-:mtime:    20231203232801
+:mtime:    20231204003001
 :ctime:    20221215001851
 :END:
 #+TITLE: npm libraryのbuild formatについて
 #+AUTHOR: takeokunn
 #+DESCRIPTION: npm libraryのbuild formatについて
-#+DATE: 2019-03-17
+#+DATE: 2019-03-17T09:00:00+09:00
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/permanent
 #+HUGO_CATEGORIES: permanent
-#+HUGO_TAGS: permanent npm
+#+HUGO_TAGS: npm
 #+HUGO_DRAFT: false
 #+STARTUP: content
 #+STARTUP: nohideblocks

@@ -1,16 +1,16 @@
 :PROPERTIES:
 :ID:       CDFA76B0-3CD7-474F-AABB-7805B7FBCD8B
-:mtime:    20231203232523
+:mtime:    20231204002628
 :ctime:    20230220161138
 :END:
 #+TITLE: 「第149回 PHP勉強会＠東京」で登壇してきました
 #+AUTHOR: takeokunn
 #+DESCRIPTION: description
-#+DATE: 2023-02-20
+#+DATE: 2023-02-20T09:00:00+09:00
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/diary
 #+HUGO_CATEGORIES: diary
-#+HUGO_TAGS: diary php phpstudy
+#+HUGO_TAGS: php phpstudy
 #+HUGO_DRAFT: false
 #+STARTUP: content
 #+STARTUP: nohideblocks

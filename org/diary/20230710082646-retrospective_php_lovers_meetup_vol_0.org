@@ -1,16 +1,16 @@
 :PROPERTIES:
 :ID:       110B7369-0B49-48B4-9151-E39698DB0712
-:mtime:    20231203232542
+:mtime:    20231204002703
 :ctime:    20230710082646
 :END:
 #+TITLE: 「PHP Lovers Meetup vol.0 ~ はじまりは<?phpから」に参加しました
 #+AUTHOR: takeokunn
 #+DESCRIPTION: description
-#+DATE: 2023-07-10
+#+DATE: 2023-07-10T09:00:00+09:00
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/diary
 #+HUGO_CATEGORIES: diary
-#+HUGO_TAGS: diary php
+#+HUGO_TAGS: php
 #+HUGO_DRAFT: false
 #+STARTUP: content
 #+STARTUP: nohideblocks

@@ -1,16 +1,16 @@
 :PROPERTIES:
 :ID:       9D2C4978-BA6C-4CC3-90D7-B5E4964A2288
-:mtime:    20231203232845
+:mtime:    20231204003032
 :ctime:    20221215015644
 :END:
 #+TITLE: EsLintでGlobの挙動で詰まった時のメモ
 #+AUTHOR: takeokunn
 #+DESCRIPTION: EsLintでGlobの挙動で詰まった時のメモ
-#+DATE: 2019-05-31
+#+DATE: 2019-05-31T09:00:00+09:00
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/permanent
 #+HUGO_CATEGORIES: permanent
-#+HUGO_TAGS: permanent eslint
+#+HUGO_TAGS: eslint
 #+HUGO_DRAFT: false
 #+STARTUP: content
 #+STARTUP: nohideblocks

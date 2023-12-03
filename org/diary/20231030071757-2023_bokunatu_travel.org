@@ -1,11 +1,11 @@
 #+TITLE: 2023年小田原旅行記
 #+AUTHOR: takeokunn
 #+DESCRIPTION: description
-#+DATE: 2023-10-30
+#+DATE: 2023-10-30T09:00:00+09:00
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/diary
 #+HUGO_CATEGORIES: diary
-#+HUGO_TAGS: diary
+#+HUGO_TAGS: php
 #+HUGO_DRAFT: false
 #+STARTUP: content
 #+STARTUP: nohideblocks

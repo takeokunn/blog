@@ -1,16 +1,16 @@
 :PROPERTIES:
 :ID:       CC208563-771E-4BDE-9A40-D8A2E7948300
-:mtime:    20231203232742
+:mtime:    20231204002949
 :ctime:    20221214233433
 :END:
 #+TITLE: MySQLのmax_allowed_packetについて
 #+AUTHOR: takeokunn
 #+DESCRIPTION: MySQLのmax_allowed_packetについて
-#+DATE: 2019-03-09
+#+DATE: 2019-03-09T09:00:00+09:00
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/permanent
 #+HUGO_CATEGORIES: permanent
-#+HUGO_TAGS: permanent mysql
+#+HUGO_TAGS: mysql
 #+HUGO_DRAFT: false
 #+STARTUP: content
 #+STARTUP: nohideblocks

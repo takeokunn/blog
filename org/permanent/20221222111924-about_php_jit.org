@@ -1,16 +1,16 @@
 :PROPERTIES:
 :ID:       C81D01DB-6135-46CD-B491-F35F42002417
-:mtime:    20231203233003
+:mtime:    20231204003117
 :ctime:    20221222111924
 :END:
 #+TITLE: PHP8から追加されたJITについて学ぼう!
 #+AUTHOR: takeokunn
 #+DESCRIPTION: PHPのJITについて書く
-#+DATE: 2022-12-22
+#+DATE: 2022-12-22T09:00:00+09:00
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/permanent
 #+HUGO_CATEGORIES: permanent
-#+HUGO_TAGS: permanent php
+#+HUGO_TAGS: php
 #+HUGO_DRAFT: false
 #+STARTUP: content
 #+STARTUP: nohideblocks

@@ -1,16 +1,16 @@
 :PROPERTIES:
 :ID:       DB5D710F-6168-47D4-9044-1ED3D24D61E6
-:mtime:    20231203232712
+:mtime:    20231204002930
 :ctime:    20230624130858
 :END:
 #+TITLE: Emacs内でgpg fileがsaveできなくなった時に対応したことメモ
 #+AUTHOR: takeokunn
 #+DESCRIPTION: description
-#+DATE: 2023-06-24
+#+DATE: 2023-06-24T09:00:00+09:00
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/fleeting
 #+HUGO_CATEGORIES: fleeting
-#+HUGO_TAGS: fleeting emacs
+#+HUGO_TAGS: emacs
 #+HUGO_DRAFT: false
 #+STARTUP: content
 #+STARTUP: nohideblocks

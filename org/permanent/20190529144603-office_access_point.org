@@ -1,16 +1,16 @@
 :PROPERTIES:
 :ID:       BCE76ACA-0503-43F9-A0DD-D4B3C8F4C8C8
-:mtime:    20231203232839
+:mtime:    20231204003027
 :ctime:    20221215020719
 :END:
 #+TITLE: オフィスにアクセスポイントを導入した時やったこと
 #+AUTHOR: takeokunn
 #+DESCRIPTION: description
-#+DATE: 2019-05-29
+#+DATE: 2019-05-29T09:00:00+09:00
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/permanent
 #+HUGO_CATEGORIES: permanent
-#+HUGO_TAGS: permanent wifi
+#+HUGO_TAGS: wifi
 #+HUGO_DRAFT: false
 #+STARTUP: content
 #+STARTUP: nohideblocks

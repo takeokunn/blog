@@ -16,6 +16,12 @@ generate Org-Roam to Markdown:
   emacs --batch --load scripts/ox-roam.el --funcall export-org-roam-files
 #+end_src
 
+generate OGP:
+
+#+begin_src shell
+  tcardgen --output static/ogp --config=ogp.yml content/posts/**/*.md
+#+end_src
+
 run Hugo server:
 
 #+begin_src shell

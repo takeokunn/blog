@@ -1,16 +1,16 @@
 :PROPERTIES:
 :ID:       E4B1AA1E-52C0-4A8F-91F3-F4119ACE2BC6
-:mtime:    20231203232951
+:mtime:    20231204003109
 :ctime:    20221214165044
 :END:
 #+title: fluent-bitに入門する
 #+AUTHOR: takeokunn
 #+DESCRIPTION: fluent-bitに入門のしかたについて纏めた
-#+DATE: 2022-12-07
+#+DATE: 2022-12-07T09:00:00+09:00
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/permanent
 #+HUGO_CATEGORIES: permanent
-#+HUGO_TAGS: permanent fluent-bit
+#+HUGO_TAGS: fluent-bit
 #+HUGO_DRAFT: false
 #+STARTUP: content
 #+STARTUP: nohideblocks

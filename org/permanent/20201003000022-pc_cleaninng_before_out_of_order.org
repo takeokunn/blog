@@ -1,16 +1,16 @@
 :PROPERTIES:
 :ID:       956CE9ED-E8B4-43CB-86A7-E64076221DAF
-:mtime:    20231203232925
+:mtime:    20231204003054
 :ctime:    20221215030629
 :END:
 #+TITLE: MacBookProの生前整理をする
 #+AUTHOR: takeokunn
 #+DESCRIPTION: MacBookProの生前整理をする
-#+DATE: 2020-10-03
+#+DATE: 2020-10-03T09:00:00+09:00
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/permanent
 #+HUGO_CATEGORIES: permanent
-#+HUGO_TAGS: permanent mac
+#+HUGO_TAGS: mac
 #+HUGO_DRAFT: false
 #+STARTUP: content
 #+STARTUP: nohideblocks

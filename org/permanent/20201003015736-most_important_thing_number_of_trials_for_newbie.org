@@ -1,16 +1,16 @@
 :PROPERTIES:
 :ID:       55489B5F-50EE-4187-A6BA-FE4DA9E8C3A7
-:mtime:    20231203232932
+:mtime:    20231204003058
 :ctime:    20221215024843
 :END:
 #+TITLE: 新人教育をしていて一番大事なのは「試行回数」だと思った
 #+AUTHOR: takeokunn
 #+DESCRIPTION: 新人教育をしていて一番大事なのは「試行回数」だと思った
-#+DATE: 2020-10-03
+#+DATE: 2020-10-03T09:00:00+09:00
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/permanent
 #+HUGO_CATEGORIES: permanent
-#+HUGO_TAGS: permanent education
+#+HUGO_TAGS: education
 #+HUGO_DRAFT: false
 #+STARTUP: content
 #+STARTUP: nohideblocks

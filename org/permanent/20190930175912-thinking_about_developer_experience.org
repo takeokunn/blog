@@ -1,16 +1,16 @@
 :PROPERTIES:
 :ID:       97B78BDA-8DFA-4184-97C4-6C277DE1B539
-:mtime:    20231203232859
+:mtime:    20231204003040
 :ctime:    20221215022143
 :END:
 #+TITLE: 開発体験向上について考えてること
 #+AUTHOR: takeokunn
 #+DESCRIPTION: 開発体験向上について考えてること
-#+DATE: 2019-09-30
+#+DATE: 2019-09-30T09:00:00+09:00
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/permanent
 #+HUGO_CATEGORIES: permanent
-#+HUGO_TAGS: permanent experience
+#+HUGO_TAGS: experience
 #+HUGO_DRAFT: false
 #+STARTUP: content
 #+STARTUP: nohideblocks
