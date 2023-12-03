@@ -46,8 +46,7 @@ jobs:
       - name: Setup Go environment
         uses: actions/setup-go@v4
         with:
-          go-version: latest
-          check-latest: true
+          go-version: stable
       - name: Install tcardgen
         run: go install github.com/qawatake/tcardgen@latest
       - name: Generate OGP
