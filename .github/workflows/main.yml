@@ -71,6 +71,10 @@ jobs:
         with:
           path: ./public
   deploy:
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
     environment:
       name: github-pages
     runs-on: ubuntu-latest
