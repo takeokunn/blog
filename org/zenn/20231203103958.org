@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       05F36D14-0EE6-42E1-9249-C0441DA19B49
-:mtime:    20231203104126
+:mtime:    20231203124331
 :ctime:    20231203103958
 :END:
 #+TITLE: test
@@ -9,7 +9,7 @@
 #+GFM_TAGS: test
 #+GFM_CUSTOM_FRONT_MATTER: :emoji 👍
 #+GFM_CUSTOM_FRONT_MATTER: :type tech
-#+GFM_CUSTOM_FRONT_MATTER: :published true
+#+GFM_CUSTOM_FRONT_MATTER: :published false
 #+STARTUP: content
 #+STARTUP: nohideblocks
 * test
