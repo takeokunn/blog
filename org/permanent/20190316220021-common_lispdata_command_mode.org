@@ -1,9 +1,10 @@
 :PROPERTIES:
 :ID:       29F3BA0F-9585-40EC-B033-E3CDBF62EA13
-:mtime:    20231203230828
+:mtime:    20231203232753
 :ctime:    20221214234305
 :END:
 #+TITLE: Common Lispのquoteについて
+#+AUTHOR: takeokunn
 #+DESCRIPTION: Common Lispのquoteについて
 #+DATE: 2019-03-16
 #+HUGO_BASE_DIR: ../../

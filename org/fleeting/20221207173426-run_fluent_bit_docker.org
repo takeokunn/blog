@@ -1,9 +1,10 @@
 :PROPERTIES:
 :ID:       7622D819-68E9-4265-83D5-40E1AC66F930
-:mtime:    20231203230430
+:mtime:    20231203232615
 :ctime:    20221214165044
 :END:
 #+TITLE: fluent-bitをDockerで動かす
+#+AUTHOR: takeokunn
 #+DESCRIPTION: fluent-bitをDockerで動かす方法のメモ
 #+DATE: 2022-12-07
 #+HUGO_BASE_DIR: ../../

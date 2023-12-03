@@ -1,9 +1,10 @@
 :PROPERTIES:
 :ID:       E1C13122-4090-47F6-B84E-238CCC981E72
-:mtime:    20231203230720
+:mtime:    20231203232656
 :ctime:    20230209152709
 :END:
 #+TITLE: VimとNeovimの使い分けと最小構成
+#+AUTHOR: takeokunn
 #+DESCRIPTION: VimとNeovimの使い分けと最小構成
 #+DATE: 2023-02-09
 #+HUGO_BASE_DIR: ../../

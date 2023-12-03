@@ -1,4 +1,5 @@
 #+TITLE: 2023年小田原旅行記
+#+AUTHOR: takeokunn
 #+DESCRIPTION: description
 #+DATE: 2023-10-30
 #+HUGO_BASE_DIR: ../../

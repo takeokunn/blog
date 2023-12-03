@@ -1,10 +1,11 @@
 :PROPERTIES:
 :ID:       212C336E-3686-4262-9816-19009AC306C0
-:mtime:    20231203230329
+:mtime:    20231203232601
 :ctime:    20231118133259
 :END:
 #+TITLE: VimConf 2023 Tinyに参加しました
 #+DESCRIPTION: description
+#+AUTHOR: takeokunn
 #+DATE: 2023-11-18
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/diary

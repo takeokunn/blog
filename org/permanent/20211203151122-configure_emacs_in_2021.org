@@ -1,9 +1,10 @@
 :PROPERTIES:
 :ID:       1E1F6463-E1FD-43D9-8CEF-346A786F355E
-:mtime:    20231203231044
+:mtime:    20231203232944
 :ctime:    20221215032332
 :END:
 #+TITLE: 2021年に自分がemacs.dのカスタイマイズしたことについて
+#+AUTHOR: takeokunn
 #+DESCRIPTION: 2021年に自分がemacs.dのカスタイマイズしたことについて
 #+DATE: 2021-12-03
 #+HUGO_BASE_DIR: ../../

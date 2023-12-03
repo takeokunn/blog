@@ -1,9 +1,10 @@
 :PROPERTIES:
 :ID:       1409951D-E05B-4DEB-9388-1B6A2185A29B
-:mtime:    20231203231038
+:mtime:    20231203232938
 :ctime:    20221215031447
 :END:
 #+TITLE: TwitterUIDの挙動とJavaScriptのBigIntについて
+#+AUTHOR: takeokunn
 #+DESCRIPTION: TwitterUIDの挙動とJavaScriptのBigIntについて
 #+DATE: 2020-10-28
 #+HUGO_BASE_DIR: ../../

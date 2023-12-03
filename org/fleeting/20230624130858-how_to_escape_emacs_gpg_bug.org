@@ -1,9 +1,10 @@
 :PROPERTIES:
 :ID:       DB5D710F-6168-47D4-9044-1ED3D24D61E6
-:mtime:    20231203230727
+:mtime:    20231203232712
 :ctime:    20230624130858
 :END:
 #+TITLE: Emacs内でgpg fileがsaveできなくなった時に対応したことメモ
+#+AUTHOR: takeokunn
 #+DESCRIPTION: description
 #+DATE: 2023-06-24
 #+HUGO_BASE_DIR: ../../

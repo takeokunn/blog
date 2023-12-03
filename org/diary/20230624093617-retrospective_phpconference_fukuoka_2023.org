@@ -1,9 +1,10 @@
 :PROPERTIES:
 :ID:       F59F81F7-C0AA-4253-9844-4F2B7BB4AEA5
-:mtime:    20230701153236
+:mtime:    20231203232537
 :ctime:    20230624093617
 :END:
 #+TITLE: phpカンファレンス福岡2023に参加してきました
+#+AUTHOR: takeokunn
 #+DESCRIPTION: description
 #+DATE: 2023-06-24
 #+HUGO_BASE_DIR: ../../

@@ -1,9 +1,10 @@
 :PROPERTIES:
 :ID:       956CE9ED-E8B4-43CB-86A7-E64076221DAF
-:mtime:    20231203231023
+:mtime:    20231203232925
 :ctime:    20221215030629
 :END:
 #+TITLE: MacBookProの生前整理をする
+#+AUTHOR: takeokunn
 #+DESCRIPTION: MacBookProの生前整理をする
 #+DATE: 2020-10-03
 #+HUGO_BASE_DIR: ../../

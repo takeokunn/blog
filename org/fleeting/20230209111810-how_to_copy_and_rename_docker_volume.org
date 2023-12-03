@@ -1,9 +1,10 @@
 :PROPERTIES:
 :ID:       88060AEF-144B-4676-A82B-1D4D989BE81F
-:mtime:    20231203230704
+:mtime:    20231203232645
 :ctime:    20230209111810
 :END:
 #+TITLE: Docker VolumeをCopy/Renameする方法
+#+AUTHOR: takeokunn
 #+DESCRIPTION: Docker VolumeをCopy/Renameする方法
 #+DATE: 2023-02-09
 #+HUGO_BASE_DIR: ../../

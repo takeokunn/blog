@@ -1,9 +1,10 @@
 :PROPERTIES:
 :ID:       CA76CEB5-EB1D-496E-BD5B-BFC181D2A60B
-:mtime:    20231203230856
+:mtime:    20231203232820
 :ctime:    20221215013728
 :END:
 #+TITLE: Ubuntu FirefoxをEmacs Keybindにする
+#+AUTHOR: takeokunn
 #+DESCRIPTION: Ubuntu FirefoxをEmacs Keybindにする
 #+DATE: 2019-04-13
 #+HUGO_BASE_DIR: ../../

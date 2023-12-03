@@ -1,9 +1,10 @@
 :PROPERTIES:
 :ID:       87C9372F-F4AC-4394-B578-0E5E4742E842
-:mtime:    20231203231139
+:mtime:    20231203233009
 :ctime:    20230119162342
 :END:
 #+TITLE: aws-cliとecs-cliのconfigをorgで管理してdefault値を一切設定しない運用をする
+#+AUTHOR: takeokunn
 #+DESCRIPTION: aws-cliとecs-cliのconfigをorgで管理してdefault値を一切設定しない運用をする
 #+DATE: 2023-01-19
 #+HUGO_BASE_DIR: ../../

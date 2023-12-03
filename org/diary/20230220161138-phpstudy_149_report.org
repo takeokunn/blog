@@ -1,9 +1,10 @@
 :PROPERTIES:
 :ID:       CDFA76B0-3CD7-474F-AABB-7805B7FBCD8B
-:mtime:    20231203230216
+:mtime:    20231203232523
 :ctime:    20230220161138
 :END:
 #+TITLE: 「第149回 PHP勉強会＠東京」で登壇してきました
+#+AUTHOR: takeokunn
 #+DESCRIPTION: description
 #+DATE: 2023-02-20
 #+HUGO_BASE_DIR: ../../

@@ -1,9 +1,10 @@
 :PROPERTIES:
 :ID:       07EC4DCE-C7A0-4299-B4C8-2939D00993B2
-:mtime:    20231203231018
+:mtime:    20231203232918
 :ctime:    20221215024226
 :END:
 #+TITLE: 半年間毎週dependabotをmergeしたので知見を纏める
+#+AUTHOR: takeokunn
 #+DESCRIPTION: 半年間毎週dependabotをmergeしたので知見を纏める
 #+DATE: 2020-09-09
 #+HUGO_BASE_DIR: ../../

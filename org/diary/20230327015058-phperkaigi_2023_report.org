@@ -1,9 +1,10 @@
 :PROPERTIES:
 :ID:       9DA3ED10-A90E-412C-9F59-BAAD89AD1E4D
-:mtime:    20231203230221
+:mtime:    20231203232530
 :ctime:    20230327015058
 :END:
 #+TITLE: phperkaigi 2023でパンフレット記事寄稿&登壇してきました
+#+AUTHOR: takeokunn
 #+DESCRIPTION: description
 #+DATE: 2023-03-27
 #+HUGO_BASE_DIR: ../../
