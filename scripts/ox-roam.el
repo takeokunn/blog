@@ -10,7 +10,6 @@
 (require 'org-roam)
 
 (setq org-roam-directory default-directory)
-(setq org-roam-file-exclude-regexp '("org/private/*.org"))
 (org-roam-db-sync)
 
 (defun collect-backlinks-string (backend)
