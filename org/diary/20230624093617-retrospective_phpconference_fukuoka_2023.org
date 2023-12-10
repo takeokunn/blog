@@ -423,7 +423,7 @@ https://engineercafe.jp/
 また、電子機器はこれだけあれば十二分。
 全部Type-Cに統一した方が良い。
 
-- Macbook Pro
+- MacBook Pro
 - 充電器
 - AfterShokz
 - モバイルバッテリー

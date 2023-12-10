@@ -14,6 +14,7 @@
     "textlint": "^13.4.1",
     "textlint-filter-rule-node-types": "^1.1.0",
     "textlint-plugin-org": "^0.3.5",
+    "textlint-rule-preset-icsmedia": "github:ics-creative/textlint-rule-preset-icsmedia",
     "textlint-rule-preset-ja-spacing": "^2.3.0",
     "textlint-rule-preset-ja-technical-writing": "^9.0.0",
     "textlint-rule-preset-japanese": "^9.0.0",
