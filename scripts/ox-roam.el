@@ -34,7 +34,7 @@
   "Exports Org-Roam files to Hugo markdown."
   (interactive)
   (let ((org-id-extra-files (directory-files-recursively default-directory "org")))
-    (dolist (f (append (file-expand-wildcards "org/*.org")
+    (dolist (f (append (file-expand-wildcards "org/about.org")
                        (file-expand-wildcards "org/diary/*.org")
                        (file-expand-wildcards "org/fleeting/*.org")
                        (file-expand-wildcards "org/index/*.org")
