@@ -11,14 +11,10 @@
         "max": 200
       }
     },
-    "textlint-rule-ginger": {
-      "skipPatterns": ["`(.*)`"]
-    },
     "preset-japanese": true,
     "preset-ja-spacing": true,
     "preset-jtf-style": true,
     "textlint-rule-write-good": true,
-    "ginger": false,
     "prh": {
       "rulePaths": [
         "node_modules/prh/prh-rules/media/WEB+DB_PRESS.yml",
