@@ -1,0 +1,16 @@
+:PROPERTIES:
+:ID:       46342277-7D09-450D-8015-C1588A994EFF
+:mtime:    20231212144630
+:ctime:    20231212144218
+:END:
+#+TITLE: ISUCON13にチームOL001として参加しました(インフラ担当編)
+#+AUTHOR: takeokunn
+#+DESCRIPTION: description
+#+GFM_TAGS: isucon
+#+GFM_CUSTOM_FRONT_MATTER: :emoji 👍
+#+GFM_CUSTOM_FRONT_MATTER: :type tech
+#+GFM_CUSTOM_FRONT_MATTER: :published false
+#+STARTUP: content
+#+STARTUP: fold
+* Introduction
+ISUCON13にチームOL001のインフラ担当として参加してきました！

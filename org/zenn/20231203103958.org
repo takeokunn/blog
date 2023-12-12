@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       05F36D14-0EE6-42E1-9249-C0441DA19B49
-:mtime:    20231204002438
+:mtime:    20231212144528
 :ctime:    20231203103958
 :END:
 #+TITLE: zenn test
@@ -12,6 +12,6 @@
 #+GFM_CUSTOM_FRONT_MATTER: :type tech
 #+GFM_CUSTOM_FRONT_MATTER: :published false
 #+STARTUP: content
-#+STARTUP: nohideblocks
+#+STARTUP: fold
 * test
 test
