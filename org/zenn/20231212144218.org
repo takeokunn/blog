@@ -1,16 +1,437 @@
 :PROPERTIES:
 :ID:       46342277-7D09-450D-8015-C1588A994EFF
-:mtime:    20231212144630
+:mtime:    20231213082901
 :ctime:    20231212144218
 :END:
-#+TITLE: ISUCON13にチームOL001として参加しました(インフラ担当編)
+#+TITLE: ISUCON13にチームOL001として参加しました(インフラ編)
 #+AUTHOR: takeokunn
 #+DESCRIPTION: description
+#+DATE: 2023-12-13T09:00:00+09:00
 #+GFM_TAGS: isucon
-#+GFM_CUSTOM_FRONT_MATTER: :emoji 👍
-#+GFM_CUSTOM_FRONT_MATTER: :type tech
+#+GFM_CUSTOM_FRONT_MATTER: :emoji 💪
+#+GFM_CUSTOM_FRONT_MATTER: :type idea
 #+GFM_CUSTOM_FRONT_MATTER: :published false
 #+STARTUP: content
 #+STARTUP: fold
+#+OPTIONS: toc:nil
 * Introduction
-ISUCON13にチームOL001のインフラ担当として参加してきました！
+
+この記事は、[[https://qiita.com/advent-calendar/2023/openlogi][OPENLOGI Advent Calendar 2023]] の13日目の記事です。
+https://qiita.com/advent-calendar/2023/openlogi
+
+ISUCON13にチームOL001のインフラ担当として参加してきました。
+最高スコアは20,572、最終スコアは19,151で、[[https://isucon.net/archives/57993937.html][ISUCON13 受賞チームおよび全チームスコア]] 全694チーム中108位でした。
+
+当記事ではインフラ担当としての事前準備と当日対応したことについて書いていきます。
+
+アプリケーション担当の記事は[[https://zenn.dev/nokoy/articles/baed50e2a28bfa][ こちら]] です。
+https://zenn.dev/nokoy/articles/baed50e2a28bfa
+
+* チームメンバー
+
+チケット争奪戦に勝った同僚の @noko に誘われて初心者ながら挑みました。
+ISUCONには長年出てみたかったんですが、チームメンバーが集まらなかったり出場する機会に恵まれなかったので、今回誘われた時二つ返事で了承しました。
+
+@yshir と自分は完全初心者だったので @noko に教えてもらいながら練習していました。
+
+| 名前        | 役割           | ISUCON参加経験 |
+|------------+---------------+--------------|
+| @noko      | アプリケーション | 2回目         |
+| @yshir     | アプリケーション | 初参加        |
+| @takeokunn | インフラ        | 初参加        |
+
+* 目標
+
+参加するにあたって自分なりの目標を2つ掲げました。
+
+** どのような形であれ確実に提出し失格にならないようにする
+
+[[https://isucon.net/archives/57768216.html][ISUCON13 レギュレーション]] を満たした上で、[[https://github.com/isucon/isucon13/blob/main/docs/cautionary_note.md][当日マニュアル]] に記載されている「最終スコア」の手順をすべて通過したチームのみランキングに載ることができます。
+どんなに途中良いスコアを出そうと最終で失格になっては何の意味もありません。
+
+例えアプリケーション担当が何一つ改善をしなかったとしても、確実にproduction用の設定をした上で提出をするというのを徹底しました。
+初参加かつそもそもISUCONがどういうものなのか知るために参加していたので、正直これさえ満たせていれば及第点かなと考えていました。
+
+** アプリケーション担当が完全にアプリケーションに集中できる環境作りをする
+
+自分のチームは初心者チームであり、インフラ側からの改善をガッツリするだけの練度が足りていませんでした。
+大して練習をしてない状態で凝ったことをするのは危険であり、チームメンバーに迷惑をかける可能性があります。
+
+アプリケーション担当の2人はどう考えていたのかは分かりませんが、確実にN+1を潰したりINDEXを貼ったり、[[https://www.amazon.co.jp/%E9%81%94%E4%BA%BA%E3%81%8C%E6%95%99%E3%81%88%E3%82%8BWeb%E3%83%91%E3%83%95%E3%82%A9%E3%83%BC%E3%83%9E%E3%83%B3%E3%82%B9%E3%83%81%E3%83%A5%E3%83%BC%E3%83%8B%E3%83%B3%E3%82%B0-%E3%80%9CISUCON%E3%81%8B%E3%82%89%E5%AD%A6%E3%81%B6%E9%AB%98%E9%80%9F%E5%8C%96%E3%81%AE%E5%AE%9F%E8%B7%B5-%E8%97%A4%E5%8E%9F-%E4%BF%8A%E4%B8%80%E9%83%8E/dp/4297128462][ISUCON本]] にあるような基礎的なチューニングを確実にこなしていければ良いと自分としては考えていました。
+なのでアプリケーションの改善を確実に回せるような運用フローを整えるのが自分の役割だと考えていました。
+
+* 事前練習
+** 練習期間/練習時間
+
+10/13(Fri)から11/25(Sat)まで約1ヶ月、80時間程度練習に費しました。
+本来ならほぼ毎日21〜23時の2時間の練習があったのですが、朝型の自分的には少々厳しくサボりがちになってしまいました。
+
+- 合同練習: 2時間 × 15回 = 30時間
+  - 毎日のように練習があったけどかなりサボってしまった
+- 通し練習: 8時間 × 2回 = 16時間
+- 個人練習: 30時間程度
+
+そもそもISUCONの知識が全くない状態からだったので最初はかなり苦戦しましたが徐々に流れを掴んできました。
+
+** 準備に対しての考え方
+
+競技時間全8時間を以下のような時間割で対応する想定をしていました。
+
+- 改善を回せるように環境構築 2〜3時間
+  - どんな問題だろうと =nginx, mysql, go= の構成にするという決めをしていた
+- nginxチューニングや細かい修正など 2〜3時間
+  - 簡単な修正のみに抑える
+- 提出用の環境構築 2時間
+  - 確実に提出できるようにする
+- 予備 1時間
+
+本番は何が起こるか分からない以上、準備できるものは出来る限り準備してミスを減らすという方針で進めていました。
+自分が点数を伸ばすというよりはアプリケーション担当に点数を稼いでもらうという方針にして、アプリケーション担当が開発しやすいフローを用意してあげるのに全力を尽くしました。
+
+** 手順書
+
+2回の通し練習で如何に手順書というものが大事なのか痛感させられたので詳細に作りました。
+予めssh keyを用意してGitHubに登録しておいたり、ansibleを流すタイミングやmigrationフローを作成するタイミングなどを明確に書くことによって、本番で焦らずに構築することが可能になりました。
+
+** DB Migration運用
+
+アプリケーション担当が2人いるので作業コンフリクトを起こさない為にもDB Migrationを作る必要がありました。
+Laravelのように動的にMigrationを定義するものではなく、Ridgepoleのように宣言的にschemaを定義できる仕組みのほうがチーム内でしっくりくるという結論になったので、sqldefを選定しました。
+
+sqldefはmysql用のmysqldefだけでなく、sqliteやpostgresqlにも対応しており、何がミドルウェアとして提供されているか分からない今回のようなケースにぴったりでした。
+mysqldefでschema.sqlを出力してGitHubで管理しansibleでmigrationを流せるようにすることによって、一切トラブルなくMigrationを走らせることができました。
+
+mysqldefはtrigger関数をサポートしていないようだったので、 =trigger_up.sql= と =trigger_down.sql= を用意して生SQLで管理するという運用にしました。
+この辺りはもう少し良い方法を模索したいものです。
+
+** tbls運用
+
+ER図を簡易的に確認したいという要望があった為tblsを導入しました。
+main branchにschema.sqlの変更が加わったらdbdoc branchにtblsが出力したdbdocを出力するGithub Actionsを作成しました。
+事前にActionsを作っておけば当日何も対応する必要がないので、対応しといて損はなかったんじゃないでしょうか。
+
+** Ansible運用
+
+以下の3つのplaybookを作り、手元からでもGitHub Actionsからでも流せるようにしました。
+基本は手元から流す運用にしていましたが、GitHub Actionsから流すことによっておま環問題が発生することを防ぐことができました。
+
+*** DONE install_tools playbook
+CLOSED: [2023-12-12 Tue 20:58]
+
+このplaybookを叩くと以下のツールと設定ファイルが全サーバに入るようにしています。
+叩くのは最初の１回だけですが何度叩いても問題ないので、うっかり消しちゃった時でも安心設計にしています。
+
+- Copy
+  - .vimrc
+  - .gitconfig
+  - alp config
+  - gh config
+  - ssh private/public key
+  - my shell scripts
+- Install
+  - alp
+  - dstat
+  - gh
+  - graphviz
+  - neofetch
+  - percona-toolkit
+  - mysqldef, sqlite3def, psqldef
+  - tig
+  - htop
+
+*** DONE before_bench playbook
+CLOSED: [2023-12-12 Tue 21:12]
+
+ベンチマークを回す上で必要な前処理を纏めたplaybookを準備しました。
+
+- Run =git pull=
+- Run =go build= && =restart go server=
+- Truncate =nginx access/error log=  and =mysql-slow.log=
+- Copy latest nginx config && Restart nginx
+- Copy latest my.cnf && Restart mysqld
+- Run migrate by mysqldef
+- Reset sysctl/systemd
+
+以下のようにdev/prod環境とbranchを指定して特定のインスタンスに流せるようにしていました。
+
+#+begin_src console
+  $ ansible-playbook -i ./ansible/hosts.yml -l isucon-1 ./ansible/playbook/before_bench.yml --extra-vars "env=dev" --extra-vars "branch=main" --verbose
+#+end_src
+
+全インスタンスに流せるコマンドも用意しておきました。
+
+#+begin_src console
+  ansible-playbook -i ./ansible/hosts.yml ./ansible/playbook/before_bench.yml --extra-vars "env=prod" --extra-vars "branch=main" --verbose
+#+end_src
+
+*** DONE after_bench playbook
+CLOSED: [2023-12-12 Tue 21:13]
+
+ベンチマークを回した後のalpとpt-query-digestで出力したslow queryの結果をGitHubのissueにtimestampと共に貼りつけるshell scriptを用意しました。
+これにより、何時頃にどういうスコアだったのか、どこが重いのかというのをGitHubで管理することができ、コミュニケーションが円滑になりました。
+
+#+begin_src console
+  $ ansible-playbook -i ./ansible/hosts.yml -l isucon-1 ./ansible/playbook/after_bench.yml --verbose
+#+end_src
+
+- Copy alp config
+- Aggregate result && Report to GitHub issue
+
+#+begin_src bash
+  # for gh command
+  REPO="OL001-isucon/isucon13"
+  TITLE=$(date -u -d '+9 hours' +"%Y/%m/%d(%a)%H:%M:%S")
+  ISSUE_URL=$(gh issue create --repo $REPO --title $TITLE --body "")
+
+  # for alp command
+  echo "alp:" > /tmp/alp
+  echo "\`\`\`" >> /tmp/alp
+  sudo cat /var/log/nginx/access.log | alp json --config /etc/alp/config.yml >> /tmp/alp
+  echo "\`\`\`" >> /tmp/alp
+  gh issue comment $ISSUE_URL --body-file /tmp/alp
+
+  # for pt-query-digest command
+  echo "pt-query-digest:" > /tmp/pt-query-digest
+  echo "\`\`\`" >> /tmp/pt-query-digest
+  sudo pt-query-digest /var/log/mysql/mysql-slow.log | head -n 300 >> /tmp/pt-query-digest
+  echo "\`\`\`" >> /tmp/pt-query-digest
+  gh issue comment $ISSUE_URL --body-file /tmp/pt-query-digest
+#+end_src
+
+** 監視体制
+
+Netdataを使っているチームが多い中、今回練習が足りなくてちゃんと運用できないだろうという判断をした為、htopを雑に使うという運用にしました。
+MySQLが支配的なのかappが支配的なのかさえ最低限分かれば良いという結論になったので、高機能なツールを頑張って運用せずに、シンプルにhtopで確認するので良いだろうという結論になりました。
+
+来年までに最高の監視体制を整えたいです。
+
+* タイムテーブル
+** 前日
+
+初心者がベテランに唯一勝てることは「体調の良さ」です。
+体調だけは万全にして挑もうということで銭湯に行きゆっくり温泉に漬かり、明日の作戦会議を軽くして日付変わる前に寝ました。
+
+#+begin_export html
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">明日に備えてそろそろ寝ます</p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1728063631680819235?ref_src=twsrc%5Etfw">November 24, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+#+end_export
+
+** 07:30〜 起床
+
+集合時間まで2時間くらいあったので、軽く身体を動かして頭が働くように調整していました。
+
+#+begin_export html
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">朝から部屋の掃除して散歩しスーパーで昼飯買ってきた</p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1728205067080393004?ref_src=twsrc%5Etfw">November 25, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+#+end_export
+
+** 09:30〜 チーム集合
+
+無事全員寝坊せずに集まることができて、今日どんな問題が出るかなーといった雑談をしながらyoutubeの配信を見ていました。
+
+#+begin_export html
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">はじまった <a href="https://t.co/4EpnYyAFld">pic.twitter.com/4EpnYyAFld</a></p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1728211961681510599?ref_src=twsrc%5Etfw">November 25, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+#+end_export
+
+手順書を再度読み頭の中でシミュレーションを繰り返し行いました。
+
+** 10:00〜 開始
+開始の合図直後に @noko がCloudFormationを流してip addressをslackで共有してもらいました。
+速攻で全台にsshしてちゃんと入れることを確認し、 `~/.ssh/config` を共有。
+
+** 10:10〜 リポジトリ初期化
+
+- .gitconfigを用意する
+- =isucon-1= 内で =git init= して必要なソースコードをGitHubに上げる
+- 手元に =git clone= をする
+- .editorconfigを用意する
+- 事前に用意した =ansible/= と =.github/= をcopyする
+- project名を一括置換する
+
+一括置換は以下のようなscriptで雑に置換しました。
+
+#+begin_src shell
+  find ansible/ -type f | xargs sed -i "" -e "s/isucondition/isupipe/g"
+#+end_src
+
+** 10:15〜 Ansible初期作業
+
+GitHub Actions経由でAnsibleを流せるように調整しました。
+
+- hosts.ymlを修正する
+- .github/actions/ssh_keyscan/action.yml の ip address を修正する
+- ansible内のssh keyを差し替える
+- GitHub Actions上で .github/workflows/sandbox_all.yml が動くか確認する
+- GitHub Actions上で .github/workflows/install_tools.yml を動かす
+- isucon-2/isucon-3に入って =ssh -T git@github.com= をたたく
+
+** 10:20〜 インフラ確認
+
+- 動作しているプロセスを確認しておおよその構成を理解する
+- ハードウェア構成を調べる
+
+[[https://github.com/dylanaraps/neofetch][neofetch]] を流した結果をREADMEにメモしたりしました。
+
+** 10:22〜 DB初期作業
+
+あらかじめMigrationの仕組みを用意していたので、その為の準備をしました。
+ついでに [[https://github.com/k1LoW/tbls][tbls]] でDBドキュメントが正常に生成されていることを確認した。
+https://github.com/OL001-isucon/isucon13/tree/dbdoc
+
+- 接続情報をREADME.mdに書く
+- レコード数をREADME.mdに書く
+- sqldefで =schema.sql= を生成してGitHubに上げる
+- before_bench の sqldef の接続情報を修正する
+- trigger.sqlを空で作成する
+
+** 10:28〜 nginx初期作業
+
+nginxのdev/prod用の設定を両方用意してansibleで流し分けられるようにしていました。
+
+- =nginx.conf= と =sites-enabled/* =の初期値を =git commit= する
+- =nginx.dev.conf= のlog_formatを修正する
+- =sites-enabled/*.dev.conf= を =sites-enabled/*.prod.conf= にcopyする
+- before_benchのnginxの設定を修正する
+
+alpはcopilotで生成できるので @noko に予め対応してもらいました。
+
+** 10:31〜 Go初期作業
+
+後述しますが今回の場合envをcommitしてはいけなかった。
+
+- envをenv.devとenv.prodを用意する
+- =webapp/go/Makefile= を作成する
+- before_benchのgoの実行パス修正
+
+** 10:33〜 before_bench/after_bench実行環境準備
+
+複数台構成用にenv.devとenv.prodを用意していたのだが、EC2起動時にenvを書き換える処理があったようなのでベンチマークが回らないという問題が起きてしまった。
+再起動すると治るということは序盤に分かったのでアプリケーション担当にはベンチ前にrebootしてくれというお願いをして応急対応し、ちゃんと調査をした結果envをcommitしないという方針にした。
+
+これのせいで2時間程度潰れてしまった。
+
+- isucon-2/isucon-3に入って =git pull= できる状態にする
+- GitHub Actions上でisucon-3に =.github/workflows/before_bench_specific.yml= を実行
+- isucon-3でベンチマークを回す
+- GitHub Actions上で =.github/workflows/after_bench.yml= を実行
+
+** 12:20〜 ちょっとした変更をする
+
+- go-jsonライブラリの差し替え
+- golangのconnection option設定
+
+** 12:26〜 Local DB環境構築
+
+- docker-compose.ymlを用意して =docker compose up= する
+- 本番DBからmysqldumpしてscpで持ってくる
+- docker dbに流し込む
+- 手順書を =README.md= にまとめる
+
+** 12:30〜 改善作業
+
+- 静的コンテンツをnginxから返す
+- 細かいパラメータチューニング
+- アプリケーション担当のヘルプ
+
+ヘルプ作業は「ansibleが謎に動かない」や「migrationが謎に落ちる」など細かい詰まった時、アプリケーションの改善を止めない為に代わりに調査をしたりしました。
+
+** 13:30〜14:03 MySQLサーバを別インスタンスからアクセスできるように権限付与
+
+ベンチの結果次第では複数台構成で提出するべく準備しました。
+
+- isucon-3に権限付与
+- isucon-1/isucon-2から疏通ができるか確認
+
+** 14:03 〜 14:23 昼食
+
+ベンチマーカーが障害を起こしていてどうしようもなかったので昼食にしました。
+
+** 14:23〜 改善作業
+
+- nginxにgzip追加
+- 細かいパラメータチューニング
+- アプリケーション担当ヘルプ
+
+この時間帯はベンチマーカーの障害で中々改善が進まなかったです。
+
+** 15:34〜 production用の設定で正常に動くか確認
+
+- nginx.prod.confの準備
+- main.goのLog Middlewareを削除する
+- my.prod.cnfの準備
+- 再起動した時の手順書を作成
+
+以下のように2台構成を想定した手順書を作成しました。
+
+#+begin_src markdown
+  1. rebootする
+
+  $ ssh isucon-1 "sudo reboot"
+  $ ssh isucon-3 "sudo reboot"
+
+  2. ansible before_bench prodを流す
+
+  $ ansible-playbook -i ./ansible/hosts.yml -l isucon-1 ./ansible/playbook/before_bench.yml --extra-vars "env=prod" --extra-vars "branch=main" --verbose
+  $ ansible-playbook -i ./ansible/hosts.yml -l isucon-3 ./ansible/playbook/before_bench.yml --extra-vars "env=prod" --extra-vars "branch=main" --verbose
+
+  3. isucon-1に入ってenv.shを以下のように変更する
+
+  diff --git a/env.sh.prod b/env.sh.prod
+  index 48772c1..1ee25eb 100755
+  --- a/env.sh
+  +++ b/env.sh
+  @@ -1,5 +1,5 @@
+   ISUCON13_MYSQL_DIALCONFIG_NET="tcp"
+  -ISUCON13_MYSQL_DIALCONFIG_ADDRESS="127.0.0.1"
+  +ISUCON13_MYSQL_DIALCONFIG_ADDRESS="192.168.0.13"
+   ISUCON13_MYSQL_DIALCONFIG_PORT="3306"
+   ISUCON13_MYSQL_DIALCONFIG_USER="isucon"
+   ISUCON13_MYSQL_DIALCONFIG_DATABASE="isupipe"
+
+  4. isucon-1に対してbenchを回す
+#+end_src
+
+** 16:58〜17:30 設定に見落しがないか全体的に確認
+
+ベンチマーカーをアプリケーション担当が占有してほしかったので祈りの時間。
+
+** 17:30〜18:00 1台構成と2台構成の両方をベンチ回してスコアの高い方を提出
+
+結局1台構成で提出した。
+
+* 振り返り
+** 良かったこと
+*** 事前に立てた目標をクリアできた
+
+2つの目標をちゃんとクリアできて、無事ISUCONを終了することができて良かったです。
+
+- どのような形であれ確実に提出し失格にならないようにする
+- アプリケーション担当が完全にアプリケーションに集中できる環境作りをする
+
+*** 事前に練習したことを100%生かせた
+
+事前に準備していたansibleや開発フローを滞りなく運用することができた。
+手順書をちゃんと作れていたので初期の作業を滞りなく行うことができた。
+
+途中env回りで詰まってしまったが、ちゃんと自分なりに筋道立てて解決できた。
+
+*** 最高のチームワークを発揮できた
+
+普段一緒に仕事してるのもあって、コミュニケーション面は最高にうまくいった。
+途中ちょこちょこトラブルがあったが、役割分担がちゃんと出来ていたので都度解決できたのが最高だった。
+最高に楽しかった。
+
+** 反省点
+*** お題がどういうものなのか何を改善すべきなのか何も分からずに終わってしまった
+
+上述のタイムテーブルを見て分かる通り、自分は全然アプリケーション面に触れておらず、一体何がどうなっているのか一切分からないまま時間が過ぎてしまった。
+
+*** ツールの整備に改善の余地がある
+
+まだまだツールを最適化していきたい。
+ansibleがとにかく遅すぎるので別のツールを検討したい。
+
+*** 監視体制やログ基盤を整えたい
+
+今回はhtopで雑に管理していたが、次回はGrafanaとかを使いたい。
+
+* 終わりに
+本当に楽しかったので来年もまたこのメンバーで出たい。青春だった。
