@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       46342277-7D09-450D-8015-C1588A994EFF
-:mtime:    20231213111200
+:mtime:    20231213111820
 :ctime:    20231212144218
 :END:
 #+TITLE: ISUCON13にチームOL001として参加しました(インフラ編)
@@ -130,8 +130,6 @@ https://github.com/OL001-isucon/isucon13/blob/main/ansible/README.md
 
 https://github.com/OL001-isucon/isucon13/actions
 
-[[file:https:/storage.googleapis.com/zenn-user-upload/d2bdcd1e35d2-20231213.png]]
-
 *** install_tools playbook
 
 このplaybookを叩くと以下のツールと設定ファイルが全サーバに入るようにしています。
@@ -213,8 +211,6 @@ https://github.com/OL001-isucon/isucon13/actions
 #+end_src
 
 実際のissueは[[https://github.com/OL001-isucon/isucon13/issues/36][こちら]]。
-
-[[file:https:/storage.googleapis.com/zenn-user-upload/d2bdcd1e35d2-20231213.png]]
 
 ** 監視体制
 
