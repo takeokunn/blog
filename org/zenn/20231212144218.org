@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       46342277-7D09-450D-8015-C1588A994EFF
-:mtime:    20231213110215
+:mtime:    20231213111032
 :ctime:    20231212144218
 :END:
 #+TITLE: ISUCON13にチームOL001として参加しました(インフラ編)
@@ -22,7 +22,7 @@
 ISUCON13にチームOL001のインフラ担当として参加してきました。
 最高スコアは20,572、最終スコアは19,151で、[[https://isucon.net/archives/57993937.html][ISUCON13 受賞チームおよび全チームスコア]] 全694チーム中108位でした。
 
-当記事ではインフラ担当としての事前準備と当日対応したことについて書いていきます。
+当記事ではインフラ担当としての事前準備と当日対応したことについて自分のメモも兼ねて書いていきます。
 
 アプリケーション担当の記事は[[https://zenn.dev/nokoy/articles/baed50e2a28bfa][ こちら]] です。
 
@@ -36,11 +36,11 @@ ISUCONには長年出てみたかったんですが、チームメンバーが�
 
 @yshir と自分は完全初心者だったので @noko に教えてもらいながら練習していました。
 
-| 名前        | 役割           | ISUCON参加経験 |
-|------------+---------------+--------------|
-| @noko      | アプリケーション | 2回目         |
-| @yshir     | アプリケーション | 初参加        |
-| @takeokunn | インフラ        | 初参加        |
+| 名前        | 役割           | 参加経験 |
+|------------+---------------+--------|
+| @noko      | アプリケーション | 2回目   |
+| @yshir     | アプリケーション | 初参加  |
+| @takeokunn | インフラ        | 初参加  |
 
 * 目標
 
@@ -130,7 +130,7 @@ https://github.com/OL001-isucon/isucon13/blob/main/ansible/README.md
 
 https://github.com/OL001-isucon/isucon13/actions
 
-[[file:../../static/images/A4D32753-A8EE-4B7D-8686-87E64830029D.png]]
+[[file:https:/storage.googleapis.com/zenn-user-upload/d2bdcd1e35d2-20231213.png]]
 
 *** install_tools playbook
 
@@ -214,7 +214,7 @@ https://github.com/OL001-isucon/isucon13/actions
 
 実際のissueは[[https://github.com/OL001-isucon/isucon13/issues/36][こちら]]。
 
-[[file:../../static/images/9D26D0B6-89DE-4412-AFC3-30564E790079.png]]
+[[file:https:/storage.googleapis.com/zenn-user-upload/d2bdcd1e35d2-20231213.png]]
 
 ** 監視体制
 
