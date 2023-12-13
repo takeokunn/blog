@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       46342277-7D09-450D-8015-C1588A994EFF
-:mtime:    20231213090355
+:mtime:    20231213103509
 :ctime:    20231212144218
 :END:
 #+TITLE: ISUCON13にチームOL001として参加しました(インフラ編)
@@ -15,7 +15,8 @@
 #+STARTUP: fold
 #+OPTIONS: ^:nil
 #+OPTIONS: toc:nil
-* Introduction
+* DONE Introduction
+CLOSED: [2023-12-13 Wed 10:09]
 
 この記事は、[[https://qiita.com/advent-calendar/2023/openlogi][OPENLOGI Advent Calendar 2023]] の13日目の記事です。
 
@@ -28,9 +29,11 @@ ISUCON13にチームOL001のインフラ担当として参加してきました�
 
 https://zenn.dev/nokoy/articles/baed50e2a28bfa
 
-* チームメンバー
+* DONE チームメンバー
+CLOSED: [2023-12-13 Wed 10:09]
 
 チケット争奪戦に勝った同僚の @noko に誘われて初心者ながら挑みました。
+
 ISUCONには長年出てみたかったんですが、チームメンバーが集まらなかったり出場する機会に恵まれなかったので、今回誘われた時二つ返事で了承しました。
 
 @yshir と自分は完全初心者だったので @noko に教えてもらいながら練習していました。
@@ -41,9 +44,10 @@ ISUCONには長年出てみたかったんですが、チームメンバーが�
 | @yshir     | アプリケーション | 初参加        |
 | @takeokunn | インフラ        | 初参加        |
 
-* 目標
+* DONE 目標
+CLOSED: [2023-12-13 Wed 10:09]
 
-参加するにあたって自分なりの目標を2つ掲げました。
+初参加するにあたって自分なりの目標を2つ掲げました。
 
 ** どのような形であれ確実に提出し失格にならないようにする
 
@@ -61,10 +65,13 @@ ISUCONには長年出てみたかったんですが、チームメンバーが�
 アプリケーション担当の2人はどう考えていたのかは分かりませんが、確実にN+1を潰したりINDEXを貼ったり、[[https://www.amazon.co.jp/%E9%81%94%E4%BA%BA%E3%81%8C%E6%95%99%E3%81%88%E3%82%8BWeb%E3%83%91%E3%83%95%E3%82%A9%E3%83%BC%E3%83%9E%E3%83%B3%E3%82%B9%E3%83%81%E3%83%A5%E3%83%BC%E3%83%8B%E3%83%B3%E3%82%B0-%E3%80%9CISUCON%E3%81%8B%E3%82%89%E5%AD%A6%E3%81%B6%E9%AB%98%E9%80%9F%E5%8C%96%E3%81%AE%E5%AE%9F%E8%B7%B5-%E8%97%A4%E5%8E%9F-%E4%BF%8A%E4%B8%80%E9%83%8E/dp/4297128462][ISUCON本]] にあるような基礎的なチューニングを確実にこなしていければ良いと自分としては考えていました。
 なのでアプリケーションの改善を確実に回せるような運用フローを整えるのが自分の役割だと考えていました。
 
-* 事前練習
-** 練習時間
+* DONE 事前練習
+CLOSED: [2023-12-13 Wed 10:35]
+** DONE 練習時間
+CLOSED: [2023-12-13 Wed 10:10]
 
 10/13(Fri)から11/25(Sat)まで約1ヶ月、80時間程度練習に費しました。
+
 本来ならほぼ毎日21〜23時の2時間の練習があったのですが、朝型の自分的には少々厳しくサボりがちになってしまいました。
 
 - 合同練習: 2時間 × 15回 = 30時間
@@ -74,12 +81,13 @@ ISUCONには長年出てみたかったんですが、チームメンバーが�
 
 そもそもISUCONの知識が全くない状態からだったので最初はかなり苦戦しましたが徐々に流れを掴んできました。
 
-** 準備に対しての考え方
+** DONE 準備に対しての考え方
+CLOSED: [2023-12-13 Wed 10:10]
 
 競技時間全8時間を以下のような時間割で対応する想定をしていました。
 
 - 改善を回せるように環境構築 2〜3時間
-  - どんな問題だろうと =nginx, mysql, go= の構成にするという決めをしていた
+  - どんな問題だろうと =Nginx, MySQL, Go= の構成にするという決めをしていた
 - nginxチューニングや細かい修正など 2〜3時間
   - 簡単な修正のみに抑える
 - 提出用の環境構築 2時間
@@ -89,45 +97,64 @@ ISUCONには長年出てみたかったんですが、チームメンバーが�
 本番は何が起こるか分からない以上、準備できるものは出来る限り準備してミスを減らすという方針で進めていました。
 自分が点数を伸ばすというよりはアプリケーション担当に点数を稼いでもらうという方針にして、アプリケーション担当が開発しやすいフローを用意してあげるのに全力を尽くしました。
 
-** 手順書
+** DONE 手順書
+CLOSED: [2023-12-13 Wed 10:13]
 
 2回の通し練習で如何に手順書というものが大事なのか痛感させられたので詳細に作りました。
+
+私はorg-modeユーザなのでorg fileを用意していて、本番でもタスク管理も兼ねて使っていました。
+実際のファイルはこちらです。
+
+https://raw.githubusercontent.com/OL001-isucon/isucon13/main/isucon13.org
+
 あらかじめssh keyを用意してGitHubに登録しておいたり、ansibleを流すタイミングやmigrationフローを作成するタイミングなどを明確に書くことによって、本番で焦らずに構築することが可能になりました。
 
-** DB Migration運用
+** DONE DB Migration運用
+CLOSED: [2023-12-13 Wed 10:18]
 
 アプリケーション担当が2人いるので作業コンフリクトを起こさない為にもDB Migrationを作る必要がありました。
-Laravelのように動的にMigrationを定義するものではなく、Ridgepoleのように宣言的にschemaを定義できる仕組みのほうがチーム内でしっくりくるという結論になったので、sqldefを選定しました。
+Laravelのように動的にMigrationを定義するものではなく、[[https://github.com/ridgepole/ridgepole][Ridgepole]]のように宣言的にschemaを定義できる仕組みのほうがチーム内でしっくりくるという結論になったので、[[https://github.com/sqldef/sqldef][sqldef]]を選定しました。
 
-sqldefはmysql用のmysqldefだけでなく、sqliteやpostgresqlにも対応しており、何がミドルウェアとして提供されているか分からない今回のようなケースにぴったりでした。
-mysqldefでschema.sqlを出力してGitHubで管理しansibleでmigrationを流せるようにすることによって、一切トラブルなくMigrationを走らせることができました。
+sqldefはmysql用の[[https://github.com/sqldef/sqldef?tab=readme-ov-file#mysqldef][mysqldef]]だけでなく、sqliteやpostgresqlにも対応しており、何がミドルウェアとして提供されているか分からないISUCONのようなケースにぴったりでした。
+mysqldefで =schema.sql= を出力してGitHubで管理しつつ、ansibleでMigrationを流せるようにすることによって、一切トラブルなくMigrationを走らせることができました。
 
 mysqldefはtrigger関数をサポートしていないようだったので、 =trigger_up.sql= と =trigger_down.sql= を用意して生SQLで管理するという運用にしました。
 この辺りはもう少し良い方法を模索したいものです。
 
-** tbls運用
+** DONE tbls運用
+CLOSED: [2023-12-13 Wed 10:20]
 
-ER図を簡易的に確認したいという要望があった為tblsを導入しました。
-main branchにschema.sqlの変更が加わったらdbdoc branchにtblsが出力したdbdocを出力するGithub Actionsを作成しました。
+ER図を簡易的に確認したいという要望があった為[[https://github.com/k1LoW/tbls][tbls]]を導入しました。
+main branchにschema.sqlの変更が加わったら[[https://github.com/OL001-isucon/isucon13/tree/dbdoc][ dbdoc branch]] にtblsが出力したdbdocを出力するGithub Actionsを作成しました。([[https://github.com/OL001-isucon/isucon13/blob/main/.github/workflows/db_tbls.yml][workflowはこちら]])
+
 事前にActionsを作っておけば当日何も対応する必要がないので、対応しといて損はなかったんじゃないでしょうか。
 
-** Ansible運用
+** DONE Ansible運用
+CLOSED: [2023-12-13 Wed 10:34]
 
-以下の3つのplaybookを作り、手元からでもGitHub Actionsからでも流せるようにしました。
-基本は手元から流す運用にしていましたが、GitHub Actionsから流すことによっておま環問題が発生することを防ぐことができました。
+以下の3つのplaybookを作りベンチマークを安定的に回せるようにしていました。
 
-*** install_tools playbook
+https://github.com/OL001-isucon/isucon13/blob/main/ansible/README.md
+
+基本は手元から流す運用にしていましたが、GitHub Actionsから流せるようにすることによって[[https://e-words.jp/w/%E3%81%8A%E3%81%BE%E7%92%B0.html][おま環]]問題が発生することを防ぐことができました。
+
+https://github.com/OL001-isucon/isucon13/actions
+
+[[file:../../static/images/A4D32753-A8EE-4B7D-8686-87E64830029D.png]]
+
+*** DONE install_tools playbook
+CLOSED: [2023-12-13 Wed 10:24]
 
 このplaybookを叩くと以下のツールと設定ファイルが全サーバに入るようにしています。
-叩くのは最初の１回だけですが何度叩いても問題ないので、うっかり消しちゃった時でも安心設計にしています。
+叩くのは最初の１回だけですが、何度叩いても問題ないので間違って消した時でも安心設計にしています。
 
 - Copy
-  - .vimrc
-  - .gitconfig
-  - alp config
-  - gh config
-  - ssh private/public key
-  - my shell scripts
+  - [[https://github.com/OL001-isucon/isucon13/blob/main/ansible/etc/vim/.vimrc][.vimrc]]
+  - [[https://github.com/OL001-isucon/isucon13/blob/main/ansible/etc/git/.gitconfig][.gitconfig]]
+  - [[https://github.com/OL001-isucon/isucon13/blob/main/ansible/etc/alp/config.yml][alp config]]
+  - [[https://github.com/OL001-isucon/isucon13/blob/main/ansible/etc/gh/hosts.yml][gh config]]
+  - [[https://github.com/OL001-isucon/isucon13/tree/main/ansible/etc/ssh][ssh private/public key]]
+  - [[https://github.com/OL001-isucon/isucon13/tree/main/ansible/shell][my shell scripts]]
 - Install
   - alp
   - dstat
@@ -139,15 +166,16 @@ main branchにschema.sqlの変更が加わったらdbdoc branchにtblsが出力�
   - tig
   - htop
 
-*** before_bench playbook
+*** DONE before_bench playbook
+CLOSED: [2023-12-13 Wed 10:25]
 
 ベンチマークを回す上で必要な前処理を纏めたplaybookを準備しました。
 
 - Run =git pull=
 - Run =go build= && =restart go server=
-- Truncate =nginx access/error log=  and =mysql-slow.log=
-- Copy latest nginx config && Restart nginx
-- Copy latest my.cnf && Restart mysqld
+- Truncate =nginx access/error log= and =mysql-slow.log=
+- Copy =nginx.config= && Restart nginx
+- Copy =my.cnf= && Restart mysqld
 - Run migrate by mysqldef
 - Reset sysctl/systemd
 
@@ -163,7 +191,8 @@ main branchにschema.sqlの変更が加わったらdbdoc branchにtblsが出力�
   ansible-playbook -i ./ansible/hosts.yml ./ansible/playbook/before_bench.yml --extra-vars "env=prod" --extra-vars "branch=main" --verbose
 #+end_src
 
-*** after_bench playbook
+*** DONE after_bench playbook
+CLOSED: [2023-12-13 Wed 10:33]
 
 ベンチマークを回した後のalpとpt-query-digestで出力したslow queryの結果をGitHubのissueにtimestampと共に貼りつけるshell scriptを用意しました。
 これにより、何時頃にどういうスコアだったのか、どこが重いのかというのをGitHubで管理することができ、コミュニケーションが円滑になりました。
@@ -196,10 +225,15 @@ main branchにschema.sqlの変更が加わったらdbdoc branchにtblsが出力�
   gh issue comment $ISSUE_URL --body-file /tmp/pt-query-digest
 #+end_src
 
-** 監視体制
+実際のissueは[[https://github.com/OL001-isucon/isucon13/issues/36][こちら]]。
 
-Netdataを使っているチームが多い中、今回練習が足りなくてちゃんと運用できないだろうという判断をした為、htopを雑に使うという運用にしました。
-MySQLが支配的なのかappが支配的なのかさえ最低限分かれば良いという結論になったので、高機能なツールを頑張って運用せずに、シンプルにhtopで確認するので良いだろうという結論になりました。
+[[file:../../static/images/9D26D0B6-89DE-4412-AFC3-30564E790079.png]]
+
+** DONE 監視体制
+CLOSED: [2023-12-13 Wed 10:35]
+
+[[https://www.netdata.cloud/][Netdata]]を使っているチームが多い中、今回練習が足りなくてちゃんと運用できないだろうという判断をした為、[[https://htop.dev/][htop]]を雑に使うという運用にしました。
+MySQLが支配的なのかAppが支配的なのかさえ最低限分かれば良いという結論になったので、高機能なツールを頑張って運用せずに、シンプルに[[https://htop.dev/][htop]]で確認するので良いだろうという結論になりました。
 
 来年までに最高の監視体制を整えたいです。
 
