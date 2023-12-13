@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       46342277-7D09-450D-8015-C1588A994EFF
-:mtime:    20231213111820
+:mtime:    20231213111847
 :ctime:    20231212144218
 :END:
 #+TITLE: ISUCON13にチームOL001として参加しました(インフラ編)
@@ -10,7 +10,7 @@
 #+GFM_TAGS: isucon
 #+GFM_CUSTOM_FRONT_MATTER: :emoji 💪
 #+GFM_CUSTOM_FRONT_MATTER: :type idea
-#+GFM_CUSTOM_FRONT_MATTER: :published false
+#+GFM_CUSTOM_FRONT_MATTER: :published true
 #+STARTUP: content
 #+STARTUP: fold
 #+OPTIONS: ^:nil
