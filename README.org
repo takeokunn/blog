@@ -19,7 +19,7 @@ generate Org-Roam to Markdown:
 generate OGP:
 
 #+begin_src shell
-  tcardgen --output static/ogp --config=ogp.yml content/posts/**/*.md
+  tcardgen --fontDir=tcardgen/font --output=static/ogp --config=tcardgen/ogp.yml content/posts/**/*.md
 #+end_src
 
 run Hugo server:

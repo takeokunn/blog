@@ -13,6 +13,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      # check by npm
       - name: Cache node_modules
         uses: actions/setup-node@v4
         with:
@@ -24,3 +26,9 @@ jobs:
         run: npm run lint:textlint
       - name: Run secretlint
         run: npm run lint:secret
+
+      # check by actionlint
+      - name: Run actionlint
+        run: |
+          bash <(curl https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash)
+          ./actionlint -color

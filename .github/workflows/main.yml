@@ -54,7 +54,7 @@ jobs:
       - name: Create public
         run: mkdir -p ./public
       - name: Generate OGP
-        run: tcardgen --output public/ogp --config=ogp.yml content/posts/**/*.md
+        run: tcardgen --fontDir=tcardgen/font --output=static/ogp --config=tcardgen/ogp.yml content/posts/**/*.md
 
       # for Hugo
       - name: Setup Hugo

@@ -1,4 +1,4 @@
-template: ogp.png
+template: tcardgen/ogp.png
 title:
   start:
     px: 100
@@ -14,12 +14,12 @@ category:
     py: 100
   fgHexColor: "#E5B52A"
   fontSize: 42
-  fontStyle: Regular
+  fontStyle: Bold
 info:
   start:
     px: 270
     py: 390
-  fgHexColor: "#A0A0A0"
+  fgHexColor: "#333333"
   fontSize: 38
   fontStyle: Regular
   separator: " - "
@@ -28,7 +28,7 @@ tags:
     px: 270
     py: 460
   fgHexColor: "#FFFFFF"
-  bgHexColor: "#7F7776"
+  bgHexColor: "#333333"
   fontSize: 22
   fontStyle: Medium
   boxAlign: Left
