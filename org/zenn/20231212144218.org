@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       46342277-7D09-450D-8015-C1588A994EFF
-:mtime:    20231213103509
+:mtime:    20231213110215
 :ctime:    20231212144218
 :END:
 #+TITLE: ISUCON13にチームOL001として参加しました(インフラ編)
@@ -15,8 +15,7 @@
 #+STARTUP: fold
 #+OPTIONS: ^:nil
 #+OPTIONS: toc:nil
-* DONE Introduction
-CLOSED: [2023-12-13 Wed 10:09]
+* Introduction
 
 この記事は、[[https://qiita.com/advent-calendar/2023/openlogi][OPENLOGI Advent Calendar 2023]] の13日目の記事です。
 
@@ -29,8 +28,7 @@ ISUCON13にチームOL001のインフラ担当として参加してきました�
 
 https://zenn.dev/nokoy/articles/baed50e2a28bfa
 
-* DONE チームメンバー
-CLOSED: [2023-12-13 Wed 10:09]
+* チームメンバー
 
 チケット争奪戦に勝った同僚の @noko に誘われて初心者ながら挑みました。
 
@@ -44,8 +42,7 @@ ISUCONには長年出てみたかったんですが、チームメンバーが�
 | @yshir     | アプリケーション | 初参加        |
 | @takeokunn | インフラ        | 初参加        |
 
-* DONE 目標
-CLOSED: [2023-12-13 Wed 10:09]
+* 目標
 
 初参加するにあたって自分なりの目標を2つ掲げました。
 
@@ -65,10 +62,8 @@ CLOSED: [2023-12-13 Wed 10:09]
 アプリケーション担当の2人はどう考えていたのかは分かりませんが、確実にN+1を潰したりINDEXを貼ったり、[[https://www.amazon.co.jp/%E9%81%94%E4%BA%BA%E3%81%8C%E6%95%99%E3%81%88%E3%82%8BWeb%E3%83%91%E3%83%95%E3%82%A9%E3%83%BC%E3%83%9E%E3%83%B3%E3%82%B9%E3%83%81%E3%83%A5%E3%83%BC%E3%83%8B%E3%83%B3%E3%82%B0-%E3%80%9CISUCON%E3%81%8B%E3%82%89%E5%AD%A6%E3%81%B6%E9%AB%98%E9%80%9F%E5%8C%96%E3%81%AE%E5%AE%9F%E8%B7%B5-%E8%97%A4%E5%8E%9F-%E4%BF%8A%E4%B8%80%E9%83%8E/dp/4297128462][ISUCON本]] にあるような基礎的なチューニングを確実にこなしていければ良いと自分としては考えていました。
 なのでアプリケーションの改善を確実に回せるような運用フローを整えるのが自分の役割だと考えていました。
 
-* DONE 事前練習
-CLOSED: [2023-12-13 Wed 10:35]
-** DONE 練習時間
-CLOSED: [2023-12-13 Wed 10:10]
+* 事前練習
+** 練習時間
 
 10/13(Fri)から11/25(Sat)まで約1ヶ月、80時間程度練習に費しました。
 
@@ -81,8 +76,7 @@ CLOSED: [2023-12-13 Wed 10:10]
 
 そもそもISUCONの知識が全くない状態からだったので最初はかなり苦戦しましたが徐々に流れを掴んできました。
 
-** DONE 準備に対しての考え方
-CLOSED: [2023-12-13 Wed 10:10]
+** 準備に対しての考え方
 
 競技時間全8時間を以下のような時間割で対応する想定をしていました。
 
@@ -97,8 +91,7 @@ CLOSED: [2023-12-13 Wed 10:10]
 本番は何が起こるか分からない以上、準備できるものは出来る限り準備してミスを減らすという方針で進めていました。
 自分が点数を伸ばすというよりはアプリケーション担当に点数を稼いでもらうという方針にして、アプリケーション担当が開発しやすいフローを用意してあげるのに全力を尽くしました。
 
-** DONE 手順書
-CLOSED: [2023-12-13 Wed 10:13]
+** 手順書
 
 2回の通し練習で如何に手順書というものが大事なのか痛感させられたので詳細に作りました。
 
@@ -109,8 +102,7 @@ https://raw.githubusercontent.com/OL001-isucon/isucon13/main/isucon13.org
 
 あらかじめssh keyを用意してGitHubに登録しておいたり、ansibleを流すタイミングやmigrationフローを作成するタイミングなどを明確に書くことによって、本番で焦らずに構築することが可能になりました。
 
-** DONE DB Migration運用
-CLOSED: [2023-12-13 Wed 10:18]
+** DB Migration運用
 
 アプリケーション担当が2人いるので作業コンフリクトを起こさない為にもDB Migrationを作る必要がありました。
 Laravelのように動的にMigrationを定義するものではなく、[[https://github.com/ridgepole/ridgepole][Ridgepole]]のように宣言的にschemaを定義できる仕組みのほうがチーム内でしっくりくるという結論になったので、[[https://github.com/sqldef/sqldef][sqldef]]を選定しました。
@@ -121,16 +113,14 @@ mysqldefで =schema.sql= を出力してGitHubで管理しつつ、ansibleでMig
 mysqldefはtrigger関数をサポートしていないようだったので、 =trigger_up.sql= と =trigger_down.sql= を用意して生SQLで管理するという運用にしました。
 この辺りはもう少し良い方法を模索したいものです。
 
-** DONE tbls運用
-CLOSED: [2023-12-13 Wed 10:20]
+** tbls運用
 
 ER図を簡易的に確認したいという要望があった為[[https://github.com/k1LoW/tbls][tbls]]を導入しました。
 main branchにschema.sqlの変更が加わったら[[https://github.com/OL001-isucon/isucon13/tree/dbdoc][ dbdoc branch]] にtblsが出力したdbdocを出力するGithub Actionsを作成しました。([[https://github.com/OL001-isucon/isucon13/blob/main/.github/workflows/db_tbls.yml][workflowはこちら]])
 
 事前にActionsを作っておけば当日何も対応する必要がないので、対応しといて損はなかったんじゃないでしょうか。
 
-** DONE Ansible運用
-CLOSED: [2023-12-13 Wed 10:34]
+** Ansible運用
 
 以下の3つのplaybookを作りベンチマークを安定的に回せるようにしていました。
 
@@ -142,8 +132,7 @@ https://github.com/OL001-isucon/isucon13/actions
 
 [[file:../../static/images/A4D32753-A8EE-4B7D-8686-87E64830029D.png]]
 
-*** DONE install_tools playbook
-CLOSED: [2023-12-13 Wed 10:24]
+*** install_tools playbook
 
 このplaybookを叩くと以下のツールと設定ファイルが全サーバに入るようにしています。
 叩くのは最初の１回だけですが、何度叩いても問題ないので間違って消した時でも安心設計にしています。
@@ -166,8 +155,7 @@ CLOSED: [2023-12-13 Wed 10:24]
   - tig
   - htop
 
-*** DONE before_bench playbook
-CLOSED: [2023-12-13 Wed 10:25]
+*** before_bench playbook
 
 ベンチマークを回す上で必要な前処理を纏めたplaybookを準備しました。
 
@@ -191,8 +179,7 @@ CLOSED: [2023-12-13 Wed 10:25]
   ansible-playbook -i ./ansible/hosts.yml ./ansible/playbook/before_bench.yml --extra-vars "env=prod" --extra-vars "branch=main" --verbose
 #+end_src
 
-*** DONE after_bench playbook
-CLOSED: [2023-12-13 Wed 10:33]
+*** after_bench playbook
 
 ベンチマークを回した後のalpとpt-query-digestで出力したslow queryの結果をGitHubのissueにtimestampと共に貼りつけるshell scriptを用意しました。
 これにより、何時頃にどういうスコアだったのか、どこが重いのかというのをGitHubで管理することができ、コミュニケーションが円滑になりました。
@@ -229,8 +216,7 @@ CLOSED: [2023-12-13 Wed 10:33]
 
 [[file:../../static/images/9D26D0B6-89DE-4412-AFC3-30564E790079.png]]
 
-** DONE 監視体制
-CLOSED: [2023-12-13 Wed 10:35]
+** 監視体制
 
 [[https://www.netdata.cloud/][Netdata]]を使っているチームが多い中、今回練習が足りなくてちゃんと運用できないだろうという判断をした為、[[https://htop.dev/][htop]]を雑に使うという運用にしました。
 MySQLが支配的なのかAppが支配的なのかさえ最低限分かれば良いという結論になったので、高機能なツールを頑張って運用せずに、シンプルに[[https://htop.dev/][htop]]で確認するので良いだろうという結論になりました。
@@ -260,15 +246,30 @@ MySQLが支配的なのかAppが支配的なのかさえ最低限分かれば良
 手順書を再度読み頭の中でシミュレーションを繰り返し行いました。
 
 ** 10:00〜 開始
+
 開始の合図直後に @noko がCloudFormationを流してip addressをslackで共有してもらいました。
-速攻で全台にsshしてちゃんと入れることを確認し、 =~/.ssh/config= を共有。
+速攻で全台にsshできることを確認し、 =~/.ssh/config= を共有しました。
+
+#+begin_src conf
+  Host isucon-1
+    HostName <ip address>
+    User isucon
+
+  Host isucon-2
+    HostName <ip address>
+    User isucon
+
+  Host isucon-3
+    HostName <ip address>
+    User isucon
+#+end_src
 
 ** 10:10〜 リポジトリ初期化
 
-- .gitconfigを用意する
+- =.gitconfig= を用意する
 - =isucon-1= 内で =git init= して必要なソースコードをGitHubに上げる
 - 手元に =git clone= をする
-- .editorconfigを用意する
+- =.editorconfig= を用意する
 - 事前に用意した =ansible/= と =.github/= をcopyする
 - project名を一括置換する
 
@@ -282,11 +283,11 @@ MySQLが支配的なのかAppが支配的なのかさえ最低限分かれば良
 
 GitHub Actions経由でAnsibleを流せるように調整しました。
 
-- hosts.ymlを修正する
-- .github/actions/ssh_keyscan/action.yml の ip address を修正する
+- =hosts.yml= を修正する
+- [[https://github.com/OL001-isucon/isucon13/blob/main/.github/actions/ssh_keyscan/action.yml][.github/actions/ssh_keyscan/action.yml]] の ip address を修正する
 - ansible内のssh keyを差し替える
-- GitHub Actions上で .github/workflows/sandbox_all.yml が動くか確認する
-- GitHub Actions上で .github/workflows/install_tools.yml を動かす
+- GitHub Actions上で [[https://github.com/OL001-isucon/isucon13/blob/main/.github/workflows/sandbox_all.yml][.github/workflows/sandbox_all.yml]] を動かして疏通確認する
+- GitHub Actions上で [[https://github.com/OL001-isucon/isucon13/blob/main/.github/workflows/install_tools.yml][.github/workflows/install_tools.yml]] を動かす
 - isucon-2/isucon-3に入って =ssh -T git@github.com= をたたく
 
 ** 10:20〜 インフラ確認
@@ -300,6 +301,7 @@ GitHub Actions経由でAnsibleを流せるように調整しました。
 
 あらかじめMigrationの仕組みを用意していたので、その為の準備をしました。
 ついでに [[https://github.com/k1LoW/tbls][tbls]] でDBドキュメントが正常に生成されていることを確認した。
+
 https://github.com/OL001-isucon/isucon13/tree/dbdoc
 
 - 接続情報をREADME.mdに書く
@@ -315,13 +317,13 @@ nginxのdev/prod用の設定を両方用意してansibleで流し分けられる
 - =nginx.conf= と =sites-enabled/* =の初期値を =git commit= する
 - =nginx.dev.conf= のlog_formatを修正する
 - =sites-enabled/*.dev.conf= を =sites-enabled/*.prod.conf= にcopyする
-- before_benchのnginxの設定を修正する
+- before_bench の nginxの設定を修正する
 
 alpはcopilotで生成できるので @noko に予め対応してもらいました。
 
 ** 10:31〜 Go初期作業
 
-後述しますが今回の場合envをcommitしてはいけなかった。
+後述しますが、今回の場合envをcommitしてはいけなかったです。
 
 - envをenv.devとenv.prodを用意する
 - =webapp/go/Makefile= を作成する
@@ -329,10 +331,11 @@ alpはcopilotで生成できるので @noko に予め対応してもらいまし
 
 ** 10:33〜 before_bench/after_bench実行環境準備
 
-複数台構成用にenv.devとenv.prodを用意していたのだが、EC2起動時にenvを書き換える処理があったようなのでベンチマークが回らないという問題が起きてしまった。
-再起動すると治るということは序盤に分かったのでアプリケーション担当にはベンチ前にrebootしてくれというお願いをして応急対応し、ちゃんと調査をした結果envをcommitしないという方針にした。
+複数台構成用に =env.dev= と =env.prod= を用意していたのだが、EC2起動時にenvを書き換える処理があったようなのでベンチマークが回らないという問題が起きてしまいました。
 
-これのせいで2時間程度潰れてしまった。
+再起動すると治るということは序盤に分かったのでアプリケーション担当にはベンチ前にrebootしてくれというお願いをして応急対応し、ちゃんと調査をした結果、envをそもそもcommitしないという方針にしました。
+
+これのせいで2時間程度潰れてしまいました。
 
 - isucon-2/isucon-3に入って =git pull= できる状態にする
 - GitHub Actions上でisucon-3に =.github/workflows/before_bench_specific.yml= を実行
@@ -346,10 +349,10 @@ alpはcopilotで生成できるので @noko に予め対応してもらいまし
 
 ** 12:26〜 Local DB環境構築
 
-- docker-compose.ymlを用意して =docker compose up= する
+- [[https://github.com/OL001-isucon/isucon13/blob/main/docker-compose.yml][docker-compose.yml]] を用意して =docker compose up= する
 - 本番DBからmysqldumpしてscpで持ってくる
 - docker dbに流し込む
-- 手順書を =README.md= にまとめる
+- 手順書を [[https://github.com/OL001-isucon/isucon13/blob/main/README.md#local%E7%92%B0%E5%A2%83][README.md]] にまとめる
 
 ** 12:30〜 改善作業
 
@@ -366,7 +369,7 @@ alpはcopilotで生成できるので @noko に予め対応してもらいまし
 - isucon-3に権限付与
 - isucon-1/isucon-2から疏通ができるか確認
 
-** 14:03 〜 14:23 昼食
+** 14:03〜14:23 昼食
 
 ベンチマーカーが障害を起こしていてどうしようもなかったので昼食にしました。
 
@@ -421,43 +424,43 @@ alpはcopilotで生成できるので @noko に予め対応してもらいまし
 
 ** 17:30〜18:00 1台構成と2台構成の両方をベンチ回してスコアの高い方を提出
 
-結局1台構成で提出した。
+結局1台構成で提出しました。
 
 * 振り返り
 ** 良かったこと
 *** 事前に立てた目標をクリアできた
 
-2つの目標をちゃんとクリアできて、無事ISUCONを終了することができて良かったです。
+事前に掲げていた2つの目標をちゃんとクリアできて、無事ISUCONを終了することができて良かったです。
 
 - どのような形であれ確実に提出し失格にならないようにする
 - アプリケーション担当が完全にアプリケーションに集中できる環境作りをする
 
+アプリケーション担当の2人との役割分担は相当ちゃんと出来ていて、トラブルシューティングは自分がやるという取り決めが上手く回ってよかったです。
+普段一緒に仕事してるのもあって、コミュニケーション面は最高にうまくいきました。
+
 *** 事前に練習したことを100%生かせた
 
-事前に準備していたansibleや開発フローを滞りなく運用することができた。
-手順書をちゃんと作れていたので初期の作業を滞りなく行うことができた。
+事前に準備していたansibleや開発フローを滞りなく運用することができました。
+また、手順書をちゃんと作れていたので初期作業を滞りなく行うことができました。
 
-途中env回りで詰まってしまったが、ちゃんと自分なりに筋道立てて解決できた。
-
-*** 最高のチームワークを発揮できた
-
-普段一緒に仕事してるのもあって、コミュニケーション面は最高にうまくいった。
-途中ちょこちょこトラブルがあったが、役割分担がちゃんと出来ていたので都度解決できたのが最高だった。
-最高に楽しかった。
+途中env回りで詰まってしまったが、チーム全員で連携して筋道立てて解決できたのは本当に良かったです。
 
 ** 反省点
+*** 純粋に練習時間が足りなかった
+
+ISUCONがこんなに楽しいものなのかと心から理解したのが11月中旬だったので、もっと早く楽しいイベントだと気がつきたかったです。
+初心者が一番最初にやるべきなのは過去問の通し練習なのかもしれないですね。
+
 *** お題がどういうものなのか何を改善すべきなのか何も分からずに終わってしまった
 
-上述のタイムテーブルを見て分かる通り、自分は全然アプリケーション面に触れておらず、一体何がどうなっているのか一切分からないまま時間が過ぎてしまった。
+上述のタイムテーブルを見て分かる通り、自分は全然アプリケーション面に触れておらず、一体何がどうなっているのか一切分からないまま時間が過ぎてしまいました。
+本来ならPowerDNSをどうにかしたり、複数台構成の検証をもっとやるべきだったはずなのだが、実力不足で何もできなかったです。
 
-*** ツールの整備に改善の余地がある
+*** ツールの整備や監視体制をもっと整えたい
 
-まだまだツールを最適化していきたい。
-ansibleがとにかく遅すぎるので別のツールを検討したい。
+before_bench/anfter_bench playbook運用は非常に良い仕組みだったが、ansibleがそもそも重すぎて改善が回しにくかったり、もっと色々なメトリクスを見れるようにしたい等課題が見えてきました。
 
-*** 監視体制やログ基盤を整えたい
-
-今回はhtopで雑に管理していたが、次回はGrafanaとかを使いたい。
+[[https://trap.jp/post/2046/][ISUCON13にツールの力で勝ちたかった(mazrean)]] と同等の環境をアプリケーション担当に提供してあげたかったという反省があるので、来年は最高の体験を提供できるように整えていきたいです。
 
 * 終わりに
 本当に楽しかったので来年もまたこのメンバーで出たい。青春だった。
