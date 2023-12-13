@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       46342277-7D09-450D-8015-C1588A994EFF
-:mtime:    20231213111847
+:mtime:    20231213112303
 :ctime:    20231212144218
 :END:
 #+TITLE: ISUCON13にチームOL001として参加しました(インフラ編)
@@ -65,7 +65,7 @@ ISUCONには長年出てみたかったんですが、チームメンバーが�
 * 事前練習
 ** 練習時間
 
-10/13(Fri)から11/25(Sat)まで約1ヶ月、80時間程度練習に費しました。
+2023/10/13(Fri)から2023/11/25(Sat)まで約1ヶ月、80時間程度練習に費しました。
 
 本来ならほぼ毎日21〜23時の2時間の練習があったのですが、朝型の自分的には少々厳しくサボりがちになってしまいました。
 
@@ -105,7 +105,7 @@ https://raw.githubusercontent.com/OL001-isucon/isucon13/main/isucon13.org
 ** DB Migration運用
 
 アプリケーション担当が2人いるので作業コンフリクトを起こさない為にもDB Migrationを作る必要がありました。
-Laravelのように動的にMigrationを定義するものではなく、[[https://github.com/ridgepole/ridgepole][Ridgepole]]のように宣言的にschemaを定義できる仕組みのほうがチーム内でしっくりくるという結論になったので、[[https://github.com/sqldef/sqldef][sqldef]]を選定しました。
+Laravelのように動的にMigrationを定義するものではなく、[[https://github.com/ridgepole/ridgepole][Ridgepole]]のように宣言的にスキーマを定義できる仕組みのほうがチーム内でしっくりくるという結論になったので、[[https://github.com/sqldef/sqldef][sqldef]]を選定しました。
 
 sqldefはmysql用の[[https://github.com/sqldef/sqldef?tab=readme-ov-file#mysqldef][mysqldef]]だけでなく、sqliteやpostgresqlにも対応しており、何がミドルウェアとして提供されているか分からないISUCONのようなケースにぴったりでした。
 mysqldefで =schema.sql= を出力してGitHubで管理しつつ、ansibleでMigrationを流せるようにすることによって、一切トラブルなくMigrationを走らせることができました。
