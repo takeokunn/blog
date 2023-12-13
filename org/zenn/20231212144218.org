@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       46342277-7D09-450D-8015-C1588A994EFF
-:mtime:    20231213082901
+:mtime:    20231213090355
 :ctime:    20231212144218
 :END:
 #+TITLE: ISUCON13にチームOL001として参加しました(インフラ編)
@@ -13,11 +13,11 @@
 #+GFM_CUSTOM_FRONT_MATTER: :published false
 #+STARTUP: content
 #+STARTUP: fold
+#+OPTIONS: ^:nil
 #+OPTIONS: toc:nil
 * Introduction
 
 この記事は、[[https://qiita.com/advent-calendar/2023/openlogi][OPENLOGI Advent Calendar 2023]] の13日目の記事です。
-https://qiita.com/advent-calendar/2023/openlogi
 
 ISUCON13にチームOL001のインフラ担当として参加してきました。
 最高スコアは20,572、最終スコアは19,151で、[[https://isucon.net/archives/57993937.html][ISUCON13 受賞チームおよび全チームスコア]] 全694チーム中108位でした。
@@ -25,6 +25,7 @@ ISUCON13にチームOL001のインフラ担当として参加してきました�
 当記事ではインフラ担当としての事前準備と当日対応したことについて書いていきます。
 
 アプリケーション担当の記事は[[https://zenn.dev/nokoy/articles/baed50e2a28bfa][ こちら]] です。
+
 https://zenn.dev/nokoy/articles/baed50e2a28bfa
 
 * チームメンバー
@@ -61,7 +62,7 @@ ISUCONには長年出てみたかったんですが、チームメンバーが�
 なのでアプリケーションの改善を確実に回せるような運用フローを整えるのが自分の役割だと考えていました。
 
 * 事前練習
-** 練習期間/練習時間
+** 練習時間
 
 10/13(Fri)から11/25(Sat)まで約1ヶ月、80時間程度練習に費しました。
 本来ならほぼ毎日21〜23時の2時間の練習があったのですが、朝型の自分的には少々厳しくサボりがちになってしまいました。
@@ -91,7 +92,7 @@ ISUCONには長年出てみたかったんですが、チームメンバーが�
 ** 手順書
 
 2回の通し練習で如何に手順書というものが大事なのか痛感させられたので詳細に作りました。
-予めssh keyを用意してGitHubに登録しておいたり、ansibleを流すタイミングやmigrationフローを作成するタイミングなどを明確に書くことによって、本番で焦らずに構築することが可能になりました。
+あらかじめssh keyを用意してGitHubに登録しておいたり、ansibleを流すタイミングやmigrationフローを作成するタイミングなどを明確に書くことによって、本番で焦らずに構築することが可能になりました。
 
 ** DB Migration運用
 
@@ -115,8 +116,7 @@ main branchにschema.sqlの変更が加わったらdbdoc branchにtblsが出力�
 以下の3つのplaybookを作り、手元からでもGitHub Actionsからでも流せるようにしました。
 基本は手元から流す運用にしていましたが、GitHub Actionsから流すことによっておま環問題が発生することを防ぐことができました。
 
-*** DONE install_tools playbook
-CLOSED: [2023-12-12 Tue 20:58]
+*** install_tools playbook
 
 このplaybookを叩くと以下のツールと設定ファイルが全サーバに入るようにしています。
 叩くのは最初の１回だけですが何度叩いても問題ないので、うっかり消しちゃった時でも安心設計にしています。
@@ -139,8 +139,7 @@ CLOSED: [2023-12-12 Tue 20:58]
   - tig
   - htop
 
-*** DONE before_bench playbook
-CLOSED: [2023-12-12 Tue 21:12]
+*** before_bench playbook
 
 ベンチマークを回す上で必要な前処理を纏めたplaybookを準備しました。
 
@@ -164,8 +163,7 @@ CLOSED: [2023-12-12 Tue 21:12]
   ansible-playbook -i ./ansible/hosts.yml ./ansible/playbook/before_bench.yml --extra-vars "env=prod" --extra-vars "branch=main" --verbose
 #+end_src
 
-*** DONE after_bench playbook
-CLOSED: [2023-12-12 Tue 21:13]
+*** after_bench playbook
 
 ベンチマークを回した後のalpとpt-query-digestで出力したslow queryの結果をGitHubのissueにtimestampと共に貼りつけるshell scriptを用意しました。
 これにより、何時頃にどういうスコアだったのか、どこが重いのかというのをGitHubで管理することができ、コミュニケーションが円滑になりました。
@@ -211,31 +209,25 @@ MySQLが支配的なのかappが支配的なのかさえ最低限分かれば良
 初心者がベテランに唯一勝てることは「体調の良さ」です。
 体調だけは万全にして挑もうということで銭湯に行きゆっくり温泉に漬かり、明日の作戦会議を軽くして日付変わる前に寝ました。
 
-#+begin_export html
-<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">明日に備えてそろそろ寝ます</p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1728063631680819235?ref_src=twsrc%5Etfw">November 24, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-#+end_export
+@[tweet](https://twitter.com/takeokunn/status/1728063631680819235)
 
 ** 07:30〜 起床
 
 集合時間まで2時間くらいあったので、軽く身体を動かして頭が働くように調整していました。
 
-#+begin_export html
-<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">朝から部屋の掃除して散歩しスーパーで昼飯買ってきた</p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1728205067080393004?ref_src=twsrc%5Etfw">November 25, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-#+end_export
+@[tweet](https://twitter.com/takeokunn/status/1728205067080393004)
 
 ** 09:30〜 チーム集合
 
 無事全員寝坊せずに集まることができて、今日どんな問題が出るかなーといった雑談をしながらyoutubeの配信を見ていました。
 
-#+begin_export html
-<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">はじまった <a href="https://t.co/4EpnYyAFld">pic.twitter.com/4EpnYyAFld</a></p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1728211961681510599?ref_src=twsrc%5Etfw">November 25, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-#+end_export
+@[tweet](https://twitter.com/takeokunn/status/1728211961681510599)
 
 手順書を再度読み頭の中でシミュレーションを繰り返し行いました。
 
 ** 10:00〜 開始
 開始の合図直後に @noko がCloudFormationを流してip addressをslackで共有してもらいました。
-速攻で全台にsshしてちゃんと入れることを確認し、 `~/.ssh/config` を共有。
+速攻で全台にsshしてちゃんと入れることを確認し、 =~/.ssh/config= を共有。
 
 ** 10:10〜 リポジトリ初期化
 
@@ -249,7 +241,7 @@ MySQLが支配的なのかappが支配的なのかさえ最低限分かれば良
 一括置換は以下のようなscriptで雑に置換しました。
 
 #+begin_src shell
-  find ansible/ -type f | xargs sed -i "" -e "s/isucondition/isupipe/g"
+  $ find ansible/ -type f | xargs sed -i "" -e "s/isucondition/isupipe/g"
 #+end_src
 
 ** 10:15〜 Ansible初期作業
