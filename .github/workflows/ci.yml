@@ -8,7 +8,17 @@ on:
       - zenn
 
 jobs:
-  lint:
+  actionlint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Run actionlint
+        run: |
+          bash <(curl https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash)
+          ./actionlint -color
+
+  npm-lint:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -26,9 +36,3 @@ jobs:
         run: npm run lint:textlint
       - name: Run secretlint
         run: npm run lint:secret
-
-      # check by actionlint
-      - name: Run actionlint
-        run: |
-          bash <(curl https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash)
-          ./actionlint -color
