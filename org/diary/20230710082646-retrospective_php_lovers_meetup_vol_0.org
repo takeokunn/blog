@@ -16,7 +16,7 @@
 #+STARTUP: nohideblocks
 * Introduction
 
-2023/07/10(Mon)に行われた「PHP Lovers Meetup vol.0 ~ はじまりは<?phpから」に参加しました。
+2023/07/10（Mon）に行われた「PHP Lovers Meetup vol.0 ~ 始まりは<?phpから」に参加しました。
 
 - connpass
   - https://php-lovers-meetup.connpass.com/event/280822/
@@ -54,7 +54,7 @@ matthieunapoli氏はphperであってsysadminではないのでserverlessを選�
 <blockquote class="twitter-tweet"><p lang="ja" dir="ltr">俺がbusyな時もコンテナみたいに自分が追加されないかな</p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1678349461557497857?ref_src=twsrc%5Etfw">July 10, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 #+end_export
 
-=composer create-project= からlaravel構築し数分でdeployが完了する世界観は素晴しいですね。
+=composer create-project= からlaravel構築し数分でdeployが完了する世界観はすばらしいですね。
 しかもECSよりも格段に安いというのは魅力的です。
 
 PHPStanのplaygroundもBrefで動いているというのは初耳でした。
@@ -74,7 +74,7 @@ PHPStanのplaygroundもBrefで動いているというのは初耳でした。
 <blockquote class="twitter-tweet"><p lang="ja" dir="ltr">え、サーバレスを全てワンオペしている私を解雇ですか？ <a href="https://twitter.com/hashtag/phplovers?src=hash&amp;ref_src=twsrc%5Etfw">#phplovers</a></p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1678365395709997062?ref_src=twsrc%5Etfw">July 10, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 #+end_export
 
-本番デバッグする時どうしてるのかと言われたらログを見るかSentryのようなツールを入れるかという選択になるのはまーそうだよなという感じでした。
+本番デバッグする時どうしているのかといわれたらログを見るかSentryのようなツールを入れるかという選択になるのはまーそうだよなという感じでした。
 
 * 懇親会
 
@@ -84,7 +84,7 @@ PHPStanのplaygroundもBrefで動いているというのは初耳でした。
 <blockquote class="twitter-tweet"><p lang="ja" dir="ltr">hanhanさんに自己破産を勧められて良い日だった</p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1678402753343700994?ref_src=twsrc%5Etfw">July 10, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 #+end_export
 
-げんえいさんと話してて、カオナビ社はPHPStanのlevelを5に上げたということを聞いてしまい、自分の会社のプロダクトも負けてられないという気持ちが高まりました。
+げんえいさんと話して、カオナビ社はPHPStanのlevelを5に上げたということを聞いてしまい、自分の会社のプロダクトも負けてられないという気持ちが高まりました。
 
 #+begin_export html
 <blockquote class="twitter-tweet"><p lang="ja" dir="ltr">カオナビさんのphpstanのlevelが5になったという話を聞いて負けてられない!!!!!!!!!!!!という熱い思いが芽生えた</p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1678418964915933192?ref_src=twsrc%5Etfw">July 10, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -100,7 +100,7 @@ PHPStanのplaygroundもBrefで動いているというのは初耳でした。
 
 * 感想
 
-登壇してくれた御二方は勿論のこと、素晴しいイベントを企画していただいた [[https://twitter.com/chatii][@chatii]] 氏、 [[https://twitter.com/tadsan][@tadsan]] 氏、 [[https://twitter.com/hanhan1978][@hanhan1978]] 氏に本当には感謝しています。
-結局将来的にサーバレスが世界を席巻するんだろうなとBrefの話を聞いてて本気で思ったので、少しずつ勉強していかなければなと思わされました。
+登壇してくれた御二方はもちろんのこと、すばらしいイベントを企画していただいた [[https://twitter.com/chatii][@chatii]] 氏、 [[https://twitter.com/tadsan][@tadsan]] 氏、 [[https://twitter.com/hanhan1978][@hanhan1978]] 氏に本当には感謝しています。
+結局将来的にサーバレスが世界を席巻するんだろうなとBrefの話を聞いて本気で思ったので、少しずつ勉強していかなければなと思わされました。
 
 PHP Lovers Meetup続編期待しています。

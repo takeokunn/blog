@@ -17,7 +17,7 @@
 
 [[https://qiita.com/advent-calendar/2022/emacs][Emacs Advent Calendar 2022]] 19日目です。
 
-[[https://qiita.com/advent-calendar/2022/vim][Vim Advent Calendar 2022]] 3日目の [[https://qiita.com/delphinus/items/fb905e452b2de72f1a0f][爆速で起動する Neovim を作る]] に触発されて、「自分もEmacs版を書くぞ!」ということで書いていきます。
+[[https://qiita.com/advent-calendar/2022/vim][Vim Advent Calendar 2022]] 3日目の [[https://qiita.com/delphinus/items/fb905e452b2de72f1a0f][爆速で起動する Neovim を作る]] に触発されて、「自分もEmacs版を書くぞ！」ということで書いていきます。
 
 なお、VimとEmacsの比較をし易くするためになるべく文章の構成を寄せて書くことをご了承ください。
 
@@ -25,7 +25,7 @@
 
 「Emacsを高速に起動する」ということに対して、多くのEmacsユーザーは興味がありません。
 本来Emacsというのは常に起動し続けるものであり、必要に応じてEmacs Lispを適用し、テキストエディタをカスタマイズしていくものです。
-現に「Emacs, 起動, 高速化」と検索すると、「4000msを1000msにした」のような秒単位での高速化の記事ばかりみつかります。
+現に「Emacs, 起動、 高速化」と検索すると、「4000msを1000msにした」のような秒単位での高速化の記事ばかりみつかります。
 
 もしあなたが設定を変えずに手軽に高速に起動したい場合は ~emacs --daemon~ でdaemonを立ち上げ、 ~emacsclient~ でつなぐようにすれば良いでしょう。
 私は他人のdotfilesを読むのが趣味なのですが、多くのEmacsユーザーは ~EDITOR=emacsclient~ と設定しています。

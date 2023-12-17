@@ -74,7 +74,7 @@ var request = new XMLHttpRequest();
 
 ~XMLHttpRequest~ を使っているのが確認できた。
 
-さて、Cookieの扱い方はどうなっているだろうか? ググったら ~withCredentials~ を使えって書いてある。
+さて、Cookieの扱い方はどうなっているだろうか？　ググったら ~withCredentials~ を使えって書いてある。
 
 実際にコード読んでみるとこんな記述がある。
 

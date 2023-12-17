@@ -29,7 +29,7 @@ B: ./node_module/.bin/eslint --debug app/javascript/**/*.{vue,ts}
 }
 #+end_example
 
-~A~ と ~B~ で同じコードを実行しているはずなのでなぜか違う結果を吐き出すのだ. ~local~ では ~eslint~ が通るけど ~circleci~ ではコケる、といった問題が起きていて困っていた。
+~A~ と ~B~ で同じコードを実行しているはずなのでなぜか違う結果を吐き出すのだ。 ~local~ では ~eslint~ が通るけど ~circleci~ ではコケる、といった問題が起きていて困っていた。
 
 ちなみに、 ~eslint --debug~ で実行ログをみることができる。
 
@@ -51,7 +51,7 @@ glob）とは主にUnix系環境において、ワイルドカードでファイ
 - shellでglobが解釈される
 - npmのglobで解釈される
 
-macの標準のshellは ~bash~ なのだが、これだとうまくglobを評価してくれないのだ.一方、circleciのコンテナのshellは ~busybox~ だったのでうまくglobを評価してくれた。
+macの標準のshellは ~bash~ なのだが、これだとうまくglobを評価してくれないのだ。一方、circleciのコンテナのshellは ~busybox~ だったのでうまくglobを評価してくれた。
 
 つまり、macではちゃんと動いていなかっただけだったのだ。
 

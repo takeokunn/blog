@@ -17,11 +17,11 @@
 * Introduction
 
 仕事でPHPStanの修正をしている時、 =Exception= classのconstructorでcodeを指定しているコードに出くわした。
-=Exception= におけるcodeの扱いについて記述してる記事がなかったので [[https://github.com/php/php-src][php/php-src]] のコードにあたってみた。
+=Exception= におけるcodeの扱いについて記述している記事がなかったので [[https://github.com/php/php-src][php/php-src]] のコードにあたってみた。
 
 * 簡易的な調査
 ** Interface定義
-php.netのUser Contributed Notesに以下のような記述がある。(14年前)
+php.netのUser Contributed Notesに以下のような記述がある。(14年前）
 https://www.php.net/manual/en/language.exceptions.php#91159
 
 #+begin_src php
@@ -43,7 +43,7 @@ https://www.php.net/manual/en/language.exceptions.php#91159
   }
 #+end_src
 
-=code= とは =User-defined Exception code= と書いてある通り、ユーザ側が任意の数値を入れられるものである。
+=code= とは =User-defined Exception code= と書いてある通り、ユーザー側が任意の数値を入れられるものである。
 
 PHPStanを実行すると以下のような型として認識されているようだ。
 
@@ -133,7 +133,7 @@ Exceptionが提供しているmethodは =getCode= のみ。
 #+end_src
 
 #+RESULTS:
-: int(10)
+: int（10）
 
-phpunitでcodeを元にexcepionする関数 =TestCase#expectExceptionCode= が生えているのでテスト時に使えそう。
-https://github.com/sebastianbergmann/phpunit/blob/main/src/Framework/TestCase.php#L430-L433
+PHPUnitでcodeを元にexcepionする関数 =TestCase#expectExceptionCode= が生えているのでテスト時に使えそう。
+https://github.com/sebastianbergmann/PHPUnit/blob/main/src/Framework/TestCase.php#L430-L433

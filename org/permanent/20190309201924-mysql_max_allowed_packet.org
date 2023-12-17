@@ -45,7 +45,7 @@ Railsで書かれている対象のコードを読んだのだが、まったく
 
 ~longtext~ は ~最長4,294,967,295、または4GB (232 - 1) バイト~ と非常にsizeが大きい。
 
-参考: [[https://www.dbonline.jp/mysql/type/index6.html][BLOB型とTEXT型(DB Online)]]
+参考： [[https://www.dbonline.jp/mysql/type/index6.html][BLOB型とTEXT型(DB Online)]]
 
 MySQLのclientがserver投げられる最大のデータ量はどのくらいだろうか。
 

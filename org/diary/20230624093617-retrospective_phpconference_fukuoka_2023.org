@@ -16,10 +16,10 @@
 #+STARTUP: nohideblocks
 * Introduction
 
-2023/6/24(土)に行われたphpconference福岡に参加してきました。
+2023/6/24(土）に行われたphpconference福岡に参加してきました。
 https://phpcon.fukuoka.jp/2023/
 
-今回は 2023/6/23(金)〜2023/6/26(月)の3泊4日の旅行でした。
+今回は2023/6/23(金）〜2023/6/26(月）の3泊4日の旅行でした。
 
 * TL;DR
 
@@ -52,7 +52,7 @@ https://phpcon.fukuoka.jp/2023/
 <blockquote class="twitter-tweet"><p lang="ja" dir="ltr">νガンダムを見れたし福岡旅行完！！<br>お疲れ様でした！！</p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1672132809006419969?ref_src=twsrc%5Etfw">June 23, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 #+end_export
 
-ららぽーとから宿に向かう途中、知らない不動産勧誘の人から煽られるなどのランダムイベントがありました。
+ららぽーとから宿に向かう途中、知らない不動産勧誘の人からあおられるなどのランダムイベントがありました。
 
 #+begin_export html
 <blockquote class="twitter-tweet"><p lang="ja" dir="ltr">不動産勧誘「おにいさんちょっといいですか?」<br>俺「なんすか?」<br>不「正社員で年収300万以上だったりします?」<br>俺「俺フリーターすけど...(嘘」<br>不「あーーーやっぱりかーーーーすんません大丈夫っす」<br><br>何が「やっぱり」だよふざけんなって福岡初日キレてた</p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1673665483114004484?ref_src=twsrc%5Etfw">June 27, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -64,7 +64,7 @@ https://phpcon.fukuoka.jp/2023/
 <blockquote class="twitter-tweet"><p lang="ja" dir="ltr">今晩の宿です<br>対戦よろしくお願いします <a href="https://t.co/uDQfvJA8sw">pic.twitter.com/uDQfvJA8sw</a></p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1672173040078290944?ref_src=twsrc%5Etfw">June 23, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 #+end_export
 
-大浴場に脱衣場がなく、宿内は半裸で歩いてるおじさんだらけで「これが安宿か...!」と思わされました。
+大浴場に脱衣場がなく、宿内は半裸で歩いているおじさんだらけで「これが安宿か。..!」と思わされました。
 
 #+begin_export html
 <blockquote class="twitter-tweet"><p lang="ja" dir="ltr">脱衣場がない脱衣所がない言ってるけどまじでこんな感じの間取り <a href="https://t.co/B9ArYX5VcH">pic.twitter.com/B9ArYX5VcH</a></p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1672776891496022017?ref_src=twsrc%5Etfw">June 25, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -76,7 +76,7 @@ https://phpcon.fukuoka.jp/2023/
 <blockquote class="twitter-tweet"><p lang="ja" dir="ltr">昨日撮った博多の自販機 <a href="https://t.co/kJJlWwol8u">pic.twitter.com/kJJlWwol8u</a></p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1672548570745167872?ref_src=twsrc%5Etfw">June 24, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 #+end_export
 
-ちなみに会社で「人権がない宿泊まってる」ということを言ったら、以下のような話をされて「お前の泊まった宿は十分に人権がある」ということをつきつけられました。
+ちなみに会社で「人権がない宿泊まっている」ということを言ったら、以下のような話をされて「お前の泊まった宿は十分に人権がある」ということをつきつけられました。
 
 - ロドス島からアテネ行きの船に乗った時に、甲板の上で12時間過ごす。船の上で一晩過ごす必要があり、ラウンジで寝てようと思ったら、そのチケットでは入れないといわれて、追い出された。夜の気温が10度以下で、めっちゃつらかった。
 - 福岡空港最寄りのドミトリー、普通の二段ベッドとカーテンで仕切られているだけの刑務所仕様。そして夜は爆音いびきのハーモニー。
@@ -85,25 +85,25 @@ https://phpcon.fukuoka.jp/2023/
 
 ** 前夜祭
 
-「(非公式)PHPカンファレンス福岡 前夜祭」に主催者側として参加しました。
+「(非公式）PHPカンファレンス福岡前夜祭」に主催者側として参加しました。
 https://connpass.com/event/282285/
 
 主催者といっても、LINE福岡の皆様が全部やってくれたので、ピザを運ぶ程度しかしてないです。本当にありがとうございました。
 
-イベントは以下の3本柱で行なわれていました。
+イベントは以下の3本柱で行われていました。
 
 - IRT
 - LT
 - 懇親会
 
-IRTでは「会社でやってる業務の話」や「静的解析について」などを話しました。
-社内自作FWを使ってWeb開発をしてる話とか、PHPStan導入に苦労してる話などをしました。
+IRTでは「会社でやっている業務の話」や「静的解析について」などを話しました。
+社内自作FWを使ってWeb開発をしている話とか、PHPStan導入に苦労している話などをしました。
 
 LTでは「スクラムについて」「巨大なソースコードの読み方について」「勉強会への熱意について」を聞いていました。
 自分は勉強会に対してあまり熱量が高い方ではないので、ただただ凄さに圧倒されました。
 
-懇親会ではhanhanに「今週のphpについて期待してますよ!」と圧をかけられてよかったです。
-いつも応援してますよ!!!
+懇親会ではhanhanに「今週のphpについて期待してますよ！」と圧をかけられてよかったです。
+いつも応援してますよ！!!
 https://zenn.dev/hanhan1978
 
 * 2日目 カンファレンス当日
@@ -115,8 +115,8 @@ PHPカンファレンス福岡は福岡ファッションビルで行われま�
 <blockquote class="twitter-tweet"><p lang="qme" dir="ltr"><a href="https://twitter.com/hashtag/phpconfuk?src=hash&amp;ref_src=twsrc%5Etfw">#phpconfuk</a> <a href="https://t.co/irp4ct2G7w">pic.twitter.com/irp4ct2G7w</a></p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1672409003471831040?ref_src=twsrc%5Etfw">June 24, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 #+end_export
 
-会場はかなり広く、沢山の人が来ていました。
-会場内にwifiがなくて少々苦労しましたがスマホのテザリングを駆使してなんとかなりました。格安SIMユーザには辛いですね。
+会場はかなり広く、たくさんの人が来ていました。
+会場内にwifiがなくて少々苦労しましたがスマートフォンのテザリングを駆使してなんとかなりました。格安SIMユーザーにはつらいですね。
 
 ちなみに目の前にあるラーメン屋の[[http://www.hakata-issou.com/][一双]]は常に混んでいました。
 ** 推し登壇
@@ -129,9 +129,9 @@ https://fortee.jp/phpconfukuoka-2023/proposal/3c651de4-9926-453a-98d2-69b71bb194
 #+end_export
 
 感想を語るのもおこがましくなるほどあまりにも良い発表でした。
-レガシーコードを扱ってる人が全員読んでほしい登壇内容です。
+レガシーコードを扱っている人が全員読んでほしい登壇内容です。
 
-次のPHPカンファレンスでガッツリレガシーコードとの向き合い方について話すつもりなので楽しみにしててください。
+次のPHPカンファレンスでガッツリレガシーコードとの向き合い方について話すつもりなので楽しみにしてください。
 
 また、自分はただ「がんばるぞ」という気合と根性でしか働いてないことを実感しました。
 
@@ -145,8 +145,8 @@ https://fortee.jp/phpconfukuoka-2023/proposal/3c651de4-9926-453a-98d2-69b71bb194
 <iframe class="speakerdeck-iframe" frameborder="0" src="https://speakerdeck.com/player/c3e32de991514528bd0fc2f9fdda3026" title="The future of tbls and &quot;Documentation as Code&quot; / phpconfuk 2023" allowfullscreen="true" style="border: 0px; background: padding-box padding-box rgba(0, 0, 0, 0.1); margin: 0px; padding: 0px; border-radius: 6px; box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 40px; width: 100%; height: auto; aspect-ratio: 560 / 315;" data-ratio="1.7777777777777777"></iframe>
 #+end_export
 
-=Documentation as Code= は丁度自分の中でテーマだったので新ためて重要性を感じた。
-最近文芸的プログラミングについての長文ブログを書いているところだったので丁度良かったテーマだった。
+=Documentation as Code= はちょうど自分の中でテーマだったので新ためて重要性を感じた。
+最近文芸的プログラミングについての長文ブログを書いているところだったのでちょうど良かったテーマだった。
 
 k1Lowさんはorg-mode使わないのかなという疑問は残る。
 
@@ -183,7 +183,7 @@ https://fortee.jp/phpconfukuoka-2023/proposal/df5f06e8-900e-4e71-94d7-d0c3cc57a0
 <iframe class="speakerdeck-iframe" frameborder="0" src="https://speakerdeck.com/player/5ff1c1063e0a48598cc1c3a5c41d9d18" title="育成力 - エンジニアの才能を引き出す環境とチューターの立ち回り -" allowfullscreen="true" style="border: 0px; background: padding-box padding-box rgba(0, 0, 0, 0.1); margin: 0px; padding: 0px; border-radius: 6px; box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 40px; width: 100%; height: auto; aspect-ratio: 560 / 314;" data-ratio="1.78343949044586"></iframe>
 #+end_export
 
-新人研修が充実してて羨しかったです。
+新人研修が充実して羨しかったです。
 
 #+begin_export html
 <blockquote class="twitter-tweet"><p lang="ja" dir="ltr">初めて入った会社は1人目のエンジニアだったから教育されたことがない</p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1672433516280451074?ref_src=twsrc%5Etfw">June 24, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -193,7 +193,7 @@ https://fortee.jp/phpconfukuoka-2023/proposal/df5f06e8-900e-4e71-94d7-d0c3cc57a0
 
 https://blog.ichikaway.com/entry/2023/06/29/phpconfuk2023
 
-「裏の技術は高度に、画面はシンプルに」という言葉は素晴しいですね、実践していきたいです。
+「裏の技術は高度に、画面はシンプルに」という言葉はすばらしいですね、実践していきたいです。
 
 *** APIシナリオテストを書くべき10の理由 @_tutida_
 
@@ -207,8 +207,8 @@ runnを使ってyamlでAPIシナリオテストを作ることによってその
 <iframe class="speakerdeck-iframe" frameborder="0" src="https://speakerdeck.com/player/8efed2188f8c4cb59fbb385ab0addf7e" title="秒間 10,000 リクエストを &quot;簡単に&quot;いなすゲームサーバーを Laravel で作る設計" allowfullscreen="true" style="border: 0px; background: padding-box padding-box rgba(0, 0, 0, 0.1); margin: 0px; padding: 0px; border-radius: 6px; box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 40px; width: 100%; height: auto; aspect-ratio: 560 / 315;" data-ratio="1.7777777777777777"></iframe>
 #+end_export
 
-Eloquentはシャーディングができないから使わなかったと言ってて、確かにEloquentにそういう機能はなかったはずだなと思った。
-EloquentがないLaravelは本当にLaravelなのか...?と思わないことはないですね。
+Eloquentはシャーディングができないから使わなかったと言って、たしかにEloquentにそういう機能はなかったはずだなと思った。
+EloquentがないLaravelは本当にLaravelなのか。..?と思わないことはないですね。
 
 #+begin_export html
 <blockquote class="twitter-tweet"><p lang="ja" dir="ltr">テセウスのlaravel</p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1672486618694033408?ref_src=twsrc%5Etfw">June 24, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -250,8 +250,8 @@ https://fortee.jp/phpconfukuoka-2023/proposal/74aaf3b0-f7ba-484a-99ea-d8fba73fa2
 <blockquote class="twitter-tweet"><p lang="ja" dir="ltr">ラーメン美味しかった <a href="https://t.co/UZvpwA4zsU">pic.twitter.com/UZvpwA4zsU</a></p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1672450896377319424?ref_src=twsrc%5Etfw">June 24, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 #+end_export
 
-今回もk1Lowさんに今回もEmacs煽りができてよかったです。
-テキストエディタに対してやる気のないオジサンを煽るのが仕事になりつつあります。
+今回もk1Lowさんに今回もEmacsあおりができてよかったです。
+テキストエディタに対してやる気のないオジサンをあおるのが仕事になりつつあります。
 
 懇親会のような初対面の人が多い場所で立ち話をするのは難しいですね。上手になりたいです。
 
@@ -269,7 +269,7 @@ https://fortee.jp/phpconfukuoka-2023/proposal/74aaf3b0-f7ba-484a-99ea-d8fba73fa2
 
 ** 昼飯
 
-チェックアウトを11時くらいにしてダラダラ向かってたのですが、オススメされた店が定休日で右往左往しました。
+チェックアウトを11時くらいにしてダラダラ向かってたのですが、お勧めされた店が定休日で右往左往しました。
 
 #+begin_export html
 <blockquote class="twitter-tweet"><p lang="ja" dir="ltr">辛い <a href="https://t.co/oBppF7EaYt">pic.twitter.com/oBppF7EaYt</a></p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1672787847387189248?ref_src=twsrc%5Etfw">June 25, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -281,13 +281,13 @@ https://fortee.jp/phpconfukuoka-2023/proposal/74aaf3b0-f7ba-484a-99ea-d8fba73fa2
 <blockquote class="twitter-tweet"><p lang="ja" dir="ltr">ディズニーランドじゃん <a href="https://t.co/UBrYwPfOuC">pic.twitter.com/UBrYwPfOuC</a></p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1672789575771758592?ref_src=twsrc%5Etfw">June 25, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 #+end_export
 
-せっかくだし魚が食いたいなと思い、回転寿司に行きました。九州の醤油って甘いんですね、めちゃくちゃ美味しかったです。
+せっかくだし魚が食いたいなと思い、回転寿司にいきました。九州の醤油って甘いんですね、めちゃくちゃおいしかったです。
 
 #+begin_export html
 <blockquote class="twitter-tweet"><p lang="zxx" dir="ltr"><a href="https://t.co/1cbYSiy271">pic.twitter.com/1cbYSiy271</a></p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1672793555667156992?ref_src=twsrc%5Etfw">June 25, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 #+end_export
 
-全員[[https://www.hirao-foods.net/][天麩羅ひらお]]に行けと口を揃えて言ってたので、次回の遠征では行こうと思います。
+全員[[https://www.hirao-foods.net/][天麩羅ひらお]]に行けと口をそろえて言ってたので、次回の遠征では行こうと思います。
 
 #+begin_export html
 <blockquote class="twitter-tweet"><p lang="ja" dir="ltr">天ぷらです、天ぷら定食を食べるのです</p>&mdash; suzuki (@suzuki) <a href="https://twitter.com/suzuki/status/1672809054341840898?ref_src=twsrc%5Etfw">June 25, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -295,7 +295,7 @@ https://fortee.jp/phpconfukuoka-2023/proposal/74aaf3b0-f7ba-484a-99ea-d8fba73fa2
 
 ** エンジニアカフェ
 
-昼飯所を探しに散歩してた途中でエンジニアカフェを見つけたので、折角だしということで入りました。
+昼飯所を探しに散歩してた途中でエンジニアカフェを見付け足ので、せっかくだしということで入りました。
 https://engineercafe.jp/
 
 建物自体は県の文化財らしく、とてもオシャレでした。
@@ -312,7 +312,7 @@ https://engineercafe.jp/
 <blockquote class="twitter-tweet"><p lang="ja" dir="ltr">エンジニアカフェ来て九州ガチ解説してもらった <a href="https://t.co/NrfTtzqfLP">pic.twitter.com/NrfTtzqfLP</a></p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1672830904685953024?ref_src=twsrc%5Etfw">June 25, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 #+end_export
 
-福岡は食事は最高だけど観光地がないとみんな口を揃えて言っていてびっくりしました。
+福岡は食事は最高だけど観光地がないとみんな口をそろえて言っていてびっくりしました。
 時間的に北九州がなんだかんだ良いぞということで北九州に向かいました。
 
 #+begin_export html
@@ -340,7 +340,7 @@ https://engineercafe.jp/
 #+end_export
 
 小倉城観光してきました。
-最近のお城は解説コーナーが充実してて楽しいですね。
+最近のお城は解説コーナーが充実して楽しいですね。
 
 #+begin_export html
 <blockquote class="twitter-tweet"><p lang="zxx" dir="ltr"><a href="https://t.co/UV8RwViqUS">pic.twitter.com/UV8RwViqUS</a></p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1672896261752762370?ref_src=twsrc%5Etfw">June 25, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -350,7 +350,7 @@ https://engineercafe.jp/
 <blockquote class="twitter-tweet"><p lang="ja" dir="ltr">バキで見たやつだ！ <a href="https://t.co/CB4Op61HRL">pic.twitter.com/CB4Op61HRL</a></p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1672902374011330560?ref_src=twsrc%5Etfw">June 25, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 #+end_export
 
-急に海が見たくなったので小倉に行きました。
+急に海が見たくなったので小倉にいきました。
 
 #+begin_export html
 <blockquote class="twitter-tweet"><p lang="ja" dir="ltr">自分が今何をしたいのかよく分からないけど海を見たくなって小倉に来た</p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1672924423337418752?ref_src=twsrc%5Etfw">June 25, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -360,7 +360,7 @@ https://engineercafe.jp/
 <blockquote class="twitter-tweet"><p lang="ja" dir="ltr">フェリーだー <a href="https://t.co/1s0xwddAWk">pic.twitter.com/1s0xwddAWk</a></p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1672925780932980737?ref_src=twsrc%5Etfw">June 25, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 #+end_export
 
-北九州を散歩してたんですが、高度北九州人材が沢山歩いていて「これが北九州か....! 両親が育った街か....!」となりました。
+北九州を散歩してたんですが、高度北九州人材がたくさん歩いていて「これが北九州か。...! 両親が育った街か。...!」となりました。
 
 #+begin_export html
 <blockquote class="twitter-tweet"><p lang="ja" dir="ltr">北Q <a href="https://t.co/kqhgbGzuXK">pic.twitter.com/kqhgbGzuXK</a></p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1672930291374235648?ref_src=twsrc%5Etfw">June 25, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -370,7 +370,7 @@ https://engineercafe.jp/
 <blockquote class="twitter-tweet"><p lang="ja" dir="ltr">GMOってここにあるのか！ <a href="https://t.co/822M9XXtfR">pic.twitter.com/822M9XXtfR</a></p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1672934412617670656?ref_src=twsrc%5Etfw">June 25, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 #+end_export
 
-１人で入れる良い感じの店が見つからなかったので博多に戻り、雨降ってたので博多駅内でご飯を食べました。
+1人で入れる良い感じの店が見つからなかったので博多に戻り、雨降ってたので博多駅内でご飯を食べました。
 
 #+begin_export html
 <blockquote class="twitter-tweet"><p lang="ja" dir="ltr">ラスト飯！！ <a href="https://t.co/SNxnBnt28D">pic.twitter.com/SNxnBnt28D</a></p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1672949714961195008?ref_src=twsrc%5Etfw">June 25, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -411,7 +411,7 @@ https://engineercafe.jp/
 行くと決まったらまず最初に航空券を取りなさい。
 半年後だろうがなんだろうが絶対に航空券を取りなさい。
 
-真冬はわからないが、n泊するなら洋服はこれだけあれば十分。(n=3くらい)
+真冬はわからないが、n泊するなら洋服はこれだけあれば十分。(n=3くらい）
 当然ズボンは使い回しです。クロックスで行くと靴下を節約できて良い。
 
 - Tシャツ n着
@@ -433,4 +433,4 @@ https://engineercafe.jp/
 - 折り畳み傘
 - Twitterアイコンが書いてある名札
 
-これでカバン一つで余裕で国内旅行できる。
+これでカバン1つで余裕で国内旅行できる。

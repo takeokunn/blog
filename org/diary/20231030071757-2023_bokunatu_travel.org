@@ -23,9 +23,9 @@
 <blockquote class="twitter-tweet"><p lang="ja" dir="ltr">やりゃすか‼️</p>&mdash; あすみ (@asumikam) <a href="https://twitter.com/asumikam/status/1683482937608617985?ref_src=twsrc%5Etfw">July 24, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 #+end_export
 
-合同勉強会の詳細は対外的な記事に纏めるつもりなのでそちら参照してほしいですが、あすみさんと自分の会社はお互い物流関係のシステムを作っている言わば提携先で、絶対面白くなるんじゃないかということで開催することにしました。
-ちなみに自分はあまりにもこういう「調整作業」が苦手すぎて事前準備をほぼ全てをあすみさんにやってもらいました。
-「ちゃんと御社側の名簿を作ってありがとう」と褒められる程度の仕事と、居酒屋の予約を取る時に「頑張れ!!!!君なら絶対やりとげられる!!!」とgoogle meets越しに応援する程度の仕事はしました。
+合同勉強会の詳細は対外的な記事にまとめるつもりなのでそちら参照してほしいですが、あすみさんと自分の会社はお互い物流関係のシステムを作っているいわば提携先で、絶対おもしろくなるんじゃないかということで開催することにしました。
+ちなみに自分はあまりにもこういう「調整作業」が苦手すぎて下準備をほぼすべてをあすみさんにやってもらいました。
+「ちゃんと御社側の名簿を作ってありがとう」と褒められる程度の仕事と、居酒屋の予約を取る時に「頑張れ！!!!君なら絶対やりとげられる！!!」とgoogle meets越しに応援する程度の仕事はしました。
 
 [[https://connpass.com/event/296001/][蒲田温泉で前夜祭（PHPカンファレンス非公式）]]の小田原魅力LTを聞いてしまってからは、勉強会というよりも小田原旅行に行くのが目的になっていたかもしれません。
 
@@ -34,12 +34,12 @@
 #+end_export
 
 ** 初日（昼）
-「わからんけど多分朝から行くわ」と伝えておきながら前日朝3時まで飲んでいたので当然起きられる訳もなく、11時半くらいの新宿発ロマンスカーに乗って小田原に行きました。
+「わからんけど多分朝から行くわ」と伝えておきながら前日朝3時まで飲んでいたので当然起きられる訳もなく、11時半くらいの新宿発ロマンスカーに乗って小田原にいきました。
 #+begin_export html
 <blockquote class="twitter-tweet"><p lang="ja" dir="ltr">いざ <a href="https://t.co/zpHl3KqqnB">pic.twitter.com/zpHl3KqqnB</a></p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1717727956158885929?ref_src=twsrc%5Etfw">October 27, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 #+end_export
 
-気分はこれから温泉旅館で缶詰になって執筆をする文豪のそれでした。ロマンスカーは座れるし充電も出来るし車窓も良いので楽しいですね。
+気分はこれから温泉旅館で缶詰になって執筆をする文豪のそれでした。ロマンスカーは座れるし充電もできるし車窓も良いので楽しいですね。
 
 #+begin_export html
 <blockquote class="twitter-tweet"><p lang="ja" dir="ltr">かつて明治大正時代の文豪もロマンスカーで浪漫を感じながら箱根湯本に行ってたんだろうなーと思うと胸が熱くなる</p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1717736579324903680?ref_src=twsrc%5Etfw">October 27, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -53,14 +53,14 @@
 <blockquote class="twitter-tweet"><p lang="ja" dir="ltr">ついたー <a href="https://t.co/dBbsZmuYF6">pic.twitter.com/dBbsZmuYF6</a></p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1717747701209797080?ref_src=twsrc%5Etfw">October 27, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 #+end_export
 
-12時半ごろ小田原についたので、あすみさんと[[https://twitter.com/_mkmk884][まきさん]]と合流してオススメのオシャレな定食屋に行きました。
+12時半ごろ小田原についたので、あすみさんと[[https://twitter.com/_mkmk884][まきさん]]と合流してお勧めのオシャレな定食屋にいきました。
 イベントやTwitterでは話したことはあったものの、よくよく考えたら面と向かってゆっくり話したことがなかったので「練馬は地球の中心であることを忘れるな」「HIKAKINさんにはちゃんと"さん"をつけろ」「普通盛りは入場券なので大盛りがデフォルト」あたりのことを熱弁しました。
 
 #+begin_export html
 <blockquote class="twitter-tweet"><p lang="ja" dir="ltr">きた！！！ <a href="https://t.co/ZCn9G0OZR0">pic.twitter.com/ZCn9G0OZR0</a></p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1717767556021522852?ref_src=twsrc%5Etfw">October 27, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 #+end_export
 
-その後、噂のガンダムSeedっぽいロゴのBarを聖地巡礼してオフィスに向かい、16時頃まで解散になりました。
+その後、噂のガンダムSeedっぽいロゴのBarを聖地巡礼してオフィスに向かい、16時ころまで解散になりました。
 
 [[file:../../static/images/FAD38213-32F8-496E-9719-DAC9B56A49A4.png]]
 
@@ -102,14 +102,14 @@
 <blockquote class="twitter-tweet"><p lang="ja" dir="ltr">楽しかった <a href="https://t.co/Sd2pQhdQUh">pic.twitter.com/Sd2pQhdQUh</a></p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1717780347059114389?ref_src=twsrc%5Etfw">October 27, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 #+end_export
 
-「[[https://dic.nicovideo.jp/a/%E8%AC%8E%E4%BC%9A%E8%A9%B1][せっかく海に来たんだから海に行こうぜ]]」ということで海に来たので海に行きました。流石に10月終わりの海を１人で泳ぐ度胸はなかったです。
+「[[https://dic.nicovideo.jp/a/%E8%AC%8E%E4%BC%9A%E8%A9%B1][せっかく海に来たんだから海に行こうぜ]]」ということで海に来たので海にいきました。さすがに10月終わりの海を1人で泳ぐ度胸はなかったです。
 
 #+begin_export html
 <blockquote class="twitter-tweet"><p lang="ja" dir="ltr">夏休みだから海に来た！泳ぐぞ！！ <a href="https://t.co/ENIkSLlICy">pic.twitter.com/ENIkSLlICy</a></p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1717785752229306730?ref_src=twsrc%5Etfw">October 27, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 #+end_export
 
 ** 初日（勉強会）
-一通り小田原の商店街をぶらぶらして、16時過ぎにNE社のオフィスに戻りました。
+小田原の商店街をぶらぶらして、16時過ぎにNE社のオフィスに戻りました。
 1階は [[https://aruyo.me/][Aruyo]] というコワーキングスペースで2階3階はHameeとNEの合同オフィスでした。
 
 写真は撮っていないのですが、オフィスの内装はオシャレかつ遊び心があり、池袋の雑居ビルに普段出勤している自分にはこんなにも違うものなのか、いっそのこと転職するかと本気で悩まされました。([[https://twitter.com/asumikam/status/1717324123591041030][大丈夫? カジュ面する？]])
@@ -117,16 +117,16 @@
 
 オフィスが2つあることを知らずにオフライン参加の同僚に間違った場所を教えてしまったり、LT発表をする同僚にそもそもオンラインで参加しても良いということを伝え忘れてしまってわざわざ来てもらうことになってしまったり当日もいっぱいやらかしました。
 とはいえ、LT大会も懇親会もどちらも大成功で常に明るい雰囲気が流れていたかなということで安心しました。
-「ロケ」「出庫検品」などの物流専門用語が通じるのもあってコミュニケーションがスムーズだったのも要因の一つだったと思っています。
+「ロケ」「出庫検品」などの物流専門用語が通じるのもあってコミュニケーションがスムーズだったのも要因の1つだったと思っています。
 どの会社も同じような悩みを抱えているんだなーという安心感を得られるのが合同勉強会の一番の魅力かもしれませんね。
 ** 初日（懇親会〜2次会）
 
 懇親会場所は[[https://tabelog.com/kanagawa/A1409/A140901/14030339/][ふわり]]という海鮮居酒屋でした。
 
 懇親会は弊社側は4人NE社側は6人くらいの飲み会でした。
-刺身は東京の居酒屋の数段上で明かに美味しいなと感じました。 +これもあすみさんが居酒屋の予約を取る時に「頑張れ!!!!君なら絶対やりとげられる!!!」と精一杯応援した自分のお陰かな+
+刺身は東京の居酒屋の数段上で明らかにおいしいなと感じました。 +これもあすみさんが居酒屋の予約を取る時に「頑張れ!!!!君なら絶対やりとげられる!!!」と精一杯応援した自分のお陰かな+
 
-店員さんがどう考えてもディズニーのキャスト出身だろってくらいノリの良い人で面白さに正直嫉妬していました。
+店員さんがどう考えてもディズニーのキャスト出身だろってくらいノリの良い人でおもしろさに正直嫉妬していました。
 
 序盤は仕事の真面目な話、中盤以降は自分と[[https://twitter.com/jin_siro][jin_siro]]で半分以上を置いてけぼりにするトークを展開してしまいました。
 調子乗ってすみませんでした。 +俺達最高に輝いてたよな+
@@ -135,8 +135,8 @@
 <blockquote class="twitter-tweet"><p lang="ja" dir="ltr">at neさん<br>昨日の飲み会は一生俺達のターンで話続けてすみませんでした</p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1718164516121506245?ref_src=twsrc%5Etfw">October 28, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 #+end_export
 
-懇親会は11時くらいに解散し、2次会は[[https://tabelog.com/kanagawa/A1409/A140901/14061580/][目利きの銀次]]に行きました。
-メンバーは自分、[[https://twitter.com/jin_siro][jin_siro]]、たろーさん(同僚)、[[https://twitter.com/asumikam][あすみさん]]、[[https://twitter.com/_mkmk884][まきさん]]、[[https://twitter.com/o0h_][きんじょうさん]] の6人でした。
+懇親会は11時くらいに解散し、2次会は[[https://tabelog.com/kanagawa/A1409/A140901/14061580/][目利きの銀次]]にいきました。
+メンバーは自分、[[https://twitter.com/jin_siro][jin_siro]]、たろーさん（同僚）、[[https://twitter.com/asumikam][あすみさん]]、[[https://twitter.com/_mkmk884][まきさん]]、[[https://twitter.com/o0h_][きんじょうさん]] の6人でした。
 酔っぱらってあまり何を話したのか覚えていませんが、きっといつも通り支離滅裂な話をしてたんだと思います。
 
 #+begin_export html
@@ -166,13 +166,13 @@
 #+end_export
 
 どこも10時以降に開くっぽかったので、とりあえずタリーズで作戦会議をしていました。
-駄弁ってる時に鳥取県はカレールー消費量が多いという今後の人生で訳に立たなさそうな情報を得ました。
+駄弁っている時に鳥取県はカレールー消費量が多いという今後の人生で訳に立たなさそうな情報を得ました。
 
 #+begin_export html
 <blockquote class="twitter-tweet"><p lang="ja" dir="ltr">朝タリーズで作戦会議してる</p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1718062347309429213?ref_src=twsrc%5Etfw">October 28, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 #+end_export
 
-小田原の旨い飯屋を前日に聞いていたにも関らず、僕等は鳥頭なので酒を飲みすぎて完全に忘れてしまっていたのでとりあえずあすみさんを招集しました。
+小田原の旨い飯屋を前日に聞いていたにかかわらず、僕等は鳥頭なので酒を飲みすぎて完全に忘れてしまっていたのでとりあえずあすみさんを招集しました。
 
 #+begin_export html
 <blockquote class="twitter-tweet"><p lang="ja" dir="ltr">おはよう<br>今タリーズを出てたろうさんのコンタクトを調達しようとしてるとこだけど昼飯行く？</p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1718071207839531310?ref_src=twsrc%5Etfw">October 28, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -192,7 +192,7 @@
 <blockquote class="twitter-tweet"><p lang="ja" dir="ltr">小田原城にガチ装備のグリーンベレーの精鋭100人で攻めたら落とせるのかって話しながら散歩してる</p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1718090670458696012?ref_src=twsrc%5Etfw">October 28, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 #+end_export
 
-その後合流して[[https://tabelog.com/kanagawa/A1409/A140901/14077718/][おさしみ天国・小田原海鮮ゴーゴー]]に行きました。どうでも良い話をしすぎて何を話したのか覚えてないですが、目黒のさんまとか落語の話をしてた気がします。
+その後合流して[[https://tabelog.com/kanagawa/A1409/A140901/14077718/][おさしみ天国・小田原海鮮ゴーゴー]]にいきました。どうでも良い話をしすぎて何を話したのか覚えてないですが、目黒のさんまとか落語の話をしてた気がします。
 
 #+begin_export html
 <blockquote class="twitter-tweet"><p lang="ja" dir="ltr">きた <a href="https://t.co/EnIv81V12i">pic.twitter.com/EnIv81V12i</a></p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1718107537470611727?ref_src=twsrc%5Etfw">October 28, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -206,13 +206,13 @@
 <blockquote class="twitter-tweet"><p lang="ja" dir="ltr">ポケットモンスター 肩の力抜き方/肩の力入れ方</p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1718243125469352098?ref_src=twsrc%5Etfw">October 28, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 #+end_export
 
-その後早川の方まで1時間くらい散歩をしてかき氷を食べました。確か「最近宗教ってアプデ入ってないけどキリスト教は割と入ってる方だよね」とかどうでも良い話ばっかしてたと思います。
+その後早川の方まで1時間くらい散歩をしてかき氷を食べました。確か「最近宗教ってアプデ入っていないけどキリスト教は割と入っている方だよね」とかどうでも良い話ばっかしてたと思います。
 
 #+begin_export html
 <blockquote class="twitter-tweet"><p lang="zxx" dir="ltr"><a href="https://t.co/H47yRyoj5c">pic.twitter.com/H47yRyoj5c</a></p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1718144493512503406?ref_src=twsrc%5Etfw">October 28, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 #+end_export
 
-その後早川駅まで歩き小田原に一旦戻り、新宿〜練馬まで帰りました。2日で5万歩くらい歩いてる中、池袋にチャリを置きっぱなしだったので仕方がなくチャリに乗って帰りました。
+その後早川駅まで歩き小田原にいったん戻り、新宿〜練馬まで帰りました。2日で5万歩くらい歩いている中、池袋にチャリを置きっぱなしだったのでし方がなくチャリに乗って帰りました。
 
 #+begin_export html
 <blockquote class="twitter-tweet"><p lang="ja" dir="ltr">昨日同様今日もずーーーーーーーっと中身のない話を熱量込めて話続けてたから喉が枯れてる</p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1718164147882586254?ref_src=twsrc%5Etfw">October 28, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>

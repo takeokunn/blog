@@ -1,20 +1,31 @@
 {
-  "filters": {
-    "node-types": {
-      "nodeTypes": ["Code", "Paragraph"]
-    }
-  },
   "rules": {
     "preset-ja-technical-writing": {
+      "ja-no-weak-phrase": false,
+      "no-dropping-the-ra": false,
+      "sentence-length": false,
+      "no-doubled-joshi": false,
       "no-exclamation-question-mark": false,
-      "sentence-length": {
-        "max": 200
-      }
+      "no-unmatched-pair": false,
+      "ja-no-successive-word": false,
+      "no-double-negative-ja": false,
+      "max-kanji-continuous-len": false,
+      "no-doubled-conjunctive-particle-ga": false,
+      "max-ten": false
     },
-    "preset-japanese": true,
+    "preset-japanese": {
+      "sentence-length": false,
+      "no-doubled-joshi": false,
+      "max-ten": false
+    },
     "preset-ja-spacing": true,
-    "preset-jtf-style": true,
-    "textlint-rule-write-good": true,
+    "preset-jtf-style": {
+      "1.1.1.本文": false,
+      "4.3.7.山かっこ<>": false
+    },
+    "write-good": {
+      "weasel": false
+    },
     "prh": {
       "rulePaths": [
         "node_modules/prh/prh-rules/media/WEB+DB_PRESS.yml",

@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       212C336E-3686-4262-9816-19009AC306C0
-:mtime:    20231204002137
+:mtime:    20231217104410
 :ctime:    20231118133259
 :END:
 #+TITLE: VimConf 2023 Tinyに参加しました
@@ -16,18 +16,18 @@
 #+STARTUP: nohideblocks
 * Introduction
 
-2023/11/18 (土) 13:00-19:30 JSTに行われたVimConf 2023 Tinyに参加しました。
+2023/11/18 13:00-19:30に行われた「VimConf 2023 Tiny」への参加記事です。
 https://vimconf.org/2023/
 
-VimConfに参加するのは初めてで、普段会えないVimmer交流することができました。
+VimConfには初参加で普段会えないVimmer交流できました。
 
 * セッション
 ** Bram Moolenaar the Creator of Vim
 
 mattnさんのBram Moolenaarについてのセッション。
-1980年時点でvi cloneが沢山にあった。
+1980年時点でvi cloneがたくさんにあった。
 
-Bram MoolenaarはAgideやa-a-p等他にも色々OSSを開発していた。
+Bram MoolenaarはAgideやa-a-p等ほかにもいろいろOSSを開発していた。
 https://mattn.kaoriya.net/software/lang/zimbu/20100814005428.htm
 
 Bram MoolenaarはGooglerだったことはあるが、基本的には職業不肖。
@@ -37,27 +37,27 @@ vimにterminalが実装された話。
 mattnさんとbramの思い出話。
 Bram「英語ができなくても良いじゃない。僕たちにはCという共通言語がある」
 
-vim.org に参加した話。
+vim.orgに参加した話。
 ** Revolutionizing Vim/Neovim Plugin Development ~ An In-Depth Look into Denops
 
 ありすえさんのdenopsの発表。
 DenopsのProsは速いし、開発しやすい。
 Consは余計な依存が増える、プロセス起動のオーバーヘッドがある、rpc固有の問題がある、知名度が低い。
-denopsを何故使うのか。
+denopsをなぜ使うのか。
 denopsのメカニズム、shared serverを使う。
 denopsでplugin作成についての流れ。
 https://zenn.dev/lambdalisue/articles/b4a31fba0b1ce95104c9
 ** Looking back at vim meetup
-ゴリラ.vimを28回開催した話。
-ゴリラ.vimはどんな感じか。
-ゴリラ.vimを初めたきっかけ。
+ゴリラ。vimを28回開催した話。
+ゴリラ。vimはどんな感じか。
+ゴリラ。vimを初めたきっかけ。
 ** Developing a Vim plugin with Ruby, or when in Ruby do as the Rubyists do
 
-https://speakerdeck.com/okuramasafumi/developing-a-vim-plugin-with-ruby
+https://speakerdeck.com/okuramasafumi/developing-a-vim-plugin-with-Ruby
 
 Ruby ASTを利用する。
 Rubyでも拡張が書ける。
-LSPは巨大なjsonなので読むが大変。
+LSPは巨大なjsonなので読むがたいへん。
 
 ** Modern techniques for implements insert mode plugins / Why use IME within text editor?
 

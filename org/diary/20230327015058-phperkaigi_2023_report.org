@@ -130,7 +130,7 @@ arrayやっぱつらいよね。
 
 *** [Day 2] ランチ寿司ビール
 
-これが本当の[[https://yassu.jp/pukiwiki/index.php?MySQL+%BC%F7%BB%CA%A5%D3%A1%BC%A5%EB%CC%E4%C2%EA][寿司ビール問題]]だ!!!
+これが本当の[[https://yassu.jp/pukiwiki/index.php?MySQL+%BC%F7%BB%CA%A5%D3%A1%BC%A5%EB%CC%E4%C2%EA][寿司ビール問題]]だ！!!
 
 #+begin_export html
 <blockquote class="twitter-tweet"><p lang="ja" dir="ltr">寿司ビール問題 <a href="https://t.co/MaxFiqA2iQ">pic.twitter.com/MaxFiqA2iQ</a></p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1639477983860895744?ref_src=twsrc%5Etfw">March 25, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
