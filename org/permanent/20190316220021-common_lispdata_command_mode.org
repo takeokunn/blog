@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       29F3BA0F-9585-40EC-B033-E3CDBF62EA13
-:mtime:    20231204002956
+:mtime:    20231217115551
 :ctime:    20221214234305
 :END:
 #+TITLE: Common Lispのquoteについて
@@ -20,7 +20,7 @@ stack overflowに以下の2つの質問をした。
 - [[https://stackoverflow.com/questions/54868796/cannot-post-slack-webhook-url-in-common-lisp][Cannot post slack webhook url in common lisp]]
 - [[https://stackoverflow.com/questions/55066131/getenv-xxx-is-not-a-lisp-string-or-pointer][(GETENV XXX) is not a Lisp string or pointer Ask Question]]
 
-両方とも ~sds~ という方が答えてくれたのだが、 どうも僕は ~quote~ について理解をしていないことがわかった。
+両方とも ~sds~ という方が答えてくれたのですが、 どうも自分は ~quote~ について理解をしていないことがわかりました。
 
 調べたところ、stack overflowに良さそうな記事があったので翻訳をしてみる。
 
@@ -30,7 +30,7 @@ stack overflowに以下の2つの質問をした。
 
 ~Question~: quoteっていつ使うの？
 
-Lispの入門書を読んだのですが、特殊な演算子（~quote~や~'~)がどんな挙動をするのか理解できませんでしたし、まだ見たことがありません。
+Lispの入門書を読んだのですが、 ~quote~ や ~'~ 特殊な演算子がどんな挙動をするのか理解できませんでしたし、まだ見たことがありません。
 
 どうでしょうか？
 
@@ -196,7 +196,7 @@ restarts (invokable by number or by possibly-abbreviated name):
 
 /Summing Up/
 
-~quote~ 、 ~backquote~ ( ~comma~ 付き）、および ~list~ は、値の ~list~ だけでなく、 ~list~ を作成するために使用するツールの一部ですが見たとおり（構造体を定義する必要がない）軽量データ構造として使用できます。
+~quote~ 、 ~comma~ 付き ~backquote~、および ~list~ は、値の ~list~ だけでなく、 ~list~ を作成するために使用するツールの一部ですが見たとおり（構造体を定義する必要がない）軽量データ構造として使用できます。
 
 大規模でのプログラミングにすでにしていて、あなたがより多くを学びたい場合は、Lispのを学習への実践的なアプローチのためにピーター・サイベルの本実践Common Lispのをお勧めします。
 Lispを使っていると最終的には、パッケージも使い始めるでしょう。

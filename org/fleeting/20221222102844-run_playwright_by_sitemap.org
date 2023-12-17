@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       923E2C2D-EAF9-F6A4-8C43-136BEC60DBBA
-:mtime:    20231204002913
+:mtime:    20231217115507
 :ctime:    20221222102844
 :END:
 #+TITLE: sitemap.xmlからURLを良い感じに抽出してPlaywrightでUIを目視確認する
@@ -102,7 +102,7 @@
 ただ、純粋に =sitemap.xml= をすべて眺めるのは厳しい。
 =/articles/<id>= のような動的に生成されたページをすべて見るのは無駄だ。
 
-ですので、特定のパターンのURLは先頭3つのみにするなど丸める必要があったので以下のようなコードを書いた。
+特定のパターンのURLは先頭3つのみにするなど丸める必要があったので以下のようなコードを書いた。
 
 #+begin_src js
   const filterSitemapUrls = (urls) => {

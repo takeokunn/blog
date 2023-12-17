@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       1409951D-E05B-4DEB-9388-1B6A2185A29B
-:mtime:    20231204003103
+:mtime:    20231217120026
 :ctime:    20221215031447
 :END:
 #+TITLE: TwitterUIDの挙動とJavaScriptのBigIntについて
@@ -81,7 +81,7 @@ double型で安全に表現できる最大値は ~Number.MAX_SAFE_INTEGER~ で�
   9007199254740991
 #+end_src
 
-ただこれでは何かと不都合ですので、JavaScriptには ~bigint~ も用意されている。
+JavaScriptには ~bigint~ も用意されている。
 
 MDNには以下のように書かれているので日常使いするのは辞めておくべきだろう。
 

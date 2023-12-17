@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       0BFC86EF-E8FF-40A7-9C02-838BDE2E8D7D
-:mtime:    20231204002933
+:mtime:    20231217114822
 :ctime:    20230801135235
 :END:
 #+TITLE: PHP Exceptionのpropertyにあるcodeはuser-defined error code
@@ -21,7 +21,7 @@
 
 * 簡易的な調査
 ** Interface定義
-php.netのUser Contributed Notesに以下のような記述がある。(14年前）
+php.netのUser Contributed Notesに以下のような記述がある。
 https://www.php.net/manual/en/language.exceptions.php#91159
 
 #+begin_src php

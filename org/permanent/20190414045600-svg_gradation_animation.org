@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       B37E9575-386F-4364-835B-593A3FE3B16D
-:mtime:    20231204003023
+:mtime:    20231217114249
 :ctime:    20221215004517
 :END:
 #+TITLE: SVGにグラデーションのアニメーションをかける
@@ -50,7 +50,7 @@
 - [[https://codepen.io/NickNoordijk/pen/VLvxLE]]
 - [[https://codepen.io/samwyness/pen/eZwoLj]]
 
-サンプルコードによるととこんな感じ。
+サンプルコードによるとこんな感じ。
 
 - ~defs~ に ~linearGradient~ を定義する。
 - ~linearGradient~ に ~stop > animate~ 。

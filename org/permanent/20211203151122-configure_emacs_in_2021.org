@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       1E1F6463-E1FD-43D9-8CEF-346A786F355E
-:mtime:    20231204003106
+:mtime:    20231217115916
 :ctime:    20221215032332
 :END:
 #+TITLE: 2021年に自分がemacs.dのカスタイマイズしたことについて
@@ -15,7 +15,7 @@
 #+STARTUP: content
 #+STARTUP: nohideblocks
 
-この記事は、[[https://qiita.com/advent-calendar/2021/emacs][Emacs Advent Calendar 2021]] 5日目の記事です。
+[[https://qiita.com/advent-calendar/2021/emacs][Emacs Advent Calendar 2021]] 5日目の記事。
 
 今年も[[https://github.com/takeokunn/.emacs.d][takeokunn/.emacs.d]] をかなり改造した。 ~git log --reverse~ してみるとfirst commitが ~Sat Nov 3 18:15:51 2018 +0900~ のようなので3年使っているようだ。
 
