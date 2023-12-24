@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       E6243AE2-CFE4-4D21-B9B7-E076B13CF486
-:mtime:    20231224173054
+:mtime:    20231224175701
 :ctime:    20231219122351
 :END:
 #+TITLE: org-roamで記事を管理しGitHub Actionsで適切に公開する
@@ -498,16 +498,97 @@ CLOSED: [2023-12-24 Sun 17:21]
 #+end_src
 * Publish
 ** Hugo
-*** Basic
-*** Hosting
+*** DONE Basic
+CLOSED: [2023-12-24 Sun 17:41]
+[[https://gohugo.io/][Hugo]] はGo製の静的サイトジェネレータです。
+静的サイトジェネレータとは、指定のディレクトリにあるMarkdownや画像ファイルを参照して本番用の静的コンテンツを生成するツールのことです。
+
+類似サービスに[[https://jekyllrb-ja.github.io/][jekyll]]や[[https://astro.build/][Astro]]や[[https://www.gatsbyjs.com/docs/glossary/static-site-generator/][Gatsby]] があります。
+
+機能の豊富さやドキュメント、記事や事例の豊富さ、CIへの組込やすさでHugoを選定しました。
+
+- [[https://knowledge.sakura.ad.jp/22908/][静的サイトジェネレータ「Hugo」と技術文書公開向けテーマ「Docsy」でOSSサイトを作る - さくらのナレッジ]]
+- [[https://qiita.com/peaceiris/items/ef38cc2a4b5565d0dd7c][Hugo で静的なサイト・ブログを構築しよう - Qiita]]
+
+現状特に不満はありませんが、特にHugoにこだわりがある訳ではないので、より良い静的サイトジェネレータがあれば乗り換える可能性は十分にあります。
+*** DONE Org to Markdown
+CLOSED: [2023-12-24 Sun 17:53]
+
+=export-org-roam-files= を実行してorg-roam管理下のHugoに出力したいディレクトリを指定して[[https://ox-hugo.scripter.co/][ ox-hugo]] でMarkdownに変換しています。
+
+#+begin_src emacs-lisp
+  (require 'package)
+
+  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+  (package-refresh-contents)
+  (package-initialize)
+  (package-install 'ox-hugo)
+  (package-install 'org-roam)
+
+  (require 'ox-hugo)
+  (require 'org-roam)
+
+  (setq org-roam-directory default-directory)
+  (org-roam-db-sync)
+
+  (defun export-org-roam-files ()
+    "Exports Org-Roam files to Hugo markdown."
+    (interactive)
+    (let ((org-id-extra-files (directory-files-recursively default-directory "org")))
+      (dolist (f (append (file-expand-wildcards "org/about.org")
+                         (file-expand-wildcards "org/diary/*.org")
+                         (file-expand-wildcards "org/fleeting/*.org")
+                         (file-expand-wildcards "org/index/*.org")
+                         (file-expand-wildcards "org/literature/*.org")
+                         (file-expand-wildcards "org/permanent/*.org")
+                         (file-expand-wildcards "org/structure/*.org")))
+        (with-current-buffer (find-file f)
+          (org-hugo-export-wim-to-md)))))
+#+end_src
+
+[[https://futurismo.biz/using-org-roam-one-year-2022/#0c2bfe][org-exportでバックリンクをexport前に挿入 - 🖊知的生産のキラーアプリOrg-roamを１年使い倒し学ぶとはなにか考えたポエム(2022)]] を参考にバックリンクをMarkdownの最後に出力するようにしています。
+GitHub Actions上で動かす関係で、 =org-roam-db-sync= を明示的に実行してCI上で =org-roam.db= を作成する必要があることに注意してください。
+
+#+begin_src emacs-lisp
+  (org-roam-db-sync)
+
+  (defun collect-backlinks-string (backend)
+    (when (org-roam-node-at-point)
+      (goto-char (point-max))
+      ;; Add a new header for the references
+      (let* ((backlinks (org-roam-backlinks-get (org-roam-node-at-point))))
+        (when (> (length backlinks) 0)
+          (insert "\n\n* Backlinks\n")
+          (dolist (backlink backlinks)
+            (message (concat "backlink: " (org-roam-node-title (org-roam-backlink-source-node backlink))))
+            (let* ((source-node (org-roam-backlink-source-node backlink))
+                   (node-file (org-roam-node-file source-node))
+                   (file-name (file-name-nondirectory node-file))
+                   (title (org-roam-node-title source-node)))
+              (insert
+               (format "- [[./%s][%s]]\n" file-name title))))))))
+
+  (add-hook 'org-export-before-processing-functions #'collect-backlinks-string)
+#+end_src
+*** DONE Hosting
+CLOSED: [2023-12-24 Sun 17:57]
+[[https://takeokunn.org/][takeokunn.org]] はHugoで生成した静的コンテンツを[[https://docs.github.com/ja/pages/getting-started-with-github-pages/about-github-pages][GitHub Pages]]で配信しています。
+
+[[https://github.com/takeokunn/blog/blob/82439967dcbd0cc522d253c93fcb1457b0a7a5ee/.github/workflows/main.yml#L71][.github/workflows/main.yml]] に一連の流れが記述されています。
+
+1. Linterを実行する
+2. OrgをMarkdownに変換
+3. [[https://github.com/Ladicle/tcardgen][tcardgen]]経由ですべてのOGPを生成
+4. HugoをセットアップしてProduction Build
+5. [[https://github.com/actions/deploy-pages][actions/deploy-pages]] でGitHub Pagesに出力
+
+カスタムドメインの設定は [[https://docs.github.com/ja/pages/configuring-a-custom-domain-for-your-github-pages-site/about-custom-domains-and-github-pages][カスタムドメインとGitHub Pagesについて - GitHub Docs]] を参照してください。
 *** Theme
-*** Backlink
 *** OGP
 *** 画像
 ** Zenn
 *** Basic
-*** ox-zenn
-*** GitHub連携
+*** Org to Markdown
 * DONE GitHub Actions
 CLOSED: [2023-12-24 Sun 17:30]
 ** DONE Actionlint
