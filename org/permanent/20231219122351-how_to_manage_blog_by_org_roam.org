@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       E6243AE2-CFE4-4D21-B9B7-E076B13CF486
-:mtime:    20231224155012
+:mtime:    20231224165403
 :ctime:    20231219122351
 :END:
 #+TITLE: org-roamで記事を管理しGitHub Actionsで適切に公開する
@@ -184,6 +184,8 @@ CLOSED: [2023-12-24 Sun 14:52]
 個人としてのブログ記事は求められる要件は非常に少なく好き勝手作ることができます。
 好きなデザインテーマを使い、好きなライブラリを選定し、自分好みにブログサービスを作成しても問題がないのです。
 
+所属企業のブログ記事はどちらかというと一枚絵のようなものであまり気軽に文章を変更してはいけないが、個人のブログ記事は気軽に文章を変更することが可能という視点もあります。
+
 ** DONE ブログサービスとセルフホスティング
 CLOSED: [2023-12-24 Sun 15:18]
 
@@ -199,10 +201,12 @@ Webデザインに特別こだわりがあったり、Webサイトを学習目�
 
 * DONE 全体の流れ
 CLOSED: [2023-12-24 Sun 15:49]
+** DONE Workflow
+CLOSED: [2023-12-24 Sun 15:52]
 
 [[file:../../static/images/06C3BC2E-F1DD-4FAE-954B-CC8459ED46B7.png]]
 
-#+begin_src mermaid
+#+begin_src mermaid :file (expand-file-name "~/.ghq/github.com/takeokunn/blog/static/images/06C3BC2E-F1DD-4FAE-954B-CC8459ED46B7.png")
   graph LR
       A[Emacs] --> |push| B[Repo]
       B --> |run CI| C[Linter]
@@ -213,6 +217,9 @@ CLOSED: [2023-12-24 Sun 15:49]
       D --> |publish| F[Zenn]
 #+end_src
 
+#+RESULTS:
+[[file:/Users/obara/.ghq/github.com/takeokunn/blog/static/images/06C3BC2E-F1DD-4FAE-954B-CC8459ED46B7.png]]
+
 1. Localで記事を編集する
 2. [[https://github.com/takeokunn/blog][takeokunn/blog]] のmain branchにpushする
 3. GitHub Actions上で[[https://github.com/textlint/textlint][textlint]]と[[https://github.com/secretlint/secretlint][secretlint]]を実行する
@@ -220,11 +227,133 @@ CLOSED: [2023-12-24 Sun 15:49]
 
 個別の配信方法や設定方法は後述しますが、巷によくあるCI/CDの流れを踏襲しています。
 分量の多い記事に関しては適宜Pull Requestに切り出して執筆していく運用にしています。
+** DONE Zettelkasten
+CLOSED: [2023-12-24 Sun 16:11]
+
+ソフトウェア開発は業界が未成熟な面と日進月歩で進化して続けているという二面があり、知識が陳腐化しやすいという性質を持っています。
+長期的にコンテンツ管理をするという前提で、継続的に知見をアップデートをするにあたってどう管理運用をしていけば良いのかを考慮する必要があります。
+
+検討した結果Zettelkastenを採用することにしました。
+[[https://gigazine.net/news/20200604-zettelkasten-note/][効率的なノートを作成できるドイツの社会学者が生み出した方法「Zettelkasten」とは？ - gigazine]] にもある通り、小さな知識を相互にリンクさせることによって巨大な知識体系を作ることができます。
+
+Zettelkastenについて日本語で解説した記事はあまりなく、どう運用すれば良いのか非常に悩みました。
+
+jMatsuzaki氏のZettelkasten関連が一番参考になったのでメモしておきます。
+[[https://jmatsuzaki.com/archives/category/lifestyle/zettelkasten][https://jmatsuzaki.com/archives/category/lifestyle/zettelkasten]]
+
+またorg-roamのドキュメントにも簡単に書いてあるので目を通すことをお勧めします。
+https://www.orgroam.com/manual.html#A-Brief-Introduction-to-the-Zettelkasten-Method
 
 * コンテンツ管理
-** org-roam
-** yasnippet
-** .dir-locals2.el
+** TODO org-roam
+*** DONE Basic
+CLOSED: [2023-12-24 Sun 16:21]
+[[https://www.orgroam.com/][org-roam]] はorg-modeのキラーアプリケーションの1つです。
+ベースはorg-modeで記述でき、org file間の移動や参照やリンクをスムーズに行うことができるパッケージです。
+org file間の関係性をSQLiteで管理していて、グラフィカルに表示できます。
+
+「org-roamを使ってみた」といった記事は複数あるが、実際に長期的に運用してみた記事はあまりないのでどう運用するのか非常に悩みました。
+[[https://futurismo.biz/using-org-roam-one-year-2022/][🖊知的生産のキラーアプリOrg-roamを１年使い倒し学ぶとはなにか考えたポエム(2022)]] が日本語の記事の中では一番しっかりと書かれており、非常に参考にさせてもらいました。
+
+私の運用は完全にZettelkastenに寄せている訳ではなく、org-roamを使いなるべく運用を寄せているだけですので、理想的なZettelkastenではないことをご了承ください。
+*** DONE ディレクトリ構成
+CLOSED: [2023-12-24 Sun 16:33]
+
+[[https://jmatsuzaki.com/archives/28172][Zettelkasten（ツェッテルカステン）で使うノートの種類と構成まとめ - jMatsuzaki]] によると、以下のようなディレクトリ構成にすることが推奨されているようです。
+
+- 一時メモ
+  - Fleeting Notes
+- 文献ノート
+  - Literature Notes
+- Zettelkasten本体
+  - Permanent Notes
+  - Structure Notes
+  - Index Notes
+- プロジェクト管理
+  - Project Notes
+
+私は以下のようなディレクトリ構成で運用しています。
+
+- org
+  - fleeting/ 技術的なメモ
+  - permanent/ ちゃんとした記事
+  - diary/ イベント参加記
+  - private/ gpgで暗号化した下書き記事
+  - zenn/ Zennに出力する記事
+
+現状あまり実践できていないですが、なるべく普段からfleetingにメモを取り、形になったタイミングでpermanenteやzennに記事を書くという運用を目指しています。
+
+*** TODO 設定方法
+この記事を読むような奇特な人は自分でorg-roamのインストールをできるはずなので詳細には書きません。[[https://github.com/org-roam/org-roam?tab=readme-ov-file#installation][README]]を参考に導入してください。
+私はどちらかというとEmacsの設定に関して几帳面なので各Elisp fileごとにsetqをする運用をしています。
+
+以下の設定は [[https://github.com/org-roam/org-roam][org-roam/org-roam]] 内の設定のみですが、[[https://github.com/org-roam/org-roam-ui][org-roam/org-roam-ui]]や[[https://github.com/tefkah/org-roam-timestamps][tefkah/org-roam-timestamps]]も導入することをお勧めします。
+**** org-roam
+org-roamは [[https://github.com/takeokunn/blog][takeokunn/blog]] のみで使っているので、以下のように設定しています。
+個人的にはリポジトリ管理は [[https://github.com/x-motemen/ghq][x-motemen/ghq]] を使うことを推奨しています。
+
+#+begin_src emacs-lisp
+  (with-eval-after-load 'org-roam
+    (setq org-roam-directory `,(concat (s-trim-right (shell-command-to-string "ghq root"))
+                                       "/github.com/takeokunn/blog")))
+#+end_src
+**** org-roam-node
+
+=org-roam-node-find= と =org-roam-node-insert= はorg-roamを使うにあたって一番使うコマンドと言っても過言ではありません。
+=org-roam-completion-everywhere= を有効にすると補完が効いてくれるようになるが、 =org-roam-node-insert= で明示的にリンクを入力すれば良いだけなので好みで有効にしてください。
+
+#+begin_src emacs-lisp
+  (autoload-if-found '(org-roam-node-find org-roam-node-insert) "org-roam-node" nil t)
+  (global-set-key (kbd "C-c n f") #'org-roam-node-find)
+  (global-set-key (kbd "C-c n i") #'org-roam-node-insert)
+
+  (with-eval-after-load 'org-roam-node
+    (setq org-roam-completion-everywhere t))
+#+end_src
+**** org-roam-db
+=org-roam-db-autosync-enable= を有効にすることによって、非同期で =org-roam.db= を更新してくれるようです。
+
+=org-roam-db-gc-threshold= はドキュメントを読んでいると多めに設定しておいても良いだろうということで多めに設定してます。
+https://www.orgroam.com/manual.html#Garbage-Collection
+
+#+begin_src emacs-lisp
+  (autoload-if-found '(org-roam-db-autosync-enable) "org-roam-db" nil t)
+  (org-roam-db-autosync-enable)
+
+  (with-eval-after-load 'org-roam-db
+    (setq org-roam-database-connector 'sqlite)
+    (setq org-roam-db-gc-threshold (* 4 gc-cons-threshold)))
+#+end_src
+**** org-roam-capture
+
+新規に記事を作成する時は =org-roam-capture= 経由で作成しています。
+それぞれのディレクトリごとにファイル名を自動生成して作成できるように設定しています。
+
+#+begin_src emacs-lisp
+  (autoload-if-found '(org-roam-capture) "org-roam-capture" nil t)
+  (global-set-key (kbd "C-c n c") #'org-roam-capture)
+
+  (with-eval-after-load 'org-roam-capture
+    (setq org-roam-capture-templates '(("f" "Fleeting(一時メモ)" plain "%?"
+                                        :target (file+head "org/fleeting/%<%Y%m%d%H%M%S>-${slug}.org" "#+TITLE: ${title}\n")
+                                        :unnarrowed t)
+                                       ("l" "Literature(文献)" plain "%?"
+                                        :target (file+head "org/literature/%<%Y%m%d%H%M%S>-${slug}.org" "#+TITLE: ${title}\n")
+                                        :unnarrowed t)
+                                       ("p" "Permanent(記事)" plain "%?"
+                                        :target (file+head "org/permanent/%<%Y%m%d%H%M%S>-${slug}.org" "#+TITLE: ${title}\n")
+                                        :unnarrowed t)
+                                       ("d" "Diary(日記)" plain "%?"
+                                        :target (file+head "org/diary/%<%Y%m%d%H%M%S>-${slug}.org" "#+TITLE: ${title}\n")
+                                        :unnarrowed t)
+                                       ("z" "Zenn" plain "%?"
+                                        :target (file+head "org/zenn/%<%Y%m%d%H%M%S>.org" "#+TITLE: ${title}\n")
+                                        :unnarrowed t)
+                                       ("m" "Private" plain "%?"
+                                        :target (file+head "org/private/%<%Y%m%d%H%M%S>.org.gpg" "#+TITLE: ${title}\n")
+                                        :unnarrowed t))))
+#+end_src
+*** yasnippet
 ** textlint
 ** secretlint
 * Publish
@@ -233,6 +362,7 @@ CLOSED: [2023-12-24 Sun 15:49]
 *** Theme
 *** Backlink
 *** OGP
+*** 画像
 ** Zenn
 *** ox-zenn
 *** GitHub連携
