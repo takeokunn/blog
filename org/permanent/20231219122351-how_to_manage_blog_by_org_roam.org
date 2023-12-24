@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       E6243AE2-CFE4-4D21-B9B7-E076B13CF486
-:mtime:    20231224181039
+:mtime:    20231224181603
 :ctime:    20231219122351
 :END:
 #+TITLE: org-roamで記事を管理しGitHub Actionsで適切に公開する
@@ -14,18 +14,15 @@
 #+HUGO_DRAFT: true
 #+STARTUP: content
 #+STARTUP: nohideblocks
-* DONE Introduction
-CLOSED: [2023-12-24 Sun 13:32]
+* Introduction
 
 2023念度Emacsアドベントカレンダーn日目です。
 当記事ではorg-roamを用いたブログ記事のコンテンツ管理方法と、ZennやHugoへ公開する方法の一連の流れについて解説しています。
 
 個々の技術への深堀は必要に応じて別途記事に認めますのでご了承ください。
 
-* DONE 考え方
-CLOSED: [2023-12-24 Sun 13:32]
-** DONE ブログサービスについて
-CLOSED: [2023-12-24 Sun 13:32]
+* 考え方
+** ブログサービスについて
 
 [[https://zenn.dev/][Zenn]] や [[https://qiita.com/][Qiita]] などブログサービスを提供している会社は世の中に無数にありますが、「ブログ記事という形式で世の中に公開する」ということには大きく分けて以下の2つの要素があります。
 
@@ -45,8 +42,7 @@ CLOSED: [2023-12-24 Sun 13:32]
 上記で述べたように「記事公開」に関しては自分でどうしようもない部分が多々ありますが、「コンテンツ管理」に関しては完全に自分でコントロールを効かせることができます。
 適切なフォーマットで公開すれば良いだけですので、どのように記事を管理されようとブログサービスからしたらDBのレコードの1つなだけなでどうでも良いことだと私は考えています。
 
-** DONE ソフトウェアエンジニアとして
-CLOSED: [2023-12-24 Sun 13:32]
+** ソフトウェアエンジニアとして
 
 ソフトウェアエンジニアにとって「技術的な文書を書く」という営みは避けられません。
 「ドキュメントを書く」「チケットに証跡を書く」「同僚と技術的やりとりをする」等さまざまありますが、「ブログ記事を書く」という行為もそのひとつです。
@@ -55,8 +51,7 @@ CLOSED: [2023-12-24 Sun 13:32]
 私は残念ながらソフトウェアエンジニア以外の仕事が絶望的にできないので、10年後も20年後もソフトウェアエンジニアとして働いているだろうという感覚があります。
 あまり文章を書くのが得意ではないので、いかに低負荷で一定の品質の文書を書く環境を用意するか、というのが自分のソフトウェアエンジニアとしての人生にとって重要なことだと考えてます。
 
-** DONE すべてをEmacs org-modeに最適化する
-CLOSED: [2023-12-24 Sun 13:32]
+** すべてをEmacs org-modeに最適化する
 
 私は今までさまざまなテキストエディタを使い込んできました。
 その中で一番時間をつぎ込んだ時に高みを目指せるのはEmacsだということを確信しました。
@@ -70,14 +65,12 @@ CLOSED: [2023-12-24 Sun 13:32]
 ただし、org-modeにはプログラマー人生すべてを寄せることができるくらいのポテンシャルがあり、運用に乗った時のパフォーマンスは計りしれません。
 
 少なくとも直近10年は一切Emacsへの投資を惜しまないという覚悟をしているので執筆環境もEmacs org-modeに最適化をしていきます。
-* DONE 要件
-CLOSED: [2023-12-24 Sun 14:21]
+* 要件
 
 自分はブログに対して何を求めているのか、ブログとはどうあるべきなのか、をあらためて整理してみました。
 以下は個人ブログに対しての考え方ですので、複数人での運用に関しては特に考慮していません。
 
-** DONE 必要条件
-CLOSED: [2023-12-24 Sun 13:47]
+** 必要条件
 
 [[https://www.gnu.org/software/emacs/manual/html_node/emacs/index.html][The Emacs Editor Manual]] や [[https://www.lispworks.com/documentation/HyperSpec/Front/][Common Lisp Hyperspec]] のような数十年前のWeb記事程度を満たしていれば良いだろうということを書いています。
 
@@ -98,8 +91,7 @@ CLOSED: [2023-12-24 Sun 13:47]
 
 最低限Webサイトとしての体を成していれば良いと考えています。
 
-** DONE 十分条件
-CLOSED: [2023-12-24 Sun 14:21]
+** 十分条件
 
 必要条件はあまりにも最低限すぎるので、2023年現在このくらいは最低限満たしたい条件を書いています。
 
@@ -142,10 +134,8 @@ CLOSED: [2023-12-24 Sun 14:21]
 
 ブログ記事の公開先が不特定多数向けなのか特定少数向けなのかで要件は変わってきます。
 
-* DONE 記事公開先
-CLOSED: [2023-12-24 Sun 15:18]
-** DONE 記事の属性
-CLOSED: [2023-12-24 Sun 14:52]
+* 記事公開先
+** 記事の属性
 私の場合、ブログ記事の属性として以下の4つを想定する必要があります。
 
 - 所属会社の広報用記事
@@ -186,8 +176,7 @@ CLOSED: [2023-12-24 Sun 14:52]
 
 所属企業のブログ記事はどちらかというと一枚絵のようなものであまり気軽に文章を変更してはいけないが、個人のブログ記事は気軽に文章を変更することが可能という視点もあります。
 
-** DONE ブログサービスとセルフホスティング
-CLOSED: [2023-12-24 Sun 15:18]
+** ブログサービスとセルフホスティング
 
 基本的には既存のブログサービスの品質は非常に高いのでセルフホスティングするメリットはほぼありません。
 はっきり言ってセルフホスティングは何か目的がない限りは時間の無駄であり、あまりお勧めできるようなものではありません。
@@ -199,10 +188,8 @@ Webデザインに特別こだわりがあったり、Webサイトを学習目�
 サイト内のコンテンツ数はブログサービスに勝つことは個人ではほぼ不可能です。
 不特定多数に見てもらいたいものはブログサービス、特定少数に見てもらいたいものはセルフホスティング先に公開するという運用をしています。
 
-* DONE 全体の流れ
-CLOSED: [2023-12-24 Sun 15:49]
-** DONE Workflow
-CLOSED: [2023-12-24 Sun 15:52]
+* 全体の流れ
+** ワークフロー
 
 [[file:../../static/images/06C3BC2E-F1DD-4FAE-954B-CC8459ED46B7.png]]
 
@@ -227,8 +214,7 @@ CLOSED: [2023-12-24 Sun 15:52]
 
 個別の配信方法や設定方法は後述しますが、巷によくあるCI/CDの流れを踏襲しています。
 分量の多い記事に関しては適宜Pull Requestに切り出して執筆していく運用にしています。
-** DONE Zettelkasten
-CLOSED: [2023-12-24 Sun 16:11]
+** Zettelkasten
 
 ソフトウェア開発は業界が未成熟な面と日進月歩で進化して続けているという二面があり、知識が陳腐化しやすいという性質を持っています。
 長期的にコンテンツ管理をするという前提で、継続的に知見をアップデートをするにあたってどう管理運用をしていけば良いのかを考慮する必要があります。
@@ -244,10 +230,8 @@ jMatsuzaki氏のZettelkasten関連が一番参考になったのでメモして�
 またorg-roamのドキュメントにも簡単に書いてあるので目を通すことをお勧めします。
 https://www.orgroam.com/manual.html#A-Brief-Introduction-to-the-Zettelkasten-Method
 
-* DONE コンテンツ管理
-CLOSED: [2023-12-24 Sun 17:22]
-** DONE org-roam
-CLOSED: [2023-12-24 Sun 17:05]
+* コンテンツ管理
+** org-roam
 *** Basic
 
 [[https://www.orgroam.com/][org-roam]] はorg-modeのキラーアプリケーションの1つです。
@@ -406,8 +390,7 @@ https://www.orgroam.com/manual.html#Encryption
 前述した =org-roam-capture= で =foo.org.gpg= のように拡張子にgpgを付けたファイルを生成するだけで暗号化できます。
 なお [[id:DB5D710F-6168-47D4-9044-1ED3D24D61E6][Emacs内でgpg fileがsaveできなくなった時に対応したことメモ]] にもある通り、gpgのversionを下げないとEmacsがHang upしてしまうので注意が必要です。
 
-** DONE textlint
-CLOSED: [2023-12-24 Sun 17:14]
+** textlint
 
 日本語の文章の校正を自動化するにあたって[[https://github.com/textlint/textlint][textlint/textlint]]を導入しました。
 textlintは日本語に特化したルールセットを提供してくれており、日本語のOSS校正ツールとしては一番普及しています。
@@ -480,8 +463,7 @@ prh.yml:
   (with-eval-after-load 'flycheck
     (add-to-list 'flycheck-checkers 'textlint))
 #+end_src
-** DONE secretlint
-CLOSED: [2023-12-24 Sun 17:21]
+** secretlint
 [[https://github.com/secretlint/secretlint][secretlint/secretlint]] はAPIトークンや秘密鍵などのコミットを検知するツールです。
 =AWS_SECRET_ACCESS_KEY= などを誤ってGitHubにPushして全世界に公開してしまうと大問題です。
 
@@ -498,8 +480,7 @@ CLOSED: [2023-12-24 Sun 17:21]
 #+end_src
 * Publish
 ** Hugo
-*** DONE Basic
-CLOSED: [2023-12-24 Sun 17:41]
+*** Basic
 [[https://gohugo.io/][Hugo]] はGo製の静的サイトジェネレータです。
 静的サイトジェネレータとは、指定のディレクトリにあるMarkdownや画像ファイルを参照して本番用の静的コンテンツを生成するツールのことです。
 
@@ -511,8 +492,7 @@ CLOSED: [2023-12-24 Sun 17:41]
 - [[https://qiita.com/peaceiris/items/ef38cc2a4b5565d0dd7c][Hugo で静的なサイト・ブログを構築しよう - Qiita]]
 
 現状特に不満はありませんが、特にHugoにこだわりがある訳ではないので、より良い静的サイトジェネレータがあれば乗り換える可能性は十分にあります。
-*** DONE Org to Markdown
-CLOSED: [2023-12-24 Sun 17:53]
+*** Org to Markdown
 
 =export-org-roam-files= を実行してorg-roam管理下のHugoに出力したいディレクトリを指定して[[https://ox-hugo.scripter.co/][ ox-hugo]] でMarkdownに変換しています。
 
@@ -570,8 +550,7 @@ GitHub Actions上で動かす関係で、 =org-roam-db-sync= を明示的に実�
 
   (add-hook 'org-export-before-processing-functions #'collect-backlinks-string)
 #+end_src
-*** DONE Hosting
-CLOSED: [2023-12-24 Sun 17:57]
+*** Hosting
 [[https://takeokunn.org/][takeokunn.org]] はHugoで生成した静的コンテンツを[[https://docs.github.com/ja/pages/getting-started-with-github-pages/about-github-pages][GitHub Pages]]で配信しています。
 
 [[https://github.com/takeokunn/blog/blob/82439967dcbd0cc522d253c93fcb1457b0a7a5ee/.github/workflows/main.yml#L71][.github/workflows/main.yml]] に一連の流れが記述されています。
@@ -583,8 +562,7 @@ CLOSED: [2023-12-24 Sun 17:57]
 5. [[https://github.com/actions/deploy-pages][actions/deploy-pages]] でGitHub Pagesに出力
 
 カスタムドメインの設定は [[https://docs.github.com/ja/pages/configuring-a-custom-domain-for-your-github-pages-site/about-custom-domains-and-github-pages][カスタムドメインとGitHub Pagesについて - GitHub Docs]] を参照してください。
-*** DONE Theme
-CLOSED: [2023-12-24 Sun 18:03]
+*** Theme
 Hugoは人気静的サイトジェネレータなだけあり、さまざまなテーマを提供してくれています。
 https://themes.gohugo.io/
 
@@ -600,8 +578,7 @@ https://github.com/takeokunn/hugo-take-theme
      git submodule update --remote --recursive
   ,#+end_src
 #+end_src
-*** DONE OGP
-CLOSED: [2023-12-24 Sun 18:10]
+*** OGP
 HugoでOGPを自動生成できないかなと調べていたら [[https://github.com/Ladicle/tcardgen][Ladicle/tcardgen]] というツールがあったので導入しました。
 
 ベースの素材は適当に[[https://www.canva.com/ja_jp/][canva]]で作成し、shell scriptを実行したら良い感じに出力されるように調整しました。
@@ -657,14 +634,11 @@ https://github.com/takeokunn/hugo-take-theme/blob/88ed46b61d65aabf0bde514a6d6432
 ** Zenn
 *** Basic
 *** Org to Markdown
-* DONE GitHub Actions
-CLOSED: [2023-12-24 Sun 17:30]
-** DONE Actionlint
-CLOSED: [2023-12-24 Sun 17:25]
+* GitHub Actions
+** Actionlint
 [[https://github.com/rhysd/actionlint][rhysd/actionlint]] はGitHub Actions yamlのLinterです。
 導入自体は非常にシンプルで [[https://github.com/takeokunn/blog/blob/82439967dcbd0cc522d253c93fcb1457b0a7a5ee/.github/workflows/ci.yml#L11-L19][.github/workflows/ci.yml#L11-L19]] の8行程度でCIを設定できます。
-** DONE dependabot
-CLOSED: [2023-12-24 Sun 17:30]
+** dependabot
 
 [[https://docs.github.com/ja/code-security/dependabot/working-with-dependabot][dependabot]] はプロジェクト内の依存関係のバージョンを上げるPull Requestを自動で作成してくれるサービスです。
 [[https://github.com/takeokunn/blog][takeokunn/blog]] ではnpmとGitHub Actionsのみ依存パッケージを管理しているので以下のように設定しました。
@@ -687,3 +661,5 @@ CLOSED: [2023-12-24 Sun 17:30]
 逐一Pull Requestをmergeするのが面倒な為 [[https://github.com/takeokunn/blog/blob/main/.github/workflows/auto_merge.yml][.github/workflows/auto_merge.yml]] を作成して、CIが通ったら自動でmergeするしくみも作っています。
 
 * 今後の展望
+記事を執筆する時に必要な機能と公開までのワークフローを整えられました。
+さらに自動化できるところがないか模索しつつ技術記事を継続的に執筆していきたいです。
