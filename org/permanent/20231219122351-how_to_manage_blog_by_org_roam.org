@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       E6243AE2-CFE4-4D21-B9B7-E076B13CF486
-:mtime:    20231224184014
+:mtime:    20231224184818
 :ctime:    20231219122351
 :END:
 #+TITLE: org-roamで記事を管理しGitHub Actionsで適切に公開する
@@ -10,7 +10,7 @@
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: permanent
 #+HUGO_SECTION: posts/permanent
-#+HUGO_TAGS: emacs org-roam
+#+HUGO_TAGS: emacs org-roam zettelkasten
 #+HUGO_DRAFT: false
 #+STARTUP: content
 #+STARTUP: nohideblocks
@@ -195,7 +195,7 @@ Webデザインに特別こだわりがあったり、Webサイトを学習目�
 
 [[file:../../static/images/06C3BC2E-F1DD-4FAE-954B-CC8459ED46B7.png]]
 
-#+begin_src mermaid :file (expand-file-name "~/.ghq/github.com/takeokunn/blog/static/images/06C3BC2E-F1DD-4FAE-954B-CC8459ED46B7.png")
+#+begin_src text :file (expand-file-name "~/.ghq/github.com/takeokunn/blog/static/images/06C3BC2E-F1DD-4FAE-954B-CC8459ED46B7.png")
   graph LR
       A[Emacs] --> |push| B[Repo]
       B --> |run CI| C[Linter]
@@ -348,7 +348,7 @@ https://www.orgroam.com/manual.html#Garbage-Collection
 
 for Hugo:
 
-#+begin_src snippet
+#+begin_src text
   # -*- mode: snippet -*-
   # name: blog-hugo
   # key: blog-hugo
@@ -368,7 +368,7 @@ for Hugo:
 
 for Zenn:
 
-#+begin_src snippet
+#+begin_src text
   # -*- mode: snippet -*-
   # name: blog-zenn
   # key: blog-zenn
