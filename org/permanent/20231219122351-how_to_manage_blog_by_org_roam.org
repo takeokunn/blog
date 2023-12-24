@@ -11,7 +11,7 @@
 #+HUGO_CATEGORIES: permanent
 #+HUGO_SECTION: posts/permanent
 #+HUGO_TAGS: emacs org-roam
-#+HUGO_DRAFT: true
+#+HUGO_DRAFT: false
 #+STARTUP: content
 #+STARTUP: nohideblocks
 * Introduction
