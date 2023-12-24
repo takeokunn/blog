@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       E6243AE2-CFE4-4D21-B9B7-E076B13CF486
-:mtime:    20231224165403
+:mtime:    20231224172111
 :ctime:    20231219122351
 :END:
 #+TITLE: org-roamで記事を管理しGitHub Actionsで適切に公開する
@@ -245,9 +245,10 @@ jMatsuzaki氏のZettelkasten関連が一番参考になったのでメモして�
 https://www.orgroam.com/manual.html#A-Brief-Introduction-to-the-Zettelkasten-Method
 
 * コンテンツ管理
-** TODO org-roam
-*** DONE Basic
-CLOSED: [2023-12-24 Sun 16:21]
+** DONE org-roam
+CLOSED: [2023-12-24 Sun 17:05]
+*** Basic
+
 [[https://www.orgroam.com/][org-roam]] はorg-modeのキラーアプリケーションの1つです。
 ベースはorg-modeで記述でき、org file間の移動や参照やリンクをスムーズに行うことができるパッケージです。
 org file間の関係性をSQLiteで管理していて、グラフィカルに表示できます。
@@ -256,8 +257,7 @@ org file間の関係性をSQLiteで管理していて、グラフィカルに表
 [[https://futurismo.biz/using-org-roam-one-year-2022/][🖊知的生産のキラーアプリOrg-roamを１年使い倒し学ぶとはなにか考えたポエム(2022)]] が日本語の記事の中では一番しっかりと書かれており、非常に参考にさせてもらいました。
 
 私の運用は完全にZettelkastenに寄せている訳ではなく、org-roamを使いなるべく運用を寄せているだけですので、理想的なZettelkastenではないことをご了承ください。
-*** DONE ディレクトリ構成
-CLOSED: [2023-12-24 Sun 16:33]
+*** ディレクトリ構成
 
 [[https://jmatsuzaki.com/archives/28172][Zettelkasten（ツェッテルカステン）で使うノートの種類と構成まとめ - jMatsuzaki]] によると、以下のようなディレクトリ構成にすることが推奨されているようです。
 
@@ -276,18 +276,19 @@ CLOSED: [2023-12-24 Sun 16:33]
 
 - org
   - fleeting/ 技術的なメモ
-  - permanent/ ちゃんとした記事
+  - permanent/ 体裁を整えた技術記事
   - diary/ イベント参加記
   - private/ gpgで暗号化した下書き記事
   - zenn/ Zennに出力する記事
 
 現状あまり実践できていないですが、なるべく普段からfleetingにメモを取り、形になったタイミングでpermanenteやzennに記事を書くという運用を目指しています。
 
-*** TODO 設定方法
+*** 設定方法
 この記事を読むような奇特な人は自分でorg-roamのインストールをできるはずなので詳細には書きません。[[https://github.com/org-roam/org-roam?tab=readme-ov-file#installation][README]]を参考に導入してください。
 私はどちらかというとEmacsの設定に関して几帳面なので各Elisp fileごとにsetqをする運用をしています。
 
 以下の設定は [[https://github.com/org-roam/org-roam][org-roam/org-roam]] 内の設定のみですが、[[https://github.com/org-roam/org-roam-ui][org-roam/org-roam-ui]]や[[https://github.com/tefkah/org-roam-timestamps][tefkah/org-roam-timestamps]]も導入することをお勧めします。
+
 **** org-roam
 org-roamは [[https://github.com/takeokunn/blog][takeokunn/blog]] のみで使っているので、以下のように設定しています。
 個人的にはリポジトリ管理は [[https://github.com/x-motemen/ghq][x-motemen/ghq]] を使うことを推奨しています。
@@ -354,8 +355,146 @@ https://www.orgroam.com/manual.html#Garbage-Collection
                                         :unnarrowed t))))
 #+end_src
 *** yasnippet
-** textlint
-** secretlint
+
+=org-roam-capture= でブログを生成した後、タグの設定など公開するにあたって必要な情報を設定しなければなりません。
+出力先に応じて微妙に設定が違う為、[[https://github.com/joaotavora/yasnippet][yasnippet]]でテンプレートを管理するようにしています。
+
+for Hugo:
+
+#+begin_src snippet
+  # -*- mode: snippet -*-
+  # name: blog-hugo
+  # key: blog-hugo
+  # --
+
+  ,#+AUTHOR: takeokunn
+  ,#+DESCRIPTION: ${1:description}
+  ,#+DATE: ${2:`(format-time-string "%Y-%m-%dT%T%z")`}
+  ,#+HUGO_BASE_DIR: ../../
+  ,#+HUGO_CATEGORIES: ${3:fleeting}
+  ,#+HUGO_SECTION: posts/$3
+  ,#+HUGO_TAGS: $3 $4
+  ,#+HUGO_DRAFT: true
+  ,#+STARTUP: content
+  ,#+STARTUP: nohideblocks
+#+end_src
+
+for Zenn:
+
+#+begin_src snippet
+  # -*- mode: snippet -*-
+  # name: blog-zenn
+  # key: blog-zenn
+  # --
+
+  ,#+DESCRIPTION: ${1:description}
+  ,#+DATE: ${2:`(format-time-string "%Y-%m-%dT%T%z")`}
+  ,#+GFM_TAGS: emacs
+  ,#+GFM_CUSTOM_FRONT_MATTER: :emoji 👍
+  ,#+GFM_CUSTOM_FRONT_MATTER: :type tech
+  ,#+GFM_CUSTOM_FRONT_MATTER: :published false
+  ,#+STARTUP: content
+  ,#+STARTUP: nohideblocks
+  ,#+OPTIONS: toc:nil
+#+end_src
+*** gpg暗号化
+
+org-roamはgpgで暗号化したファイルも管理下に置くことができます。
+https://www.orgroam.com/manual.html#Encryption
+
+前述した =org-roam-capture= で =foo.org.gpg= のように拡張子にgpgを付けたファイルを生成するだけで暗号化できます。
+なお [[id:DB5D710F-6168-47D4-9044-1ED3D24D61E6][Emacs内でgpg fileがsaveできなくなった時に対応したことメモ]] にもある通り、gpgのversionを下げないとEmacsがHang upしてしまうので注意が必要です。
+
+** DONE textlint
+CLOSED: [2023-12-24 Sun 17:14]
+
+日本語の文章の校正を自動化するにあたって[[https://github.com/textlint/textlint][textlint]]を導入しました。
+textlintは日本語に特化したルールセットを提供してくれており、日本語のOSS校正ツールとしては一番普及しています。
+textlint自体の詳細な解説は省きますが、この記事を執筆するにあたってtextlintのルールセットを新調して以下のルールを有効にしました。
+
+- [[https://www.npmjs.com/package/textlint][textlint]]
+- [[https://www.npmjs.com/package/textlint-plugin-org][textlint-plugin-org]]
+- [[https://www.npmjs.com/package/textlint-rule-preset-ja-spacing][textlint-rule-preset-ja-spacing]]
+- [[https://www.npmjs.com/package/textlint-rule-preset-ja-technical-writing][textlint-rule-preset-ja-technical-writing]]
+- [[https://www.npmjs.com/package/textlint-rule-preset-japanese][textlint-rule-preset-japanese]]
+- [[https://www.npmjs.com/package/textlint-rule-preset-jtf-style][textlint-rule-preset-jtf-style]]
+- [[https://www.npmjs.com/package/textlint-rule-prh][textlint-rule-prh]]
+- [[https://www.npmjs.com/package/textlint-rule-spellchecker][textlint-rule-spellchecker]]
+- [[https://www.npmjs.com/package/textlint-rule-write-good][textlint-rule-write-good]]
+
+.textlintrc:
+
+#+begin_src json
+  {
+    "rules": {
+      "preset-ja-technical-writing": {
+        "sentence-length": false,
+        "no-doubled-joshi": false,
+        "no-exclamation-question-mark": false
+      },
+      "preset-japanese": {
+        "sentence-length": false,
+        "no-doubled-joshi": false
+      },
+      "preset-ja-spacing": true,
+      "preset-jtf-style": true,
+      "write-good": {
+        "weasel": false
+      },
+      "prh": {
+        "rulePaths": [
+          "./prh.yml",
+          "node_modules/prh/prh-rules/media/WEB+DB_PRESS.yml",
+          "node_modules/prh/prh-rules/media/techbooster.yml"
+        ]
+      }
+    },
+    "plugins": ["org"]
+  }
+#+end_src
+
+prh.yml:
+
+#+begin_src yaml
+  version: 1
+  rules:
+    - expected: Zettelkasten
+      pattern: zettelkasten
+#+end_src
+
+またflycheckでもtextlintを有効にすることによってリアルタイムでエラーを出力できるようにしています。
+
+#+begin_src emacs-lisp
+  (flycheck-define-checker textlint
+    "A linter for prose."
+    :command ("npx" "textlint" "--format" "unix" source-inplace)
+    :error-patterns
+    ((warning line-start (file-name) ":" line ":" column ": "
+              (id (one-or-more (not (any " "))))
+              (message (one-or-more not-newline)
+                       (zero-or-more "\n" (any " ") (one-or-more not-newline)))
+              line-end))
+    :modes (org-mode))
+
+  (with-eval-after-load 'flycheck
+    (add-to-list 'flycheck-checkers 'textlint))
+#+end_src
+** DONE secretlint
+CLOSED: [2023-12-24 Sun 17:21]
+[[https://github.com/secretlint/secretlint][secretlint/secretlint]] はAPIトークンや秘密鍵などのコミットを検知するツールです。
+=AWS_SECRET_ACCESS_KEY= などを誤ってGitHubにPushして全世界に公開してしまうと大問題です。
+
+今年取引先の方がAWS CredentialやほかサービスのSecret Tokenを公開して問題になったことがあり、明日は我が身ということで、なるべくすべてのリポジトリでsecretlintを導入しようという方針になりました。
+
+設定自体は非常にシンプルしており、 [[https://www.npmjs.com/package/@secretlint/secretlint-rule-preset-recommend][@secretlint/secretlint-rule-preset-recommend]] のみ有効にしています。
+
+#+begin_src json
+  {
+      "rules": [{
+          "id": "@secretlint/secretlint-rule-preset-recommend"
+      }]
+  }
+#+end_src
 * Publish
 ** Hugo
 *** Hosting
