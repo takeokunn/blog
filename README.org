@@ -8,6 +8,8 @@ This is a [[https://en.wikipedia.org/wiki/Zettelkasten][Zettelkasten]] blog gene
 
 Using [[https://github.com/takeokunn/hugo-take-theme][takeokunn/hugo-take-theme]].
 
+Also publish to [[https://zenn.dev/][Zenn]] by [[https://github.com/conao3/ox-zenn.el][ox-zenn]].
+
 ** Build locally
 
 generate Org-Roam to Markdown:
