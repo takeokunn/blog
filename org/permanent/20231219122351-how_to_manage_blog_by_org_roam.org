@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       E6243AE2-CFE4-4D21-B9B7-E076B13CF486
-:mtime:    20231224181603
+:mtime:    20231224182940
 :ctime:    20231219122351
 :END:
 #+TITLE: org-roamで記事を管理しGitHub Actionsで適切に公開する
@@ -480,6 +480,9 @@ prh.yml:
 #+end_src
 * Publish
 ** Hugo
+*** Target
+「個人の技術記事」と「個人の日記メモ」を対象にホスティングしています。
+その為Experimentalな機能を気軽に追加したり、途中アクセスできなくなったりしてもあまり気にしないという運用にしています。
 *** Basic
 [[https://gohugo.io/][Hugo]] はGo製の静的サイトジェネレータです。
 静的サイトジェネレータとは、指定のディレクトリにあるMarkdownや画像ファイルを参照して本番用の静的コンテンツを生成するツールのことです。
@@ -632,8 +635,44 @@ tcardgen/ogp.yml:
 https://github.com/takeokunn/hugo-take-theme/blob/88ed46b61d65aabf0bde514a6d6432ea34854b27/layouts/partials/head.html#L32-L53
 
 ** Zenn
+*** Target
+「所属会社の広報用記事」「所属会社の技術記事」を対象にしています。
+一度公開したものはあまり変更しないようにする必要がある為慎重にリリースする必要があります。
 *** Basic
+[[https://zenn.dev/zenn/articles/connect-to-github][GitHubリポジトリでZennのコンテンツを管理する -  Zenn]] にもある通り、ZennはGitHub連携を提供しています。
+リポジトリとブランチを指定してpushにhookして記事が反映されるしくみのようです。
+
+zenn branchを作成して連携するように設定しました。
+https://github.com/takeokunn/blog/tree/zenn
+
+GitHubで管理する前に書いていた記事がいくつかあった為、Zenn上で記事をExportをして、GitHubにMarkdownのまま管理をしてCI上でよしなに出力できるように調整しました。
+https://zenn.dev/settings/export
+
 *** Org to Markdown
+
+=export-org-zenn-files= を実行して =zenn/articles= に出力するようにしました。
+
+#+begin_src emacs-lisp
+  (require 'package)
+
+  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+  (package-refresh-contents)
+  (package-initialize)
+  (package-install 'ox-zenn)
+
+  (require 'ox-zenn)
+
+  (defun export-org-zenn-files ()
+    "Exports Org files to Zenn markdown."
+    (interactive)
+    (let ((org-publish-project-alist `(("zenn"
+                                        :base-directory "org/zenn/"
+                                        :base-extension "org"
+                                        :publishing-directory "zenn/articles"
+                                        :publishing-function org-zenn-publish-to-markdown))))
+      (org-publish-all t)))
+#+end_src
+
 * GitHub Actions
 ** Actionlint
 [[https://github.com/rhysd/actionlint][rhysd/actionlint]] はGitHub Actions yamlのLinterです。
