@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       E6243AE2-CFE4-4D21-B9B7-E076B13CF486
-:mtime:    20231224175701
+:mtime:    20231224181039
 :ctime:    20231219122351
 :END:
 #+TITLE: org-roamで記事を管理しGitHub Actionsで適切に公開する
@@ -583,9 +583,77 @@ CLOSED: [2023-12-24 Sun 17:57]
 5. [[https://github.com/actions/deploy-pages][actions/deploy-pages]] でGitHub Pagesに出力
 
 カスタムドメインの設定は [[https://docs.github.com/ja/pages/configuring-a-custom-domain-for-your-github-pages-site/about-custom-domains-and-github-pages][カスタムドメインとGitHub Pagesについて - GitHub Docs]] を参照してください。
-*** Theme
-*** OGP
-*** 画像
+*** DONE Theme
+CLOSED: [2023-12-24 Sun 18:03]
+Hugoは人気静的サイトジェネレータなだけあり、さまざまなテーマを提供してくれています。
+https://themes.gohugo.io/
+
+私はWebデザインは上手ではないですがCSSはかなり得意なので自作でテーマを作成しました。
+https://github.com/takeokunn/hugo-take-theme
+
+[[https://medium.com/][Medium]] のようなごちゃごちゃしていないシンプルなデザインが好みだったので、デザインのテイストを寄せて自分でゼロから作りました。
+
+デザインに変更があり次第、[[https://github.com/takeokunn/blog/blob/main/README.org][README.org]] に =git submodule= を更新するcode blockを用意しているのでOrg Babelで実行しています。
+
+#+begin_src org
+  ,#+begin_src shell :results output none
+     git submodule update --remote --recursive
+  ,#+end_src
+#+end_src
+*** DONE OGP
+CLOSED: [2023-12-24 Sun 18:10]
+HugoでOGPを自動生成できないかなと調べていたら [[https://github.com/Ladicle/tcardgen][Ladicle/tcardgen]] というツールがあったので導入しました。
+
+ベースの素材は適当に[[https://www.canva.com/ja_jp/][canva]]で作成し、shell scriptを実行したら良い感じに出力されるように調整しました。
+
+#+begin_src shell
+  tcardgen --fontDir=tcardgen/font --output=static/ogp --config=tcardgen/ogp.yml content/posts/**/*.md
+#+end_src
+
+tcardgen/ogp.yml:
+
+#+begin_src yaml
+  template: tcardgen/ogp.png
+  title:
+    start:
+      px: 100
+      py: 150
+    fgHexColor: "#333333"
+    fontSize: 60
+    fontStyle: Bold
+    maxWidth: 1000
+    lineSpacing: 10
+  category:
+    start:
+      px: 100
+      py: 100
+    fgHexColor: "#E5B52A"
+    fontSize: 42
+    fontStyle: Bold
+  info:
+    start:
+      px: 270
+      py: 390
+    fgHexColor: "#333333"
+    fontSize: 38
+    fontStyle: Regular
+    separator: " - "
+  tags:
+    start:
+      px: 270
+      py: 460
+    fgHexColor: "#FFFFFF"
+    bgHexColor: "#333333"
+    fontSize: 22
+    fontStyle: Medium
+    boxAlign: Left
+#+end_src
+
+[[file:../../static/images/7393CC74-ED44-4DEF-8374-550864B07D49.png]]
+
+生成したOGPを反映するには自作テーマ側の変更の必要だったので以下のように対応しました。
+https://github.com/takeokunn/hugo-take-theme/blob/88ed46b61d65aabf0bde514a6d6432ea34854b27/layouts/partials/head.html#L32-L53
+
 ** Zenn
 *** Basic
 *** Org to Markdown
