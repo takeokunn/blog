@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       E6243AE2-CFE4-4D21-B9B7-E076B13CF486
-:mtime:    20231224172111
+:mtime:    20231224173054
 :ctime:    20231219122351
 :END:
 #+TITLE: org-roamで記事を管理しGitHub Actionsで適切に公開する
@@ -244,7 +244,8 @@ jMatsuzaki氏のZettelkasten関連が一番参考になったのでメモして�
 またorg-roamのドキュメントにも簡単に書いてあるので目を通すことをお勧めします。
 https://www.orgroam.com/manual.html#A-Brief-Introduction-to-the-Zettelkasten-Method
 
-* コンテンツ管理
+* DONE コンテンツ管理
+CLOSED: [2023-12-24 Sun 17:22]
 ** DONE org-roam
 CLOSED: [2023-12-24 Sun 17:05]
 *** Basic
@@ -408,7 +409,7 @@ https://www.orgroam.com/manual.html#Encryption
 ** DONE textlint
 CLOSED: [2023-12-24 Sun 17:14]
 
-日本語の文章の校正を自動化するにあたって[[https://github.com/textlint/textlint][textlint]]を導入しました。
+日本語の文章の校正を自動化するにあたって[[https://github.com/textlint/textlint][textlint/textlint]]を導入しました。
 textlintは日本語に特化したルールセットを提供してくれており、日本語のOSS校正ツールとしては一番普及しています。
 textlint自体の詳細な解説は省きますが、この記事を執筆するにあたってtextlintのルールセットを新調して以下のルールを有効にしました。
 
@@ -497,13 +498,43 @@ CLOSED: [2023-12-24 Sun 17:21]
 #+end_src
 * Publish
 ** Hugo
+*** Basic
 *** Hosting
 *** Theme
 *** Backlink
 *** OGP
 *** 画像
 ** Zenn
+*** Basic
 *** ox-zenn
 *** GitHub連携
-* GitHub Actions
+* DONE GitHub Actions
+CLOSED: [2023-12-24 Sun 17:30]
+** DONE Actionlint
+CLOSED: [2023-12-24 Sun 17:25]
+[[https://github.com/rhysd/actionlint][rhysd/actionlint]] はGitHub Actions yamlのLinterです。
+導入自体は非常にシンプルで [[https://github.com/takeokunn/blog/blob/82439967dcbd0cc522d253c93fcb1457b0a7a5ee/.github/workflows/ci.yml#L11-L19][.github/workflows/ci.yml#L11-L19]] の8行程度でCIを設定できます。
+** DONE dependabot
+CLOSED: [2023-12-24 Sun 17:30]
+
+[[https://docs.github.com/ja/code-security/dependabot/working-with-dependabot][dependabot]] はプロジェクト内の依存関係のバージョンを上げるPull Requestを自動で作成してくれるサービスです。
+[[https://github.com/takeokunn/blog][takeokunn/blog]] ではnpmとGitHub Actionsのみ依存パッケージを管理しているので以下のように設定しました。
+
+#+begin_src yaml
+  version: 2
+  updates:
+    - package-ecosystem: npm
+      directory: /
+      schedule:
+        interval: weekly
+      target-branch: main
+    - package-ecosystem: github-actions
+      directory: /
+      schedule:
+        interval: weekly
+#+end_src
+
+基本的に開発用ツールのみ管理していて本番への影響がない為、mainに直接mergeして配信するようにしています。
+逐一Pull Requestをmergeするのが面倒な為 [[https://github.com/takeokunn/blog/blob/main/.github/workflows/auto_merge.yml][.github/workflows/auto_merge.yml]] を作成して、CIが通ったら自動でmergeするしくみも作っています。
+
 * 今後の展望
