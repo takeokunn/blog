@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       E6243AE2-CFE4-4D21-B9B7-E076B13CF486
-:mtime:    20231224152412
+:mtime:    20231224155012
 :ctime:    20231219122351
 :END:
 #+TITLE: org-roamで記事を管理しGitHub Actionsで適切に公開する
@@ -197,7 +197,30 @@ Webデザインに特別こだわりがあったり、Webサイトを学習目�
 サイト内のコンテンツ数はブログサービスに勝つことは個人ではほぼ不可能です。
 不特定多数に見てもらいたいものはブログサービス、特定少数に見てもらいたいものはセルフホスティング先に公開するという運用をしています。
 
-* 全体の流れ
+* DONE 全体の流れ
+CLOSED: [2023-12-24 Sun 15:49]
+
+[[file:../../static/images/06C3BC2E-F1DD-4FAE-954B-CC8459ED46B7.png]]
+
+#+begin_src mermaid
+  graph LR
+      A[Emacs] --> |push| B[Repo]
+      B --> |run CI| C[Linter]
+      subgraph GitHub Actions
+      C --> D[Export]
+      end
+      D --> |publish| E[Hugo]
+      D --> |publish| F[Zenn]
+#+end_src
+
+1. Localで記事を編集する
+2. [[https://github.com/takeokunn/blog][takeokunn/blog]] のmain branchにpushする
+3. GitHub Actions上で[[https://github.com/textlint/textlint][textlint]]と[[https://github.com/secretlint/secretlint][secretlint]]を実行する
+4. 各公開先用に[[https://orgmode.org/guide/Exporting.html][org-export]]して指定の処理をする
+
+個別の配信方法や設定方法は後述しますが、巷によくあるCI/CDの流れを踏襲しています。
+分量の多い記事に関しては適宜Pull Requestに切り出して執筆していく運用にしています。
+
 * コンテンツ管理
 ** org-roam
 ** yasnippet
@@ -213,4 +236,5 @@ Webデザインに特別こだわりがあったり、Webサイトを学習目�
 ** Zenn
 *** ox-zenn
 *** GitHub連携
+* GitHub Actions
 * 今後の展望
