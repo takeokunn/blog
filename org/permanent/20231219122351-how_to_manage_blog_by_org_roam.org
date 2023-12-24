@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       E6243AE2-CFE4-4D21-B9B7-E076B13CF486
-:mtime:    20231224185620
+:mtime:    20231224190352
 :ctime:    20231219122351
 :END:
 #+TITLE: org-roamで記事を管理しGitHub Actionsで適切に公開する
@@ -217,29 +217,32 @@ Webデザインに特別こだわりがあったり、Webサイトを学習目�
 ソフトウェア開発は業界が未成熟な面と日進月歩で進化して続けているという二面があり、知識が陳腐化しやすいという性質を持っています。
 長期的にコンテンツ管理をするという前提で、継続的に知見をアップデートをするにあたってどう管理運用をしていけば良いのかを考慮する必要があります。
 
-検討した結果Zettelkastenを採用することにしました。
+いろいろ検討した結果Zettelkastenを採用することにしました。
+
 [[https://gigazine.net/news/20200604-zettelkasten-note/][効率的なノートを作成できるドイツの社会学者が生み出した方法「Zettelkasten」とは？ - gigazine]] にもある通り、小さな知識を相互にリンクさせることによって巨大な知識体系を作ることができます。
 
-Zettelkastenについて日本語で解説した記事はあまりなく、どう運用すれば良いのか非常に悩みました。
+Zettelkastenについて日本語で解説した記事はあまりなくどう運用すれば良いのか非常に悩みました。
 
 jMatsuzaki氏のZettelkasten関連が一番参考になったのでメモしておきます。
+
 [[https://jmatsuzaki.com/archives/category/lifestyle/zettelkasten][https://jmatsuzaki.com/archives/category/lifestyle/zettelkasten]]
 
 またorg-roamのドキュメントにも簡単に書いてあるので目を通すことをお勧めします。
+
 https://www.orgroam.com/manual.html#A-Brief-Introduction-to-the-Zettelkasten-Method
 
 * コンテンツ管理
 ** org-roam
 *** Basic
-
 [[https://www.orgroam.com/][org-roam]] はorg-modeのキラーアプリケーションの1つです。
-ベースはorg-modeで記述でき、org file間の移動や参照やリンクをスムーズに行うことができるパッケージです。
-org file間の関係性をSQLiteで管理していて、グラフィカルに表示できます。
+org-modeで記述でき、org file間の移動や参照やリンクをスムーズに行うことができるパッケージです。
+org file間の関係性をSQLiteで管理していて、[[https://github.com/org-roam/org-roam-ui][org-roam-ui]]を使えばグラフィカルに表示できます。
 
-「org-roamを使ってみた」といった記事は複数あるが、実際に長期的に運用してみた記事はあまりないのでどう運用するのか非常に悩みました。
+「org-roamを使ってみた」といった入門記事は複数あるが、実際に長期的に運用してみた記事が全然ないのでどう運用するのかかなり悩みました。
+
 [[https://futurismo.biz/using-org-roam-one-year-2022/][🖊知的生産のキラーアプリOrg-roamを１年使い倒し学ぶとはなにか考えたポエム(2022)]] が日本語の記事の中では一番しっかりと書かれており、非常に参考にさせてもらいました。
 
-私の運用は完全にZettelkastenに寄せている訳ではなく、org-roamを使いなるべく運用を寄せているだけですので、理想的なZettelkastenではないことをご了承ください。
+なお私の運用は完全にZettelkastenに寄せている訳ではありませんので注意してください。
 *** ディレクトリ構成
 
 [[https://jmatsuzaki.com/archives/28172][Zettelkasten（ツェッテルカステン）で使うノートの種類と構成まとめ - jMatsuzaki]] によると、以下のようなディレクトリ構成にすることが推奨されているようです。
@@ -257,23 +260,26 @@ org file間の関係性をSQLiteで管理していて、グラフィカルに表
 
 私は以下のようなディレクトリ構成で運用しています。
 
-- org
-  - fleeting/ 技術的なメモ
-  - permanent/ 体裁を整えた技術記事
-  - diary/ イベント参加記
-  - private/ gpgで暗号化した下書き記事
-  - zenn/ Zennに出力する記事
+- org/
+  - fleeting/ ... 技術的なメモ
+  - permanent/ ... 体裁を整えた技術記事
+  - diary/ ... イベント参加記
+  - private/ ... gpgで暗号化した下書き記事
+  - zenn/ ... Zennに出力する記事
 
-現状あまり実践できていないですが、なるべく普段からfleetingにメモを取り、形になったタイミングでpermanenteやzennに記事を書くという運用を目指しています。
+なるべく普段からfleetingにメモを取り、形になったタイミングでpermanenteやzennに記事を書くという運用を目指しています。
 
 *** 設定方法
 この記事を読むような奇特な人は自分でorg-roamのインストールをできるはずなので詳細には書きません。[[https://github.com/org-roam/org-roam?tab=readme-ov-file#installation][README]]を参考に導入してください。
+
 私はどちらかというとEmacsの設定に関して几帳面なので各Elisp fileごとにsetqをする運用をしています。
 
 以下の設定は [[https://github.com/org-roam/org-roam][org-roam/org-roam]] 内の設定のみですが、[[https://github.com/org-roam/org-roam-ui][org-roam/org-roam-ui]]や[[https://github.com/tefkah/org-roam-timestamps][tefkah/org-roam-timestamps]]も導入することをお勧めします。
 
 **** org-roam
+
 org-roamは [[https://github.com/takeokunn/blog][takeokunn/blog]] のみで使っているので、以下のように設定しています。
+
 個人的にはリポジトリ管理は [[https://github.com/x-motemen/ghq][x-motemen/ghq]] を使うことを推奨しています。
 
 #+begin_src emacs-lisp
@@ -284,6 +290,7 @@ org-roamは [[https://github.com/takeokunn/blog][takeokunn/blog]] のみで使�
 **** org-roam-node
 
 =org-roam-node-find= と =org-roam-node-insert= はorg-roamを使うにあたって一番使うコマンドと言っても過言ではありません。
+
 =org-roam-completion-everywhere= を有効にすると補完が効いてくれるようになるが、 =org-roam-node-insert= で明示的にリンクを入力すれば良いだけなので好みで有効にしてください。
 
 #+begin_src emacs-lisp
@@ -298,6 +305,7 @@ org-roamは [[https://github.com/takeokunn/blog][takeokunn/blog]] のみで使�
 =org-roam-db-autosync-enable= を有効にすることによって、非同期で =org-roam.db= を更新してくれるようです。
 
 =org-roam-db-gc-threshold= はドキュメントを読んでいると多めに設定しておいても良いだろうということで多めに設定してます。
+
 https://www.orgroam.com/manual.html#Garbage-Collection
 
 #+begin_src emacs-lisp
@@ -311,6 +319,7 @@ https://www.orgroam.com/manual.html#Garbage-Collection
 **** org-roam-capture
 
 新規に記事を作成する時は =org-roam-capture= 経由で作成しています。
+
 それぞれのディレクトリごとにファイル名を自動生成して作成できるように設定しています。
 
 #+begin_src emacs-lisp
