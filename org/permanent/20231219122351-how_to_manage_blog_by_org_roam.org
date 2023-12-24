@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       E6243AE2-CFE4-4D21-B9B7-E076B13CF486
-:mtime:    20231224182940
+:mtime:    20231224183835
 :ctime:    20231219122351
 :END:
 #+TITLE: org-roamで記事を管理しGitHub Actionsで適切に公開する
@@ -143,9 +143,9 @@ CLOSED: [2023-12-24 Sun 14:21]
 - 所属会社の技術記事
   - e.g. [[https://zenn.dev/openlogi/articles/bba928c9e07af3][PHPConf2023「保守性の高いアプリケーションを作り続けるための基盤整備について」というテーマで登壇します]]
 - 個人の技術記事
-  - e.g. [[id:C81D01DB-6135-46CD-B491-F35F42002417][PHP8から追加されたJITについて学ぼう!]]
+  - e.g. [[https://www.takeokunn.org/posts/permanent/20221222111924-about_php_jit/][PHP8から追加されたJITについて学ぼう!]]
 - 個人の日記メモ
-  - e.g. [[id:110B7369-0B49-48B4-9151-E39698DB0712][「PHP Lovers Meetup vol.0 ~ はじまりは<?phpから」に参加しました]]
+  - e.g. [[https://www.takeokunn.org/posts/diary/20230710082646-retrospective_php_lovers_meetup_vol_0/][「PHP Lovers Meetup vol.0 ~ はじまりは<?phpから」に参加しました]]
 
 上記の記事公開の十分要件を踏まえたざっくりとしたマトリックスは以下。
 
@@ -388,7 +388,7 @@ org-roamはgpgで暗号化したファイルも管理下に置くことができ
 https://www.orgroam.com/manual.html#Encryption
 
 前述した =org-roam-capture= で =foo.org.gpg= のように拡張子にgpgを付けたファイルを生成するだけで暗号化できます。
-なお [[id:DB5D710F-6168-47D4-9044-1ED3D24D61E6][Emacs内でgpg fileがsaveできなくなった時に対応したことメモ]] にもある通り、gpgのversionを下げないとEmacsがHang upしてしまうので注意が必要です。
+なお [[https://www.takeokunn.org/posts/fleeting/20230624130858-how_to_escape_emacs_gpg_bug/][Emacs内でgpg fileがsaveできなくなった時に対応したことメモ]] にもある通り、gpgのversionを下げないとEmacsがHang upしてしまうので注意が必要です。
 
 ** textlint
 
