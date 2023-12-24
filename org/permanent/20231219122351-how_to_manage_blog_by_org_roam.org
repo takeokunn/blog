@@ -1,6 +1,6 @@
 :PROPERTIES:
 :ID:       E6243AE2-CFE4-4D21-B9B7-E076B13CF486
-:mtime:    20231224184818
+:mtime:    20231224184856
 :ctime:    20231219122351
 :END:
 #+TITLE: org-roamで記事を管理しGitHub Actionsで適切に公開する
@@ -16,8 +16,7 @@
 #+STARTUP: nohideblocks
 * Introduction
 
-2023年度Emacsアドベントカレンダー2日目です。
-[[https://qiita.com/advent-calendar/2023/emacs][https://qiita.com/advent-calendar/2023/emacs]]
+[[https://qiita.com/advent-calendar/2023/emacs][2023年度Emacsアドベントカレンダー]]2日目の記事です。
 
 当記事ではorg-roamを用いたブログ記事のコンテンツ管理方法と、ZennやHugoへ公開する方法の一連の流れについて解説しています。
 
