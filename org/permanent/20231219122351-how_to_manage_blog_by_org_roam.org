@@ -1,0 +1,704 @@
+:PROPERTIES:
+:ID:       E6243AE2-CFE4-4D21-B9B7-E076B13CF486
+:mtime:    20231224182940
+:ctime:    20231219122351
+:END:
+#+TITLE: org-roamで記事を管理しGitHub Actionsで適切に公開する
+#+AUTHOR: takeokunn
+#+DESCRIPTION: description
+#+DATE: 2023-12-19T12:31:50+0900
+#+HUGO_BASE_DIR: ../../
+#+HUGO_CATEGORIES: permanent
+#+HUGO_SECTION: posts/permanent
+#+HUGO_TAGS: emacs org-roam
+#+HUGO_DRAFT: true
+#+STARTUP: content
+#+STARTUP: nohideblocks
+* Introduction
+
+2023念度Emacsアドベントカレンダーn日目です。
+当記事ではorg-roamを用いたブログ記事のコンテンツ管理方法と、ZennやHugoへ公開する方法の一連の流れについて解説しています。
+
+個々の技術への深堀は必要に応じて別途記事に認めますのでご了承ください。
+
+* 考え方
+** ブログサービスについて
+
+[[https://zenn.dev/][Zenn]] や [[https://qiita.com/][Qiita]] などブログサービスを提供している会社は世の中に無数にありますが、「ブログ記事という形式で世の中に公開する」ということには大きく分けて以下の2つの要素があります。
+
+- コンテンツ管理
+- 記事公開
+
+2000年代初期と2023年現在求められているブログサービスの必要条件は異なるように、年々求められる必要条件は増えています。
+2023年においてSNSに投稿したものを埋め込むことができないブログサービスというのはほぼ存在しないように、有名なブログサービスに乗っかっておけばモダンな環境を常に享受し続けることができます。
+
+しかしながら、ブログサービスにも当然栄枯盛衰があり自分が使っているサービスの行く末など個人には分かりようがありません。
+現に私がプログラミングを初めた2014年ごろはQiitaが技術系ブログサービス一強だったが、2023年現在ではZennが主流になっています。
+常により良いブログサービスが出たら移動することも念頭に置く必要があります。
+
+私が勤めている会社では多少技術的な記事でも広報目的に[[https://note.com/][note]]に書くという運用がされていたり、以前所属していた会社では、[[https://hatenablog.com/][はてなブログ]]で技術ブログを運用していました。
+ソフトウェアエンジニアとして働く以上「どこに対して記事公開するか」というのは自分ではコントロール効かないという前提があります。
+
+上記で述べたように「記事公開」に関しては自分でどうしようもない部分が多々ありますが、「コンテンツ管理」に関しては完全に自分でコントロールを効かせることができます。
+適切なフォーマットで公開すれば良いだけですので、どのように記事を管理されようとブログサービスからしたらDBのレコードの1つなだけなでどうでも良いことだと私は考えています。
+
+** ソフトウェアエンジニアとして
+
+ソフトウェアエンジニアにとって「技術的な文書を書く」という営みは避けられません。
+「ドキュメントを書く」「チケットに証跡を書く」「同僚と技術的やりとりをする」等さまざまありますが、「ブログ記事を書く」という行為もそのひとつです。
+特定の技術は廃れようと、20年後30年後も「技術的な文書を書く」という営みがなくなることはないでしょう。
+
+私は残念ながらソフトウェアエンジニア以外の仕事が絶望的にできないので、10年後も20年後もソフトウェアエンジニアとして働いているだろうという感覚があります。
+あまり文章を書くのが得意ではないので、いかに低負荷で一定の品質の文書を書く環境を用意するか、というのが自分のソフトウェアエンジニアとしての人生にとって重要なことだと考えてます。
+
+** すべてをEmacs org-modeに最適化する
+
+私は今までさまざまなテキストエディタを使い込んできました。
+その中で一番時間をつぎ込んだ時に高みを目指せるのはEmacsだということを確信しました。
+
+「simpleが良いか、easyが良いか」という議論はエンジニア界隈ではよく話題にされます。
+私としては簡単さもシンプルさも本当にどうでもよく、たとえ難しかろうと複雑だろうと時間がかかろうと到達点が一番高いものが良いが一番良いと考えています。
+
+今回の記事はorg-modeが主体になりますが、はっきり言ってorg-modeはsimpleでもeasyでもありません。
+巷にある「爆速で構築する」系の記事とは正反対です。
+初速は一切出ないですし、理解するまで時間がかかるし、運用が軌道に乗るまで本当に時間がかかります。
+ただし、org-modeにはプログラマー人生すべてを寄せることができるくらいのポテンシャルがあり、運用に乗った時のパフォーマンスは計りしれません。
+
+少なくとも直近10年は一切Emacsへの投資を惜しまないという覚悟をしているので執筆環境もEmacs org-modeに最適化をしていきます。
+* 要件
+
+自分はブログに対して何を求めているのか、ブログとはどうあるべきなのか、をあらためて整理してみました。
+以下は個人ブログに対しての考え方ですので、複数人での運用に関しては特に考慮していません。
+
+** 必要条件
+
+[[https://www.gnu.org/software/emacs/manual/html_node/emacs/index.html][The Emacs Editor Manual]] や [[https://www.lispworks.com/documentation/HyperSpec/Front/][Common Lisp Hyperspec]] のような数十年前のWeb記事程度を満たしていれば良いだろうということを書いています。
+
+*** DONE コンテンツ管理
+CLOSED: [2023-12-24 Sun 13:47]
+
+- 何がしかの方法で永続的に保存できる
+- MarkdownやOrgのような人間が解釈しやすい形式で記述できる
+
+コンテンツ管理の必要条件は最低限で、データベースやプレーンテキストで保存できれば要件を満たしていると考えています。
+またHTMLをベタ書きするのは大ですので、MarkdownやOrgのような人間向きのフォーマットで最低限記述できるようにしたいと考えています。
+
+*** DONE 記事公開
+CLOSED: [2023-12-24 Sun 13:47]
+
+- 意図したHyperTextを継続的に配信できる
+- 画像やCSSも配信でき、最低限文章を読めるデザインで配信する
+
+最低限Webサイトとしての体を成していれば良いと考えています。
+
+** 十分条件
+
+必要条件はあまりにも最低限すぎるので、2023年現在このくらいは最低限満たしたい条件を書いています。
+
+*** DONE コンテンツ管理
+CLOSED: [2023-12-24 Sun 14:08]
+
+- MUST
+  - 秘密鍵やパスワードが入っていないことを網羅的に検査できる
+  - 校正ツールで継続的かつ網羅的に文章を検査できる
+  - エディタの標準的な機能を使うことができる
+- SHOULD
+  - 執筆から公開フローが整っている
+  - バージョン管理ができる
+  - 下書きができる
+  - 過去記事の検索性が優れている
+- MAY
+  - 複数のブログサービスにまたがって管理できる
+
+個人でブログを書いているのもあり、誰かが校正してくれることがないので、うっかり不用意な記述やパスワードを公開しないようなしくみ作りが重要だと考えています。
+
+*** DONE 記事公開
+CLOSED: [2023-12-24 Sun 14:21]
+
+- MUST
+  - 文章を読みやすいWebデザインで提供する
+  - Twitter埋め込みやYouTube動画埋め込みができる
+  - メジャーなプログラミング言語のコードブロックをシンタックスハイライトできる
+- SHOULD
+  - 記事の公開/非公開を切り替えることができる
+  - SEO対策
+  - 関連記事を表示できる
+  - OGPが表示できる
+  - マイナーなプログラミング言語のコードブロックをシンタックスハイライトできる
+- MAY
+  - 任意のドメインで配信する
+  - バックリンクを貼ることができる
+  - SNSシェアボタンがある
+  - ブログ内検索できる
+  - 予約投稿できる
+
+ブログ記事の公開先が不特定多数向けなのか特定少数向けなのかで要件は変わってきます。
+
+* 記事公開先
+** 記事の属性
+私の場合、ブログ記事の属性として以下の4つを想定する必要があります。
+
+- 所属会社の広報用記事
+  - e.g. [[https://note.openlogi.com/n/nde050fa4ff2a?magazine_key=m9f98ae49ed2f][PHPConference 2023に登壇してきました - note]]
+- 所属会社の技術記事
+  - e.g. [[https://zenn.dev/openlogi/articles/bba928c9e07af3][PHPConf2023「保守性の高いアプリケーションを作り続けるための基盤整備について」というテーマで登壇します]]
+- 個人の技術記事
+  - e.g. [[id:C81D01DB-6135-46CD-B491-F35F42002417][PHP8から追加されたJITについて学ぼう!]]
+- 個人の日記メモ
+  - e.g. [[id:110B7369-0B49-48B4-9151-E39698DB0712][「PHP Lovers Meetup vol.0 ~ はじまりは<?phpから」に参加しました]]
+
+上記の記事公開の十分要件を踏まえたざっくりとしたマトリックスは以下。
+
+- ○ ... 必要
+- △ ... どちらでも良い
+- × ... 不要
+
+|                    | 所属会社 広報用記事 | 所属会社 技術記事 | 個人 技術記事 | 個人 日記メモ |
+|--------------------+------------------+----------------+-------------+-------------|
+| Webデザイン          | ○                | ○              | △           | △           |
+| SNS埋め込み          | ○                | ○              | △           | ○           |
+| シンタックスハイライト | △                | ○              | ○           | △           |
+| 記事の公開/非公開設定 | ○                | ○              | △           | △           |
+| SEO対策             | ○                | ○              | △           | ×           |
+| 関連記事             | ○                | ○              | △           | ×           |
+| OGP表示             | ○                | ○              | △           | ×           |
+| カスタムドメイン      | △                | △              | △           | ×           |
+| バックリンク         | △                | △              | △           | △           |
+| SNSシェア           | ○                | ○              | △           | ×           |
+| ブログ内検索         | △                | △              | △           | ×           |
+| 予約投稿             | ○                | ○              | ×           | ×           |
+
+所属企業のブログ記事は広報的な意味も兼ねており、業務時間を使って仕事として書いている側面もあるので、高い要件を満たす必要があります。
+モダンはブログサービスを使えばこのあたりの要件をすべてフルマネージドで満たしてくれているので、個人として特に何も対応する必要はありません。
+
+個人としてのブログ記事は求められる要件は非常に少なく好き勝手作ることができます。
+好きなデザインテーマを使い、好きなライブラリを選定し、自分好みにブログサービスを作成しても問題がないのです。
+
+所属企業のブログ記事はどちらかというと一枚絵のようなものであまり気軽に文章を変更してはいけないが、個人のブログ記事は気軽に文章を変更することが可能という視点もあります。
+
+** ブログサービスとセルフホスティング
+
+基本的には既存のブログサービスの品質は非常に高いのでセルフホスティングするメリットはほぼありません。
+はっきり言ってセルフホスティングは何か目的がない限りは時間の無駄であり、あまりお勧めできるようなものではありません。
+
+Webデザインに特別こだわりがあったり、Webサイトを学習目的で作成したり、既存のブログサービスでは実現できないことをやりたい等がない限り、一切やる必要がないです。
+私の場合、Webエンジニアとしてのスキルアップの為に作成している面が非常に大きく、既存のブログサービスにどこまで近付けるのか、静的サイトジェネレータのポテンシャルを検証する目的で作成しています。
+
+ブログサービスとセルフホスティングの差はいろいろありますが、一番の差はSEO対策です。
+サイト内のコンテンツ数はブログサービスに勝つことは個人ではほぼ不可能です。
+不特定多数に見てもらいたいものはブログサービス、特定少数に見てもらいたいものはセルフホスティング先に公開するという運用をしています。
+
+* 全体の流れ
+** ワークフロー
+
+[[file:../../static/images/06C3BC2E-F1DD-4FAE-954B-CC8459ED46B7.png]]
+
+#+begin_src mermaid :file (expand-file-name "~/.ghq/github.com/takeokunn/blog/static/images/06C3BC2E-F1DD-4FAE-954B-CC8459ED46B7.png")
+  graph LR
+      A[Emacs] --> |push| B[Repo]
+      B --> |run CI| C[Linter]
+      subgraph GitHub Actions
+      C --> D[Export]
+      end
+      D --> |publish| E[Hugo]
+      D --> |publish| F[Zenn]
+#+end_src
+
+#+RESULTS:
+[[file:/Users/obara/.ghq/github.com/takeokunn/blog/static/images/06C3BC2E-F1DD-4FAE-954B-CC8459ED46B7.png]]
+
+1. Localで記事を編集する
+2. [[https://github.com/takeokunn/blog][takeokunn/blog]] のmain branchにpushする
+3. GitHub Actions上で[[https://github.com/textlint/textlint][textlint]]と[[https://github.com/secretlint/secretlint][secretlint]]を実行する
+4. 各公開先用に[[https://orgmode.org/guide/Exporting.html][org-export]]して指定の処理をする
+
+個別の配信方法や設定方法は後述しますが、巷によくあるCI/CDの流れを踏襲しています。
+分量の多い記事に関しては適宜Pull Requestに切り出して執筆していく運用にしています。
+** Zettelkasten
+
+ソフトウェア開発は業界が未成熟な面と日進月歩で進化して続けているという二面があり、知識が陳腐化しやすいという性質を持っています。
+長期的にコンテンツ管理をするという前提で、継続的に知見をアップデートをするにあたってどう管理運用をしていけば良いのかを考慮する必要があります。
+
+検討した結果Zettelkastenを採用することにしました。
+[[https://gigazine.net/news/20200604-zettelkasten-note/][効率的なノートを作成できるドイツの社会学者が生み出した方法「Zettelkasten」とは？ - gigazine]] にもある通り、小さな知識を相互にリンクさせることによって巨大な知識体系を作ることができます。
+
+Zettelkastenについて日本語で解説した記事はあまりなく、どう運用すれば良いのか非常に悩みました。
+
+jMatsuzaki氏のZettelkasten関連が一番参考になったのでメモしておきます。
+[[https://jmatsuzaki.com/archives/category/lifestyle/zettelkasten][https://jmatsuzaki.com/archives/category/lifestyle/zettelkasten]]
+
+またorg-roamのドキュメントにも簡単に書いてあるので目を通すことをお勧めします。
+https://www.orgroam.com/manual.html#A-Brief-Introduction-to-the-Zettelkasten-Method
+
+* コンテンツ管理
+** org-roam
+*** Basic
+
+[[https://www.orgroam.com/][org-roam]] はorg-modeのキラーアプリケーションの1つです。
+ベースはorg-modeで記述でき、org file間の移動や参照やリンクをスムーズに行うことができるパッケージです。
+org file間の関係性をSQLiteで管理していて、グラフィカルに表示できます。
+
+「org-roamを使ってみた」といった記事は複数あるが、実際に長期的に運用してみた記事はあまりないのでどう運用するのか非常に悩みました。
+[[https://futurismo.biz/using-org-roam-one-year-2022/][🖊知的生産のキラーアプリOrg-roamを１年使い倒し学ぶとはなにか考えたポエム(2022)]] が日本語の記事の中では一番しっかりと書かれており、非常に参考にさせてもらいました。
+
+私の運用は完全にZettelkastenに寄せている訳ではなく、org-roamを使いなるべく運用を寄せているだけですので、理想的なZettelkastenではないことをご了承ください。
+*** ディレクトリ構成
+
+[[https://jmatsuzaki.com/archives/28172][Zettelkasten（ツェッテルカステン）で使うノートの種類と構成まとめ - jMatsuzaki]] によると、以下のようなディレクトリ構成にすることが推奨されているようです。
+
+- 一時メモ
+  - Fleeting Notes
+- 文献ノート
+  - Literature Notes
+- Zettelkasten本体
+  - Permanent Notes
+  - Structure Notes
+  - Index Notes
+- プロジェクト管理
+  - Project Notes
+
+私は以下のようなディレクトリ構成で運用しています。
+
+- org
+  - fleeting/ 技術的なメモ
+  - permanent/ 体裁を整えた技術記事
+  - diary/ イベント参加記
+  - private/ gpgで暗号化した下書き記事
+  - zenn/ Zennに出力する記事
+
+現状あまり実践できていないですが、なるべく普段からfleetingにメモを取り、形になったタイミングでpermanenteやzennに記事を書くという運用を目指しています。
+
+*** 設定方法
+この記事を読むような奇特な人は自分でorg-roamのインストールをできるはずなので詳細には書きません。[[https://github.com/org-roam/org-roam?tab=readme-ov-file#installation][README]]を参考に導入してください。
+私はどちらかというとEmacsの設定に関して几帳面なので各Elisp fileごとにsetqをする運用をしています。
+
+以下の設定は [[https://github.com/org-roam/org-roam][org-roam/org-roam]] 内の設定のみですが、[[https://github.com/org-roam/org-roam-ui][org-roam/org-roam-ui]]や[[https://github.com/tefkah/org-roam-timestamps][tefkah/org-roam-timestamps]]も導入することをお勧めします。
+
+**** org-roam
+org-roamは [[https://github.com/takeokunn/blog][takeokunn/blog]] のみで使っているので、以下のように設定しています。
+個人的にはリポジトリ管理は [[https://github.com/x-motemen/ghq][x-motemen/ghq]] を使うことを推奨しています。
+
+#+begin_src emacs-lisp
+  (with-eval-after-load 'org-roam
+    (setq org-roam-directory `,(concat (s-trim-right (shell-command-to-string "ghq root"))
+                                       "/github.com/takeokunn/blog")))
+#+end_src
+**** org-roam-node
+
+=org-roam-node-find= と =org-roam-node-insert= はorg-roamを使うにあたって一番使うコマンドと言っても過言ではありません。
+=org-roam-completion-everywhere= を有効にすると補完が効いてくれるようになるが、 =org-roam-node-insert= で明示的にリンクを入力すれば良いだけなので好みで有効にしてください。
+
+#+begin_src emacs-lisp
+  (autoload-if-found '(org-roam-node-find org-roam-node-insert) "org-roam-node" nil t)
+  (global-set-key (kbd "C-c n f") #'org-roam-node-find)
+  (global-set-key (kbd "C-c n i") #'org-roam-node-insert)
+
+  (with-eval-after-load 'org-roam-node
+    (setq org-roam-completion-everywhere t))
+#+end_src
+**** org-roam-db
+=org-roam-db-autosync-enable= を有効にすることによって、非同期で =org-roam.db= を更新してくれるようです。
+
+=org-roam-db-gc-threshold= はドキュメントを読んでいると多めに設定しておいても良いだろうということで多めに設定してます。
+https://www.orgroam.com/manual.html#Garbage-Collection
+
+#+begin_src emacs-lisp
+  (autoload-if-found '(org-roam-db-autosync-enable) "org-roam-db" nil t)
+  (org-roam-db-autosync-enable)
+
+  (with-eval-after-load 'org-roam-db
+    (setq org-roam-database-connector 'sqlite)
+    (setq org-roam-db-gc-threshold (* 4 gc-cons-threshold)))
+#+end_src
+**** org-roam-capture
+
+新規に記事を作成する時は =org-roam-capture= 経由で作成しています。
+それぞれのディレクトリごとにファイル名を自動生成して作成できるように設定しています。
+
+#+begin_src emacs-lisp
+  (autoload-if-found '(org-roam-capture) "org-roam-capture" nil t)
+  (global-set-key (kbd "C-c n c") #'org-roam-capture)
+
+  (with-eval-after-load 'org-roam-capture
+    (setq org-roam-capture-templates '(("f" "Fleeting(一時メモ)" plain "%?"
+                                        :target (file+head "org/fleeting/%<%Y%m%d%H%M%S>-${slug}.org" "#+TITLE: ${title}\n")
+                                        :unnarrowed t)
+                                       ("l" "Literature(文献)" plain "%?"
+                                        :target (file+head "org/literature/%<%Y%m%d%H%M%S>-${slug}.org" "#+TITLE: ${title}\n")
+                                        :unnarrowed t)
+                                       ("p" "Permanent(記事)" plain "%?"
+                                        :target (file+head "org/permanent/%<%Y%m%d%H%M%S>-${slug}.org" "#+TITLE: ${title}\n")
+                                        :unnarrowed t)
+                                       ("d" "Diary(日記)" plain "%?"
+                                        :target (file+head "org/diary/%<%Y%m%d%H%M%S>-${slug}.org" "#+TITLE: ${title}\n")
+                                        :unnarrowed t)
+                                       ("z" "Zenn" plain "%?"
+                                        :target (file+head "org/zenn/%<%Y%m%d%H%M%S>.org" "#+TITLE: ${title}\n")
+                                        :unnarrowed t)
+                                       ("m" "Private" plain "%?"
+                                        :target (file+head "org/private/%<%Y%m%d%H%M%S>.org.gpg" "#+TITLE: ${title}\n")
+                                        :unnarrowed t))))
+#+end_src
+*** yasnippet
+
+=org-roam-capture= でブログを生成した後、タグの設定など公開するにあたって必要な情報を設定しなければなりません。
+出力先に応じて微妙に設定が違う為、[[https://github.com/joaotavora/yasnippet][yasnippet]]でテンプレートを管理するようにしています。
+
+for Hugo:
+
+#+begin_src snippet
+  # -*- mode: snippet -*-
+  # name: blog-hugo
+  # key: blog-hugo
+  # --
+
+  ,#+AUTHOR: takeokunn
+  ,#+DESCRIPTION: ${1:description}
+  ,#+DATE: ${2:`(format-time-string "%Y-%m-%dT%T%z")`}
+  ,#+HUGO_BASE_DIR: ../../
+  ,#+HUGO_CATEGORIES: ${3:fleeting}
+  ,#+HUGO_SECTION: posts/$3
+  ,#+HUGO_TAGS: $3 $4
+  ,#+HUGO_DRAFT: true
+  ,#+STARTUP: content
+  ,#+STARTUP: nohideblocks
+#+end_src
+
+for Zenn:
+
+#+begin_src snippet
+  # -*- mode: snippet -*-
+  # name: blog-zenn
+  # key: blog-zenn
+  # --
+
+  ,#+DESCRIPTION: ${1:description}
+  ,#+DATE: ${2:`(format-time-string "%Y-%m-%dT%T%z")`}
+  ,#+GFM_TAGS: emacs
+  ,#+GFM_CUSTOM_FRONT_MATTER: :emoji 👍
+  ,#+GFM_CUSTOM_FRONT_MATTER: :type tech
+  ,#+GFM_CUSTOM_FRONT_MATTER: :published false
+  ,#+STARTUP: content
+  ,#+STARTUP: nohideblocks
+  ,#+OPTIONS: toc:nil
+#+end_src
+*** gpg暗号化
+
+org-roamはgpgで暗号化したファイルも管理下に置くことができます。
+https://www.orgroam.com/manual.html#Encryption
+
+前述した =org-roam-capture= で =foo.org.gpg= のように拡張子にgpgを付けたファイルを生成するだけで暗号化できます。
+なお [[id:DB5D710F-6168-47D4-9044-1ED3D24D61E6][Emacs内でgpg fileがsaveできなくなった時に対応したことメモ]] にもある通り、gpgのversionを下げないとEmacsがHang upしてしまうので注意が必要です。
+
+** textlint
+
+日本語の文章の校正を自動化するにあたって[[https://github.com/textlint/textlint][textlint/textlint]]を導入しました。
+textlintは日本語に特化したルールセットを提供してくれており、日本語のOSS校正ツールとしては一番普及しています。
+textlint自体の詳細な解説は省きますが、この記事を執筆するにあたってtextlintのルールセットを新調して以下のルールを有効にしました。
+
+- [[https://www.npmjs.com/package/textlint][textlint]]
+- [[https://www.npmjs.com/package/textlint-plugin-org][textlint-plugin-org]]
+- [[https://www.npmjs.com/package/textlint-rule-preset-ja-spacing][textlint-rule-preset-ja-spacing]]
+- [[https://www.npmjs.com/package/textlint-rule-preset-ja-technical-writing][textlint-rule-preset-ja-technical-writing]]
+- [[https://www.npmjs.com/package/textlint-rule-preset-japanese][textlint-rule-preset-japanese]]
+- [[https://www.npmjs.com/package/textlint-rule-preset-jtf-style][textlint-rule-preset-jtf-style]]
+- [[https://www.npmjs.com/package/textlint-rule-prh][textlint-rule-prh]]
+- [[https://www.npmjs.com/package/textlint-rule-spellchecker][textlint-rule-spellchecker]]
+- [[https://www.npmjs.com/package/textlint-rule-write-good][textlint-rule-write-good]]
+
+.textlintrc:
+
+#+begin_src json
+  {
+    "rules": {
+      "preset-ja-technical-writing": {
+        "sentence-length": false,
+        "no-doubled-joshi": false,
+        "no-exclamation-question-mark": false
+      },
+      "preset-japanese": {
+        "sentence-length": false,
+        "no-doubled-joshi": false
+      },
+      "preset-ja-spacing": true,
+      "preset-jtf-style": true,
+      "write-good": {
+        "weasel": false
+      },
+      "prh": {
+        "rulePaths": [
+          "./prh.yml",
+          "node_modules/prh/prh-rules/media/WEB+DB_PRESS.yml",
+          "node_modules/prh/prh-rules/media/techbooster.yml"
+        ]
+      }
+    },
+    "plugins": ["org"]
+  }
+#+end_src
+
+prh.yml:
+
+#+begin_src yaml
+  version: 1
+  rules:
+    - expected: Zettelkasten
+      pattern: zettelkasten
+#+end_src
+
+またflycheckでもtextlintを有効にすることによってリアルタイムでエラーを出力できるようにしています。
+
+#+begin_src emacs-lisp
+  (flycheck-define-checker textlint
+    "A linter for prose."
+    :command ("npx" "textlint" "--format" "unix" source-inplace)
+    :error-patterns
+    ((warning line-start (file-name) ":" line ":" column ": "
+              (id (one-or-more (not (any " "))))
+              (message (one-or-more not-newline)
+                       (zero-or-more "\n" (any " ") (one-or-more not-newline)))
+              line-end))
+    :modes (org-mode))
+
+  (with-eval-after-load 'flycheck
+    (add-to-list 'flycheck-checkers 'textlint))
+#+end_src
+** secretlint
+[[https://github.com/secretlint/secretlint][secretlint/secretlint]] はAPIトークンや秘密鍵などのコミットを検知するツールです。
+=AWS_SECRET_ACCESS_KEY= などを誤ってGitHubにPushして全世界に公開してしまうと大問題です。
+
+今年取引先の方がAWS CredentialやほかサービスのSecret Tokenを公開して問題になったことがあり、明日は我が身ということで、なるべくすべてのリポジトリでsecretlintを導入しようという方針になりました。
+
+設定自体は非常にシンプルしており、 [[https://www.npmjs.com/package/@secretlint/secretlint-rule-preset-recommend][@secretlint/secretlint-rule-preset-recommend]] のみ有効にしています。
+
+#+begin_src json
+  {
+      "rules": [{
+          "id": "@secretlint/secretlint-rule-preset-recommend"
+      }]
+  }
+#+end_src
+* Publish
+** Hugo
+*** Target
+「個人の技術記事」と「個人の日記メモ」を対象にホスティングしています。
+その為Experimentalな機能を気軽に追加したり、途中アクセスできなくなったりしてもあまり気にしないという運用にしています。
+*** Basic
+[[https://gohugo.io/][Hugo]] はGo製の静的サイトジェネレータです。
+静的サイトジェネレータとは、指定のディレクトリにあるMarkdownや画像ファイルを参照して本番用の静的コンテンツを生成するツールのことです。
+
+類似サービスに[[https://jekyllrb-ja.github.io/][jekyll]]や[[https://astro.build/][Astro]]や[[https://www.gatsbyjs.com/docs/glossary/static-site-generator/][Gatsby]] があります。
+
+機能の豊富さやドキュメント、記事や事例の豊富さ、CIへの組込やすさでHugoを選定しました。
+
+- [[https://knowledge.sakura.ad.jp/22908/][静的サイトジェネレータ「Hugo」と技術文書公開向けテーマ「Docsy」でOSSサイトを作る - さくらのナレッジ]]
+- [[https://qiita.com/peaceiris/items/ef38cc2a4b5565d0dd7c][Hugo で静的なサイト・ブログを構築しよう - Qiita]]
+
+現状特に不満はありませんが、特にHugoにこだわりがある訳ではないので、より良い静的サイトジェネレータがあれば乗り換える可能性は十分にあります。
+*** Org to Markdown
+
+=export-org-roam-files= を実行してorg-roam管理下のHugoに出力したいディレクトリを指定して[[https://ox-hugo.scripter.co/][ ox-hugo]] でMarkdownに変換しています。
+
+#+begin_src emacs-lisp
+  (require 'package)
+
+  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+  (package-refresh-contents)
+  (package-initialize)
+  (package-install 'ox-hugo)
+  (package-install 'org-roam)
+
+  (require 'ox-hugo)
+  (require 'org-roam)
+
+  (setq org-roam-directory default-directory)
+  (org-roam-db-sync)
+
+  (defun export-org-roam-files ()
+    "Exports Org-Roam files to Hugo markdown."
+    (interactive)
+    (let ((org-id-extra-files (directory-files-recursively default-directory "org")))
+      (dolist (f (append (file-expand-wildcards "org/about.org")
+                         (file-expand-wildcards "org/diary/*.org")
+                         (file-expand-wildcards "org/fleeting/*.org")
+                         (file-expand-wildcards "org/index/*.org")
+                         (file-expand-wildcards "org/literature/*.org")
+                         (file-expand-wildcards "org/permanent/*.org")
+                         (file-expand-wildcards "org/structure/*.org")))
+        (with-current-buffer (find-file f)
+          (org-hugo-export-wim-to-md)))))
+#+end_src
+
+[[https://futurismo.biz/using-org-roam-one-year-2022/#0c2bfe][org-exportでバックリンクをexport前に挿入 - 🖊知的生産のキラーアプリOrg-roamを１年使い倒し学ぶとはなにか考えたポエム(2022)]] を参考にバックリンクをMarkdownの最後に出力するようにしています。
+GitHub Actions上で動かす関係で、 =org-roam-db-sync= を明示的に実行してCI上で =org-roam.db= を作成する必要があることに注意してください。
+
+#+begin_src emacs-lisp
+  (org-roam-db-sync)
+
+  (defun collect-backlinks-string (backend)
+    (when (org-roam-node-at-point)
+      (goto-char (point-max))
+      ;; Add a new header for the references
+      (let* ((backlinks (org-roam-backlinks-get (org-roam-node-at-point))))
+        (when (> (length backlinks) 0)
+          (insert "\n\n* Backlinks\n")
+          (dolist (backlink backlinks)
+            (message (concat "backlink: " (org-roam-node-title (org-roam-backlink-source-node backlink))))
+            (let* ((source-node (org-roam-backlink-source-node backlink))
+                   (node-file (org-roam-node-file source-node))
+                   (file-name (file-name-nondirectory node-file))
+                   (title (org-roam-node-title source-node)))
+              (insert
+               (format "- [[./%s][%s]]\n" file-name title))))))))
+
+  (add-hook 'org-export-before-processing-functions #'collect-backlinks-string)
+#+end_src
+*** Hosting
+[[https://takeokunn.org/][takeokunn.org]] はHugoで生成した静的コンテンツを[[https://docs.github.com/ja/pages/getting-started-with-github-pages/about-github-pages][GitHub Pages]]で配信しています。
+
+[[https://github.com/takeokunn/blog/blob/82439967dcbd0cc522d253c93fcb1457b0a7a5ee/.github/workflows/main.yml#L71][.github/workflows/main.yml]] に一連の流れが記述されています。
+
+1. Linterを実行する
+2. OrgをMarkdownに変換
+3. [[https://github.com/Ladicle/tcardgen][tcardgen]]経由ですべてのOGPを生成
+4. HugoをセットアップしてProduction Build
+5. [[https://github.com/actions/deploy-pages][actions/deploy-pages]] でGitHub Pagesに出力
+
+カスタムドメインの設定は [[https://docs.github.com/ja/pages/configuring-a-custom-domain-for-your-github-pages-site/about-custom-domains-and-github-pages][カスタムドメインとGitHub Pagesについて - GitHub Docs]] を参照してください。
+*** Theme
+Hugoは人気静的サイトジェネレータなだけあり、さまざまなテーマを提供してくれています。
+https://themes.gohugo.io/
+
+私はWebデザインは上手ではないですがCSSはかなり得意なので自作でテーマを作成しました。
+https://github.com/takeokunn/hugo-take-theme
+
+[[https://medium.com/][Medium]] のようなごちゃごちゃしていないシンプルなデザインが好みだったので、デザインのテイストを寄せて自分でゼロから作りました。
+
+デザインに変更があり次第、[[https://github.com/takeokunn/blog/blob/main/README.org][README.org]] に =git submodule= を更新するcode blockを用意しているのでOrg Babelで実行しています。
+
+#+begin_src org
+  ,#+begin_src shell :results output none
+     git submodule update --remote --recursive
+  ,#+end_src
+#+end_src
+*** OGP
+HugoでOGPを自動生成できないかなと調べていたら [[https://github.com/Ladicle/tcardgen][Ladicle/tcardgen]] というツールがあったので導入しました。
+
+ベースの素材は適当に[[https://www.canva.com/ja_jp/][canva]]で作成し、shell scriptを実行したら良い感じに出力されるように調整しました。
+
+#+begin_src shell
+  tcardgen --fontDir=tcardgen/font --output=static/ogp --config=tcardgen/ogp.yml content/posts/**/*.md
+#+end_src
+
+tcardgen/ogp.yml:
+
+#+begin_src yaml
+  template: tcardgen/ogp.png
+  title:
+    start:
+      px: 100
+      py: 150
+    fgHexColor: "#333333"
+    fontSize: 60
+    fontStyle: Bold
+    maxWidth: 1000
+    lineSpacing: 10
+  category:
+    start:
+      px: 100
+      py: 100
+    fgHexColor: "#E5B52A"
+    fontSize: 42
+    fontStyle: Bold
+  info:
+    start:
+      px: 270
+      py: 390
+    fgHexColor: "#333333"
+    fontSize: 38
+    fontStyle: Regular
+    separator: " - "
+  tags:
+    start:
+      px: 270
+      py: 460
+    fgHexColor: "#FFFFFF"
+    bgHexColor: "#333333"
+    fontSize: 22
+    fontStyle: Medium
+    boxAlign: Left
+#+end_src
+
+[[file:../../static/images/7393CC74-ED44-4DEF-8374-550864B07D49.png]]
+
+生成したOGPを反映するには自作テーマ側の変更の必要だったので以下のように対応しました。
+https://github.com/takeokunn/hugo-take-theme/blob/88ed46b61d65aabf0bde514a6d6432ea34854b27/layouts/partials/head.html#L32-L53
+
+** Zenn
+*** Target
+「所属会社の広報用記事」「所属会社の技術記事」を対象にしています。
+一度公開したものはあまり変更しないようにする必要がある為慎重にリリースする必要があります。
+*** Basic
+[[https://zenn.dev/zenn/articles/connect-to-github][GitHubリポジトリでZennのコンテンツを管理する -  Zenn]] にもある通り、ZennはGitHub連携を提供しています。
+リポジトリとブランチを指定してpushにhookして記事が反映されるしくみのようです。
+
+zenn branchを作成して連携するように設定しました。
+https://github.com/takeokunn/blog/tree/zenn
+
+GitHubで管理する前に書いていた記事がいくつかあった為、Zenn上で記事をExportをして、GitHubにMarkdownのまま管理をしてCI上でよしなに出力できるように調整しました。
+https://zenn.dev/settings/export
+
+*** Org to Markdown
+
+=export-org-zenn-files= を実行して =zenn/articles= に出力するようにしました。
+
+#+begin_src emacs-lisp
+  (require 'package)
+
+  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+  (package-refresh-contents)
+  (package-initialize)
+  (package-install 'ox-zenn)
+
+  (require 'ox-zenn)
+
+  (defun export-org-zenn-files ()
+    "Exports Org files to Zenn markdown."
+    (interactive)
+    (let ((org-publish-project-alist `(("zenn"
+                                        :base-directory "org/zenn/"
+                                        :base-extension "org"
+                                        :publishing-directory "zenn/articles"
+                                        :publishing-function org-zenn-publish-to-markdown))))
+      (org-publish-all t)))
+#+end_src
+
+* GitHub Actions
+** Actionlint
+[[https://github.com/rhysd/actionlint][rhysd/actionlint]] はGitHub Actions yamlのLinterです。
+導入自体は非常にシンプルで [[https://github.com/takeokunn/blog/blob/82439967dcbd0cc522d253c93fcb1457b0a7a5ee/.github/workflows/ci.yml#L11-L19][.github/workflows/ci.yml#L11-L19]] の8行程度でCIを設定できます。
+** dependabot
+
+[[https://docs.github.com/ja/code-security/dependabot/working-with-dependabot][dependabot]] はプロジェクト内の依存関係のバージョンを上げるPull Requestを自動で作成してくれるサービスです。
+[[https://github.com/takeokunn/blog][takeokunn/blog]] ではnpmとGitHub Actionsのみ依存パッケージを管理しているので以下のように設定しました。
+
+#+begin_src yaml
+  version: 2
+  updates:
+    - package-ecosystem: npm
+      directory: /
+      schedule:
+        interval: weekly
+      target-branch: main
+    - package-ecosystem: github-actions
+      directory: /
+      schedule:
+        interval: weekly
+#+end_src
+
+基本的に開発用ツールのみ管理していて本番への影響がない為、mainに直接mergeして配信するようにしています。
+逐一Pull Requestをmergeするのが面倒な為 [[https://github.com/takeokunn/blog/blob/main/.github/workflows/auto_merge.yml][.github/workflows/auto_merge.yml]] を作成して、CIが通ったら自動でmergeするしくみも作っています。
+
+* 今後の展望
+記事を執筆する時に必要な機能と公開までのワークフローを整えられました。
+さらに自動化できるところがないか模索しつつ技術記事を継続的に執筆していきたいです。

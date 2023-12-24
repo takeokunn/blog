@@ -16,6 +16,7 @@
     },
     "prh": {
       "rulePaths": [
+        "./prh.yml",
         "node_modules/prh/prh-rules/media/WEB+DB_PRESS.yml",
         "node_modules/prh/prh-rules/media/techbooster.yml"
       ]
