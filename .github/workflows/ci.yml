@@ -36,6 +36,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: [actionlint, npm-lint]
     if: github.actor == 'dependabot[bot]'
+    permissions:
+      contents: write
+      pull-requests: write
     steps:
       - name: Dependabot metadata
         id: metadata
