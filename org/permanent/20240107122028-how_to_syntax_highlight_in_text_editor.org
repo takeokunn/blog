@@ -157,12 +157,39 @@ PHPに関しては私やtadsanが対応していくので、我々の目が黒�
 
 * ASTベースによるシンタックスハイライト
 
-- Tree-Sitterが一強なのでTree-Sitterを元に書く
-- Tree-SitterはRust/Cで書かれていて特定のエディタに依存しない実装になっている
-  - LSPやDAPと似ている
-- それぞれの言語ごとにgrammarが提供されている
-  - phpの場合はtree-sitter-php
-- 各エディタはTree-SitterのC部分のwrapperを作りエディタ内で使えるようにしている
+ASTベースのシンタックスハイライトのしくみは2024年1月現在Tree-Sitterが一強ですので、Tree-Sitterを元に解説しますのでご了承ください。
+Tree-SitterはRust/Cで書かれていて特定のエディタに依存しない構文解析ツールです。
+特定のテキストエディタに依存しないという思想はLSPと似ているので、LSPのような立ち位置のツールだと思っていただいてかまいません。
+
+=tree-sitter= 本体と =tree-sitter-{language}= のような言語ごとのgrammarを提供しています。
+各テキストエディタはTree-SitterのC言語部分をwrapしたうえで各エディタでシンタックスハイライトできるように実装しています。
+
+#+begin_src treesitter :lang php :exports both
+  <?php
+
+  final class HelloCommand extends Command
+  {
+      public function __construct() {}
+  }
+#+end_src
+
+#+RESULTS:
+#+begin_example
+(program [0, 0] - [5, 1]
+  (php_tag [0, 0] - [0, 5])
+  (class_declaration [2, 0] - [5, 1]
+    modifier: (final_modifier [2, 0] - [2, 5])
+    name: (name [2, 12] - [2, 24])
+    (base_clause [2, 25] - [2, 40]
+      (name [2, 33] - [2, 40]))
+    body: (declaration_list [3, 0] - [5, 1]
+      (method_declaration [4, 4] - [4, 36]
+        (visibility_modifier [4, 4] - [4, 10])
+        name: (name [4, 20] - [4, 31])
+        parameters: (formal_parameters [4, 31] - [4, 33])
+        body: (compound_statement [4, 34] - [4, 36])))))
+#+end_example
+
 - キーワードは直接色を付ける
 - 構文はJavaScriptベースの独自DSLで記述している
   - yaccのような記述
