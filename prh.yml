@@ -2,3 +2,5 @@ version: 1
 rules:
   - expected: Zettelkasten
     pattern: zettelkasten
+  - expected: tree-sitter
+    pattern: Tree-Sitter
