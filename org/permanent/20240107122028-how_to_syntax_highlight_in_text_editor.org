@@ -14,7 +14,7 @@
 #+STARTUP: nohideblocks
 * 注意
 
-この記事はPHPerKaigi 2024のパンフレット記事です。
+この記事はPHPerKaigi 2024のパンフレット記事です。A4ページ4枚程度の量を書いています。
 書面での掲載につきハイパーリンクがないことをご了承ください。
 
 https://fortee.jp/phperkaigi-2024/proposal/161b2ec9-c279-4336-8e17-1aa054dacae9
@@ -164,6 +164,26 @@ Tree-SitterはRust/Cで書かれていて特定のエディタに依存しない
 =tree-sitter= 本体と =tree-sitter-{language}= のような言語ごとのgrammarを提供しています。
 各テキストエディタはTree-SitterのC言語部分をwrapしたうえで各エディタでシンタックスハイライトできるように実装しています。
 
+=tree-sitter-php= のgrammarを一部抜粋すると以下です。
+yaccを見たことある人は馴染があるような文法で記述されています。
+
+#+begin_src js
+  // return <expression>;
+  return_statement: $ => seq(
+      keyword('return'), optional($._expression), $._semicolon,
+  ),
+
+  // ++$<_variable>, <_variable>--
+  update_expression: $ => prec.left(PREC.INC, choice(
+      seq($._variable, '++'),
+      seq($._variable, '--'),
+      seq('++', $._variable),
+      seq('--', $._variable),
+  )),
+#+end_src
+
+実際にPHPを =tree-sitter parse= した結果は以下です。S式で表現されていてtoken情報と座標を返します。
+
 #+begin_src treesitter :lang php :exports both
   <?php
 
@@ -190,26 +210,57 @@ Tree-SitterはRust/Cで書かれていて特定のエディタに依存しない
         body: (compound_statement [4, 34] - [4, 36])))))
 #+end_example
 
-- キーワードは直接色を付ける
-- 構文はJavaScriptベースの独自DSLで記述している
-  - yaccのような記述
-  - https://github.com/tree-sitter/tree-sitter-php/blob/マスタ/common/define-grammar.js
-- ソースコードを渡すとS式を掃き出す
-- 構文エラーの場合の処理がはっきりしている
-  - 構文の優先準備を記述できる
-  - エラーになった箇所のみエラーという判定になる
-- 1言語内に複数言語の場合
-  - 特定のくくり内は =tree-sitter-{lang}= を実行するようなしくみ
+また、Tree-Sitterは非常に賢いので構文エラーの箇所まで表示してくれます。
+
+#+begin_src treesitter :lang php :exports both
+  <?php
+
+  final class HelloCommand extends Command
+  {
+      public function __construct() {}
+#+end_src
+
+#+RESULTS:
+#+begin_example
+(program [0, 0] - [4, 36]
+  (php_tag [0, 0] - [0, 5])
+  (class_declaration [2, 0] - [4, 36]
+    modifier: (final_modifier [2, 0] - [2, 5])
+    name: (name [2, 12] - [2, 24])
+    (base_clause [2, 25] - [2, 40]
+      (name [2, 33] - [2, 40]))
+    body: (declaration_list [3, 0] - [4, 36]
+      (method_declaration [4, 4] - [4, 36]
+        (visibility_modifier [4, 4] - [4, 10])
+        name: (name [4, 20] - [4, 31])
+        parameters: (formal_parameters [4, 31] - [4, 33])
+        body: (compound_statement [4, 34] - [4, 36])))))
+/var/folders/cb/3r410lh103x9hthl1pmy3jqw0000gp/T/babel-3wPZaM/tree-sitterNg42xu.php	0 ms	(MISSING "}" [4, 36] - [4, 36])
+#+end_example
+
+1言語内に複数言語の場合、特定のtoken内は別のgrammarを適用するという処理を書けるというのもTree-Sitterの特徴です。
+
+Tree-Sitterによるシンタックスハイライトには以下のようなメリットとデメリットがあります。
+
 - メリット
   - メジャーな言語はだいたいサポートされている
   - エディタごとの実装をする必要ないのでメンテナンスされる可能性が高い
 - デメリット
   - 構文が確定するまで色がつかない
   - 毎回ASTを作る必要があるので正規表現と比べて低速
-    - とはいえTree-Sitterは高速で動くし、2024年の標準的なコンピュータでは気にならない程度
   - テキストエディタ本体はTree-Sitterのサポートをし続けないといけない
-    - 普通のユーザーが触れない部分なので何かあった時に対応しつらい
 
+メリットとしてサポートしている言語もテキストエディタも多いことが挙げられます。
+2024年現在使われているプログラミング言語のだいたいのgrammarは公式から提供されています。
+NeoVimも標準でサポートしており、Emacsでも29からサポートされました。
+
+デメリットとしてはASTとして解釈することに由来するものが挙げられます。
+テキストエディタでコードを編集している間構文が確定しない、構文エラーの時間が時間が必ず発生します。
+Tree-Sitterは構文エラーを最小限にするようなアルゴリズムが採用されていますが、正規表現と比べてどうしても色が付かない時間が発生してしまいます。
+また、テキストを編集する毎にASTを作る必要があるので、正規表現で色付けするよりも当然計算コストがかかります。
+
+Tree-Sitterを使うとなるとCレイヤを触る必要があります。
+基本的にCレイヤをテキストエディタ側は変更することは意図していないので、通常のPluginと違って何か問題が起きた時に修正しつらいという問題もあります。
 * 終わりに
 
 - 言語の進化にエディタも追従する必要がある
