@@ -50,35 +50,79 @@ PHPはCやJavaと記述が似ているので、CやJavaの実装を上書きし�
 
 * シンタックスハイライトの大まかなしくみ
 
-- テキストエディタによって実装が違う
-- 凡そ2つに大別できる
-  - 正規表現ベース
-  - ASTベース
-- 正規表現ベースは古いテキストエディタでよく使われている
-  - EmacsやVimはそう
-  - それぞれのテキストエディタごとに実装されている
-- ASTベースは比較的新しいテキストエディタで実装されている
-  - 今は亡きAtomが発祥
-  - VSCodeがそう
-  - NeoVimやEmacsは最近本体に組み込れた
-- ASTベースのツールはほぼTree-Sitterが一強
-  - Rust製で非常に高速で挙動する
-  - テキストエディタに依存しない形で実装されている
-- 難しいところ
-  - 常にユーザーが入力し続けるので構文が確定しない
-  - 1入力ごとにハイライトする必要がある
-    - 高速で動かす必要がある
-  - 1言語で複数言語を表現する場合難易度が上がる
-    - VueJsはHTML/CSS/JavaScriptを記述できる
-    - PHPもHyperText PreprocessorなのでHTMLを記述できる
+世の中にはテキストエディタの実装は無数にあります。
+プログラミング言語に対応したテキストエディタの実装はおおよそ2つに大別できます。
+
+- 正規表現ベース
+- ASTベース
+
+正規表現ベースのシンタックスハイライトはVimやEmacsのような古くからあるテキストエディタでよく使われています。
+当然それぞれのテキストエディタごとに実装は違うので移植性はありません。
+
+ASTベースのシンタックスハイライト実装は2024年1月現在Tree-Sitterが一強だと言っても過言ではありません。
+Tree-SitterはC/Rust製のツールで、特定のテキストエディタに依存しない形で実装された高速で動作するパーサジェネレータツールです。
+Tree-sitterはもともとAtomで使用するためにGitHubによって開発され、2018年に初めてリリースされました。
+ソースコードをパースして構文木をs式を出力することにより、各テキストエディタはs式を解釈する実装をすれば各々が構文を解釈する必要がない、という作りになっています。
+
+テキストエディタにおけるシンタックスハイライトの難しいところは以下が挙げられます。
+
+- 常にユーザーが入力し続けるので構文が確定しない
+- 1入力ごとにハイライトする必要がある為高速で挙動させる必要がある
+
+また、1言語で複数言語を表現する場合難易度が上がります。
+例えばVueJSはHTML/CSS/JavaScriptを1ファイル内で記述できるし、PHPも元々HyperText PreprocessorなのでHTMLを記述することができます。
 
 * 正規表現によるシンタックスハイライト
+
+正規表現によるシンタックスハイライトを採用しているVimやEmacsでは以下のような実装がされています。
 
 - キーワードは直接色を付ける
 - 正規表現によって構文を定義する
   - =$= の後は確実に変数
   - =function= の後は確実に関数名になり、その後の括弧は関数の引数になる
   - =//= 直後はすべてコメントになる
+
+Emacsではシンタックステーブルというものがデフォルトで用意されており、独自の記法で記述する必要があります。
+
+以下は実際にphp-modeで実装されているコードを抜粋したものです。
+EmacsLispの正規表現がそもそも難しいのもあり、複雑怪奇で特殊な訓練しないと読めないことがわかるでしょう。
+
+#+begin_src emacs-lisp
+  ;; Class modifiers (abstract, final)
+  ("\\_<\\(abstract\\|final\\)\\_>\\s-+\\_<class\\>" 1 'php-class-modifier)
+
+  ;; Highlight variables, e.g. 'var' in '$var' and '$obj->var', but
+  ;; not in $obj->var()
+  ("\\(->\\)\\(\\sw+\\)\\s-*(" (1 'php-object-op) (2 'php-method-call))
+  ("\\<\\(const\\)\\s-+\\(\\_<.+?\\_>\\)" (1 'php-keyword) (2 'php-constant-assign))
+
+  ;; Logical operator (!)
+  ("\\(!\\)[^=]" 1 'php-logical-op)
+
+  ;; Highlight special variables
+  ("\\(\\$\\)\\(this\\)\\>" (1 'php-$this-sigil) (2 'php-$this))
+  ("\\(\\$+\\)\\(\\sw+\\)" (1 'php-variable-sigil) (2 'php-variable-name))
+  ("\\(->\\)\\([a-zA-Z0-9_]+\\)" (1 'php-object-op) (2 'php-property-name))
+
+  ;; Highlight function/method names
+  ("\\<function\\s-+&?\\(\\(?:\\sw\\|\\s_\\)+\\)\\s-*(" 1 'php-function-name)
+
+  ;; 'array' and 'callable' are keywords, except in the following situations:
+  ;; - when used as a type hint
+  ;; - when used as a return type
+  ("\\b\\(array\\|callable\\)\\s-+&?\\$" 1 font-lock-type-face)
+  (")\\s-*:\\s-*\\??\\(array\\|callable\\)\\b" 1 font-lock-type-face)
+
+  ;; For 'array', there is an additional situation:
+  ;; - when used as cast, so that (int) and (array) look the same
+  ("(\\(array\\))" 1 font-lock-type-face)
+
+  ; Support the ::class constant in PHP5.6
+  ("\\sw+\\(::\\)\\(class\\)\\b" (1 'php-paamayim-nekudotayim) (2 'php-magical-constant))
+  ;; Class declaration keywords (class, trait, interface)
+  ("\\_<\\(class\\|trait\\|interface\\)\\_>" . 'php-class-declaration)
+#+end_src
+
 - 1言語内に複数言語の場合
   - Emacsの場合はカーソル位置の対象の言語に切り替える処理をしている
 - メリット
