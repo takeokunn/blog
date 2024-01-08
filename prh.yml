@@ -3,3 +3,13 @@ rules:
   - expected: Zettelkasten
   - expected: Neovim
   - expected: Tree-sitter
+  - expected: Emacs Lisp
+    pattern:  /\bEmacsLisp\b|\bemacs-lisp\b|\bemacslisp\b/
+  - expected: Common Lisp
+    pattern:  /\bCommonLisp\b|\bcommon-lisp\b|\bcommonlisp\b/
+  - expected: Vim script
+    pattern:  /\bvimscript\b|\bVim Script\b|\bVimScript\b/
+  - expected: Vue.js
+    pattern:  /\bVueJS\b|\bVueJs\b|\bvuejs\b/
+  - expected: React.js
+    pattern:  /\bReactJS\b|\bReactJs\b|\breactjs\b/

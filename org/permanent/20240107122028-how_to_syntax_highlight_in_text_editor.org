@@ -70,7 +70,7 @@ Tree-sitterはもともとAtomで使用するためにGitHubによって開発�
 - 1入力ごとにハイライトする必要がある為高速で挙動させる必要がある
 
 また、1言語で複数言語を表現する場合難易度が上がります。
-たとえばVueJSはHTML/CSS/JavaScriptを1ファイル内で記述できるし、PHPももともとHyperText PreprocessorなのでHTMLを記述できます。
+たとえばVue.jsはHTML/CSS/JavaScriptを1ファイル内で記述できるし、PHPももともとHyperText PreprocessorなのでHTMLを記述できます。
 
 * 正規表現によるシンタックスハイライト
 
@@ -123,7 +123,7 @@ Emacs Lispの正規表現がそもそも難しいのもあり、複雑怪奇で�
   ("\\_<\\(class\\|trait\\|interface\\)\\_>" . 'php-class-declaration)
 #+end_src
 
-言語内に複数言語あるVueJSやPHPのような言語では、Emacsの場合カーソル位置によって対象の言語に切り替える処理をしています。
+言語内に複数言語あるVue.jsやPHPのような言語では、Emacsの場合カーソル位置によって対象の言語に切り替える処理をしています。
 
 正規表現ベースのシンタックスハイライトには以下のようなメリットとデメリットがあります。
 
