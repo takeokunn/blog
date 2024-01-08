@@ -1,0 +1,272 @@
+:PROPERTIES:
+:ID:       3249F27E-9CE1-4ADC-9B34-607C7DCEC60D
+:END:
+#+TITLE: テキストエディタがPHPをシンタックスハイライトする仕組みとモダンテキストエディタ事情について
+#+AUTHOR: takeokunn
+#+DESCRIPTION: description
+#+DATE: 2024-01-07T12:20:39+0900
+#+HUGO_BASE_DIR: ../../
+#+HUGO_CATEGORIES: permanent
+#+HUGO_SECTION: posts/permanent
+#+HUGO_TAGS: fleeting
+#+HUGO_DRAFT: true
+#+STARTUP: content
+#+STARTUP: nohideblocks
+* 注意
+
+この記事はPHPerKaigi 2024のパンフレット記事です。A4ページ4枚程度の量を書いています。
+書面での掲載につきハイパーリンクがないことをご了承ください。
+
+https://fortee.jp/phperkaigi-2024/proposal/161b2ec9-c279-4336-8e17-1aa054dacae9
+
+* Introduction
+
+プログラミング言語は日進月歩で進化し続けています。
+処理系のパフォーマンス改善、既存のバグ修正、挙動の変更などさまざまな変更が入るが、ユーザーにとって一番影響があるのは「新規の構文追加」ではないでしょうか？
+PHPの場合PHP 8.0以降にmatch式やenum構文は直近5年以内に追加されたものです。
+PHPに限らずほか言語のRFCでも新規の構文が提案されている例は枚挙に暇がありません。Goのジェネリクスなどもその一例です。
+
+言語レベルで新規の構文が追加された時、テキストエディタでも正しく解釈できるように対応する必要があります。
+それはオープンソースのテキストエディタだろうと商用エディタだろうと区別はありません。
+そもそもテキストエディタはどのように構文を解釈してハイライトしてくれているのか、Tree-sitterなどの最近のテキストエディタ事情も踏まえて解説していきます。
+
+なお私は熱狂的なEmacsユーザーでありEmacsのPHP Packageであるphp-modeのオーナー権限もあるので、Emacsひいきな解説になってしまうのはご了承ください。
+
+* シンタックスハイライト概要
+
+シンタックスハイライトとは、 =public= のようなキーワードや関数名や言語特有の構文に色をつけてくれるものです。
+Wikipediaによると、シンタックスカラリングや構文着色とも言うらしいです。
+
+シンタックスハイライトには、「テキストの可読性を向上させ文脈をより明瞭にする」や「記述ミスや括弧の対応のミスなどを防ぐことができる」等、さまざまなメリットがあります。
+明確なデメリットは私は思いつきませんが、「流し読みがしやすくなるのでプログラマーはコード全体を理解しようとはしなくなる」ということを主張する人もいるようです。
+
+配色はカラーテーマごとに違います。
+世の中には無数のカラーテーマがあり、私はDraculaやSublime Textのdefault themeのmonokaiが好きです。
+
+構文が違うので当然言語の数だけシンタックスハイライトがあります。
+それぞれの実装によって方針はまちまちですが、似ている言語から上書きするよう実装することで実装コストを下げる対応をしています。
+PHPはCやJavaと記述が似ているので、CやJavaの実装を上書きし、部分的にPHPの構文を追加して対応できます。
+実際EmacsのPHP Packageではこのような対応をしています。
+
+* シンタックスハイライトの大まかなしくみ
+
+世の中にはテキストエディタの実装は無数にあります。
+プログラミング言語に対応したテキストエディタの実装はおおよそ2つに大別できます。
+
+- 正規表現ベース
+- ASTベース
+
+正規表現ベースのシンタックスハイライトはVimやEmacsのような古くからあるテキストエディタでよく使われています。
+当然それぞれのテキストエディタごとに実装は違うので移植性はありません。
+
+ASTベースのシンタックスハイライト実装は2024年1月現在Tree-sitterが一強だと言っても過言ではありません。
+Tree-sitterはC/Rust製のツールで、特定のテキストエディタに依存しない形で実装された高速で動作するパーサジェネレータツールです。
+Tree-sitterはもともとAtomで使用するためにGitHubによって開発され、2018年にリリースされました。
+ソースコードをパースして構文木をS式を出力することにより、各テキストエディタはS式を解釈する実装をすれば各々が構文を解釈する必要がない、という作りになっています。
+
+テキストエディタにおけるシンタックスハイライトの難しいところは以下が挙げられます。
+
+- 常にユーザーが入力し続けるので構文が確定しない
+- 1入力ごとにハイライトする必要がある為高速で挙動させる必要がある
+
+また、1言語で複数言語を表現する場合難易度が上がります。
+たとえばVueJSはHTML/CSS/JavaScriptを1ファイル内で記述できるし、PHPももともとHyperText PreprocessorなのでHTMLを記述できます。
+
+* 正規表現によるシンタックスハイライト
+
+正規表現によるシンタックスハイライトを採用しているVimやEmacsでは以下のような実装がされています。
+
+- キーワードは直接色を付ける
+- 正規表現によって構文を定義する
+  - =$= の後は確実に変数
+  - =function= の後は確実に関数名になり、その後の括弧は関数の引数になる
+  - =//= 直後はすべてコメントになる
+
+Emacsではシンタックステーブルというものがデフォルトで用意されており、独自の記法で記述する必要があります。
+
+以下は実際にphp-modeで実装されているコードを抜粋したものです。
+Emacs Lispの正規表現がそもそも難しいのもあり、複雑怪奇で特殊な訓練しないと読めないことが分かるでしょう。
+
+#+begin_src emacs-lisp :tangle /tmp/9ffec496-27fc-dc84-f103-fe817f4efd9e.el
+  ;; Class modifiers (abstract, final)
+  ("\\_<\\(abstract\\|final\\)\\_>\\s-+\\_<class\\>" 1 'php-class-modifier)
+
+  ;; Highlight variables, e.g. 'var' in '$var' and '$obj->var', but
+  ;; not in $obj->var()
+  ("\\(->\\)\\(\\sw+\\)\\s-*(" (1 'php-object-op) (2 'php-method-call))
+  ("\\<\\(const\\)\\s-+\\(\\_<.+?\\_>\\)" (1 'php-keyword) (2 'php-constant-assign))
+
+  ;; Logical operator (!)
+  ("\\(!\\)[^=]" 1 'php-logical-op)
+
+  ;; Highlight special variables
+  ("\\(\\$\\)\\(this\\)\\>" (1 'php-$this-sigil) (2 'php-$this))
+  ("\\(\\$+\\)\\(\\sw+\\)" (1 'php-variable-sigil) (2 'php-variable-name))
+  ("\\(->\\)\\([a-zA-Z0-9_]+\\)" (1 'php-object-op) (2 'php-property-name))
+
+  ;; Highlight function/method names
+  ("\\<function\\s-+&?\\(\\(?:\\sw\\|\\s_\\)+\\)\\s-*(" 1 'php-function-name)
+
+  ;; 'array' and 'callable' are keywords, except in the following situations:
+  ;; - when used as a type hint
+  ;; - when used as a return type
+  ("\\b\\(array\\|callable\\)\\s-+&?\\$" 1 font-lock-type-face)
+  (")\\s-*:\\s-*\\??\\(array\\|callable\\)\\b" 1 font-lock-type-face)
+
+  ;; For 'array', there is an additional situation:
+  ;; - when used as cast, so that (int) and (array) look the same
+  ("(\\(array\\))" 1 font-lock-type-face)
+
+  ; Support the ::class constant in PHP5.6
+  ("\\sw+\\(::\\)\\(class\\)\\b" (1 'php-paamayim-nekudotayim) (2 'php-magical-constant))
+  ;; Class declaration keywords (class, trait, interface)
+  ("\\_<\\(class\\|trait\\|interface\\)\\_>" . 'php-class-declaration)
+#+end_src
+
+言語内に複数言語あるVueJSやPHPのような言語では、Emacsの場合カーソル位置によって対象の言語に切り替える処理をしています。
+
+正規表現ベースのシンタックスハイライトには以下のようなメリットとデメリットがあります。
+
+- メリット
+  - 低メモリで高速で動く
+  - 構文を確定しなくてもハイライトできる
+- デメリット
+  - 正規表現の難易度が高い
+  - 正規表現エンジンの実装依存になる
+  - 複雑な構文を持っている言語だと実装難易度が高い
+  - 各テキストエディタごとに実装する必要がある
+
+西暦2000年以前からある機能ですので、現在のコンピュータで動かすと当然パフォーマンスが非常に良く、マシンスペックの低いコンピュータでも問題なく動くようになっています。
+
+一方デメリットに正規表現特有の問題が挙げられます。
+ひとつは正規表現エンジンはテキストエディタに内蔵されているエンジン依存になってしまうことです。
+
+ベーシックな正規表現の記法はだいたいの実装でサポートしてくれていますが、先読み後読みなどは実装によってまちまちです。
+Emacs組込みの正規表現エンジンは先読み後読みのサポートをしていない為、カーソルを擬似的に動かすことによってむりやり先読みを実現する、といったテクニックが必要になってきます。
+正規表現エンジンを取り替えることは基本的にはできないのでそれぞれのエディタに従うほかありません。
+
+また、複雑な構文を持っている言語だと実装難易度が高いという点もあります。
+PHPのような割と簡単な単純な言語だとまだマシですが、C++のような複雑怪奇な構文をもつ言語だと正規表現で表現するのは至難の業です。
+Emacsにはcc-engineというCに似た言語をまるっとシンタックスハイライトしてくれるコードを提供してくれているのですが、実装は天才が成した仕事なので我々凡人には理解するのは難しいものとなっています。
+
+正規表現エンジンもレンダリングのしくみも違うので当然エディタごとに実装する必要があります。
+世の中にプログラミング言語も機能も増えている昨今、Emacsのようなユーザー数が減っているエディタがすべての言語のバージョンアップに対応するのは厳しいという現状があります。
+PHPに関しては私やtadsanが対応していくので、我々の目が黒いうちは最新の構文を使えるはずです。
+
+* ASTベースによるシンタックスハイライト
+
+ASTベースのシンタックスハイライトのしくみは2024年1月現在Tree-sitterが一強ですので、Tree-sitterを元に解説しますのでご了承ください。
+Tree-sitterはRust/Cで書かれていて特定のエディタに依存しない構文解析ツールです。
+特定のテキストエディタに依存しないという思想はLSPと似ているので、LSPのような立ち位置のツールだと思っていただいてかまいません。
+
+=tree-sitter= 本体と =tree-sitter-{language}= のような言語ごとのgrammarを提供しています。
+各テキストエディタはTree-sitterのC言語部分をwrapしたうえで各エディタでシンタックスハイライトできるように実装しています。
+
+=tree-sitter-php= のgrammarを一部抜粋すると以下です。
+yaccを見たことある人は馴染があるような文法で記述されています。
+
+
+#+begin_src js :tangle /tmp/7c75b080-531f-7054-af53-9f9776238618.js
+  // return <expression>;
+  return_statement: $ => seq(
+      keyword('return'), optional($._expression), $._semicolon,
+  ),
+
+  // ++$<_variable>, <_variable>--
+  update_expression: $ => prec.left(PREC.INC, choice(
+      seq($._variable, '++'),
+      seq($._variable, '--'),
+      seq('++', $._variable),
+      seq('--', $._variable),
+  )),
+#+end_src
+
+実際にPHPを =tree-sitter parse= した結果は以下です。S式で表現されていてtoken情報と座標を返します。
+
+#+begin_src treesitter :lang php :exports both :tangle /tmp/b5e6cadd-e91d-0d24-073b-df13e8e64f50.php
+  <?php
+
+  final class HelloCommand extends Command
+  {
+      public function __construct() {}
+  }
+#+end_src
+
+#+begin_src lisp :tangle /tmp/afdffe46-c67d-fe64-3a0b-737c80c3d41c.lisp
+  (program [0, 0] - [5, 1]
+    (php_tag [0, 0] - [0, 5])
+    (class_declaration [2, 0] - [5, 1]
+      modifier: (final_modifier [2, 0] - [2, 5])
+      name: (name [2, 12] - [2, 24])
+      (base_clause [2, 25] - [2, 40]
+        (name [2, 33] - [2, 40]))
+      body: (declaration_list [3, 0] - [5, 1]
+        (method_declaration [4, 4] - [4, 36]
+          (visibility_modifier [4, 4] - [4, 10])
+          name: (name [4, 20] - [4, 31])
+          parameters: (formal_parameters [4, 31] - [4, 33])
+          body: (compound_statement [4, 34] - [4, 36])))))
+#+end_src
+
+また、Tree-sitterは非常に賢いので構文エラーの箇所まで表示してくれます。
+
+#+begin_src treesitter :lang php :exports both :tangle /tmp/7e7cb720-4526-dfa4-50eb-7a780ab7dfdf.php
+  <?php
+
+  final class HelloCommand extends Command
+  {
+      public function __construct() {}
+#+end_src
+
+#+begin_src lisp :tangle /tmp/4329505d-c15e-def4-8efb-c5a0a33e8cd3.lisp
+  (program [0, 0] - [4, 36]
+    (php_tag [0, 0] - [0, 5])
+    (class_declaration [2, 0] - [4, 36]
+      modifier: (final_modifier [2, 0] - [2, 5])
+      name: (name [2, 12] - [2, 24])
+      (base_clause [2, 25] - [2, 40]
+        (name [2, 33] - [2, 40]))
+      body: (declaration_list [3, 0] - [4, 36]
+        (method_declaration [4, 4] - [4, 36]
+          (visibility_modifier [4, 4] - [4, 10])
+          name: (name [4, 20] - [4, 31])
+          parameters: (formal_parameters [4, 31] - [4, 33])
+          body: (compound_statement [4, 34] - [4, 36])))))
+  /var/folders/cb/3r410lh103x9hthl1pmy3jqw0000gp/T/babel-3wPZaM/tree-sitterNg42xu.php	0 ms	(MISSING "}" [4, 36] - [4, 36])
+#+end_src
+
+1言語内に複数言語の場合、特定のtoken内は別のgrammarを適用するという処理を書けるというのもTree-sitterの特徴です。
+
+Tree-sitterによるシンタックスハイライトには以下のようなメリットとデメリットがあります。
+
+- メリット
+  - メジャーな言語はだいたいサポートされている
+  - エディタごとの実装をする必要ないのでメンテナンスされる可能性が高い
+- デメリット
+  - 構文が確定するまで色がつかない
+  - 毎回ASTを作る必要があるので正規表現と比べて低速
+  - テキストエディタ本体はTree-sitterのサポートをし続けないといけない
+
+メリットとしてサポートしている言語もテキストエディタも多いことが挙げられます。
+2024年現在使われているプログラミング言語のだいたいのgrammarは公式から提供されています。
+Neovimも標準でサポートしており、Emacsでも29からサポートされました。
+
+デメリットとしてはASTとして解釈することに由来するものが挙げられます。
+テキストエディタでコードを編集している間構文が確定しない、構文エラーの時間が時間が必ず発生します。
+Tree-sitterは構文エラーを最小限にするようなアルゴリズムが採用されていますが、正規表現と比べてどうしても色が付かない時間が発生してしまいます。
+また、テキストを編集する毎にASTを作る必要があるので、正規表現で色付けするよりも当然計算コストがかかります。
+
+Tree-sitterを使うとなるとCレイヤを触る必要があります。
+基本的にCレイヤをテキストエディタ側は変更することは意図していないので、通常のPackageと違って何か問題が起きた時に修正しつらいという問題もあります。
+* 終わりに
+プログラマーが快適にプログラムを編集するには、プログラミング言語の進化にエディタも追従する必要があります。
+過去の資産と向き合いながら、新しい技術と上手に付き合っていくことが求められています。
+
+ぜひ普段使ったことのないテキストエディタを使ったり、新しいプラグインにチャレンジしてみてはいかがでしょうか。
+* 参考文献
+
+- [[https://ja.wikipedia.org/wiki/%E3%82%B7%E3%83%B3%E3%82%BF%E3%83%83%E3%82%AF%E3%82%B9%E3%83%8F%E3%82%A4%E3%83%A9%E3%82%A4%E3%83%88][シンタックスハイライト - Wikipedia]]
+- [[https://tree-sitter.github.io/][Tree-Sitter公式サイト]]
+- [[https://github.com/tree-sitter/tree-sitter-php][tree-sitter/tree-sitter-php - GitHub]]
+- [[https://github.com/emacs-php/php-mode][emacs-php/php-mode - GitHub]]
+- [[https://github.com/emacs-mirror/emacs][emacsemacs-mirror/emacs - GitHub]]

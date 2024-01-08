@@ -2,3 +2,11 @@ version: 1
 rules:
   - expected: Zettelkasten
     pattern: zettelkasten
+  - expected: Neovim
+    specs:
+      - from: NeoVim
+        to:   Neovim
+      - from: neovim
+        to:   Neovim
+  - expected: Tree-sitter
+    pattern: /[tT]ree-[sS]itter/
