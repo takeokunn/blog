@@ -8,3 +8,5 @@ rules:
         to:   Neovim
       - from: neovim
         to:   Neovim
+  - expected: Tree-sitter
+    pattern: /[tT]ree-[sS]itter/

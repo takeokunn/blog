@@ -28,7 +28,7 @@ PHPに限らずほか言語のRFCでも新規の構文が提案されている�
 
 言語レベルで新規の構文が追加された時、テキストエディタでも正しく解釈できるように対応する必要があります。
 それはオープンソースのテキストエディタだろうと商用エディタだろうと区別はありません。
-そもそもテキストエディタはどのように構文を解釈してハイライトしてくれているのか、Tree-Sitterなどの最近のテキストエディタ事情も踏まえて解説していきます。
+そもそもテキストエディタはどのように構文を解釈してハイライトしてくれているのか、Tree-sitterなどの最近のテキストエディタ事情も踏まえて解説していきます。
 
 なお私は熱狂的なEmacsユーザーでありEmacsのPHP Packageであるphp-modeのオーナー権限もあるので、Emacsひいきな解説になってしまうのはご了承ください。
 
@@ -59,8 +59,8 @@ PHPはCやJavaと記述が似ているので、CやJavaの実装を上書きし�
 正規表現ベースのシンタックスハイライトはVimやEmacsのような古くからあるテキストエディタでよく使われています。
 当然それぞれのテキストエディタごとに実装は違うので移植性はありません。
 
-ASTベースのシンタックスハイライト実装は2024年1月現在Tree-Sitterが一強だと言っても過言ではありません。
-Tree-SitterはC/Rust製のツールで、特定のテキストエディタに依存しない形で実装された高速で動作するパーサジェネレータツールです。
+ASTベースのシンタックスハイライト実装は2024年1月現在Tree-sitterが一強だと言っても過言ではありません。
+Tree-sitterはC/Rust製のツールで、特定のテキストエディタに依存しない形で実装された高速で動作するパーサジェネレータツールです。
 Tree-sitterはもともとAtomで使用するためにGitHubによって開発され、2018年にリリースされました。
 ソースコードをパースして構文木をS式を出力することにより、各テキストエディタはS式を解釈する実装をすれば各々が構文を解釈する必要がない、という作りになっています。
 
@@ -85,9 +85,9 @@ Tree-sitterはもともとAtomで使用するためにGitHubによって開発�
 Emacsではシンタックステーブルというものがデフォルトで用意されており、独自の記法で記述する必要があります。
 
 以下は実際にphp-modeで実装されているコードを抜粋したものです。
-EmacsLispの正規表現がそもそも難しいのもあり、複雑怪奇で特殊な訓練しないと読めないことが分かるでしょう。
+Emacs Lispの正規表現がそもそも難しいのもあり、複雑怪奇で特殊な訓練しないと読めないことが分かるでしょう。
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle /tmp/9ffec496-27fc-dc84-f103-fe817f4efd9e.el
   ;; Class modifiers (abstract, final)
   ("\\_<\\(abstract\\|final\\)\\_>\\s-+\\_<class\\>" 1 'php-class-modifier)
 
@@ -155,17 +155,18 @@ PHPに関しては私やtadsanが対応していくので、我々の目が黒�
 
 * ASTベースによるシンタックスハイライト
 
-ASTベースのシンタックスハイライトのしくみは2024年1月現在Tree-Sitterが一強ですので、Tree-Sitterを元に解説しますのでご了承ください。
-Tree-SitterはRust/Cで書かれていて特定のエディタに依存しない構文解析ツールです。
+ASTベースのシンタックスハイライトのしくみは2024年1月現在Tree-sitterが一強ですので、Tree-sitterを元に解説しますのでご了承ください。
+Tree-sitterはRust/Cで書かれていて特定のエディタに依存しない構文解析ツールです。
 特定のテキストエディタに依存しないという思想はLSPと似ているので、LSPのような立ち位置のツールだと思っていただいてかまいません。
 
 =tree-sitter= 本体と =tree-sitter-{language}= のような言語ごとのgrammarを提供しています。
-各テキストエディタはTree-SitterのC言語部分をwrapしたうえで各エディタでシンタックスハイライトできるように実装しています。
+各テキストエディタはTree-sitterのC言語部分をwrapしたうえで各エディタでシンタックスハイライトできるように実装しています。
 
 =tree-sitter-php= のgrammarを一部抜粋すると以下です。
 yaccを見たことある人は馴染があるような文法で記述されています。
 
-#+begin_src js
+
+#+begin_src js :tangle /tmp/7c75b080-531f-7054-af53-9f9776238618.js
   // return <expression>;
   return_statement: $ => seq(
       keyword('return'), optional($._expression), $._semicolon,
@@ -182,7 +183,7 @@ yaccを見たことある人は馴染があるような文法で記述されて�
 
 実際にPHPを =tree-sitter parse= した結果は以下です。S式で表現されていてtoken情報と座標を返します。
 
-#+begin_src treesitter :lang php :exports both
+#+begin_src treesitter :lang php :exports both :tangle /tmp/b5e6cadd-e91d-0d24-073b-df13e8e64f50.php
   <?php
 
   final class HelloCommand extends Command
@@ -191,26 +192,25 @@ yaccを見たことある人は馴染があるような文法で記述されて�
   }
 #+end_src
 
-#+RESULTS:
-#+begin_example
-(program [0, 0] - [5, 1]
-  (php_tag [0, 0] - [0, 5])
-  (class_declaration [2, 0] - [5, 1]
-    modifier: (final_modifier [2, 0] - [2, 5])
-    name: (name [2, 12] - [2, 24])
-    (base_clause [2, 25] - [2, 40]
-      (name [2, 33] - [2, 40]))
-    body: (declaration_list [3, 0] - [5, 1]
-      (method_declaration [4, 4] - [4, 36]
-        (visibility_modifier [4, 4] - [4, 10])
-        name: (name [4, 20] - [4, 31])
-        parameters: (formal_parameters [4, 31] - [4, 33])
-        body: (compound_statement [4, 34] - [4, 36])))))
-#+end_example
+#+begin_src lisp :tangle /tmp/afdffe46-c67d-fe64-3a0b-737c80c3d41c.lisp
+  (program [0, 0] - [5, 1]
+    (php_tag [0, 0] - [0, 5])
+    (class_declaration [2, 0] - [5, 1]
+      modifier: (final_modifier [2, 0] - [2, 5])
+      name: (name [2, 12] - [2, 24])
+      (base_clause [2, 25] - [2, 40]
+        (name [2, 33] - [2, 40]))
+      body: (declaration_list [3, 0] - [5, 1]
+        (method_declaration [4, 4] - [4, 36]
+          (visibility_modifier [4, 4] - [4, 10])
+          name: (name [4, 20] - [4, 31])
+          parameters: (formal_parameters [4, 31] - [4, 33])
+          body: (compound_statement [4, 34] - [4, 36])))))
+#+end_src
 
-また、Tree-Sitterは非常に賢いので構文エラーの箇所まで表示してくれます。
+また、Tree-sitterは非常に賢いので構文エラーの箇所まで表示してくれます。
 
-#+begin_src treesitter :lang php :exports both
+#+begin_src treesitter :lang php :exports both :tangle /tmp/7e7cb720-4526-dfa4-50eb-7a780ab7dfdf.php
   <?php
 
   final class HelloCommand extends Command
@@ -218,27 +218,26 @@ yaccを見たことある人は馴染があるような文法で記述されて�
       public function __construct() {}
 #+end_src
 
-#+RESULTS:
-#+begin_example
-(program [0, 0] - [4, 36]
-  (php_tag [0, 0] - [0, 5])
-  (class_declaration [2, 0] - [4, 36]
-    modifier: (final_modifier [2, 0] - [2, 5])
-    name: (name [2, 12] - [2, 24])
-    (base_clause [2, 25] - [2, 40]
-      (name [2, 33] - [2, 40]))
-    body: (declaration_list [3, 0] - [4, 36]
-      (method_declaration [4, 4] - [4, 36]
-        (visibility_modifier [4, 4] - [4, 10])
-        name: (name [4, 20] - [4, 31])
-        parameters: (formal_parameters [4, 31] - [4, 33])
-        body: (compound_statement [4, 34] - [4, 36])))))
-/var/folders/cb/3r410lh103x9hthl1pmy3jqw0000gp/T/babel-3wPZaM/tree-sitterNg42xu.php	0 ms	(MISSING "}" [4, 36] - [4, 36])
-#+end_example
+#+begin_src lisp :tangle /tmp/4329505d-c15e-def4-8efb-c5a0a33e8cd3.lisp
+  (program [0, 0] - [4, 36]
+    (php_tag [0, 0] - [0, 5])
+    (class_declaration [2, 0] - [4, 36]
+      modifier: (final_modifier [2, 0] - [2, 5])
+      name: (name [2, 12] - [2, 24])
+      (base_clause [2, 25] - [2, 40]
+        (name [2, 33] - [2, 40]))
+      body: (declaration_list [3, 0] - [4, 36]
+        (method_declaration [4, 4] - [4, 36]
+          (visibility_modifier [4, 4] - [4, 10])
+          name: (name [4, 20] - [4, 31])
+          parameters: (formal_parameters [4, 31] - [4, 33])
+          body: (compound_statement [4, 34] - [4, 36])))))
+  /var/folders/cb/3r410lh103x9hthl1pmy3jqw0000gp/T/babel-3wPZaM/tree-sitterNg42xu.php	0 ms	(MISSING "}" [4, 36] - [4, 36])
+#+end_src
 
-1言語内に複数言語の場合、特定のtoken内は別のgrammarを適用するという処理を書けるというのもTree-Sitterの特徴です。
+1言語内に複数言語の場合、特定のtoken内は別のgrammarを適用するという処理を書けるというのもTree-sitterの特徴です。
 
-Tree-Sitterによるシンタックスハイライトには以下のようなメリットとデメリットがあります。
+Tree-sitterによるシンタックスハイライトには以下のようなメリットとデメリットがあります。
 
 - メリット
   - メジャーな言語はだいたいサポートされている
@@ -246,7 +245,7 @@ Tree-Sitterによるシンタックスハイライトには以下のようなメ
 - デメリット
   - 構文が確定するまで色がつかない
   - 毎回ASTを作る必要があるので正規表現と比べて低速
-  - テキストエディタ本体はTree-Sitterのサポートをし続けないといけない
+  - テキストエディタ本体はTree-sitterのサポートをし続けないといけない
 
 メリットとしてサポートしている言語もテキストエディタも多いことが挙げられます。
 2024年現在使われているプログラミング言語のだいたいのgrammarは公式から提供されています。
@@ -254,10 +253,10 @@ Neovimも標準でサポートしており、Emacsでも29からサポートさ�
 
 デメリットとしてはASTとして解釈することに由来するものが挙げられます。
 テキストエディタでコードを編集している間構文が確定しない、構文エラーの時間が時間が必ず発生します。
-Tree-Sitterは構文エラーを最小限にするようなアルゴリズムが採用されていますが、正規表現と比べてどうしても色が付かない時間が発生してしまいます。
+Tree-sitterは構文エラーを最小限にするようなアルゴリズムが採用されていますが、正規表現と比べてどうしても色が付かない時間が発生してしまいます。
 また、テキストを編集する毎にASTを作る必要があるので、正規表現で色付けするよりも当然計算コストがかかります。
 
-Tree-Sitterを使うとなるとCレイヤを触る必要があります。
+Tree-sitterを使うとなるとCレイヤを触る必要があります。
 基本的にCレイヤをテキストエディタ側は変更することは意図していないので、通常のPackageと違って何か問題が起きた時に修正しつらいという問題もあります。
 * 終わりに
 プログラマーが快適にプログラムを編集するには、プログラミング言語の進化にエディタも追従する必要があります。
