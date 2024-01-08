@@ -3,4 +3,3 @@ rules:
   - expected: Zettelkasten
   - expected: Neovim
   - expected: Tree-sitter
-    pattern: /[tT]ree-[sS]itter/
