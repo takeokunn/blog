@@ -107,7 +107,7 @@ Emacsのconfigだけ量が多いのと、GitHub Pagesで公開したいので別
 
 ssh keyを紛失するとサーバにはいれなくなって詰む可能性もあるのでちゃんと管理したい。
 
-bitwardenに ~ssh keys~ というフォルダを作ってシークレットメモに貼り付けている。
+Bitwardenに ~ssh keys~ というフォルダを作ってシークレットメモに貼り付けている。
 
 *** GoogleDrive
 
