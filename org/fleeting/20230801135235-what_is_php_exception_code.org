@@ -43,7 +43,7 @@ https://www.php.net/manual/en/language.exceptions.php#91159
   }
 #+end_src
 
-=code= とは =User-defined Exception code= と書いてある通り、ユーザー側が任意の数値を入れられるものである。
+=code= とは =User-defined Exception code= と書いてある通り、ユーザー側が任意の数値を入れられる。
 
 PHPStanを実行すると以下のような型として認識されているようだ。
 
