@@ -1,0 +1,75 @@
+:PROPERTIES:
+:ID:       0227D66A-A96F-420C-8AC6-19EB63C3230E
+:END:
+#+TITLE: PHPカンファレンス北海道に参加してきました
+#+AUTHOR: takeokunn
+#+DESCRIPTION: description
+#+DATE: 2024-01-12T06:31:28+0900
+#+HUGO_BASE_DIR: ../../
+#+HUGO_CATEGORIES: diary
+#+HUGO_SECTION: posts/diary
+#+HUGO_TAGS: diary
+#+HUGO_DRAFT: true
+#+STARTUP: content
+#+STARTUP: nohideblocks
+* Introduction
+
+2024/1/13（土）に行われたphpconference北海道に参加してきました。
+https://phpcon.hokkaido.jp/
+
+今回は2024/1/12（金）〜2024/1/14（日）の2泊3日の旅行でした。
+
+* TL;DR
+
+TBD
+
+* 準備期間
+
+飛行機のチケットを直前の日曜までに取っていなく、あすみかんに指摘されてようやく気がつきなんとか取ることができました。
+PHPerKaigiのパンフレット記事の「[[id:3249F27E-9CE1-4ADC-9B34-607C7DCEC60D][テキストエディタがPHPをシンタックスハイライトする仕組みとモダンテキストエディタ事情について]]」もなんとか提出できて感謝しかないです。
+
+#+begin_export html
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">たけてぃが北海道行けるように、ここを支援する使命感がでてきている　これが母性？ <a href="https://t.co/1zYGCffqTC">pic.twitter.com/1zYGCffqTC</a></p>&mdash; あすみ (@asumikam) <a href="https://twitter.com/asumikam/status/1743892248478265544?ref_src=twsrc%5Etfw">January 7, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+#+end_export
+
+航空券は往復1万2000円、宿は二泊で8000円くらいで安く抑えることができました。
+
+#+begin_export html
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">Peachみたけど、12-15まだいっぱいあるからだいじょうぶそ<br>ほてるも、ドミトリーだけど12-15で1万円のところあるからここがいいんじゃないかな <a href="https://t.co/fXwODY4uVZ">pic.twitter.com/fXwODY4uVZ</a></p>&mdash; あすみ (@asumikam) <a href="https://twitter.com/asumikam/status/1743901343692316811?ref_src=twsrc%5Etfw">January 7, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+#+end_export
+
+事前に北海道グルメについてうちのシェフに相談したところ[[https://tabelog.com/hokkaido/A0101/A010103/1003973/][めんめ]]に行けとアドバイスされました。
+
+#+begin_export html
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">北海道旅行メモ<br><br>めんめには死んでもいけ、めんめにいかないなら帰ってくるな<a href="https://t.co/HNEgHVemaQ">https://t.co/HNEgHVemaQ</a></p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1743583896820941240?ref_src=twsrc%5Etfw">January 6, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+#+end_export
+
+* 1日目 移動〜前夜祭
+** 練馬〜新千歳
+
+TBD
+
+** 昼食〜前夜祭
+
+TBD
+
+* 2日目 カンファレンス本番
+
+TBD
+
+* 3日目 自由行動
+
+TBD
+
+* まとめ
+
+TBD
+
+* 次遠征する時の自分へ
+[[id:F59F81F7-C0AA-4253-9844-4F2B7BB4AEA5][phpカンファレンス福岡2023に参加してきました]]の[[file:20230624093617-retrospective_phpconference_fukuoka_2023.org::*次遠征する時の自分へ][次遠征する時の自分へ]]を参考に準備しました。
+
+前回からの差分として真冬の北海道ということで以下を増やしました。nは宿泊日数です。
+
+- コート 1着
+- セーター 1着
+- 靴下 n着
