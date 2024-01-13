@@ -128,7 +128,7 @@ PHPerKaigiのパンフレット記事の「[[id:3249F27E-9CE1-4ADC-9B34-607C7DCE
 https://fortee.jp/phpcon-hokkaido-2024/timetable
 
 勉強になるトークが目白押しで非常に面白い会でした。
-*** リリースフラグとプログレッシブデリバリーを活用した安全なWEBアプリケーションデプロイ - @pyama86
+*** セッション - リリースフラグとプログレッシブデリバリーを活用した安全なWEBアプリケーションデプロイ - @pyama86
 
 link: https://fortee.jp/phpcon-hokkaido-2024/proposal/d60a53ac-1593-4133-99fe-2d812f202476
 link: https://speakerdeck.com/pyama86/ririsuhuraguto-puroguretusibuderibariwohuo-yong-sita-an-quan-nawebapurikesiyondepuroi
@@ -139,7 +139,7 @@ deployには光と闇がある。
 自作ツールを作成している。
 kubernatesでよしなにやっている。
 
-*** 文字とはなにか - PHPの文字コード処理について - @youkidearitai
+*** セッション - 文字とはなにか - PHPの文字コード処理について - @youkidearitai
 
 link: https://fortee.jp/phpcon-hokkaido-2024/proposal/71b18e07-3fd4-4ebf-87a3-2bc9ec8d9481
 link: https://speakerdeck.com/youkidearitai/wen-zi-tohananika-phpnowen-zi-kodochu-li-nituite?slide=17
@@ -148,14 +148,14 @@ link: https://speakerdeck.com/youkidearitai/wen-zi-tohananika-phpnowen-zi-kodoch
 - https://twitter.com/takeokunn/status/1745724656550826176
 - https://twitter.com/takeokunn/status/1745725349080793592
 
-*** メールアドレス vs 俺たち - @tadsan
+*** セッション - メールアドレス vs 俺たち - @tadsan
 
 link: https://fortee.jp/phpcon-hokkaido-2024/proposal/bac71653-d553-416c-ac22-459a8eb2669d
 
 - https://twitter.com/takeokunn/status/1745730242218754134
 - https://twitter.com/takeokunn/status/1745732915403923674
 
-*** PHPからはじめるコンピュータアーキテクチャ - @tomzoh
+*** セッション - PHPからはじめるコンピュータアーキテクチャ - @tomzoh
 
 link: https://fortee.jp/phpcon-hokkaido-2024/proposal/cc6ef8ab-df1d-40fd-b839-f3c35abcfa3c
 link: https://speakerdeck.com/tomzoh/php-meets-silicon-a-fun-dive-into-computer-structures-15mins-ver
@@ -167,42 +167,42 @@ link: https://speakerdeck.com/tomzoh/php-meets-silicon-a-fun-dive-into-computer-
 
 interfaceさえ守れていれば良いので、低レイヤーでは何をしても良い。
 
-*** 善しと悪し、正と邪の軸から【要はバランス】の正体を探りにいく - @chatii
+*** セッション - 善しと悪し、正と邪の軸から【要はバランス】の正体を探りにいく - @chatii
 
 link: https://fortee.jp/phpcon-hokkaido-2024/proposal/13ed5ba7-fb0c-4a49-9b2b-825ac8016a0e
 
 
 - 「要はバランス」って一体なんなんだろうと思わされる
 
-*** PHP で作られたゲテモノを色々紹介する（自作他作含めて） - @sji_ch
+*** セッション - PHP で作られたゲテモノを色々紹介する（自作他作含めて） - @sji_ch
 
 link: https://fortee.jp/phpcon-hokkaido-2024/proposal/cc682a76-153c-41dc-95af-062b42066b42
 
-*** 闇のPHPに対する防衛術 - @ogi_chotdake_se
+*** セッション - 闇のPHPに対する防衛術 - @ogi_chotdake_se
 
 link: https://fortee.jp/phpcon-hokkaido-2024/proposal/4893af64-7fe7-47b4-a8fa-860993eba8b7
 
-*** 全国700個以上の路線バスGTFS-JPオープンデータを毎日取得、反映し続けて得られた経験 - @8nohe
+*** LT - 全国700個以上の路線バスGTFS-JPオープンデータを毎日取得、反映し続けて得られた経験 - @8nohe
 
 link: https://fortee.jp/phpcon-hokkaido-2024/proposal/0e2763ae-0e88-410e-a8e1-7d22b9f9f863
 
 Googleが作った公共交通情報用フォーマット、Googleマップ検索へ載せてもらえるもの。
 仕様が緩いので特有のつらみがあるらしいし、巨大なデータが降ってくるので処理が大変。
 
-*** Laravelで敢えて試す脆弱性のある書き方 - @kanbo0605
+*** LT - Laravelで敢えて試す脆弱性のある書き方 - @kanbo0605
 
 link: https://fortee.jp/phpcon-hokkaido-2024/proposal/12b300fc-0df6-4b8c-ad13-d2d2b22ec3d3
 link: https://speakerdeck.com/bumptakayuki/laraveltegan-eteshi-sucui-ruo-xing-noarushu-kifang
 
 CSRFとかXSSとか基本的な脆弱性の話をしていた。
 
-*** Webアプリケーション周りのいろいろなアップグレード戦記 - @sogaoh
+*** LT - Webアプリケーション周りのいろいろなアップグレード戦記 - @sogaoh
 
 link: https://fortee.jp/phpcon-hokkaido-2024/proposal/4fc950d6-2c59-4676-8042-438d5900e281
 
 EC2ベースのものをFargateに移行してPHPなどのミドルウェアのアップグレードの話。
 
-*** ファイルを選択してZIPダウンロードする機能ってどうやって作るの？ - @app1e_s
+*** LT - ファイルを選択してZIPダウンロードする機能ってどうやって作るの？ - @app1e_s
 
 link: https://fortee.jp/phpcon-hokkaido-2024/proposal/569f0b56-276e-4aad-822f-29ccb72e86a8
 link: https://speakerdeck.com/meihei3/phpcondo-2023
@@ -211,20 +211,26 @@ Zipダウンロードは事前生成と動的生成がある。
 Pros/Consをちゃんと洗い出して動的生成にする。
 動的生成時の構成を紹介してくれている。
 
-*** 社内イベントにおける運営の勘所、まとめておきました - @tomio2480
+*** LT - 社内イベントにおける運営の勘所、まとめておきました - @tomio2480
 
 link: https://fortee.jp/phpcon-hokkaido-2024/proposal/19dee3b2-cba2-4e8a-ba36-1febf7fc5e2f
 
 社内イベントとして抑えとかなくちゃいけないポイントを紹介していた。
 
-*** 実践！冬の上川駆動開発〜富良野・南富良野・占冠・中富良野・東川・東神楽・旭川編 - @tomio2480
+*** LT - 実践！冬の上川駆動開発〜富良野・南富良野・占冠・中富良野・東川・東神楽・旭川編 - @tomio2480
 
 link: https://fortee.jp/phpcon-hokkaido-2024/proposal/062a1cf6-0d99-4c5c-b944-de7c65e4bf02
 
 人間というのはどんな環境であれ「プログラムを書くぞ」という強い意思があれば書けるということを体現していた素晴しい発表だった。
 
 ** 懇親会
+
+居酒屋が激安だった。
+
 ** 宿
+
+多国籍な宿
+
 * 2日目 カンファレンス本番
 
 TBD
@@ -234,12 +240,12 @@ TBD
 海鮮丼を食べに行きました。
 
 ** 午前セッション
-*** 「DI」と仲良くなる - @akai_inu
+*** セッション - 「DI」と仲良くなる - @akai_inu
 
 link: https://fortee.jp/phpcon-hokkaido-2024/proposal/bb71ad8e-e211-49f0-957f-f36333a625b9
 
 - 依存性の逆転も注入もDI
-*** 日本PHPカンファレンス2024スタンプラリーとその実装 - @koyhoge
+*** セッション - 日本PHPカンファレンス2024スタンプラリーとその実装 - @koyhoge
 
 link: https://fortee.jp/phpcon-hokkaido-2024/proposal/0c17b91b-38e1-4cac-bcf4-d61a5268bf3e
 link: https://speakerdeck.com/koyhoge/phpcon-stamprally
@@ -258,7 +264,7 @@ https://twitter.com/takeokunn/status/1746017257816469631/photo/1
 
 link: https://fortee.jp/phpcon-hokkaido-2024/timetable/2024-01-13
 
-*** 例外を投げるのをやめてみないか？あるいは受け入れてみないか？ - @uzulla
+*** セッション - 例外を投げるのをやめてみないか？あるいは受け入れてみないか？ - @uzulla
 
 link: https://fortee.jp/phpcon-hokkaido-2024/proposal/fa6c7361-d934-4892-a79b-cf5547acd062
 link: https://speakerdeck.com/uzulla/li-wai-wotou-gerunowoyameteminaika-aruihashou-keru-reteminaika-how-to-use-exceptions-other-than-throwing
@@ -266,24 +272,24 @@ link: https://speakerdeck.com/uzulla/li-wai-wotou-gerunowoyameteminaika-aruihash
 - 例外はそもそも邪道
 - 例外の拡張・活用方法の具体例について
 - 結局静的解析に優しいコードを書くのが良いよね
-*** スポンサーセッション - 株式会社インフィニットループ （20分）
+*** セッション - スポンサーセッション - 株式会社インフィニットループ （20分）
 
 - インフィニットループとphpの関係
 - チート対策等はphp側でしか対応できない
 
-*** スポンサーセッション - 株式会社サムライズム （20分）
+*** セッション - スポンサーセッション - 株式会社サムライズム （20分）
 
 - JetBrains公式代理店 株式会社サムライズムの紹介
 - PHPStormの最近の機能について紹介
 
-*** ベテランのバグ調査の秘訣、こっそり教えちゃいます - @77web
+*** セッション - ベテランのバグ調査の秘訣、こっそり教えちゃいます - @77web
 
 link: https://fortee.jp/phpcon-hokkaido-2024/proposal/d88f95c8-85ed-473b-b182-1b712193f3e6
 
 - バグ調査の流れについて
 - バグを切り分けて適切に対処する
 
-*** 失敗例から学ぶSOLID原則 - @asumikam
+*** セッション - 失敗例から学ぶSOLID原則 - @asumikam
 
 link: https://fortee.jp/phpcon-hokkaido-2024/proposal/7d223fcd-ecc8-4cfb-92b2-4987749463d8
 link: https://speakerdeck.com/asumikam/failure-example-solid
@@ -292,10 +298,14 @@ link: https://speakerdeck.com/asumikam/failure-example-solid
 
 *** スポンサーLT - 株式会社PR TIMES
 
+link: https://developers.prtimes.jp/2023/12/13/replace-press-release-page-with-nextjs/
+
 - プレスリリースをSSRに移行している
 - PHPからNext.jsに移行した時にCDNキャシュ
 
 *** スポンサーLT - 株式会社ビットフォレスト
+
+link: https://docs.google.com/presentation/d/1xGyBfUwC0rmNhlutbjnbz710Pzw61AxGnEZ25RrjqFY/edit#slide=id.p
 
 - 株式会社ビットフォレスト 製品紹介
   - VAddy 脆弱性診断ツール
@@ -320,9 +330,10 @@ link: https://speakerdeck.com/asumikam/failure-example-solid
   - イベント開催の広報支援など
   - 地場のコミュニティをどう支えるのか
 
-*** 測って見直す開発習慣 可視化を進めて私たちに起きた変化 - @inoco
+*** セッション - 測って見直す開発習慣 可視化を進めて私たちに起きた変化 - @inoco
 
 link: https://fortee.jp/phpcon-hokkaido-2024/proposal/b2b9f4cf-3117-4d70-bd71-46b8d55a7bb9
+link: https://speakerdeck.com/inouehi/improve-our-development-habits-by-measuring-productivity-and-maintainability
 
 - 可視化の進め方
   - Four Keys
@@ -330,7 +341,7 @@ link: https://fortee.jp/phpcon-hokkaido-2024/proposal/b2b9f4cf-3117-4d70-bd71-46
   - データを収集して外部要因を含めて考察する
   - 並列して行っているのでどれが要因なのかはわからない
 
-*** リーダブルSQL[より良いSQLを書くためのシンプルで実践的なテクニック - @820zacky
+*** セッション - リーダブルSQL[より良いSQLを書くためのシンプルで実践的なテクニック - @820zacky
 
 link: https://fortee.jp/phpcon-hokkaido-2024/proposal/716256ba-2391-400a-80c2-15d0baa089b7
 
@@ -338,29 +349,58 @@ link: https://fortee.jp/phpcon-hokkaido-2024/proposal/716256ba-2391-400a-80c2-15
   - CTE(MySQLのWITH句)を使おう
   - リーダブルコードに準拠したSQLにしよう
 
-*** コードを計測することで捉える問題点 - @blue_goheimochi
+*** セッション - コードを計測することで捉える問題点 - @blue_goheimochi
 
 link: https://fortee.jp/phpcon-hokkaido-2024/proposal/0e9cdea3-f558-46c4-b8e2-9c9f7b244a7a
+link: https://speakerdeck.com/blue_goheimochi/phpcondo2024
 
-*** 新しくEMやってみる人にオススメしたい本を5分で25冊紹介する - @o0h_
+- コードの計測をツールを入れて解析して定量化する
+  - [[https://github.com/blue-goheimochi/php-metrics-tools][blue-goheimochi/php-metrics-tools]]
+*** LT - 新しくEMやってみる人にオススメしたい本を5分で25冊紹介する - @o0h_
 
 link: https://fortee.jp/phpcon-hokkaido-2024/proposal/1ddbb28f-e595-45be-baaf-5bb986828cc6
-*** やるぞ！DBaaS x サーバーレスPHP - @seike460
+link: https://speakerdeck.com/o0h/phpcondo-lt
+
+- EMになるための本を読むと良いとのこと
+  - 心構えについてなど
+
+*** LT - やるぞ！DBaaS x サーバーレスPHP - @seike460
 
 link: https://fortee.jp/phpcon-hokkaido-2024/proposal/477cb733-17dc-47b0-b871-c8d6fdf72486
-*** 新米PHPerですが、php-srcをちょっとだけ読めちゃった件について - @22kerokero22
+link: https://speakerdeck.com/seike460/lets-do-it-dbaas-x-serverless-php
+
+- DBaaS使おう
+- サーバレスのメリットは料金面やCI/CD面でも良い
+- すぐに立ち上げることが可能
+
+*** LT - 新米PHPerですが、php-srcをちょっとだけ読めちゃった件について - @22kerokero22
 
 link: https://fortee.jp/phpcon-hokkaido-2024/proposal/5db5a4cc-a9a0-48c8-9f92-7d6646e9c7a5
-*** 自作ポートスキャナで始める監視生活 - @cakephper
+
+- php-srcを読むと難しい
+
+*** LT - 自作ポートスキャナで始める監視生活 - @cakephper
 
 link: https://fortee.jp/phpcon-hokkaido-2024/proposal/29def3df-44fa-4cd6-ba94-9c1fe182eba7
-*** テスト嫌いな自分の苦手意識がなくなった話 - @_mkmk884
+link: https://blog.ichikaway.com/entry/2021/08/09/161426/aite9
+
+- TCPとUDPとポートスキャンの違い
+- UDPポートスキャンは難易度が高い
+
+*** LT - テスト嫌いな自分の苦手意識がなくなった話 - @_mkmk884
 
 link: https://fortee.jp/phpcon-hokkaido-2024/proposal/c2572daf-e154-4826-a4df-ccce8c122c28
+link: https://speakerdeck.com/mkmk884/the-story-of-how-i-lost-my-dislike-of-tests
 
-*** プロポーザルに通したいのでプロポーザルのテキスト分析をします！ - @shunsock
+- ペアプロでテストが好きになった話
+
+*** LT - プロポーザルに通したいのでプロポーザルのテキスト分析をします！ - @shunsock
 
 link: https://fortee.jp/phpcon-hokkaido-2024/proposal/27161196-7076-4bd3-91a5-7a674fa90d51
+
+- 過去のプロポーザルデータをからデータを取得して
+  - クローリングしてよしなに処理をする
+  - GPTに処理させる
 
 ** 懇親会
 * 3日目 自由行動
