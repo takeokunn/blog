@@ -4,12 +4,12 @@
 #+TITLE: テキストエディタがPHPをシンタックスハイライトする仕組みとモダンテキストエディタ事情について
 #+AUTHOR: takeokunn
 #+DESCRIPTION: description
-#+DATE: 2024-01-07T12:20:39+0900
+#+DATE: 2024-01-18T12:20:39+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: permanent
 #+HUGO_SECTION: posts/permanent
 #+HUGO_TAGS: fleeting
-#+HUGO_DRAFT: true
+#+HUGO_DRAFT: false
 #+STARTUP: content
 #+STARTUP: nohideblocks
 * 注意
