@@ -8,7 +8,7 @@
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: permanent
 #+HUGO_SECTION: posts/permanent
-#+HUGO_TAGS: fleeting
+#+HUGO_TAGS: permanent php
 #+HUGO_DRAFT: false
 #+STARTUP: content
 #+STARTUP: nohideblocks
