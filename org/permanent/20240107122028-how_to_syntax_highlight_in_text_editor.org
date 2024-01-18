@@ -19,6 +19,10 @@
 
 https://fortee.jp/phperkaigi-2024/proposal/161b2ec9-c279-4336-8e17-1aa054dacae9
 
+PDF版はこちらです。
+
+[[file:../../static/pdf/テキストエディタがPHPをシンタックスハイライトする仕組みとモダンテキストエディタ事情について.pdf]]
+
 * Introduction
 
 プログラミング言語は日進月歩で進化し続けています。
