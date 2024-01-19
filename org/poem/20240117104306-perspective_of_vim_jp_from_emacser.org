@@ -34,7 +34,7 @@
 
 - [[https://blog.tomoya.dev/posts/vim-jp-is-a-paradise-for-engineers/][エンジニアの楽園 vim-jp - 日々、とんは語る。]]を読み [[https://vim-jp.org/docs/chat.html][vim-jpのチャットルームについて]] を参考にvim-jp slackに入る
 - =#welcome= で自己紹介をする
-- =#hobby-groumet= で直近の食事をアップロードする
+- =#hobby-gourmet= で直近の食事をアップロードする
 
 自己紹介テンプレートは以下。
 
@@ -70,7 +70,7 @@ Emacs日本コミュニティに[[https://github.com/emacs-jp/emacs-jp.github.co
 vim-jpはVimという名前を冠しているにもかかわらず、以下のようなchannelがあり生活全般の会話をできます。（あくまで一例）
 
 - =#hobby-*=
-  - =#hobby-groumet= : 食事全般
+  - =#hobby-gourmet= : 食事全般
   - =#hobby-gadget= : ガジェット全般
 - =#life-*=
   - =#life-housekeeping= : 家事全般
@@ -128,10 +128,10 @@ vim-jpには =#welcome= という自己紹介チャンネルがあり、自分�
 たとえばphpを普段書いているなら =#lang-php= だったり、これからNixを始めたいなという人は =#tech-nix= もあります。
 
 「こういうチャンネルない？」という質問は =#random= に気軽に投げてみてください。
-** 4. #hobby-groumet にご飯の画像を投稿する
+** 4. #hobby-gourmet にご飯の画像を投稿する
 
 はじめて入ったコミュニティに投稿するのはやはりハードルが高いものです。
-そういう時は =#hobby-groumet= に飯の画像を上げたり、 =#hobby-gadget= に最近買ってよかったガジェットの画像を上げてみましょう。
+そういう時は =#hobby-gourmet= に飯の画像を上げたり、 =#hobby-gadget= に最近買ってよかったガジェットの画像を上げてみましょう。
 
 =#times-take= に「この記事を見てvim-jpに参加しました」と投稿してもらえると嬉しいです。
 
