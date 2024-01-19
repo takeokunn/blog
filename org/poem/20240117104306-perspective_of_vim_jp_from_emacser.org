@@ -45,20 +45,20 @@
   よろしくお願いします。
 #+end_example
 * Vim/Emacsエディタ戦争について
-「VimmerとEmacsユーザは仲が悪い」と[[https://ja.wikipedia.org/wiki/%E3%82%A8%E3%83%87%E3%82%A3%E3%82%BF%E6%88%A6%E4%BA%89][エディタ戦争]]のようなことを巷では言われてますが、実際のところはそんなことありません。
-エディタ戦争と言ってる人達はどちらのテキストエディタも大して使っていない素人であることが多く、実際のところは少なくとも日本人コミュニティでは一切そんなことありません。
+「VimmerとEmacsユーザーは仲が悪い」と[[https://ja.wikipedia.org/wiki/%E3%82%A8%E3%83%87%E3%82%A3%E3%82%BF%E6%88%A6%E4%BA%89][エディタ戦争]]のようなことを巷ではいわれてますが、実際のところはそんなことありません。
+エディタ戦争と言っている人達はどちらのテキストエディタも大して使っていない素人であることが多く、実際のところは少なくとも日本人コミュニティでは一切そんなことありません。
 
-例えば[[https://github.com/easymotion/vim-easymotion][easymotion/vim-easymotion]]が[[https://github.com/abo-abo/avy][abo-abo/avy]]で再実装されたように、Vim Pluginで有用なものはEmacs Packageに移植されたり、常に互いを高め合うものとして存在しています。(逆もまた然り)
+たとえば[[https://github.com/easymotion/vim-easymotion][easymotion/vim-easymotion]]が[[https://github.com/abo-abo/avy][abo-abo/avy]]で再実装されたように、Vim Pluginで有用なものはEmacs Packageに移植されたり、常に互いを高め合うものとして存在しています。（逆もまた然り）
 
-私個人としてはEmacsが世界最強のテキストエディタであり他のテキストエディタの追随を許さない圧倒的に優れたものだという思想を持っています。
+私個人としてはEmacsが世界最強のテキストエディタでありほかのテキストエディタの追随を許さない圧倒的に優れたものだという思想を持っています。
 こういう思想を持った私でもVimコミュニティ内で問題なくVimmerと交流できているので、世間が思っている以上にテキストエディタコミュニティは他テキストエディタに寛容です。
 * Emacsコミュニティの抱える問題
 私がEmacsを始めたのは5年前くらいですが、私の観測範囲内ではコミュニティ活動するEmacsユーザーの数は5年前からほぼ変わらず、悲しいことに新規で入ってくる人はほとんどいません。
 つまりEmacsコミュニティは平均年齢が5歳分上がっているのです。
 
-Emacs日本コミュニティに[[https://github.com/emacs-jp/emacs-jp.github.com][emacs-jp slack]]があります.
+Emacs日本コミュニティに[[https://github.com/emacs-jp/emacs-jp.github.com][emacs-jp slack]]があります。
 分からないことがあったらちょっとしたことでも =#question= に気軽に投げてほしいし、 =#today-i-learned= に学んだことを共有してほしいです。
-しかし残念ながら投稿の流速が遅く、特に初心者は雑談や質問し辛いという現状があります。
+しかし残念ながら投稿の流速が遅く、特に初心者は雑談や質問しつらいという現状があります。
 
 同じくらいの初心者が少ない技術コミュニティでは、質問するのも人間関係を構築するのも難易度がどうしても高くなってしまいます。
 ベテラン達も「イマドキEmacsを長い時間苦労してやらずにVSCodeとか使った方がいいんじゃないか?」と思っている人も少なくなく、初心者を増やす活動を中々できていないという側面もあります。
@@ -66,8 +66,8 @@ Emacs日本コミュニティに[[https://github.com/emacs-jp/emacs-jp.github.co
 本来なら[[https://gorillavim.connpass.com/][ゴリラ.vim]]のような初心者歓迎イベントを定期開催して、少しでもEmacsへのハードルを下げるべきなのかもしれないなと反省しています。
 * vim-jp slackって何？
 
-[[https://blog.tomoya.dev/posts/vim-jp-is-a-paradise-for-engineers/][エンジニアの楽園 vim-jp - 日々、とんは語る。]] に非常に分かりやすく纏まっています。
-vim-jpはVimという名前を冠しているにも関わらず、以下のようなchannelがあり生活全般の会話をすることができます。(あくまで一例)
+[[https://blog.tomoya.dev/posts/vim-jp-is-a-paradise-for-engineers/][エンジニアの楽園 vim-jp - 日々、とんは語る。]] に非常に分かりやすくまとまっています。
+vim-jpはVimという名前を冠しているにもかかわらず、以下のようなchannelがあり生活全般の会話をできます。（あくまで一例）
 
 - =#hobby-*=
   - =#hobby-groumet= : 食事全般
@@ -83,12 +83,12 @@ vim-jpはVimという名前を冠しているにも関わらず、以下のよ�
   - =#times= : 全員の分報
   - =#times-take= : 私の分報
 
-Emacsユーザは以下のチャンネルに入っておくことをオススメします。
+Emacsユーザーは以下のチャンネルに入っておくことをお勧めします。
 
 - =#tech-emacs=
 - =#lang-lisp=
 - =#tech-ime=
-- Emacsユーザのtimes
+- Emacsユーザーのtimes
   - =#times-take=
   - =#times-conao3=
   - =#times-tomoya=
@@ -96,17 +96,17 @@ Emacsユーザは以下のチャンネルに入っておくことをオススメ
   - =#times-rocktakey=
   - =#times-kamesuke42=
 
-正直 =#tech-emacs= はemacs-jpよりも流速があるのでこっちで質問した方が回答が来る可能性が高いです。
+正直 =#tech-emacs= はEmacs-jpよりも流速があるのでこっちで質問した方が回答が来る可能性が高いです。
 
-vim-jp一番の魅力はテキストエディタを第一線でやってる人とコミュニケーションを取れることです。
-例えば [[https://blog.tomoya.dev/posts/only-those-who-want-to-be-the-wind-should-use-emacs-2020/][風になりたい奴だけがEmacsを使えばいい 2020]] や[[https://gihyo.jp/book/2017/978-4-7741-9235-2][［改訂新版］Emacs実践入門]]の著者の[[https://twitter.com/tomoyaton][tomoya]]氏や、Vimのキラーアプリを次々に作っている暗黒美夢王こと[[https://github.com/Shougo/][Shougo]]氏とも気軽に交流できます。
+vim-jp一番の魅力はテキストエディタを第一線でやっている人とコミュニケーションを取れることです。
+たとえば [[https://blog.tomoya.dev/posts/only-those-who-want-to-be-the-wind-should-use-emacs-2020/][風になりたい奴だけがEmacsを使えばいい 2020]] や[[https://gihyo.jp/book/2017/978-4-7741-9235-2][［改訂新版］Emacs実践入門]]の著者の[[https://twitter.com/tomoyaton][tomoya]]氏や、Vimのキラーアプリケーションを次々に作っている暗黒美夢王こと[[https://github.com/Shougo/][Shougo]]氏とも気軽に交流できます。
 
-業界で著名なエンジニアがごろごろ居る環境というのはvim-jpくらいじゃないでしょうか。
+業界で著名なエンジニアがごろごろいる環境というのはvim-jpくらいじゃないでしょうか。
 
 vim-jpはスタンプによるリアクションも多いところも魅力です。[[file:./][古き良き雑談文化のインターネット]] を感じることができます。
 * vim-jpの歩み方
 
-以下の5ステップを行えば貴方も立派なvim-jpの住人と言えるでしょう。
+以下の5ステップを行えばあなたも立派なvim-jpの住人といえるでしょう。
 
 ** 1. vim-jp slackに参加する
 
@@ -125,20 +125,21 @@ vim-jpには =#welcome= という自己紹介チャンネルがあり、自分�
 #+end_src
 ** 3. 興味のあるチャンネルに入って雰囲気をつかむ
 [[*vim-jp slackって何？][vim-jp slackって何？]] で紹介したチャンネルや自分が興味のあるチャンネルを検索して調べてみてください。
-例えばphpを普段書いてるなら =#lang-php= だったり、これからNixを始めたいなという人は =#tech-nix= もあります。
+たとえばphpを普段書いているなら =#lang-php= だったり、これからNixを始めたいなという人は =#tech-nix= もあります。
 
 「こういうチャンネルない？」という質問は =#random= に気軽に投げてみてください。
-** 4. #hobby-groumet に飯の画像を投稿する
+** 4. #hobby-groumet にご飯の画像を投稿する
 
-初めて入ったコミュニティに投稿するのはやはりハードルが高いものです。
+はじめて入ったコミュニティに投稿するのはやはりハードルが高いものです。
 そういう時は =#hobby-groumet= に飯の画像を上げたり、 =#hobby-gadget= に最近買ってよかったガジェットの画像を上げてみましょう。
-=#times-take= に「この記事を見てvim-jpに参加しました」と投稿していただいても構いません。
+
+=#times-take= に「この記事を見てvim-jpに参加しました」と投稿してもらえると嬉しいです。
 
 兎に角投稿へのハードルを下げましょう。
 ** 5. [optional] 自分のtimesを作成する
 
 =#times-<username>= という命名規則なら自由にチャンネルを作成しても良いです。
-作成したら =#times= あたりに「 =#times-<username>= を作りました!!」と投稿しましょう。
+作成したら =#times= あたりに「=#times-<username>= を作りました！!」と投稿しましょう。
 
 =#times-<username>= にはちょっとした作業メモや質問まではいかないちょっとした疑問、楽しかったことなどTwitter的な運用をすると良いです。
 dotfilesのコミットログを流している人もいます。
