@@ -16,7 +16,7 @@
 
 この記事は[[https://vim-jp.org/ekiden/][Vim駅伝]]の2024-01-19の記事です。
 
-前回の記事はkawarimidollさんの「[[https://zenn.dev/vim_jp/articles/358848a5144b63][俺自身がVimのstatuslineになることだ]]」です。
+前回の記事は[[https://zenn.dev/kawarimidoll][kawarimidoll]]さんの「[[https://zenn.dev/vim_jp/articles/358848a5144b63][俺自身がVimのstatuslineになることだ]]」です。
 
 * この記事を読むにあたっての注意点
 
