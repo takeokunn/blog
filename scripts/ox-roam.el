@@ -40,6 +40,7 @@
                        (file-expand-wildcards "org/index/*.org")
                        (file-expand-wildcards "org/literature/*.org")
                        (file-expand-wildcards "org/permanent/*.org")
-                       (file-expand-wildcards "org/structure/*.org")))
+                       (file-expand-wildcards "org/structure/*.org")
+                       (file-expand-wildcards "org/poem/*.org")))
       (with-current-buffer (find-file f)
         (org-hugo-export-wim-to-md)))))
