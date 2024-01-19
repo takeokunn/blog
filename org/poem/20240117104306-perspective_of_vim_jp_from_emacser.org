@@ -4,7 +4,7 @@
 #+TITLE: Emacsユーザーから見たvim-jp
 #+AUTHOR: takeokunn
 #+DESCRIPTION: description
-#+DATE: 2024-01-17T10:34:53+0900
+#+DATE: 2024-01-19T10:37:53+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: poem
 #+HUGO_SECTION: posts/poem
