@@ -1,7 +1,7 @@
 :PROPERTIES:
 :ID:       7B19919E-28C6-4A0A-978F-E2D73D06B7EB
 :END:
-#+TITLE: Emacsユーザから見たvim-jp
+#+TITLE: Emacsユーザーから見たvim-jp
 #+AUTHOR: takeokunn
 #+DESCRIPTION: description
 #+DATE: 2024-01-17T10:34:53+0900
