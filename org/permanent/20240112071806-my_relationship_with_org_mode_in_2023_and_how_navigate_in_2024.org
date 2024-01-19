@@ -1,7 +1,7 @@
 :PROPERTIES:
 :ID:       3BECED15-4350-42B1-98F5-C1D502816F0D
 :END:
-#+TITLE: 2023年のorg-mode活用と今後の豊富
+#+TITLE: 2023年のorg-mode活用と今後の抱負
 #+AUTHOR: takeokunn
 #+DESCRIPTION: description
 #+DATE: 2024-01-12T07:18:14+0900
