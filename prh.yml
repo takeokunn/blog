@@ -14,3 +14,4 @@ rules:
   - expected: React.js
     pattern:  /\bReactJS\b|\bReactJs\b|\breactjs\b/
   - expected: Bitwarden
+  - expected: Dvorak

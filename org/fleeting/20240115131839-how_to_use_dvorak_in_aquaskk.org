@@ -1,0 +1,38 @@
+:PROPERTIES:
+:ID:       503A6133-ED6A-4893-AC9C-F5BC8B66C325
+:END:
+#+TITLE: AquaSKKをDvorak仕様にする方法
+#+AUTHOR: takeokunn
+#+DESCRIPTION: description
+#+DATE: 2024-01-15T13:18:52+0900
+#+HUGO_BASE_DIR: ../../
+#+HUGO_CATEGORIES: fleeting
+#+HUGO_SECTION: posts/fleeting
+#+HUGO_TAGS: fleeting dvorak
+#+HUGO_DRAFT: false
+#+STARTUP: content
+#+STARTUP: nohideblocks
+* Introduction
+[[https://ja.wikipedia.org/wiki/QWERTY%E9%85%8D%E5%88%97][QWERTY配列]]から[[https://ja.wikipedia.org/wiki/Dvorak%E9%85%8D%E5%88%97][Dvorak配列]]に移行するにあたって[[https://ja.osdn.net/projects/aquaskk/][AquaSKK]]もDvorak仕様にする必要があったのでメモ。
+* Mac標準キーボード
+[[https://support.apple.com/ja-jp/guide/mac-help/mh27976/mac][MacでDvorakキーボードレイアウトを使用する - macOSユーザガイド]] によると、Mac標準キーボードにはDvorakが4種類ある。
+自分のユースケースは標準的な使い方なので =Dvorak: 最もよく使用されるキーが指の下に配置されています。= を選択しました。
+
+#+begin_example
+  - Dvorak: 最もよく使用されるキーが指の下に配置されています。
+  - Dvorak - 左利き: 最もよく使用されるキーが左手の下に配置されています。
+  - Dvorak - QWERTY ⌘: Commandキーを押したままにしたときに、一時的にレイアウトをQWERTYに変更します。
+  - Dvorak - 右利き: 最もよく使用されるキーが右手の下に配置されています。
+#+end_example
+
+以下のような設定になってれば良い。
+
+[[file:../../static/images/7F6C45FE-1CBF-468E-A23A-4FDA51F8265F.png]]
+* AquaSKK設定
+AquaSKKの設定画面にキーボードレイアウトを指定できる場所がある。さきほど指定したDvorak配列を指定する。
+
+[[file:../../static/images/EA7ACD8B-52C4-4927-9EB2-A24906E9263B.png]]
+
+即時で反映されない場合は設定反映を押して明示的に反映させる。
+
+[[file:../../static/images/ED26E819-448B-41F9-800A-A5C8F56679F8.png]]
