@@ -4,7 +4,7 @@
 #+TITLE: Zedファーストインプレッション
 #+AUTHOR: takeokunn
 #+DESCRIPTION: description
-#+DATE: 2024-01-26T00:23:23+0900
+#+DATE: 2024-01-26T00:37:06+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting
 #+HUGO_SECTION: posts/fleeting
