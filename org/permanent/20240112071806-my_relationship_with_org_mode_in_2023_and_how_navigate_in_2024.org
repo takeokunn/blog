@@ -15,6 +15,7 @@
 * Introduction
 
 この記事は[[https://vim-jp.org/ekiden/][Vim駅伝]]の2024-01-24の記事です。
+
 前回の記事はyasunoriさんの「[[https://zenn.dev/vim_jp/articles/0007-vim-recommend-method][Vimを勧めるときのすヽめ]]」です。
 
 私にとっての2023年はorg-modeの年でした。
@@ -73,13 +74,23 @@ Emacsとの親和性なども考えると[[https://orgmode.org/ja/][org-mode]]�
 - メモ
 - 強力な拡張パッケージ
 
-org-mdoeはコンピュータを使う時に必要なものをすべて用意してくれています。
+org-modeはコンピュータを使う時に必要なものをすべて用意してくれています。
 当然のことながら、Emacsのパッケージなので [[https://qiita.com/takaxp/items/a5a3383d7358c58240d0][org-mode のキーバインド、その先 - Qiita]] にもある通りEmacsのkeybindで操作できます。
 
 コードの実行もできる為コマンド結果の証跡を残すこともでき、プレーンテキストなので当然grepで過去に行ったタスクの検索も容易に行うことができます。
 1年くらいorg-modeに注力してみたが、org-modeはすばらしく可能性を秘めており、Emacsが廃れない限りは使い続けられることを確信したので、少なくとも直近5年は投資し続ける覚悟ができました。
 
 [[https://www.youtube.com/@p-snow][YouTubeの@p-snow氏のチャンネル]] は非常に有益な情報を発信してくれているのでぜひとも確認してみてください。
+* 他エディタのorg-mode対応状況
+org-modeはEmacs組込みのパッケージなのでEmacsでは当然簡単に使えますが、他エディタでも当然実装例があります。
+
+たとえば、Vimには[[https://github.com/jceb/vim-orgmode][jceb/vim-orgmode]]や[[https://github.com/nvim-orgmode/orgmode][nvim-orgmode/orgmode]]があったり、VSCodeでは[[https://github.com/vscode-org-mode/vscode-org-mode][vscode-org-mode/vscode-org-mode]]などがあります。
+JetBrainsでも[[https://plugins.jetbrains.com/plugin/7095-org4idea][org4idea]]といったorgをSyntax Highlightするプラグインを提供してくれています。
+
+org関係のパッケージに期待することは主に「Syntax Highlight」と「タスク管理のような付属機能」の2つです。
+「Syntax Highlight」に関して世の中のだいたいのorg関係のパッケージは対応していますが、「タスク管理のような付属機能」はEmacsのorg-modeがあまりにも高機能すぎて他テキストエディタのパッケージに移植するのは非常に困難です。
+
+一番開発が盛んな[[https://github.com/nvim-orgmode/orgmode][nvim-orgmode/orgmode]]でさえ完全に移植しきれている訳ではなく、org-modeのポテンシャルを最大限発揮するには現状Emacs以外の選択肢がない状態です。
 * 事例
 具体的にorg-modeで自分が実践していることをいくつか紹介します。
 細かい設定に関しては別途記事にする予定なのでご了承ください。
