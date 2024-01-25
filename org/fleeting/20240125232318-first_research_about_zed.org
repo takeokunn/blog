@@ -4,7 +4,7 @@
 #+TITLE: Zedファーストインプレッション
 #+AUTHOR: takeokunn
 #+DESCRIPTION: description
-#+DATE: 2024-01-25T23:23:23+0900
+#+DATE: 2024-01-26T00:23:23+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting
 #+HUGO_SECTION: posts/fleeting
@@ -13,8 +13,7 @@
 #+STARTUP: content
 #+STARTUP: nohideblocks
 * Introduction
-
-[[https://forest.watch.impress.co.jp/docs/news/1563594.html][Rust製コードエディター「Zed」がオープンソースに ～v1.0リリースへ向けて門戸を開く - 窓の杜]] にもある[[https://github.com/zed-industries/zed][zed-industries/zed]]が公開されたのでコードをざっくり読んでみたのでメモする。
+[[https://forest.watch.impress.co.jp/docs/news/1563594.html][Rust製コードエディター「Zed」がオープンソースに ～v1.0リリースへ向けて門戸を開く - 窓の杜]] にもある通り、[[https://github.com/zed-industries/zed][zed-industries/zed]]が公開されたのでコードをざっくり読んでみたのでメモする。
 
 Rustへの知見が皆無であること、雑なコードリーディング要素があるのでご了承ください。
 * Feature
@@ -37,16 +36,16 @@ Rustへの知見が皆無であること、雑なコードリーディング要�
 
 * Local Build
 
-[[https://github.com/zed-industries/zed/blob/main/docs/src/developing_zed__building_zed.md][docs/src/developing_zed__building_zed.md]] にある手順通りコマンドを実行したら手元で簡単にBuildできた。
+[[https://github.com/zed-industries/zed/blob/7068161bd7405553fd3fecaf44057449d8137878/docs/src/developing_zed__building_zed.md][docs/src/developing_zed__building_zed.md]] にある手順通りコマンドを実行したら手元で簡単にBuildできた。
 
-[[https://github.com/zed-industries/zed/blob/main/docs/src/system_requirements.md][docs/src/system_requirements.md]] にはMacしかサポートしてないことが記述されている。
+[[https://github.com/zed-industries/zed/blob/7068161bd7405553fd3fecaf44057449d8137878/docs/src/system_requirements.md][docs/src/system_requirements.md]] にはMacしかサポートしてないことが記述されている。
 
 * Docs
-[[https://github.com/zed-industries/zed/blob/main/docs/src/configuring_zed.md][docs/src/configuring_zed.md]] に設定方法が書いてあるが、基本的に[[https://json5.org/][json5]]で管理していて細かい設定ができそうなことが伺える。
+[[https://github.com/zed-industries/zed/blob/7068161bd7405553fd3fecaf44057449d8137878/docs/src/configuring_zed.md][docs/src/configuring_zed.md]] に設定方法が書いてあるが、基本的に[[https://json5.org/][json5]]で管理していて細かい設定ができそうなことが伺える。
 
-[[https://github.com/zed-industries/zed/blob/main/docs/src/configuring_zed__configuring_vim.md][docs/src/configuring_zed__configuring_vim.md]] にvim-modeの使い方が書かれている。
+[[https://github.com/zed-industries/zed/blob/7068161bd7405553fd3fecaf44057449d8137878/docs/src/configuring_zed__configuring_vim.md][docs/src/configuring_zed__configuring_vim.md]] にvim-modeの使い方が書かれている。
 
-[[https://github.com/zed-industries/zed/blob/main/docs/src/telemetry.md][docs/src/telemetry.md]] にサービス改善の為に匿名でzed.devに利用状況を送信することが書かれている。
+[[https://github.com/zed-industries/zed/blob/7068161bd7405553fd3fecaf44057449d8137878/docs/src/telemetry.md][docs/src/telemetry.md]] にサービス改善の為に匿名でzed.devに利用状況を送信することが書かれている。
 * コードリーディング
 
 ディレクトリごとに雑にコメントを書いていく。
@@ -76,10 +75,10 @@ Rustへの知見が皆無であること、雑なコードリーディング要�
   ├── target
   └── typos.toml
 #+end_src
-** [[https://github.com/zed-industries/zed/tree/main/assets][assets/]]
-[[https://github.com/zed-industries/zed/tree/main/assets/fonts][font]]情報や[[https://github.com/zed-industries/zed/tree/main/assets/icons][icon]]や[[https://github.com/zed-industries/zed/tree/main/assets/sounds][sounds]]が入っている。
-また、[[https://github.com/zed-industries/zed/tree/main/assets/keymaps][keymaps]]や[[https://github.com/zed-industries/zed/tree/main/assets/settings][settings]]にデフォルトの設定がjsonで格納されている。
-** [[https://github.com/zed-industries/zed/tree/main/crates][crates/]]
+** [[https://github.com/zed-industries/zed/tree/7068161bd7405553fd3fecaf44057449d8137878/assets][assets/]]
+[[https://github.com/zed-industries/zed/tree/7068161bd7405553fd3fecaf44057449d8137878/assets/fonts][font]]情報や[[https://github.com/zed-industries/zed/tree/7068161bd7405553fd3fecaf44057449d8137878/assets/icons][icon]]や[[https://github.com/zed-industries/zed/tree/7068161bd7405553fd3fecaf44057449d8137878/assets/sounds][sounds]]が入っている。
+また、[[https://github.com/zed-industries/zed/tree/7068161bd7405553fd3fecaf44057449d8137878/assets/keymaps][keymaps]]や[[https://github.com/zed-industries/zed/tree/7068161bd7405553fd3fecaf44057449d8137878/assets/settings][settings]]にデフォルトの設定がjsonで格納されている。
+** [[https://github.com/zed-industries/zed/tree/7068161bd7405553fd3fecaf44057449d8137878/crates][crates/]]
 
 package by featureのような設計になっている。各ディレクトリに =Cargo.toml= があり、それぞれのディレクトリでRustが書かれている。
 
@@ -172,13 +171,13 @@ package by featureのような設計になっている。各ディレクトリ�
 
   84 directories, 0 files
 #+end_src
-** [[https://github.com/zed-industries/zed/tree/main/docs][docs/]]
+** [[https://github.com/zed-industries/zed/tree/7068161bd7405553fd3fecaf44057449d8137878/docs][docs/]]
 
 各ドキュメントが書かれている。
-** [[https://github.com/zed-industries/zed/tree/main/plugins][plugins/]]
+** [[https://github.com/zed-industries/zed/tree/7068161bd7405553fd3fecaf44057449d8137878/plugins][plugins/]]
 
-[[https://github.com/zed-industries/zed/tree/main/plugins/test_plugin][plugins/test_plugin]]や[[https://github.com/zed-industries/zed/tree/main/plugins/json_language][plugins/json_language]]にプラグインの実装例が書いてある。Rustで拡張が書けるらしい。
-** [[https://github.com/zed-industries/zed/tree/main/script][script/]]
+[[https://github.com/zed-industries/zed/tree/7068161bd7405553fd3fecaf44057449d8137878/plugins/test_plugin][plugins/test_plugin]]や[[https://github.com/zed-industries/zed/tree/7068161bd7405553fd3fecaf44057449d8137878/plugins/json_language][plugins/json_language]]にプラグインの実装例が書いてある。Rustで拡張が書けるらしい。
+** [[https://github.com/zed-industries/zed/tree/7068161bd7405553fd3fecaf44057449d8137878/script][script/]]
 
 開発用scriptが置いてある。
 
