@@ -1,0 +1,189 @@
+:PROPERTIES:
+:ID:       7A0EF86B-A263-41A8-893E-8D4103DF1E60
+:END:
+#+TITLE: Zedファーストインプレッション
+#+AUTHOR: takeokunn
+#+DESCRIPTION: description
+#+DATE: 2024-01-25T23:23:23+0900
+#+HUGO_BASE_DIR: ../../
+#+HUGO_CATEGORIES: fleeting
+#+HUGO_SECTION: posts/fleeting
+#+HUGO_TAGS: fleeting zed
+#+HUGO_DRAFT: false
+#+STARTUP: content
+#+STARTUP: nohideblocks
+* Introduction
+
+[[https://forest.watch.impress.co.jp/docs/news/1563594.html][Rust製コードエディター「Zed」がオープンソースに ～v1.0リリースへ向けて門戸を開く - 窓の杜]] にもある[[https://github.com/zed-industries/zed][zed-industries/zed]]が公開されたのでコードをざっくり読んでみたのでメモする。
+
+Rustへの知見が皆無であること、雑なコードリーディング要素があるのでご了承ください。
+* Feature
+
+[[https://zed.dev/][https://zed.dev/]] には以下のようなことを書いている。
+
+- ハイパフォーマンス
+- AIサポート
+- LSP
+- Package
+  - vim-mode
+  - terminal
+  - theme
+  - etc.
+- チーム開発
+- UI/データ構造
+  - マルチコアサポート
+  - Tree-sitterサポート
+  - 共同編集アルゴリズム[[https://en.wikipedia.org/wiki/Conflict-free_replicated_data_type][CRDT]]
+
+* Local Build
+
+[[https://github.com/zed-industries/zed/blob/main/docs/src/developing_zed__building_zed.md][docs/src/developing_zed__building_zed.md]] にある手順通りコマンドを実行したら手元で簡単にBuildできた。
+
+[[https://github.com/zed-industries/zed/blob/main/docs/src/system_requirements.md][docs/src/system_requirements.md]] にはMacしかサポートしてないことが記述されている。
+
+* Docs
+[[https://github.com/zed-industries/zed/blob/main/docs/src/configuring_zed.md][docs/src/configuring_zed.md]] に設定方法が書いてあるが、基本的に[[https://json5.org/][json5]]で管理していて細かい設定ができそうなことが伺える。
+
+[[https://github.com/zed-industries/zed/blob/main/docs/src/configuring_zed__configuring_vim.md][docs/src/configuring_zed__configuring_vim.md]] にvim-modeの使い方が書かれている。
+
+[[https://github.com/zed-industries/zed/blob/main/docs/src/telemetry.md][docs/src/telemetry.md]] にサービス改善の為に匿名でzed.devに利用状況を送信することが書かれている。
+* コードリーディング
+
+ディレクトリごとに雑にコメントを書いていく。
+
+#+begin_src bash
+  $ tree -L 1 .
+  .
+  ├── CODE_OF_CONDUCT.md
+  ├── CONTRIBUTING.md
+  ├── Cargo.lock
+  ├── Cargo.toml
+  ├── Dockerfile
+  ├── LICENSE-AGPL
+  ├── LICENSE-APACHE
+  ├── LICENSE-GPL
+  ├── Procfile
+  ├── README.md
+  ├── assets
+  ├── crates
+  ├── debug.plist
+  ├── docker-compose.sql
+  ├── docker-compose.yml
+  ├── docs
+  ├── plugins
+  ├── rust-toolchain.toml
+  ├── script
+  ├── target
+  └── typos.toml
+#+end_src
+** [[https://github.com/zed-industries/zed/tree/main/assets][assets/]]
+[[https://github.com/zed-industries/zed/tree/main/assets/fonts][font]]情報や[[https://github.com/zed-industries/zed/tree/main/assets/icons][icon]]や[[https://github.com/zed-industries/zed/tree/main/assets/sounds][sounds]]が入っている。
+また、[[https://github.com/zed-industries/zed/tree/main/assets/keymaps][keymaps]]や[[https://github.com/zed-industries/zed/tree/main/assets/settings][settings]]にデフォルトの設定がjsonで格納されている。
+** [[https://github.com/zed-industries/zed/tree/main/crates][crates/]]
+
+package by featureのような設計になっている。各ディレクトリに =Cargo.toml= があり、それぞれのディレクトリでRustが書かれている。
+
+#+begin_src bash
+  $ tree -L 1 crates/
+  crates/
+  ├── activity_indicator
+  ├── ai
+  ├── assets
+  ├── assistant
+  ├── audio
+  ├── auto_update
+  ├── breadcrumbs
+  ├── call
+  ├── channel
+  ├── cli
+  ├── client
+  ├── clock
+  ├── collab
+  ├── collab_ui
+  ├── collections
+  ├── color
+  ├── command_palette
+  ├── copilot
+  ├── copilot_ui
+  ├── db
+  ├── diagnostics
+  ├── editor
+  ├── feature_flags
+  ├── feedback
+  ├── file_finder
+  ├── fs
+  ├── fsevent
+  ├── fuzzy
+  ├── git
+  ├── go_to_line
+  ├── gpui
+  ├── gpui_macros
+  ├── install_cli
+  ├── journal
+  ├── language
+  ├── language_selector
+  ├── language_tools
+  ├── live_kit_client
+  ├── live_kit_server
+  ├── lsp
+  ├── media
+  ├── menu
+  ├── multi_buffer
+  ├── node_runtime
+  ├── notifications
+  ├── outline
+  ├── picker
+  ├── plugin
+  ├── plugin_macros
+  ├── plugin_runtime
+  ├── prettier
+  ├── project
+  ├── project_panel
+  ├── project_symbols
+  ├── quick_action_bar
+  ├── recent_projects
+  ├── refineable
+  ├── rich_text
+  ├── rope
+  ├── rpc
+  ├── search
+  ├── semantic_index
+  ├── settings
+  ├── snippet
+  ├── sqlez
+  ├── sqlez_macros
+  ├── story
+  ├── storybook
+  ├── sum_tree
+  ├── terminal
+  ├── terminal_view
+  ├── text
+  ├── theme
+  ├── theme_importer
+  ├── theme_selector
+  ├── ui
+  ├── util
+  ├── vcs_menu
+  ├── vim
+  ├── welcome
+  ├── workspace
+  ├── zed
+  └── zed_actions
+
+  84 directories, 0 files
+#+end_src
+** [[https://github.com/zed-industries/zed/tree/main/docs][docs/]]
+
+各ドキュメントが書かれている。
+** [[https://github.com/zed-industries/zed/tree/main/plugins][plugins/]]
+
+[[https://github.com/zed-industries/zed/tree/main/plugins/test_plugin][plugins/test_plugin]]や[[https://github.com/zed-industries/zed/tree/main/plugins/json_language][plugins/json_language]]にプラグインの実装例が書いてある。Rustで拡張が書けるらしい。
+** [[https://github.com/zed-industries/zed/tree/main/script][script/]]
+
+開発用scriptが置いてある。
+
+Mac前提なのかHomebrewの記述がある。
+また、[[https://kubernetes.io/ja/docs/reference/kubectl/][kubectl]]の記述もあるのでどこかしらへのホスティングを想定されているようです。
+
+* 雑感
+Atomの後継として[[https://github.com/atom-archive/xray][atom-archive/xray]]に期待してたがArchiveされてしまってがっかりしていた身としてはZedに期待したい。
