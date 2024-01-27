@@ -1,3 +1,6 @@
+:PROPERTIES:
+:ID:       A702DAA2-542D-454E-ABB9-DB4E06A59958
+:END:
 #+TITLE: GnuPG 2.4.4でEmacsで発生していたバグ修正された
 #+AUTHOR: takeokunn
 #+DESCRIPTION: description
