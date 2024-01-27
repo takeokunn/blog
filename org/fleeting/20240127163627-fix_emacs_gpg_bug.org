@@ -1,0 +1,52 @@
+:PROPERTIES:
+:ID:       A6F7B680-4833-4FED-BD90-DC9215E7FAFE
+:END:
+#+TITLE: GnuPG 2.4.4でEmacsで発生していたバグ修正された
+#+AUTHOR: takeokunn
+#+DESCRIPTION: description
+#+DATE: 2024-01-27T16:37:08+0900
+#+HUGO_BASE_DIR: ../../
+#+HUGO_CATEGORIES: fleeting
+#+HUGO_SECTION: posts/fleeting
+#+HUGO_TAGS: fleeting emacs gpg
+#+HUGO_DRAFT: true
+#+STARTUP: content
+#+STARTUP: nohideblocks
+* Summary
+
+[[id:DB5D710F-6168-47D4-9044-1ED3D24D61E6][Emacs内でgpg fileがsaveできなくなった時に対応したことメモ]] にもある通り、GnuPG 2.4.0を使うとEasyPGが正常に動かないという問題があったが、GnuPGを2.4.4に上げると解決した。
+
+* 一連の流れ
+
+#+begin_export html
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">以前も見て、私の環境ではならんなと思ってたけど、たんに gpgtools の gpg2 を読んでいたからだった。 <a href="https://t.co/UdI5QtmC4N">https://t.co/UdI5QtmC4N</a> <a href="https://t.co/SNSj5Jd2DT">pic.twitter.com/SNSj5Jd2DT</a></p>&mdash; . (@takaxp) <a href="https://twitter.com/takaxp/status/1751131754465996931?ref_src=twsrc%5Etfw">January 27, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+#+end_export
+
+#+begin_export html
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">2.4.4 が降ってくれば直る説。<a href="https://t.co/zG6kkrQg4s">https://t.co/zG6kkrQg4s</a> <a href="https://t.co/YqDEmiDJit">pic.twitter.com/YqDEmiDJit</a></p>&mdash; . (@takaxp) <a href="https://twitter.com/takaxp/status/1751134178488512668?ref_src=twsrc%5Etfw">January 27, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+#+end_export
+
+[[https://www.mail-archive.com/gnupg-users@gnupg.org/msg41435.html][Re: epg-encrypt-string in Emacs seems to be incompatible with GnuPG 2.4.1 on macOS, 2.4.0 works]] を見ていると、 =2.4.4= で直るっぽいとの記述がある。
+
+GnuPG側の変更は[[https://git.gnupg.org/cgi-bin/gitweb.cgi?p=gnupg.git;a=commit;h=2f872fa68c6576724b9dabee9fb0844266f55d0d][こちら]]。
+
+Homebrewではすでに[[https://github.com/Homebrew/homebrew-core/commit/efdeda1c8613c9eda4b75ec6603e876fab593cd9][こちらのcommit]]で対応済みなので =brew update= で更新される。
+
+Nixユーザーは[[https://github.com/NixOS/nixpkgs/blob/nixos-23.11/pkgs/tools/security/gnupg/24.nix][nixpkgs]]が対応するまでは以下のようにoverlayを定義して対応すれば良い。
+
+#+begin_src nix
+  {
+    nixpkgs.overlays = [
+      (final: prev: {
+        gnupg = prev.gnupg.overrideAttrs (old: {
+          src = prev.fetchurl {
+            url = "mirror://gnupg/gnupg/gnupg-2.4.4.tar.bz2";
+            hash = "sha256-Z+vgFsqQ+naIzmejh+vYLGJh6ViX23sj3yT/M1voW8Y=";
+          };
+        });
+      })
+    ];
+  }
+#+end_src
+
+実際に自分Emacs環境で実験した所正常に動作することが確認取れた。
