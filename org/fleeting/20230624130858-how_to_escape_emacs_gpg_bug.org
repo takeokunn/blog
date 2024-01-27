@@ -68,7 +68,7 @@ Homebrewで入れる場合はちゃんとlogin shellにパスを通してあげ�
   gpg (GnuPG) 2.4.0
 #+end_src
 
-以下のようにgnupgのversionを下げます。
+以下のようにGnuPGのversionを下げます。
 
 #+begin_src shell
   $ brew uninstall --ignore-dependencies gpg

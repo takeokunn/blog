@@ -15,3 +15,4 @@ rules:
     pattern:  /\bReactJS\b|\bReactJs\b|\breactjs\b/
   - expected: Bitwarden
   - expected: Dvorak
+  - expected: GnuPG
