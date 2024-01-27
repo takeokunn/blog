@@ -1,7 +1,4 @@
-:PROPERTIES:
-:ID:       A6F7B680-4833-4FED-BD90-DC9215E7FAFE
-:END:
-#+TITLE: GnuPGF 2.4.4でEmacsで発生していたバグ修正された
+#+TITLE: GnuPG 2.4.4でEmacsで発生していたバグ修正された
 #+AUTHOR: takeokunn
 #+DESCRIPTION: description
 #+DATE: 2024-01-27T16:37:08+0900
