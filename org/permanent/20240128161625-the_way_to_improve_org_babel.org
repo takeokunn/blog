@@ -1,0 +1,14 @@
+:PROPERTIES:
+:ID:       24DE81E6-F693-4DEF-ADCC-3CE176F876F8
+:END:
+#+TITLE: the-way-to-improve-org-babel
+#+AUTHOR: takeokunn
+#+DESCRIPTION: description
+#+DATE: 2024-01-28T16:17:20+0900
+#+HUGO_BASE_DIR: ../../
+#+HUGO_CATEGORIES: permanent
+#+HUGO_SECTION: posts/permanent
+#+HUGO_TAGS: permanent org-mode
+#+HUGO_DRAFT: false
+#+STARTUP: content
+#+STARTUP: nohideblocks
