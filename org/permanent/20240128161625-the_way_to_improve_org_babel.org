@@ -1,7 +1,7 @@
 :PROPERTIES:
 :ID:       24DE81E6-F693-4DEF-ADCC-3CE176F876F8
 :END:
-#+TITLE: the-way-to-improve-org-babel
+#+TITLE: Org Babelの使い方と拡張パッケージの作成方法について
 #+AUTHOR: takeokunn
 #+DESCRIPTION: description
 #+DATE: 2024-01-28T16:17:20+0900
@@ -12,3 +12,112 @@
 #+HUGO_DRAFT: false
 #+STARTUP: content
 #+STARTUP: nohideblocks
+* Introduction
+
+- org-modeは複数の機能を持ち合わせた巨大なプラグイン
+  - [[https://github.com/emacs-mirror/emacs/tree/master/lisp/orghttps://github.com/emacs-mirror/emacs/tree/master/lisp/org][https://github.com/emacs-mirror/emacs/tree/master/lisp/org]]
+- その中の一機能にOrg Babelというものがある
+- 今回はOrg Babelの有用性と拡張の書き方を紹介する
+  - [[id:3BECED15-4350-42B1-98F5-C1D502816F0D][2023年のorg-mode活用と今後の抱負]]
+
+* Org Babelとは
+** 概要
+
+- document
+  - [[https://orgmode.org/worg/org-contrib/babel/intro.htmlhttps://orgmode.org/worg/org-contrib/babel/intro.html][https://orgmode.org/worg/org-contrib/babel/intro.html]]
+- orgファイルの中でプログラムを実行できる
+- 実行結果を別の =org-babel= で利用できる
+
+#+begin_example
+  Let us change our traditional attitude to the construction of programs: Instead of imagining that our main task is to instruct a computer what to do, let us concentrate rather on explaining to human beings what we want a computer to do.
+
+  プログラム構築に対する従来の態度を改めよう： 私たちの主な仕事はコンピュータに何をすべきかを指示することだと考えるのではなく、コンピュータに何をさせたいかを人間に説明することに集中しよう。
+#+end_example
+** 用途
+*** 1. Shell Script実行
+
+- 手順書として使える
+  - 環境構築
+  - ISUCONなどの大会
+- インフラ作業でコマンドの証跡を残せる
+  - ref. [[https://dev.classmethod.jp/articles/org-mode-run-awscli/][【Org-mode】Org文書内で AWS CLIを実行する #Emacs - Developers IO]]
+
+*** 2. プログラム実行
+
+- 好きな言語を実行できる
+  - だいたいの言語用のパッケージはある
+  - なくても作るのは簡単で後述している
+- 検証する時に非常に便利
+
+*** 3. SQL発行
+
+- Headerに接続先情報を書けばSQLを発行できる
+- 接続先の書き方は2種類ある
+  - 直接指定する
+  - confを参照する
+
+*** 4. リクエスト発行
+
+- httpを投げられる
+  - [[https://github.com/zweifisch/ob-http][zweifisch/ob-http]]
+  - [[https://github.com/jdormit/ob-graphql][jdormit/ob-graphql]]
+
+*** 5. フローチャート作成
+
+- plantumlやmermaidを実行して画像を掃き出すことができる
+  - ob-plantumlは組み込み
+  - [[https://github.com/arnm/ob-mermaid][arnm/ob-mermaid]]
+
+* 設定方法
+** 基本設定
+
+#+begin_src emacs-lisp
+  (org-babel-do-load-languages 'org-babel-load-languages
+                               '((awk . t)
+                                 (C . t)
+                                 (R . t)
+                                 (clojure . t)
+                                 (emacs-lisp . t)
+                                 (haskell . t)
+                                 (java . t)
+                                 (js . t)
+                                 (lisp . t)
+                                 (makefile . t)
+                                 (perl . t)
+                                 (plantuml . t)
+                                 (python . t)
+                                 (ruby . t)
+                                 (scheme . t)
+                                 (shell . t)
+                                 (sql . t)
+                                 (shell . t)))
+#+end_src
+
+** ob-async
+
+[[https://github.com/astahlman/ob-async]]
+
+#+begin_src emacs-lisp
+  (require 'ob-async)
+#+end_src
+
+- 挙動の紹介
+
+* 拡張パッケージ作成方法
+** 概要
+
+- 今までいくつか作ってきた
+  - [[https://github.com/takeokunn/ob-treesitter][takeokunn/ob-treesitter]]
+  - [[https://github.com/takeokunn/ob-fish][takeokunn/ob-fish]]
+  - [[https://github.com/emacs-php/ob-phpstan][emacs-php/ob-phpstan]]
+- 新しい言語が出たり、org-mode内でサクっと検証したい時に作成する
+- 作るのは非常に簡単
+
+** 実装例
+
+=takelang= という言語を実行することを考える。
+
+*** =org-src-lang-modes= に追加
+*** =org-babel-execute:takeokunn= を定義する
+*** Headerを扱う
+* 終わりに
