@@ -68,6 +68,7 @@
   - ob-plantumlは組み込み
   - [[https://github.com/arnm/ob-mermaid][arnm/ob-mermaid]]
 
+*** 6. ssh越しにコマンド実行
 * 設定方法
 ** 基本設定
 
