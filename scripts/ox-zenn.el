@@ -11,7 +11,7 @@
   "Exports Org files to Zenn markdown."
   (interactive)
   (let ((org-publish-project-alist `(("zenn"
-                                      :base-directory "org/zenn/"
+                                      :base-directory "org/zenn/articles"
                                       :base-extension "org"
                                       :publishing-directory "zenn/articles"
                                       :publishing-function org-zenn-publish-to-markdown))))
