@@ -1,0 +1,54 @@
+:PROPERTIES:
+:ID:       F6EC6C29-9724-4005-AAA4-6F7B96BABE4B
+:END:
+#+TITLE: Private Nix Channel作成メモ
+#+AUTHOR: takeokunn
+#+DESCRIPTION: description
+#+DATE: 2024-01-28T17:29:29+0900
+#+HUGO_BASE_DIR: ../../
+#+HUGO_CATEGORIES: fleeting
+#+HUGO_SECTION: posts/fleeting
+#+HUGO_TAGS: fleeting nix
+#+HUGO_DRAFT: false
+#+STARTUP: content
+#+STARTUP: nohideblocks
+* Basic
+
+- 自分の普段使うツールは可能な限りNix経由でBuildできるようにする
+  - =npm install --global= や =composer global require= などでインストールしない
+
+* Goal
+
+- nix packageにないpackageでをnixの管理下に置く
+- home-managerかnix-direnv経由でpackageをbuildできる
+
+* Not Goal
+
+- Nix Package本体にPull Requestを出す
+  - 将来的にはしたいが今回はスコープ外
+
+* Background
+
+- nix packageは非常に数が多いが、当然世の中のすべてを網羅している訳ではない
+- 現にecspressoを使おうとしたらなかった
+- nodejsなど古いバージョンを使わないといけない時に自前のnix channelで提供した方がバージョンも固定できて良い
+
+* Step
+** 1. repo作成
+
+- https://github.com/takeokunn/nix-channel
+
+** 2. nivインスートル
+
+- [[https://github.com/nmattia/niv][https://github.com/nmattia/niv]] を使う
+
+** 3. 必要なファイルを作成
+
+- default.nix
+- pkgs/ecspresso/default.nix
+
+** 4. nix-chanel追加してインストール
+* 参考記事
+
+- [[https://lucperkins.dev/blog/nix-channel/][The easiest way (I've found) to create your own Nix channel]]
+- [[https://zenn.dev/hankei6km/scraps/c54c165b654e8f][Nix の個人利用な channel を作ってみる - Zenn]]
