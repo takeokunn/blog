@@ -24,7 +24,7 @@ jobs:
       # for Prepare Emacs
       - uses: purcell/setup-emacs@master
         with:
-          version: 29.1
+          version: 29.4
 
       # for Org-Zenn to Markdown
       - name: Build org to markdown
