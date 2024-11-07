@@ -64,6 +64,7 @@
               ];
 
               shellHook = ''
+                unlink .textlintrc
                 ln -s ${textlintrc} .textlintrc
               '';
             }
