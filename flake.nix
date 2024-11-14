@@ -23,7 +23,9 @@
             nur = nur-pkgs.legacyPackages.${system};
 
             textlintrc = (pkgs.formats.json { }).generate "textlintrc" {
-              plugins = [ "org" ];
+              plugins = {
+                org = true;
+              };
               rules = {
                 preset-ja-technical-writing = {
                   sentence-length = false;

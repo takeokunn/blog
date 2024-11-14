@@ -28,8 +28,6 @@ jobs:
           cache: npm
       - name: Install npm
         run: npm ci
-      - name: Run textlint
-        run: npm run lint:textlint
       - name: Run secretlint
         run: npm run lint:secret
   dependabot:
