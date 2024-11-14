@@ -22,3 +22,4 @@ zenn/books/zenn-book-test/*
 !zenn/books/zenn-book-test/cover.png
 
 static/ogp
+.textlintrc
