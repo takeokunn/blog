@@ -21,16 +21,18 @@
           let
             pkgs = nixpkgs.legacyPackages.${system};
             nur-pkgs = nur-packages.legacyPackages.${system};
-
             textlintrc = (pkgs.formats.json { }).generate "textlintrc" {
+              filters = { };
               plugins = {
                 org = true;
               };
               rules = {
                 preset-ja-technical-writing = {
+                  ja-no-weak-phrase = false;
+                  ja-no-mixed-period = false;
+                  no-exclamation-question-mark = false;
                   sentence-length = false;
                   no-doubled-joshi = false;
-                  no-exclamation-question-mark = false;
                 };
                 write-good = {
                   weasel = false;
@@ -39,11 +41,10 @@
                   sentence-length = false;
                   no-doubled-joshi = false;
                 };
-                preset-ja-spacing = true;
-                preset-jtf-style = true;
+                # preset-ja-spacing = true;
+                # preset-jtf-style = true;
                 prh = {
                   rulePaths = [
-                    "./prh.yml"
                     "${pkgs.textlint-rule-prh}/lib/node_modules/textlint-rule-prh/node_modules/prh/prh-rules/media/WEB+DB_PRESS.yml"
                     "${pkgs.textlint-rule-prh}/lib/node_modules/textlint-rule-prh/node_modules/prh/prh-rules/media/techbooster.yml"
                   ];
@@ -59,9 +60,9 @@
                   textlint-rule-prh
                   textlint-rule-write-good
                   textlint-plugin-org
-                  nur-pkgs.textlint-rule-preset-jtf-style
                   nur-pkgs.textlint-rule-preset-japanese
-                  nur-pkgs.textlint-rule-preset-ja-spacing
+                  # nur-pkgs.textlint-rule-preset-ja-spacing
+                  # nur-pkgs.textlint-rule-preset-jtf-style
                 ])
               ];
 
