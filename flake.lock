@@ -31,7 +31,7 @@
         "type": "github"
       }
     },
-    "nur-pkgs": {
+    "nur-packages": {
       "inputs": {
         "nixpkgs": "nixpkgs_2"
       },
@@ -52,7 +52,7 @@
     "root": {
       "inputs": {
         "nixpkgs": "nixpkgs",
-        "nur-pkgs": "nur-pkgs"
+        "nur-packages": "nur-packages"
       }
     }
   },

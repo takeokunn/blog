@@ -3,10 +3,10 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs";
-    nur-pkgs.url = "github:takeokunn/nur-packages";
+    nur-packages.url = "github:takeokunn/nur-packages";
   };
 
-  outputs = { self, nixpkgs, nur-pkgs }:
+  outputs = { self, nixpkgs, nur-packages }:
     let
       systems = [
         "x86_64-linux"
@@ -20,7 +20,7 @@
           system:
           let
             pkgs = nixpkgs.legacyPackages.${system};
-            nur = nur-pkgs.legacyPackages.${system};
+            nur-pkgs = nur-packages.legacyPackages.${system};
 
             textlintrc = (pkgs.formats.json { }).generate "textlintrc" {
               plugins = {
@@ -59,9 +59,9 @@
                   textlint-rule-prh
                   textlint-rule-write-good
                   textlint-plugin-org
-                  nur.textlint-rule-preset-jtf-style
-                  nur.textlint-rule-preset-japanese
-                  nur.textlint-rule-preset-ja-spacing
+                  nur-pkgs.textlint-rule-preset-jtf-style
+                  nur-pkgs.textlint-rule-preset-japanese
+                  nur-pkgs.textlint-rule-preset-ja-spacing
                 ])
               ];
 
