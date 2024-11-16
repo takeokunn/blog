@@ -15,7 +15,6 @@ jobs:
           bash <(curl https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash)
           ./actionlint -color
   textlint:
-    name: Nix Flake Check
     runs-on: ubuntu-latest
     steps:
       - name: checkout
