@@ -20,12 +20,10 @@ ISUCONの練習の為、[[https://github.com/catatsuy/private-isu][catatsuy/priv
 
 [[https://gist.github.com/tohutohu/024551682a9004da286b0abd6366fa55][tohutohu/private-isu.yaml - gist]] のCloudFormationをそのまま起動しようとするとAMIがないと怒られる。
 
-#+begin_example
-  | Name   | ImageId               | InstanceType |
-  |--------+-----------------------+--------------|
-  | server | ami-0d92a4724cae6f07b | c6i.large    |
-  | bench  | ami-0582a2a7fbe79a30d | c6i.xlarge   |
-#+end_example
+| Name   | ImageId               | InstanceType |
+|--------+-----------------------+--------------|
+| server | ami-0d92a4724cae6f07b | c6i.large    |
+| bench  | ami-0582a2a7fbe79a30d | c6i.xlarge   |
 
 AMIの検索は以下から行う。
 https://docs.aws.amazon.com/ja_jp/AWSEC2/latest/UserGuide/finding-an-ami.html
@@ -34,12 +32,10 @@ https://docs.aws.amazon.com/ja_jp/AWSEC2/latest/UserGuide/finding-an-ami.html
 
 [[https://github.com/catatsuy/private-isu?tab=readme-ov-file#ami][catatsuy/private-isu#ami]] に動くAMIが記述されているのでそちらに修正し、費用面を考慮して =InstanceType= を以下のように修正した。
 
-#+begin_example
-  | Name   | ImageId               | InstanceType |
-  |--------+-----------------------+--------------|
-  | server | ami-047fdc2b851e73cad | t2.medium    |
-  | bench  | ami-037be39355baf1f2e | t2.medium    |
-#+end_example
+| Name   | ImageId               | InstanceType |
+|--------+-----------------------+--------------|
+| server | ami-047fdc2b851e73cad | t2.medium    |
+| bench  | ami-037be39355baf1f2e | t2.medium    |
 
 また、 =KeyPairName= は不要なので削除した。
 
