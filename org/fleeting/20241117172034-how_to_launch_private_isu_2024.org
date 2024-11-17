@@ -9,7 +9,7 @@
 #+HUGO_CATEGORIES: fleeting
 #+HUGO_SECTION: posts/fleeting
 #+HUGO_TAGS: fleeting isucon
-#+HUGO_DRAFT: true
+#+HUGO_DRAFT: false
 #+STARTUP: content
 #+STARTUP: nohideblocks
 * 背景
