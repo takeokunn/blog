@@ -1,0 +1,159 @@
+:PROPERTIES:
+:ID:       00634CEA-0CBC-40FB-ABE5-7274C3003B5E
+:END:
+#+TITLE: 2024年版private-isu構築メモ
+#+AUTHOR: takeokunn
+#+DESCRIPTION: description
+#+DATE: 2024-11-17T17:20:48+0900
+#+HUGO_BASE_DIR: ../../
+#+HUGO_CATEGORIES: fleeting
+#+HUGO_SECTION: posts/fleeting
+#+HUGO_TAGS: fleeting isucon
+#+HUGO_DRAFT: true
+#+STARTUP: content
+#+STARTUP: nohideblocks
+* 背景
+
+ISUCONの練習の為、[[https://github.com/catatsuy/private-isu][catatsuy/private-isu]]を自分のAWSに構築しようとしたが、 [[https://gist.github.com/tohutohu/024551682a9004da286b0abd6366fa55][tohutohu/private-isu.yaml - gist]]が構築できなかったのでメモ。
+
+* 問題点
+
+[[https://gist.github.com/tohutohu/024551682a9004da286b0abd6366fa55][tohutohu/private-isu.yaml - gist]] のCloudFormationをそのまま起動しようとするとAMIがないと怒られる。
+
+#+begin_example
+  | Name   | ImageId               | InstanceType |
+  |--------+-----------------------+--------------|
+  | server | ami-0d92a4724cae6f07b | c6i.large    |
+  | bench  | ami-0582a2a7fbe79a30d | c6i.xlarge   |
+#+end_example
+
+AMIの検索は以下から行う。
+https://docs.aws.amazon.com/ja_jp/AWSEC2/latest/UserGuide/finding-an-ami.html
+
+* 修正方法
+
+[[https://github.com/catatsuy/private-isu?tab=readme-ov-file#ami][catatsuy/private-isu#ami]] に動くAMIが記述されているのでそちらに修正し、費用面を考慮して =InstanceType= を以下のように修正した。
+
+| Name   | ImageId               | InstanceType |
+|--------+-----------------------+--------------|
+| server | ami-047fdc2b851e73cad | t2.medium    |
+| bench  | ami-037be39355baf1f2e | t2.medium    |
+
+また、 =KeyPairName= は不要なので削除した。
+
+実際のCloudFormationは以下。
+
+#+begin_src yaml
+  AWSTemplateFormatVersion: '2010-09-09'
+  Description: private-isu template
+  Parameters:
+    GitHubUsername:
+      Description: "GitHub Username for SSH public key"
+      Type: String
+  Resources:
+    VPC:
+      Type: AWS::EC2::VPC
+      Properties:
+        CidrBlock: '192.168.0.0/16'
+    MySubnet:
+      Type: AWS::EC2::Subnet
+      Properties:
+        VpcId: !Ref VPC
+        CidrBlock: '192.168.1.0/24'
+        AvailabilityZone: ap-northeast-1a
+    MyInternetGateway:
+      Type: AWS::EC2::InternetGateway
+    AttachGateway:
+      Type: AWS::EC2::VPCGatewayAttachment
+      Properties:
+        VpcId: !Ref VPC
+        InternetGatewayId: !Ref MyInternetGateway
+    MyRouteTable:
+      Type: AWS::EC2::RouteTable
+      Properties:
+        VpcId: !Ref VPC
+    PublicRoute:
+      Type: AWS::EC2::Route
+      DependsOn: AttachGateway
+      Properties:
+        RouteTableId: !Ref MyRouteTable
+        DestinationCidrBlock: 0.0.0.0/0
+        GatewayId: !Ref MyInternetGateway
+    SubnetRouteTableAssociation:
+      Type: AWS::EC2::SubnetRouteTableAssociation
+      Properties:
+        SubnetId: !Ref MySubnet
+        RouteTableId: !Ref MyRouteTable
+    MySecurityGroup:
+      Type: AWS::EC2::SecurityGroup
+      Properties:
+        GroupDescription: Enable SSH, HTTP, HTTPS access
+        VpcId: !Ref VPC
+        SecurityGroupIngress:
+          - IpProtocol: tcp
+            FromPort: 22
+            ToPort: 22
+            CidrIp: 0.0.0.0/0
+          - IpProtocol: tcp
+            FromPort: 80
+            ToPort: 80
+            CidrIp: 0.0.0.0/0
+          - IpProtocol: tcp
+            FromPort: 443
+            ToPort: 443
+            CidrIp: 0.0.0.0/0
+          - IpProtocol: -1
+            CidrIp: 192.168.0.0/16
+    ServerInstance:
+      Type: AWS::EC2::Instance
+      Properties:
+        InstanceType: t2.medium
+        ImageId: ami-047fdc2b851e73cad
+        SubnetId: !Ref MySubnet
+        PrivateIpAddress: '192.168.1.10'
+        SecurityGroupIds:
+          - !Ref MySecurityGroup
+        UserData:
+          Fn::Base64: !Sub |
+            #!/bin/bash
+            GITHUB_USER=${GitHubUsername}
+            mkdir -p /home/isucon/.ssh
+            curl -s https://github.com/$GITHUB_USER.keys >> /home/isucon/.ssh/authorized_keys
+            chown -R isucon:isucon /home/isucon/.ssh
+            chmod 600 /home/isucon/.ssh/authorized_keys
+    BenchmarkerInstance:
+      Type: AWS::EC2::Instance
+      Properties:
+        InstanceType: t2.medium
+        ImageId: ami-037be39355baf1f2e
+        SubnetId: !Ref MySubnet
+        PrivateIpAddress: '192.168.1.20'
+        SecurityGroupIds:
+          - !Ref MySecurityGroup
+        UserData:
+          Fn::Base64: !Sub |
+            #!/bin/bash
+            GITHUB_USER=${GitHubUsername}
+            mkdir -p /home/isucon/.ssh
+            curl -s https://github.com/$GITHUB_USER.keys >> /home/isucon/.ssh/authorized_keys
+            chown -R isucon:isucon /home/isucon/.ssh
+            chmod 600 /home/isucon/.ssh/authorized_keys
+    ServerEIP:
+      Type: AWS::EC2::EIP
+    BenchmarkerEIP:
+      Type: AWS::EC2::EIP
+    ServerEIPAssociation:
+      Type: AWS::EC2::EIPAssociation
+      Properties:
+        InstanceId: !Ref ServerInstance
+        EIP: !Ref ServerEIP
+    BenchmarkerEIPAssociation:
+      Type: AWS::EC2::EIPAssociation
+      Properties:
+        InstanceId: !Ref BenchmarkerInstance
+        EIP: !Ref BenchmarkerEIP
+#+end_src
+
+* 終わりに
+
+実際に練習するなら指定された環境のまま起動した方が良いだろうが、あくまで練習として =private-isu= を立ち上げたいだけという今回の用途ではこれで十分。
