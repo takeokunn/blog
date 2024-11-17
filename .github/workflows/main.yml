@@ -21,17 +21,16 @@ jobs:
         with:
           submodules: recursive
 
-      # for Prepare Emacs
-      - uses: purcell/setup-emacs@master
-        with:
-          version: 29.1
+      # prepare nix
+      - name: prepare nix
+        uses: cachix/install-nix-action@v30
 
       # for Org-Zenn to Markdown
       - name: Build org to markdown
-        run: emacs --batch --load scripts/ox-zenn.el --funcall export-org-zenn-files
+        run: nix develop .#deploy --command bash -c "emacs --batch --load scripts/ox-zenn.el --funcall export-org-zenn-files"
 
       - name: Deploy Zenn
-        uses: peaceiris/actions-gh-pages@v3
+        uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./zenn
@@ -42,35 +41,24 @@ jobs:
       - name: Remove gpg file
         run: rm -fr org/private
       - name: Build org to markdown
-        run: emacs --batch --load scripts/ox-roam.el --funcall export-org-roam-files
+        run: nix develop .#deploy --command bash -c "emacs --batch --load scripts/ox-roam.el --funcall export-org-roam-files"
 
       # for Generate OGP
-      - name: Setup Go environment
-        uses: actions/setup-go@v5
-        with:
-          go-version: stable
-      - name: Install tcardgen
-        run: go install github.com/qawatake/tcardgen@latest
       - name: Create public
         run: mkdir -p ./public
       - name: Generate OGP
-        run: tcardgen --fontDir=tcardgen/font --output=static/ogp --config=tcardgen/ogp.yml content/posts/**/*.md
+        run: nix develop .#deploy --command bash -c "tcardgen --fontDir=tcardgen/font --output=static/ogp --config=tcardgen/ogp.yml content/posts/**/*.md"
 
       # for Hugo
-      - name: Setup Hugo
-        uses: peaceiris/actions-hugo@v2
-        with:
-          hugo-version: latest
-          extended: true
       - name: Build with Hugo
         env:
           HUGO_ENVIRONMENT: production
           HUGO_ENV: production
-        run: hugo --minify
+        run: nix develop .#deploy --command bash -c "hugo --minify"
 
       # for GitHub Pages
       - name: Setup GitHub Pages
-        uses: actions/configure-pages@v4
+        uses: actions/configure-pages@v5
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:

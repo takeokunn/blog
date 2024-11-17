@@ -1,0 +1,403 @@
+:PROPERTIES:
+:ID:       3BECED15-4350-42B1-98F5-C1D502816F0D
+:END:
+#+TITLE: 2023年のorg-mode活用と今後の抱負
+#+AUTHOR: takeokunn
+#+DESCRIPTION: description
+#+DATE: 2024-01-25T07:18:14+0900
+#+HUGO_BASE_DIR: ../../
+#+HUGO_CATEGORIES: permanent
+#+HUGO_SECTION: posts/permanent
+#+HUGO_TAGS: permanent org-mode
+#+HUGO_DRAFT: false
+#+STARTUP: content
+#+STARTUP: nohideblocks
+* Introduction
+
+この記事は[[https://vim-jp.org/ekiden/][Vim駅伝]]の2024-01-24の記事です。
+
+前回の記事はyasunoriさんの「[[https://zenn.dev/vim_jp/articles/0007-vim-recommend-method][Vimを勧めるときのすヽめ]]」です。
+
+私にとっての2023年はorg-modeの年でした。
+org-modeで実現できることは何があるのかと、自分にとってのorg-modeはなんなのか、ということに腰を据えてちゃんと向き合えたので実際に取り組んだことを記事にしておきます。
+* Emacsとの出会いと使えるようになるまで
+私のEmacs歴は6年程度で、[[https://github.com/takeokunn/.emacs.d][takeokunn/.emacs.d]] のfirst commitは =Sat Nov 3 18:15:51 2018 +0900= です。
+もともとSublime Textを使っており、Emacsを使い始めたきっかけは[[https://www.amazon.co.jp/%E3%83%8F%E3%83%83%E3%82%AB%E3%83%BC%E3%81%A8%E7%94%BB%E5%AE%B6-%E3%82%B3%E3%83%B3%E3%83%94%E3%83%A5%E3%83%BC%E3%82%BF%E6%99%82%E4%BB%A3%E3%81%AE%E5%89%B5%E9%80%A0%E8%80%85%E3%81%9F%E3%81%A1-%E3%83%9D%E3%83%BC%E3%83%AB-%E3%82%B0%E3%83%AC%E3%82%A2%E3%83%A0/dp/4274065979][ハッカーと画家]]でした。
+[[https://www.amazon.co.jp/%E3%83%8F%E3%83%83%E3%82%AB%E3%83%BC%E3%81%A8%E7%94%BB%E5%AE%B6-%E3%82%B3%E3%83%B3%E3%83%94%E3%83%A5%E3%83%BC%E3%82%BF%E6%99%82%E4%BB%A3%E3%81%AE%E5%89%B5%E9%80%A0%E8%80%85%E3%81%9F%E3%81%A1-%E3%83%9D%E3%83%BC%E3%83%AB-%E3%82%B0%E3%83%AC%E3%82%A2%E3%83%A0/dp/4274065979][ハッカーと画家]]にLispのすばらしさが書いてあり、Lispを書くならEmacsだろうということで安易な気持ちで入門しました。
+
+[[https://blog.tomoya.dev/posts/only-those-who-want-to-be-the-wind-should-use-emacs-2020/][風になりたい奴だけがEmacsを使えば良い 2020]] などEmacsの魅力を語っている記事がたくさんあったのも理由のひとつでした。
+
+最初の2年はEmacsを操作するのに慣れるまで必死でした。
+世の中にはEmacsを入門してすぐに有名なOSSにコントリビューションしたり、自分でキラーアプリケーションを作ったりする天才のような人達がごろごろいるが、私は要領が悪いため残念ながらそういう人間ではありませんでした。
+生まれたての小鹿みたいなおぼつかない操作、何をしたらどう動くのか分からないし何がどう動いるのか分からず、どう質問をして良いのかすら分からない状態が続きました。
+
+3年くらい使ってようやく概要を把握でき、Sublime Textと同じくらいの編集速度を出すことができるようになりました。
+徐々にEmacsの気持ちが分かってきて、ざっくり何ができるのか、どのくらいのポテンシャルを秘めているのかということを肌感覚でつかめてきました。
+それと同時に、Emacsで実現可能なものの輪郭を見たくなってきました。
+その為には他人のEmacsの設定を漁りまくり、少しでも便利そうだと思ったパッケージはすべて検証するという運用をしてみました。
+
+4年目はとにかくinit.elの管理方法と起動速度にこだわった1年になりました。
+[[https://zenn.dev/takeokunn/articles/56010618502ccc][Emacsを世界最速級で起動する方法 - Zenn]] の目的は起動時間を短縮することによって、設定の検証効率を上げることでした。
+また、起動速度チューニングすることによってどうEmacs本体がEmacs Lispを実行するのか深く理解できたので非常に有意義な取り組みだったと感じています。
+* 課題
+ソフトェアの開発は「趣味だろうと仕事だろうとプログラミングに閉じることはできない」という問題があります。
+メール確認だったりブログの執筆だったりパスワードマネージャーだったり、「ソフトウェアエンジニアなら必要なもの」というのはかなりあります。
+
+自分がやりたかったのは「Emacs内で最高の環境」を作ることです。Emacsはそれを許容してくれます。
+カーソル移動だったり、keybindの最適化だけではなく、自分の普段のワークフローをしっかりEmacsに落としきる必要があります。
+
+通常のプログラミングのためのチューニングとは別に、以下のようなことをやりたいと考えていました。
+
+- メールの確認やパスワード管理を自動化したい
+- 日報や工数入力を最短で入力できるようにしたい
+- 質の担保されたブログ記事を最短で公開したい
+- すべてのコンピュータ上での作業をメモしたい
+  - たとえ案件が変わろうとPCが壊れようと過去に行ったことを検索可能な状態にしたい
+  - Local LLMに食わせることによって自分専用のAIを作りたい
+- etc
+
+私は特に怠惰でだらしない人間ですので、いかにワークフローを整えて自動化をしてドキュメントとして残すか、サボったツケを効率良く払うことに注力する必要がありました。
+* なぜorg-modeなのか
+私はプレーンテキストに対して強いこだわりがあるので、可能な限りプレーンテキストをGitで管理する運用にしたいと考えていました。
+
+Emacsとの親和性なども考えると[[https://orgmode.org/ja/][org-mode]]しかないだろう、という結論に至りました。
+[[https://orgmode.org/features.html][org-mode features]] を見ているとまさしく私がやりたかったことを網羅していました。
+
+- Markup
+- 構造的な編集
+- テーブル操作
+- コードブロック
+- エクスポート
+- タスク管理
+- スケジュール
+- 時間計測
+- メモ
+- 強力な拡張パッケージ
+
+org-modeはコンピュータを使う時に必要なものをすべて用意してくれています。
+当然のことながら、Emacsのパッケージなので [[https://qiita.com/takaxp/items/a5a3383d7358c58240d0][org-mode のキーバインド、その先 - Qiita]] にもある通りEmacsのkeybindで操作できます。
+
+コードの実行もできる為コマンド結果の証跡を残すこともでき、プレーンテキストなので当然grepで過去に行ったタスクの検索も容易に行うことができます。
+1年くらいorg-modeに注力してみたが、org-modeはすばらしく可能性を秘めており、Emacsが廃れない限りは使い続けられることを確信したので、少なくとも直近5年は投資し続ける覚悟ができました。
+
+[[https://www.youtube.com/@p-snow][YouTubeの@p-snow氏のチャンネル]] は非常に有益な情報を発信してくれているのでぜひとも確認してみてください。
+* 他エディタのorg-mode対応状況
+org-modeはEmacs組込みのパッケージなのでEmacsでは当然簡単に使えますが、他エディタでも当然実装例があります。
+
+たとえば、Vimには[[https://github.com/jceb/vim-orgmode][jceb/vim-orgmode]]や[[https://github.com/nvim-orgmode/orgmode][nvim-orgmode/orgmode]]があったり、VSCodeでは[[https://github.com/vscode-org-mode/vscode-org-mode][vscode-org-mode/vscode-org-mode]]などがあります。
+JetBrainsでも[[https://plugins.jetbrains.com/plugin/7095-org4idea][org4idea]]といったorgをSyntax Highlightするプラグインを提供してくれています。
+
+org関係のパッケージに期待することは主に「Syntax Highlight」と「タスク管理のような付属機能」の2つです。
+「Syntax Highlight」に関して世の中のだいたいのorg関係のパッケージは対応していますが、「タスク管理のような付属機能」はEmacsのorg-modeがあまりにも高機能すぎて他テキストエディタのパッケージに移植するのは非常に困難です。
+
+一番開発が盛んな[[https://github.com/nvim-orgmode/orgmode][nvim-orgmode/orgmode]]でさえ完全に移植しきれている訳ではなく、org-modeのポテンシャルを最大限発揮するには現状Emacs以外の選択肢がない状態です。
+* 事例
+具体的にorg-modeで自分が実践していることをいくつか紹介します。
+細かい設定に関しては別途記事にする予定なのでご了承ください。
+** init.el管理
+[[https://github.com/takeokunn/.emacs.d][takeokunn/.emacs.d]] でEmacsの設定をorg-modeで管理するようにしています。
+GitHub Actions経由で [[https://emacs.takeokunn.org/][https://emacs.takeokunn.org/]] にHostingするようにしています。
+
+[[https://github.com/takeokunn/.emacs.d/blob/main/index.org][init.org]] に8000行くらい設定を書いていて、[[https://github.com/takeokunn/.emacs.d/blob/main/index.org][init.org]] から =init.el= とHTMLを生成できるようにしています。
+また、[[https://github.com/takeokunn/.emacs.d/blob/main/yasnippets.org][yasnippets.org]] や [[https://github.com/takeokunn/.emacs.d/blob/main/early-init.org][early-init.org]] など =init.el= 以外の設定ファイルもorg-modeから生成できるようにしています。
+
+[[file:../../static/images/8F2EB14A-410B-44C1-8987-69731F119BD5.png]]
+** ブログ管理
+[[https://github.com/takeokunn/blog][takeokunn/blog]] にてブログを管理しています。この記事も当然org-modeで書かれています。
+
+[[https://www.takeokunn.org/][https://www.takeokunn.org/]]
+
+[[id:E6243AE2-CFE4-4D21-B9B7-E076B13CF486][org-roamで記事を管理しGitHub Actionsで適切に公開する]] に詳細を書いているのでこちらを参照ください。
+** タスク管理
+[[https://maskaw.hatenablog.com/entry/2018/09/21/205910][Emacs org-agenda他を運用して１年経ったのでまとめる]] あたりを参考にタスク管理をorg-modeに寄せました。
+
+以下のような運用をしています。
+
+- 週次で =agenda/= 以下の =ODNE= になったものを =org-archive= でアーカイブする
+- 月次で =journal.org= を =journal/yyyy/yyyy-mm.org= に移動する
+- 年次で =year/yyyy.org= にまとめる
+
+#+begin_src bash
+  .
+  ├── agenda
+  │   ├── anken-a.org
+  │   ├── anken-b.org
+  │   └── take.org
+  ├── archive
+  │   ├── 2023
+  │   │   ├── 2023-02-03.org
+  │   │   ├── 2023-02-10.org
+  │   │   ├── 2023-02-17.org
+  │   │   ├── --- 中略 ---
+  │   │   ├── 2023-12-22.org
+  │   │   └── 2023-12-29.org
+  │   └── 2024
+  │       ├── 2024-01-05.org
+  │       ├── 2024-01-12.org
+  │       └── 2024-01-19.org
+  ├── journal
+  │   └── 2023
+  │       ├── 2023-01.org
+  │       ├── 2023-02.org
+  │       ├── 2023-03.org
+  │       ├── 2023-04.org
+  │       ├── 2023-05.org
+  │       ├── 2023-06.org
+  │       ├── 2023-07.org
+  │       ├── 2023-08.org
+  │       ├── 2023-09.org
+  │       ├── 2023-10.org
+  │       ├── 2023-11.org
+  │       └── 2023-12.org
+  ├── journal.org
+  └── year
+      └── 2023.org
+#+end_src
+** =org-tangle= で設定ファイル出力
+=~/.aws/config= など [[https://github.com/takeokunn/dotfiles][takeokunn/dotfiles]] で管理しきれないものはprivate repoで管理している =secret.org.gpg= から生成するようにしています。
+=org-tangle= 変数を扱うことが可能なので設定を分割できます。
+
+#+begin_src org
+  ,#+begin_src conf :noweb-ref aws-config-dummy-default
+    [profile default]
+    region = ap-northeast-1
+    output = json
+  ,#+end_src
+
+  ,#+begin_src conf :noweb yes :tangle (expand-file-name "~/.aws/config") :mkdirp yes
+    # dummy default
+    <<aws-config-dummy-default>>
+  ,#+end_src
+#+end_src
+** =org-babel= 活用
+=org-babel= を使うとorg-mode内でプログラムを実行でき、実行結果を =#+RESULTS:= に出力できます。
+インフラ作業で証跡を残したい時やちょっとした検証をする時に非常に重宝しています。
+
+#+begin_src org
+  ,#+begin_src bash
+    echo "good"
+  ,#+end_src
+
+  ,#+RESULTS:
+  : good
+#+end_src
+
+自前でパッケージを書くのも簡単で過去に3つほど自作しました。
+
+- [[https://github.com/takeokunn/ob-treesitter][takeokunn/ob-treesitter]]
+- [[https://github.com/takeokunn/ob-fish][takeokunn/ob-fish]]
+- [[https://github.com/emacs-php/ob-phpstan][emacs-php/ob-phpstan]]
+** 日報作成
+日報もorg-modeで出力しており、 =org-clock= を利用して日々のタスクにかかった時間を計測できるようにしています。
+これにより、月1の工数入力時に何日に何にどれくらい時間がかかったかを自動で出力できるようになり、大幅な時間短縮を実現できました。
+
+以下は具体的に使っている日報の例です。前日と当日分をナローイングして =org-gfm-export-as-markdown= でMarkdownを掃き出し、少し整形してチームメンバーに共有しています。
+
+#+begin_src org
+  ,* 2024
+  ,** 2024-01 January
+  ,*** 2024-01-23 Tuesday
+  ,#+BEGIN: clocktable :maxlevel 2 :scope agenda :block 2024-01-23 :fileskip0 t :tags t :link t
+  ,#+CAPTION: Clock summary at [2024-01-24 Wed 10:07], for Tuesday, January 23, 2024.
+  | File         | Tags | Headline                       | Time   |      |
+  |--------------+------+--------------------------------+--------+------|
+  |              | ALL  | *Total time*                   | *3:30* |      |
+  |--------------+------+--------------------------------+--------+------|
+  | openlogi.org |      | *File time*                    | *3:30* |      |
+  |              | MTG  | MTG                            | 3:30   |      |
+  |              | MTG  | \_  01-23 (Tue) 朝会            |        | 0:15 |
+  |              | MTG  | \_  01-23 (Tue) モブプロ会       |        | 0:45 |
+  |              | MTG  | \_  01-23 (Tue) 改善_進捗確認MTG |        | 0:30 |
+  |              | MTG  | \_  01-23 (Tue) 相談            |        | 0:30 |
+  |              | MTG  | \_  01-23 (Tue) 1on1           |        | 0:30 |
+  |              | MTG  | \_  01-23 (Tue) リリース作業     |        | 1:00 |
+  ,#+END:
+  ,**** Task
+  - 案件A
+    - 連携作業
+      - 調査中
+    - オペ1次
+  ,**** MTG
+  - 10:15 AM-10:30 AM 朝会
+  - 10:30 AM-11:15 AM モブプロ会
+  - 11:15 AM-11:45 AM 改善_進捗確認MTG
+  - 12:00 PM-12:30 PM 相談
+  ,**** 困ってること・相談したいこと
+  特になし
+  ,**** 一言
+  ,*** 2024-01-24 Wednesday
+  ,#+BEGIN: clocktable :maxlevel 2 :scope agenda :block 2024-01-24 :fileskip0 t :tags t :link t
+  ,#+END:
+  ,**** Task
+  - OrderSync
+    - 引続き対応する
+  ,**** MTG
+  - 10:15 AM-10:30 AM 朝会
+  - 4:30 PM-5:00 PM 1on1
+  ,**** 困ってること・相談したいこと
+  特になし
+  ,**** 一言
+  がんばるぞい
+#+end_src
+
+日報テンプレートスニペットも用意しており、効率良く日報を生成できるようにしています。
+
+#+begin_src text
+  # name: diary
+  # key: diary
+  # type: snippet
+  # --
+  ,#+BEGIN: clocktable :maxlevel 2 :scope agenda :block ${1:`(format-time-string "%Y-%m-%d" (current-time))`} :fileskip0 t :tags t :link t
+  ,#+END:
+  ,**** Task
+  - $0
+  ,**** MTG
+  - 10:15 AM-10:30 AM 朝会
+  ,**** 困ってること・相談したいこと
+  特になし
+  ,**** 一言
+#+end_src
+
+作業時間の記録に関して、[[https://qiita.com/takaxp/items/6b2d1e05e7ce4517274d][org-clock-in を意識しないで作業時間を記録する - Qiita]] にもある通り、ちゃんと設定すればタスクの作業時間を半自動で記録できます。
+しかしながら私は非常に怠惰で、これすら面倒で中々できませんので、毎朝の日報を書くタイミングと週次のタスクアーカイブ時に後から手動で時間を入力する運用にしています。
+
+以下のようなスニペットを用意しており、朝会などのMTGは自動で時間を計測できるようにしています。
+
+#+begin_src text
+  # -*- mode: snippet -*-
+  # name: diary-mtg-template-friday
+  # key: diary-mtg-template-friday
+  # --
+  ,** TODO `(format-time-string "%m-%d (%a)" (time-add (current-time) (days-to-time 3)))` 朝会[0/1]
+  SCHEDULED: <`(format-time-string "%Y-%m-%d %a" (time-add (current-time) (days-to-time 3)))`> DEADLINE: <`(format-time-string "%Y-%m-%d %a" (time-add (current-time) (days-to-time 3)))`>
+  :LOGBOOK:
+  CLOCK: [`(format-time-string "%Y-%m-%d %a" (time-add (current-time) (days-to-time 3)))` 10:15]--[`(format-time-string "%Y-%m-%d %a" (time-add (current-time) (days-to-time 3)))` 10:30] =>  0:15
+  :END:
+  ,*** TODO 日報準備
+  ,** TODO `(format-time-string "%m-%d (%a)" (time-add (current-time) (days-to-time 3)))` 1on1
+  SCHEDULED: <`(format-time-string "%Y-%m-%d %a" (time-add (current-time) (days-to-time 3)))`> DEADLINE: <`(format-time-string "%Y-%m-%d %a" (time-add (current-time) (days-to-time 3)))`>
+  :LOGBOOK:
+  CLOCK: [`(format-time-string "%Y-%m-%d %a" (time-add (current-time) (days-to-time 3)))` 16:30]--[`(format-time-string "%Y-%m-%d %a" (time-add (current-time) (days-to-time 3)))` 17:00] =>  0:30
+  :END:
+  ,** TODO `(format-time-string "%m-%d (%a)" (time-add (current-time) (days-to-time 4)))` 朝会[0/1]
+  SCHEDULED: <`(format-time-string "%Y-%m-%d %a" (time-add (current-time) (days-to-time 4)))`> DEADLINE: <`(format-time-string "%Y-%m-%d %a" (time-add (current-time) (days-to-time 4)))`>
+  :LOGBOOK:
+  CLOCK: [`(format-time-string "%Y-%m-%d %a" (time-add (current-time) (days-to-time 4)))` 10:15]--[`(format-time-string "%Y-%m-%d %a" (time-add (current-time) (days-to-time 4)))` 10:30] =>  0:15
+  :END:
+  ,*** TODO 日報準備
+  ,** TODO `(format-time-string "%m-%d (%a)" (time-add (current-time) (days-to-time 4)))` 1on1
+  SCHEDULED: <`(format-time-string "%Y-%m-%d %a" (time-add (current-time) (days-to-time 4)))`> DEADLINE: <`(format-time-string "%Y-%m-%d %a" (time-add (current-time) (days-to-time 4)))`>
+  :LOGBOOK:
+  CLOCK: [`(format-time-string "%Y-%m-%d %a" (time-add (current-time) (days-to-time 4)))` 16:30]--[`(format-time-string "%Y-%m-%d %a" (time-add (current-time) (days-to-time 4)))` 17:00] =>  0:30
+  :END:
+  ,** TODO `(format-time-string "%m-%d (%a)" (time-add (current-time) (days-to-time 5)))` 朝会[0/1]
+  SCHEDULED: <`(format-time-string "%Y-%m-%d %a" (time-add (current-time) (days-to-time 5)))`> DEADLINE: <`(format-time-string "%Y-%m-%d %a" (time-add (current-time) (days-to-time 5)))`>
+  :LOGBOOK:
+  CLOCK: [`(format-time-string "%Y-%m-%d %a" (time-add (current-time) (days-to-time 5)))` 10:15]--[`(format-time-string "%Y-%m-%d %a" (time-add (current-time) (days-to-time 5)))` 10:30] =>  0:15
+  :END:
+  ,*** TODO 日報準備
+  ,** TODO `(format-time-string "%m-%d (%a)" (time-add (current-time) (days-to-time 5)))` 1on1
+  SCHEDULED: <`(format-time-string "%Y-%m-%d %a" (time-add (current-time) (days-to-time 5)))`> DEADLINE: <`(format-time-string "%Y-%m-%d %a" (time-add (current-time) (days-to-time 5)))`>
+  :LOGBOOK:
+  CLOCK: [`(format-time-string "%Y-%m-%d %a" (time-add (current-time) (days-to-time 5)))` 16:30]--[`(format-time-string "%Y-%m-%d %a" (time-add (current-time) (days-to-time 5)))` 17:00] =>  0:30
+  :END:
+  ,** TODO `(format-time-string "%m-%d (%a)" (time-add (current-time) (days-to-time 6)))` 朝会[0/1]
+  SCHEDULED: <`(format-time-string "%Y-%m-%d %a" (time-add (current-time) (days-to-time 6)))`> DEADLINE: <`(format-time-string "%Y-%m-%d %a" (time-add (current-time) (days-to-time 6)))`>
+  :LOGBOOK:
+  CLOCK: [`(format-time-string "%Y-%m-%d %a" (time-add (current-time) (days-to-time 6)))` 10:15]--[`(format-time-string "%Y-%m-%d %a" (time-add (current-time) (days-to-time 6)))` 10:30] =>  0:15
+  :END:
+  ,*** TODO 日報準備
+  ,** TODO `(format-time-string "%m-%d (%a)" (time-add (current-time) (days-to-time 6)))` 1on1
+  SCHEDULED: <`(format-time-string "%Y-%m-%d %a" (time-add (current-time) (days-to-time 6)))`> DEADLINE: <`(format-time-string "%Y-%m-%d %a" (time-add (current-time) (days-to-time 6)))`>
+  :LOGBOOK:
+  CLOCK: [`(format-time-string "%Y-%m-%d %a" (time-add (current-time) (days-to-time 6)))` 16:30]--[`(format-time-string "%Y-%m-%d %a" (time-add (current-time) (days-to-time 6)))` 17:00] =>  0:30
+  :END:
+  ,** TODO `(format-time-string "%m-%d (%a)" (time-add (current-time) (days-to-time 7)))` 朝会[0/1]
+  SCHEDULED: <`(format-time-string "%Y-%m-%d %a" (time-add (current-time) (days-to-time 7)))`> DEADLINE: <`(format-time-string "%Y-%m-%d %a" (time-add (current-time) (days-to-time 7)))`>
+  :LOGBOOK:
+  CLOCK: [`(format-time-string "%Y-%m-%d %a" (time-add (current-time) (days-to-time 7)))` 10:15]--[`(format-time-string "%Y-%m-%d %a" (time-add (current-time) (days-to-time 7)))` 10:30] =>  0:15
+  :END:
+  ,*** TODO 日報準備
+  ,** TODO `(format-time-string "%m-%d (%a)" (time-add (current-time) (days-to-time 7)))` 1on1
+  SCHEDULED: <`(format-time-string "%Y-%m-%d %a" (time-add (current-time) (days-to-time 7)))`> DEADLINE: <`(format-time-string "%Y-%m-%d %a" (time-add (current-time) (days-to-time 7)))`>
+  :LOGBOOK:
+  CLOCK: [`(format-time-string "%Y-%m-%d %a" (time-add (current-time) (days-to-time 7)))` 16:30]--[`(format-time-string "%Y-%m-%d %a" (time-add (current-time) (days-to-time 7)))` 17:00] =>  0:30
+  :END:
+  ,** TODO `(format-time-string "%m-%d (%a)" (time-add (current-time) (days-to-time 7)))` TGIF
+  SCHEDULED: <`(format-time-string "%Y-%m-%d %a" (time-add (current-time) (days-to-time 7)))`> DEADLINE: <`(format-time-string "%Y-%m-%d %a" (time-add (current-time) (days-to-time 7)))`>
+  :LOGBOOK:
+  CLOCK: [`(format-time-string "%Y-%m-%d %a" (time-add (current-time) (days-to-time 7)))` 17:00]--[`(format-time-string "%Y-%m-%d %a" (time-add (current-time) (days-to-time 7)))` 18:00] =>  1:00
+  :END:
+#+end_src
+
+** =org-ai= 活用
+[[https://github.com/rksm/org-ai][org-ai]] はorg-mode内でChatGPTと対話できる非常に便利なパッケージです。
+org-mode内に残しておけるので将来的にどんな会話をしたのか振り返ることができます。
+
+#+begin_src org
+  ,#+begin_ai
+  [ME]: 1から10まで足し算するbash scriptを教えて
+
+  [AI]: 以下は、1から10までの数を足し合わせるBashスクリプトの例です。
+
+  ```
+  #!/bin/bash
+
+  sum=0
+
+  for (( i=1; i<=10; i++ ))
+  do
+      sum=$((sum + i))
+  done
+
+  echo "合計は $sum です"
+  ```
+
+  このスクリプトは、`sum`という変数を使用して1から10までの数を足し合わせます。`for`ループを使用して、`i`が1から10まで順番に増えるように設定し、`sum`に`i`を加算していきます。最後に、`echo`コマンドを使用して合計を表示します。
+
+  このスクリプトを実行するには、ターミナルで保存したファイルに実行権限を与え、次のようにコマンドを入力します。
+
+  ```
+  chmod +x script.sh
+  ./script.sh
+  ```
+
+  これにより、合計が表示されます。
+  ,#+end_ai
+#+end_src
+
+以下のようなスニペットを用意しておくと便利です。
+
+#+begin_src text
+  #name: ai-block
+  #key: ai-block
+  # --
+  ,#+begin_ai
+  [ME]: $0
+  ,#+end_ai
+#+end_src
+** ISUCON手順書作成
+org-modeはorg-mode内でプログラムを実行できる、タスク管理ができる、設定ファイルも出力できる性質上手順書として非常に有用です。
+なのでISUCONのような初期構築手順が決まっているものにはうってつけでした。
+
+実際に本番で使ったファイルは以下です。
+
+[[https://github.com/OL001-isucon/isucon13/blob/main/isucon13.org][OL001-isucon/isucon13 - isucon13.org]]
+
+ステータスを =DONE= にすると自動的に =DONE= にした時間が出力されるように設定しているので、いつ何の作業をしたのか計測することが容易で、振り返りブログを書く時非常に楽でした。
+
+[[https://zenn.dev/takeokunn/articles/20231212144218][ISUCON13にチームOL001として参加しました(インフラ編) - Zenn]]
+** feed管理
+RSS Feedに[[https://github.com/skeeto/elfeed][skeeto/elfeed]]を使っていますが、RSS対象の管理に[[https://github.com/remyhonig/elfeed-org][remyhonig/elfeed-org]]を使っています。
+org-modeで管理をすると対象URLのメモが取れて非常に便利です。
+* 今後の展望
+「週次で =agenda/= 以下の =ODNE= になったものを =org-archive= でアーカイブする」運用を開始して1年が経ちました。
+つまり1年間取り組んだタスクの詳細が =agenda/= に構造的に保存されており資産として活用できる状態な訳です。
+
+この資産をどう活用するかというのが次の目標です。
+[[https://github.com/alphapapa/org-ql][alphapapa/org-ql]] を使ってよしなに処理をするのか、[[https://github.com/s-kostyaev/ellama][s-kostyaev/ellama]] のようなLocal LLMを使って対話式に検索できるようにするのかさまざまな方法が考えられます。
+
+抽象化した状態でブログ記事という形で外部へアウトプットできる量を増やすことが自分のキャリアとしても重要だと考えているので取り組んでいきたいです。
+* Conclusion
+org-modeは非常に強力なツールであることは疑いようがありません。
+org-modeを最大限活用できる方法をどんどん模索していきたいです。

@@ -14,3 +14,9 @@ rules:
   - expected: React.js
     pattern:  /\bReactJS\b|\bReactJs\b|\breactjs\b/
   - expected: Bitwarden
+  - expected: Dvorak
+  - expected: GnuPG
+  - expected: org-mode
+    pattern:  /org-m(o|e|d)(o|e|d)(o|e|d)/
+  - expected: org-roam
+    pattern:  /org-r(o|a|m)(o|a|m)(o|a|m)/

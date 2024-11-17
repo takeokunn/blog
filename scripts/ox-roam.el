@@ -1,11 +1,3 @@
-(require 'package)
-
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-(package-refresh-contents)
-(package-initialize)
-(package-install 'ox-hugo)
-(package-install 'org-roam)
-
 (require 'ox-hugo)
 (require 'org-roam)
 
@@ -40,6 +32,7 @@
                        (file-expand-wildcards "org/index/*.org")
                        (file-expand-wildcards "org/literature/*.org")
                        (file-expand-wildcards "org/permanent/*.org")
-                       (file-expand-wildcards "org/structure/*.org")))
+                       (file-expand-wildcards "org/structure/*.org")
+                       (file-expand-wildcards "org/poem/*.org")))
       (with-current-buffer (find-file f)
         (org-hugo-export-wim-to-md)))))
