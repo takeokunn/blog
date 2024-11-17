@@ -112,7 +112,7 @@ Number と BigInt との間の型変換は精度が落ちる可能性がある�
 double の表す値　＝　(-1)^符号部 × 2^(指数部-1023) × 1.仮数部
 #+end_example
 
-#+caption: double
+#+caption:
 [[https://www.cc.kyoto-su.ac.jp/~yamada/programming/double.png]]
 
 - 符号は、0なら正、1なら負

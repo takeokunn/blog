@@ -16,7 +16,7 @@
       forAllSystems = f: nixpkgs.lib.genAttrs systems (system: f system);
     in
       {
-        devShell = forAllSystems (
+        devShells = forAllSystems (
           system:
           let
             pkgs = nixpkgs.legacyPackages.${system};
@@ -52,24 +52,37 @@
               };
             };
           in
-            pkgs.mkShell {
-              packages = with pkgs; [
-                nodejs
-                (textlint.withPackages [
-                  textlint-rule-preset-ja-technical-writing
-                  textlint-rule-prh
-                  textlint-rule-write-good
-                  textlint-plugin-org
-                  nur-pkgs.textlint-rule-preset-japanese
-                  # nur-pkgs.textlint-rule-preset-ja-spacing
-                  # nur-pkgs.textlint-rule-preset-jtf-style
-                ])
-              ];
+            {
+              default = pkgs.mkShell {
+                packages = with pkgs; [
+                  nodejs
+                  (textlint.withPackages [
+                    textlint-rule-preset-ja-technical-writing
+                    textlint-rule-prh
+                    textlint-rule-write-good
+                    textlint-plugin-org
+                    nur-pkgs.textlint-rule-preset-japanese
+                    # nur-pkgs.textlint-rule-preset-ja-spacing
+                    # nur-pkgs.textlint-rule-preset-jtf-style
+                  ])
+                ];
 
-              shellHook = ''
-                [ -f .textlintrc ] && unlink .textlintrc
-                ln -s ${textlintrc} .textlintrc
-              '';
+                shellHook = ''
+                  [ -f .textlintrc ] && unlink .textlintrc
+                  ln -s ${textlintrc} .textlintrc
+                '';
+              };
+              deploy = pkgs.mkShell {
+                packages = with pkgs; [
+                  hugo
+                  nur-pkgs.tcardgen
+                  (emacs.pkgs.withPackages (epkgs: (with epkgs.melpaPackages; [
+                    ox-hugo
+                    ox-zenn
+                    org-roam
+                  ])))
+                ];
+              };
             }
         );
       };
