@@ -23,3 +23,5 @@ zenn/books/zenn-book-test/*
 
 static/ogp
 .textlintrc
+
+release*
