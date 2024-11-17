@@ -34,10 +34,12 @@ https://docs.aws.amazon.com/ja_jp/AWSEC2/latest/UserGuide/finding-an-ami.html
 
 [[https://github.com/catatsuy/private-isu?tab=readme-ov-file#ami][catatsuy/private-isu#ami]] に動くAMIが記述されているのでそちらに修正し、費用面を考慮して =InstanceType= を以下のように修正した。
 
-| Name   | ImageId               | InstanceType |
-|--------+-----------------------+--------------|
-| server | ami-047fdc2b851e73cad | t2.medium    |
-| bench  | ami-037be39355baf1f2e | t2.medium    |
+#+begin_example
+  | Name   | ImageId               | InstanceType |
+  |--------+-----------------------+--------------|
+  | server | ami-047fdc2b851e73cad | t2.medium    |
+  | bench  | ami-037be39355baf1f2e | t2.medium    |
+#+end_example
 
 また、 =KeyPairName= は不要なので削除した。
 
