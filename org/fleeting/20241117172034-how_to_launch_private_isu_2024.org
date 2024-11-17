@@ -14,7 +14,7 @@
 #+STARTUP: nohideblocks
 * 背景
 
-ISUCONの練習の為、[[https://github.com/catatsuy/private-isu][catatsuy/private-isu]]を自分のAWSに構築しようとしたが、 [[https://gist.github.com/tohutohu/024551682a9004da286b0abd6366fa55][tohutohu/private-isu.yaml - gist]]が構築できなかったのでメモ。
+ISUCON14の練習の為[[https://github.com/catatsuy/private-isu][catatsuy/private-isu]]を自分のAWSに構築しようとしたが、 [[https://gist.github.com/tohutohu/024551682a9004da286b0abd6366fa55][tohutohu/private-isu.yaml - gist]]が構築できなかったのでメモ。
 
 * 問題点
 
