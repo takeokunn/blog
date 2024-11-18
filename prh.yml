@@ -20,3 +20,4 @@ rules:
     pattern:  /org-m(o|e|d)(o|e|d)(o|e|d)/
   - expected: org-roam
     pattern:  /org-r(o|a|m)(o|a|m)(o|a|m)/
+  - expected: ISUCON

@@ -22,7 +22,6 @@
             pkgs = nixpkgs.legacyPackages.${system};
             nur-pkgs = nur-packages.legacyPackages.${system};
             textlintrc = (pkgs.formats.json { }).generate "textlintrc" {
-              filters = { };
               plugins = {
                 org = true;
               };
