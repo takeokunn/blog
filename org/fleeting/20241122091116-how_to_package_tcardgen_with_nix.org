@@ -1,0 +1,159 @@
+:PROPERTIES:
+:ID:       4CD5D36D-177E-436B-8D74-68384EA42C5D
+:END:
+#+TITLE: tcardgenをnixでパッケージ化する方法
+#+AUTHOR: takeokunn
+#+DESCRIPTION: description
+#+DATE: 2024-11-22T09:11:24+0900
+#+HUGO_BASE_DIR: ../../
+#+HUGO_CATEGORIES: fleeting
+#+HUGO_SECTION: posts/fleeting
+#+HUGO_TAGS: fleeting
+#+HUGO_DRAFT: true
+#+STARTUP: content
+#+STARTUP: nohideblocks
+* 背景
+
+HugoからOGPを動的に吐き出すツールとして [[https://github.com/Ladicle/tcardgen][Ladicle/tcardgen]] がある。
+2024/11/22 現在当ブログでも利用していて、 [[https://github.com/takeokunn/blog][takeokunn/blog]] のNix化に伴い tcardgen もNixでパッケージングする必要があった。
+
+* 流れ
+** 1. 自作nur-packages に登録
+
+[[https://github.com/takeokunn/nur-packages][takeokunn/nur-packages]] に雑に以下のようにパッケージングをした。
+
+#+begin_src nix
+  { buildGoModule, fetchFromGitHub }:
+  buildGoModule {
+    pname = "tcardgen";
+    version = "0.0.1";
+    src = fetchFromGitHub {
+      owner = "Ladicle";
+      repo = "tcardgen";
+      rev = "2222547ac37c2d6e1961b00acef3771f48ac8220";
+      hash = "sha256-6Z4SWpjdPMMCC6xm+xjSNAWQpO2FD91p+Mk9Y+Hh7AY=";
+    };
+    vendorHash = "";
+
+    doCheck = false;
+
+    meta = {
+      description = "Generate a TwitterCard(OGP) image for your Hugo posts.";
+      homepage = "https://github.com/Ladicle/tcardgen";
+      mainProgram = "tcardgen";
+    };
+  }
+#+end_src
+
+=src= 部分は [[https://github.com/seppeljordan/nix-prefetch-github][seppeljordan/nix-prefetch-github]] を利用して取得。
+
+#+begin_src bash
+  $ nix-shell -p nix-prefetch-github
+  $ nix-prefetch-github-latest-release --nix Ladicle tcardgen
+  let
+    pkgs = import <nixpkgs> {};
+  in
+    pkgs.fetchFromGitHub {
+      owner = "Ladicle";
+      repo = "tcardgen";
+      rev = "2222547ac37c2d6e1961b00acef3771f48ac8220";
+      hash = "sha256-6Z4SWpjdPMMCC6xm+xjSNAWQpO2FD91p+Mk9Y+Hh7AY=";
+    }
+
+#+end_src
+
+** 2. 手元のBuildが通ることを確認
+
+=vendorHash= は空文字にしてbuildをするとエラーメッセージに書いてあるのでそれを埋める。
+
+#+begin_src bash
+  $ nix build .#tcardgen
+  $ ./result/bin/tcardgen --help
+  Generate TwitterCard(OGP) images for your Hugo posts.
+  Supported front-matters are title, author, categories, tags, and date.
+
+  Usage:
+    tcardgen [-f <FONTDIR>] [-o <OUTPUT>] [-t <TEMPLATE>] [-c <CONFIG>] <FILE>...
+
+  Examples:
+  # Generate a image and output to the example directory.
+  tcardgen --fontDir=font --output=example --template=example/template.png example/blog-post.md
+
+  # Generate a image and output to the example directory as "featured.png".
+  tcardgen --fontDir=font --output=example/featured.png --template=example/template.png example/blog-post.md
+
+  # Generate multiple images.
+  tcardgen --template=example/template.png example/*.md
+
+  # Genrate an image based on the drawing configuration.
+  tcardgen --config=config.yaml example/*.md
+
+  Flags:
+    -c, --config string     Set a drawing configuration file.
+    -f, --fontDir string    Set a font directory. (default "font")
+    -h, --help              help for tcardgen
+        --outDir string     (DEPRECATED) Set an output directory.
+    -o, --output string     Set an output directory or filename (only png format). (default "out/")
+    -t, --template string   Set a template image file. (default example/template.png)
+
+#+end_src
+
+** 3. CIでコケたものを修正
+
+goのversionが合わないというエラーだった。(以下はエラーの抜粋)
+
+#+begin_example
+  error: builder for '/nix/store/9i29mz8v8dwc6jyy2kxpfbay0sy1xf8r-tcardgen-0.0.1-go-modules.drv' failed with exit code 1;
+         last 8 log lines:
+         > Running phase: unpackPhase
+         > unpacking source archive /nix/store/skjfli0fscc0mqhlagkfjna0x2v1kgq7-source
+         > source root is source
+         > Running phase: patchPhase
+         > Running phase: updateAutotoolsGnuConfigScriptsPhase
+         > Running phase: configurePhase
+         > Running phase: buildPhase
+         > go: go.mod requires go >= 1.23 (running go 1.22.8; GOTOOLCHAIN=local)
+         For full logs, run 'nix log /nix/store/9i29mz8v8dwc6jyy2kxpfbay0sy1xf8r-tcardgen-0.0.1-go-modules.drv'.
+  error: builder for '/nix/store/9i29mz8v8dwc6jyy2kxpfbay0sy1xf8r-tcardgen-0.0.1-go-modules.drv' failed with exit code 1;
+         last 8 log lines:
+         > Running phase: unpackPhase
+         > unpacking source archive /nix/store/skjfli0fscc0mqhlagkfjna0x2v1kgq7-source
+         > source root is source
+         > Running phase: patchPhase
+         > Running phase: updateAutotoolsGnuConfigScriptsPhase
+         > Running phase: configurePhase
+         > Running phase: buildPhase
+         > go: go.mod requires go >= 1.23 (running go 1.22.8; GOTOOLCHAIN=local)
+         For full logs, run 'nix log /nix/store/9i29mz8v8dwc6jyy2kxpfbay0sy1xf8r-tcardgen-0.0.1-go-modules.drv'.
+  error: build of '/nix/store/43rfsfzxs6vlvcy146bz58qapig5lqab-tcardgen-0.0.1.drv^*', '/nix/store/4xfqycxxn4hi5m0xnzvxjwjr11n5nqg1-textlint-rule-preset-jtf-style-2.3.14.drv^*', '/nix/store/7dh43zziij61js5jjcv43b9qp4fc060f-textlint-rule-preset-japanese-10.0.3.drv^*', '/nix/store/9i29mz8v8dwc6jyy2kxpfbay0sy1xf8r-tcardgen-0.0.1-go-modules.drv^*', '/nix/store/acmw7z8i6wk9mqy95gn38mliz6jvyg2z-offline.drv^*', '/nix/store/lvcpa0lck54hbwv46bjjmy8385xivgny-offline.drv^*', '/nix/store/rlxzz85xybhcwb3dvnx6z4a7cw7v6lnj-offline.drv^*', '/nix/store/zmfi7bz7is5d5spiqljqnz0q7f0y3ps0-textlint-rule-preset-ja-spacing-2.4.3.drv^*', '/nix/store/zw27xgidmlcwsvrl6l7j6f5xagpvwy84-isucrud-1.2.2.drv^*' failed
+#+end_example
+
+2024/11/22 時点ではGo versionが =1.22.8= なので明示的に =1.23= を使ってbuildするように変更しなければならない。
+
+[[https://github.com/takeokunn/nur-packages/commit/2c08f7d8b69b6dec04c4f902fae956b5c20354d0][2c08f7d8b69b6dec04c4f902fae956b5c20354d0]] のように =buildGoModule= を =buildGo123Module= に差し替えたらエラーが解消された。
+
+** 4. devenvで利用
+
+以下のように記述すると[[https://devenv.sh/][ devenv]] でも利用することが可能。
+
+devenv.yaml:
+
+#+begin_src yaml
+  inputs:
+    nur-packages:
+      url: github:takeokunn/nur-packages
+#+end_src
+
+devenv.nix:
+
+#+begin_src nix
+  { pkgs, config, inputs, ... }:
+  let
+    pkgs-unstable = import inputs.nixpkgs-unstable { system = pkgs.stdenv.system; };
+  in
+  {
+    packages = with pkgs; [
+      inputs.nur-packages.packages."${pkgs.stdenv.system}".isucrud
+    ];
+  }
+#+end_src
