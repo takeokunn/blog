@@ -8,7 +8,7 @@
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting
 #+HUGO_SECTION: posts/fleeting
-#+HUGO_TAGS: fleeting
+#+HUGO_TAGS: fleeting nix
 #+HUGO_DRAFT: true
 #+STARTUP: content
 #+STARTUP: nohideblocks
@@ -100,9 +100,10 @@ HugoからOGPを動的に吐き出すツールとして [[https://github.com/Lad
 
 ** 3. CIでコケたものを修正
 
-goのversionが合わないというエラーだった。(以下はエラーの抜粋)
+goのversionが合わないというエラーだった。
 
 #+begin_example
+  ---- 中略 ----
   error: builder for '/nix/store/9i29mz8v8dwc6jyy2kxpfbay0sy1xf8r-tcardgen-0.0.1-go-modules.drv' failed with exit code 1;
          last 8 log lines:
          > Running phase: unpackPhase
