@@ -154,7 +154,7 @@ devenv.nix:
   in
   {
     packages = with pkgs; [
-      inputs.nur-packages.packages."${pkgs.stdenv.system}".isucrud
+      inputs.nur-packages.packages."${pkgs.stdenv.system}".tcardgen
     ];
   }
 #+end_src
