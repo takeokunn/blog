@@ -15,7 +15,6 @@
 * はじめに
 
 2024-11-23 Satに行われたvimconf 2024に参加しました。
-
 https://vimconf.org/2024/
 
 * 登壇感想
@@ -364,14 +363,40 @@ https://vimconf.org/2024/sessions/#menu-lightning
 - vim helpの話
   - 色々なhelpの引き方がある
 
-** Joy of no configurations by mimikun
+* 交流など
 
-- TBD
+前日は秋葉原周辺でvimmer達と8人一緒に泊まり、朝一で向かいました。
 
-* 懇親会
+#+begin_export html
+<blockquote class="twitter-tweet"><p lang="qme" dir="ltr"><a href="https://twitter.com/hashtag/vimconf?src=hash&amp;ref_src=twsrc%5Etfw">#vimconf</a> <a href="https://t.co/DUP3ChI5rK">pic.twitter.com/DUP3ChI5rK</a></p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1860126408225525774?ref_src=twsrc%5Etfw">November 23, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+#+end_export
 
-TBD
+
+昼飯は今半のすき焼弁当で余ってたので2つ食べました。
+
+#+begin_export html
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">めちゃうまい弁当でした！ <a href="https://twitter.com/hashtag/vimconf?src=hash&amp;ref_src=twsrc%5Etfw">#vimconf</a> <a href="https://t.co/GdajLOoEwm">pic.twitter.com/GdajLOoEwm</a></p>&mdash; Conao3 (@conao_3) <a href="https://twitter.com/conao_3/status/1860161245820911821?ref_src=twsrc%5Etfw">November 23, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+#+end_export
+
+また、tadsanとvim-jpラジオの写真を取りました。
+
+#+begin_export html
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">ご期待ください <a href="https://twitter.com/hashtag/vimconf?src=hash&amp;ref_src=twsrc%5Etfw">#vimconf</a> <a href="https://t.co/11zkua4BEI">pic.twitter.com/11zkua4BEI</a></p>&mdash; にゃんだーすわん (@tadsan) <a href="https://twitter.com/tadsan/status/1860170503971045786?ref_src=twsrc%5Etfw">November 23, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+#+end_export
+
+懇親会ではvim-jpの人達と交流できたので大満足でした。
+
+特にShougoさんとテキストエディタの思想について交流できたのは個人的には大きかったです。
+タイル型VMを使う理由、OSに対しての感覚、AstroNvimのようなフルスクラッチなnvimについての感覚などかねてから聞きたかったことが聞けました。
+また、Shougoさんにはかねてからライブコーディングをしてもらいたいとお願いしてた夢が叶いました。
+
+また、Emacsの話をいっぱい出来ました。
+ゴリラvimと東京Emacs勉強会コラボとNix Meetupコラボしましょうという話もしました。
+
+#+begin_export html
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">実質emacsconfでした <a href="https://t.co/zY7RMle8M3">pic.twitter.com/zY7RMle8M3</a></p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1860288058618445989?ref_src=twsrc%5Etfw">November 23, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+#+end_export
 
 * 終わりに
 
-TBD
+本当に充実したVimConfだった。最高すぎる。
