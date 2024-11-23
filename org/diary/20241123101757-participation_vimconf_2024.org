@@ -206,3 +206,35 @@ https://docs.google.com/presentation/d/15QvYTshQ7n7S4MbQUSUN7aHB_d4P1hLlO9E-1-GV
 - 将来性
   - プロジェクト内のコードを使って生成する
   - UI体験を考える
+
+** Creating the Vim Version of VSCode Dev Container Extension: Why and How by mikoto2000
+
+- VSCodeのdevContainerについて
+  - VSCode Server解説
+    - devcontainers/cli
+- devcontainer.vim解説
+- 弱点
+  - yank問題など
+    - clipboard data receiverを作ってTCPでやりとりする
+- まとめ
+  - vim integrationツールを作れる
+
+** Neovim for Frontend Developers: Boosting Productivity and Creativity by ryoppippi
+
+トークがうますぎる。
+
+- エディタ遍歴
+  - VSCodeのVim Pluginから始めてNeovim
+- VSCodeについて
+  - 世界一人気だけど設定できない
+- Neovimの良い所
+  - hackable
+- モダンwebフロントエンドのNeovim
+  - 色々な言語やツールがあって大変
+- ライブコーディング
+  - vim pluginの紹介など
+  - コーディング
+  - テストインテグレーション
+  - ファイル管理
+- 結論
+  - Neovim使おう
