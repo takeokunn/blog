@@ -18,9 +18,9 @@
 
 https://vimconf.org/2024/
 
-* 登壇
+* 登壇メモ
 
-英語の登壇もあったので聞き逃した所もあるが登壇メモを書いておく。
+英語の登壇であること、前日はしゃいで睡眠不足あったので聞き逃した所もあるが登壇メモを書いておく。
 
 ** Keynote - The new Vim project - What has changed after Bram by Christian Brabandt
 
@@ -80,6 +80,8 @@ vim本体のコードの引き継ぎも大変だけど、それ以外の引き�
     - ソースコードに馴染んできた時にパッチを送ると良い
 
 ** Keynote - (Neo)Vim Made Me a Better Software Developer by TJ DeVries
+
+Neovimの話というよりは仕事のやり方に通じるものだった。
 
 - 自己紹介
   - neovimとtelescopeのcontributor
@@ -154,6 +156,8 @@ QuickfixはEmacsで言うところのembarkのような機能らしい。
 
 ** Hacking Vim script by kato
 
+Vimに関数を生やす話。php-srcと似てたので理解しやすかった。
+
 - Vimのソースコードを手元に落とす
 - ctagsでタグを作る
   - これで定義ジャンプできるようになる
@@ -180,6 +184,8 @@ QuickfixはEmacsで言うところのembarkのような機能らしい。
 資料
 https://docs.google.com/presentation/d/15QvYTshQ7n7S4MbQUSUN7aHB_d4P1hLlO9E-1-GVC6Y/edit?usp=sharing
 
+私はEmacsだと [[https://github.com/bbatsov/projectile][projectile]] を使ってる
+
 - プロジェクトの切り替えについて
   - インフラプロジェクトとアプリケーションプロジェクトの切り替えをどうする?
     - sessionの管理どうしよう
@@ -190,6 +196,8 @@ https://docs.google.com/presentation/d/15QvYTshQ7n7S4MbQUSUN7aHB_d4P1hLlO9E-1-GV
   - shada
 
 ** Vim meets Local LLM: Edit Text beyond the Speed of Thought by yuys13
+
+ellamaを使ってる身としては興味深かった。Emacsの小ネタも入れてくれて嬉しい。
 
 - LLMでコードを生成する話
 - 何故Local LLMなのか
@@ -209,6 +217,8 @@ https://docs.google.com/presentation/d/15QvYTshQ7n7S4MbQUSUN7aHB_d4P1hLlO9E-1-GV
 
 ** Creating the Vim Version of VSCode Dev Container Extension: Why and How by mikoto2000
 
+devContainer使ったことがなかったのでかなりイメージがついて良かった。
+
 - VSCodeのdevContainerについて
   - VSCode Server解説
     - devcontainers/cli
@@ -221,7 +231,7 @@ https://docs.google.com/presentation/d/15QvYTshQ7n7S4MbQUSUN7aHB_d4P1hLlO9E-1-GV
 
 ** Neovim for Frontend Developers: Boosting Productivity and Creativity by ryoppippi
 
-トークがうますぎる。
+トークがうますぎる。お前がナンバーワンや!!!
 
 - エディタ遍歴
   - VSCodeのVim Pluginから始めてNeovim
@@ -238,3 +248,77 @@ https://docs.google.com/presentation/d/15QvYTshQ7n7S4MbQUSUN7aHB_d4P1hLlO9E-1-GV
   - ファイル管理
 - 結論
   - Neovim使おう
+
+** Building Neovim Plugins: A Journey from Novice to Pro by 2KAbhishek
+
+=Tips for Plugin Authors= すごい良い話をしてた。
+
+- Neovim遍歴
+  - 色々pluginを作ってきた話
+- 何故Pluginを開発するのか
+  - Boost Productivity
+  - Make Your Own Tools
+  - Enhance Integration
+  - Empower the Community
+- Plugin開発周りの話
+  - helpやcommentをちゃんと書く
+  - Advanced Plugin
+    - Async API
+    - Integration tools(e.g. docker)
+    - robust UI
+    - tree-sitter/lsp
+  - Tips for Plugin Authors
+    - 自分が0番目のユーザ、ドキュメント化する、自動テストをする、パフォーマンスに気をつける、ユーザ設定を尊重する、シェアしてケアする
+
+** Can't Help Falling in Vim ~ Wise men say only fools reinvent the wheel, but I can't help building yet another fuzzy finder: Fall by Λlisue
+
+またFuzzy Finderか!!!
+
+- Fuzzy Finderとは
+  - FuzzyにFindするもの
+- Fuzzy Finder/Tree Viewerの違い
+  - Fuzzy finder
+    - fast filering
+    - partial knowlegdge
+  - tree viewer
+    - quick
+    - ...
+- Fuzzy finder歴史
+  - 2007年 FuzzyFinder star: 257
+  - 2010年 unite.vim star: 2900
+  - 2011年 ctrlp.vim star: 2011
+  - 2015年: fzf.vim star: 9600
+  - 2016年: denite.nvim start: 2100
+  - 2018年: fzf-preview.vim star: 909
+  - 2020年: telescope.nvim star: 15500
+  - 2021年: ddu.vim star: 292
+  - 2024年: Fall star: 30
+- Fall Main Feature
+  - Vim/Neovimサポート
+  - 本当に必要なものだけに注力
+  - プログラマフレンドリー
+- Vim/Neovimサポート
+  - 両方サポートしてるPlugin少ない
+  - Floating UIサポート
+  - denops使ってる
+- 本当に必要なものだけに注力
+  - modeless UI
+  - 「忘れるべくして生まれてきた」
+  - Switch behaviors
+    - シームレスに切り替えることができる
+  - submatch to refine
+  - Latency over throughput
+- プログラマフレンドリー
+  - TypeScriptで記述できる
+  - extension開発ができる
+  - TS moduleとして配布できる
+- 結論
+  - Fall is venry
+
+* 懇親会
+
+TBD
+
+* 終わりに
+
+TBD
