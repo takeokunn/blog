@@ -82,7 +82,7 @@ vim本体のコードの引き継ぎも大変だけど、それ以外の引き�
 ** Keynote - (Neo)Vim Made Me a Better Software Developer by TJ DeVries
 *** 一言
 Neovimの話というよりは仕事のやり方に通じるものだった。
-
+youtuberっぽい警戒なトークで面白すぎた。
 *** 内容メモ
 - 自己紹介
   - neovimとtelescopeのcontributor
