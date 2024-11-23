@@ -130,3 +130,24 @@ vim本体のコードの引き継ぎも大変だけど、それ以外の引き�
   - playgroundを作る
   - Neovimのだけじゃなくてとにかく試す機会を増やす
 - Make it * vim
+
+** Mastering Quickfix by daisuzu
+
+QuickfixはEmacsで言うところのembarkのような機能らしい。
+
+- Quickfixについて解説
+  - Basic Operation
+    - List Creation
+    - Managing quickfix window
+    - Jumping
+  - History Listについて
+  - Customizing Quickfixについて
+    - grep programを指定できる
+  - Batch Operation
+    - =:cdo= , =:cfdo= がある
+  - Saving and loading quickfix lsits
+  - Automating with macros
+  - Real-World Example
+    - 「エディタの達人」の時便利らしい
+  - THe Essence of Vim Mastery
+    - Vimの語彙を増やしてMasterしよう
