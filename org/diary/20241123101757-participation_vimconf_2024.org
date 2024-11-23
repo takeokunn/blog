@@ -181,13 +181,15 @@ Vimに関数を生やす話。php-srcと似てたので理解しやすかった�
   - stack machine VM説明
 
 ** Switch between projects like a Ninja by Yuki Ito
-*** 一言
+*** 資料
 
-資料
 https://docs.google.com/presentation/d/15QvYTshQ7n7S4MbQUSUN7aHB_d4P1hLlO9E-1-GVC6Y/edit?usp=sharing
 
-*** 内容メモ
+*** 一言
+
 私はEmacsだと [[https://github.com/bbatsov/projectile][projectile]] を使ってる
+
+*** 内容メモ
 
 - プロジェクトの切り替えについて
   - インフラプロジェクトとアプリケーションプロジェクトの切り替えをどうする?
