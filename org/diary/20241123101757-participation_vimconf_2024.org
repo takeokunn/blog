@@ -19,6 +19,9 @@
 https://vimconf.org/2024/
 
 * 登壇
+
+英語の登壇もあったので聞き逃した所もあるが登壇メモを書いておく。
+
 ** Keynote - The new Vim project - What has changed after Bram by Christian Brabandt
 
 vim projectを引き継ぐにあたって大変なことについて。
@@ -77,6 +80,53 @@ vim本体のコードの引き継ぎも大変だけど、それ以外の引き�
     - ソースコードに馴染んできた時にパッチを送ると良い
 
 ** Keynote - (Neo)Vim Made Me a Better Software Developer by TJ DeVries
-** Mastering Quickfix by daisuzu
-** Hacking Vim script by Kota Kato
-** Switch between projects like a Ninja by Yuki Ito
+
+- 自己紹介
+  - neovimとtelescopeのcontributor
+- より良いソフトウェア開発者の定義
+  - 指標がむずかしい
+    - お金とかでは測れない
+  - Leetcodeがうまいとかではない
+  - 一緒に開発してる人が喜んでくれるかどうか、作ったものを楽しんで使ってくれるかどうか
+- Goal
+  - vimとinteractionをとる方法
+  - vimがなんでワクワクするか、他の人にどう伝えるか
+- No, Please No.
+  - It's written in C, so it must be fast!
+  - HA! YOU USE A BROWSER TO EDIT TEXT!!
+  - Only noobs use VS C*de
+  - It looks cool in the coffee shop/interviews
+- Yes, But No.
+  - Better than "C IS FAST!!"
+  - テキスト編集
+    - neovimの方が早いだとかどういうことは言わない
+  - Plugins
+    - 問題解決にならなければ意味がない
+- Yes, But (Just Barely) No
+  - OSSは優れているが、全てを再現するのが難しい
+  - Joy
+    - プログラミングはキャリアの中でやってる
+      - マラソンに参加してるようなもの
+    - Neovimを使って色々なことを改善できる
+      - 1%の改善でも長くやってれば大きな差になる
+    - Personalized Development Enviroment(PDE)
+- Yes
+  - Epicが最初のキャリア
+    - Fortniteではなく、医療系システム
+    - Life always has tradeodff
+    - やる気がとても大事なので自分ごとにして取り組む
+      - 自分のためのものを作る、なにがほしいのかがわかるというのは素晴らしいことである
+      - 自分が使って「気持ち悪い」という感覚をもつ
+      - 本番環境 = 自分のマシン
+    - 練習が大事
+- Prictice
+  - ビジョンを明確にする
+  - デバッグをうまくやる
+  - シンプルさを保つ
+  - 他の人と強調する
+  - コミュニケーションする
+  - iterationスピードを上げる
+- Confession
+  - playgroundを作る
+  - Neovimのだけじゃなくてとにかく試す機会を増やす
+- Make it * vim
