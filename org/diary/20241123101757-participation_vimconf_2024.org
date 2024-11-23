@@ -8,7 +8,7 @@
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: diary
 #+HUGO_SECTION: posts/diary
-#+HUGO_TAGS: fleeting
+#+HUGO_TAGS: diary vimconf
 #+HUGO_DRAFT: false
 #+STARTUP: content
 #+STARTUP: fold
