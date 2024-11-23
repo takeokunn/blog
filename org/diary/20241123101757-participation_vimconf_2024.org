@@ -9,7 +9,7 @@
 #+HUGO_CATEGORIES: diary
 #+HUGO_SECTION: posts/diary
 #+HUGO_TAGS: fleeting
-#+HUGO_DRAFT:
+#+HUGO_DRAFT: false
 #+STARTUP: content
 #+STARTUP: fold
 * はじめに
