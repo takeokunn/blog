@@ -151,3 +151,58 @@ QuickfixはEmacsで言うところのembarkのような機能らしい。
     - 「エディタの達人」の時便利らしい
   - THe Essence of Vim Mastery
     - Vimの語彙を増やしてMasterしよう
+
+** Hacking Vim script by kato
+
+- Vimのソースコードを手元に落とす
+- ctagsでタグを作る
+  - これで定義ジャンプできるようになる
+- 関数実装
+  - C言語で関数を実装する
+  - 関数の定義をglobal_functionsに定義する
+    - 辞書順にsortされた所に入れる
+    - 入力補完には出てくるのに実行時に解決できないことがある
+  - =f_debug()= を実装してみる
+    - src/evalfunc.c
+    - =f_max_argc= や =f_argccheck= などの説明など
+- デバッガ
+  - gdbを使えるし、termdebugがある
+  - =git blame= 便利
+- 実行までの流れ
+  - ASTを作って式の評価など
+  - GCの話
+- Vim9 Scriptについて
+  - stack machineにコンパイルされる
+  - stack machine VM説明
+
+** Switch between projects like a Ninja by Yuki Ito
+
+資料
+https://docs.google.com/presentation/d/15QvYTshQ7n7S4MbQUSUN7aHB_d4P1hLlO9E-1-GVC6Y/edit?usp=sharing
+
+- プロジェクトの切り替えについて
+  - インフラプロジェクトとアプリケーションプロジェクトの切り替えをどうする?
+    - sessionの管理どうしよう
+- Vim SessionについてDeepDive
+  - vimにも =mksession= がある
+  - sessionの実装について
+- Advancedな使い方について
+  - shada
+
+** Vim meets Local LLM: Edit Text beyond the Speed of Thought by yuys13
+
+- LLMでコードを生成する話
+- 何故Local LLMなのか
+  - 仕事でAIにコードを送るのがダメになりがち
+  - Local LLMだと利用用途が広がる
+- Ollama導入
+  - =$ ollama pull tinyllama=
+  - curlで叩く実例
+- 仕組み解説
+  - FIM(Fill in the Middle)
+  - FIMのAPI経由で検証
+- Vimとの繋ぎ込み
+  - Plugin実装の話
+- 将来性
+  - プロジェクト内のコードを使って生成する
+  - UI体験を考える
