@@ -23,10 +23,10 @@ https://vimconf.org/2024/
 英語の登壇であること、前日はしゃいで睡眠不足あったので聞き逃した所もあるが登壇メモを書いておく。
 
 ** Keynote - The new Vim project - What has changed after Bram by Christian Brabandt
-
+*** 一言
 vim projectを引き継ぐにあたって大変なことについて。
 vim本体のコードの引き継ぎも大変だけど、それ以外の引き継ぎも大変だったという話。
-
+*** 内容メモ
 - Bramが超人すぎて引き継ぎ量が多い
 - git repoの引き継ぎ
   - 権限周りや新しいメンテナの招待
@@ -80,9 +80,10 @@ vim本体のコードの引き継ぎも大変だけど、それ以外の引き�
     - ソースコードに馴染んできた時にパッチを送ると良い
 
 ** Keynote - (Neo)Vim Made Me a Better Software Developer by TJ DeVries
-
+*** 一言
 Neovimの話というよりは仕事のやり方に通じるものだった。
 
+*** 内容メモ
 - 自己紹介
   - neovimとtelescopeのcontributor
 - より良いソフトウェア開発者の定義
@@ -134,9 +135,9 @@ Neovimの話というよりは仕事のやり方に通じるものだった。
 - Make it * vim
 
 ** Mastering Quickfix by daisuzu
-
+*** 一言
 QuickfixはEmacsで言うところのembarkのような機能らしい。
-
+*** 内容メモ
 - Quickfixについて解説
   - Basic Operation
     - List Creation
@@ -155,9 +156,9 @@ QuickfixはEmacsで言うところのembarkのような機能らしい。
     - Vimの語彙を増やしてMasterしよう
 
 ** Hacking Vim script by kato
-
+*** 一言
 Vimに関数を生やす話。php-srcと似てたので理解しやすかった。
-
+*** 内容メモ
 - Vimのソースコードを手元に落とす
 - ctagsでタグを作る
   - これで定義ジャンプできるようになる
@@ -180,10 +181,12 @@ Vimに関数を生やす話。php-srcと似てたので理解しやすかった�
   - stack machine VM説明
 
 ** Switch between projects like a Ninja by Yuki Ito
+*** 一言
 
 資料
 https://docs.google.com/presentation/d/15QvYTshQ7n7S4MbQUSUN7aHB_d4P1hLlO9E-1-GVC6Y/edit?usp=sharing
 
+*** 内容メモ
 私はEmacsだと [[https://github.com/bbatsov/projectile][projectile]] を使ってる
 
 - プロジェクトの切り替えについて
@@ -196,9 +199,9 @@ https://docs.google.com/presentation/d/15QvYTshQ7n7S4MbQUSUN7aHB_d4P1hLlO9E-1-GV
   - shada
 
 ** Vim meets Local LLM: Edit Text beyond the Speed of Thought by yuys13
-
+*** 一言
 ellamaを使ってる身としては興味深かった。Emacsの小ネタも入れてくれて嬉しい。
-
+*** 内容メモ
 - LLMでコードを生成する話
 - 何故Local LLMなのか
   - 仕事でAIにコードを送るのがダメになりがち
@@ -216,9 +219,9 @@ ellamaを使ってる身としては興味深かった。Emacsの小ネタも入
   - UI体験を考える
 
 ** Creating the Vim Version of VSCode Dev Container Extension: Why and How by mikoto2000
-
+*** 一言
 devContainer使ったことがなかったのでかなりイメージがついて良かった。
-
+*** 内容メモ
 - VSCodeのdevContainerについて
   - VSCode Server解説
     - devcontainers/cli
@@ -230,9 +233,9 @@ devContainer使ったことがなかったのでかなりイメージがつい�
   - vim integrationツールを作れる
 
 ** Neovim for Frontend Developers: Boosting Productivity and Creativity by ryoppippi
-
+*** 一言
 トークがうますぎる。お前がナンバーワンや!!!
-
+*** 内容メモ
 - エディタ遍歴
   - VSCodeのVim Pluginから始めてNeovim
 - VSCodeについて
@@ -250,9 +253,9 @@ devContainer使ったことがなかったのでかなりイメージがつい�
   - Neovim使おう
 
 ** Building Neovim Plugins: A Journey from Novice to Pro by 2KAbhishek
-
+*** 一言
 =Tips for Plugin Authors= すごい良い話をしてた。
-
+*** 内容メモ
 - Neovim遍歴
   - 色々pluginを作ってきた話
 - 何故Pluginを開発するのか
@@ -271,9 +274,9 @@ devContainer使ったことがなかったのでかなりイメージがつい�
     - 自分が0番目のユーザ、ドキュメント化する、自動テストをする、パフォーマンスに気をつける、ユーザ設定を尊重する、シェアしてケアする
 
 ** Can't Help Falling in Vim ~ Wise men say only fools reinvent the wheel, but I can't help building yet another fuzzy finder: Fall by Λlisue
-
+*** 一言
 またFuzzy Finderか!!!
-
+*** 内容メモ
 - Fuzzy Finderとは
   - FuzzyにFindするもの
 - Fuzzy Finder/Tree Viewerの違い
@@ -315,6 +318,11 @@ devContainer使ったことがなかったのでかなりイメージがつい�
 - 結論
   - Fall is venry
 
+** The latest dark deno powered plugins by Shougo Matsushita
+*** 一言
+テキストエディタ、つまりこの世の全てが話されていた。
+*** 内容メモ
+「VimはOS/シェル/ターミナルである」「VimはEmacs(のようなアプリケーションプラットフォーム)である」「Vimは全てである」
 * 懇親会
 
 TBD
