@@ -1,0 +1,82 @@
+:PROPERTIES:
+:ID:       40715FC3-CDA5-4450-BDFB-E185A17980B8
+:END:
+#+TITLE: VimConf2024 参加記
+#+AUTHOR: takeokunn
+#+DESCRIPTION: description
+#+DATE: 2024-11-23T10:18:02+0900
+#+HUGO_BASE_DIR: ../../
+#+HUGO_CATEGORIES: diary
+#+HUGO_SECTION: posts/diary
+#+HUGO_TAGS: fleeting
+#+HUGO_DRAFT:
+#+STARTUP: content
+#+STARTUP: fold
+* はじめに
+
+2024-11-23 Satに行われたvimconf 2024に参加しました。
+
+https://vimconf.org/2024/
+
+* 登壇
+** Keynote - The new Vim project - What has changed after Bram by Christian Brabandt
+
+vim projectを引き継ぐにあたって大変なことについて。
+vim本体のコードの引き継ぎも大変だけど、それ以外の引き継ぎも大変だったという話。
+
+- Bramが超人すぎて引き継ぎ量が多い
+- git repoの引き継ぎ
+  - 権限周りや新しいメンテナの招待
+- vim.org のホームページ引き継ぎ
+  - php5/7とか古いバージョン
+  - DBやらドメインやら
+- Emailアカウント周り
+- Google Groupを使ってる
+  - 正直イマイチなのでどうしたものか
+- セキュリティレポート
+  - [[https://huntr.com/bounties/63f51299-008a-4112-b85b-1e904aadd4ba][Huntr]]
+  - GitHub security advisory
+  - private mailing list
+- [[https://iccf-holland.org/
+][ICCF]]
+  - まだ動いてるし、変えずにやっていく
+  - [[https://www.vim.org/sponsor/vote_results.php
+][voting feature]] は廃止
+- 開発進捗
+  - Development did not stop
+  - Vim9 classサポート
+  - XDGサポート/Editorconfigサポート/Waylandサポート
+  - BC Breakが起きないように十分にテストをする
+- コミュニティにとって何が重要か
+  - e.g. IDEっぽいことができた方が良いか、エディタのままでいいか
+  - e.g. Vim9は楽しいかどうか等
+- 開発者に求めてること
+  - 安全なC関数を使う
+  - CIを通してカバレッジの確認をするなど
+  - 管理しやすいようにリファクタリングをする
+- 何を改善すべきか
+  - GUI(GTK4)などのサポートを向上させるかどうか
+  - Tree-sitterサポートするかどうか
+- 結論
+  - Vimメンテナンスは大変
+  - コミュニティを健全性を維持したい
+- 質疑応答
+  - NeovimとVimは相互に協力して開発を進めていきたい
+  - Vimにコントリビューションを始める方法を教えてほしい
+    - ドキュメントなど全ての貢献に感謝してる
+    - Vim scriptのC言語を読めば良い
+  - 貴方が独裁者になってない?
+    - 自分が休暇中は他の人がmerge作業をしてる
+    - コミュニティの意向を尊重してmergeしてる
+  - 言語の壁でも越えるのが大変だけどどうしてる?
+    - 英語でコミュニケーションしかできない
+    - メンテナは各国にいるので英語がコミュニケーションの言語になってる
+  - 初心者に対してどういうことを期待してる?
+    - まず日本のコミュニティに繋がることから始めると良い
+    - 他の人から学ぶ、バグレポートから始めたり、ソースコードをチェックしてどう変更されたのか確認する、テストをする
+    - ソースコードに馴染んできた時にパッチを送ると良い
+
+** Keynote - (Neo)Vim Made Me a Better Software Developer by TJ DeVries
+** Mastering Quickfix by daisuzu
+** Hacking Vim script by Kota Kato
+** Switch between projects like a Ninja by Yuki Ito
