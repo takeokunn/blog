@@ -15,11 +15,13 @@
 * はじめに
 
 2024-11-23 Satに行われたvimconf 2024に参加しました。
+
 https://vimconf.org/2024/
 
 * 登壇感想
 
 英語の登壇であること、前日はしゃいで睡眠不足あったので聞き逃した所もあるが登壇メモを書いておく。
+
 https://vimconf.org/2024/sessions/
 
 ** Keynote - The new Vim project - What has changed after Bram by Christian Brabandt
@@ -40,11 +42,9 @@ vim本体のコードの引き継ぎも大変だけど、それ以外の引き�
   - [[https://huntr.com/bounties/63f51299-008a-4112-b85b-1e904aadd4ba][Huntr]]
   - GitHub security advisory
   - private mailing list
-- [[https://iccf-holland.org/
-][ICCF]]
+- [[https://iccf-holland.org/][ICCF]]
   - まだ動いてるし、変えずにやっていく
-  - [[https://www.vim.org/sponsor/vote_results.php
-][voting feature]] は廃止
+  - [[https://www.vim.org/sponsor/vote_results.php][voting feature]] は廃止
 - 開発進捗
   - Development did not stop
   - Vim9 classサポート
@@ -326,6 +326,7 @@ devContainer使ったことがなかったのでかなりイメージがつい�
 * LT感想
 
 疲れてきてメモ量が少なくなってしまった。
+
 https://vimconf.org/2024/sessions/#menu-lightning
 
 ** .vimrc and my belief about it by omochice
@@ -398,5 +399,4 @@ https://vimconf.org/2024/sessions/#menu-lightning
 #+end_export
 
 * 終わりに
-
-本当に充実したVimConfだった。最高すぎる。
+本当に充実したVimConfだった。最高だった。
