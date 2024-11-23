@@ -18,9 +18,10 @@
 
 https://vimconf.org/2024/
 
-* 登壇メモ
+* 登壇感想
 
 英語の登壇であること、前日はしゃいで睡眠不足あったので聞き逃した所もあるが登壇メモを書いておく。
+https://vimconf.org/2024/sessions/
 
 ** Keynote - The new Vim project - What has changed after Bram by Christian Brabandt
 *** 一言
@@ -323,6 +324,50 @@ devContainer使ったことがなかったのでかなりイメージがつい�
 テキストエディタ、つまりこの世の全てが話されていた。
 *** 内容メモ
 「VimはOS/シェル/ターミナルである」「VimはEmacs(のようなアプリケーションプラットフォーム)である」「Vimは全てである」
+* LT感想
+
+疲れてきてメモ量が少なくなってしまった。
+https://vimconf.org/2024/sessions/#menu-lightning
+
+** .vimrc and my belief about it by omochice
+
+- vimは趣味から仕事のツールに変化した
+  - vimと外部APIとの繋ぎ込みを考えることが増えた
+  - 他の人のvimrcを読む機会が増えた
+- 変わらなかったこと
+  - 自分の思考を妨げない、最新のものを使う、明示的に書く
+
+** Plugin dependecny management wih nix by kuuote
+
+- 外部依存を管理するならNix
+- Nix is All You Need
+  - https://zenn.dev/natsukium/articles/b4899d7b1e6a9a
+
+** Develop iOS apps with Neovim by uhooi
+
+- DAPの説明
+- neovim pluginは以下をメインで使ってる
+  - xcodebuild.nvim
+  - nvim-dap, nvim-dap-ui
+
+** Future-Proof Your Vim plugins: Strategies for Robust Testing
+
+- テスト書いてると色々支障が出る、vimでも同じ
+- テストフレームワーク選定
+  - shellから叩けるか
+  - 環境依存を減らしたい
+  - 依存プラグインも入れられる
+- [[https://github.com/thinca/vim-themis][thinca/vim-themis]] を使うと良い
+
+** Tips for natvigating and Exploring Vim's Help by Satoru Kitaguchi
+
+- vim helpの話
+  - 色々なhelpの引き方がある
+
+** Joy of no configurations by mimikun
+
+- TBD
+
 * 懇親会
 
 TBD
