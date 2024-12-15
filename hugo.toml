@@ -7,6 +7,9 @@ enableEmoji = true
 ignoreErrors = ["additional-script-loading-error"]
 theme = "hugo-take-theme"
 
+[params]
+DateForm = "2006.1.2"
+
 [services]
 [services.googleAnalytics]
 id = '' # G-MEASUREMENT_ID
