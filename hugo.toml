@@ -12,7 +12,7 @@ DateForm = "2006.1.2"
 
 [services]
 [services.googleAnalytics]
-id = '' # G-MEASUREMENT_ID
+id = 'UA-135483596-1'
 
 [markup]
 [markup.highlight]
@@ -25,6 +25,9 @@ unsafe = true
 startLevel = 2
 endLevel = 4
 ordered = true
+
+[taxonomies]
+tag = "tags"
 
 [Languages.ja-jp]
 languageName = "Japanese"
