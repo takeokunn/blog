@@ -1,0 +1,33 @@
+title = "takeokunn's blog"
+baseURL = 'https://www.takeokunn.org/'
+
+defaultContentLanguage = "ja-jp"
+
+enableEmoji = true
+ignoreErrors = ["additional-script-loading-error"]
+theme = "hugo-take-theme"
+
+[services]
+[services.googleAnalytics]
+id = '' # G-MEASUREMENT_ID
+
+[markup]
+[markup.highlight]
+noClasses = true
+
+[markup.goldmark.renderer]
+unsafe = true
+
+[markup.tableOfContents]
+startLevel = 2
+endLevel = 4
+ordered = true
+
+[Languages.ja-jp]
+languageName = "Japanese"
+languageCode = "ja-jp"
+contentDir = "content/"
+
+[Languages.ja-jp.params]
+mainSections = ['posts']
+dateFormat = "2 May 2023"
