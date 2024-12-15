@@ -10,34 +10,7 @@ Using [[https://github.com/takeokunn/hugo-take-theme][takeokunn/hugo-take-theme]
 
 Also publish to [[https://zenn.dev/][Zenn]] by [[https://github.com/conao3/ox-zenn.el][ox-zenn]].
 
-** Build locally
-
-generate Org-Roam to Markdown:
-
-#+begin_src shell
-  emacs --batch --load scripts/ox-roam.el --funcall export-org-roam-files
-#+end_src
-
-generate OGP:
-
-#+begin_src shell
-  tcardgen --fontDir=tcardgen/font --output=static/ogp --config=tcardgen/ogp.yml content/posts/**/*.md
-#+end_src
-
-run Hugo server:
-
-#+begin_src shell
-  hugo server
-#+end_src
-
 ** Update theme
 #+begin_src shell :results output none
    git submodule update --remote --recursive
-#+end_src
-** Generate for Zenn
-
-generate Org-Zenn to Markdown:
-
-#+begin_src shell
-  emacs --batch --load scripts/ox-zenn.el --funcall export-org-zenn-files
 #+end_src
