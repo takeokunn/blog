@@ -40,8 +40,6 @@
                   sentence-length = false;
                   no-doubled-joshi = false;
                 };
-                # preset-ja-spacing = true;
-                # preset-jtf-style = true;
                 prh = {
                   rulePaths = [
                     "${pkgs.textlint-rule-prh}/lib/node_modules/textlint-rule-prh/node_modules/prh/prh-rules/media/WEB+DB_PRESS.yml"
@@ -61,8 +59,6 @@
                     textlint-rule-write-good
                     textlint-plugin-org
                     nur-pkgs.textlint-rule-preset-japanese
-                    # nur-pkgs.textlint-rule-preset-ja-spacing
-                    # nur-pkgs.textlint-rule-preset-jtf-style
                   ])
                 ];
 
