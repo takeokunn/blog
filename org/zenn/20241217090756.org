@@ -5,17 +5,17 @@
 #+AUTHOR: takeokunn
 #+DESCRIPTION: description
 #+DATE: 2024-12-17T09:08:03+0900
-#+GFM_TAGS: emacs
-#+GFM_CUSTOM_FRONT_MATTER: :emoji 💪
+#+GFM_TAGS: isucon iscuon14
+#+GFM_CUSTOM_FRONT_MATTER: :emoji 😶‍🌫️
 #+GFM_CUSTOM_FRONT_MATTER: :type idea
-#+GFM_CUSTOM_FRONT_MATTER: :published false
+#+GFM_CUSTOM_FRONT_MATTER: :published true
 #+STARTUP: content
 #+STARTUP: fold
 #+OPTIONS: ^:nil
 #+OPTIONS: toc:nil
 * Introduction
 
-この記事は、[[https://qiita.com/advent-calendar/2024/openlogi][OPENLOGI Advent Calendar 2024]] の17日目の記事です。
+この記事は、[[https://qiita.com/advent-calendar/2024/openlogi][OPENLOGI Advent Calendar 2024]] の20日目の記事です。
 
 ISUCON14にチームOL001のインフラ担当として参加してきました。
 
@@ -25,17 +25,34 @@ ISUCON14にチームOL001のインフラ担当として参加してきました�
 
 * 関連記事
 
-- ISUCON14
+- ISUCON公式
+  - [[https://isucon.net/archives/58818382.html][ISUCON14 まとめ]]
+  - [[https://isucon.net/archives/58835757.html][ISUCON14 関連エントリまとめ]]
+  - [[https://isucon.net/archives/58837992.html][ISUCON14 受賞チームおよび全チームスコア]]
+  - [[https://isucon.net/archives/58847057.html][ISUCON14 参加チームとメンバーリスト]]
+  - [[https://isucon.net/archives/58860420.html][ISUCON14 感想戦&お試し期間(〜1/17)]]
+  - [[https://isucon.net/archives/58847106.html][ISUCON14 利用言語比率と言語別TOP10チーム]]
+- ISUCON14 OL001
   - [[https://zenn.dev/nokoy/articles/6b08378f74c6fe][ISUCON14にチームOL001として参加しました(アプリケーション編)]]
-- ISUCON13
+- ISUCON13 OL001
   - [[https://zenn.dev/nokoy/articles/baed50e2a28bfa][ISUCON13にチームOL001として参加しました(アプリケーション編)]]
   - [[https://zenn.dev/takeokunn/articles/20231212144218][ISUCON13にチームOL001として参加しました(インフラ編)]]
+
+* ISUCONとは
+
+ISUCONとは =いい感じにスピードアップコンテスト= というパフォーマンスチューニング大会です。
+
+競技時間は8時間、運営からEC2サーバをN台（N=3のことがほとんど）与えらえ、EC2内に入っているソースコードやミドルウェアを改善するオンラインゲームです。
+
+運営側が用意しているベンチマーカーを回すことによってスコアを出すことができ、競技終了前にEC2をすべて再起動して最後に回したEC2サーバに対してベンチマーカーを回して最終スコアを出しています。
+
+言語は =Node.js/Ruby/Python/Rust/PHP/Perl= から選べ、DBなどのミドルウェアだいたいMySQLだが、開始するまで何が動いているのか分かりません。
 
 * チームメンバー
 
 昨年同様、同僚の @noko がチケット争奪戦に勝ったので参加できました。
 
-去年と同じメンバーで社内でも同じ開発チームなのでコミュニケーションはスムーズに進みました。
+去年と同じメンバーで、社内でも同じ開発チームなのでコミュニケーションはスムーズに進みました。
 
 | 名前        | 役割           | 参加経験 |
 |------------+---------------+--------|
@@ -45,22 +62,36 @@ ISUCON14にチームOL001のインフラ担当として参加してきました�
 
 * 目標
 
-ISUCON13の反省を踏まえて、今年は以下の3つの目標を立てました。
+去年のISUCON13の反省を踏まえて、今年は以下の3つの目標を立てました。
 
-** TODO 事前の手順書を洗練させ、アプリケーション担当が改善に集中できる体制作りを強化する
+** どのような形であれ確実に提出し失格にならないようにする
 
-- ISUCON13ではenv回りの扱いや初期構築で改善を阻害してしまった
-- 手順書に細かいミスが多かったので本番戸惑ってしまった
+[[https://isucon.net/archives/58657116.html][ISUCON14 レギュレーション]] を満たしたうえで、[[https://github.com/isucon/isucon14/blob/main/docs/manual.md?ref=trap.jp][当日マニュアル]] に記載されている「最終スコア」の手順をすべて通過したチームのみランキングに載ることができます。
+どんなに途中良いスコアを出そうと最終で失格になっては何の意味もないので、今年も確実に提出することが目標でした。
 
-** TODO 上位チームと同等のツール選定をする
+** 事前の手順書を洗練させ、アプリケーション担当が改善に集中できる体制作りを強化する
+
+前回は初参加ということもあり、本番に相当あたふたしてしまいました。
+
+- ISUCON13ではenv回りの扱いや初期構築をミスってしまい改善を阻害してしまった
+- 手順書に細かいミスが多かったので本番漏れが生じてしまった
+
+自分の仕事はアプリケーション担当が快適に開発を回せるように準備をするのが仕事だったので、今回は手順書を洗練させてフルに時間を活用できるようにするのが目標でした。
+
+** 上位チームと同等のツール選定をする
+
+前回はとりあえず上位チームが使っていそうなツールを入れて、なんとか開発を回したという反省がありました。
+上位チームと改善環境の差分を可能な限りなくすことによって、アプリケーション改善部分で勝負できるようにしました。
 
 - 上位チームがどういうツール選定をしているのか調べる
 - そのうえで現状使いこなせそうな必要なツールのみに絞る
 
-** TODO サーバ分割方法を用意する
+** サーバ分割方法を用意する
 
-- インフラ担当として大きくスコアを伸ばす為にはサーバ分割しかない
-- nginxでappを2台にしたり、DBシャーディングを調査検討しておく
+インフラ担当が大きくスコアを伸ばすにはサーバ分割をしなければならないということに去年気がついたので、今回は以下の2つをできるように準備しました。
+
+- appを2台にする
+- DBシャーディングをしてDBを2台にする
 
 * 事前練習
 ** 練習時間
@@ -93,60 +124,123 @@ https://x.com/takeokunn/status/1856909009070297415
 ** 個人練習
 *** 手順書最適化
 
-- memo
-  - org-modeをフルに活用した手順書
-  - 上位チームから良さそうな設定を拝借する
+今回は[[https://x.com/conao_3][@conao3]]とEmacsの[[https://orgmode.org/ja/][org-mode]]をフルに使って手順書を作成しました。
+
+https://gist.github.com/takeokunn/002b687d985b5b2af30feeadac892352
+
+- =org-mode= でタスク管理をする
+- =org-tangle= で必要なファイルをプロジェクト内に展開する
+- =org-babel= でEC2にssh keyを展開する
+
+また、今年は自分のPCをすべてNixに移行したので [[https://github.com/mazrean/isucrud][mazrean/isucrud]] をNixでパッケージングしました。
+
+https://github.com/takeokunn/nur-packages
 
 *** ツール選定
 
-- memo
-  - 不要なツールの削除
-    - GitHub Actionsなど
-  - Ansible最適化
-  - before_bench高速化
-    - shell script作成
-  - pprof導入
-    - netdataは結局イマイチという結論になった
-  - 使ってたツール
-    - alp, pt-query-digest, ....
-  - おまけ
-    - nix活用
+以下の対応をしました。
+
+- 不要なツールの削除
+  - 去年はGitHub Actions上でAnsibleを流せるようにしてたけど不要なので削除
+  - Netdataは結局イマイチという結論になった
+- Ansible最適化
+  - 不要な記述の削除
+  - READMEを修正
+- before_bench高速化
+  - shell script作成
+- pprof導入
+
+ツールとしては以下を使いました。
+
+| ツール          | 役割              | memo                    |
+|-----------------+-------------------+-------------------------|
+| alp             | nginx集計         |                         |
+| htop            | メトリクス監視      |                         |
+| gh              | GitHub API Client |                         |
+| sqldef          | DB Schema管理     | 今回は使っていない          |
+| tig             | Git Client        |                         |
+| pt-query-digest | Slow Query        |                         |
+| pprof           | Goプロファイラ     |                         |
+| tbls            | スキーマ可視化      | GitHub Actionsで回している |
+
+どんな構成であれ、MySQLとnginxに移行して改善を回すということを事前に決めていたので、上位チームの秘伝のタレを拝借して事前に準備しておきました。
 
 *** サーバ分割
+サーバ分割をする為に、おおよそ以下の2つの方法があります。
 
-- memo
-  - app分割練習
-  - db分割 シャーディング
+- nginxでappを2台に分割
+  - 特定の重いエンドポイントだけ分ける
+  - ラウンドロビン
+- シャーディングをしてMySQLを2台に分割
+
+nginxの検証はどちらにせよやった方がよいだろう、ということで手元で =nginx.conf= の書き方をあらためて検証しました。
+
+また、シャーディングは =narusejun/isucon12-final= の実装が分かりやすく、db clientを分割する手法ということが分かったが、練習が不十分でうまく使えそうにないということで今晩は見送ることにしました。
+
+[[https://github.com/narusejun/isucon12-final/blob/master/app/webapp/go/db.go][https://github.com/narusejun/isucon12-final/blob/master/app/webapp/go/db.go]]
 
 ** 過去問
 *** isucon9-qualify
 
-- memo
-  - 8時間みっちりやった
-  - 良いスコアが出た
-  - サーバ分割もうまくいった
+[[https://github.com/isucon/isucon9-qualify][isucon9-qualify]] を本番1週間前に8時間みっちりやりました。
+
+サーバ分割もうまくいき、9位程度のスコアを出すことができました。
+
+https://docs.google.com/spreadsheets/d/1PUMn9hgJ45GptUjPiBJY3ZrdsgHYgsRqpVNWQoDJnss/edit?gid=1255494876#gid=1255494876
+
+#+begin_src json
+  {"pass":true,"score":16260,"campaign":0,"language":"Go","messages":[]}
+#+end_src
 
 *** isucon13
 
-- memo
-  - 本番前日4〜5時間ゆるくやった
-  - スムーズに改善を回せる確認ができた
+去年の問題で体を温めておこう、ということで[[https://github.com/isucon/isucon13][isucon13]]を本番前日4〜5時間ゆるくやりました。
+
+スムーズに改善を回せる確認ができ、手順書としては十分に準備できていることを確認ができました。
 
 * 本番
 ** 開始直後
 
-- memo
-  - 手順書通りに
+=11:30= ころには以下のテンプレ行動が終わりました。
+
+- ssh configを用意してサーバに入る
+- GitHubで管理できるようにサーバでGit Pushする
+- ansibleを完走する
+- DBをセットアップしてtbls
+- READMEにレコード数やisucrudの結果を記述する
+- go-jsonライブラリの差し替えなど定型行動する
+- 本番用の nginx.conf や MySQL config を用意する
 
 ** 中盤
 
-- memo
-  - nginxで返せそうな静的リソース対応
-  - 何もできなかった
+アプリケーション担当が改善を回すのを眺めつつ、以下のような細かい修正をしました。
+今回は手順書がちゃんとしてたのもあり、サーバでのトラブルは一切起きなかったのでとにかく暇でした。
+
+- nginxで返せそうな静的リソース対応
+- alp微修正など
+
+Goの練習を一切してなかったというのもあり、時間的にものすごく余ってしまったので、2人の活躍を祈るしかありませんでした。
+ひたすらベンチマーカーが落ちまくって全然改善が進まずにひたすら苦しい時間が続いていました。
 
 ** 提出間際
 
-- memo
-  - 祈るだけ
+サーバ分割手順書も作って、いつでも分割できるようにできるようにしてたものの、1台でさえ提出直前に謎にベンチマーカーが落ち続けるという問題が起きました。
+
+1回目はベンチマーカーが通るのに2回目は落ちる、といったことが多発したが結局何が問題だったのか分からずに祈るように提出。
+
+結局最終ベンチで落ちてしまいました。
 
 * 反省
+
+事前に立てた目標に対しての結果は以下です。
+下準備としては自分なりにはできたつもりですが、本番はうまくいかなかったというのが現実です。
+
+| 目標      | 下準備 | 本番 |
+|-----------+--------+------|
+| 最終提出   | ○      | ×    |
+| 手順書改善 | ◎      | ◎    |
+| ツール選定 | ○      | ○    |
+| サーバ分割 | ○      | ×    |
+
+また、今回手順書を最適化したことによって本番中相当時間が相当余ってしまいました。
+来年はアプリケーションを改善できるようにGOを勉強していこうと思います。
