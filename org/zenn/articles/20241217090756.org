@@ -132,7 +132,9 @@ https://findy.connpass.com/event/334902/
 
 今回は[[https://x.com/conao_3][@conao3]]とEmacsの[[https://orgmode.org/ja/][org-mode]]をフルに使って手順書を作成しました。
 
+#+begin_export markdown
 https://gist.github.com/takeokunn/002b687d985b5b2af30feeadac892352
+#+end_export
 
 - =org-mode= でタスク管理をする
 - =org-tangle= で必要なファイルをプロジェクト内に展開する
@@ -140,8 +142,9 @@ https://gist.github.com/takeokunn/002b687d985b5b2af30feeadac892352
 
 また、今年は自分のPCをすべてNixに移行したので [[https://github.com/mazrean/isucrud][mazrean/isucrud]] をNixでパッケージングしました。
 
+#+begin_export markdown
 https://github.com/takeokunn/nur-packages
-
+#+end_export
 *** ツール選定
 
 以下の対応をしました。
@@ -183,16 +186,24 @@ nginxの検証はどちらにせよやった方がよいだろう、というこ
 
 また、シャーディングは =narusejun/isucon12-final= の実装が分かりやすく、db clientを分割する手法ということが分かったが、練習が不十分でうまく使えそうにないということで今晩は見送ることにしました。
 
-[[https://github.com/narusejun/isucon12-final/blob/master/app/webapp/go/db.go][https://github.com/narusejun/isucon12-final/blob/master/app/webapp/go/db.go]]
+#+begin_export markdown
+https://github.com/narusejun/isucon12-final/blob/master/app/webapp/go/db.go
+#+end_export
 
 ** 過去問
 *** isucon9-qualify
 
-[[https://github.com/isucon/isucon9-qualify][isucon9-qualify]] を本番1週間前に8時間みっちりやりました。
+#+begin_export markdown
+https://github.com/isucon/isucon9-qualify
+#+end_export
+
+=isucon9-qualify= を本番1週間前に8時間みっちりやりました。
 
 サーバ分割もうまくいき、9位程度のスコアを出すことができました。
 
+#+begin_export markdown
 https://docs.google.com/spreadsheets/d/1PUMn9hgJ45GptUjPiBJY3ZrdsgHYgsRqpVNWQoDJnss/edit?gid=1255494876#gid=1255494876
+#+end_export
 
 #+begin_src json
   {"pass":true,"score":16260,"campaign":0,"language":"Go","messages":[]}
@@ -200,7 +211,11 @@ https://docs.google.com/spreadsheets/d/1PUMn9hgJ45GptUjPiBJY3ZrdsgHYgsRqpVNWQoDJ
 
 *** isucon13
 
-去年の問題で体を温めておこう、ということで[[https://github.com/isucon/isucon13][isucon13]]を本番前日4〜5時間ゆるくやりました。
+#+begin_export markdown
+https://github.com/isucon/isucon13
+#+end_export
+
+去年の問題で体を温めておこう、ということでisucon13を本番前日4〜5時間ゆるくやりました。
 
 スムーズに改善を回せる確認ができ、手順書としては十分に準備できていることを確認ができました。
 
