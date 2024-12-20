@@ -201,7 +201,7 @@ https://docs.google.com/spreadsheets/d/1PUMn9hgJ45GptUjPiBJY3ZrdsgHYgsRqpVNWQoDJ
 * 本番
 ** 開始直後
 
-=11:30= ころには以下のテンプレ行動が終わりました。
+11時半ころには以下のテンプレ行動が終わりました。
 
 - ssh configを用意してサーバに入る
 - GitHubで管理できるようにサーバでGit Pushする
