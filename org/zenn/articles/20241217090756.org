@@ -184,7 +184,7 @@ https://github.com/takeokunn/nur-packages
 
 nginxの検証はどちらにせよやった方がよいだろう、ということで手元で =nginx.conf= の書き方をあらためて検証しました。
 
-また、シャーディングは =narusejun/isucon12-final= の実装が分かりやすく、db clientを分割する手法ということが分かったが、練習が不十分でうまく使えそうにないということで今晩は見送ることにしました。
+また、シャーディングは =narusejun/isucon12-final= の実装が分かりやすく、db clientを分割する手法ということが分かったが、練習が不十分でうまく使えそうにないということで今回は見送ることにしました。
 
 #+begin_export markdown
 https://github.com/narusejun/isucon12-final/blob/master/app/webapp/go/db.go
