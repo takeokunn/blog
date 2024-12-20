@@ -110,7 +110,9 @@ ISUCONとは =いい感じにスピードアップコンテスト= というパ�
 
 「ISUCON常勝軍団の頭の中〜メンバー集めから解き方の秘密まで〜 （2024/11/14 12:00〜）」をオンライン視聴しました。
 
-[[https://findy.connpass.com/event/334902/][https://findy.connpass.com/event/334902/]]
+#+begin_export markdown
+https://findy.connpass.com/event/334902/
+#+end_export
 
 去年の自分達のチームはpprofを活用できていなかったが、それ以外のツール選定はそんなに違わなかったので安心しました。
 
@@ -119,7 +121,9 @@ ISUCONとは =いい感じにスピードアップコンテスト= というパ�
 - そもそもCPUかメモリを使い切れてない
 - 複数台にした時のレイテンシはボトルネックにならない
 
-@[ツイート]（https://x.com/takeokunn/status/1856909009070297415）
+#+begin_export markdown
+@[tweet](https://x.com/takeokunn/status/1856909009070297415)
+#+end_export
 
 参加ブログからは読み取れない上位チームの肌感覚を知りたかったので自分としては大満足なイベントでした。
 
