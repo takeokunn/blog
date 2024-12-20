@@ -5,8 +5,8 @@
 #+AUTHOR: takeokunn
 #+DESCRIPTION: description
 #+DATE: 2024-12-17T09:08:03+0900
-#+GFM_TAGS: isucon iscuon14
-#+GFM_CUSTOM_FRONT_MATTER: :emoji 😶‍🌫️
+#+GFM_TAGS: isucon
+#+GFM_CUSTOM_FRONT_MATTER: :emoji 💪
 #+GFM_CUSTOM_FRONT_MATTER: :type idea
 #+GFM_CUSTOM_FRONT_MATTER: :published true
 #+STARTUP: content
