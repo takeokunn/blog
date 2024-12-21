@@ -11,7 +11,7 @@
 #+HUGO_TAGS: diary
 #+HUGO_DRAFT: false
 #+STARTUP: content
-#+STARTUP: nohideblocks
+#+STARTUP: fold
 * Introduction
 
 2024/1/13（土）に行われたPHPカンファレンス北海道2024に参加してきました。
