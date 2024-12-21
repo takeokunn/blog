@@ -1,0 +1,15 @@
+:PROPERTIES:
+:ID:       8A48CE89-2F1D-41CE-9FA2-E7E637932E84
+:END:
+#+TITLE: 2024年 Emacs振り返り
+#+AUTHOR: takeokunn
+#+DESCRIPTION: description
+#+DATE: 2024-12-21T14:21:21+0900
+#+HUGO_BASE_DIR: ../../
+#+HUGO_CATEGORIES: permanent
+#+HUGO_SECTION: posts/permanent
+#+HUGO_TAGS: permanent emacs
+#+HUGO_DRAFT: true
+#+STARTUP: content
+#+STARTUP: fold
+* Introduction

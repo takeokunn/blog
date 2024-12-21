@@ -1,0 +1,96 @@
+:PROPERTIES:
+:ID:       4AC3FB19-86D8-42E6-9386-73EBEAA24C7C
+:END:
+#+TITLE: 2024年 全体振り返り
+#+AUTHOR: takeokunn
+#+DESCRIPTION: description
+#+DATE: 2024-12-21T13:03:38+0900
+#+HUGO_BASE_DIR: ../../
+#+HUGO_CATEGORIES: permanent
+#+HUGO_SECTION: posts/permanent
+#+HUGO_TAGS: permanent
+#+HUGO_DRAFT: true
+#+STARTUP: content
+#+STARTUP: fold
+* Introduction
+
+- 2024年振り返り
+- 立てた目標に対してどうだったか、来年はどうするべきか
+
+* 年始に立てた目標
+
+- 5年後も使えるものに対して投資してく
+- 「Aという問題に対してBというツールを使ってCをする」の連続
+- これの型化をし、解決したものの再利用性と再現性を高くするのが目標
+
+** 文芸的プログラミングについて
+** Nixについて
+** LLM/Local LLMについて
+* 目標に対しての振り返り
+
+| 目標               | 自己評価 |
+|--------------------+---------|
+| 文芸的プログラミング | ○       |
+| Nix                | ◎       |
+| LLM/Local LLM      | △       |
+
+- Nixに投資したのは大成功だった
+- org-modeはほぼテンプレ行動で全てが解決するようになった
+- LLM/Local LLMの検証がほぼできて、何をどう努力すればいいのかがわかったのが大きい
+
+* 外部活動
+
+| 時期 | イベント名                            | 役割         | 登壇スライド                                                                     | 関連                                           |
+|------+--------------------------------------+--------------+---------------------------------------------------------------------------------+------------------------------------------------|
+| 1月  | [[https://phpcon.hokkaido.jp/][PHPカンファレンス北海道]]                | 参加者       |                                                                                 | [[id:0227D66A-A96F-420C-8AC6-19EB63C3230E][PHPカンファレンス北海道2024に参加してきました]]       |
+| 3月  | [[https://phperkaigi.jp/2024/][phperkaigi 2024]]                      | パンフ記事執筆 | [[id:3249F27E-9CE1-4ADC-9B34-607C7DCEC60D][テキストエディタがPHPをシンタックスハイライトする仕組みとモダンテキストエディタ事情について]] |                                                |
+| 4月  | [[https://phpcon-odawara.jp/2024/][PHPカンファレンス小田原]]                | 登壇         | [[https://docs.google.com/presentation/d/1436T1dx_0igdNzNCVpGIf0kVA5wOVF4kcVmH9VRJobA/edit#slide=id.p][Laravelに0からPHPStanを導入して継続的に運用する方法]]                                  |                                                |
+| 6月  | [[https://phpcon.fukuoka.jp/2024/][PHPカンファレンス福岡]]                  | 登壇         | [[https://docs.google.com/presentation/d/1I5yWPV_hIOaN0FfRQPwyhdQTVFv2uQEK0A08sMHPLiA/edit#slide=id.p][Nixを用いて再現可能なPHP環境を用意する]]                                              |                                                |
+| 8月  | [[https://tokyo-emacs.connpass.com/event/321255/][東京Emacs勉強会 サマーフェスティバル2024]] | 主催         |                                                                                 |                                                |
+| 10月 | [[https://nix-ja.connpass.com/event/330557/][Nix meetup #1]]                        | 主催、登壇    | [[https://docs.google.com/presentation/d/1So6l6JTNlZkrQDxf99kMFIlPB34TuNdQjpNwgxIBSFo/edit#slide=id.p][nix-shell+org-modeで文芸的プログラミング]]                                           |                                                |
+| 11月 | [[https://techbookfest.org/event/tbf17][技術書展17]]                            | 売り子       |                                                                                 | [[https://techbookfest.org/product/f7rPGt7NeeDuqxYdE3Teyc?productVariantID=hATFZbCg6sJxMt5dCXPn4x][めだかのclojure.core学校 conao3]]                 |
+| 11月 | [[https://vimconf-2024-ticket.peatix.com/][VimConf 2024]]                         | 個人スポンサー |                                                                                 | [[id:40715FC3-CDA5-4450-BDFB-E185A17980B8][VimConf2024 参加記]]                             |
+| 12月 | [[https://isucon.net/archives/58869617.html][ISUCON14]]                             | 競技者       |                                                                                 | [[https://zenn.dev/takeokunn/articles/20241217090756][ISUCON14にチームOL001として参加しました(インフラ編)]] |
+| 12月 | [[https://phpcon.php.gr.jp/2024/][PHPカンファレンス東京]]                  | 企業スポンサー |                                                                                 |                                                |
+
+- 今年は毎月のように何かがあった1年だった
+- vim-jpラジオ1月号の収録をした
+- Emacs/Nixの勉強会で100人以上来た
+- 来年以降
+  - 名古屋、phperkaigi、小田原が決まっている
+  - vim-jpラジオ出演や雑誌寄稿が決まっている
+
+* 仕事について
+** 本業
+
+- 正直そんなに頑張れてない
+  - 去年がだいぶ頑張ったが今年はそこまででもない
+    - [[https://zenn.dev/openlogi/articles/bba928c9e07af3][PHPConf2023「保守性の高いアプリケーションを作り続けるための基盤整備について」というテーマで登壇します]]
+- 人間関係では成功した
+  - 退職時に暴れ回るのはよくない
+
+** バイト
+
+- 土祝日は必ずいく
+- スタートアップに身をおくことはやはり重要
+- 4年目くらいということもあり、仕事内容は安定している
+- 好きな技術を使えるのがとにかく良い
+- [[https://store.shopping.yahoo.co.jp/chefrepi/][yahoo shopping]]を開いた
+
+* 来年の目標
+
+- 車輪の再発明
+  - アプリケーション実装力を高めるのが目的
+  - 特にLispとPrologに対して投資をしてく
+- ソフトウェアテスト
+  - 生成AIが今年一気に伸びて実用化できるようになったので、動作保証する方法を模索する
+  - 投資していくツールの選定をして使い込む
+- 外部へのリーチを増やす
+  - ブログやスライドの運用を洗練させる
+  - EmacsConf 2025開催する
+  - 勉強会や登壇頻度を増やす
+  - 技術書展で本を出す
+
+* 終わりに
+年始に大まかな目標を立てて取り組むのは重要。
+自分としてはアプリケーションや外部活動に十分に集中するだけの基盤が整ったので来年はアウトプットに全力を注ぐ。

@@ -1,0 +1,15 @@
+:PROPERTIES:
+:ID:       EBA858D5-07A6-433C-BA67-3DD927260FE0
+:END:
+#+TITLE: 2024年 LLM振り返り
+#+AUTHOR: takeokunn
+#+DESCRIPTION: description
+#+DATE: 2024-12-21T14:25:32+0900
+#+HUGO_BASE_DIR: ../../
+#+HUGO_CATEGORIES: permanent
+#+HUGO_SECTION: posts/permanent
+#+HUGO_TAGS: permanent
+#+HUGO_DRAFT: true
+#+STARTUP: content
+#+STARTUP: fold
+* Introduction

@@ -1,0 +1,15 @@
+:PROPERTIES:
+:ID:       93BFE25B-D505-4A36-8C9F-0BFF9E38B48C
+:END:
+#+TITLE: 2024年 Nix振り返り
+#+AUTHOR: takeokunn
+#+DESCRIPTION: description
+#+DATE: 2024-12-21T14:23:33+0900
+#+HUGO_BASE_DIR: ../../
+#+HUGO_CATEGORIES: permanent
+#+HUGO_SECTION: posts/permanent
+#+HUGO_TAGS: permanent nix
+#+HUGO_DRAFT: true
+#+STARTUP: content
+#+STARTUP: fold
+* Introduction
