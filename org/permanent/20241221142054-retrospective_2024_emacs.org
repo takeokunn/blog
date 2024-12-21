@@ -67,4 +67,6 @@ https://tokyo-emacs.connpass.com/event/330572/
 
 * 終わりに
 
+https://tadsan.fanbox.cc/posts/8295358
+
 - org-modeに力を入れまくった
