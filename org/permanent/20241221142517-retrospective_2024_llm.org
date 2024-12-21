@@ -1,15 +1,45 @@
 :PROPERTIES:
 :ID:       EBA858D5-07A6-433C-BA67-3DD927260FE0
 :END:
-#+TITLE: 2024年 LLM振り返り
+#+TITLE: 2024年 LLM個人的振り返り
 #+AUTHOR: takeokunn
 #+DESCRIPTION: description
 #+DATE: 2024-12-21T14:25:32+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: permanent
 #+HUGO_SECTION: posts/permanent
-#+HUGO_TAGS: permanent
+#+HUGO_TAGS: permanent llm
 #+HUGO_DRAFT: true
 #+STARTUP: content
 #+STARTUP: fold
 * Introduction
+* LLMに時間を投資する理由
+
+- 時代が来てる
+  - 2024年
+
+* LLM / Local LLMに何を期待してるのか
+
+- コード編集
+- 問題解決
+
+* 取り組んだこと
+** Dify検証
+
+- firecrawler
+
+** 複数サービスの検討とChatGPT課金
+** copilot検証
+** ollama環境
+** emacs integration
+** 競技プログラミング練習
+* 所感
+
+- 2024年になって急激に実用化できるようになった
+
+* Next Action
+
+- Difyをやりこむ
+- ソフトウェアテストに投資をする必要がある
+
+* 終わりに

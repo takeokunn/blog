@@ -13,3 +13,57 @@
 #+STARTUP: content
 #+STARTUP: fold
 * Introduction
+
+運用面とNixに力を注いだ
+
+* 取り組んだこと
+** org-mode関連
+*** org-nix-shellは革命
+
+- wandboxを実現
+
+*** タスク管理を洗練させた
+*** ISUCON手順書
+*** secret.org運用について
+
+- .dir-locals-2.el
+** emacs関連
+*** init.elをNixに移行
+*** setopt移行
+*** keymap-global-set移行
+*** 結局だったpackageの削除
+*** 毎日HEAD Build
+*** embarkがあつい
+*** ellamaがあつい
+*** completion style検討
+
+- https://qiita.com/keita44_f4/items/12a4a7081b0092eaca94
+** その他
+*** password-storeとpassword-store-otpに移行
+*** mu4eとかofflineimap
+* コミュニティ活動
+** Emacs 夏フェス
+
+https://tokyo-emacs.connpass.com/event/321255/
+
+** Emacs 盆の大掃除大会2024
+
+https://tokyo-emacs.connpass.com/event/327712/
+
+** Emacs 秋フェス
+
+https://tokyo-emacs.connpass.com/event/330572/
+
+** vim-jpラジオ
+* Next Action
+
+- EmacsConf 2025
+- Emacs勉強会
+- 雑誌寄稿など
+- 本執筆
+- org-modeの運用をさらに洗練させる
+- ddskk再実装
+
+* 終わりに
+
+- org-modeに力を入れまくった

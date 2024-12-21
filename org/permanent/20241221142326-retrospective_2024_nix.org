@@ -13,3 +13,69 @@
 #+STARTUP: content
 #+STARTUP: fold
 * Introduction
+* Nixに時間を投資する理由
+
+- 抱えていた問題
+  - 古いphpが動かないとか
+
+* 取り組んだこと
+** dotfilesをarchive
+
+- Makefile運用に限界がきてた
+
+** .emacs.dをarchive
+
+- Emacs HEAD Buildに限界がきてた
+- Nixにすることによって安定感が格段に上がった
+
+** Macをnix-darwin+home-manager構成に移行
+
+- nix-darwinでnixとhomebrewの棲み分けをした
+- 自作home-manager module作成
+- 毎朝4時に =nix flake update= してる
+
+** ThinkpadにNixOSを導入
+
+- NixOSたのしい
+
+** nix-on-droid導入
+
+- nix-on-droidたのしい
+
+** nur-packages作成
+** devenv導入
+
+- php7.4もbuildできる
+- php-srcやvimのbuildにも使える
+
+** org-nix-shell環境
+** common lisp環境構築
+
+- [[https://github.com/takeokunn/cl-competitive][takeokunn/cl-competitive]]
+** blogのNix化
+** Neovimの設定もNixでやってる
+** org-modeでwandboxもどき作った
+* コミュニティ活動
+** vim-jpの #tech-nix で活動
+** Nix meetup #1 開催
+** PHPカンファレンス福岡、PHP勉強会で登壇
+* Next Action
+
+- 自宅サーバ運用
+  - とりあえずラズパイ
+- OSS活動
+  - nixpkgsなどにコントリビューション
+- Nix meetup #2 開催
+
+* Misc
+
+- natsukiumと義兄弟になった
+  - 「出島から蘭学が入ってきた時の学者もこういう気分で研究してたのか」という話をしてた
+  - natsukiumが長崎出身だし、nixの創始者がオランダ出身だった
+  - 従兄弟の同級生ということも判明した
+- Guix
+  - roksさんに申し訳がない
+- 社内でNix布教
+  - https://zenn.dev/mizunashi_mana/articles/19707d72b56c00
+
+* 終わりに
