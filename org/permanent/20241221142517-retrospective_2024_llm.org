@@ -13,33 +13,53 @@
 #+STARTUP: content
 #+STARTUP: fold
 * Introduction
-* LLMに時間を投資する理由
+* LLMに時間を投資する理由とゴール
 
-- 時代が来てる
-  - 2024年
+- これからの時代は間違いなく生成AI
+- 今の自分の仕事でどういう場面で活躍するのか、どのツールが良いのかを吟味する
+- 利用者としてAIをやりこむなら何をすればいいのか、どういうユースケースが存在しうるのか吟味する
 
 * LLM / Local LLMに何を期待してるのか
 
 - コード編集
-- 問題解決
+- エラー
 
 * 取り組んだこと
-** Dify検証
+** Local LLM
+*** ollama環境
+*** ollama-webui検証
+*** Dify検証
 
 - firecrawler
+- Nixで用意してくれたらうれしいんだけどなー
 
-** 複数サービスの検討とChatGPT課金
-** copilot検証
-** ollama環境
-** emacs integration
-** 競技プログラミング練習
+*** emacs integration
+** LLM
+*** 複数サービスの検討とChatGPT課金
+
+- chefrepiでめちゃくちゃ活用してる
+- ChatGPTとClaude
+
+*** 普段の仕事での活用
+
+- 翻訳
+- エラーログ
+- 競プロ
+  - Property Based Test生成
+
+*** コード編集支援(GitHub copilot)ツールに求めていることを言語化と使い方の模索
 * 所感
 
 - 2024年になって急激に実用化できるようになった
 
+** トレンド
+** Local LLMが必要かどうか
+** 単発タスクとWorkflowの両方に力を入れていくべき
 * Next Action
 
 - Difyをやりこむ
 - ソフトウェアテストに投資をする必要がある
+- プロンプトを用意する
+- org-modeとの連携
 
 * 終わりに
