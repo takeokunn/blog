@@ -19,18 +19,18 @@
 
 * 年始に立てた目標
 
-プログラミングのほぼ全ての問題は「Aという問題に対してBというツールを使ってCをする」の連続だということに気がつきました。
-「日報を書く時はorg-modeのテンプレートを使って記述する」や「日本語を書く時はskkを使って入力する」など、それぞれの問題は細分化をするとほぼ全てこの形式になります。
+プログラミングのほぼすべての問題は「Aという問題に対してBというツールを使ってCをする」の連続だということに気がつきました。
+「日報を書く時はorg-modeのテンプレートを使って記述する」や「日本語を書く時はskkを使って入力する」など、それぞれの問題は細分化をするとほぼすべてこの形式になります。
 
-プログラマは得てしてAという問題を解決したいだけなのに、「BよりB'の方が良いのではないか」と検証をし始めて一向にCできないものです。
+プログラマーは得てしてAという問題を解決したいだけなのに、「BよりB'の方が良いのではないか」と検証をし始めていっこうにCできないものです。
 とはいえツールの選定は生産性に直結するので重要でありそこの塩梅が非常に難しいです。
 
 そこで2024年は5年後も使えるであろうツールの選定を十分にすることにしました。
-自分が持っている全ての「Aという問題に対してBというツールを使ってCをする」をテンプレ化し、再利用性と再現性を高くするのを目標にしました。
+自分が持っているすべての「Aという問題に対してBというツールを使ってCをする」をテンプレ化し、再利用性と再現性を高くするのを目標にしました。
 
-色々な話を見聞きした結果、以下の3つを頑張るのが良さそうだということで目標に据えました。
+いろいろな話を見聞きした結果、以下の3つを頑張るのが良さそうだということで目標に据えました。
 
-- 文芸的プログラミング(org-mode)
+- 文芸的プログラミング（org-mode）
 - Nix
 - LLM/Local LLM
 
@@ -43,12 +43,12 @@
 | LLM/Local LLM      | △       |
 
 2024年はNix元年というくらい、Nixに大量に時間を投資したのは大成功でした。
-自分が持っているほぼ全ての設定を [[https://github.com/takeokunn/nixos-configuration][takeokunn/nixos-configuration]] とprivate repoに移植しました。
+自分が持っているほぼすべての設定を [[https://github.com/takeokunn/nixos-configuration][takeokunn/nixos-configuration]] とprivate repoに移植しました。
 明示的にコードに落とすことによって、自分は今何をどういう設定でどういう用途で使っているのかを明確にできました。
 
-文芸的プログラミングは去年書いた [[id:3BECED15-4350-42B1-98F5-C1D502816F0D][2023年のorg-mode活用と今後の抱負]] から大きな進展はないですが、細やかな改善を沢山行えた結果、ほぼテンプレ行動でやりたいことを実現できるようになりました。
+文芸的プログラミングは去年書いた [[id:3BECED15-4350-42B1-98F5-C1D502816F0D][2023年のorg-mode活用と今後の抱負]] から大きな進展はないですが、細やかな改善をたくさん行えた結果、ほぼテンプレ行動でやりたいことを実現できるようになりました。
 
-LLM/Local LLMに関しては、どのくらいの将来性があるのか、やりこむとしたら何をやればいいのか、Local LLMなら何が出来るのか等を自分の中で整理するというのが目標でした。
+LLM/Local LLMに関しては、どのくらいの将来性があるのか、やりこむとしたら何をやればよいのか、Local LLMなら何ができるのか等を自分の中で整理するというのが目標でした。
 一応自分の中では整理がついたのでそれは良かったのですが、Difyの活用やワークフローに落とし込む所までは間に合わなかったです。
 
 * コミュニティ活動
@@ -74,7 +74,7 @@ LLM/Local LLMに関しては、どのくらいの将来性があるのか、や�
 <blockquote class="twitter-tweet"><p lang="qme" dir="ltr"><a href="https://twitter.com/hashtag/nix_ja?src=hash&amp;ref_src=twsrc%5Etfw">#nix_ja</a> <a href="https://t.co/GNbKStEICk">pic.twitter.com/GNbKStEICk</a></p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1850093230521827592?ref_src=twsrc%5Etfw">October 26, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 #+end_export
 
-来年以降のphpcon関連の既に名古屋、phperkaigi、小田原が決まっています。
+来年以降のphpcon関連のすでに名古屋、phperkaigi、小田原が決まっています。
 
 また、vim-jpラジオ出演や商業誌の雑誌寄稿が決まっていて来年も忙しくなりそうです。
 
@@ -83,7 +83,7 @@ LLM/Local LLMに関しては、どのくらいの将来性があるのか、や�
 2024年はvim-jpに入り浸ってた一年でした。
 emacserのtomoyaさんやconao3と仲良くなれたし、yasunori projectと称してyasunoriの転職活動を全力サポートしました。
 
-カンファレンスついでに旅行沢山行きました。
+カンファレンスついでに旅行たくさんいきました。
 
 | 時期 | 場所      | 目的               |
 |------+-----------+--------------------|
@@ -94,7 +94,7 @@ emacserのtomoyaさんやconao3と仲良くなれたし、yasunori projectと称
 | 6月  | 福岡、別府 | PHPCon福岡         |
 | 8月  | 横須賀    | 地元民の友達と遊ぶ   |
 
-ぷぷさんが主催してる [[https://eng-tearoom.connpass.com/][エンジニアティールーム]] はほぼ皆勤賞なくらい参加しました。
+ぷぷさんが主催している [[https://eng-tearoom.connpass.com/][エンジニアティールーム]] はほぼ皆勤賞なくらい参加しました。
 
 #+begin_export html
 <blockquote class="twitter-tweet"><p lang="ja" dir="ltr">良きでした <a href="https://twitter.com/hashtag/%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%8B%E3%82%A2%E3%83%86%E3%82%A3%E3%83%BC%E3%83%AB%E3%83%BC%E3%83%A0?src=hash&amp;ref_src=twsrc%5Etfw">#エンジニアティールーム</a> <a href="https://t.co/jv0wviGEzi">pic.twitter.com/jv0wviGEzi</a></p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1662394762576666625?ref_src=twsrc%5Etfw">May 27, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -103,7 +103,7 @@ emacserのtomoyaさんやconao3と仲良くなれたし、yasunori projectと称
 * 仕事について
 ** 本業
 
-去年は [[https://zenn.dev/openlogi/articles/bba928c9e07af3][PHPConf2023「保守性の高いアプリケーションを作り続けるための基盤整備について」というテーマで登壇します]] と書いたように色々やりましたが、正直そんなに頑張れてないなという反省があります。
+去年は [[https://zenn.dev/openlogi/articles/bba928c9e07af3][PHPConf2023「保守性の高いアプリケーションを作り続けるための基盤整備について」というテーマで登壇します]] と書いたようにいろいろやりましたが、正直そんなに頑張れてないなという反省があります。
 5段階中3くらいの評価でした。
 
 チーム内の人間関係は成功したなーという実感があり、その部分は良かっあです。

@@ -23,24 +23,24 @@
 
 - Makefile運用に限界がきてた
 
-** .emacs.dをarchive
+** .Emacs.dをarchive
 
 - Emacs HEAD Buildに限界がきてた
 - Nixにすることによって安定感が格段に上がった
 
 ** Macをnix-darwin+home-manager構成に移行
 
-- nix-darwinでnixとhomebrewの棲み分けをした
-- 自作home-manager module作成
-- 毎朝4時に =nix flake update= してる
+- nix-darwinでnixとHomebrewの棲み分けをした
+- 自作home-manager モジュール作成
+- 毎朝4時に =nix flake update= している
 
 ** ThinkpadにNixOSを導入
 
-- NixOSたのしい
+- NixOS楽しい
 
 ** nix-on-droid導入
 
-- nix-on-droidたのしい
+- nix-on-droid楽しい
 
 ** nur-packages作成
 ** devenv導入
@@ -49,15 +49,15 @@
 - php-srcやvimのbuildにも使える
 
 ** org-nix-shell環境
-** common lisp環境構築
+** common Lisp環境構築
 
 - [[https://github.com/takeokunn/cl-competitive][takeokunn/cl-competitive]]
 ** blogのNix化
-** Neovimの設定もNixでやってる
+** Neovimの設定もNixでやっている
 
 - vim-jpのquestionでやってた
 
-** org-modeでwandboxもどき作った
+** org-modeでwandbox戻き作った
 * コミュニティ活動
 ** vim-jpの #tech-nix で活動
 ** Nix meetup #1 開催
