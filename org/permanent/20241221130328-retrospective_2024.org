@@ -9,7 +9,7 @@
 #+HUGO_CATEGORIES: permanent
 #+HUGO_SECTION: posts/permanent
 #+HUGO_TAGS: permanent
-#+HUGO_DRAFT: true
+#+HUGO_DRAFT: false
 #+STARTUP: content
 #+STARTUP: fold
 * Introduction
