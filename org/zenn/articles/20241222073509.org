@@ -4,7 +4,7 @@
 #+TITLE: PHPカンファレンス東京 2024に参加しました
 #+DESCRIPTION: description
 #+DATE: 2024-12-22T07:35:17+0900
-#+GFM_TAGS: emacs
+#+GFM_TAGS: php
 #+GFM_CUSTOM_FRONT_MATTER: :emoji 👍
 #+GFM_CUSTOM_FRONT_MATTER: :type idea
 #+GFM_CUSTOM_FRONT_MATTER: :published false
@@ -26,7 +26,7 @@
 * 弊社企業ブース紹介
 
 - 登壇がHHTということで弊社のブースではデモを行えた
-- Cookieを用意した
+- クッキーを用意した
 - ほしいものパネルについて
 
 * 終わりに

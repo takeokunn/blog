@@ -17,10 +17,10 @@ jobs:
   textlint:
     runs-on: ubuntu-latest
     steps:
-      - name: checkout
-        uses: actions/checkout@v4
-      - name: prepare nix
-        uses: cachix/install-nix-action@v30
+      - uses: DeterminateSystems/nix-installer-action@main
+      - uses: DeterminateSystems/magic-nix-cache-action@main
+      - uses: DeterminateSystems/flake-checker-action@main
+      - uses: actions/checkout@v4
       - name: flake check
         run: nix develop --command bash -c "textlint 'org/**/*.org'"
   secretlint:
