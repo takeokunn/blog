@@ -34,19 +34,19 @@
               ))
             ];
             buildPhase = ''
-            emacs --batch \
-                  --eval "(progn
-                            (require 'ox-typst)
-                            (find-file \"main.org\")
-                            (org-typst-export-to-typst))"
+              emacs --batch \
+                    --eval "(progn
+                              (require 'ox-typst)
+                              (find-file \"main.org\")
+                              (org-typst-export-to-typst))"
 
-            export TYPST_FONT_PATHS="${pkgs.migu}/share/fonts/truetype/migu"
-            typst compile main.typ
-          '';
+              export TYPST_FONT_PATHS="${pkgs.migu}/share/fonts/truetype/migu"
+              typst compile main.typ
+            '';
             installPhase = ''
-            mkdir -p $out
-            cp main.pdf $out/
-          '';
+              mkdir -p $out
+              cp main.pdf $out/
+            '';
           };
         }
     );
