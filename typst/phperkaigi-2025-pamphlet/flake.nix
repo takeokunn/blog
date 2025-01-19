@@ -45,7 +45,6 @@
           '';
           installPhase = ''
             mkdir -p $out
-            cp main.typ $out/
             cp main.pdf $out/
           '';
         };

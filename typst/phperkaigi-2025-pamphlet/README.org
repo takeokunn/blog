@@ -1,0 +1,15 @@
+#+STARTUP: content
+#+STARTUP: fold
+* PHPerKaigi 2025 パンフレット記事
+
+Phpactorから学ぶLanguage Server Protocolの仕組み by たけてぃ
+
+https://fortee.jp/phperkaigi-2025/proposal/9484cc8e-4002-4d1e-8b30-f11f6a91f853
+
+** Usage
+
+以下を叩くと =result/main.pdf= が出力される。
+
+#+begin_src console
+  $ nix build
+#+end_src
