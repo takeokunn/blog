@@ -6,10 +6,17 @@ Phpactorから学ぶLanguage Server Protocolの仕組み by たけてぃ
 
 https://fortee.jp/phperkaigi-2025/proposal/9484cc8e-4002-4d1e-8b30-f11f6a91f853
 
-** Usage
+** 本文
 
-以下を叩くと =result/main.pdf= が出力される。
+Language Server Protocol (LSP)は、2016年にMicrosoftが発表したJSON-RPCベースのプロトコルです。
+LSPはモダンなテキストエディタなら必ずある機能(例: 定義ジャンプ)を提供していますが、一番の魅力は特定のテキストエディタに依存しない形での実装になっていることです。
+これにより各テキストエディタでの実装の必要がなくなり、エディタ選択の自由度が飛躍的に高まりました。
 
-#+begin_src console
-  $ nix build
-#+end_src
+PHPの言語サーバ実装はintelephenceとPhpactorがメジャーです。
+本登壇ではPhpactorの実装に触れつつ活用テクニックを紹介していきます。
+
+** パンフレット記事に記載すること
+
+- LSPの台頭とLSP前後のテキストエディタの変化
+- プロトコル解説とLSPがサポートしている機能の紹介
+- PhpactorとPHPStan拡張などの便利な機能の紹介
