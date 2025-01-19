@@ -1,0 +1,17 @@
+#+TITLE:Phpactorから学ぶLanguage Server Protocolの仕組み
+#+AUTHOR: takeokunn
+#+STARTUP: content
+#+STARTUP: fold
+#+TYPST: #set text(lang: "ja", font: "Migu 1P", size: 10pt)
+* 見出し1
+
+これは段落です。空行は改段落を表します。
+
+* 見出し2
+
+テキストは **強調 (emphasis)** することもできれば、
+**強調 (strong emphasis)** することもできます。
+
+- これは箇条書きです。
+  - インデントは箇条書きのネストを表します。
+- 先頭を =+= とすれば番号付き箇条書きとなります。
