@@ -2,8 +2,9 @@
 #+AUTHOR: takeokunn
 #+STARTUP: content
 #+STARTUP: fold
-#+TYPST: #set text(lang: "ja", font: "Migu 1P", size: 8pt)
-* 始めに
+#+TYPST: #set text(lang: "ja", font: "Migu 1P", size: 10pt)
+#+TYPST: #import "@preview/codelst:2.0.0": sourcecode
+* はじめに
 
 ソフトウェアの世界は言語、フレームワーク、エコシステム、ハードウェア等どれをとっても日進月歩で急速に進歩しています。
 
@@ -59,13 +60,9 @@ C#を開発するならVisual Studioが一般的でしたが、OmniSharpはVim�
 
 LSPのGitHub WikiにProtocol-Historyというページ[fn:6]があり、OmniSharpから着想を得たという記述もあります。
 
-#+begin_quote
-The protocol was not created out of thin air, but it builds up on work and experiences from many others. Here is a brief history of the protocol.
-
-Editors like vim or emacs have used language servers or demons to provide semantic auto complete support since a while.
-
-This concept was picked up by OmniSharp. OmniSharp provides auto complete and other rich editing features for C#. Initially OmniSharp used the http protocol with a JSON payload. OmniSharp has been integrated into several editors. One of them was VS Code.
-#+end_quote
+#+begin_src markdown
+  The protocol was not created out of thin air, but it builds up on work and experiences from many others. Here is a brief history of the protocol. Editors like vim or emacs have used language servers or demons to provide semantic auto complete support since a while. This concept was picked up by OmniSharp. OmniSharp provides auto complete and other rich editing features for C#. Initially OmniSharp used the http protocol with a JSON payload. OmniSharp has been integrated into several editors. One of them was VS Code.
+#+end_src
 
 [fn:5] OmniSharp, https://www.omnisharp.net/
 [fn:6] Protocol-History - GitHub, https://github.com/microsoft/language-server-protocol/wiki/Protocol-History
@@ -128,7 +125,7 @@ PhpactorはあくまでLanguage Serverですので、実際の編集体験や細
 Phpactorで大規模プロジェクトを開くと非常に重いといった問題があります。
 公式サイトのPerformance改善方法が記述されているページ通りに設定するとだいぶ緩和されるので対応することをお勧めします。[fn:14]
 
-#+begin_src console
+#+begin_src bash
   # Large Files
   $ phpactor config:set language_server.diagnostics_on_update false
 
@@ -152,7 +149,7 @@ CLIツールとして使えば証跡を残しやすいので、チーム内で�
 主に定義ジャンプ時に利用します。
 テキストエディタ起動時に実行されますが、事前に実行しておくことによってキャッシュを温めておくことが可能です。
 
-#+begin_src console
+#+begin_src bash
   # 通常の実行
   $ phpactor index:build
 
@@ -167,7 +164,7 @@ CLIツールとして使えば証跡を残しやすいので、チーム内で�
 実際にphpactorのプロジェクトで実行した結果は以下です。（LN: 行番号, OS: offset start, OE: offset end）
 ドキュメントや影響範囲の調査のときに非常に便利で、筆者はよく仕事で使います。
 
-#+begin_src console
+#+begin_src bash
   $ phpactor references:class lib/Configurator/Model/ChangeSuggestor.php
 
   # References:
@@ -191,7 +188,7 @@ CLIツールとして使えば証跡を残しやすいので、チーム内で�
 
 たとえば、 =class:transform= を使えば以下のように自動で修正してくれます。
 
-#+begin_src console
+#+begin_src bash
   $ phpactor class:transform path/to/Class.php --transform=add_missing_assignments
 #+end_src
 
@@ -228,7 +225,7 @@ php-cs-fixerのインテグレーションを使えば、 =textDocument/formatti
 
 これらのインテグレーションを有効にすることによって、Phpactorに統合でき、別のツールを導入せずに済みます。
 
-#+begin_src console
+#+begin_src bash
   # phpstan
   $ phpactor config:set language_server_phpstan.enabled true
 

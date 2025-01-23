@@ -33,6 +33,7 @@
               buildPhase = ''
                 emacs --batch \
                       --eval "(progn
+                                (setq org-export-with-toc nil)
                                 (require 'ox-typst)
                                 (find-file \"article.org\")
                                 (org-typst-export-to-typst))"
@@ -43,6 +44,7 @@
               installPhase = ''
                 mkdir -p $out
                 cp article.pdf $out/phperkaigi-2025-pamphlet.pdf
+                cp article.typ $out/phperkaigi-2025-pamphlet.typ
               '';
             };
           };
