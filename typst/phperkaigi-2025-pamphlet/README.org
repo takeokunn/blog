@@ -1,8 +1,8 @@
 #+STARTUP: content
 #+STARTUP: fold
-* PHPerKaigi 2025 パンフレット記事
+* Phpactorから学ぶLanguage Server Protocolの仕組み by たけてぃ
 
-Phpactorから学ぶLanguage Server Protocolの仕組み by たけてぃ
+PHPerKaigi 2025 パンフレット記事
 
 https://fortee.jp/phperkaigi-2025/proposal/9484cc8e-4002-4d1e-8b30-f11f6a91f853
 
@@ -20,3 +20,9 @@ PHPの言語サーバ実装はintelephenceとPhpactorがメジャーです。
 - LSPの台頭とLSP前後のテキストエディタの変化
 - プロトコル解説とLSPがサポートしている機能の紹介
 - PhpactorとPHPStan拡張などの便利な機能の紹介
+
+** 画像出典
+
+| 名前                      | 出典                            |
+|---------------------------+---------------------------------|
+| lsp-languages-editors.png | [[https://code.visualstudio.com/api/language-extensions/language-server-extension-guide][Language Server Extension Guide]] |

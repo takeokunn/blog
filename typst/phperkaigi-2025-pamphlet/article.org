@@ -1,17 +1,236 @@
-#+TITLE:Phpactorから学ぶLanguage Server Protocolの仕組み
+#+TITLE: Phpactorから学ぶLanguage Server Protocolの仕組み
 #+AUTHOR: takeokunn
 #+STARTUP: content
 #+STARTUP: fold
 #+TYPST: #set text(lang: "ja", font: "Migu 1P", size: 10pt)
-* 見出し1
+* はじめに
 
-これは段落です。空行は改段落を表します。
+ソフトウェアの世界は言語、フレームワーク、エコシステム、ハードウェア等どれをとっても日進月歩で急速に進歩しています。
 
-* 見出し2
+筆者の所属しているテキストエディタコミュニティでも直近10年大きな進歩発展がいくつかありました。
+その代表例としてLanguage Server Protocol(以下LSP)とTree-Sitterの普及があげられます。
+これにより、新興のエディタでも歴史のあるエディタでも統一された開発環境を提供することが簡単になりました。
 
-テキストは **強調 (emphasis)** することもできれば、
-**強調 (strong emphasis)** することもできます。
+本記事ではそんなLSPの歴史と基本機能、PHPの代表的なLanguage ServerであるPhpactorについて紹介します。
 
-- これは箇条書きです。
-  - インデントは箇条書きのネストを表します。
-- 先頭を =+= とすれば番号付き箇条書きとなります。
+* LSPについて
+** LSPってそもそもなに?
+Language Server Protocol (LSP)は、2016年にMicrosoftが発表したJSON-RPCベースのプロトコルです。[fn:1]
+簡単な表現をすると、モダンテキストエディタの機能を提供してる定義ジャンプやリネーム、構文エラーを表示する為の標準的なProtocolです。
+
+LSPはLSP ClientとLanguage Server(言語サーバ)の2つで構成されています。
+
+LSP ClientはNeovim/Emacs/VSCodeなどテキストエディタのことです。
+Language Serverは各言語ごとに実装されており、Protocolで定義されたインターフェイスに乗っ取って好き好きに実装されています。
+
+ここで重要なのはProtocolで定義されたインターフェイスがあるということです。
+
+新しいLanguage Serverを作った時でも既存のLSP Client実装のまま動かすことが可能になります。
+逆もまた然りで、新しいLSP Clientを実装しても既存のLanguage Serverを動かすことが可能です。
+
+[[file:images/lsp-languages-editors.png]]
+
+LSPはさっき定義した関数の補完が効いてほしい、編集時にエラーを出してほしい、といったようにLSPはリアルタイムに実行されることを想定したものです。
+リアルタイム性を重視しているので実装次第ではパフォーマンスに問題が発生してしまします。
+
+同様のProtocolにLanguage Server Index Format(LSIF)[fn:2]があります。
+事前にインデックスを生成してLSIFファイルを生成することによって、LSPと同じような機能を実現できます。
+これにより、Web上で定義ジャンプをしたりシンボルの検索も実現可能になります。
+** LSP前史
+*** ctags
+普段コードを編集してて欠かせない機能の一つに定義ジャンプがあります。
+2025年現代の定義ジャンプはほぼLSPで実現されていますが、LSPが普及する前はctags[fn:3]が使われていました。
+ctagsはプロジェクト内の関数、変数、クラス、マクロなどのシンボル情報をインデックスファイルに出力プログラムです。
+インデックスファイルをテキストエディタ側の実装で読み込むことによって、タグジャンプや補完候補に出すことを実現していました。
+universal-ctags[fn:4]は2025年1月現在でも開発が続いているようです。
+*** OmniSharp
+LSPの前身にC#のOmniSharp[fn:5]があります。
+
+C#を開発するならVisual Studioが一般的でしたが、OmniSharpはVimやEmacsでもC#を快適に開発できるようにすることを目的としたものでした。
+当時の日本人テキストエディタコミュニティの方々が熱心にOmniSharpにコントリビュートした結果、LSPが生まれたという過去があるようです。
+
+LSPのGitHub WikiにProtocol-Historyというページ[fn:6]があり、OmniSharpから着想を得たという記述もあります。
+
+#+begin_quote
+The protocol was not created out of thin air, but it builds up on work and experiences from many others. Here is a brief history of the protocol.
+
+Editors like vim or emacs have used language servers or demons to provide semantic auto complete support since a while.
+
+This concept was picked up by OmniSharp. OmniSharp provides auto complete and other rich editing features for C#. Initially OmniSharp used the http protocol with a JSON payload. OmniSharp has been integrated into several editors. One of them was VS Code.
+#+end_quote
+** 基本機能
+
+LSPが提供しているメジャーな機能は以下です。
+2025年現在、普通のIDEなら必ず提供している機能を網羅しています。
+
+| 名前            | 機能          | 機能説明                                          |
+|-----------------+---------------+--------------------------------------------------|
+| Diagnostics     | 検査          | コードの解析結果としてエラーや警告をエディタ上に表示する |
+| Completion      | 補完          | 入力中のコードから続く候補を補完候補に列挙する         |
+| Goto definition | 定義へ移動     | 変数や関数等の定義箇所にジャンプする                  |
+| Find references | 参照を表示/移動 | 変数の参照箇所をリストアップする                     |
+| Rename          | 名前変更       | 変数の名前を変更する                               |
+
+
+上記のメジャー機能以外にも、事前に登録したコマンドを実行する機能(Execute Command)や、APIに関する情報を表示する機能(Hover)などもあります。
+
+Protocol自体の解説は「Language Server Protocol の仕様 及び実装方法[fn:7]」が非常にわかりやすく、こちらを参照することをオススメします。
+
+* PHPをとりまくLSP環境
+PHPのメジャーなLanguage Serverはintelephense[fn:8]とPhpactor[fn:9]の2種類あります。
+他にもSerenata[fn:10]やphp-language-server[fn:11]がありますが、筆者の印象ではintelephenseを使っている人が圧倒的に多いです。
+
+intelephenseはOSSではなく商用ソフトウェアで無料版と有料版があります。
+ソースコードは公開されておらず、npm経由で実行ファイルを入れて利用します。
+無料版でも十分使うことは可能ですが、LICENCEを購入することではRenameやGo to type definitionなど便利な機能が使えるようになります。
+
+一方PhpactorやSerenataやphp-language-serverはOSSのPHPプロジェクトです。
+余談ですが、Emacs標準のLSP Clientであるeglotではintelephenseを採用することができなかったので、phpactorとphp-language-serverをサポートしています。
+* Phpactorについて
+** 概要
+PhpactorはPHPプロジェクトなのでcomposerで簡単に導入できます。
+
+LSPサポート情報は公式サイトで確認できますが、基本的な機能はサポートされています。[fn:12]
+設定はjsonで記述でき、 =phpactor config:dump= で出力できます。
+
+#+begin_src json
+  {
+      "language_server_phpstan.enabled": false,
+      "completion_worse.experimantal": true,
+      "language_server_worse_reflection.workspace_index.update_interval": 5000,
+      "language_server_php_cs_fixer.enabled": false,
+      "php_code_sniffer.enabled": false,
+      "prophecy.enabled": false
+  }
+#+end_src
+
+EmacsやVimやVS Codeなど大体のテキストエディタのLSP Clientは既にサポートしているので、手元のテキストエディタで簡単に試すことができます。[fn:13]
+PhpactorはあくまでLanguage Serverなので、実際の編集体験や細かい使い勝手はLSP Client側の対応状況依存になります。
+
+Phpactorで大規模プロジェクトを開くと非常に重いといった問題があります。
+公式サイトのPerformance改善方法が記述されているページ通りに設定するとだいぶ緩和されるので対応することをオススメします。[fn:14]
+
+#+begin_src console
+  # Large Files
+  $ phpactor config:set language_server.diagnostics_on_update false
+
+  # Indexing
+  $ phpactor config:set indexer.exclude_patterns '["/vendor/**/Tests/**/*","/vendor/**/tests/**/*","/var/cache/**/*","/vendor/composer/**/*"]'
+#+end_src
+
+** コマンドライン利用
+
+PhpactorはLanguage Serverとしても使えますが、CLIツールとしても非常に強力です。
+CLIツールとして使えば証跡を残しやすいので、チーム内でコミュニケーションを取る時に非常に便利です。
+いくつかの便利なコマンドを紹介します。
+
+*** Indexer
+
+プロジェクト内のphpファイルをスキャンし、クラスと関数に関するメタ情報を記録するコマンドです。
+主に定義ジャンプ時に利用します。
+テキストエディタ起動時に実行されますが、事前に実行しておくことによってキャッシュを温めておくことが可能です。
+
+#+begin_src console
+  # 通常の実行
+  $ phpactor index:build
+
+  # watch
+  $ phpactor index:build --watch
+
+  # reset
+  $ phpactor index:build --reset
+#+end_src
+*** Navigation
+特定のクラスへのすべての参照をリストアップできます。
+実際にphpactorのプロジェクトで実行した結果は以下です。(LN: 行番号, OS: offset start, OE: offset end)
+ドキュメンテーションや影響範囲の調査の時に非常に便利で、筆者はよく仕事で使います。
+
+#+begin_src console
+  $ phpactor references:class lib/Configurator/Model/ChangeSuggestor.php
+
+  # References:
+  +---------------------------------------------------------------------------+----+----------------------------------------------------------------------------------+------+------+
+  | Path                                                                      | LN | Line                                                                             | OS   | OE   |
+  +---------------------------------------------------------------------------+----+----------------------------------------------------------------------------------+------+------+
+  | lib/Configurator/Adapter/Test/TestChangeSuggestor.php                     | 6  | use Phpactor\Configurator\Model\ChangeSuggestor;                                 | 71   | 114  |
+  | lib/Configurator/Adapter/Test/TestChangeSuggestor.php                     | 9  | class TestChangeSuggestor implements ChangeSuggestor                             | 195  | 210  |
+  | lib/Configurator/Configurator.php                                         | 7  | use Phpactor\Configurator\Model\ChangeSuggestor;                                 | 135  | 178  |
+  | lib/Configurator/Model/ChangeSuggestor.php                                | 5  | interface ChangeSuggestor                                                        | 57   | 72   |
+  | lib/Extension/Configuration/ChangeSuggestor/PhpactorComposerSuggestor.php | 7  | use Phpactor\Configurator\Model\ChangeSuggestor;                                 | 135  | 178  |
+  | lib/Extension/Configuration/ChangeSuggestor/PhpactorComposerSuggestor.php | 11 | class PhpactorComposerSuggestor implements ChangeSuggestor                       | 309  | 324  |
+  | lib/Extension/Configuration/ConfigurationExtension.php                    | 6  | use Phpactor\Configurator\Model\ChangeSuggestor;                                 | 131  | 174  |
+  | lib/Extension/Configuration/ConfigurationExtension.php                    | 45 |                 $suggestors[] = $container->expect($id, ChangeSuggestor::class); | 1905 | 1920 |
+  +---------------------------------------------------------------------------+----+----------------------------------------------------------------------------------+------+------+
+
+  8 reference(s)
+#+end_src
+*** Refactoring
+筆者はテキストエディタで編集するのでほぼ使ったことがないですが、リファクタリングを自動でするコマンドも提供しています。
+
+例えば、 =class:transform= を使えば以下のように自動で修正してくれます。
+
+#+begin_src console
+  $ phpactor class:transform path/to/Class.php --transform=add_missing_assignments
+#+end_src
+
+#+begin_src php
+  // before
+  class AcmeBlogTest extends TestCase
+  {
+      public function setUp()
+      {
+          $this->blog = new Blog();
+      }
+  }
+
+  // after
+  class AcmeBlogTest extends TestCase
+  {
+      /**
+       ,* @var Blog
+       ,*/
+      private $blog;
+
+      public function setUp()
+      {
+          $this->blog = new Blog();
+      }
+  }
+#+end_src
+** 拡張
+phpactorはいくつかのPHP製開発ツールとのインテグレーションを提供しています。[fn:15]
+
+PHPStanのインテグレーションを使えば、Phpactor上でエラーをテキストエディタに返却することが可能なので、わざわざ別のツールを導入する必要はあります。
+
+php-cs-fixerのインテグレーションを使えば、 =textDocument/formatting= タイミングでphp-cs-fixerを実行する、エラー警告をテキストエディタ上に表示することができます。
+
+これらのインテグレーションを有効にすることによって、Phpactorに統合でき、別のツールを導入せずに済みます。
+
+#+begin_src console
+  # phpstan
+  $ phpactor config:set language_server_phpstan.enabled true
+
+  # php-cs-fixer
+  $ phpactor config:set language_server_php_cs_fixer.enabled true
+#+end_src
+* おわりに
+
+普段、何気なく使っているソフトウェアにも歴史や時代背景があり、過去から現在に至るまで、さまざまな機能が追加・削除されてきました。
+先人たちに感謝しつつ、それらを最大限活用できるよう勉強を続けていけば、次の一歩が見えてくるかもしれません。
+
+* 出典
+- [fn:1] Language Server, https://microsoft.github.io/language-server-protocol/overviews/lsp/overview/
+- [fn:2] Language Server Index Format, https://microsoft.github.io/language-server-protocol/overviews/lsif/overview/
+- [fn:3] Universal Ctags, https://ctags.io/
+- [fn:4] universal-ctags/ctags - GitHub, https://github.com/universal-ctags/ctags
+- [fn:5] OmniSharp, https://www.omnisharp.net/
+- [fn:6] Protocol-History - GitHub, https://github.com/microsoft/language-server-protocol/wiki/Protocol-History
+- [fn:7] Language Server Protocol の仕様 及び実装方法 - Zenn Book, https://zenn.dev/mtshiba/books/language_server_protocol
+- [fn:8] intelephense, https://intelephense.com/
+- [fn:9] Phpactor, https://phpactor.readthedocs.io/en/master/index.html
+- [fn:10] Serenata, https://serenata.gitlab.io/
+- [fn:11] felixfbecker/php-language-server, https://github.com/felixfbecker/php-language-server
+- [fn:12] LSP Support - Phpactor, https://phpactor.readthedocs.io/en/master/lsp/support.html
+- [fn:13] Language Server - Phpactor, https://phpactor.readthedocs.io/en/master/usage/language-server.html
+- [fn:14] Performance - Phpactor, https://phpactor.readthedocs.io/en/master/tips/performance.html
+- [fn:15] Integration - Phpactor, https://phpactor.readthedocs.io/en/master/integrations.html
