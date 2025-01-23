@@ -3,27 +3,27 @@
 #+STARTUP: content
 #+STARTUP: fold
 #+TYPST: #set text(lang: "ja", font: "Migu 1P", size: 10pt)
-* はじめに
+* 始めに
 
 ソフトウェアの世界は言語、フレームワーク、エコシステム、ハードウェア等どれをとっても日進月歩で急速に進歩しています。
 
 筆者の所属しているテキストエディタコミュニティでも直近10年大きな進歩発展がいくつかありました。
-その代表例としてLanguage Server Protocol(以下LSP)とTree-Sitterの普及があげられます。
+その代表例としてLanguage Server Protocol（以下LSP）とTree-Sitterの普及があげられます。
 これにより、新興のエディタでも歴史のあるエディタでも統一された開発環境を提供することが簡単になりました。
 
 本記事ではそんなLSPの歴史と基本機能、PHPの代表的なLanguage ServerであるPhpactorについて紹介します。
 
 * LSPについて
 ** LSPってそもそもなに?
-Language Server Protocol (LSP)は、2016年にMicrosoftが発表したJSON-RPCベースのプロトコルです。[fn:1]
-簡単な表現をすると、モダンテキストエディタの機能を提供してる定義ジャンプやリネーム、構文エラーを表示する為の標準的なProtocolです。
+Language Server Protocol （LSP）は、2016年にMicrosoftが発表したJSON-RPCベースのプロトコルです。[fn:1]
+簡単な表現をすると、モダンテキストエディタの機能を提供している定義ジャンプやリネーム、構文エラーを表示する為の標準的なProtocolです。
 
-LSPはLSP ClientとLanguage Server(言語サーバ)の2つで構成されています。
+LSPはLSP ClientとLanguage Server（言語サーバ）の2つで構成されています。
 
 LSP ClientはNeovim/Emacs/VSCodeなどテキストエディタのことです。
-Language Serverは各言語ごとに実装されており、Protocolで定義されたインターフェイスに乗っ取って好き好きに実装されています。
+Language Serverは各言語ごとに実装されており、Protocolで定義されたインタフェースに乗っ取って好き好きに実装されています。
 
-ここで重要なのはProtocolで定義されたインターフェイスがあるということです。
+ここで重要なのはProtocolで定義されたインタフェースがあるということです。
 
 新しいLanguage Serverを作った時でも既存のLSP Client実装のまま動かすことが可能になります。
 逆もまた然りで、新しいLSP Clientを実装しても既存のLanguage Serverを動かすことが可能です。
@@ -33,12 +33,12 @@ Language Serverは各言語ごとに実装されており、Protocolで定義さ
 LSPはさっき定義した関数の補完が効いてほしい、編集時にエラーを出してほしい、といったようにLSPはリアルタイムに実行されることを想定したものです。
 リアルタイム性を重視しているので実装次第ではパフォーマンスに問題が発生してしまします。
 
-同様のProtocolにLanguage Server Index Format(LSIF)[fn:2]があります。
+同様のProtocolにLanguage Server Index Format（LSIF）[fn:2]があります。
 事前にインデックスを生成してLSIFファイルを生成することによって、LSPと同じような機能を実現できます。
 これにより、Web上で定義ジャンプをしたりシンボルの検索も実現可能になります。
 ** LSP前史
 *** ctags
-普段コードを編集してて欠かせない機能の一つに定義ジャンプがあります。
+普段コードを編集して欠かせない機能のひとつに定義ジャンプがあります。
 2025年現代の定義ジャンプはほぼLSPで実現されていますが、LSPが普及する前はctags[fn:3]が使われていました。
 ctagsはプロジェクト内の関数、変数、クラス、マクロなどのシンボル情報をインデックスファイルに出力プログラムです。
 インデックスファイルをテキストエディタ側の実装で読み込むことによって、タグジャンプや補完候補に出すことを実現していました。
@@ -72,23 +72,23 @@ LSPが提供しているメジャーな機能は以下です。
 | Rename          | 名前変更       | 変数の名前を変更する                               |
 
 
-上記のメジャー機能以外にも、事前に登録したコマンドを実行する機能(Execute Command)や、APIに関する情報を表示する機能(Hover)などもあります。
+上記のメジャー機能以外にも、事前に登録したコマンドを実行する機能（Execute Command）や、APIに関する情報を表示する機能（Hover）などもあります。
 
-Protocol自体の解説は「Language Server Protocol の仕様 及び実装方法[fn:7]」が非常にわかりやすく、こちらを参照することをオススメします。
+Protocol自体の解説は「Language Server Protocol の仕様 および実装方法[fn:7]」が非常にわかりやすく、こちらを参照することをお勧めします。
 
-* PHPをとりまくLSP環境
+* PHPを取り巻くLSP環境
 PHPのメジャーなLanguage Serverはintelephense[fn:8]とPhpactor[fn:9]の2種類あります。
 他にもSerenata[fn:10]やphp-language-server[fn:11]がありますが、筆者の印象ではintelephenseを使っている人が圧倒的に多いです。
 
 intelephenseはOSSではなく商用ソフトウェアで無料版と有料版があります。
 ソースコードは公開されておらず、npm経由で実行ファイルを入れて利用します。
-無料版でも十分使うことは可能ですが、LICENCEを購入することではRenameやGo to type definitionなど便利な機能が使えるようになります。
+無料版でも十分使うことは可能ですが、LICENCEを購入することではRenameやGo to type definitionなど便利な機能が使えます。
 
 一方PhpactorやSerenataやphp-language-serverはOSSのPHPプロジェクトです。
-余談ですが、Emacs標準のLSP Clientであるeglotではintelephenseを採用することができなかったので、phpactorとphp-language-serverをサポートしています。
+余談ですが、Emacs標準のLSP Clientであるeglotではintelephenseを採用できなかったので、phpactorとphp-language-serverをサポートしています。
 * Phpactorについて
 ** 概要
-PhpactorはPHPプロジェクトなのでcomposerで簡単に導入できます。
+PhpactorはPHPプロジェクトなのでComposerで簡単に導入できます。
 
 LSPサポート情報は公式サイトで確認できますが、基本的な機能はサポートされています。[fn:12]
 設定はjsonで記述でき、 =phpactor config:dump= で出力できます。
@@ -104,11 +104,11 @@ LSPサポート情報は公式サイトで確認できますが、基本的な�
   }
 #+end_src
 
-EmacsやVimやVS Codeなど大体のテキストエディタのLSP Clientは既にサポートしているので、手元のテキストエディタで簡単に試すことができます。[fn:13]
-PhpactorはあくまでLanguage Serverなので、実際の編集体験や細かい使い勝手はLSP Client側の対応状況依存になります。
+EmacsやVimやVS CodeなどだいたいのテキストエディタのLSP Clientはすでにサポートしているので、手元のテキストエディタで簡単に試すことができます。[fn:13]
+PhpactorはあくまでLanguage Serverですので、実際の編集体験や細かい使い勝手はLSP Client側の対応状況依存になります。
 
 Phpactorで大規模プロジェクトを開くと非常に重いといった問題があります。
-公式サイトのPerformance改善方法が記述されているページ通りに設定するとだいぶ緩和されるので対応することをオススメします。[fn:14]
+公式サイトのPerformance改善方法が記述されているページ通りに設定するとだいぶ緩和されるので対応することをお勧めします。[fn:14]
 
 #+begin_src console
   # Large Files
@@ -142,8 +142,8 @@ CLIツールとして使えば証跡を残しやすいので、チーム内で�
 #+end_src
 *** Navigation
 特定のクラスへのすべての参照をリストアップできます。
-実際にphpactorのプロジェクトで実行した結果は以下です。(LN: 行番号, OS: offset start, OE: offset end)
-ドキュメンテーションや影響範囲の調査の時に非常に便利で、筆者はよく仕事で使います。
+実際にphpactorのプロジェクトで実行した結果は以下です。（LN: 行番号, OS: offset start, OE: offset end）
+ドキュメントや影響範囲の調査のときに非常に便利で、筆者はよく仕事で使います。
 
 #+begin_src console
   $ phpactor references:class lib/Configurator/Model/ChangeSuggestor.php
@@ -167,7 +167,7 @@ CLIツールとして使えば証跡を残しやすいので、チーム内で�
 *** Refactoring
 筆者はテキストエディタで編集するのでほぼ使ったことがないですが、リファクタリングを自動でするコマンドも提供しています。
 
-例えば、 =class:transform= を使えば以下のように自動で修正してくれます。
+たとえば、 =class:transform= を使えば以下のように自動で修正してくれます。
 
 #+begin_src console
   $ phpactor class:transform path/to/Class.php --transform=add_missing_assignments
@@ -200,9 +200,9 @@ CLIツールとして使えば証跡を残しやすいので、チーム内で�
 ** 拡張
 phpactorはいくつかのPHP製開発ツールとのインテグレーションを提供しています。[fn:15]
 
-PHPStanのインテグレーションを使えば、Phpactor上でエラーをテキストエディタに返却することが可能なので、わざわざ別のツールを導入する必要はあります。
+PHPStanのインテグレーションを使えば、Phpactor上でエラーをテキストエディタに返却することが可能ですので、わざわざ別のツールを導入する必要はあります。
 
-php-cs-fixerのインテグレーションを使えば、 =textDocument/formatting= タイミングでphp-cs-fixerを実行する、エラー警告をテキストエディタ上に表示することができます。
+php-cs-fixerのインテグレーションを使えば、 =textDocument/formatting= タイミングでphp-cs-fixerを実行する、エラー警告をテキストエディタ上に表示できます。
 
 これらのインテグレーションを有効にすることによって、Phpactorに統合でき、別のツールを導入せずに済みます。
 
@@ -213,7 +213,7 @@ php-cs-fixerのインテグレーションを使えば、 =textDocument/formatti
   # php-cs-fixer
   $ phpactor config:set language_server_php_cs_fixer.enabled true
 #+end_src
-* おわりに
+* 終わりに
 
 普段、何気なく使っているソフトウェアにも歴史や時代背景があり、過去から現在に至るまで、さまざまな機能が追加・削除されてきました。
 先人たちに感謝しつつ、それらを最大限活用できるよう勉強を続けていけば、次の一歩が見えてくるかもしれません。

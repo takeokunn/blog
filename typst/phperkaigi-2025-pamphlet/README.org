@@ -8,8 +8,8 @@ https://fortee.jp/phperkaigi-2025/proposal/9484cc8e-4002-4d1e-8b30-f11f6a91f853
 
 ** 本文
 
-Language Server Protocol (LSP)は、2016年にMicrosoftが発表したJSON-RPCベースのプロトコルです。
-LSPはモダンなテキストエディタなら必ずある機能(例: 定義ジャンプ)を提供していますが、一番の魅力は特定のテキストエディタに依存しない形での実装になっていることです。
+Language Server Protocol （LSP）は、2016年にMicrosoftが発表したJSON-RPCベースのプロトコルです。
+LSPはモダンなテキストエディタなら必ずある機能（例: 定義ジャンプ）を提供していますが、一番の魅力は特定のテキストエディタに依存しない形での実装になっていることです。
 これにより各テキストエディタでの実装の必要がなくなり、エディタ選択の自由度が飛躍的に高まりました。
 
 PHPの言語サーバ実装はintelephenceとPhpactorがメジャーです。
