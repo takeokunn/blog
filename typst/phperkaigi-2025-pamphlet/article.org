@@ -3,7 +3,6 @@
 #+STARTUP: content
 #+STARTUP: fold
 #+TYPST: #set text(lang: "ja", font: "Migu 1P", size: 10pt)
-#+TYPST: #import "@preview/codelst:2.0.0": sourcecode
 * はじめに
 
 ソフトウェアの世界は言語、フレームワーク、エコシステム、ハードウェア等どれをとっても日進月歩で急速に進歩しています。
