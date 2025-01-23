@@ -2,7 +2,28 @@
 #+AUTHOR: takeokunn
 #+STARTUP: content
 #+STARTUP: fold
-#+TYPST: #set text(lang: "ja", font: "Migu 1P", size: 10pt)
+#+TYPST: #set text(lang: "ja", font: "Noto Sans JP", size: 8pt)
+#+BEGIN_EXPORT typst
+#set page(
+  width: 210mm,
+  height: 297mm,
+  margin: 20mm,
+  columns: 1
+)
+
+#import "@preview/codly:1.2.0": *
+#import "@preview/codly-languages:0.1.1": *
+#show: codly-init.with()
+#codly(languages: codly-languages)
+
+#align(center)[
+  #set text(size: 18pt)
+  Phpactorから学ぶLanguage Server Protocolの仕組み
+
+  #set text(size: 12pt)
+  たけてぃ \@takeokunn
+]
+#+END_EXPORT
 * はじめに
 
 ソフトウェアの世界は言語、フレームワーク、エコシステム、ハードウェア等どれをとっても日進月歩で急速に進歩しています。
@@ -14,7 +35,7 @@
 本記事ではそんなLSPの歴史と基本機能、PHPの代表的なLanguage ServerであるPhpactorについて紹介します。
 
 * LSPについて
-** LSPってそもそもなに?
+** 概要
 Language Server Protocol （LSP）は、2016年にMicrosoftが発表したJSON-RPCベースのプロトコルです。[fn:1]
 簡単な表現をすると、モダンテキストエディタの機能を提供している定義ジャンプやリネーム、構文エラーを表示する為の標準的なProtocolです。
 
@@ -59,9 +80,12 @@ C#を開発するならVisual Studioが一般的でしたが、OmniSharpはVim�
 
 LSPのGitHub WikiにProtocol-Historyというページ[fn:6]があり、OmniSharpから着想を得たという記述もあります。
 
-#+begin_src markdown
-  The protocol was not created out of thin air, but it builds up on work and experiences from many others. Here is a brief history of the protocol. Editors like vim or emacs have used language servers or demons to provide semantic auto complete support since a while. This concept was picked up by OmniSharp. OmniSharp provides auto complete and other rich editing features for C#. Initially OmniSharp used the http protocol with a JSON payload. OmniSharp has been integrated into several editors. One of them was VS Code.
-#+end_src
+#+begin_quote
+This concept was picked up by OmniSharp.
+OmniSharp provides auto complete and other rich editing features for C#.
+Initially OmniSharp used the http protocol with a JSON payload.
+OmniSharp has been integrated into several editors. One of them was VS Code.
+#+end_quote
 
 [fn:5] OmniSharp, https://www.omnisharp.net/
 [fn:6] Protocol-History - GitHub, https://github.com/microsoft/language-server-protocol/wiki/Protocol-History
@@ -82,6 +106,8 @@ LSPが提供しているメジャーな機能は以下です。
 上記のメジャー機能以外にも、事前に登録したコマンドを実行する機能（Execute Command）や、APIに関する情報を表示する機能（Hover）などもあります。
 
 Protocol自体の解説は「Language Server Protocol の仕様 および実装方法[fn:7]」が非常にわかりやすく、こちらを参照することをお勧めします。
+
+[[file:images/emacs.png]]
 
 [fn:7] Language Server Protocol の仕様 及び実装方法 - Zenn Book, https://zenn.dev/mtshiba/books/language_server_protocol
 * PHPを取り巻くLSP環境
@@ -154,33 +180,6 @@ CLIツールとして使えば証跡を残しやすいので、チーム内で�
 
   # watch
   $ phpactor index:build --watch
-
-  # reset
-  $ phpactor index:build --reset
-#+end_src
-*** Navigation
-特定のクラスへのすべての参照をリストアップできます。
-実際にphpactorのプロジェクトで実行した結果は以下です。（LN: 行番号, OS: offset start, OE: offset end）
-ドキュメントや影響範囲の調査のときに非常に便利で、筆者はよく仕事で使います。
-
-#+begin_src bash
-  $ phpactor references:class lib/Configurator/Model/ChangeSuggestor.php
-
-  # References:
-  +---------------------------------------------------------------------------+----+----------------------------------------------------------------------------------+------+------+
-  | Path                                                                      | LN | Line                                                                             | OS   | OE   |
-  +---------------------------------------------------------------------------+----+----------------------------------------------------------------------------------+------+------+
-  | lib/Configurator/Adapter/Test/TestChangeSuggestor.php                     | 6  | use Phpactor\Configurator\Model\ChangeSuggestor;                                 | 71   | 114  |
-  | lib/Configurator/Adapter/Test/TestChangeSuggestor.php                     | 9  | class TestChangeSuggestor implements ChangeSuggestor                             | 195  | 210  |
-  | lib/Configurator/Configurator.php                                         | 7  | use Phpactor\Configurator\Model\ChangeSuggestor;                                 | 135  | 178  |
-  | lib/Configurator/Model/ChangeSuggestor.php                                | 5  | interface ChangeSuggestor                                                        | 57   | 72   |
-  | lib/Extension/Configuration/ChangeSuggestor/PhpactorComposerSuggestor.php | 7  | use Phpactor\Configurator\Model\ChangeSuggestor;                                 | 135  | 178  |
-  | lib/Extension/Configuration/ChangeSuggestor/PhpactorComposerSuggestor.php | 11 | class PhpactorComposerSuggestor implements ChangeSuggestor                       | 309  | 324  |
-  | lib/Extension/Configuration/ConfigurationExtension.php                    | 6  | use Phpactor\Configurator\Model\ChangeSuggestor;                                 | 131  | 174  |
-  | lib/Extension/Configuration/ConfigurationExtension.php                    | 45 |                 $suggestors[] = $container->expect($id, ChangeSuggestor::class); | 1905 | 1920 |
-  +---------------------------------------------------------------------------+----+----------------------------------------------------------------------------------+------+------+
-
-  8 reference(s)
 #+end_src
 *** Refactoring
 筆者はテキストエディタで編集するのでほぼ使ったことがないですが、リファクタリングを自動でするコマンドも提供しています。
@@ -191,30 +190,45 @@ CLIツールとして使えば証跡を残しやすいので、チーム内で�
   $ phpactor class:transform path/to/Class.php --transform=add_missing_assignments
 #+end_src
 
-#+begin_src php
-  // before
-  class AcmeBlogTest extends TestCase
-  {
-      public function setUp()
-      {
-          $this->blog = new Blog();
-      }
-  }
+#+begin_export typst
+#grid(
+  columns: 2,
+  gutter: 20pt,
+  align: top,
+  [#raw(block: true, lang: "php", "/**
+ ,* before
+ ,*/
+class AcmeBlogTest extends TestCase
+{
+    public function setUp()
+    {
+        $this->blog = new Blog();
+    }
+}")],
+  [#raw(block: true, lang: "php", "/**
+ ,* after
+ ,*/
+class AcmeBlogTest extends TestCase
+{
+    /**
+     ,* @var Blog
+     ,*/
+    private $blog;
 
-  // after
-  class AcmeBlogTest extends TestCase
-  {
-      /**
-       ,* @var Blog
-       ,*/
-      private $blog;
+    public function setUp()
+    {
+        $this->blog = new Blog();
+    }
+}")],
+)
+#+end_export
+*** Navigation
+特定のクラスへのすべての参照をリストアップできます。
+実際にphpactorのプロジェクトで実行した結果は以下です。（LN: 行番号, OS: offset start, OE: offset end）
+ドキュメントや影響範囲の調査のときに非常に便利で、筆者はよく仕事で使います。
 
-      public function setUp()
-      {
-          $this->blog = new Blog();
-      }
-  }
-#+end_src
+[[file:images/phpactor-references-class.png]]
+
 ** 拡張
 phpactorはいくつかのPHP製開発ツールとのインテグレーションを提供しています。[fn:15]
 
