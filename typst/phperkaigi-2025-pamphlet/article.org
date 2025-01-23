@@ -2,7 +2,7 @@
 #+AUTHOR: takeokunn
 #+STARTUP: content
 #+STARTUP: fold
-# #+TYPST: #set text(lang: "ja", font: "Migu", size: 8pt)
+#+TYPST: #set text(lang: "ja", font: "Noto Sans JP", size: 8pt)
 #+BEGIN_EXPORT typst
 #set page(
   width: 210mm,
@@ -11,10 +11,10 @@
   columns: 1
 )
 
-// #import "@preview/codly:1.2.0": *
-// #import "@preview/codly-languages:0.1.1": *
-// #show: codly-init.with()
-// #codly(languages: codly-languages)
+#import "@preview/codly:1.2.0": *
+#import "@preview/codly-languages:0.1.1": *
+#show: codly-init.with()
+#codly(languages: codly-languages)
 
 #align(center)[
   #set text(size: 18pt)
