@@ -2,7 +2,7 @@
 #+AUTHOR: takeokunn
 #+STARTUP: content
 #+STARTUP: fold
-#+TYPST: #set text(lang: "ja", font: "Noto Sans JP", size: 8pt)
+# #+TYPST: #set text(lang: "ja", font: "Migu", size: 8pt)
 #+BEGIN_EXPORT typst
 #set page(
   width: 210mm,
@@ -11,10 +11,10 @@
   columns: 1
 )
 
-#import "@preview/codly:1.2.0": *
-#import "@preview/codly-languages:0.1.1": *
-#show: codly-init.with()
-#codly(languages: codly-languages)
+// #import "@preview/codly:1.2.0": *
+// #import "@preview/codly-languages:0.1.1": *
+// #show: codly-init.with()
+// #codly(languages: codly-languages)
 
 #align(center)[
   #set text(size: 18pt)
@@ -116,7 +116,7 @@ PHPのメジャーなLanguage Serverはintelephense[fn:8]とPhpactor[fn:9]の2�
 
 intelephenseはOSSではなく商用ソフトウェアで無料版と有料版があります。
 ソースコードは公開されておらず、npm経由で実行ファイルを入れて利用します。
-無料版でも十分使うことは可能ですが、LICENCEを購入することではRenameやGo to type definitionなど便利な機能が使えます。
+無料版でも十分使うことは可能ですが、LISENCEを購入することではRenameやGo to type definitionなど便利な機能が使えます。
 
 一方PhpactorやSerenataやphp-language-serverはOSSのPHPプロジェクトです。
 余談ですが、Emacs標準のLSP Clientであるeglotではintelephenseを採用できなかったので、phpactorとphp-language-serverをサポートしています。
