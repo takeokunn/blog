@@ -2,7 +2,7 @@
 #+AUTHOR: takeokunn
 #+STARTUP: content
 #+STARTUP: fold
-#+TYPST: #set text(lang: "ja", font: "Migu 1P", size: 10pt)
+#+TYPST: #set text(lang: "ja", font: "Migu 1P", size: 8pt)
 * 始めに
 
 ソフトウェアの世界は言語、フレームワーク、エコシステム、ハードウェア等どれをとっても日進月歩で急速に進歩しています。
@@ -36,6 +36,10 @@ LSPはさっき定義した関数の補完が効いてほしい、編集時に�
 同様のProtocolにLanguage Server Index Format（LSIF）[fn:2]があります。
 事前にインデックスを生成してLSIFファイルを生成することによって、LSPと同じような機能を実現できます。
 これにより、Web上で定義ジャンプをしたりシンボルの検索も実現可能になります。
+
+[fn:1] Language Server, https://microsoft.github.io/language-server-protocol/overviews/lsp/overview/
+[fn:2] Language Server Index Format, https://microsoft.github.io/language-server-protocol/overviews/lsif/overview/
+
 ** LSP前史
 *** ctags
 普段コードを編集して欠かせない機能のひとつに定義ジャンプがあります。
@@ -43,6 +47,10 @@ LSPはさっき定義した関数の補完が効いてほしい、編集時に�
 ctagsはプロジェクト内の関数、変数、クラス、マクロなどのシンボル情報をインデックスファイルに出力プログラムです。
 インデックスファイルをテキストエディタ側の実装で読み込むことによって、タグジャンプや補完候補に出すことを実現していました。
 universal-ctags[fn:4]は2025年1月現在でも開発が続いているようです。
+
+[fn:3] Universal Ctags, https://ctags.io/
+[fn:4] universal-ctags/ctags - GitHub, https://github.com/universal-ctags/ctags
+
 *** OmniSharp
 LSPの前身にC#のOmniSharp[fn:5]があります。
 
@@ -58,6 +66,9 @@ Editors like vim or emacs have used language servers or demons to provide semant
 
 This concept was picked up by OmniSharp. OmniSharp provides auto complete and other rich editing features for C#. Initially OmniSharp used the http protocol with a JSON payload. OmniSharp has been integrated into several editors. One of them was VS Code.
 #+end_quote
+
+[fn:5] OmniSharp, https://www.omnisharp.net/
+[fn:6] Protocol-History - GitHub, https://github.com/microsoft/language-server-protocol/wiki/Protocol-History
 ** 基本機能
 
 LSPが提供しているメジャーな機能は以下です。
@@ -76,6 +87,7 @@ LSPが提供しているメジャーな機能は以下です。
 
 Protocol自体の解説は「Language Server Protocol の仕様 および実装方法[fn:7]」が非常にわかりやすく、こちらを参照することをお勧めします。
 
+[fn:7] Language Server Protocol の仕様 及び実装方法 - Zenn Book, https://zenn.dev/mtshiba/books/language_server_protocol
 * PHPを取り巻くLSP環境
 PHPのメジャーなLanguage Serverはintelephense[fn:8]とPhpactor[fn:9]の2種類あります。
 他にもSerenata[fn:10]やphp-language-server[fn:11]がありますが、筆者の印象ではintelephenseを使っている人が圧倒的に多いです。
@@ -86,6 +98,12 @@ intelephenseはOSSではなく商用ソフトウェアで無料版と有料版�
 
 一方PhpactorやSerenataやphp-language-serverはOSSのPHPプロジェクトです。
 余談ですが、Emacs標準のLSP Clientであるeglotではintelephenseを採用できなかったので、phpactorとphp-language-serverをサポートしています。
+
+[fn:8] intelephense, https://intelephense.com/
+[fn:9] Phpactor, https://phpactor.readthedocs.io/en/master/index.html
+[fn:10] Serenata, https://serenata.gitlab.io/
+[fn:11] felixfbecker/php-language-server, https://github.com/felixfbecker/php-language-server
+
 * Phpactorについて
 ** 概要
 PhpactorはPHPプロジェクトなのでComposerで簡単に導入できます。
@@ -117,6 +135,10 @@ Phpactorで大規模プロジェクトを開くと非常に重いといった問
   # Indexing
   $ phpactor config:set indexer.exclude_patterns '["/vendor/**/Tests/**/*","/vendor/**/tests/**/*","/var/cache/**/*","/vendor/composer/**/*"]'
 #+end_src
+
+[fn:12] LSP Support - Phpactor, https://phpactor.readthedocs.io/en/master/lsp/support.html
+[fn:13] Language Server - Phpactor, https://phpactor.readthedocs.io/en/master/usage/language-server.html
+[fn:14] Performance - Phpactor, https://phpactor.readthedocs.io/en/master/tips/performance.html
 
 ** コマンドライン利用
 
@@ -213,24 +235,9 @@ php-cs-fixerのインテグレーションを使えば、 =textDocument/formatti
   # php-cs-fixer
   $ phpactor config:set language_server_php_cs_fixer.enabled true
 #+end_src
+
+[fn:15] Integration - Phpactor, https://phpactor.readthedocs.io/en/master/integrations.html
 * 終わりに
 
 普段、何気なく使っているソフトウェアにも歴史や時代背景があり、過去から現在に至るまで、さまざまな機能が追加・削除されてきました。
 先人たちに感謝しつつ、それらを最大限活用できるよう勉強を続けていけば、次の一歩が見えてくるかもしれません。
-
-* 出典
-- [fn:1] Language Server, https://microsoft.github.io/language-server-protocol/overviews/lsp/overview/
-- [fn:2] Language Server Index Format, https://microsoft.github.io/language-server-protocol/overviews/lsif/overview/
-- [fn:3] Universal Ctags, https://ctags.io/
-- [fn:4] universal-ctags/ctags - GitHub, https://github.com/universal-ctags/ctags
-- [fn:5] OmniSharp, https://www.omnisharp.net/
-- [fn:6] Protocol-History - GitHub, https://github.com/microsoft/language-server-protocol/wiki/Protocol-History
-- [fn:7] Language Server Protocol の仕様 及び実装方法 - Zenn Book, https://zenn.dev/mtshiba/books/language_server_protocol
-- [fn:8] intelephense, https://intelephense.com/
-- [fn:9] Phpactor, https://phpactor.readthedocs.io/en/master/index.html
-- [fn:10] Serenata, https://serenata.gitlab.io/
-- [fn:11] felixfbecker/php-language-server, https://github.com/felixfbecker/php-language-server
-- [fn:12] LSP Support - Phpactor, https://phpactor.readthedocs.io/en/master/lsp/support.html
-- [fn:13] Language Server - Phpactor, https://phpactor.readthedocs.io/en/master/usage/language-server.html
-- [fn:14] Performance - Phpactor, https://phpactor.readthedocs.io/en/master/tips/performance.html
-- [fn:15] Integration - Phpactor, https://phpactor.readthedocs.io/en/master/integrations.html
