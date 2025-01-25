@@ -1,3 +1,6 @@
+:PROPERTIES:
+:ID:       30FF0077-42E8-76C4-4EFB-4F68F26095BC
+:END:
 #+TITLE: PHPUnitを低速化する技術 by たけてぃ
 #+AUTHOR: takeokunn
 #+STARTUP: content

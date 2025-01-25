@@ -1,3 +1,6 @@
+:PROPERTIES:
+:ID:       795ABE1A-4CCA-66E4-C9AB-37D82893C7D3
+:END:
 #+TITLE: Phpactorから学ぶLanguage Server Protocolの仕組み
 #+AUTHOR: takeokunn
 #+STARTUP: content
