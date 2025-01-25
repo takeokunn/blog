@@ -59,9 +59,9 @@ jobs:
 
       # for PDF
       - name: Generate phperkaigi-2025-pamphlet.pdf
-        run: nix build ./typst#phperkaigi-2025-pamphlet
-      - name: Copy phperkaigi-2025-pamphlet.pdf
-        run: cp result/typst#phperkaigi-2025-pamphlet.pdf public/pdf
+        run: |
+          nix build ./typst#phperkaigi-2025-pamphlet
+          cp result/phperkaigi-2025-pamphlet.pdf public/pdf/
 
       # for GitHub Pages
       - name: Setup GitHub Pages
