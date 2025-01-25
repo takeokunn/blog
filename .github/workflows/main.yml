@@ -57,6 +57,12 @@ jobs:
           HUGO_ENV: production
         run: nix develop .#deploy --command bash -c "hugo --minify"
 
+      # for PDF
+      - name: Generate phperkaigi-2025-pamphlet pdf
+        run: |
+          nix build ./typst#phperkaigi-2025-pamphlet
+          cp result/typst#phperkaigi-2025-pamphlet.pdf
+
       # for GitHub Pages
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v5

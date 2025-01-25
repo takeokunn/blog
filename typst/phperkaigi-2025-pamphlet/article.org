@@ -2,7 +2,7 @@
 #+AUTHOR: takeokunn
 #+STARTUP: content
 #+STARTUP: fold
-#+TYPST: #set text(lang: "ja", font: "Noto Sans JP", size: 8pt)
+#+TYPST: #set text(lang: "ja", font: "Migu", size: 8pt)
 #+BEGIN_EXPORT typst
 #set page(
   width: 210mm,

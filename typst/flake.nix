@@ -35,7 +35,7 @@
       in
         {
           devShells.default = pkgs.mkShell {
-            packages = with pkgs; [ typst ];
+            packages = with pkgs; [ typst migu ];
           };
 
           packages = {
