@@ -19,22 +19,41 @@
       system:
       let
         pkgs = import nixpkgs { inherit system; };
-        nativeBuildInputs = with pkgs; [
-          typst
-          migu
-          (emacs.pkgs.withPackages (epkgs: with epkgs; [ org ox-typst ]))
-        ];
-        typstPackagesSrc = pkgs.symlinkJoin {
-          name = "typst-packages-src";
-          paths = [ "${typst-packages}/packages" ];
-        };
         typstPackagesCache = pkgs.stdenvNoCC.mkDerivation {
           name = "typst-packages-cache";
-          src = typstPackagesSrc;
+          src = pkgs.symlinkJoin {
+            name = "typst-packages-src";
+            paths = [ "${typst-packages}/packages" ];
+          };
           dontBuild = true;
           installPhase = ''
             mkdir -p $out/typst/packages
             cp -LR --reflink=auto --no-preserve=mode -t $out/typst/packages $src/*
+          '';
+        };
+
+        buildTypstProject = { name, src, file }: pkgs.stdenv.mkDerivation {
+          inherit name src;
+          nativeBuildInputs = with pkgs; [
+            typst
+            migu
+            (emacs.pkgs.withPackages (epkgs: with epkgs; [ org ox-typst ]))
+          ];
+          buildPhase = ''
+            emacs --batch \
+                  --eval "(progn
+                            (require 'ox-typst)
+                            (find-file \"${file}.org\")
+                            (setq org-export-with-toc nil)
+                            (org-typst-export-to-typst))"
+
+            export TYPST_FONT_PATHS="${pkgs.migu}/share/fonts/truetype/migu"
+            export TYPST_PACKAGE_PATH="${typstPackagesCache}/typst/packages"
+            typst compile ${file}.typ
+          '';
+          installPhase = ''
+            mkdir -p $out
+            cp ${file}.pdf $out/${name}.pdf
           '';
         };
       in
@@ -44,48 +63,15 @@
           };
 
           packages = {
-            phperkaigi-2025-pamphlet = pkgs.stdenv.mkDerivation {
+            phperkaigi-2025-pamphlet = buildTypstProject {
               name = "phperkaigi-2025-pamphlet";
               src = ./phperkaigi-2025-pamphlet;
-              nativeBuildInputs = nativeBuildInputs;
-              buildPhase = ''
-                emacs --batch \
-                      --eval "(progn
-                                (require 'ox-typst)
-                                (find-file \"article.org\")
-                                (setq org-export-with-toc nil)
-                                (org-typst-export-to-typst))"
-
-                export TYPST_FONT_PATHS="${pkgs.migu}/share/fonts/truetype/migu"
-                export TYPST_PACKAGE_PATH="${typstPackagesCache}/typst/packages"
-                typst compile article.typ
-              '';
-              installPhase = ''
-                mkdir -p $out
-                cp article.pdf $out/phperkaigi-2025-pamphlet.pdf
-              '';
+              file = "article";
             };
-
-            phpcon-nagoya-2025 = pkgs.stdenv.mkDerivation {
+            phpcon-nagoya-2025 = buildTypstProject {
               name = "phpcon-nagoya-2025";
               src = ./phpcon-nagoya-2025;
-              nativeBuildInputs = nativeBuildInputs;
-              buildPhase = ''
-                emacs --batch \
-                      --eval "(progn
-                                (require 'ox-typst)
-                                (find-file \"slide.org\")
-                                (setq org-export-with-toc nil)
-                                (org-typst-export-to-typst))"
-
-                export TYPST_FONT_PATHS="${pkgs.migu}/share/fonts/truetype/migu"
-                export TYPST_PACKAGE_PATH="${typstPackagesCache}/typst/packages"
-                typst compile slide.typ
-              '';
-              installPhase = ''
-                mkdir -p $out
-                cp slide.pdf $out/phpcon-nagoya-2025.pdf
-              '';
+              file = "slide";
             };
           };
         }
