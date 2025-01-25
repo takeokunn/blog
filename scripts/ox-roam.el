@@ -1,11 +1,3 @@
-(require 'package)
-
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-(package-refresh-contents)
-(package-initialize)
-(package-install 'ox-hugo)
-(package-install 'org-roam)
-
 (require 'ox-hugo)
 (require 'org-roam)
 

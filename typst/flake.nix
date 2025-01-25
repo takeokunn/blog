@@ -32,46 +32,49 @@
           '';
         };
 
-        buildTypstProject = { name, src, file }: pkgs.stdenv.mkDerivation {
-          inherit name src;
-          nativeBuildInputs = with pkgs; [
-            typst
-            migu
-            (emacs.pkgs.withPackages (epkgs: with epkgs; [ org ox-typst ]))
-          ];
-          buildPhase = ''
-            emacs --batch \
-                  --eval "(progn
-                            (require 'ox-typst)
-                            (find-file \"${file}.org\")
-                            (setq org-export-with-toc nil)
-                            (org-typst-export-to-typst))"
+        buildTypstProject = { name, type }:
+          let
+            _ = assert builtins.elem; type [ "article" "slide" ];
+            emacsBuildPhase = name: if type == "article"
+                                    then
+                                      "emacs --batch --load ox-typst.el --file ${name}/article.org --funcall org-typst-export-to-typst"
+                                    else
+                                      "emacs --batch --load ox-typst.el --file ${name}/article.org --funcall org-typst-slide-export-to-typst";
+          in
+            pkgs.stdenv.mkDerivation {
+              inherit name;
+              src = ./.;
+              nativeBuildInputs = with pkgs; [
+                typst
+                migu
+                (emacs.pkgs.withPackages (epkgs: with epkgs; [ org ox-typst ]))
+              ];
+              buildPhase = ''
+                ${emacsBuildPhase name}
 
-            export TYPST_FONT_PATHS="${pkgs.migu}/share/fonts/truetype/migu"
-            export TYPST_PACKAGE_PATH="${typstPackagesCache}/typst/packages"
-            typst compile ${file}.typ
-          '';
-          installPhase = ''
-            mkdir -p $out
-            cp ${file}.pdf $out/${name}.pdf
-          '';
-        };
+                export TYPST_FONT_PATHS="${pkgs.migu}/share/fonts/truetype/migu"
+                export TYPST_PACKAGE_PATH="${typstPackagesCache}/typst/packages"
+                typst compile ${name}/article.typ
+              '';
+              installPhase = ''
+                mkdir -p $out
+                cp ${name}/article.pdf $out/${name}.pdf
+              '';
+            };
       in
         {
           devShells.default = pkgs.mkShell {
-            packages = with pkgs; [ typst migu ];
+            packages = with pkgs; [ typst ];
           };
 
           packages = {
             phperkaigi-2025-pamphlet = buildTypstProject {
               name = "phperkaigi-2025-pamphlet";
-              src = ./phperkaigi-2025-pamphlet;
-              file = "article";
+              type = "article";
             };
             phpcon-nagoya-2025 = buildTypstProject {
               name = "phpcon-nagoya-2025";
-              src = ./phpcon-nagoya-2025;
-              file = "slide";
+              type = "slide";
             };
           };
         }
