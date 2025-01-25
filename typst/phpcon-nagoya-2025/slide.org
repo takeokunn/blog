@@ -1,0 +1,93 @@
+#+TITLE: PHPUnitを低速化する技術 by たけてぃ
+#+AUTHOR: takeokunn
+#+STARTUP: content
+#+STARTUP: fold
+#+BEGIN_EXPORT typst
+#import "@preview/polylux:0.3.1": *
+#import "@preview/codelst:2.0.0": sourcecode
+#import themes.simple: *
+#set text(lang: "ja", font: "Migu")
+#set page(paper: "presentation-16-9")
+#set text(size: 25pt)
+#show: simple-theme.with(footer: [Simple slides])
+#+END_EXPORT
+* Title
+
+fdsafasf
+
+- fdsafas
+- [[http://example.com][hoge]]
+
+=fdasfas= ~fadsfas~ hogegeh
+
+#+begin_export typst
+#title-slide[
+  = Keep it simple!
+  #v(2em)
+
+  Alpha #footnote[Uni Augsburg] #h(1em)
+  Bravo #footnote[Uni Bayreuth] #h(1em)
+  Charlie #footnote[Uni Chemnitz] #h(1em)
+
+  July 23
+]
+#+end_export
+* first slide
+#+begin_export typst
+#slide[
+  == First slide
+
+  #sourcecode[```c
+    #include <stdio.h>
+
+    int main() {
+        printf("Hello, World!\n");
+        return 0;
+    }
+  ```]
+]
+#+end_export
+* second slide
+#+begin_export typst
+#focus-slide[
+  _Focus!_
+
+  This is very important.
+]
+#+end_export
+* thrid slide
+** 1
+#+begin_export typst
+#centered-slide[
+  = Let's start a new 1 section! fdsafasf
+]
+#+end_export
+** 2
+#+begin_export typst
+#centered-slide[
+  = Let's start a new 1 section! fdsafasf
+  = Let's start a new 2 section! fdsafasf
+]
+#+end_export
+** 3
+#+begin_export typst
+#centered-slide[
+  = Let's start a new 1 section! fdsafasf
+  = Let's start a new 2 section! fdsafasf
+  = Let's start a new 3 section! fdsafasf
+]
+#+end_export
+* force slide
+
+- fdsafdsa memo
+- hello
+
+#+begin_export typst
+#slide[
+  == Dynamic slide
+  Did you know that...
+
+  #pause
+  ...you can see the current section at the top of the slide?
+]
+#+end_export

@@ -58,10 +58,14 @@ jobs:
         run: nix develop .#deploy --command bash -c "hugo --minify"
 
       # for PDF
-      - name: Generate phperkaigi-2025-pamphlet.pdf
+      - name: Generate phperkaigi-2025-pamphlet
         run: |
           nix build ./typst#phperkaigi-2025-pamphlet
           cp result/phperkaigi-2025-pamphlet.pdf public/pdf/
+      - name: Generate phpcon-nagoya-2025
+        run: |
+          nix build ./typst#phpcon-nagoya-2025
+          cp result/phpcon-nagoya-2025.pdf public/pdf/
 
       # for GitHub Pages
       - name: Setup GitHub Pages

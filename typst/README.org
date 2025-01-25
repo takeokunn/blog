@@ -1,7 +1,3 @@
 #+STARTUP: content
 #+STARTUP: fold
 * Typst
-
-| name                          | build                                    |      |
-|-------------------------------+------------------------------------------+------|
-| PHPerKaigi 2025パンフレット記事 | =$ nix build .#phperkaigi-2025-pamphlet= | [[file:phperkaigi-2025-pamphlet/README.org][link]] |
