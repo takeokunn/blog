@@ -15,12 +15,9 @@
 * 背景
 
 スライドや組版記事を生成する為にTypstを採用することにした。
-工数を最小限に安定的に量産できるようなしくみを整える必要があるので、対応したことをメモする。
+工数を最小限に安定的に量産できるようなしくみを整える必要が迫られていたので、今回対応したことをメモしておく。
 
 ソースコードは[[https://github.com/takeokunn/blog/tree/11609d8503ffd9b9eb8a3e2a5d19f3f51ee5b579/typst][takeokunn/blogのtypstディレクトリ下]]に置いていて、生成されたPDFは以下から確認できる。
-
-- https://www.takeokunn.org/pdf/phperkaigi-2025-pamphlet.pdf
-- https://www.takeokunn.org/pdf/example-slide.pdf
 
 * 条件
 
@@ -219,10 +216,17 @@ https://github.com/takeokunn/blog/blob/main/.github/workflows/main.yml
       nix build ./typst#phperkaigi-2025-pamphlet
       cp result/phperkaigi-2025-pamphlet.pdf public/pdf/
 #+end_src
+
+生成されたPDFは以下。
+
+- https://www.takeokunn.org/pdf/phperkaigi-2025-pamphlet.pdf
+- https://www.takeokunn.org/pdf/example-slide.pdf
+
 * Next Step
 
 安定的にBuildできるようになったので、Typst自体の記述に慣れつつスライドや記事を量産していきたい。
-また、現状[[https://itouhiro.github.io/mixfont-mplus-ipa/migu/][Miguフォント]]を使っているが個人的には納得していなく、テーブル表示にするとなぜかずれてしまうので、nixpkgs内にある日本語フォント選定を行っていきたい。
+また、現状[[https://itouhiro.github.io/mixfont-mplus-ipa/migu/][Miguフォント]]を使っているが個人的には納得していなく、テーブル表示にするとなぜかずれてしまう問題が発生している。
+nixpkgs内にある日本語フォント選定に時間を割きたい。
 
 * 雑感
 
