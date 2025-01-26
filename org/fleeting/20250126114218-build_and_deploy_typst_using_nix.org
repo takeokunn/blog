@@ -66,7 +66,7 @@
 
 ** 1. org-modeで記述したファイルをTypstに変換
 
-組版記事の場合、[[ https://github.com/jmpunkt/ox-typst][jmpunkt/ox-typst]] を用いて通常通りOrgファイルをTypstに変換する。(=M-x org-typst-export-to-typst= を実行)
+組版記事の場合、[[https://github.com/jmpunkt/ox-typst][jmpunkt/ox-typst]] を用いて通常通りOrgファイルをTypstに変換する。(=M-x org-typst-export-to-typst= を実行)
 
 [[https://github.com/takeokunn/blog/blob/11609d8503ffd9b9eb8a3e2a5d19f3f51ee5b579/typst/phperkaigi-2025-pamphlet/article.org][PHPerKaigi2025のパンフ記事]]の場合、以下のようにTypstの設定をExportしている。
 
