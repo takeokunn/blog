@@ -14,7 +14,7 @@
 #+STARTUP: fold
 * Introduction
 
-個人的なdevenv運用について纏める。
+個人的なdevenv運用についてまとめる。
 
 * devevnとは
 
@@ -24,9 +24,9 @@
 * devevnの個人的期待役割
 
 - Language Serverのようなあくまで開発補助ツールのみ入れる
-- git commitしない
+- Git commitしない
 - そのプロジェクトに必要な手元の開発ツールを入れる
-- emacsからもpackageを参照できるようにする
+- Emacsからもpackageを参照できるようにする
 
 * 運用
 ** org-tangleして各プロジェクトに配置
@@ -35,11 +35,11 @@
 
 ** direnvで起動
 
-- emacsからは .dir-locals2.el で参照
+- Emacsからは .dir-locals2.el で参照
 
 ** devenvサンプル
 
-- 実際に使ってる例を出す
+- 実際に使っている例を出す
 - pre-commit運用
 
 * Next Step
