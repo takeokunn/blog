@@ -17,17 +17,17 @@
 スライドや組版記事を生成する為にTypstを採用することにした。
 工数を最小限に安定的に量産できるようなしくみを整える必要が迫られていたので、今回対応したことをメモしておく。
 
-ソースコードは[[https://github.com/takeokunn/blog/tree/11609d8503ffd9b9eb8a3e2a5d19f3f51ee5b579/typst][takeokunn/blogのtypstディレクトリ下]]に置いていて、生成されたPDFは以下から確認できる。
+ソースコードは[[https://github.com/takeokunn/blog/tree/11609d8503ffd9b9eb8a3e2a5d19f3f51ee5b579/typst][takeokunn/blogのtypstディレクトリ下]]に置いている。
 
 * 条件
 
 - MUST
-  - Localに一切依存しない再現性の高いBuild環境
+  - Localに一切依存しない再現性の高いBuild環境構築
   - org-modeで記述できる
   - Typstのエコシステムを使う
   - スライド生成と組版記事両方に対応する
 - SHOULD
-  - =takeokunn.org= から配信できる
+  - takeokunn.orgから配信できる
   - リリースまでのリードタイムが短い
   - org-roamなど周辺のエコシステムとの親和性を高める
 
