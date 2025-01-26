@@ -1,0 +1,14 @@
+:PROPERTIES:
+:ID:       b509ec4e-0733-3634-5d23-4d31761c68bd
+:END:
+#+TITLE: vim-jpラジオのEmacs回に出演しました
+#+DESCRIPTION: description
+#+DATE: 2024-12-22T07:35:17+0900
+#+GFM_TAGS: php
+#+GFM_CUSTOM_FRONT_MATTER: :emoji 💪
+#+GFM_CUSTOM_FRONT_MATTER: :type idea
+#+GFM_CUSTOM_FRONT_MATTER: :published false
+#+STARTUP: content
+#+STARTUP: fold
+#+OPTIONS: toc:nil
+* Introduction

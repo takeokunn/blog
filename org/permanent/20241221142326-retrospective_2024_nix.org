@@ -52,12 +52,13 @@
 ** common Lisp環境構築
 
 - [[https://github.com/takeokunn/cl-competitive][takeokunn/cl-competitive]]
+
 ** blogのNix化
 ** Neovimの設定もNixでやっている
 
 - vim-jpのquestionでやってた
 
-** org-modeでwandbox戻き作った
+** org-modeでwandboxを作った
 * コミュニティ活動
 ** vim-jpの #tech-nix で活動
 ** Nix meetup #1 開催
