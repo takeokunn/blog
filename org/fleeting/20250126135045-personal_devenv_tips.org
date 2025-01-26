@@ -1,0 +1,51 @@
+:PROPERTIES:
+:ID:       AC34BF32-B755-C764-856B-FD332101AB48
+:END:
+#+TITLE: 個人的devenv運用
+#+AUTHOR: takeokunn
+#+DESCRIPTION: description
+#+DATE: 2025-01-26T13:51:30+0900
+#+HUGO_BASE_DIR: ../../
+#+HUGO_CATEGORIES: fleeting
+#+HUGO_SECTION: posts/fleeting
+#+HUGO_TAGS: fleeting nix
+#+HUGO_DRAFT: true
+#+STARTUP: content
+#+STARTUP: fold
+* Introduction
+
+個人的なdevenv運用について纏める。
+
+* devevnとは
+
+- https://devenv.sh/
+- flake.nix wrapper, DSL
+
+* devevnの個人的期待役割
+
+- Language Serverのようなあくまで開発補助ツールのみ入れる
+- git commitしない
+- そのプロジェクトに必要な手元の開発ツールを入れる
+- emacsからもpackageを参照できるようにする
+
+* 運用
+** org-tangleして各プロジェクトに配置
+
+- サンプルコードを貼る
+
+** direnvで起動
+
+- emacsからは .dir-locals2.el で参照
+
+** devenvサンプル
+
+- 実際に使ってる例を出す
+- pre-commit運用
+
+* Next Step
+
+- Serviceを使う
+
+* 所感
+
+devenvめちゃくちゃ良い。
