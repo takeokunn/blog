@@ -68,6 +68,10 @@
           };
 
           packages = {
+            example-slide = buildTypstProject {
+              name = "example-slide";
+              type = "slide";
+            };
             phperkaigi-2025-pamphlet = buildTypstProject {
               name = "phperkaigi-2025-pamphlet";
               type = "article";

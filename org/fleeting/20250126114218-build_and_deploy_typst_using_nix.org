@@ -1,0 +1,230 @@
+:PROPERTIES:
+:ID:       0D13FCEA-F8EC-4729-B700-9A88FD1D5EB9
+:END:
+#+TITLE: NixでTypstをBuildしGitHub Pagesでホスティングする
+#+AUTHOR: takeokunn
+#+DESCRIPTION: description
+#+DATE: 2025-01-26T11:42:26+0900
+#+HUGO_BASE_DIR: ../../
+#+HUGO_CATEGORIES: fleeting
+#+HUGO_SECTION: posts/fleeting
+#+HUGO_TAGS: fleeting,nix,typst
+#+HUGO_DRAFT: false
+#+STARTUP: content
+#+STARTUP: fold
+* 背景
+
+スライドや組版記事を生成する為にTypstを採用することにした。
+工数を最小限に安定的に量産できるようなしくみを整える必要があるので、対応したことをメモする。
+
+ソースコードは[[https://github.com/takeokunn/blog/tree/11609d8503ffd9b9eb8a3e2a5d19f3f51ee5b579/typst][takeokunn/blogのtypstディレクトリ下]]に置いていて、生成されたPDFは以下から確認できる。
+
+- https://www.takeokunn.org/pdf/phperkaigi-2025-pamphlet.pdf
+- https://www.takeokunn.org/pdf/example-slide.pdf
+
+* 条件
+
+- MUST
+  - Localに一切依存しない再現性の高いBuild環境
+  - org-modeで記述できる
+  - Typstのエコシステムを使う
+  - スライド生成と組版記事両方に対応する
+- SHOULD
+  - =takeokunn.org= から配信できる
+  - リリースまでのリードタイムが短い
+  - org-roamなど周辺のエコシステムとの親和性を高める
+
+* 方針
+
+以下の3ステップで実現した。
+
+- org-modeで記述したファイルをTypstに変換
+- NixでTypstをBuildできるようにする
+- GitHub ActionsでBuildしてGitHub Pagesで配信できる
+
+[[file:../../static/images/D91F417B-0FFC-4C67-A814-A267565ADE63.png]]
+
+#+begin_src mermaid :exports none
+  graph TD
+      A[human] -->|git push| B[org-mode]
+      subgraph GitHub Actions
+          direction TB
+          B -->|ox-typst| C[typ file]
+          C -->|nix build| D[PDF]
+      end
+      D -->|Deploy| Ep[GitHub Pages]
+#+end_src
+* 作業ステップ
+** 0. どこに置くか検討
+
+以下を理由に [[https://github.com/takeokunn/blog][takeokunn/blog]] 上に構築することにした。
+
+- [[https://www.takeokunn.org/][takeokunn.org]] から配信できる
+- 既存のorg-roam上に相乗りできる
+- 新しいリポジトリを作ると関心ことが増える
+- すでにあるGitHub Actions上に構築することによって実装コストとメンテナンスコストを抑えられる
+- 今回の用途だと作業途中でもパブリックにして問題がない
+
+商業誌のような公開制限をかける必要のあるものは都度プライベートリポジトリを作って対応することにした。
+
+** 1. org-modeで記述したファイルをTypstに変換
+
+組版記事の場合、[[ https://github.com/jmpunkt/ox-typst][jmpunkt/ox-typst]] を用いて通常通りOrgファイルをTypstに変換する。(=M-x org-typst-export-to-typst= を実行)
+
+[[https://github.com/takeokunn/blog/blob/11609d8503ffd9b9eb8a3e2a5d19f3f51ee5b579/typst/phperkaigi-2025-pamphlet/article.org][PHPerKaigi2025のパンフ記事]]の場合、以下のようにTypstの設定をExportしている。
+
+#+begin_src org
+  ,#+BEGIN_EXPORT typst
+  #set text(lang: "ja", font: "Migu", size: 8pt)
+
+  #set page(
+    width: 210mm,
+    height: 297mm,
+    margin: 20mm,
+    columns: 1
+  )
+
+  #import "@preview/codly:1.2.0": *
+  #import "@preview/codly-languages:0.1.1": *
+  #show: codly-init.with()
+  #codly(languages: codly-languages)
+
+  #align(center)[
+    #set text(size: 18pt)
+    Phpactorから学ぶLanguage Server Protocolの仕組み
+
+    #set text(size: 12pt)
+    たけてぃ \@takeokunn
+  ]
+  ,#+END_EXPORT
+#+end_src
+
+スライドの場合、 Orgファイルには登壇メモをしつつ、 =#+BEGIN_EXPORT typst= のみ出力してほしかったので以下のようなElispを書いた。
+
+#+begin_src emacs-lisp
+  (require 'ox-typst)
+
+  (setq org-export-with-toc nil)
+
+  (org-export-define-backend 'typst-slide
+    '((export-block . org-typst-export-block)
+      (headline . org-typst-headline)
+      (item . org-typst-item)
+      (keyword . org-typst-keyword)
+      (section . org-typst-section)
+      (src-block . org-typst-src-block))
+    :menu-entry
+    '(?y "Export to Typst"
+         ((?F "As Typst buffer" org-typst-export-as-typst)
+          (?f "As Typst file" org-typst-export-to-typst)
+          (?p "As PDF file" org-typst-export-to-pdf)))
+    :options-alist
+    '((:typst-format-drawer-function nil nil #'(lambda (_ contents) contents))
+      (:typst-format-inlinetask-function nil
+                                         nil
+                                         #'(lambda (_ contents) contents))))
+
+  (defun org-typst-slide-export-as-typst (&optional async subtreep visible-only body-only ext-plist)
+    (interactive)
+    (org-export-to-buffer 'typst-slide "*Org Typst Slide Export*"
+      async subtreep visible-only body-only ext-plist))
+
+  (defun org-typst-slide-export-to-typst (&optional async subtreep visible-only body-only ext-plist)
+    (interactive)
+    (let ((outfile (org-export-output-file-name ".typ" subtreep)))
+      (org-export-to-file 'typst-slide outfile
+        async subtreep visible-only body-only ext-plist)))
+#+end_src
+
+** 2. NixでTypstをBuildできるようにする
+
+組版記事とスライドの場合で実行したいElisp関数が違うので、引数に =type= を渡すことで条件分岐をした。
+Nix経由でインストールしたものを =TYPST_FONT_PATHS= =TYPST_PACKAGE_PATH= でPATHを通して =typst compile= を実行するDerivationを作った。
+
+output抜粋:
+
+#+begin_src nix
+  buildTypstProject = { name, type }:
+    let
+      _ = assert builtins.elem; type [ "article" "slide" ];
+      emacsBuildPhase = name: if type == "article"
+                              then
+                                "emacs --batch --load ox-typst.el --file ${name}/article.org --funcall org-typst-export-to-typst"
+                              else
+                                "emacs --batch --load ox-typst.el --file ${name}/article.org --funcall org-typst-slide-export-to-typst";
+    in
+      pkgs.stdenv.mkDerivation {
+        inherit name;
+        src = ./.;
+        nativeBuildInputs = with pkgs; [
+          typst
+          migu
+          (emacs.pkgs.withPackages (epkgs: with epkgs; [ org ox-typst ]))
+        ];
+        buildPhase = ''
+          ${emacsBuildPhase name}
+          export TYPST_FONT_PATHS="${pkgs.migu}/share/fonts/truetype/migu"
+          export TYPST_PACKAGE_PATH="${typstPackagesCache}/typst/packages"
+          typst compile ${name}/article.typ
+        '';
+        installPhase = ''
+          mkdir -p $out
+          cp ${name}/article.pdf $out/${name}.pdf
+        '';
+      };
+#+end_src
+
+呼び出し方はシンプルで、以下のように =packages.*= で定義するとBuildできるようになった。
+
+#+begin_src nix
+  packages = {
+    example-slide = buildTypstProject {
+      name = "example-slide";
+      type = "slide";
+    };
+    phperkaigi-2025-pamphlet = buildTypstProject {
+      name = "phperkaigi-2025-pamphlet";
+      type = "article";
+    };
+  };
+#+end_src
+
+=#import "@preview/codly:1.2.0": *= のようにインポート記述のみすると、Nix Sandbox環境だとうまくインストールできなかった。(参考: [[https://zenn.dev/omochice/articles/reproducible-compilation-of-typst-by-typix][Typixを使って複数環境でtypstでスライドをコンパイルする - Zenn]])
+
+inputsに [[https://github.com/typst/packages][typst-packages]] を定義してPATHを通すとうまくBuildできた。
+TypstのNixラッパである [[https://github.com/loqusion/typix][loqusion/typix]] のコードも読んだが、自分の用途だと自前で書けば良いという結論に至ったので採用しなかった。
+
+inputs抜粋:
+
+#+begin_src nix
+  inputs = {
+    typst-packages = {
+      url = "github:typst/packages";
+      flake = false;
+    };
+  };
+#+end_src
+** 3. GitHub ActionsでBuildしてGitHub Pagesで配信できる
+
+Hugoのデプロイフローの最後に =nix build= して生成したPDFを =public/pdf/= にコピーする処理を追加した。
+https://github.com/takeokunn/blog/blob/main/.github/workflows/main.yml
+
+#+begin_src yaml
+  - name: Generate example-slide
+    run: |
+      nix build ./typst#example-slide
+      cp result/example-slide.pdf public/pdf/
+  - name: Generate phperkaigi-2025-pamphlet
+    run: |
+      nix build ./typst#phperkaigi-2025-pamphlet
+      cp result/phperkaigi-2025-pamphlet.pdf public/pdf/
+#+end_src
+* Next Step
+
+安定的にBuildできるようになったので、Typst自体の記述に慣れつつスライドや記事を量産していきたい。
+また、現状[[https://itouhiro.github.io/mixfont-mplus-ipa/migu/][Miguフォント]]を使っているが個人的には納得していなく、テーブル表示にするとなぜかずれてしまうので、nixpkgs内にある日本語フォント選定を行っていきたい。
+
+* 雑感
+
+当初掲げていた条件をすべて満たせたので満足。
+[[https://zenn.dev/omochice/articles/reproducible-compilation-of-typst-by-typix][Typixを使って複数環境でtypstでスライドをコンパイルする - Zenn]] 記事に助けられたのでOmochiceに大感謝。
