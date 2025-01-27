@@ -145,5 +145,5 @@ ng:
 当初の目的を満たせてよかったので満足。
 pre-commitでsecretlintを回すようにしているので、encrypt忘れはそちらでもカバーできるようにしている。
 
-余談だが、org-encryptを活用例でいうとこなゆき氏のdotfilesが非常によく出来ているので、一読することをオススメする。
+余談だが、org-encryptを活用例でいうとこなゆき氏のdotfilesが非常によくできているので、一読することをお勧めする。
 https://github.com/p-snow/config/blob/main/dotfiles.org
