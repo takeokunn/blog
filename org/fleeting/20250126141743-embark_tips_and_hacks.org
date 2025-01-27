@@ -1,0 +1,15 @@
+:PROPERTIES:
+:ID:       546A3A29-3E57-4AFC-BAA4-BACE0DFB6439
+:END:
+#+TITLE: 個人的embark活用テクニック
+#+AUTHOR: takeokunn
+#+DESCRIPTION: description
+#+DATE: 2025-01-26T14:17:59+0900
+#+HUGO_BASE_DIR: ../../
+#+HUGO_CATEGORIES: fleeting
+#+HUGO_SECTION: posts/fleeting
+#+HUGO_TAGS: fleeting
+#+HUGO_DRAFT: true
+#+STARTUP: content
+#+STARTUP: fold
+* Introduction

@@ -1,0 +1,146 @@
+:PROPERTIES:
+:ID:       C5A797A4-C474-4CFE-96E8-22C12F609A80
+:END:
+#+TITLE: org-crypt運用メモ
+#+AUTHOR: takeokunn
+#+DESCRIPTION: description
+#+DATE: 2025-01-27T14:49:25+0900
+#+HUGO_BASE_DIR: ../../
+#+HUGO_CATEGORIES: fleeting
+#+HUGO_SECTION: posts/fleeting
+#+HUGO_TAGS: fleeting org-mode
+#+HUGO_DRAFT: false
+#+STARTUP: content
+#+STARTUP: fold
+* Introduction
+
+=org-crypt= の使い方をイマイチに理解していなかったが、ふと調べてたら急に理解が進んだ。
+
+個人的な運用が固まったのでメモしておく。
+
+* Motivation
+
+=~/.aws/credentials= のような秘匿情報を =secret.org.gpg= から =org-babel-tangle= から出力していた。
+ファイルごとGPGで暗号化すると =git diff= がきれいに取れないので地味に困っていた。
+
+=org-crypt= で必要な分を部分的に暗号化することによって、以前よりはGitフレンドリーにすることが可能になることが分かった。
+
+* =org-crypt= 使い方
+
+[[https://github.com/emacs-mirror/emacs/blob/6a390fd42ec4ef97d637899fc93f34ea65639e3c/lisp/org/org-crypt.el][org-crypt.el]] を読むのでも良いが、 [[https://fluca1978.github.io/2021/09/16/Emacs_Org_Encrypt.html][Encrypting the content of Emacs Org files]] にわかりやすくまとまっている。
+
+以下のように設定した。
+
+#+begin_src emacs-lisp
+  (with-eval-after-load 'org
+    (setopt org-tags-exclude-from-inheritance '("crypt")))
+
+  (with-eval-after-load 'org-crypt
+    (setopt org-crypt-key "0B10DAA7BA0236D7382287660F79C0AB03FD7A1C"))
+#+end_src
+
+=:crypt:= タグをつけて =M-x org-encrypt-entries= を実行すると以下のようにGPGで暗号化される。
+タグはヘッダで =C-c C-c= を押すと入力できる。
+
+=M-x org-decrypt-entries= でファイル内全体を復号することも可能。
+
+=:crypt:= タグを変えたいなら =org-crypt-tag-matcher= を設定すれば良い。
+
+#+begin_src org
+  ,* before
+  ,** access token
+  ,#+begin_src text
+  P@ssw0rd
+  ,#+end_src
+  ,* after                                                               :crypt:
+  -----BEGIN PGP MESSAGE-----
+
+  hQIMA6smtgkkGn+yAQ/+N67k5bFjZ+o/n3cRncdI7AXxZ4fcw7+vM9G/twKBkRqB
+  caleG2+FZy2u3ZHIE04ZnvKKPxZCDdm79Q6QxwBuuLsQiSn/jJ57QwNJySggQjwZ
+  aWQCzBFL5fBHgCR0eTZKX3Otr8Cpe2Eg1oH5SrUMEiRJ+uap+ZeVGs960icDy3AI
+  FRZ7z8BmaqFmA/ZRr3HO2nkFxJutzDnf7uCACa2JxpkJVDrhBOvGVrgHSqn/kzWu
+  +sriWo19z6O2mvVoWXOeg/3PNOP76ZCYFmqAa5zqoutBZ3GVEZ4M+uBcFJtQ6BHT
+  LgWLGNBEJeNjVWF1kGQYot4iArzrSbRzvNsEFzCiGyVYukgJSJuWWlC93aL4bJH+
+  c52Grie0DDacmiCADUVdUabvx16r82ptRylqV6um7mqdYGmPUErLhkp6zOwwhLgx
+  saAG4lY07DZeEdBtUfnYB39CRqxI/jVwSYoyTQC9PYUyo2y4E7Q2LjcoSyuJ8sPr
+  qgenSMn0gkF86ffm2ITmHDv5iQPgfhdzYIjtwrrDBpwCRkkoDfD68nS/zvekAe74
+  mO3fUOoM8jmMtQvCo9OMnVKkEXRXnzsyMI12KVIzMakljxnzvgDaELr5s6XTR/0F
+  FgAP19OQNbf24Ax3W+/m5GYxf5ltm+W4qDO0add5z2WLavOYGdknCCLFSN74/VLS
+  bwHums4w2RPZ00nnEX5zI+eN76UM42yZ53gDRjQgfVzfKdX4Rub/D19ZhL+bfqXR
+  iOJwPGz6yfeCDbz4RVvQgd/U8g5LkTrRu/itq9eZpCEjfH/HamC4meOrChI7xvJZ
+  nBkMYucqr7d5DPWEp4gYzQ==
+  =/Ual
+  -----END PGP MESSAGE-----
+#+end_src
+
+* =org-babel-tangle= との連携
+
+自分のユースケースだと =org-babel-tangle= と組み合わせて実行するのだが、 =org-babel-tangle= はencrypt/decryptとは関係のない処理ですので、実行前後でencrypt/decryptする必要がある。
+
+ok:
+
+#+begin_src org
+  ,* Secret
+  ,** Password
+  ,#+begin_src text :noweb-ref personal-access-token-github-for-private
+    ghp_xxx
+  ,#+end_src
+  ,** Config
+  ,#+begin_src yaml :tangle (expand-file-name "~/.config/gh/hosts.yml") :mkdirp yes :noweb yes
+    github.com:
+      user: takeokunn
+      oauth_token: <<personal-access-token-github-for-private>>
+      git_protocol: ssh
+  ,#+end_src
+#+end_src
+
+ng:
+
+#+begin_src org
+  ,* Secret
+  ,** Password                                                           :crypt:
+  -----BEGIN PGP MESSAGE-----
+
+  hQIMA6smtgkkGn+yAQ/9FbKfh2bZdSPGQo6uEwJMXxYTUPzfE0RwiefZH0DMDwq0
+  GNPByVgSBd8Cl8U/CyALIwC2FRSkRhnRzbF80ukSaSAacDnmMb4tJFsqSlmG0cll
+  eM5sDGLCehZa06v2x6E6wt6kCE+pawEwTjts917PczOyxmZvA7jPK+uSsLUg5IUw
+  m/ykhS1JuOLs9JuEQdIfZlFp2k1jy3kZMkNsoJV2l25vci6LP4Dc7qsptCZpNU3H
+  zmJRyA7fVPYpCRVdpUzpmsFmYsaEf7LgI0bsCORne+Uy9R+YFakgYj2a0lWAUtVX
+  Z+yKKs0Pmt9EPYP3rC598VPZreNxJJSC/4jlceBwXYJ+13dbebg1xFxoze4fqlzp
+  mTW6yJthHmwGd3O7xMiyoojYqwoQ4wCzeLCT9v4BvGJYbpVKPtQuNUw6aYlvw5Eu
+  IN3/sCq+TTo+KJcrB8H/40XaVgYT9pR69Ak8Ptu+J2txOD6tglQaqMihtJN2+Dzt
+  dvvOONnFd3HOzNL99/ymSTgk4ezypwqjX06TbkdVgWIT5XMKCCI5I/ZAAe3oLW2Z
+  L5F+Gadhkky3dfPuivR6rT/CH8/L/hQzk5ejFkZu9u3ltxC+oeGHWQXsS1CyYqTE
+  fyiUd1u/yME5R+IFlSoG28un48Kc8GoJcydObaKUMDajgPwEZB1TR9rlmSNxCMDS
+  kwEFB49p4TvBosy8762aYp1gwftyg69m5CDtCC5jxpkVuz7GDBphy7qAQlS3gTNN
+  Jb+r9PuJf8h+XfSZqJFyfYGzr0FBITIxI8gu+m+Tf9q7cS93s22w7t2yzS014Dwq
+  6u4pwk8AG9SxJ4kcPmN7z9kwZwrMlaPImb1boBmKOsnL6onuUO5pNT+PNE3JbSFt
+  NL/rJw==
+  =hxwG
+  -----END PGP MESSAGE-----
+  ,** Config
+  ,#+begin_src yaml :tangle (expand-file-name "~/.config/gh/hosts.yml") :mkdirp yes :noweb yes
+    github.com:
+      user: takeokunn
+      oauth_token: <<personal-access-token-github-for-private>>
+      git_protocol: ssh
+  ,#+end_src
+#+end_src
+
+[[https://github.com/emacs-mirror/emacs/blob/6a390fd42ec4ef97d637899fc93f34ea65639e3c/lisp/org/org-crypt.el#L313-L318][org-crypt-use-before-save-magic]] は有効にすると、以下のような問題が発生する。
+
+1. =org-decrypt-entries= を実行する
+2. =org-babel-tangle= を実行すると内部的にsave処理が走る
+3. =org-crypt-use-before-save-magic= でsave hookして =org-encrypt-entries= が実行される
+4. =org-babel-tangle= 時に空文字で出力される
+
+そこでadvice関数で前後にencrypt/decryptする処理を追加した。
+
+#+begin_src emacs-lisp
+  (advice-add 'org-babel-tangle :before #'org-decrypt-entries)
+  (advice-add 'org-babel-tangle :after #'org-encrypt-entries)
+#+end_src
+
+* 終わりに
+当初の目的を満たせてよかったので満足。
+pre-commitでsecretlintを回すようにしているので、encrypt忘れはそちらでもカバーできるようにしている。
