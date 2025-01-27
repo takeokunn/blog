@@ -21,7 +21,7 @@
 - https://devenv.sh/
 - flake.nix wrapper, DSL
 
-* devevnの個人的期待役割
+* devevnの個人的な期待役割
 
 - Language Serverのようなあくまで開発補助ツールのみ入れる
 - Git commitしない
