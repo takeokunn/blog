@@ -18,7 +18,7 @@ devenvをヘビーユーズしているので、個人的なdevenv運用につ�
 
 * devevnとは
 
-devenvはキャッシュx社が作っているflake.nixラッパ。
+devenvはcachix社が作っているflake.nixラッパ。
 https://devenv.sh/
 
 flake.nixよりも圧倒的に高級に書ける割に柔軟性がかなり高いのでプロジェクトに必要なツールを入れる場合に便利。
