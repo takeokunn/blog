@@ -14,38 +14,144 @@
 #+STARTUP: fold
 * Introduction
 
-個人的なdevenv運用についてまとめる。
+devenvをヘビーユーズしているので、個人的なdevenv運用についてやTipsについてまとめる。
 
 * devevnとは
 
-- https://devenv.sh/
-- flake.nix wrapper, DSL
+devenvはキャッシュx社が作っているflake.nixラッパ。
+https://devenv.sh/
+
+flake.nixよりも圧倒的に高級に書ける割に柔軟性がかなり高いのでプロジェクトに必要なツールを入れる場合に便利。
+
+類似ールにdevboxがありますが、devboxはjsonでのみ記述できるので個人的にはNixで書けるdevenvの方が好み。
 
 * devevnの個人的な期待役割
 
-- Language Serverのようなあくまで開発補助ツールのみ入れる
-- Git commitしない
-- そのプロジェクトに必要な手元の開発ツールを入れる
-- Emacsからもpackageを参照できるようにする
+自分のローカル環境でNixが担っている役割は以下。
+自分の手元にはNixOSとMacとAndroidのマシンがありますが、環境ごとの役割の差異は特にないです。
 
-* 運用
+1. システム設定
+  - e.g. network, font, daemon
+2. システムグローバルのパッケージ管理
+  - e.g. fish, Git, Emacs
+3. プロジェクト固有のパッケージ管理+α
+  - e.g. php, language-server, pre-commit
+4. プロジェクト固有のビルドツール
+
+=1. システム設定= と =2. システムグローバルのパッケージ管理= は [[https://github.com/takeokunn/nixos-configuration][takeokunn/nixos-configuration]] が担っている。
+=4. ビルドツール= は [[id:0D13FCEA-F8EC-4729-B700-9A88FD1D5EB9][NixでTypstをBuildしGitHub Pagesでホスティングする]] のように =flake.nix= を定義して使っている。
+
+=3. プロジェクト固有のパッケージ管理+α= をdevenvが担っており、 =2. システムグローバルのパッケージ管理= は必要最小限に抑えているので都度インストールする必要がある。
+
+自分は普通の人よりも幅広い言語やフレームワークのリポジトリを扱うので、逐次必要なツールを明示的に入れている。
+自分の為に用意しているので、プロジェクトには =git push= せず、自分用プライベートリポジトリで管理している。
+
+また Emacsからも良い感じにpackageを実行できるようにする必要があるので工夫が必要。
+
+* 実運用
+** Laravelプロジェク用devenvのサンプルコード
+
+実際に会社のLaravelプロジェクトで使っているコードは以下。
+
+- language serverやawscliなどプロジェクで必要なものは都度入れている
+- 言語のバージョンを大まかに定義する
+  - phpなら =8.2= という定義をして、 =8.2.x= レベルの細かい指定まではしない
+- php.iniはdevenv内で定義する
+- pre-commitをストレスのない範囲で可能な限り設定する
+  - ref. https://devenv.sh/reference/options/#pre-commit
+
+#+begin_src nix
+  { pkgs, config, inputs, ... }: {
+    cachix.enable = false;
+
+    dotenv.disableHint = true;
+
+    env.COMPOSER_MEMORY_LIMIT = "4G";
+
+    packages = with pkgs; [ gh hub nodePackages_latest.intelephense ssm-session-manager-plugin tbls rain mariadb awscli ];
+
+    languages.javascript = {
+      enable = true;
+      package = pkgs.nodejs_20;
+      yarn.enable = true;
+    };
+
+    languages.php = {
+      enable = true;
+      package = pkgs.php82.buildEnv {
+        extensions = { all, enabled }: with all; enabled ++ [ xdebug ];
+        extraConfig = ''
+          memory_limit=-1
+        '';
+      };
+    };
+
+    pre-commit.hooks = {
+      actionlint.enable = true;
+      editorconfig-checker.enable = true;
+      check-json.enable = true;
+      check-merge-conflicts.enable = true;
+      check-yaml.enable = true;
+      check-case-conflicts.enable = true;
+    };
+  }
+#+end_src
+
 ** org-tangleして各プロジェクトに配置
 
-- サンプルコードを貼る
+[[https://github.com/emacs-mirror/emacs][emacs-mirror/emacs]] の場合は以下のようなOrgファイルを定義して =org-babel-tangle= する。
+=devenv.lock= は管理運用方法は現状思いついてないので諦めている。
 
+#+begin_src org
+  ,*** emacs
+  ,**** .git/info/exclude
+  ,#+begin_src fundamental :mkdirp yes :noweb yes :tangle (if (file-directory-p "~/.ghq/github.com/emacs-mirror/emacs/") (expand-file-name "~/.ghq/github.com/emacs-mirror/emacs/.git/info/exclude") "no")
+    .envrc
+    devenv.nix
+    devenv.lock
+    .devenv.flake.nix
+    .devenv/
+    .direnv/
+  ,#+end_src
+  ,**** .envrc
+  ,#+begin_src dotenv :noweb yes :tangle (if (file-directory-p "~/.ghq/github.com/emacs-mirror/emacs") (expand-file-name "~/.ghq/github.com/emacs-mirror/emacs/.envrc") "no")
+    source_url "https://raw.githubusercontent.com/cachix/devenv/95f329d49a8a5289d31e0982652f7058a189bfca/direnvrc" "sha256-d+8cBpDfDBj41inrADaJt+bDWhOktwslgoP5YiGJ1v0="
+    use devenv
+  ,#+end_src
+  ,**** devenv.nix
+  ,#+begin_src nix :noweb yes :tangle (if (file-directory-p "~/.ghq/github.com/emacs-mirror/emacs") (expand-file-name "~/.ghq/github.com/emacs-mirror/emacs/devenv.nix") "no")
+    { pkgs, config, inputs, ... }:
+    {
+      cachix.enable = false;
+
+      dotenv.disableHint = true;
+
+      packages = with pkgs; [
+        autoconf
+        texinfo
+        gnutls
+        libgccjit
+        zlib
+        libxml2
+        ncurses
+      ];
+    }
+  ,#+end_src
+
+#+end_src
 ** direnvで起動
 
-- Emacsからは .dir-locals2.el で参照
+project rootに発行したらdevenv shellに入るようにdirenvを設定している。
+https://devenv.sh/automatic-shell-activation/
 
-** devenvサンプル
+** .dir-locals2.elでPATHを通す
 
-- 実際に使っている例を出す
-- pre-commit運用
+以下のような =.dir-locals2.el= を =org-babel-tangle= で出力してEmacsにパスを通している。
 
-* Next Step
-
-- Serviceを使う
-
+#+begin_src emacs-lisp
+  ((nil . ((eval . (add-to-list 'exec-path "~/ghq/github.com/org-name/project-name/.devenv/profile/bin/"))))
+   (php-mode . ((eval lsp))))
+#+end_src
 * 所感
 
 devenvめちゃくちゃ良い。
