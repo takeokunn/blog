@@ -153,5 +153,5 @@ https://devenv.sh/automatic-shell-activation/
    (php-mode . ((eval lsp))))
 #+end_src
 * 所感
-
 devenvめちゃくちゃ良い。
+ServicesやTestsなど他の機能も試していきたい。
