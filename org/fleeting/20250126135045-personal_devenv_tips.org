@@ -4,7 +4,7 @@
 #+TITLE: 個人的devenv運用
 #+AUTHOR: takeokunn
 #+DESCRIPTION: description
-#+DATE: 2025-01-26T13:51:30+0900
+#+DATE: 2025-01-27T23:30:00+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting
 #+HUGO_SECTION: posts/fleeting
