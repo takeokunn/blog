@@ -87,8 +87,8 @@ tomoyaさん、ありすえさん、tadsanさん、たけてぃさん はじめ�
 https://qiita.com/keita44_f4/items/12a4a7081b0092eaca94
 #+end_export
 ** 自分がEmacsを始めたきっかけ
-
 tadsanがEmacsを使ってたのでEmacsを始めたというのがきっかけだったんですが、 [[https://x.com/takaxp][@takaxp]] さんが超速でorg-modeの編集をしていたのがorg-modeへのあこがれのきっかけでした。
+tadsanが居なかったら今ごろVSCodeかSublime Textを使っていました。
 ** 最近のEmacs勉強会について
 
 「東京Emacs勉強会 サマーフェスティバル2024」を開催したら50人参加しました。
@@ -103,6 +103,12 @@ https://tokyo-emacs.connpass.com/event/321255/
 https://tokyo-emacs.connpass.com/event/330572/
 @[tweet](https://x.com/takeokunn/status/1848347869264453663)
 #+end_export
+
+近いうちに本物のテキストエディタバー開催を画策しています。
+
+#+begin_export markdown
+https://medium.com/@tadsan/5%E6%9C%8818%E6%97%A5-%E5%9C%9F-%E3%83%86%E3%82%AD%E3%82%B9%E3%83%88%E3%82%A8%E3%83%87%E3%82%A3%E3%82%BF%E3%83%90%E3%83%BC%E3%82%92%E5%A4%A7%E9%98%AA%E3%81%A7%E3%82%84%E3%82%8A%E3%81%BE%E3%81%99-6022f723153f
+#+end_export
 ** Emacsの魅力について
 Emacsをヘビーユーズしつつ、たまにOSS活動をする程度の自分にとっては「Emacsはフロントエンドフレームワーク」という感覚です。
 コンピュータでやりたいことはEmacs Lispで拡張し、Emacsという統一的なインターフェスで提供できます。
@@ -116,6 +122,13 @@ https://blog.tomoya.dev/posts/hello-native-comp-emacs/
 #+end_export
 
 LSPやTree-Sitterも入りましたね。
+
+本筋ではないけどおもしろ機能はgrugrutさんがまとめてくれています。
+
+#+begin_export markdown
+https://www.grugrut.net/posts/202211242303/
+https://www.grugrut.net/posts/202404122318/
+#+end_export
 ** embarkが気に入っている話
 こちらが参考になります。
 #+begin_export markdown
@@ -176,6 +189,7 @@ vim-jp slackの =#tech-emacs= チャンネルはEmacsJPより盛り上がって�
 #+end_quote
 
 「俺と一緒にEmacsで†††テキストエディタの高み†††を目指さないか」と2024年12月10日18時57分に書いてました。
+真面目に答えると、「エディタのカスタマイズだけで満足するの今日で卒業しない?」か「明日また来てください、本物の設定させていただきありがとうございますをお見せしますよ」ですね。
 
 ** 車アイコンさんからのお便り
 #+begin_quote
@@ -201,6 +215,7 @@ https://ja.wikipedia.org/wiki/%E3%83%AA%E3%83%81%E3%83%A3%E3%83%BC%E3%83%89%E3%8
 =C-p= はprevious、 =C-f= はforwardなどニーモニックで覚えやすいとはいえ、[[https://ja.wikipedia.org/wiki/Dvorak%E9%85%8D%E5%88%97][Dvorak配列]] みたいな[[https://ja.wikipedia.org/wiki/QWERTY%E9%85%8D%E5%88%97][QWERTY配列]]以外のキーボードでEmacsを使ったことがないので気になる所です。
 
 Dvorak配列にはn回挑戦していますがいっこうに身につかなくて中々厳しいです。
+仕事しながらDvorak配列に移行するのは無理という結論になったので無職期間が欲しいです。
 ** 小指について
 Emacsユーザーで小指が痛いって言っている人本当に見たことがないですね。
 
@@ -244,11 +259,21 @@ Cのコードに簡単に定義ジャンプできるが、謎のEmacs特有のC�
 
 「ひとつのことをうまくやる」UNIX文化とは真逆の世界のように感じられます。
 ** Emacs普及してない
-素の状態は難しいし、Emacs Lispも初見だと難しいですよね。
+「Emacsに一生入門できねえ2020」にも書いてある通り、素の状態は難しいし、Emacs Lispも初見だと難しいですよね。
+
+#+begin_export markdown
+https://anond.hatelabo.jp/20200921040234
+#+end_export
 
 40〜50歳のベテランがボリュームゾーンだろうなという感覚ですので、やはり若手の自分が盛り上げていくしかないという感覚が常にあります。
-自分がイベントを開いたり、ブログを書いたり、コミュニティ活動を積極的に行って初心者のハードルを下げていきたいです。
+tomoyaさんは「風になりたい奴だけがEmacsを使えばよい 2020」や「一子相伝の暗殺拳」のようにやる気のある人を育成する方針のようです。
+僕個人としてはある程度共感しつつ、とはいえ門戸を広げる活動をしたいと思っています。
 
+#+begin_export markdown
+https://blog.tomoya.dev/posts/only-those-who-want-to-be-the-wind-should-use-emacs-2020/
+#+end_export
+
+自分がイベントを開いたり、ブログを書いたり、コミュニティ活動を積極的に行って初心者のハードルを下げていきたいです。
 vimコミュニティだとゴリラ.vimがその立ち位置なのかなと思っているので真似して頑張っていきたいです。
 
 #+begin_export markdown
@@ -256,6 +281,7 @@ https://gorillavim.connpass.com/
 #+end_export
 ** 流行りは巡るもの
 「すべての道はEmacsに通じる」のでみんなEmacsにたどり着くと思っています。
+じきにShougoさんも暗黒美夢王から暗黒威魔苦巣王になるでしょう。
 ** EmacsはTerminalの中で起動するの?
 僕はEmacsはGUIで起動しつつTerminalはFishとTmuxをメインで使っています。
 embarkからeshellを起動して使うこともあります。
@@ -269,19 +295,23 @@ https://www.takeokunn.org/posts/fleeting/20250126114218-build_and_deploy_typst_u
 #+end_export
 ** 感想について
 テキストエディタを極めたいのでEmacsを極めます。
+
 #+begin_export markdown
 https://tadsan.fanbox.cc/posts/8295358
 #+end_export
 
-また2025年中にEmacsConf開催する予定なのでぜひ来てください。
+ハッカーへのあこがれを諦める必要はないし、やはり僕はハッカーになりたいんです。
+ハッカーになりたいならEmacsが最適なのは自明なのでEmacsをこれからも使い続けます。
+
+また、2025年中にEmacsConf開催する予定なのでぜひ来てください。
 
 * 感想
 正直緊張してあまりうまく喋れない、楽屋でおもしろいタイプの男になってしまったなーと配信までは布団に包まって震えてました。
 実際に配信されるとカットや編集が丁寧に成されていて、想像以上に自分の声を不快感なく聞ける仕上りになっていました。
 [[https://www.shalala.co.jp/][シャララカンパニー]] の担当者様、本当にありがとうございます。
 
-また、ラジオのお便りと配信に対しての反響が想像以上に多くうれしい限りです。
-自分の配信を聞いて久々にEmacsをやってくれた人、新規で興味を持ってくれた人、感想を書いてくた人が非常に多く、本当にうれしい限りです。
+ラジオのお便りと配信に対しての反響が想像以上に多くうれしい限りです。
+自分の配信を聞いて久々にEmacsを設定した人、新規で興味を持ってくれた人、感想を書いてくた人が非常に多かったです。
 
 #+begin_export markdown
 @[tweet](https://x.com/k1LoW/status/1877738064661160041)
@@ -302,7 +332,7 @@ https://kazto-dev.hatenablog.com/entry/2025/01/11/175850
 #+end_export
 
 自分のような実力や経験はまだまだだけど勢いだけは誰よりもある若手エンジニアがEmacs界を盛り上げていく必要があると感じています。
-2025年も熱いイベントを企画していくつもりなので皆さんぜひ協力をしてくれるとうれしいです。
+2025年も熱いイベントを企画していくつもりなので皆さんぜひ協力をしてください。
 * 宣伝
 Software Design （ソフトウェアデザイン） 次号: 2025年3月号 （発売日2025年02月18日） にtadsanと「第3章 Emacs の機能、魅力、思想」を書きました。
 
