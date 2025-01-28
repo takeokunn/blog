@@ -3,8 +3,8 @@
 :END:
 #+TITLE: vim-jpラジオのEmacs回に出演しました
 #+DESCRIPTION: description
-#+DATE: 2024-12-22T07:35:17+0900
-#+GFM_TAGS: php
+#+DATE: 2025-01-28T07:35:17+0900
+#+GFM_TAGS: emacs podcast
 #+GFM_CUSTOM_FRONT_MATTER: :emoji 💪
 #+GFM_CUSTOM_FRONT_MATTER: :type idea
 #+GFM_CUSTOM_FRONT_MATTER: :published false
@@ -12,3 +12,183 @@
 #+STARTUP: fold
 #+OPTIONS: toc:nil
 * Introduction
+
+2025年1月前半に配信された [[https://vim-jp-radio.com/][エンジニアの楽園 vim-jp ラジオ]] のEmacs回に [[https://x.com/tadsan][@tadsan]] と出演しました。
+
+#+begin_export markdown
+https://audee.jp/voice/show/96517
+https://audee.jp/voice/show/97075
+#+end_export
+
+2025年1月後半はEmacs歴30年の大ベテランである [[https://x.com/t_wada][@t_wada]] さんが出演しており、こちらも最高に面白かったので是非聞いてください。
+Scratch BufferとTDDの関係性の話を聞けるのは世界広しと言えどもvim-jpラジオだけだと思います。
+
+#+begin_export markdown
+https://audee.jp/voice/show/97491
+https://audee.jp/voice/show/97837
+#+end_export
+* 出演のきっかけ
+
+僕は普段vim-jpやemacs-jpなどテキストエディタコミュニティで活動しています。
+最近だと2024年の8月と10月に開いた東京Emacs勉強会が大盛況だったり、2024年のEmacsはvim-jp内で盛り上りを見せていました。
+
+#+begin_export markdown
+https://tokyo-emacs.connpass.com/event/321255/
+https://tokyo-emacs.connpass.com/event/330572/
+#+end_export
+
+そこで [[https://x.com/tomoyaton][@tomoya]] さんからvim-jpラジオに出ないかと打診があり、自分のエンジニアの師匠である [[https://x.com/tadsan][@tadsan]] と一緒に出たいと話した所OKが出たので実現しました。
+
+* ラジオ補足
+** 【2025年最初のテーマはEmacs！？】エンジニアの楽園 vim-jp ラジオ #25
+*** Shougoさんからのお便り
+#+begin_quote
+Shougo です。こんにちは。お二人は Emacs 使いとして vim-jp でも有名です。
+お二人にとって Vim の羨ましかった機能やプラグインはありますでしょうか。
+また、「デフォルト設定は悪、全てを設定可能にする考え方」についてはどう思いますでしょうか。
+#+end_quote
+
+やはりVimのテキストオブジェクトはEmacsには存在しない概念なので羨しいですね。
+「デフォルト設定は悪、全てを設定可能にする考え方」は可処分時間が無尽蔵にあるなら一つ一つ理解をしながら設定したい所ですが、人生の短さが悔まれますね。
+全てを設定可能にする考え方は、Emacs Lispの場合は[[https://ayatakesi.github.io/emacs/24.5/elisp_html/Advising-Functions.html][advice関数]]があるし、 =defconst= で定義したものであろうと =setq= で上書きできるので、他のエディタよりも圧倒的に柔軟性があるように感じています。
+
+Emacserの飲み会でよく話題になるのですが、Emacs本体が提供してるEmacs Lispのコードでさえ全ては参考実装であって、ユーザが好きなように上書きしても良いというのが我々の感覚です。
+なので他のテキストエディタよりも本体へのコントリビューションに対しての感覚が弱いかもしれないですね。
+*** こまもかさんからのお便り
+#+begin_quote
+tomoyaさん、ありすえさん、tadsanさん、たけてぃさん はじめまして。最近Emacsを始めたこまもかです。
+
+Emacsといえば設定をEmacs Lispという専用のLispで行ったり、他のエディタよりLisp系言語のサポートが手厚い事が有名だと思います。
+かく言う僕もCommon Lispを書くためにEmacsを始めたのですが、皆さんの思うLispの魅力などについてお聞きしたいです。
+#+end_quote
+
+Lispの魅力についての外観を掴みたいなら [[https://www.amazon.co.jp/%E3%83%8F%E3%83%83%E3%82%AB%E3%83%BC%E3%81%A8%E7%94%BB%E5%AE%B6-%E3%82%B3%E3%83%B3%E3%83%94%E3%83%A5%E3%83%BC%E3%82%BF%E6%99%82%E4%BB%A3%E3%81%AE%E5%89%B5%E9%80%A0%E8%80%85%E3%81%9F%E3%81%A1-%E3%83%9D%E3%83%BC%E3%83%AB-%E3%82%B0%E3%83%AC%E3%82%A2%E3%83%A0/dp/4274065979][ハッカーと画家 コンピュータ時代の創造者たち]] や [[https://www.oreilly.co.jp/books/9784873115870/][Land of Lisp]] や [[https://gist.github.com/y2q-actionman/49d7587912b2786eb68643afde6ca192][A Road to Common Lisp]] を読むことをオススメします。
+Lispにもっと踏み込みたいなら [[https://www.asahi-net.or.jp/~kc7k-nd/onlispjhtml/][On Lisp]] や [[https://www.amazon.co.jp/LET-OVER-LAMBDA-1-0-%E3%83%9B%E3%82%A4%E3%83%88/dp/4434133632][LET OVER LAMBDA]] もオススメですね。
+
+僕個人としての魅力は、Lisp自体の言語仕様が変わることはなく、Lispの言語仕様の上にmacroや関数を積み上げているので30年前のコードベースも余裕で動くことです。
+ソフトウェアを開発していると後方非互換の回し車に常に追われており、頻繁なバージョンアップを余儀なくされます。
+phpプロジェクトは1年塩漬にされてると様々な依存関係のせいで動かないことが多々あります。
+
+また、[[https://daregada.sakuraweb.com/paredit_tutorial_ja.html][paredit]] などを使うと括弧の編集体験が気持ち良すぎるので、単に書いてて気持ちが良いというのもあります。
+*** kuuさんからのお便り
+#+begin_quote
+tomoyaさん、ありすえさん、tadsanさん、たけてぃさん はじめまして、最近Emacsの補完はいいぞと思ってますkuuです。
+
+世の中には数多くのテキストエディタがありますが、Emacsを選んだ理由をお聞きしたいと思います。
+後、Emacserに囲まれてるありすえさんの心境もお聞きしたいです。
+#+end_quote
+
+補完候補でいうと、こちらの記事が非常にマニアックで面白かったので通な人にはオススメです。
+僕は怠け者なので =flex= を優先的に使っていますが、極めると =initials= になるんだろうなという感想です。
+
+#+begin_export markdown
+https://qiita.com/keita44_f4/items/12a4a7081b0092eaca94
+#+end_export
+*** 自分がEmacsを始めたきっかけ
+
+tadsanがEmacsを使ってたのでEmacsを始めたというのがきっかけだったんですが、 [[https://x.com/takaxp][@takaxp]] さんが超速でorg-modeの編集をしていたのがorg-modeへの憧れのきっかけでした。
+*** 最近のEmacs勉強会について
+
+「東京Emacs勉強会 サマーフェスティバル2024」を開催したら50人参加しました。
+
+#+begin_export markdown
+https://tokyo-emacs.connpass.com/event/321255/
+#+end_export
+
+「東京Emacs勉強会 オクトーバーフェスティバル2024」を開催した時はテキストエディタバーということでカクテルを作りました。
+
+#+begin_export markdown
+https://tokyo-emacs.connpass.com/event/330572/
+@[tweet](https://x.com/takeokunn/status/1848347869264453663)
+#+end_export
+*** Emacsの魅力について
+Emacsをヘビーユーズしつつ、たまにOSS活動をする程度の自分にとっては「Emacsはフロントエンドフレームワーク」という感覚です。
+コンピュータでやりたいことはEmacs Lispで拡張し、Emacsという統一的なインターフェスで提供することが可能です。
+実際過去に[[https://wiki.archlinux.jp/index.php/EXWM][EXWM]](Emacs Window Manager)を使ってた時があったのでそういう感覚が人一倍強いのかもしれません。
+
+EmacsユーザはGUIで使っている人が多く、ターミナルの制約を受けないというのもあります。
+*** 最近の目玉機能
+nativecompが熱いという話はtomoyaさんのブログに纏まっています。恐しく速くなります。
+#+begin_export markdown
+https://blog.tomoya.dev/posts/hello-native-comp-emacs/
+#+end_export
+
+LSPやTree-Sitterも入りましたね。
+*** embarkが気に入ってる話
+こちらが参考になる。
+#+begin_export markdown
+https://emacs-jp.github.io/tips/fifteen-ways-to-use-embark
+#+end_export
+
+embarkについて説明がうまくできなかったのが悔まれますね。
+自分のユースケースについて後日ブログに纏めます。
+*** org-modeについて
+org-modeも色々出来すぎて説明が難しいですね。
+過去に書いた自分のブログが参考になるかもしれません。
+
+#+begin_export markdown
+https://www.takeokunn.org/posts/permanent/20240112071806-my_relationship_with_org_mode_in_2023_and_how_navigate_in_2024/
+#+end_export
+
+また、タスク管理についてはこなゆき氏のYoutubeオススメです。
+
+#+begin_export markdown
+<iframe width="560" height="315" src="https://www.youtube.com/embed/cpD3OH20KDw?si=pe4DkZ3HXEiGpXhT" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+#+end_export
+
+僕個人の手元のPCの全ての設定はNixかorg-modeのどちらかで管理されている状態です。
+
+#+begin_export markdown
+https://github.com/takeokunn/nixos-configuration
+#+end_export
+
+[[https://www.amazon.co.jp/%E6%96%87%E8%8A%B8%E7%9A%84%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0-SOFTWARE-SCIENCE-Programming-Paradigm/dp/4756101909][ドナルドクヌース先生の文芸的プログラミング]] の本も面白いので是非。
+
+ISUCONの手順書はこちらです。
+
+#+begin_export markdown
+https://zenn.dev/takeokunn/articles/20241217090756#%E6%89%8B%E9%A0%86%E6%9B%B8%E6%9C%80%E9%81%A9%E5%8C%96
+#+end_export
+** 【VimとEmacsの違い】エンジニアの楽園 vim-jp ラジオ #26
+*** aaa
+* 感想
+正直緊張してあまり上手く喋れない、楽屋で面白いタイプの男になってしまったなーと配信までは布団に包まって震えてました。
+実際に配信されるとカットや編集が丁寧に成されていて、想像以上に自分の声を不快感なく聞ける仕上りになっていました。
+[[https://www.shalala.co.jp/][シャララカンパニー]] の担当者様、本当にありがとうございます。
+
+また、ラジオのお便りと配信に対しての反響が想像以上に多く嬉しい限りです。
+自分の配信を聞いて久々にEmacsをやってくれた人、新規で興味を持ってくれた人、感想を書いてくた人が非常に多く、本当に嬉しい限りです。
+
+#+begin_export markdown
+@[tweet](https://x.com/k1LoW/status/1877738064661160041)
+@[tweet](https://x.com/_kip2/status/1876397752671932560)
+@[tweet](https://x.com/moritanuki_/status/1876237406581801151)
+#+end_export
+
+#+begin_export markdown
+https://k1low.hatenablog.com/entry/2025/01/14/095141
+https://blog.atusy.net/2025/01/16/vim-jp-radio-25/
+https://kazto-dev.hatenablog.com/entry/2025/01/11/175850
+#+end_export
+
+また、Sacha Chua氏のEmacs Newsにも載りました。Sacha Chua氏ファンの自分としては嬉しい限りです。
+
+#+begin_export markdown
+@[tweet](https://x.com/suzuki/status/1876363945512161790)
+#+end_export
+
+自分のような実力や経験はまだまだだけど勢いだけは誰よりもある若手エンジニアがEmacs界を盛り上げていく必要があると感じています。
+2025年も熱いイベントを企画していくつもりなので皆さん是非協力をしてくれると嬉しいです。
+* 宣伝
+Software Design (ソフトウェアデザイン) 次号: 2025年3月号 (発売日2025年02月18日) にtadsanと「第3章 Emacs の機能、魅力、思想」を書きました。
+
+#+begin_quote
+あなたがエディタに求めるものは？編集速度、拡張性、習熟しやすさ……
+コードエディタ大研究
+#+end_quote
+
+#+begin_export markdown
+https://www.fujisan.co.jp/product/1535/next/
+#+end_export
+
+Emacsの歴史からorg-modeの使い方までEmacsに関する魅力について頑張って書いたので是非買ってくれると嬉しいです。
