@@ -3,7 +3,7 @@
 :END:
 #+TITLE: vim-jpラジオのEmacs回に出演しました
 #+DESCRIPTION: description
-#+DATE: 2025-01-28T07:35:17+0900
+#+DATE: 2025-01-29T00:35:17+0900
 #+GFM_TAGS: emacs podcast
 #+GFM_CUSTOM_FRONT_MATTER: :emoji 💪
 #+GFM_CUSTOM_FRONT_MATTER: :type idea
@@ -52,11 +52,11 @@ Shougo です。こんにちは。お二人は Emacs 使いとして vim-jp で�
 #+end_quote
 
 やはりVimのテキストオブジェクトはEmacsには存在しない概念なので羨しいですね。
-「デフォルト設定は悪、すべてを設定可能にする考え方」は可処分時間が無尽蔵にあるならひとつひとつ理解をしながら設定したい所ですが、人生の短さが悔まれますね。
-すべてを設定可能にする考え方は、Emacs Lispの場合は[[https://ayatakesi.github.io/emacs/24.5/elisp_html/Advising-Functions.html][advice関数]]があるし、 =defconst= で定義したものであろうと =setq= で上書きできるので、ほかのエディタよりも圧倒的に柔軟性があるように感じています。
+「デフォルト設定は悪、すべてを設定可能にする考え方」は可処分時間が無尽蔵にあるならひとつずつ理解をしながら設定したい所ですが、人生の短さが悔まれますね。
+すべてを設定可能にする考え方は、Emacs Lispの場合は[[https://ayatakesi.github.io/emacs/24.5/elisp_html/Advising-Functions.html][advice関数]]があるし、 =defconst= で定義したものであろうと =setq= で上書きできるので、他エディタよりも圧倒的に柔軟性があるように感じています。
 
 Emacserの飲み会でよく話題になるのですが、Emacs本体が提供しているEmacs Lispのコードでさえすべては参考実装であって、ユーザーが好きなように上書きしても良いというのが我々の感覚です。
-なのでほかのテキストエディタよりも本体へのコントリビューションに対しての感覚が弱いかもしれないですね。
+なので他テキストエディタよりも本体へのコントリビューションに対しての感覚が弱いかもしれないですね。
 *** こまもかさんからのお便り
 #+begin_quote
 tomoyaさん、ありすえさん、tadsanさん、たけてぃさん はじめまして。最近Emacsを始めたこまもかです。
@@ -157,7 +157,7 @@ https://zenn.dev/takeokunn/articles/20241217090756#%E6%89%8B%E9%A0%86%E6%9B%B8%E
 https://audee.jp/voice/show/97075
 #+end_quote
 *** Emacs-jpラジオ
-「vim-jp slackのtech-EmacsチャンネルはEmacs-jpより盛り上がっている」といわれるようになってしまい、Emacs-jpの皆さん申し訳ない。
+vim-jp slackの =#tech-emacs= チャンネルはEmacsJPより盛り上がっている状態についてEmacsJPの皆さんには非常に申し訳ない気持ちでいっぱいです。
 *** ゴリラさんからのお便り
 #+begin_quote
 たけてぃさん、tomoyaさん、ありすえさん
@@ -206,7 +206,7 @@ Emacsユーザーで小指が痛いって言っている人本当に見たこと
 #+end_export
 
 Emacsの語源は =Editing MACroS= であって小指やキーバインドが本質ではないです。小指が痛い人は[[https://github.com/emacs-evil/evil][evil]]をガンガン使いましょう。
-余談ですが、「お前はVimとEmacsから逃げられない」という記事が最近Qiitaに上がっていましたが、Emacsは自分好みにカスタマイズしてこそのEmacsなのでキーバインドは好きにすれば良いと思っています。
+「お前はVimとEmacsから逃げられない」という記事が最近バズってましたが、Emacsは自分好みにカスタマイズしてこそのEmacsなのでキーバインドは好きにすれば良いと思っています。
 ネタ記事にマジレスするのは野暮ですね。
 
 #+begin_export markdown
