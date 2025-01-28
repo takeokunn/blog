@@ -29,7 +29,7 @@ https://audee.jp/voice/show/97837
 #+end_export
 * 出演のきっかけ
 
-僕は普段vim-jpやEmacs-jpなどテキストエディタコミュニティで活動しています。
+僕は普段vim-jpやEmacs JPなどテキストエディタコミュニティで活動しています。
 最近だと2024年の8月と10月に開いた東京Emacs勉強会が大盛況だったり、2024年のEmacsはvim-jp内で盛り上りを見せていました。
 
 #+begin_export markdown
@@ -160,7 +160,7 @@ https://zenn.dev/takeokunn/articles/20241217090756#%E6%89%8B%E9%A0%86%E6%9B%B8%E
 #+begin_export markdown
 https://audee.jp/voice/show/97075
 #+end_export
-** Emacs-jpラジオ
+** Emacs JPラジオ
 vim-jp slackの =#tech-emacs= チャンネルはEmacsJPより盛り上がっている状態についてEmacsJPの皆さんには非常に申し訳ない気持ちでいっぱいです。
 ** ゴリラさんからのお便り
 #+begin_quote
