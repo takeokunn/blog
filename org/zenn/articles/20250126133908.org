@@ -309,12 +309,12 @@ https://www.takeokunn.org/posts/fleeting/20250126114218-build_and_deploy_typst_u
 ** エンディング
 テキストエディタを極めたいのでEmacsを極めます。
 
+ハッカーへのあこがれを諦める必要はないし、やはり僕はハッカーになりたいんです。
+ハッカーになりたいならEmacsが最適なのは自明なのでEmacsをこれからも使い続けます。
+
 #+begin_export markdown
 https://tadsan.fanbox.cc/posts/8295358
 #+end_export
-
-ハッカーへのあこがれを諦める必要はないし、やはり僕はハッカーになりたいんです。
-ハッカーになりたいならEmacsが最適なのは自明なのでEmacsをこれからも使い続けます。
 
 また、2025年中にEmacsConf開催する予定なのでぜひ来てください。
 
