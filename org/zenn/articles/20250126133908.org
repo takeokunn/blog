@@ -137,6 +137,19 @@ https://emacs-jp.github.io/tips/fifteen-ways-to-use-embark
 
 embarkについて説明がうまくできなかったのが悔まれますね。
 自分のユースケースについて後日ブログにまとめます。
+
+Shougoさん曰くddu.vimでもembarkのようなことを実現できるそうです。
+
+#+begin_export markdown
+https://github.com/Shougo/ddu.vim
+#+end_export
+
+embark以外の自分的に熱いpackageはorg-nix-shellです。
+Org Babelの実行をNix Shell環境できるので、よりポータビリティの高い環境を提供できます。
+
+#+begin_export markdown
+https://github.com/AntonHakansson/org-nix-shell
+#+end_export
 ** org-modeについて
 org-modeもいろいろできすぎて説明が難しいですね。
 過去に書いた自分のブログが参考になるかもしれません。
@@ -347,7 +360,7 @@ https://kazto-dev.hatenablog.com/entry/2025/01/11/175850
 自分のような実力や経験はまだまだだけど勢いだけは誰よりもある若手エンジニアがEmacs界を盛り上げていく必要があると感じています。
 2025年も熱いイベントを企画していくつもりなので皆さんぜひ協力をしてください。
 * 宣伝
-Software Design （ソフトウェアデザイン） 次号: 2025年3月号 （発売日2025年02月18日） にtadsanと「第3章 Emacs の機能、魅力、思想」を書きました。
+Software Design 2025年3月号 （発売日2025年02月18日） にtadsanと「第3章 Emacs の機能、魅力、思想」を書きました。
 
 #+begin_quote
 あなたがエディタに求めるものは？編集速度、拡張性、習熟しやすさ……
