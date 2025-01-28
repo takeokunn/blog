@@ -16,7 +16,7 @@
 
 devenvをヘビーユーズしているので、個人的なdevenv運用についてやTipsについてまとめる。
 
-* devevnとは
+* devenvとは
 
 devenvはcachix社が作っているflake.nixラッパ。
 https://devenv.sh/
