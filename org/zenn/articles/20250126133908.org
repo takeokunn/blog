@@ -284,7 +284,20 @@ https://gorillavim.connpass.com/
 じきにShougoさんも暗黒美夢王から暗黒威魔苦巣王になるでしょう。
 ** EmacsはTerminalの中で起動するの?
 僕はEmacsはGUIで起動しつつTerminalはFishとTmuxをメインで使っています。
-embarkからeshellを起動して使うこともあります。
+EmacsはTUI的な動きに弱いのでその部分はTerminalに担ってもらっています。
+
+embarkからeshellを起動して使うこともありますし、日常の大部分のShell Script実行はorg-modeから行っています。
+
+こういう格言を言っている人がいるとかいないとか。
+
+#+begin_quote
+世の中には2種類のEmacs使いがいる。
+shellの上でEmacsを使う者と、Emacsの上でshellを使う者だ。
+#+end_quote
+
+#+begin_export markdown
+https://qiita.com/fnobi/items/8906c8e7759751d32b6b
+#+end_export
 ** major-modeとminor-mode
 minor-modeはフィーチャートグルという説明良いなと思いました。今後使わせてもらいます。
 ** org-modeでスライド
@@ -293,7 +306,7 @@ org-tree-slideなどもありますが、個人的には最近Typstにはまっ�
 https://github.com/takaxp/org-tree-slide
 https://www.takeokunn.org/posts/fleeting/20250126114218-build_and_deploy_typst_using_nix/
 #+end_export
-** 感想について
+** エンディング
 テキストエディタを極めたいのでEmacsを極めます。
 
 #+begin_export markdown
