@@ -20,7 +20,7 @@ https://audee.jp/voice/show/96517
 https://audee.jp/voice/show/97075
 #+end_export
 
-2025年1月後半はEmacs歴30年の大ベテランである [[https://x.com/t_wada][@t_wada]] さんが出演しており、こちらも最高におもしろかったのでぜひ聞いてください。
+2025年1月後半はEmacs歴30年の大ベテランである [[https://x.com/t_wada][@t-wada]] さんが出演しており、こちらも最高におもしろかったのでぜひ聞いてください。
 Scratch BufferとTDDの関係性の話を聞けるのは世界広しといえどもvim-jpラジオだけだと思います。
 
 #+begin_export markdown
@@ -66,7 +66,7 @@ Emacsといえば設定をEmacs Lispという専用のLispで行ったり、他�
 #+end_quote
 
 Lispの魅力についての外観をつかみたいなら [[https://www.amazon.co.jp/%E3%83%8F%E3%83%83%E3%82%AB%E3%83%BC%E3%81%A8%E7%94%BB%E5%AE%B6-%E3%82%B3%E3%83%B3%E3%83%94%E3%83%A5%E3%83%BC%E3%82%BF%E6%99%82%E4%BB%A3%E3%81%AE%E5%89%B5%E9%80%A0%E8%80%85%E3%81%9F%E3%81%A1-%E3%83%9D%E3%83%BC%E3%83%AB-%E3%82%B0%E3%83%AC%E3%82%A2%E3%83%A0/dp/4274065979][ハッカーと画家 コンピュータ時代の創造者たち]] や [[https://www.oreilly.co.jp/books/9784873115870/][Land of Lisp]] や [[https://gist.github.com/y2q-actionman/49d7587912b2786eb68643afde6ca192][A Road to Common Lisp]] を読むことをお勧めします。
-Lispにもっと踏み込みたいなら [[https://www.asahi-net.or.jp/~kc7k-nd/onlispjhtml/][On Lisp]] や [[https://www.amazon.co.jp/LET-OVER-LAMBDA-1-0-%E3%83%9B%E3%82%A4%E3%83%88/dp/4434133632][LET OVER LAMBDA]] もお勧めですね。
+Lispにもっと踏み込みたいなら [[https://www.asahi-net.or.jp/~kc7k-nd/onlispjhtml/][On Lisp]] や [[https://www.amazon.co.jp/LET-OVER-LAMBDA-1-0-%E3%83%9B%E3%82%A4%E3%83%88/dp/4434133632][LET OVER LAMBDA]] もお勧めです。
 
 僕個人としての魅力は、Lisp自体の言語仕様が変わることはなく、Lispの言語仕様の上にmacroや関数を積み上げているので30年前のコードベースも余裕で動くことです。
 ソフトウェアを開発していると後方非互換の回し車に常に追われており、頻繁なバージョンアップを余儀なくされます。
@@ -136,7 +136,7 @@ https://www.takeokunn.org/posts/permanent/20240112071806-my_relationship_with_or
 また、タスク管理についてはこなゆき氏のYouTubeお勧めです。
 
 #+begin_export markdown
-<iframe width="560" height="315" src="https://www.youtube.com/embed/cpD3OH20KDw?si=pe4DkZ3HXEiGpXhT" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+https://www.youtube.com/watch?v=cpD3OH20KDw&t=6s&ab_channel=%E3%81%93%E3%81%AA%E3%82%86%E3%81%8D
 #+end_export
 
 僕個人の手元のPCのすべての設定はNixかorg-modeのどちらかで管理されている状態です。
@@ -213,7 +213,24 @@ Emacsの語源は =Editing MACroS= であって小指やキーバインドが本
 https://qiita.com/Neuroi/items/1ed446a0c87f47858727
 #+end_export
 *** Vimのキーマップやdesign-not
-不思議な仕様ですね。Vimできることが少なすぎてたいへんそうだなと常に思っている。
+#+begin_quote
+☆Vimは... こうではない                                  *design-not*
+
+- Vim はシェルでもオペレーティングシステムでもない。Vim はターミナルウィンドウ
+  を提供し、その中でシェルやデバッガを走らせることができる。例えば、ssh 接続越
+  しにこれをすることが可能だ。しかし、このようなものにテキストエディタが必要な
+  いなら守備範囲外だ (代わりに screen や tmux のようなものを使おう)。
+  風刺を込めて曰く: "Vim は Emacs のように流し台以外ならなんでもかんでも取り込
+  んでしまうようなことはしないが、Vim で流し台を洗うことはできるぞ。 ;-)"
+  Vim と gdb を連携させる方法については |terminal-debugger| を参照。他の(古い)
+  ツールは http://www.agide.org (リンク切れのようだ) と http://clewn.sf.net で
+  見つけることができる。
+- Vimは、全てのプラットフォームに渡って調和を欠くという代償を払って、見栄えを
+  よくしようとする装飾的なGUIエディタではない。しかし、機能的なGUI特性は歓迎さ
+  れる。
+#+end_quote
+
+不思議な仕様ですね。Vimできることが少なすぎてたいへんそうだなと常に思っています。
 *** 定義ジャンプ
 PATHを通しても良いのですが、そもそもGNU系のプロジェクトは手元でBuildするのが基本なので可能な限りやりましょう。
 Cのコードに簡単に定義ジャンプできるが、謎のEmacs特有のCマクロがガンガン使われており、コードリーディングには骨が折れますね。
@@ -239,7 +256,7 @@ https://gorillavim.connpass.com/
 僕はEmacsはGUIで起動しつつTerminalはFishとTmuxをメインで使っています。
 embarkからeshellを起動して使うこともあります。
 *** major-modeとminor-mode
-minor-modeはフィーチャートグルという説明良いなと思った。
+minor-modeはフィーチャートグルという説明良いなと思いました。今後使わせてもらいます。
 *** org-modeでスライド
 org-tree-slideなどもありますが、個人的には最近Typstにはまっているのでorg-modeからTypstを出力するようにしています。
 #+begin_export markdown
