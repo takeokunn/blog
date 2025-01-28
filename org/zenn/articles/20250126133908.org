@@ -39,8 +39,11 @@ https://tokyo-emacs.connpass.com/event/330572/
 
 そこで [[https://x.com/tomoyaton][@tomoya]] さんからvim-jpラジオに出ないかと打診があり、自分のエンジニアの師匠である [[https://x.com/tadsan][@tadsan]] と一緒に出たいと話した所OKが出たので実現しました。
 
-* ラジオ補足
+* ラジオ内容補足
 ** 【2025年最初のテーマはEmacs！？】エンジニアの楽園 vim-jp ラジオ #25
+#+begin_quote markdown
+https://audee.jp/voice/show/96517
+#+end_quote
 *** Shougoさんからのお便り
 #+begin_quote
 Shougo です。こんにちは。お二人は Emacs 使いとして vim-jp でも有名です。
@@ -150,7 +153,104 @@ ISUCONの手順書はこちらです。
 https://zenn.dev/takeokunn/articles/20241217090756#%E6%89%8B%E9%A0%86%E6%9B%B8%E6%9C%80%E9%81%A9%E5%8C%96
 #+end_export
 ** 【VimとEmacsの違い】エンジニアの楽園 vim-jp ラジオ #26
-*** aaa
+#+begin_quote markdown
+https://audee.jp/voice/show/97075
+#+end_quote
+*** emacs-jpラジオ
+「vim-jp slackのtech-emacsチャンネルはemacs-jpより盛り上がってる」と言われるようになってしまい、emacs-jpの皆さん申し訳ない。
+*** ゴリラさんからのお便り
+#+begin_quote
+たけてぃさん、tomoyaさん、ありすえさん
+
+こんにちは、寿司食べたいゴリラです
+
+たけてぃさんといえば、EmacsユーザだけどVimのことがよくわからないままゴリラ.vimに来てくれて質問もしていて、
+フットワーク軽くてパッションがあるなというイメージを持っています。
+
+そんなたけてぃさんがVimmerにEmacsを勧める場合、どう口説きますか？
+口説き文句をぜひ聞かせてください
+#+end_quote
+
+「俺と一緒にEmacsで†††テキストエディタの高み†††を目指さないか」と2024年12月10日18時57分に書いてました。
+
+*** 車アイコンさんからのお便り
+#+begin_quote
+みなさんこんにちは！
+実はガンダム好きな車アイコンです。
+たけてぃさんに質問があります。たけてぃさんもガンダムが好きということですが、よくみなさんが話されているRMSとはどんなモビルスーツか教えてください
+#+end_quote
+
+ガンダムの世界での型式番号は =量産機：ＲＭＳ－□□□= らしく、ガンダムではないと答えたこと自体は正解だったけど知りませんでした。
+
+#+begin_export markdown
+https://www2u.biglobe.ne.jp/~asurada/ms_labo/msdata/about.html
+#+end_export
+
+Emacsの創始者はRichard Matthew Stallmanの頭文字を取ってRMSです。(正確にはジェームズ・ゴスリンの作ってたものを派生させたものがGNU Emacs)
+
+#+begin_export markdown
+https://ja.wikipedia.org/wiki/%E3%83%AA%E3%83%81%E3%83%A3%E3%83%BC%E3%83%89%E3%83%BB%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB%E3%83%9E%E3%83%B3
+#+end_export
+*** モーダルとモードレス
+モードレスに体が慣れすぎてるので、たまにvimを使うと「insertモードは素潜りしてる状態」に慣れないですね。
+*** Emacsキーバインドについて
+=C-p= はprevious、 =C-f= はforwardなどニーモニックで覚えやすいとはいえ、[[https://ja.wikipedia.org/wiki/Dvorak%E9%85%8D%E5%88%97][Dvorak配列]] みたいな[[https://ja.wikipedia.org/wiki/QWERTY%E9%85%8D%E5%88%97][QWERTY配列]]以外のキーボードでEmacsを使ったことがないので気になる所です。
+
+Dvorak配列にはn回挑戦していますが一向に身につかなくて中々厳しいです。
+*** 小指について
+Emacsユーザで小指が痛いって言ってる人本当に見たことがないですね。
+
+左Ctrlを押すコストは0コストなので常に小指はCtrlを押してます。
+#+begin_export markdown
+@[tweet](https://x.com/takeokunn/status/1881250692494717058)
+#+end_export
+
+Emacsの語源は =Editing MACroS= であって小指やキーバインドが本質ではないです。小指が痛い人は[[https://github.com/emacs-evil/evil][evil]]をガンガン使いましょう。
+余談ですが、「お前はVimとEmacsから逃げられない」という記事が最近Qiitaに上がっていましたが、Emacsは自分好みにカスタマイズしてこそのEmacsなのでキーバインドは好きにすれば良いと思っています。
+ネタ記事にマジレスするのは野暮ですね。
+
+#+begin_export markdown
+https://qiita.com/Neuroi/items/1ed446a0c87f47858727
+#+end_export
+*** Vimのキーマップやdesign-not
+不思議な仕様ですね。Vimでできることが少なすぎて大変そうだなと常に思ってる。
+*** 定義ジャンプ
+PATHを通しても良いのですが、そもそもGNU系のプロジェクトは手元でBuildするのが基本なので可能な限りやりましょう。
+Cのコードに簡単に定義ジャンプできるが、謎のEmacs特有のCマクロがガンガン使われており、コードリーディングには骨が折れますね。
+*** dwim文化
+[[https://en.wikipedia.org/wiki/DWIM][DWIM (do what I mean)]] 文化はEmacs以外で見たことがないですね。他にもあれば教えてもらいたいです。
+ラジオでも話しましたが、Emacs上では =M-x comment-dwim= が一番一般的ですね。
+
+「一つのことをうまくやる」UNIX文化とは真逆の世界のように感じられます。
+*** Emacs普及してない
+素の状態は難しいし、Emacs Lispも初見だと難しいですよね。
+
+40〜50歳のベテランがボリュームゾーンだろうなという感覚なので、やはり若手の自分が盛り上げていくしかないという感覚が常にあります。
+自分がイベントを開いたり、ブログを書いたり、コミュニティ活動を積極的に行って初心者のハードルを下げていきたいです。
+
+vimコミュニティだとゴリラ.vimがその立ち位置なのかなと思っているので真似して頑張っていきたいです。
+
+#+begin_export markdown
+https://gorillavim.connpass.com/
+#+end_export
+*** 流行りは巡るもの
+「全ての道はEmacsに通じる」のでみんなEmacsに辿りつくと思っています。
+*** EmacsはTerminalの中で起動するの?
+僕はEmacsはGUIで起動しつつTerminalはFishとTmuxをメインで使っています。
+embarkからeshellを起動して使うこともあります。
+*** major-modeとminor-mode
+minor-modeはフィーチャートグルという説明良いなと思った。
+*** org-modeでスライド
+org-tree-slideなどもありますが、個人的には最近Typstにはまっているのでorg-modeからTypstを出力するようにしています。
+#+begin_export markdown
+https://github.com/takaxp/org-tree-slide
+https://www.takeokunn.org/posts/fleeting/20250126114218-build_and_deploy_typst_using_nix/
+#+end_export
+*** 感想について
+テキストエディタを極めたいのでEmacsを極めます。
+#+begin_export markdown
+https://tadsan.fanbox.cc/posts/8295358
+#+end_export
 * 感想
 正直緊張してあまり上手く喋れない、楽屋で面白いタイプの男になってしまったなーと配信までは布団に包まって震えてました。
 実際に配信されるとカットや編集が丁寧に成されていて、想像以上に自分の声を不快感なく聞ける仕上りになっていました。
