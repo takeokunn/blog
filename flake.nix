@@ -33,7 +33,7 @@
                   sentence-length = false;
                   no-doubled-joshi = false;
                   max-kanji-continuous-len = {
-                    max = 10;
+                    max = 8;
                   };
                 };
                 write-good = {
