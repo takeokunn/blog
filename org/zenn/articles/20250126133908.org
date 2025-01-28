@@ -231,7 +231,7 @@ Emacsの語源は =Editing MACroS= であって小指やキーバインドが本
 #+begin_export markdown
 https://qiita.com/Neuroi/items/1ed446a0c87f47858727
 #+end_export
-** Vimのキーマップやdesign-not
+** vimのキーマップやdesign-not
 #+begin_quote
 ☆Vimは... こうではない                                  *design-not*
 
@@ -253,7 +253,7 @@ https://qiita.com/Neuroi/items/1ed446a0c87f47858727
 ** 定義ジャンプ
 PATHを通しても良いのですが、そもそもGNU系のプロジェクトは手元でBuildするのが基本なので可能な限りやりましょう。
 Cのコードに簡単に定義ジャンプできるが、謎のEmacs特有のCマクロがガンガン使われており、コードリーディングには骨が折れますね。
-** dwim文化
+** DWIM文化
 [[https://en.wikipedia.org/wiki/DWIM][DWIM (do what I mean)]] 文化はEmacs以外で見たことがないですね。ほかにもあれば教えてもらいたいです。
 ラジオでも話しましたが、Emacs上では =M-x comment-dwim= が一番一般的ですね。
 
