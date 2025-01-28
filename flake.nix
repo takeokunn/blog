@@ -32,6 +32,9 @@
                   no-exclamation-question-mark = false;
                   sentence-length = false;
                   no-doubled-joshi = false;
+                  max-kanji-continuous-len = {
+                    max = 10;
+                  };
                 };
                 write-good = {
                   weasel = false;
