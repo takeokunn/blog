@@ -131,6 +131,7 @@ org-modeもいろいろできすぎて説明が難しいですね。
 
 #+begin_export markdown
 https://www.takeokunn.org/posts/permanent/20240112071806-my_relationship_with_org_mode_in_2023_and_how_navigate_in_2024/
+https://www.takeokunn.org/posts/permanent/20231219122351-how_to_manage_blog_by_org_roam/
 #+end_export
 
 また、タスク管理についてはこなゆき氏のYouTubeお勧めです。
@@ -145,7 +146,11 @@ https://www.youtube.com/watch?v=cpD3OH20KDw&t=6s&ab_channel=%E3%81%93%E3%81%AA%E
 https://github.com/takeokunn/nixos-configuration
 #+end_export
 
-[[https://www.amazon.co.jp/%E6%96%87%E8%8A%B8%E7%9A%84%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0-SOFTWARE-SCIENCE-Programming-Paradigm/dp/4756101909][ドナルドクヌース先生の文芸的プログラミング]] の本もおもしろいのでぜひ。
+ドナルドクヌース先生の文芸的プログラミングの本もおもしろいのでぜひ。
+
+#+begin_export markdown
+https://www.amazon.co.jp/%E6%96%87%E8%8A%B8%E7%9A%84%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0-SOFTWARE-SCIENCE-Programming-Paradigm/dp/4756101909
+#+end_export
 
 ISUCONの手順書はこちらです。
 
