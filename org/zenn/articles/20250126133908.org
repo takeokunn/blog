@@ -41,9 +41,9 @@ https://tokyo-emacs.connpass.com/event/330572/
 
 * ラジオ内容補足
 ** 【2025年最初のテーマはEmacs！？】エンジニアの楽園 vim-jp ラジオ #25
-#+begin_quote markdown
+#+begin_export markdown
 https://audee.jp/voice/show/96517
-#+end_quote
+#+end_export
 *** Shougoさんからのお便り
 #+begin_quote
 Shougo です。こんにちは。お二人は Emacs 使いとして vim-jp でも有名です。
@@ -118,7 +118,7 @@ https://blog.tomoya.dev/posts/hello-native-comp-emacs/
 
 LSPやTree-Sitterも入りましたね。
 *** embarkが気に入っている話
-こちらが参考になる。
+こちらが参考になります。
 #+begin_export markdown
 https://emacs-jp.github.io/tips/fifteen-ways-to-use-embark
 #+end_export
@@ -153,9 +153,9 @@ ISUCONの手順書はこちらです。
 https://zenn.dev/takeokunn/articles/20241217090756#%E6%89%8B%E9%A0%86%E6%9B%B8%E6%9C%80%E9%81%A9%E5%8C%96
 #+end_export
 ** 【VimとEmacsの違い】エンジニアの楽園 vim-jp ラジオ #26
-#+begin_quote markdown
+#+begin_export markdown
 https://audee.jp/voice/show/97075
-#+end_quote
+#+end_export
 *** Emacs-jpラジオ
 vim-jp slackの =#tech-emacs= チャンネルはEmacsJPより盛り上がっている状態についてEmacsJPの皆さんには非常に申し訳ない気持ちでいっぱいです。
 *** ゴリラさんからのお便り
