@@ -98,7 +98,7 @@ tadsanがEmacsを使ってたのでEmacsを始めたというのがきっかけ�
 https://tokyo-emacs.connpass.com/event/321255/
 #+end_export
 
-「東京Emacs勉強会 オクトーバーフェスティバル2024」を開催した時はテキストエディタバーということでカクテルを作りました。
+「東京Emacs勉強会 オクトーバーフェスティバル2024」を開催した時はテキストエディタバーをやりたかったのでカクテルを作りました。
 
 #+begin_export markdown
 https://tokyo-emacs.connpass.com/event/330572/
