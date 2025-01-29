@@ -1,7 +1,7 @@
 :PROPERTIES:
 :ID:       FDA08F09-0908-4FC2-AA64-290C3073EE7A
 :END:
-#+TITLE: 「Lispが安定してる」に対しての考察
+#+TITLE: 「Lispが安定してることがアピールポイントか」に対しての考察
 #+AUTHOR: takeokunn
 #+DESCRIPTION: description
 #+DATE: 2025-01-29T14:16:04+0900
