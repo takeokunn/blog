@@ -14,4 +14,86 @@
 #+STARTUP: fold
 * Introduction
 
-- org-nix-shellについて
+org-nix-shellはOrg関連パッケージの中でもキラーアプリと呼べるもので、個人的に今熱いパッケージの一つです。
+簡単な使い方と実際のユースケースを紹介していきます。
+
+* インストール
+
+- GitHub: https://github.com/AntonHakansson/org-nix-shell/blob/main/README.org
+- melpa: https://melpa.org/#/org-nix-shell
+
+Melpa経由で入れても良いし、GitHub経由で直接インストールしても良い。
+以下のように設定するだけで機能してくれる。
+
+#+begin_src emacs-lisp
+  (require 'org-nix-shell)
+
+  (with-eval-after-load 'org
+    (add-hook 'org-mode-hook #'org-nix-shell-mode))
+#+end_src
+
+* 使い方
+** Basic
+
+以下のようにNixを定義して =:nix-shell= で読み込む。
+
+#+begin_src org
+  ,#+name: tmp-shell
+  ,#+BEGIN_SRC nix :noweb yes
+    { pkgs ? import <nixpkgs> { } }:
+    pkgs.mkShell { buildInputs = with pkgs; [ php ]; }
+    ,#+END_SRC
+
+  ,#+begin_src shell :nix-shell tmp-shell :results output
+    php --version
+  ,#+end_src
+#+end_src
+
+また、以下のURLから古いバージョンを取ってきて実行することも可能。
+https://lazamar.co.uk/nix-versions
+
+#+begin_src org
+  ,#+name: php74-shell
+  ,#+BEGIN_SRC nix :noweb yes
+    let
+      url =
+        "https://github.com/NixOS/nixpkgs/archive/4426104c8c900fbe048c33a0e6f68a006235ac50.tar.gz";
+      pkgs = import (builtins.fetchTarball { inherit url; }) {
+        system = "<<wandbox-system>>";
+      };
+    in pkgs.mkShell { buildInputs = with pkgs; [ php74 ]; }
+  ,#+END_SRC
+
+  ,#+begin_src php :nix-shell php74-shell :exports both
+    echo phpversion();
+  ,#+end_src
+
+  ,#+RESULTS:
+  : 7.4.4
+#+end_src
+
+property指定もできる。
+
+Buffer Scope:
+
+#+begin_src org
+  ,#+property: header-args: :nix-shell <name>
+#+end_src
+
+Subtree Scope:
+
+#+begin_src org
+  ,* sample header
+    :PROPERTIES:
+    :header-args:    :nix-shell <name>
+    :END:
+#+end_src
+** Adviced
+
+複数の処理系を定義しておけば、wandboxのようなことも実現可能になる。
+
+
+
+* 所感
+必要なものを明示的にインストールして実行できるのでポータビリティが非常に高い。
+ブログや運用手順書との相性が非常に良く、文芸的プログラミングのレベルを一つ上にレベルアップすることが可能になった。

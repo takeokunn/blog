@@ -1,0 +1,182 @@
+#+STARTUP: content
+#+STARTUP: fold
+#+OPTIONS: toc:nil
+* Wandbox
+** System
+#+name: wandbox-system
+#+begin_src nix
+  x86_64-darwin
+#+end_src
+** PHP
+*** 7.2
+**** define
+#+name: php72-shell
+#+BEGIN_SRC nix :noweb yes
+  let
+    url =
+      "https://github.com/NixOS/nixpkgs/archive/df2176f7f3f748974f24916df29bb70763d89734.tar.gz";
+    pkgs = import (builtins.fetchTarball { inherit url; }) {
+      system = "<<wandbox-system>>";
+    };
+  in pkgs.mkShell { buildInputs = with pkgs; [ php72 ]; }
+#+END_SRC
+**** test
+#+begin_src php :nix-shell php72-shell :exports both
+  echo phpversion();
+#+end_src
+
+#+RESULTS:
+: 7.2.27
+
+*** 7.3
+**** define
+#+name: php73-shell
+#+BEGIN_SRC nix :noweb yes
+  let
+    url =
+      "https://github.com/NixOS/nixpkgs/archive/9d21fe813fd96afd4a08d5437186ebe438546693.tar.gz";
+    pkgs = import (builtins.fetchTarball { inherit url; }) {
+      system = "<<wandbox-system>>";
+    };
+  in pkgs.mkShell { buildInputs = with pkgs; [ php73 ]; }
+#+END_SRC
+**** test
+#+begin_src php :nix-shell php73-shell :exports both
+  echo phpversion();
+#+end_src
+
+#+RESULTS:
+: 7.3.15
+*** 7.4
+**** define
+#+name: php74-shell
+#+BEGIN_SRC nix :noweb yes
+  let
+    url =
+      "https://github.com/NixOS/nixpkgs/archive/4426104c8c900fbe048c33a0e6f68a006235ac50.tar.gz";
+    pkgs = import (builtins.fetchTarball { inherit url; }) {
+      system = "<<wandbox-system>>";
+    };
+  in pkgs.mkShell { buildInputs = with pkgs; [ php74 ]; }
+#+END_SRC
+**** test
+#+begin_src php :nix-shell php74-shell :exports both
+  echo phpversion();
+#+end_src
+
+#+RESULTS:
+: 7.4.4
+*** 8.0
+**** define
+#+name: php80-shell
+#+BEGIN_SRC nix :noweb yes
+  let
+    url =
+      "https://github.com/NixOS/nixpkgs/archive/d1c3fea7ecbed758168787fe4e4a3157e52bc808.tar.gz";
+    pkgs = import (builtins.fetchTarball { inherit url; }) {
+      system = "<<wandbox-system>>";
+    };
+  in pkgs.mkShell { buildInputs = with pkgs; [ php80 ]; }
+#+END_SRC
+**** test
+#+begin_src php :nix-shell php80-shell :exports both
+  echo phpversion();
+#+end_src
+
+#+RESULTS:
+: 8.0.16
+*** 8.1
+**** define
+#+name: php81-shell
+#+BEGIN_SRC nix :noweb yes
+  { pkgs ? import <nixpkgs> { } }:
+  pkgs.mkShell { buildInputs = with pkgs; [ php81 ]; }
+#+END_SRC
+**** test
+#+begin_src php :nix-shell php81-shell :exports both
+  echo phpversion();
+#+end_src
+
+#+RESULTS:
+: 8.1.29
+*** 8.2
+**** define
+#+name: php82-shell
+#+BEGIN_SRC nix :noweb yes
+  { pkgs ? import <nixpkgs> { } }:
+  pkgs.mkShell { buildInputs = with pkgs; [ php82 ]; }
+#+END_SRC
+**** test
+#+begin_src php :nix-shell php82-shell :exports both
+  echo phpversion();
+#+end_src
+
+#+RESULTS:
+: 8.2.22
+*** 8.3
+**** define
+#+name: php83-shell
+#+BEGIN_SRC nix :noweb yes
+  { pkgs ? import <nixpkgs> { } }:
+  pkgs.mkShell { buildInputs = with pkgs; [ php83 ]; }
+#+END_SRC
+**** test
+#+begin_src php :nix-shell php83-shell :exports both
+  echo phpversion();
+#+end_src
+
+#+RESULTS:
+: 8.3.10
+** Test
+*** 0 == ""
+**** 7.2
+#+begin_src php :nix-shell php72-shell :exports both
+  var_dump(0 == "");
+#+end_src
+
+#+RESULTS:
+: bool(true)
+
+**** 7.3
+#+begin_src php :nix-shell php73-shell :exports both
+  var_dump(0 == "");
+#+end_src
+
+#+RESULTS:
+: bool(true)
+
+**** 7.4
+#+begin_src php :nix-shell php74-shell :exports both
+  var_dump(0 == "");
+#+end_src
+
+#+RESULTS:
+: bool(true)
+**** 8.0
+#+begin_src php :nix-shell php80-shell :exports both
+  var_dump(0 == "");
+#+end_src
+
+#+RESULTS:
+: bool(false)
+**** 8.1
+#+begin_src php :nix-shell php81-shell :exports both
+  var_dump(0 == "");
+#+end_src
+
+#+RESULTS:
+: bool(false)
+**** 8.2
+#+begin_src php :nix-shell php82-shell :exports both
+  var_dump(0 == "");
+#+end_src
+
+#+RESULTS:
+: bool(false)
+**** 8.3
+#+begin_src php :nix-shell php83-shell :exports both
+  var_dump(0 == "");
+#+end_src
+
+#+RESULTS:
+: bool(false)
