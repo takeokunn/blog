@@ -22,7 +22,9 @@ jobs:
           submodules: recursive
 
       # prepare nix
-      - uses: cachix/install-nix-action@v27
+      - uses: DeterminateSystems/nix-installer-action@main
+      - uses: DeterminateSystems/magic-nix-cache-action@main
+      - uses: DeterminateSystems/flake-checker-action@main
 
       # for Org-Zenn to Markdown
       - name: Build org to markdown
@@ -73,7 +75,7 @@ jobs:
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v2
+        uses: actions/upload-pages-artifact@v3
         with:
           path: ./public
       - name: Deploy to GitHub Pages
