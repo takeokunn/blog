@@ -22,9 +22,7 @@ jobs:
           submodules: recursive
 
       # prepare nix
-      - uses: DeterminateSystems/nix-installer-action@main
-      - uses: DeterminateSystems/magic-nix-cache-action@main
-      - uses: DeterminateSystems/flake-checker-action@main
+      - uses: cachix/install-nix-action@v27
 
       # for Org-Zenn to Markdown
       - name: Build org to markdown
