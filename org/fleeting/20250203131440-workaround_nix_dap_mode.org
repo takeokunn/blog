@@ -1,0 +1,96 @@
+:PROPERTIES:
+:ID:       173B480B-53EB-461C-9002-DB89EC432EAB
+:END:
+#+TITLE: Nixでdap-modeがエラーになった時のメモ
+#+AUTHOR: takeokunn
+#+DESCRIPTION: description
+#+DATE: 2025-02-03T13:15:02+0900
+#+HUGO_BASE_DIR: ../../
+#+HUGO_CATEGORIES: fleeting nix
+#+HUGO_SECTION: posts/fleeting
+#+HUGO_TAGS: fleeting
+#+HUGO_DRAFT: false
+#+STARTUP: content
+#+STARTUP: fold
+* Introduction
+
+2025/02/02（Sun）に最新にしたらBuildしたらエラーで落ちるようになったのでメモ。
+
+* 現象
+
+1. 2025/01/31に [[https://github.com/emacs-lsp/dap-mode/commit/438679755e880f2a662a63bc04da9e843257e248][dapui.elがdap-ui.elにrename]] される
+2. [[https://melpa.org/#/dap-mode][dap-mode 20250131.1624]] に反映される
+3. 2025/02/02の [[https://github.com/NixOS/nixpkgs/blob/master/pkgs/applications/editors/emacs/elisp-packages/melpa-packages.nix#L984-L991][nix flake update nixpkgsのdap-modeのpreBuild]] でdapui.elがなくて落ちるようになった
+
+* 最小構成と解決策
+
+以下のように =preBuild= をoverlaysに追加すればBuildできるようになった。
+
+#+begin_src nix
+  {
+    inputs = {
+      nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+      emacs-overlay.url = "github:nix-community/emacs-overlay";
+    };
+
+    outputs = { self, nixpkgs, emacs-overlay, ... }:
+      let
+        system = "aarch64-darwin";
+        pkgs = import nixpkgs {
+          inherit system;
+          overlays = [
+            # ここを追加
+            (self: super: {
+              emacsPackages = super.emacsPackages // {
+                dap-mode = super.emacsPackages.dap-mode.overrideAttrs (old: {
+                  preBuild = null;
+                });
+              };
+            })
+            emacs-overlay.overlay
+          ];
+        };
+      in {
+        defaultPackage.${system} = pkgs.emacsPackages.dap-mode;
+      };
+  }
+#+end_src
+
+また、Emacs-overlay使う場合は =pkgs.emacsWithPackagesFromPackageRequires= にoverlayを追加すればBuildできるようになる。
+https://github.com/nix-community/Emacs-overlay/blob/a7f332f6e0813c9d0f53fe6539be1e7a65fff2e4/packreq.nix#L13
+
+#+begin_src nix
+  {
+    inputs = {
+      nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+      emacs-overlay.url = "github:nix-community/emacs-overlay";
+    };
+    outputs = { self, nixpkgs, emacs-overlay, ... }:
+      let
+        system = "aarch64-darwin";
+        pkgs = import nixpkgs {
+          inherit system;
+          overlays = [ emacs-overlay.overlay ];
+        };
+      in
+        {
+          defaultPackage.${system} = pkgs.emacsWithPackagesFromPackageRequires {
+            packageElisp = builtins.toFile "empty.el" "";
+            extraEmacsPackages = epkgs: with epkgs; [ dap-mode ];
+            override = final: prev: {
+              dap-mode = prev.melpaPackages.dap-mode.overrideAttrs (old: {
+                preBuild = null;
+              });
+            };
+          };
+        };
+  }
+#+end_src
+
+自分のhome-managerには以下のように追記した。
+
+https://github.com/takeokunn/nixos-configuration/commit/16c55223327058cd184aa189b2b324dd1f823463
+
+* 終わりに
+
+調査に協力してくれたnatsukiumに感謝。
