@@ -6,9 +6,9 @@
 #+DESCRIPTION: description
 #+DATE: 2025-02-03T13:15:02+0900
 #+HUGO_BASE_DIR: ../../
-#+HUGO_CATEGORIES: fleeting nix
+#+HUGO_CATEGORIES: fleeting
 #+HUGO_SECTION: posts/fleeting
-#+HUGO_TAGS: fleeting
+#+HUGO_TAGS: fleeting nix
 #+HUGO_DRAFT: false
 #+STARTUP: content
 #+STARTUP: fold
