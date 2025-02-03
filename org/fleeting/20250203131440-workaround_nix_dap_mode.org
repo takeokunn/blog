@@ -14,7 +14,7 @@
 #+STARTUP: fold
 * Introduction
 
-2025/02/02（Sun）に最新にしたらBuildしたらエラーで落ちるようになったのでメモ。
+2025/02/02（Sun）に =nix flake update= で最新にしてBuildしたらエラーで落ちるようになったのでメモ。
 
 * 現象
 
@@ -56,7 +56,7 @@
   }
 #+end_src
 
-また、Emacs-overlay使う場合は =pkgs.emacsWithPackagesFromPackageRequires= にoverlayを追加すればBuildできるようになる。
+また、 =emacs-overlay= 使う場合は =pkgs.emacsWithPackagesFromPackageRequires= にoverlayを追加すればBuildできるようになる。
 https://github.com/nix-community/Emacs-overlay/blob/a7f332f6e0813c9d0f53fe6539be1e7a65fff2e4/packreq.nix#L13
 
 #+begin_src nix
