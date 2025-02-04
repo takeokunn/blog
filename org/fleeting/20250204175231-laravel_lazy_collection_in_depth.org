@@ -1,0 +1,273 @@
+:PROPERTIES:
+:ID:       3A6CCE42-1D89-46CC-8AC4-8358CE2A751C
+:END:
+#+TITLE: Laravel LazyCollection in depth
+#+AUTHOR: takeokunn
+#+DESCRIPTION: description
+#+DATE: 2025-02-04T17:52:58+0900
+#+HUGO_BASE_DIR: ../../
+#+HUGO_CATEGORIES: fleeting
+#+HUGO_SECTION: posts/fleeting
+#+HUGO_TAGS: fleeting laravel php
+#+HUGO_DRAFT: true
+#+STARTUP: content
+#+STARTUP: fold
+* Introduction
+
+LaravelのLazyCollectionは巨大なデータを扱う時に便利であるという話は巷で良く聞くが、実際の所どういうときに便利なのか、内部的にはどうなっているのかという情報はあまり聞かない。
+LazyCollection自体のソースコードを読んでかなり理解できたのでメモしておく。
+
+なお、そもそもの使い方については [[https://qiita.com/yhosok/items/a95ae800970124fb503a][LazyCollection備忘録 - Qiita]] を読んでいる前提で話を進める。
+
+* 前提
+
+以下のバージョンを想定しています。
+
+- laravel: 10.0
+- php: 8.2
+
+LazyCollectionのコードはこちら。
+
+https://github.com/laravel/framework/blob/10.x/src/Illuminate/Collections/LazyCollection.php
+
+* LazyCollectionについて
+** Basic
+*** LazyCollection#sourceについて
+基本的には [[https://github.com/laravel/framework/blob/10.x/src/Illuminate/Collections/LazyCollection.php#L31-L36][LazyCollection#source]] にClosureを入れてどう引き回すか、どのタイミングでClosureを発行するのかということを制御している。
+
+#+begin_src php
+  /**
+   ,* The source from which to generate items.
+   ,*
+   ,* @var (Closure(): \Generator<TKey, TValue, mixed, void>)|static|array<TKey, TValue>
+   ,*/
+  public $source;
+#+end_src
+
+LazyCollectionのコンストラクタの引数(or =LazyCollection#make=)には =Array|null= か =Closure(Generator)= を渡すことが可能で、 =LazyCollection#source= に代入する。
+
+#+begin_src php
+  > \Illuminate\Support\LazyCollection::make(function () { for ($i = 1; $i <= 10000000; $i++) yield $i; })->source
+  = Closure() {#5542 <E2><80><A6>2}
+
+  > \Illuminate\Support\LazyCollection::make([1, 2 ,3])->source;
+  = [1, 2, 3]
+
+  > \Illuminate\Support\LazyCollection::make()->source
+  = []
+
+  // arrayにcastされる
+  > \Illuminate\Support\LazyCollection::make(1)->source
+  = [ 1 ]
+#+end_src
+*** 基本的な関数
+ここではmapを例に上げる。
+
+map内では =new static(LazyCollection)= して引数にgeneratorを書いている。
+https://github.com/laravel/framework/blob/10.x/src/Illuminate/Collections/LazyCollection.php#L778-L793
+
+#+begin_src php
+  /**
+   ,* Run a map over each of the items.
+   ,*
+   ,* @template TMapValue
+   ,*
+   ,* @param  callable(TValue, TKey): TMapValue  $callback
+   ,* @return static<TKey, TMapValue>
+   ,*/
+  public function map(callable $callback)
+  {
+      return new static(function () use ($callback) {
+          foreach ($this as $key => $value) {
+              yield $key => $callback($value, $key);
+          }
+      });
+  }
+#+end_src
+
+以下の簡単なサンプルでは、map実行時にyieldをネストしたような形の =Closure= が定義され、新しいLazyCollectionを作りつつsourceに代入される。
+
+#+begin_src php
+  // make時
+  $lazy = \Illuminate\Support\LazyCollection::make([1, 2 ,3]);
+
+  // sourceはこのような形になる($originalSource)
+  $lazy->source = function () use ($source) {
+      yield from $source; // 1, 2, 3の順番でreturnする
+  };
+
+  // mapを実行
+  $lazy->map(fn ($elm) => $elm + 1);
+
+  // sourceはこのような形になる
+  // $callback = fn ($elm) => $elm + 1
+  $this->source = function () use ($callback) {
+      foreach ($originalSource() as $key => $value) {
+          yield $key => $callback($value, $key);
+      }
+  };
+
+  // foreachでloopできる
+  $lazyMap = \Illuminate\Support\LazyCollection::make([1, 2 ,3])->map(fn ($elm) => $elm + 1);
+  foreach($lazyMap as $value) {
+      echo $value; // 2, 3, 4が出力される
+  }
+#+end_src
+*** 評価
+
+=all= などを実行するとGeneratorで定義されていたものを発行することになる。
+
+#+begin_src php
+  > \Illuminate\Support\LazyCollection::make([1, 2 , 3])
+      ->map(fn ($elm) => $elm + 1)
+      ->all();
+  = 9
+#+end_src
+
+=->all()= でGeneratorを [[https://www.php.net/manual/ja/function.iterator-to-array.php][iterator_to_array]] で配列にする処理が書かれている。
+https://github.com/laravel/framework/blob/10.x/src/Illuminate/Collections/LazyCollection.php#L95-L107
+
+#+begin_src php
+  /**
+   ,* Get all items in the enumerable.
+   ,*
+   ,* @return array<TKey, TValue>
+   ,*/
+  public function all()
+  {
+      if (is_array($this->source)) {
+          return $this->source;
+      }
+
+      return iterator_to_array($this->getIterator());
+  }
+#+end_src
+
+phpのforeachでloopできるのは、LazyCollection内で[[https://www.php.net/manual/ja/class.iteratoraggregate.php][IteratorAggregate interface]]を実装しているから。
+
+- =IteratorAggregate= の場合、 =$source= 自体に定義された =getIterator= を実行する
+- =is_array= の場合、ArrayIteratorを返す
+- =is_callable= の場合、Generatorを返す
+
+https://github.com/laravel/framework/blob/10.x/src/Illuminate/Collections/LazyCollection.php#L1690-L1698
+
+#+begin_src php
+  /**
+   ,* Make an iterator from the given source.
+   ,*
+   ,* @template TIteratorKey of array-key
+   ,* @template TIteratorValue
+   ,*
+   ,* @param  \IteratorAggregate<TIteratorKey, TIteratorValue>|array<TIteratorKey, TIteratorValue>|(callable(): \Generator<TIteratorKey, TIteratorValue>)  $source
+   ,* @return \Traversable<TIteratorKey, TIteratorValue>
+   ,*/
+  protected function makeIterator($source)
+  {
+      if ($source instanceof IteratorAggregate) {
+          return $source->getIterator();
+      }
+
+      if (is_array($source)) {
+          return new ArrayIterator($source);
+      }
+
+      if (is_callable($source)) {
+          $maybeTraversable = $source();
+
+          return $maybeTraversable instanceof Traversable
+              ? $maybeTraversable
+              : new ArrayIterator(Arr::wrap($maybeTraversable));
+      }
+
+      return new ArrayIterator((array) $source);
+  }
+
+  /**
+   ,* Get the values iterator.
+   ,*
+   ,* @return \Traversable<TKey, TValue>
+   ,*/
+  public function getIterator(): Traversable
+  {
+      return $this->makeIterator($this->source);
+  }
+#+end_src
+** Advanced
+*** 遅延評価関数とそれ以外の違い
+
+=return new static= のものは遅延評価、それ以外のものは即時評価対象。
+=sum= や =avg= などすべてを評価したうえで実行しないと結果が得られないものも即時評価対象。
+
+#+begin_src php
+  // 遅延評価
+  public static function make($items = [])
+  {
+      return new static($items);
+  }
+
+  // 即時評価
+  public function all()
+  {
+      if (is_array($this->source)) {
+          return $this->source;
+      }
+
+      return iterator_to_array($this->getIterator());
+  }
+
+#+end_src
+
+#+RESULTS:
+:results:
+:end:
+*** passthru関数
+
+既存の =Collection= ni生えているメソッドを実行したうえで =LazyCollection= にしたい場合は =LazyCollection#passthru= を使う必要がある。
+
+https://github.com/laravel/framework/blob/10.x/src/Illuminate/Collections/LazyCollection.php#L1760-L1772
+
+#+begin_src php
+  /**
+   ,* Pass this lazy collection through a method on the collection class.
+   ,*
+   ,* @param  string  $method
+   ,* @param  array<mixed>  $params
+   ,* @return static
+   ,*/
+  protected function passthru($method, array $params)
+  {
+      return new static(function () use ($method, $params) {
+          yield from $this->collect()->$method(...$params);
+      });
+  }
+#+end_src
+
+内部的にはかなり使われているが、いったん =Collection= に変換する過程で当然メモリ上に載ってしまう。
+
+https://github.com/laravel/framework/blob/10.x/src/Illuminate/Collections/LazyCollection.php#L1372-L1381
+
+#+begin_src php
+  public function sort($callback = null)
+  {
+      return $this->passthru('sort', func_get_args());
+  }
+#+end_src
+
+* 想定QA
+** Q. LazyCollection作成時の引数に巨大な配列を渡した場合はどうなる?
+
+以下のように10000000件の配列を代入した場合は当然 =LazyCollection#source= に10000000件の配列が代入される。
+#+begin_src php
+  \Illuminate\Support\LazyCollection::make(range(1, 10000000)); // 10000000件の配列を代入する
+#+end_src
+
+ただ、その後の処理はGeneratorで処理が進むのでメモリ確保としては最初だけになる。
+
+** Q. LazyCollectionを使う時の注意事項はある?
+
+使う関数が =return new static= を返しているか、 =LazyCollection#source= の評価タイミングがいつなのかを常に意識する必要がある。
+このあたりのケアが面倒なので件数が少ない時は =Collection= を素直に使うのでも良さそう。
+逆に言うと、そのあたりをちゃんとケアできる自信があるなら =LazyCollection= ですべて処理しても良さそう。
+
+* 終わりに
+職場で扱うデータ量が多いと學びが多い。
