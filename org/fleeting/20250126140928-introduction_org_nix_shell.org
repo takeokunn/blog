@@ -8,8 +8,8 @@
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting
 #+HUGO_SECTION: posts/fleeting
-#+HUGO_TAGS: fleeting
-#+HUGO_DRAFT: true
+#+HUGO_TAGS: fleeting nix
+#+HUGO_DRAFT: false
 #+STARTUP: content
 #+STARTUP: fold
 * Introduction
@@ -31,7 +31,6 @@ Melpa経由で入れても良いし、GitHub経由で直接インストールし
   (with-eval-after-load 'org
     (add-hook 'org-mode-hook #'org-nix-shell-mode))
 #+end_src
-
 * 使い方
 ** Basic
 
@@ -85,14 +84,13 @@ Subtree Scope:
 #+begin_src org
   ,* sample header
     :PROPERTIES:
-    :header-args:    :nix-shell <name>
+    :header-args: :nix-shell <name>
     :END:
 #+end_src
 ** Adviced
 
 複数の処理系を定義しておけば、wandboxのようなことも実現可能になる。
-
-
+https://github.com/takeokunn/blog/blob/main/static/snippets/wandbox.org
 
 * 所感
 必要なものを明示的にインストールして実行できるのでポータビリティが非常に高い。
