@@ -4,7 +4,7 @@
 #+TITLE: org-nix-shell入門
 #+AUTHOR: takeokunn
 #+DESCRIPTION: description
-#+DATE: 2025-01-26T14:09:49+0900
+#+DATE: 2025-02-08T11:00:00+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting
 #+HUGO_SECTION: posts/fleeting
