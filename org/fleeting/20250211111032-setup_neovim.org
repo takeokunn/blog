@@ -152,7 +152,7 @@ windowやbufferの切り替えは簡単な設定をしています。
 
 *** basic
 
-- [[https://github.com/hadronized/hop.nvim][hop-nvim]]
+- [[https://github.com/smoka7/hop.nvim][hop-nvim]]
   - easymotionみたいなplugin
   - Emacsで言う所の[[https://github.com/abo-abo/avy][avy]]
 - [[https://github.com/ConradIrwin/vim-bracketed-paste][vim-bracketed-paste]]
