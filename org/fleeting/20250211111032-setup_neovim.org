@@ -19,12 +19,14 @@ Neovimに入門したいと思い早n年だったが、vim-jpの皆さんのお�
 [[id:E1C13122-4090-47F6-B84E-238CCC981E72][VimとNeovimの使い分けと最小構成]] の通りVimは最小構成にしているので、Neovimはヘビーカスタマイズしていく方針です。
 
 Neovimの設定はこちら。
+
 https://github.com/takeokunn/nixos-configuration/tree/main/home-manager/programs/neovim
 
 * Setup
 ** Neovim本体
 
-Nix経由でインストールしている。
+Nix経由でインストールしています。
+
 https://github.com/takeokunn/nixos-configuration/blob/main/home-manager/programs/neovim/default.nix
 
 =withNodeJs= や =withRuby= などはイマドキ使わない設定まらしいので =false= にしました。
@@ -44,7 +46,7 @@ https://github.com/takeokunn/nixos-configuration/blob/main/home-manager/programs
 #+end_src
 ** Plugin Manager
 
-VimのPlugin Managerは乱立しているようで、デファクトスタンダードはないらしい。
+VimのPlugin Managerは乱立しているようで、デファクトスタンダードはないらしいです。
 私はNixユーザーなのでNixで管理することにしました。
 
 また、各Pluginごとの設定もNix内に記述する方針にしました。
@@ -187,7 +189,7 @@ windowやbufferの切り替えは簡単な設定をしています。
 - [[https://github.com/lewis6991/gitsigns.nvim][gitsigns-nvim]]
   - 変更を可視化してくれるやつ
   - Emacsで言う所の[[https://github.com/emacsorphanage/git-gutter][git-gutter]]
-- gin
+- [[https://github.com/lambdalisue/vim-gin][gin]]
   - ありすえwareのGit clinet
   - Emacsで言う所の[[https://github.com/magit/magit][magit]]
 
