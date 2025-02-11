@@ -213,7 +213,7 @@ Git操作はTerminalでも良いのかなという気持ちになってます。
 
 ざっくりとした設定は以下。最低限満足するUIになってくれました。
 
-nvim-cmp:
+=nvim-cmp=:
 
 #+begin_src lua
   local cmp = require("cmp")
@@ -241,7 +241,7 @@ nvim-cmp:
   })
 #+end_src
 
-nvim-lspconfig:
+=nvim-lspconfig=:
 
 #+begin_src lua
   local lspconfig = require('lspconfig')
@@ -269,7 +269,7 @@ nvim-lspconfig:
   end
 #+end_src
 
-lspsaga-nvim:
+=lspsaga-nvim=:
 
 #+begin_src lua
   require('lspsaga').setup({
@@ -307,7 +307,7 @@ lspsaga-nvim:
 
 =skkeleton#register_kanatable= で独自のかなテーブルを定義できるらしいです。
 
-skkeleton:
+=skkeleton=:
 
 #+begin_src lua
   vim.fn['skkeleton#config']({
@@ -319,7 +319,7 @@ skkeleton:
   vim.keymap.set({ 'i', 'c' }, '<C-j>', '<Plug>(skkeleton-toggle)', { silent = true })
 #+end_src
 
-skkeleton-azik-kanatable:
+=skkeleton-azik-kanatable=:
 
 #+begin_src lua
   vim.fn['skkeleton#azik#add_table']('us')

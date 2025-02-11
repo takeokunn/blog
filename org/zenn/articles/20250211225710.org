@@ -1,0 +1,200 @@
+:PROPERTIES:
+:ID:       D00EBD9D-358C-4D0D-80FC-9735CFE2E1F6
+:END:
+#+TITLE: Software Design 2025年3月号にEmacsについて書きました
+#+DESCRIPTION: description
+#+DATE: 2025-02-11T22:58:22+0900
+#+GFM_TAGS: emacs
+#+GFM_CUSTOM_FRONT_MATTER: :emoji 👍
+#+GFM_CUSTOM_FRONT_MATTER: :type idea
+#+GFM_CUSTOM_FRONT_MATTER: :published false
+#+STARTUP: content
+#+STARTUP: fold
+#+OPTIONS: toc:nil
+* Introduction
+
+Software Design 2025年3月号に「第3章：Emacs 拡張性に優れた、ハッカーのためのエディタ Lispがもたらす無限の自由さとは」というテーマで [[https://x.com/tadsan][@tadsan]] と一緒に書きました。
+着手開始から校了まで計12ページ、約1ヵ月程度かけて執筆しました。
+
+#+begin_export html
+https://gihyo.jp/magazine/SD/archive/2025/202503
+#+end_export
+* 全体の流れ
+** 寄稿まで
+
+当初雑誌の寄稿依頼はtadsanの所に来ていました。
+tadsanが以下のような見出し案を作って提出していました。
+
+#+begin_quote
+# Emacsの機能、魅力、思想
+GNU Emacsは長い歴史を持つ伝統的なテキストエディタです。単なるテキストエディタではなく、しばしば「Emacsは環境だ」「EmacsはOSだ」とも言われます。
+また、初心者が定着しにくい一方で一度手に馴染んだ人が熱狂的に使い続けることでも知られています。
+本記事ではさまざまなテキストエディタを利用してきて10年前から毎日Emacsを使って生活している筆者が、Emacsの魅力について伝えます。
+#+end_quote
+
+以前から雑誌寄稿してみたいという話をしょっちゅうしていたのもあり、「ぜひ書かないか」ということを12月の頭に打診が来て2つ返事で承諾しました。
+** 執筆
+ISUCON14参加やvim-jpラジオの収録、本業の仕事が猛烈に忙しかったり、バイト先の納期ギリギリの仕事があったり、2024年12月は怒涛の1ヵ月でした。
+
+#+begin_export html
+https://zenn.dev/takeokunn/articles/20250126133908
+https://zenn.dev/takeokunn/articles/20250126133908
+#+end_export
+
+ようやく精神的に落ち付けた12/29にtadsanと直接会って方針決めとアウトライン決めをしました。
+「チュートリアルというよりは読み物としておもしろくしたい」や「テキストエディタだけじゃなくてオフィススイートとして活用できる」などをテーマにしたいよねという話をしていました。
+
+役割分担は以下のようにしました。終わってみると自分とtadsanの作業量はちょうど半々くらいで落ち着いたかなといった感じです。
+自分はクオリティはともかくイケイケドンドンで進めるのが得意、tadsanは手直したり校正するのが得意ということで、得意をちゃんと生かせた分担だったと思っています。
+
+- [take] 7〜8割のクオリティで一気に書く
+- [take] textlintを導入
+- [take] 画像を用意する
+- [tadsan] Emacsの歴史やLispについて書く
+- [tadsan] 全体的な文章の校正をする
+
+当初は8ページで依頼が来ていたのですが、なんやかんやでたくさん書いてしまい12ページで着地しました。
+よく考えたらカラー印刷ではないので、画像はライトテーマで撮る必要があるんだなという気付きがありました。
+
+textlintは自分以外の執筆者に聞いたら使っていない人がほとんどでしたが、共著だった入れても良いのではということで導入しました。
+** 校正〜校了
+文章を書き終わった後、技評の編集者の吉岡さんに校正をしていただきました。
+正直相当マニアックな内容を書いた自信があったのですが、さすがベテランの技評の編集者なだけあり指摘事項が鋭く、非常に学びが多かったです。
+
+普段ビジネスメールでのやりとりをする習慣がなかったので、人生経験として自分がなるべくやりとりするようにしました。
+Gmailの「全員へ送信」を押し忘れてたびたびtadsanをハブってしまっていました。
+メールはEmacsから見れるようにしてたんですが、あくまで受信専用として使っていただけですので、ビジネスメールを送信する機会は貴重でした。
+
+文章を指摘していただいた後、PDFに組版していただいた上で校正しました。
+個人で組版をしたことは過去に数度あったのですが、実際にプロが組版したものを見ると全然クオリティが違いますね。
+初稿を見た時あまりにもうれしすぎて仕事中に同僚に自慢してしまいました。
+
+#+begin_export html
+https://www.takeokunn.org/posts/fleeting/20250126114218-build_and_deploy_typst_using_nix/
+#+end_export
+* 寄稿記事について
+
+「vim-jpラジオのEmacs回に出演しました」にも書いたことがかなり被っている。
+
+#+begin_export html
+https://zenn.dev/takeokunn/articles/20250126133908
+#+end_export
+
+- おもしろい部分の紹介していくよ
+- Emacsの歴史について
+  - https://x.com/tadsan/status/1878904297209090178
+- キラーアプリケーションがいっぱいある
+  - 俺的にはmu4eとembarkとorg-nix-shellが熱い
+- org-modeについてめっちゃ書いた
+  - org-modeについて書いている雑誌ここだけなのでは
+- ぜひEmacs-jpかvim-jpの =#tech-emacs= で話しましょう
+
+* 編集長吉岡さんのnoteについて
+
+- 編集長で自分の編集も担当してくれた吉岡さんのnoteがよかった。
+
+#+begin_export html
+https://note.com/tyoshi99/n/n8ada1a113f1e
+#+end_export
+
+- 自分もneovimの設定をして使っている話を書く
+
+#+begin_export html
+https://www.takeokunn.org/posts/fleeting/20250211111032-setup_neovim/
+#+end_export
+
+- Cline
+
+* 他記事の感想
+
+今回のテキストエディタ特集はvim-jp回と言っても過言ではないほどvim-jpの人が寄稿していました。
+Shougoさんやtomoyaさんやmattnさんといった大御所と肩を並べて寄稿できたことを誇りに思います。
+
+MEMO: ネタバレにならない程度に書く
+
+* 終わりに
+自分にとって商業誌デビュー作品になったのでうれしい限りです。
+ぜひぜひ実際に本を買って読んでみてください。
+
+#+begin_export html
+https://gihyo.jp/magazine/SD/archive/2025/202503
+#+end_export
+
+これからどんどん商業誌に寄稿してきたいと考えているので頑張ります。
+12月のvim-jpラジオ出演のときもそうだけど、やはり俺とtadsanは最高のタッグだぜ!!!
+* Misc
+textlintは以下のようにflake.nixを用意してCIで回しました。
+
+#+begin_src nix
+  {
+    inputs = {
+      nixpkgs.url = "github:NixOS/nixpkgs";
+      nur-packages.url = "github:takeokunn/nur-packages";
+    };
+
+    outputs = { self, nixpkgs, nur-packages }:
+      let
+        systems = [
+          "x86_64-linux"
+          "aarch64-darwin"
+        ];
+
+        forAllSystems = f: nixpkgs.lib.genAttrs systems (system: f system);
+      in
+        {
+          devShells = forAllSystems (
+            system:
+            let
+              pkgs = nixpkgs.legacyPackages.${system};
+              nur-pkgs = nur-packages.legacyPackages.${system};
+              textlintrc = (pkgs.formats.json { }).generate "textlintrc" {
+                plugins = {
+                  org = true;
+                };
+                rules = {
+                  preset-ja-technical-writing = {
+                    ja-no-weak-phrase = false;
+                    ja-no-mixed-period = false;
+                    no-exclamation-question-mark = false;
+                    sentence-length = false;
+                    no-doubled-joshi = false;
+                  };
+                  write-good = {
+                    weasel = false;
+                  };
+                  preset-japanese = {
+                    sentence-length = false;
+                    no-doubled-joshi = false;
+                  };
+                  prh = {
+                    rulePaths = [
+                      "${pkgs.textlint-rule-prh}/lib/node_modules/textlint-rule-prh/node_modules/prh/prh-rules/media/WEB+DB_PRESS.yml"
+                      "${pkgs.textlint-rule-prh}/lib/node_modules/textlint-rule-prh/node_modules/prh/prh-rules/media/techbooster.yml"
+                    ];
+                  };
+                };
+              };
+            in
+              {
+                default = pkgs.mkShell {
+                  packages = with pkgs; [
+                    nodejs
+                    (textlint.withPackages [
+                      textlint-rule-preset-ja-technical-writing
+                      textlint-rule-prh
+                      textlint-rule-write-good
+                      textlint-plugin-org
+                      nur-pkgs.textlint-rule-preset-japanese
+                    ])
+                  ];
+
+                  shellHook = ''
+                    [ -f .textlintrc ] && unlink .textlintrc
+                    ln -s ${textlintrc} .textlintrc
+                  '';
+                };
+              }
+          );
+        };
+  }
+#+end_src
