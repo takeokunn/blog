@@ -16,10 +16,8 @@ Hi, I'm takeokunn.
 
 - Job: Web Engineer
 - Live: Nerima, Tokyo
-- Love: Emacs
+- Love: Emacs, Nix, Lisp
 
 * My Environment
 
-- [[https://github.com/takeokunn/dotfiles][dotfiles]]
-- [[https://emacs.takeokunn.org/][emacs.d]]
-- [[https://github.com/takeokunn/guix-system][guix-system]]
+- [[https://github.com/takeokunn/nixos-configuration][nixos-configuration]]
