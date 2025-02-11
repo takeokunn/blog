@@ -305,6 +305,8 @@ lspsaga-nvim:
 
 簡易的な設定とskkservへの接続、AZIKの有効化をしました。
 
+=skkeleton#register_kanatable= で独自のかなテーブルを定義できるらしいです。
+
 skkeleton:
 
 #+begin_src lua
@@ -315,7 +317,11 @@ skkeleton:
   })
 
   vim.keymap.set({ 'i', 'c' }, '<C-j>', '<Plug>(skkeleton-toggle)', { silent = true })
+#+end_src
 
+skkeleton-azik-kanatable:
+
+#+begin_src lua
   vim.fn['skkeleton#azik#add_table']('us')
   vim.fn['skkeleton#config']({
       kanaTable = 'azik'
@@ -325,7 +331,6 @@ skkeleton:
       ss = { "せい" },
   })
 #+end_src
-
 *** telescope
 
 - [[https://github.com/nvim-telescope/telescope.nvim][telescope-nvim]]
@@ -338,6 +343,7 @@ telescopeは簡単に導入できるということで導入しました。
 Emacsで言う所の、というのは説明が難しいですね。
 tomoyaさんの [[https://blog.tomoya.dev/posts/a-new-wave-has-arrived-at-emacs/][Emacsの次世代ミニバッファ補完UI]] あたりが参考になりそうです。
 
+=<leader>= はデフォルトでマッピングされてないのでこれで問題ないようです。
 
 #+begin_src lua
   require('telescope').setup {
