@@ -1,0 +1,356 @@
+:PROPERTIES:
+:ID:       942A9F44-5827-4CAD-886E-A82D74FFD309
+:END:
+#+TITLE: 2025年2月 Neovimセットアップ
+#+AUTHOR: takeokunn
+#+DESCRIPTION: description
+#+DATE: 2025-02-11T11:11:01+0900
+#+HUGO_BASE_DIR: ../../
+#+HUGO_CATEGORIES: fleeting
+#+HUGO_SECTION: posts/fleeting
+#+HUGO_TAGS: fleeting vim nix
+#+HUGO_DRAFT: false
+#+STARTUP: content
+#+STARTUP: fold
+* Introduction
+
+Neovimに入門したいと思い早n年だったが、vim-jpの皆さんのおかげでようやく設定が一通り完了したのでブログにまとめておきます。
+
+[[id:E1C13122-4090-47F6-B84E-238CCC981E72][VimとNeovimの使い分けと最小構成]] の通りVimは最小構成にしているので、Neovimはヘビーカスタマイズしていく方針です。
+
+Neovimの設定はこちら。
+https://github.com/takeokunn/nixos-configuration/tree/main/home-manager/programs/neovim
+
+* Setup
+** Neovim本体
+
+Nix経由でインストールしている。
+https://github.com/takeokunn/nixos-configuration/blob/main/home-manager/programs/neovim/default.nix
+
+=withNodeJs= や =withRuby= などはイマドキ使わない設定まらしいので =false= にしました。
+
+#+begin_src nix
+  { pkgs, sources }:
+  {
+    programs.neovim = {
+      enable = true;
+      withNodeJs = false;
+      withRuby = false;
+      withPython3 = false;
+      plugins = import ./plugins { inherit pkgs sources; };
+      extraLuaConfig = builtins.readFile ./init.lua;
+    };
+  }
+#+end_src
+** Plugin Manager
+
+VimのPlugin Managerは乱立しているようで、デファクトスタンダードはないらしい。
+私はNixユーザーなのでNixで管理することにしました。
+
+また、各Pluginごとの設定もNix内に記述する方針にしました。
+
+#+begin_src nix
+  # 実際の例
+  { pkgs }:
+  with pkgs.vimPlugins;
+  [
+    {
+      type = "lua";
+      plugin = dracula-nvim;
+      config = ''
+        vim.cmd[[colorscheme dracula]]
+      '';
+    }
+  ]
+#+end_src
+* Config
+
+Neovimの設定はVim scriptではなくLuaを使うのがイマドキであり、多くのNeovim PluginはLuaで書かれているらしい。
+それにならって自分もLuaで設定していくことにしました。
+
+** init.lua
+
+基本的な設定は以下。
+行番号はそもそも表示不要というのが最近の結論なので消しました。
+
+#+begin_src lua
+  vim.opt.number = false
+  vim.opt.relativenumber = false
+  vim.opt.encoding = "utf-8"
+  vim.opt.fileencodings = "utf-8,euc-jp,cp932"
+  vim.opt.clipboard:append("unnamed")
+  vim.opt.backspace = "indent,eol,start"
+  vim.opt.tabstop = 2
+  vim.opt.shiftwidth = 2
+  vim.opt.laststatus = 3
+  vim.opt.statusline = "%y"
+  vim.opt.showmatch = true
+  vim.opt.wrapscan = true
+  vim.opt.hlsearch = true
+  vim.opt.showcmd = true
+  vim.opt.title = true
+  vim.opt.foldenable = false
+  vim.opt.swapfile = false
+  vim.opt.expandtab = true
+  vim.opt.splitbelow = true
+  vim.opt.splitright = true
+  vim.opt.incsearch = true
+  vim.opt.ignorecase = true
+  vim.opt.smartcase = true
+  vim.opt.termguicolors = true
+#+end_src
+
+簡単なkeymapは以下。
+=mapleader= をスペースに割り当てている人が多数派みたいですが、個人的には =,= が昔から好きです。
+
+#+begin_src lua
+  vim.g.mapleader = ","
+
+  vim.keymap.set("n", "/", "/\\v", { remap = false })
+  vim.keymap.set("n", "U", "<C-r>", { remap = false })
+  vim.keymap.set("n", "<Leader><Leader>", "V", { remap = false })
+  vim.keymap.set("n", "<Esc><Esc>", "<Cmd>nohlsearch<CR><Esc>", { remap = false })
+  vim.keymap.set("i", "<C-j>", "<CR>")
+#+end_src
+
+windowやbufferの切り替えは簡単な設定をしています。
+
+#+begin_src lua
+  -- window keymap
+
+  vim.keymap.set("n", "sj", "<C-w>j", { noremap = true, silent = true })
+  vim.keymap.set("n", "sk", "<C-w>k", { noremap = true, silent = true })
+  vim.keymap.set("n", "sl", "<C-w>l", { noremap = true, silent = true })
+  vim.keymap.set("n", "sh", "<C-w>h", { noremap = true, silent = true })
+  vim.keymap.set("n", "sJ", "<C-w>J", { noremap = true, silent = true })
+  vim.keymap.set("n", "sK", "<C-w>K", { noremap = true, silent = true })
+  vim.keymap.set("n", "sL", "<C-w>L", { noremap = true, silent = true })
+  vim.keymap.set("n", "sH", "<C-w>H", { noremap = true, silent = true })
+  vim.keymap.set("n", "sw", "<C-w>w", { noremap = true, silent = true })
+
+  -- buffer keymap
+
+  vim.keymap.set("n", "sp", ":<C-u>bp<CR>", { noremap = true, silent = true })
+  vim.keymap.set("n", "sn", ":<C-u>bn<CR>", { noremap = true, silent = true })
+#+end_src
+** package
+
+項目分けは雑なのでもう少しpluginが増えたら考え直します。
+
+*** basic
+
+- [[https://github.com/hadronized/hop.nvim][hop-nvim]]
+  - easymotionみたいなplugin
+  - Emacsで言う所の[[https://github.com/abo-abo/avy][avy]]
+- [[https://github.com/ConradIrwin/vim-bracketed-paste][vim-bracketed-paste]]
+  - クリップボード用
+- [[https://github.com/lambdalisue/vim-fern][vim-fern]]
+  - ありすえwareのファイラ
+  - Emacsで言う所の[[https://www.google.com/search?q=neotree+emacs&oq=neotree&gs_lcrp=EgZjaHJvbWUqBwgBEAAYgAQyBggAEEUYOTIHCAEQABiABDIHCAIQABiABDIHCAMQABiABDIHCAQQABiABDIGCAUQABgeMgYIBhAAGB4yBggHEAAYHjIGCAgQABgeMgYICRAAGB7SAQgyMzY4ajBqNKgCALACAA&sourceid=chrome&ie=UTF-8][neotree]]
+- [[https://github.com/lambdalisue/vim-nerdfont][vim-nerdfont]]
+  - nerdfontを扱えるようにするやつ
+- [[https://github.com/lambdalisue/vim-fern-renderer-nerdfont][vim-fern-renderer-nerdfont]]
+  - ファイラにアイコンを表示するやつ
+- [[https://github.com/mbbill/undotree][undotree]]
+  - undo historyを可視化するやつ
+  - Emacsで言う所の[[https://github.com/emacsmirror/undo-fu][undo-fu]]
+- [[https://github.com/kana/vim-textobj-entire][vim-textobj-entire]]
+  - buffer全体をテキストオブジェクトにするやつ
+- [[https://github.com/vim-jp/vimdoc-ja][vimdoc-ja]]
+  - 日本語help
+- [[https://github.com/jiangmiao/auto-pairs][auto-pairs]]
+  - Emacsで言う所のelectric-pair-modeみたいなやつ
+- [[https://github.com/luochen1990/rainbow/][rainbow]]
+  - 括弧の対応をハイライトしてくれるやつ
+  - Emacsで言う所の[[https://github.com/Fanael/rainbow-delimiters][rainbow-delimiters]]
+- [[https://github.com/machakann/vim-sandwich][vim-sandwich]]
+  - 括弧の操作を簡単にできるやつ
+  - Emacsで言う所の[[https://github.com/AmaiKinono/puni][puni-mode]]
+- [[https://github.com/vim-denops/denops.vim][denops-vim]]
+  - Deno製plugin用
+
+ざっくりこのあたりを入れています。
+
+*** Git
+
+- [[https://github.com/lewis6991/gitsigns.nvim][gitsigns-nvim]]
+  - 変更を可視化してくれるやつ
+  - Emacsで言う所の[[https://github.com/emacsorphanage/git-gutter][git-gutter]]
+- gin
+  - ありすえwareのGit clinet
+  - Emacsで言う所の[[https://github.com/magit/magit][magit]]
+
+そこまで使っていないです。
+Git操作はTerminalでも良いのかなという気持ちになってます。
+
+*** language
+
+- [[https://github.com/jceb/vim-orgmode][orgmode]]
+- [[https://github.com/preservim/vim-markdown][vim-markdown]]
+
+基本的にTree-sitterがhighlightしてくれるので特別入れる必要がなかったです。
+
+*** lsp
+
+- [[https://github.com/hrsh7th/nvim-cmp][nvim-cmp]]
+- [[https://github.com/neovim/nvim-lspconfig][nvim-lspconfig]]
+  - Emacsで言う所の[[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]
+- [[https://github.com/nvimdev/lspsaga.nvim][lspsaga-nvim]]
+  - Emacsで言う所の[[https://github.com/emacs-lsp/lsp-ui][lsp-ui]]
+
+ざっくりとした設定は以下。最低限満足するUIになってくれました。
+
+nvim-cmp:
+
+#+begin_src lua
+  local cmp = require("cmp")
+
+  cmp.setup({
+        snippet = {
+           expand = function(args)
+              vim.fn["vsnip#anonymous"](args.body)
+           end,
+        },
+        sources = {
+           { name = "nvim_lsp" },
+           { name = "path" },
+        },
+        mapping = cmp.mapping.preset.insert({
+              ["<C-p>"] = cmp.mapping.select_prev_item(),
+              ["<C-n>"] = cmp.mapping.select_next_item(),
+              ['<C-l>'] = cmp.mapping.complete(),
+              ['<C-e>'] = cmp.mapping.abort(),
+              ["<CR>"] = cmp.mapping.confirm { select = true },
+        }),
+        experimental = {
+           ghost_text = true,
+        },
+  })
+#+end_src
+
+nvim-lspconfig:
+
+#+begin_src lua
+  local lspconfig = require('lspconfig')
+
+  vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', { silent = true, buffer = buffer })
+
+  if vim.fn.executable('nil') == 1 then
+     lspconfig.nil_ls.setup {
+        settings = {
+           ['nil'] = {
+              formatting = {
+                 command = { 'nixfmt' }
+              }
+           }
+        }
+     }
+  end
+
+  if vim.fn.executable('typescript-language-server') == 1 then
+     lspconfig.ts_ls.setup { }
+  end
+
+  if vim.fn.executable('intelephense') == 1 then
+     lspconfig.intelephense.setup { }
+  end
+#+end_src
+
+lspsaga-nvim:
+
+#+begin_src lua
+  require('lspsaga').setup({
+      code_action = {
+          extend_gitsigns = true,
+      },
+      finder = {
+          max_height = 0.7,
+          left_width = 0.3,
+          right_width = 0.6,
+          keys = {
+              shuttle = "<Space>w",
+              toggle_or_open = "<CR>"
+          }
+      },
+      lightbulb = {
+          enable = false,
+      }
+  })
+
+  vim.keymap.set('n', 'K', '<cmd>Lspsaga hover_doc<CR>')
+  vim.keymap.set({ 'n', 'i' }, '<S-M-r>', "<cmd>Lspsaga rename<CR>", opts)
+  vim.keymap.set('n', '<M-d>', "<cmd>Lspsaga finder def+ref<CR>", opts)
+  vim.keymap.set('n', '<M-r>', "<cmd>Lspsaga peek_definition<CR>", opts)
+  vim.keymap.set('n', '<M-j>', "<cmd>Lspsaga diagnostic_jump_next<CR>", opts)
+  vim.keymap.set('n', '<M-k>', "<cmd>Lspsaga diagnostic_jump_prev<CR>", opts)
+#+end_src
+*** skk
+
+- [[https://github.com/vim-skk/skkeleton][skkeleton]]
+  - Emacsで言う所の[[https://github.com/skk-dev/ddskk][ddskk]]
+- [[https://github.com/kei-s16/skkeleton-azik-kanatable][skkeleton-azik-kanatable]]
+
+簡易的な設定とskkservへの接続、AZIKの有効化をしました。
+
+skkeleton:
+
+#+begin_src lua
+  vim.fn['skkeleton#config']({
+      eggLikeNewline = true,
+      keepState = true,
+      sources = { "skk_server" }
+  })
+
+  vim.keymap.set({ 'i', 'c' }, '<C-j>', '<Plug>(skkeleton-toggle)', { silent = true })
+
+  vim.fn['skkeleton#azik#add_table']('us')
+  vim.fn['skkeleton#config']({
+      kanaTable = 'azik'
+  })
+
+  vim.call("skkeleton#register_kanatable", "azik", {
+      ss = { "せい" },
+  })
+#+end_src
+
+*** telescope
+
+- [[https://github.com/nvim-telescope/telescope.nvim][telescope-nvim]]
+- [[https://github.com/nvim-telescope/telescope-ui-select.nvim][telescope-ui-select-nvim]]
+- [[https://github.com/nvim-telescope/telescope-file-browser.nvim][telescope-file-browser-nvim]]
+- [[https://github.com/nvim-telescope/telescope-fzf-native.nvim][telescope-fzf-native-nvim]]
+
+telescopeは簡単に導入できるということで導入しました。
+
+#+begin_src lua
+  require('telescope').setup {
+      extensions = {
+          fzf = {
+              fuzzy = true,
+              override_generic_sorter = true,
+              override_file_sorter = true,
+              case_mode = "smart_case",
+          }
+      }
+  }
+  local builtin = require('telescope.builtin')
+  vim.keymap.set('n', '<leader>f', builtin.git_files, { desc = 'Telescope find git files' })
+  vim.keymap.set('n', '<leader>o', builtin.current_buffer_fuzzy_find, { desc = 'Telescope buffer fuzzy find' })
+  vim.keymap.set('n', '<leader>g', builtin.live_grep, { desc = 'Telescope live grep' })
+  vim.keymap.set('n', '<leader>b', builtin.buffers, { desc = 'Telescope buffers' })
+  vim.keymap.set('n', '<leader>h', builtin.help_tags, { desc = 'Telescope help tags' })
+#+end_src
+
+*** themes
+
+- [[https://github.com/Mofiqul/dracula.nvim][dracula-nvim]]
+  - Emacsで言う所の[[https://github.com/doomemacs/themes][doom-theme]]
+- [[https://github.com/nvim-lualine/lualine.nvim][lualine-nvim]]
+  - Emacsで言う所の[[https://github.com/seagle0128/doom-modeline][doom-modeline]]
+
+すべてのカラーテーマをdraculaに寄せているので導入しました。
+また、modelineはlualine-nvimがイマドキらしいです。
+
+* 終わりに
+vim-jpの皆さん（特にkuuさん、Kento Ogataさん、Shougoさん、こまもかくん、おもちあいす）のおかげで無事日常生活できるくらいの設定になりました。
+もう少しVimに慣れたらDark Poweredなpackageを試していくつもりです。
