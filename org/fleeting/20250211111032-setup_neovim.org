@@ -14,7 +14,7 @@
 #+STARTUP: fold
 * Introduction
 
-Neovimに入門したいと思い早n年だったが、vim-jpの皆さんのおかげでようやく設定が一通り完了したのでブログにまとめておきます。
+Neovimに入門したいと思い早n年だったが、vim-jpの皆さんのおかげでようやくミニマムの設定が完了したのでブログにまとめておきます。
 
 [[id:E1C13122-4090-47F6-B84E-238CCC981E72][VimとNeovimの使い分けと最小構成]] の通りVimは最小構成にしているので、Neovimはヘビーカスタマイズしていく方針です。
 
@@ -321,6 +321,10 @@ skkeleton:
 - [[https://github.com/nvim-telescope/telescope-fzf-native.nvim][telescope-fzf-native-nvim]]
 
 telescopeは簡単に導入できるということで導入しました。
+
+Emacsで言う所の、というのは説明が難しいですね。
+tomoyaさんの [[https://blog.tomoya.dev/posts/a-new-wave-has-arrived-at-emacs/][Emacsの次世代ミニバッファ補完UI]] あたりが参考になりそうです。
+
 
 #+begin_src lua
   require('telescope').setup {
