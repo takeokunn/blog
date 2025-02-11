@@ -63,6 +63,17 @@ VimのPlugin Managerは乱立しているようで、デファクトスタンダ
     }
   ]
 #+end_src
+** Terminal Emulator
+「Terminal Emulatorにこだわらない」というこだわりを持っていたが、[[https://timingapp.com/terminal-time-tracking][Mac標準のTerminal.app]]だとうまく描画してくれない問題があった。
+
+一応以下が候補だったが、NixOS環境でも安定的に動いてくれる、かつ友人のnatsukiumが使っている[[https://github.com/kovidgoyal/kitty][Kitty]]を採用しました。
+
+- [[https://wezterm.org/][WezTerm]]
+- [[https://github.com/alacritty/alacritty][Alacritty]]
+- [[https://github.com/ghostty-org/ghostty][Ghostty]]
+
+現状Kittyで特に困っていないしTerminal Emulatorに情熱がないのでこのまま続投するつもりです。
+
 * Config
 
 Neovimの設定はVim scriptではなくLuaを使うのがイマドキであり、多くのNeovim PluginはLuaで書かれているらしい。

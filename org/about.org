@@ -9,7 +9,7 @@
 #+DESCRIPTION: About me
 #+HUGO_CATEGORIES: about
 #+STARTUP: content
-#+STARTUP: nohideblocks
+#+STARTUP: fold
 * Basic
 
 Hi, I'm takeokunn.
