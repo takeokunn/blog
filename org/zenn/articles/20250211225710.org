@@ -20,7 +20,7 @@ https://gihyo.jp/magazine/SD/archive/2025/202503
 #+end_export
 
 #+begin_export html
-<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">見本誌北!!!! <a href="https://t.co/8RGgPxRD7D">pic.twitter.com/8RGgPxRD7D</a></p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1891385369465065836?ref_src=twsrc%5Etfw">February 17, 2025</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">見本誌北!!!! <a href="https://t.co/8RGgPxRD7D">pic.twitter.com/8RGgPxRD7D</a></p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://x.com/takeokunn/status/1891385369465065836">February 17, 2025</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 #+end_export
 * 全体の流れ
 ** 寄稿まで
