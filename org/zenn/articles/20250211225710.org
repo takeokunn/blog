@@ -12,17 +12,19 @@
 #+STARTUP: fold
 #+OPTIONS: toc:nil
 * Introduction
-
 Software Design 2025年3月号に「第3章：Emacs 拡張性に優れた、ハッカーのためのエディタ Lispがもたらす無限の自由さとは」というテーマで [[https://x.com/tadsan][@tadsan]] と一緒に書きました。
 着手開始から校了まで計12ページ、約1ヵ月程度かけて執筆しました。
 
 #+begin_export html
 https://gihyo.jp/magazine/SD/archive/2025/202503
 #+end_export
+
+#+begin_export html
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">見本誌北!!!! <a href="https://t.co/8RGgPxRD7D">pic.twitter.com/8RGgPxRD7D</a></p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1891385369465065836?ref_src=twsrc%5Etfw">February 17, 2025</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+#+end_export
 * 全体の流れ
 ** 寄稿まで
-
-当初雑誌の寄稿依頼はtadsanの所に来ていました。
+当初、雑誌の寄稿依頼はtadsanの所に来ていました。
 tadsanが以下のような見出し案を作って提出していました。
 
 #+begin_quote
@@ -49,12 +51,12 @@ https://zenn.dev/takeokunn/articles/20250126133908
 
 - [take] 7〜8割のクオリティで一気に書く
 - [take] textlintを導入
-- [take] 画像を用意する
+- [take] スクリーンショットを用意する
 - [tadsan] Emacsの歴史やLispについて書く
 - [tadsan] 全体的な文章の校正をする
 
 当初は8ページで依頼が来ていたのですが、なんやかんやでたくさん書いてしまい12ページで着地しました。
-よく考えたらカラー印刷ではないので、画像はライトテーマで撮る必要があるんだなという気付きがありました。
+よく考えたらカラー印刷ではないので、挿絵に使う画像はライトテーマでスクショを撮る必要があるんだなという気付きがありました。
 
 textlintは自分以外の執筆者に聞いたら使っていない人がほとんどでしたが、共著だった入れても良いのではということで導入しました。
 ** 校正〜校了
@@ -73,44 +75,120 @@ Gmailの「全員へ送信」を押し忘れてたびたびtadsanをハブって
 https://www.takeokunn.org/posts/fleeting/20250126114218-build_and_deploy_typst_using_nix/
 #+end_export
 * 寄稿記事について
+目次は以下です。
+そもそもEmacsの歴史から実際のユースケースを重点的に触れるような校まさにしました。
 
-「vim-jpラジオのEmacs回に出演しました」にも書いたことがかなり被っている。
+1. 始めに
+2. Emacsの概要
+3. Emacsの歴史
+   3.1. コンピュータ史におけるEmacs
+   3.2. 現代のLispマシンとしてのEmacs
+4. Emacsのコンセプト
+   4.1. Emacsの基本操作
+   4.2. Lispについて
+   4.3. Emacsの基礎用語
+   4.4. EmacsとLisp
+5. Emacsのキラーアプリケーション紹介
+   5.1. Magit
+   5.2. Dired / TRAMP
+   5.3. メール
+   5.4. AI連携
+6. Org Mode
+   6.1. 文芸的プログラミングとは
+   6.2. Org Modeとは
+   6.3. Org Modeの基本機能
+      6.3.1. Org Babel
+      6.3.2. Org文書の変換
+      6.3.3. Org Capture
+      6.3.4. Org Agenda
+      6.3.5. Org Roam
+   6.4. 現実のユースケース
+      6.4.1. 設定ファイルの出力
+      6.4.2. ブログ記事
+      6.4.3. 作業手順書
+      6.4.4. タスク管理
+
+個人的には「Emacsの歴史」の項がお勧めです。
+自分は1995年生まれなのですが、自分が生まれる前のコンピュータの歴史を知れておもしろかったです。
+[[https://www.techmag.jp/bit][共立出版 コンピュータサイエンス誌『bit』]] は電子復刻版があるようなので暇ができたら古い順に読んでいきたいですね。（1969年03月号が第1号）
+
+#+begin_export html
+https://x.com/tadsan/status/1878904297209090178
+#+end_export
+
+基本的な内容は「vim-jpラジオのEmacs回に出演しました」に書いたことがかなり被っていますのでぜひこちらも合わせて読んでください。
 
 #+begin_export html
 https://zenn.dev/takeokunn/articles/20250126133908
 #+end_export
 
-- おもしろい部分の紹介していくよ
-- Emacsの歴史について
-  - https://x.com/tadsan/status/1878904297209090178
-- キラーアプリケーションがいっぱいある
-  - 俺的にはmu4eとembarkとorg-nix-shellが熱い
-- org-modeについてめっちゃ書いた
-  - org-modeについて書いている雑誌ここだけなのでは
-- ぜひEmacs-jpかvim-jpの =#tech-emacs= で話しましょう
+「Org Mode」について4ページ分くらい詳細に書きました。
+2025年にOrg Modeについて言及している雑誌記事は今回くらいじゃないでしょうか。
+Org Modeの操作のし方というよりは、具体的にどんな機能があるのか、僕自身どういうユースケースにOrg Modeを使っているのかということを書きました。
+Org Modeはあまりにも幅広い使い方ができるので、実際のライフスタイルをもっと紹介していかなければいけませんね。
 
+#+begin_export html
+https://www.takeokunn.org/posts/permanent/20240112071806-my_relationship_with_org_mode_in_2023_and_how_navigate_in_2024/
+#+end_export
+
+個人的には [[https://github.com/AntonHakansson/org-nix-shell][org-nix-shell]] が熱く、可能な限りOrg Babelする時は使っていきたいなと思っています。
+
+#+begin_export html
+https://www.takeokunn.org/posts/fleeting/20250126140928-introduction_org_nix_shell/
+#+end_export
+
+vim-jpラジオのときと同様、[[https://github.com/oantolin/embark][Embark]] をかなり使いこなしている自負がありながらうまく説明できなくて省いてしまいました。
+僕個人のEmbarkの使い方についてどこかでちゃんと言語化するので少々お待ちください。
+
+#+begin_export html
+https://emacs-jp.github.io/tips/fifteen-ways-to-use-embark
+#+end_export
+
+AI連携に関して、私は[[https://github.com/copilot-emacs/copilot.el][copilot.el]]と[[https://github.com/chep/copilot-chat.el][copilot-chat.el]]と[[https://github.com/s-kostyaev/ellama][ellama]]と[[https://github.com/rksm/org-ai][org-ai]]を平行して使っています。
+自分の中でしっくりくる運用がまだ見出せていないので、もう少しやりこんでしっくりくればブログを書きます。
 * 編集長吉岡さんのnoteについて
-
-- 編集長で自分の編集も担当してくれた吉岡さんのnoteがよかった。
+今回のSoftware Designは「コードエディタ大研究」が特集テーマでした。
+Software Designの編集長で自分の編集も担当してくれた吉岡さんのnoteが非常に良かったです。
 
 #+begin_export html
 https://note.com/tyoshi99/n/n8ada1a113f1e
 #+end_export
 
-- 自分もneovimの設定をして使っている話を書く
+普段の慣れた使い方をし続けると成長が頭打ちになってしまう、エディタの熟練者から学ぶことによって自分の作業をより効率的にすることが可能になる、といった内容が書かれています。
+
+#+begin_quote
+自分の愛用のエディタで慣れた使い方をしているだけでは、もっと効率的なやり方があることに、なかなか気づけないものだ
+#+end_quote
+
+#+begin_quote
+これまで面倒だった作業が簡単にできたという経験を一つすると、「もう一つ改善してみようか」と設定を試行錯誤する手間も、操作に慣れる努力も惜しくなくなってきます。
+#+end_quote
+
+私もかつてSublime TextやAtomといったGUIエディタ、VimやNanoやLemといったCLIエディタ、XcodeやIntelliJといった商用IDEなどさまざまなエディタを使ってきました。
+今回の寄稿と吉岡さんのnoteに触発されてvim-jpの方々から教えてもらいNeovimの設定をして実業務でも使えるくらいの設定をしました。（実際に使っています）
+他のテキストエディタのことを知るとEmacsの善し悪しが際立つので非常に良いですね。
 
 #+begin_export html
 https://www.takeokunn.org/posts/fleeting/20250211111032-setup_neovim/
 #+end_export
 
-- Cline
+今個人的に使いたいテキストエディタはClineです。
+私はコードを編集する時、アシストしてもらう程度にしかAIを使っていませんが、そもそもAI自体がコードやファイルを生成してくれるというメンタルモデルがありません。
+Clineのような新しいAIネイティブのテキストエディタからインスピレーションを受けることによって、Emacsをより強くできるだろうなという感覚があります。
 
-* 他記事の感想
+#+begin_export html
+https://docs.cline.bot/
+#+end_export
 
+* 他の特集記事の感想
 今回のテキストエディタ特集はvim-jp回と言っても過言ではないほどvim-jpの人が寄稿していました。
-Shougoさんやtomoyaさんやmattnさんといった大御所と肩を並べて寄稿できたことを誇りに思います。
+Shougoさんやtomoyaさんやmattnさんといったテキストエディタ界隈の大御所と肩を並べて寄稿できたことを誇りに思います。
 
-MEMO: ネタバレにならない程度に書く
+「［Part1］人気のエディタの魅力を深掘り」は各テキストエディタについて、「［Part2］エディタを極める理由」はテキストエディタをやりこんだ人の思想について書かれています。
+特に「［Part2］エディタを極める理由」は読み応えがありお勧めです。
+
+ネタバレになってしまうので詳細なことは書けないのですが、「設定からの卒業」や「超高速ファイル/バッファ操作」、「テキストエディタに時間を使うのは人生の無駄なのか」、「私はデフォルトキーマップが嫌い」などほかにない強い思想が書かれています。
+また「キーマップ設定のコツ」についてなど、特定のエディタに依存しない共通の話が存分に盛り込まれています。
 
 * 終わりに
 自分にとって商業誌デビュー作品になったのでうれしい限りです。
@@ -120,10 +198,35 @@ MEMO: ネタバレにならない程度に書く
 https://gihyo.jp/magazine/SD/archive/2025/202503
 #+end_export
 
-これからどんどん商業誌に寄稿してきたいと考えているので頑張ります。
-12月のvim-jpラジオ出演のときもそうだけど、やはり俺とtadsanは最高のタッグだぜ!!!
+これからどんどん商業誌に寄稿やブログにアウトプットしてきたいと考えているので頑張ります。
+
+やはり俺とtadsanは最高のタッグだぜ!!!
 * Misc
-textlintは以下のようにflake.nixを用意してCIで回しました。
+** 特集記事以外の感想
+コードエディタ特集以外にも記事がたくさんあります。
+個人的には「インターネットの姿をとらえる 【7】インターネットからみたデータセンター事業者」や[[https://x.com/soudai1025][そーだいさん]]の「実践データベースリファクタリング 【14】地図を検索する」がおもしろかったです。
+
+これだけの情報量と質の高い文章がそろって定価1,562円（本体1,420円＋税10%）はさすがに価格設定を間違っていますね。
+普段ネットサーフィンで読む記事はどうしても自分の好みのものだけになりがちですので、こういう質の高い雑誌記事を定期的に読む必要があるなと反省させられました。
+
+** 東京Emacs勉強会イベントについて
+
+東京Emacs勉強会は引続きイベントを開催していくつもりです。
+直近はゴリラvimと共同開催するつもりなのでぜひ参加してください。（2/18現在調整中）
+
+#+begin_export html
+https://gorillavim.connpass.com/
+https://tokyo-emacs.connpass.com/
+#+end_export
+** textlintについて
+
+textlintは以下のようにflake.nixを用意してGitHub Actionsで回しました。
+一部nixpkgsになかったので自前でパッケージングしました。
+参考までにflake.nixを載せておきます。
+
+#+begin_export html
+https://github.com/takeokunn/nur-packages
+#+end_export
 
 #+begin_src nix
   {
