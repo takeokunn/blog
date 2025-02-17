@@ -20,7 +20,7 @@ https://gihyo.jp/magazine/SD/archive/2025/202503
 #+end_export
 
 #+begin_export html
-<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">見本誌北!!!! <a href="https://t.co/8RGgPxRD7D">pic.twitter.com/8RGgPxRD7D</a></p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://x.com/takeokunn/status/1891385369465065836">February 17, 2025</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+https://x.com/takeokunn/status/1891385369465065836
 #+end_export
 * 全体の流れ
 ** 寄稿まで
@@ -114,6 +114,8 @@ https://www.takeokunn.org/posts/fleeting/20250126114218-build_and_deploy_typst_u
 
 #+begin_export html
 https://x.com/tadsan/status/1878904297209090178
+https://x.com/tadsan/status/1879574410648330476
+https://x.com/tadsan/status/1878936546105250103
 #+end_export
 
 基本的な内容は「vim-jpラジオのEmacs回に出演しました」に書いたことがかなり被っていますのでぜひこちらも合わせて読んでください。
@@ -173,7 +175,7 @@ https://www.takeokunn.org/posts/fleeting/20250211111032-setup_neovim/
 #+end_export
 
 今個人的に使いたいテキストエディタはClineです。
-私はコードを編集する時、アシストしてもらう程度にしかAIを使っていませんが、そもそもAI自体がコードやファイルを生成してくれるというメンタルモデルがありません。
+私はコードを編集する時アシストしてもらう程度にしかAIを使っていませんので、そもそもAI自体がコードやファイルを生成してくれるというメンタルモデルがありません。
 Clineのような新しいAIネイティブのテキストエディタからインスピレーションを受けることによって、Emacsをより強くできるだろうなという感覚があります。
 
 #+begin_export html
