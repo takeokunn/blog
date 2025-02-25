@@ -333,8 +333,6 @@ tadsanに関しては黙々と食べてて怖かったです。
 昼はアンチボッチランチということで、phperの皆さんとエビフライを食べました。
 エビフライが名古屋で有名ということは知らなかったです。
 
-https://x.com/takeokunn/status/1893157440579084408/photo/1
-
 #+begin_export html
 <blockquote class="twitter-tweet"><p lang="ja" dir="ltr">美味かった <a href="https://t.co/gvsFy9T2GJ">pic.twitter.com/gvsFy9T2GJ</a></p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1893157440579084408?ref_src=twsrc%5Etfw">February 22, 2025</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 #+end_export
