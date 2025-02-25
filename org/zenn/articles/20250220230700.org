@@ -102,6 +102,22 @@ https://fortee.jp/phpcon-2024/proposal/7edc5567-d741-4d6a-bfa7-732afb7dd311
   - https://xp123.com/3a-arrange-act-assert/
   - Arrange, Act, Assert の Arrange, Act が支配的
 
+#+begin_src php
+  /**
+   ,* @test
+   ,*/
+  public function add()
+  {
+      // Arrange: テストの準備
+      $calculator = new Calculator();
+
+      // Act: 実際の操作
+      $result = $calculator->add(2, 3);
+
+      // Assert: 結果の検証
+      $this->assertEquals(5, $result);
+  }
+#+end_src
 ** 推測するな計測せよ
 
 - [[https://github.com/ergebnis/phpunit-slow-test-detector][ergebnis/phpunit-slow-test-detector]]
@@ -109,6 +125,34 @@ https://fortee.jp/phpcon-2024/proposal/7edc5567-d741-4d6a-bfa7-732afb7dd311
 - GitHub Actions
   - Actions Usage Metrics
 
+#+begin_src text
+  PHPUnit 10.0.0 by Sebastian Bergmann and contributors.
+
+  Runtime:       PHP 8.1.0
+  Configuration: test/EndToEnd/Default/phpunit.xml
+  Random Seed:   1676103726
+
+  .............                                                                                                                                                                                                                                                                                                   13 / 13 (100%)
+
+  Detected 11 tests where the duration exceeded the maximum duration.
+
+   1. 1.604 (0.500) App\SampleTest#handle#9
+   2. 1.505 (0.500) App\SampleTest#handle#8
+   3. 1.403 (0.500) App\SampleTest#handle#7
+   4. 1.303 (0.500) App\SampleTest#handle#6
+   5. 1.205 (0.500) App\SampleTest#handle#5
+   6. 1.103 (0.500) App\SampleTest#handle#4
+   7. 1.005 (0.500) App\SampleTest#handle#3
+   8. 0.905 (0.500) App\SampleTest#handle#2
+   9. 0.805 (0.500) App\SampleTest#handle#1
+  10. 0.705 (0.500) App\SampleTest#handle#0
+
+  There is 1 additional slow test that is not listed here.
+
+  Time: 00:12.601, Memory: 8.00 MB
+
+  OK (13 tests, 13 assertions)
+#+end_src
 ** テストと本番の違い
 
 - 本番環境はユーザの動きに依存するが、テストは自分で意図的にプログラムを毎回実行することができる
@@ -149,7 +193,13 @@ https://fortee.jp/phpcon-2024/proposal/7edc5567-d741-4d6a-bfa7-732afb7dd311
   - migrate:fresh か db:seed
 - setUpBeforeClassを使う方がいい
   - https://moyasystemengineer.hatenablog.com/entry/2015/11/23/124934
-
+*** 大量のdummy dataを用意する
+#+begin_src php
+  UserModel::factory(10000)
+      ->has(UserProfileModel::factory())
+      ->has(UserProfileModel::factory())
+      ->create();
+#+end_src
 ** Act部分
 *** そもそもappのコードを遅くする
 
@@ -165,14 +215,11 @@ https://fortee.jp/phpcon-2024/proposal/7edc5567-d741-4d6a-bfa7-732afb7dd311
 - Networking
 - 他社の本番サーバにリクエストを飛す
 
-* どうすればいいのか
+* まとめ
+
+PHPUnitを高速化することによって開発サイクルを早めよう。
 
 - PHPという言語がボトルネックになることは早々ない
   - 主観だがほぼDBのI/Oがボトルネック
 - そもそもテストの書きやすいコードベースにしようね
   - 無理のあるコードベースのせいで遅くなることは
-- 重い
-
-* まとめ
-
-PHPUnitを高速化することによって開発サイクルを早めよう。
