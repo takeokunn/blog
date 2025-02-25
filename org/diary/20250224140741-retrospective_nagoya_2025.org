@@ -9,7 +9,7 @@
 #+HUGO_CATEGORIES: diary
 #+HUGO_SECTION: posts/diary
 #+HUGO_TAGS: diary
-#+HUGO_DRAFT: true
+#+HUGO_DRAFT: false
 #+STARTUP: content
 #+STARTUP: fold
 * Introduction
