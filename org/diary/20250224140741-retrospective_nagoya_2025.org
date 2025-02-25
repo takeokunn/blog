@@ -141,7 +141,6 @@ phpcon東京でプロポーザルが全落ちしたことが確定した時、�
 僕みたいな計画性のない奴は絶対に登壇駆動で何かをするべきではないです。
 
 [[id:0D13FCEA-F8EC-4729-B700-9A88FD1D5EB9][NixでTypstをBuildしGitHub Pagesでホスティングする]] にある通り、今回はtypstでスライドを生成しようかなと思ったのですが、夜行バスのネット環境が貧弱なこと、typstでスライドを作るのが初めてなこと、時間がないので失敗できないことを加味してGoogle Slideで作りました。
-
 *** 本番
 Google Slideのスピーカーモードで開始ボタンを押し忘れて、今何分経過したのか分からない状態でしたが、そんな中本番はぴったり15分で話せてよかったです。
 観客の反応も良かったし、ちょこちょこウケも取れて大満足でした。睡眠不足の深夜テンションでもなんとかなってほっとしました。
@@ -225,7 +224,7 @@ https://www.yu-t.com/
 メニューも「いかすみ」や「妹のラムネ」など謎なものが多かったです。
 
 #+begin_export html
-<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">ドリンクにイカスミがある... <a href="https://t.co/mLwXnVwdwq">pic.twitter.com/mLwXnVwdwq</a></p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1893497394148561172?ref_src=twsrc%5Etfw">February 23, 2025</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>#+end_export
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">ドリンクにイカスミがある... <a href="https://t.co/mLwXnVwdwq">pic.twitter.com/mLwXnVwdwq</a></p>&mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1893497394148561172?ref_src=twsrc%5Etfw">February 23, 2025</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 #+end_export
 
 スイーツパスタを食べはじることを「登山」、食べれないことを「遭難」と言うらしいのですが、秒速で遭難しました。
