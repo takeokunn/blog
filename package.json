@@ -1,12 +1,10 @@
 {
   "private": true,
   "scripts": {
-    "lint": "run-s lint:secret",
     "lint:secret": "secretlint '**/*'"
   },
   "devDependencies": {
     "@secretlint/secretlint-rule-preset-recommend": "^9.0.0",
-    "npm-run-all": "^4.1.5",
     "secretlint": "^9.0.0"
   }
 }

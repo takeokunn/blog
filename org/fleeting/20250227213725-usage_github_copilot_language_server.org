@@ -19,7 +19,7 @@
 - @GitHub/copilot-language-server をnpmでインストールして使う必要があった
 - 以下を満たしたい
   - Nixでパッケージングしたい
-  - neovimなどほかのエディタでも使えるようにしたい
+  - neovimなどのエディタでも使えるようにしたい
 
 * 対応手順
 ** 1. node2nixでパッケージングする
