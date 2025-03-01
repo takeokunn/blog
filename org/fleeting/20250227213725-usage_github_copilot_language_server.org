@@ -16,10 +16,10 @@
 * Background
 
 - copilot.elのバージョンが上がった
-- @github/copilot-language-server をnpmでインストールして使う必要があった
+- @GitHub/copilot-language-server をnpmでインストールして使う必要があった
 - 以下を満たしたい
   - Nixでパッケージングしたい
-  - neovimなど他のエディタでも使えるようにしたい
+  - neovimなどほかのエディタでも使えるようにしたい
 
 * 対応手順
 ** 1. node2nixでパッケージングする
@@ -27,4 +27,4 @@
 ** 3. copilot.elにPATHを通す
 * Appendix
 * 終わりに
-問題なく使えるようになって嬉しい。今後ともcopilotを使い倒していきたい。
+問題なく使えるようになってうれしい。今後ともcopilotを使い倒していきたい。
