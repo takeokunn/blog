@@ -1,0 +1,30 @@
+:PROPERTIES:
+:ID:       563AB844-EA99-473E-A9FD-BB6975CD5D12
+:END:
+#+TITLE: @github/
+#+AUTHOR: takeokunn
+#+DESCRIPTION: description
+#+DATE: 2025-02-27T21:37:32+0900
+#+HUGO_BASE_DIR: ../../
+#+HUGO_CATEGORIES: fleeting
+#+HUGO_SECTION: posts/fleeting
+#+HUGO_TAGS: fleeting emacs nix
+#+HUGO_DRAFT: false
+#+STARTUP: content
+#+STARTUP: fold
+* Introduction
+* Background
+
+- copilot.elのバージョンが上がった
+- @github/copilot-language-server をnpmでインストールして使う必要があった
+- 以下を満たしたい
+  - Nixでパッケージングしたい
+  - neovimなど他のエディタでも使えるようにしたい
+
+* 対応手順
+** 1. node2nixでパッケージングする
+** 2. 実行ファイルを取得する
+** 3. copilot.elにPATHを通す
+* Appendix
+* 終わりに
+問題なく使えるようになって嬉しい。今後ともcopilotを使い倒していきたい。
