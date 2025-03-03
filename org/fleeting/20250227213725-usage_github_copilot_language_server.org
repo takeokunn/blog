@@ -9,7 +9,7 @@
 #+HUGO_CATEGORIES: fleeting
 #+HUGO_SECTION: posts/fleeting
 #+HUGO_TAGS: fleeting emacs nix
-#+HUGO_DRAFT: false
+#+HUGO_DRAFT: true
 #+STARTUP: content
 #+STARTUP: fold
 * Introduction
