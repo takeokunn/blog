@@ -103,21 +103,25 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: build-pdf
-          path: ./public
+          path: ./public/pdf
 
   deploy:
     needs: [build-hugo, build-pdf]
     runs-on: ubuntu-latest
     steps:
-      - name: Download site artifacts
+      - name: Download Hugo site artifacts
         uses: actions/download-artifact@v4
         with:
-          name: build-*
+          name: build-hugo
           path: ./public
           merge-multiple: true
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+
+      - name: Download PDF artifacts
+        uses: actions/download-artifact@v4
         with:
-          path: ./public
+          name: build-pdf
+          path: ./public/pdf
+          merge-multiple: true
+
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
