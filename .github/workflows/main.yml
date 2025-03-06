@@ -80,6 +80,10 @@ jobs:
       - name: Setup nix
         uses: ./.github/actions/setup-nix
 
+      # directory
+      - name: Generate example-slide
+        run: mkdir -p public/pdf/
+
       # for PDF
       - name: Generate example-slide
         run: |
