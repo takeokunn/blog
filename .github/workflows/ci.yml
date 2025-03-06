@@ -21,9 +21,8 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v4
-      - uses: DeterminateSystems/nix-installer-action@main
-      - uses: DeterminateSystems/magic-nix-cache-action@main
-      - uses: DeterminateSystems/flake-checker-action@main
+      - name: Setup nix
+        uses: ./.github/actions/setup-nix
       - name: flake check
         run: nix develop --command bash -c "textlint 'org/**/*.org'"
   secretlint:

@@ -1,7 +1,7 @@
 :PROPERTIES:
 :ID:       563AB844-EA99-473E-A9FD-BB6975CD5D12
 :END:
-#+TITLE: @github/
+#+TITLE: copilot-language-serverをNixで扱う時のメモ
 #+AUTHOR: takeokunn
 #+DESCRIPTION: description
 #+DATE: 2025-02-27T21:37:32+0900
@@ -13,6 +13,9 @@
 #+STARTUP: content
 #+STARTUP: fold
 * Introduction
+
+@github/copilot-language-server を takeokunn/nixos-configuration 上で扱えるようにしたのでメモしておく。
+
 * Background
 
 - copilot.elのバージョンが上がった
@@ -23,8 +26,93 @@
 
 * 対応手順
 ** 1. node2nixでパッケージングする
+
+=node2nix/node-packages.json= に以下のような記述をした。
+
+#+begin_src json
+  ["@github/copilot-language-server"]
+#+end_src
+
+
+以下のshell scriptを実行するとファイルが生成された。
+
+- =node2nix/default.nix=
+- =node2nix/node-env.nix=
+- =node2nix/node-packages.nix=
+
+#+begin_src console
+  nix-shell -p nodePackages.node2nix --command "node2nix -i ./node-packages.json -o node-packages.nix"
+#+end_src
 ** 2. 実行ファイルを取得する
+
+=node2nix/default.nix= をimportするとpackageが読み込めるようになった。
+
+#+begin_src nix
+  nodePkgs = pkgs.callPackage ../node2nix { inherit pkgs; };
+#+end_src
+
+
+copilot-language-server は以下のようなディレクトリ構造になっている。
+
+#+begin_src console
+  $ dust native/
+
+   65M ├─┬ native/darwin-x64
+   65M │ └── native/darwin-x64/copilot-language-server
+   60M ├─┬ native/darwin-arm64
+   60M │ └── native/darwin-arm64/copilot-language-server
+   59M ├─┬ native/linux-x64
+   59M │ └── native/linux-x64/copilot-language-server
+   50M └─┬ native/win32-x64
+   50M   └── native/win32-x64/copilot-language-server.exe
+#+end_src
+
+そこで、platformごとに対応表を作って =COPILOT_LANGUAGE_SERVER_PATH= にPATHを通してあげた。
+
+#+begin_src nix
+  { pkgs, nodePkgs }:
+  let
+    platforms = {
+      "x86_64-linux" = "linux-amd64";
+      "aarch64-linux" = "linux-aarch64";
+      "x86_64-darwin" = "darwin-amd64";
+      "aarch64-darwin" = "darwin-arm64";
+    };
+    platform = builtins.getAttr pkgs.system platforms;
+  in
+  {
+    home.packages = [ nodePkgs."@github/copilot-language-server" ];
+
+    programs.fish = {
+      interactiveShellInit = ''
+        set -gx COPILOT_LANGUAGE_SERVER_PATH ${
+          nodePkgs."@github/copilot-language-server"
+        }/lib/node_modules/@github/copilot-language-server/native/${platform}/copilot-language-server
+      '';
+    };
+  }
+#+end_src
+
+2025/03/03(Mon)現在、以下のような環境変数が定義されている。
+
+#+begin_src console
+  $ echo $COPILOT_LANGUAGE_SERVER_PATH
+  /nix/store/4d2ghcnjs7yzqd1jgjv7wh5ffzcsfxqp-_at_github_slash_copilot-language-server-1.276.0/lib/node_modules/@github/copilot-language-server/native/darwin-arm64/copilot-language-server
+#+end_src
 ** 3. copilot.elにPATHを通す
+
+exec-path-from-shell:
+
+#+begin_src emacs-lisp
+  (setopt exec-path-from-shell-variables '("PATH" "TERM" "SSH_AUTH_SOCK" "COPILOT_LANGUAGE_SERVER_PATH"))
+#+end_src
+
+copilot.el:
+
+#+begin_src emacs-lisp
+  (setopt copilot-server-executable (getenv "COPILOT_LANGUAGE_SERVER_PATH"))
+#+end_src
+
 * Appendix
 * 終わりに
 問題なく使えるようになってうれしい。今後ともcopilotを使い倒していきたい。

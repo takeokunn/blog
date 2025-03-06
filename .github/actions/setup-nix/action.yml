@@ -1,0 +1,9 @@
+name: Run setup-nix
+description: Set up Nix environment for GitHub Actions
+
+runs:
+  using: composite
+  steps:
+    - uses: DeterminateSystems/nix-installer-action@main
+    - uses: DeterminateSystems/magic-nix-cache-action@main
+    - uses: DeterminateSystems/flake-checker-action@main
