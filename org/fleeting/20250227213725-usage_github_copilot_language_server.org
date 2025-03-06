@@ -14,12 +14,12 @@
 #+STARTUP: fold
 * Introduction
 
-@github/copilot-language-server を takeokunn/nixos-configuration 上で扱えるようにしたのでメモしておく。
+=@github/copilot-language-server= を =takeokunn/nixos-configuration= 上で扱えるようにしたのでメモしておく。
 
 * Background
 
 - copilot.elのバージョンが上がった
-- @GitHub/copilot-language-server をnpmでインストールして使う必要があった
+- =@GitHub/copilot-language-server= をnpmでインストールして使う必要があった
 - 以下を満たしたい
   - Nixでパッケージングしたい
   - neovimなどのエディタでも使えるようにしたい
@@ -93,7 +93,7 @@ copilot-language-server は以下のようなディレクトリ構造になっ�
   }
 #+end_src
 
-2025/03/03(Mon)現在、以下のような環境変数が定義されている。
+=2025/03/03(Mon)= 現在、以下のような環境変数が定義されている。
 
 #+begin_src console
   $ echo $COPILOT_LANGUAGE_SERVER_PATH
@@ -101,7 +101,7 @@ copilot-language-server は以下のようなディレクトリ構造になっ�
 #+end_src
 ** 3. copilot.elにPATHを通す
 
-exec-path-from-shell:
+=exec-path-from-shell=:
 
 #+begin_src emacs-lisp
   (setopt exec-path-from-shell-variables '("PATH" "TERM" "SSH_AUTH_SOCK" "COPILOT_LANGUAGE_SERVER_PATH"))
