@@ -75,8 +75,6 @@ jobs:
           submodules: recursive
       - name: Setup nix
         uses: ./.github/actions/setup-nix
-
-      # directory
       - name: Generate example-slide
         run: mkdir -p public/pdf/
 
@@ -115,18 +113,15 @@ jobs:
           name: build-hugo
           path: ./public
           merge-multiple: true
-
       - name: Download PDF artifacts
         uses: actions/download-artifact@v4
         with:
           name: build-pdf
           path: ./public/pdf
           merge-multiple: true
-
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./public
-
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
