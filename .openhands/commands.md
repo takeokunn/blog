@@ -1,46 +1,46 @@
-# Useful Commands
+# 便利なコマンド
 
-## Hugo Commands
+## Hugoコマンド
 
 ```bash
-# Start the Hugo server for local development
+# ローカル開発用のHugoサーバーを起動
 hugo server -D --port 52112 --bind 0.0.0.0 --disableFastRender
 
-# Build the site
+# サイトをビルド
 hugo
 
-# Create a new post
+# 新しい投稿を作成
 hugo new posts/my-new-post.md
 ```
 
-## Git Commands
+## Gitコマンド
 
 ```bash
-# Update the theme submodule
+# テーマのサブモジュールを更新
 git submodule update --remote --recursive
 
-# Initialize submodules (if needed)
+# サブモジュールの初期化（必要な場合）
 git submodule init
 git submodule update
 ```
 
-## Node.js Commands
+## Node.jsコマンド
 
 ```bash
-# Install dependencies
+# 依存関係をインストール
 npm install
 
-# Run secret linting
+# シークレットリンティングを実行
 npm run lint:secret
 ```
 
-## Content Generation
+## コンテンツ生成
 
 ```bash
-# If using org-mode and ox-hugo, export org files to Hugo markdown
-# This would typically be done from within Emacs
+# org-modeとox-hugoを使用している場合、orgファイルをHugoマークダウンにエクスポート
+# これは通常Emacs内で行われます
 ```
 
-## Deployment
+## デプロイメント
 
-The site is deployed to GitHub Pages. The deployment process is likely handled through GitHub Actions or similar CI/CD pipeline.
+サイトはGitHub Pagesにデプロイされています。デプロイプロセスはGitHub Actionsまたは類似のCI/CDパイプラインを通じて処理されていると思われます。

@@ -1,33 +1,33 @@
-# Repository Structure
+# リポジトリ構造
 
-## Main Directories
+## 主要ディレクトリ
 
-- **archetypes/**: Templates for new content in Hugo
-- **content/**: Contains the blog posts and pages in Markdown format
-- **org/**: Contains org-mode files used for content generation
-- **resources/**: Generated resources by Hugo
-- **scripts/**: Utility scripts for the blog
-- **static/**: Static assets like images, CSS, and JavaScript
-- **themes/**: Contains the Hugo theme (using a custom theme: hugo-take-theme)
-- **typst/**: Typst documents
-- **zenn/**: Content for publishing on Zenn platform
+- **archetypes/**: Hugoの新しいコンテンツ用テンプレート
+- **content/**: マークダウン形式のブログ記事とページを含む
+- **org/**: コンテンツ生成に使用されるorg-modeファイルを含む
+- **resources/**: Hugoによって生成されたリソース
+- **scripts/**: ブログ用のユーティリティスクリプト
+- **static/**: 画像、CSS、JavaScriptなどの静的アセット
+- **themes/**: Hugoテーマを含む（カスタムテーマ：hugo-take-theme）
+- **typst/**: Typstドキュメント
+- **zenn/**: Zennプラットフォーム向けの公開コンテンツ
 
-## Configuration Files
+## 設定ファイル
 
-- **hugo.toml**: Main Hugo configuration
-- **config.toml**: Additional configuration
-- **.gitmodules**: Git submodule configuration
-- **package.json**: Node.js package configuration
-- **prh.yml**: Proofreading helper configuration
-- **.secretlintrc.json**: Configuration for secret linting
-- **.textlintignore**: Configuration for text linting
-- **flake.nix** and **flake.lock**: Nix configuration files
+- **hugo.toml**: メインのHugo設定
+- **config.toml**: 追加設定
+- **.gitmodules**: Gitサブモジュール設定
+- **package.json**: Node.jsパッケージ設定
+- **prh.yml**: 校正ヘルパー設定
+- **.secretlintrc.json**: シークレットリンティング設定
+- **.textlintignore**: テキストリンティング設定
+- **flake.nix**と**flake.lock**: Nix設定ファイル
 
-## Content Organization
+## コンテンツ構成
 
-The blog follows a Zettelkasten approach, which is a method of knowledge management and note-taking. Content is likely organized in a networked structure rather than a hierarchical one, with interconnected notes and ideas.
+このブログはツェッテルカステンアプローチに従っています。これは知識管理とメモ取りの方法です。コンテンツは階層的な構造ではなく、相互に接続されたメモやアイデアのネットワーク構造で整理されていると思われます。
 
-The content workflow appears to be:
-1. Write content in org-mode files (in the org/ directory)
-2. Use ox-hugo to convert org files to Hugo-compatible Markdown
-3. Hugo processes the Markdown files to generate the static site
+コンテンツのワークフローは次のようになっています：
+1. org-modeファイル（org/ディレクトリ内）でコンテンツを作成
+2. ox-hugoを使用してorgファイルをHugo互換のマークダウンに変換
+3. Hugoがマークダウンファイルを処理して静的サイトを生成

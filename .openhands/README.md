@@ -1,39 +1,39 @@
-# Blog Repository Information
+# ブログリポジトリ情報
 
-This repository contains a personal blog built with [Hugo](https://gohugo.io/) and uses [org-roam](https://www.orgroam.com/) and [ox-hugo](https://ox-hugo.scripter.co/) for content generation in a Zettelkasten style.
+このリポジトリは[Hugo](https://gohugo.io/)で構築された個人ブログであり、[org-roam](https://www.orgroam.com/)と[ox-hugo](https://ox-hugo.scripter.co/)を使用してツェッテルカステン方式でコンテンツを生成しています。
 
-## Repository Structure
+## リポジトリ構造
 
-- **content/**: Contains the blog posts and pages
-- **static/**: Static assets like images, CSS, and JavaScript
-- **themes/**: Contains the Hugo theme (using a custom theme: hugo-take-theme)
-- **org/**: Contains org-mode files used for content generation
-- **archetypes/**: Templates for new content
-- **zenn/**: Content for publishing on Zenn platform
-- **typst/**: Typst documents
-- **scripts/**: Utility scripts for the blog
+- **content/**: ブログ記事とページを含む
+- **static/**: 画像、CSS、JavaScriptなどの静的アセット
+- **themes/**: Hugoテーマを含む（カスタムテーマ：hugo-take-theme）
+- **org/**: コンテンツ生成に使用されるorg-modeファイル
+- **archetypes/**: 新しいコンテンツのテンプレート
+- **zenn/**: Zennプラットフォーム向けのコンテンツ
+- **typst/**: Typstドキュメント
+- **scripts/**: ブログ用のユーティリティスクリプト
 
-## Development
+## 開発
 
-To run the blog locally:
+ブログをローカルで実行するには：
 
 ```bash
-# Install Hugo
-# Run the Hugo server
+# Hugoをインストール
+# Hugoサーバーを実行
 hugo server -D --port 52112 --bind 0.0.0.0 --disableFastRender
 ```
 
-## Publishing
+## 公開
 
-The blog is published to:
-- Main site: https://takeokunn.org (GitHub Pages)
+ブログは以下に公開されています：
+- メインサイト: https://takeokunn.org (GitHub Pages)
 - Zenn: https://zenn.dev/takeokunn
 
-## Theme
+## テーマ
 
-The blog uses a custom theme: [takeokunn/hugo-take-theme](https://github.com/takeokunn/hugo-take-theme)
+このブログは、カスタムテーマを使用しています: [takeokunn/hugo-take-theme](https://github.com/takeokunn/hugo-take-theme)
 
-To update the theme:
+テーマを更新するには：
 ```bash
 git submodule update --remote --recursive
 ```
