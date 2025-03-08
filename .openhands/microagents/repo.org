@@ -5,6 +5,11 @@
 
 このリポジトリは[[https://gohugo.io/][Hugo]]で構築された個人ブログであり、[[https://www.orgroam.com/][org-roam]]と[[https://ox-hugo.scripter.co/][ox-hugo]]を使用してツェッテルカステン方式でコンテンツを生成しています。
 
+* 情報
+
+- デフォルトブランチ: main
+- 機能開発やバグ修正は feature/xxx や fix/xxx のようなブランチを作成して実装します
+
 * リポジトリ構造
 
 - *content/*: ブログ記事とページを含む
