@@ -1,0 +1,42 @@
+#+TITLE: ブログリポジトリ情報
+#+STARTUP: content
+
+* ブログリポジトリ情報
+
+このリポジトリは[[https://gohugo.io/][Hugo]]で構築された個人ブログであり、[[https://www.orgroam.com/][org-roam]]と[[https://ox-hugo.scripter.co/][ox-hugo]]を使用してツェッテルカステン方式でコンテンツを生成しています。
+
+* リポジトリ構造
+
+- *content/*: ブログ記事とページを含む
+- *static/*: 画像、CSS、JavaScriptなどの静的アセット
+- *themes/*: Hugoテーマを含む（カスタムテーマ：hugo-take-theme）
+- *org/*: コンテンツ生成に使用されるorg-modeファイル
+- *archetypes/*: 新しいコンテンツのテンプレート
+- *zenn/*: Zennプラットフォーム向けのコンテンツ
+- *typst/*: Typstドキュメント
+- *scripts/*: ブログ用のユーティリティスクリプト
+
+* 開発
+
+ブログをローカルで実行するには：
+
+#+begin_src bash
+# Hugoをインストール
+# Hugoサーバーを実行
+hugo server -D --port 52112 --bind 0.0.0.0 --disableFastRender
+#+end_src
+
+* 公開
+
+ブログは以下に公開されています：
+- メインサイト: https://takeokunn.org (GitHub Pages)
+- Zenn: https://zenn.dev/takeokunn
+
+* テーマ
+
+このブログは、カスタムテーマを使用しています: [[https://github.com/takeokunn/hugo-take-theme][takeokunn/hugo-take-theme]]
+
+テーマを更新するには：
+#+begin_src bash
+git submodule update --remote --recursive
+#+end_src
