@@ -1,7 +1,7 @@
-#+TITLE: ブログリポジトリ情報
+#+TITLE: takeokunn's blog Repository Guide
 #+STARTUP: content
-
-* ブログリポジトリ情報
+#+STARTUP: fold
+* 概要
 
 このリポジトリは[[https://gohugo.io/][Hugo]]で構築された個人ブログであり、[[https://www.orgroam.com/][org-roam]]と[[https://ox-hugo.scripter.co/][ox-hugo]]を使用してツェッテルカステン方式でコンテンツを生成しています。
 
@@ -9,34 +9,37 @@
 
 - *content/*: ブログ記事とページを含む
 - *static/*: 画像、CSS、JavaScriptなどの静的アセット
-- *themes/*: Hugoテーマを含む（カスタムテーマ：hugo-take-theme）
+- *themes/*: Hugoテーマを含む
+  - カスタムテーマ：hugo-take-theme
 - *org/*: コンテンツ生成に使用されるorg-modeファイル
 - *archetypes/*: 新しいコンテンツのテンプレート
 - *zenn/*: Zennプラットフォーム向けのコンテンツ
+  - 既存のものを置いているので動的に編集することはない
 - *typst/*: Typstドキュメント
 - *scripts/*: ブログ用のユーティリティスクリプト
 
+基本的には以下のディレクトリを弄ることになる。
+
+- *org/*: コンテンツ生成に使用されるorg-modeファイル
+  - org-roamベースに記述する
+- *typst/*: Typstドキュメント
+  - スライドや寄稿時に編集する
+
 * 開発
 
-ブログをローカルで実行するには：
+ローカルで実行するには以下を叩く。
 
 #+begin_src bash
-# Hugoをインストール
-# Hugoサーバーを実行
-hugo server -D --port 52112 --bind 0.0.0.0 --disableFastRender
+$ nix develop .#deploy --command bash -c "emacs --batch --load scripts/ox-roam.el --funcall export-org-roam-files"
+$ nix develop .#deploy --command bash -c "hugo server"
 #+end_src
-
-* 公開
-
-ブログは以下に公開されています：
-- メインサイト: https://takeokunn.org (GitHub Pages)
-- Zenn: https://zenn.dev/takeokunn
 
 * テーマ
 
 このブログは、カスタムテーマを使用しています: [[https://github.com/takeokunn/hugo-take-theme][takeokunn/hugo-take-theme]]
 
-テーマを更新するには：
+テーマを更新方法は以下。
+
 #+begin_src bash
 git submodule update --remote --recursive
 #+end_src
