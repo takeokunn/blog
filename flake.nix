@@ -75,7 +75,9 @@
                   hugo
                   nur-pkgs.tcardgen
                   (emacs.pkgs.withPackages (epkgs: (with epkgs.melpaPackages; [
-                    emacsql-sqlite
+                    ox-hugo
+                    org-roam
+                    ox-zenn
                   ])))
                 ];
               };

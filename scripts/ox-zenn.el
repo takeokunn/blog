@@ -1,10 +1,3 @@
-(require 'package)
-
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-(package-refresh-contents)
-(package-initialize)
-(package-install 'ox-zenn)
-
 (require 'ox-zenn)
 
 (defun export-org-zenn-articles-files ()
