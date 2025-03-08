@@ -1,0 +1,42 @@
+{
+  "project": {
+    "name": "takeokunn/blog",
+    "description": "Personal blog using Hugo, org-roam, and ox-hugo in Zettelkasten style",
+    "type": "blog",
+    "framework": "hugo",
+    "language": "markdown",
+    "url": "https://takeokunn.org"
+  },
+  "development": {
+    "server": {
+      "command": "hugo server -D --port 52112 --bind 0.0.0.0 --disableFastRender",
+      "port": 52112,
+      "host": "localhost"
+    }
+  },
+  "dependencies": {
+    "hugo": "required",
+    "node": "optional"
+  },
+  "publishing": {
+    "platforms": [
+      {
+        "name": "GitHub Pages",
+        "url": "https://takeokunn.org"
+      },
+      {
+        "name": "Zenn",
+        "url": "https://zenn.dev/takeokunn"
+      }
+    ]
+  },
+  "content": {
+    "sources": [
+      "org-roam",
+      "ox-hugo"
+    ],
+    "languages": [
+      "ja-jp"
+    ]
+  }
+}
