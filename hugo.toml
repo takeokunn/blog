@@ -10,10 +10,6 @@ theme = "hugo-take-theme"
 [params]
 DateForm = "2006.1.2"
 
-[services]
-[services.googleAnalytics]
-id = 'UA-135483596-1'
-
 [markup]
 [markup.highlight]
 noClasses = true
