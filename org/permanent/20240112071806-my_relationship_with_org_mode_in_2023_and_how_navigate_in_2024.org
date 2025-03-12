@@ -113,7 +113,7 @@ GitHub Actions経由で [[https://emacs.takeokunn.org/][https://emacs.takeokunn.
 
 以下のような運用をしています。
 
-- 週次で =agenda/= 以下の =ODNE= になったものを =org-archive= でアーカイブする
+- 週次で =agenda/= 以下の =DONE= になったものを =org-archive= でアーカイブする
 - 月次で =journal.org= を =journal/yyyy/yyyy-mm.org= に移動する
 - 年次で =year/yyyy.org= にまとめる
 
@@ -391,7 +391,7 @@ org-modeはorg-mode内でプログラムを実行できる、タスク管理が�
 RSS Feedに[[https://github.com/skeeto/elfeed][skeeto/elfeed]]を使っていますが、RSS対象の管理に[[https://github.com/remyhonig/elfeed-org][remyhonig/elfeed-org]]を使っています。
 org-modeで管理をすると対象URLのメモが取れて非常に便利です。
 * 今後の展望
-「週次で =agenda/= 以下の =ODNE= になったものを =org-archive= でアーカイブする」運用を開始して1年が経ちました。
+「週次で =agenda/= 以下の =DONE= になったものを =org-archive= でアーカイブする」運用を開始して1年が経ちました。
 つまり1年間取り組んだタスクの詳細が =agenda/= に構造的に保存されており資産として活用できる状態な訳です。
 
 この資産をどう活用するかというのが次の目標です。
