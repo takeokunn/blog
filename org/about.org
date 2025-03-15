@@ -7,15 +7,29 @@
 #+HUGO_CATEGORIES: about
 #+STARTUP: content
 #+STARTUP: fold
-* 自己紹介
+* プロフィール
 
-Webアプリケーションの構築を専門とする10年以上の経験を持つWeb開発者。
+ソフトウェア開発歴10年以上の経験を持つエンジニア。
 
 - *現在の役割*: Webエンジニア
 - *拠点*: 東京都
 - *主な専門分野*: バックエンド開発、DevOps、開発環境の最適化
 
-** Links
+* 個人的な興味・発信領域
+
+- Emacsのカスタマイズと効率的な使用方法
+- Nix/NixOSを用いた環境構築と設定管理
+- 開発環境の最適化とツールチェーン
+- Org Modeの活用と文芸的プログラミング
+
+* コミュニティ活動
+
+- 個人技術ブログの運営
+- 技術記事の執筆と情報発信
+- 東京Emacs勉強会/Nix Meetupの運営
+- PHP Conference複数回登壇経験
+
+* Links
 
 - *GitHub*: [[https://github.com/takeokunn][github.com/takeokunn]]
 - *ブログ*: [[https://www.takeokunn.org][takeokunn.org]]
