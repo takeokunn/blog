@@ -1,8 +1,0 @@
-#+TITLE: typst
-#+FILE_PATTERNS: typst/**/*
-#+STARTUP: content
-#+STARTUP: fold
-* リポジトリ構造
-
-- typst/<project-name>/README.org
-- typst/<project-name>/article.org
