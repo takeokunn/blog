@@ -1,23 +1,23 @@
 :PROPERTIES:
 :ID:       EC24FDBC-BA0C-436C-8F11-7BE043EA8E2C
-:mtime:    20231217103327
-:ctime:    20231211003409
 :END:
 #+HUGO_BASE_DIR: ../
 #+HUGO_SECTION: ./
-#+TITLE: About me
-#+DESCRIPTION: About me
+#+TITLE: About
 #+HUGO_CATEGORIES: about
 #+STARTUP: content
 #+STARTUP: fold
-* Basic
+* 自己紹介
 
-Hi, I'm takeokunn.
+Webアプリケーションの構築を専門とする10年以上の経験を持つWeb開発者。
 
-- Job: Web Engineer
-- Live: Nerima, Tokyo
-- Love: Emacs, Nix, Lisp
+- *現在の役割*: Webエンジニア
+- *拠点*: 東京都
+- *主な専門分野*: バックエンド開発、DevOps、開発環境の最適化
 
-* My Environment
+** Links
 
-- [[https://github.com/takeokunn/nixos-configuration][nixos-configuration]]
+- *GitHub*: [[https://github.com/takeokunn][github.com/takeokunn]]
+- *ブログ*: [[https://www.takeokunn.org][takeokunn.org]]
+- *Zenn*: [[https://zenn.dev/takeokunn][zenn.dev/takeokunn]]
+- *Twitter/X*: [[https://x.com/takeokunn][x.com/takeokunn]]
