@@ -14,15 +14,15 @@
 #+STARTUP: fold
 * Introduction
 
-=@github/copilot-language-server= を =takeokunn/nixos-configuration= 上で扱えるようにしたのでメモしておく。
+[[https://github.com/orgs/github/packages/npm/package/copilot-language-server][@github/copilot-language-server]] を [[https://github.com/takeokunn/nixos-configuration][takeokunn/nixos-configuration]] 上で扱えるようにしたのでメモしておく。
 
 * Background
 
-- copilot.elのバージョンが上がった
-- =@gitHub/copilot-language-server= をnpmでインストールして使う必要があった
+- [[https://github.com/copilot-emacs/copilot.el][copilot.el]] のバージョンが上がった
+- [[https://github.com/orgs/github/packages/npm/package/copilot-language-server][@github/copilot-language-server]] をnpmでインストールして使う必要があった
 - 以下の要件を満たしたい
   - Nixでパッケージングしたい
-  - neovimなどのエディタでも汎用的に使えるようにしたい
+  - Neovimなどのエディタでも汎用的に使えるようにしたい
 
 * 対応手順
 ** 1. node2nixでパッケージングする
@@ -107,7 +107,7 @@ copilot-language-server は以下のようなディレクトリ構造になっ�
   (setopt exec-path-from-shell-variables '("PATH" "TERM" "SSH_AUTH_SOCK" "COPILOT_LANGUAGE_SERVER_PATH"))
 #+end_src
 
-copilot.el:
+=copilot.el=:
 
 #+begin_src emacs-lisp
   (setopt copilot-server-executable (getenv "COPILOT_LANGUAGE_SERVER_PATH"))
