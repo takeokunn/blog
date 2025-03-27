@@ -1,5 +1,5 @@
 :PROPERTIES:
-:ID:       563AB844-EA99-473E-A9FD-BB6975CD5D12
+:ID:       7081F597-ED52-4BA5-8854-3A6C14FD58DE
 :END:
 #+TITLE: copilot-language-serverをNixで扱う時のメモ
 #+AUTHOR: takeokunn
@@ -9,7 +9,7 @@
 #+HUGO_CATEGORIES: fleeting
 #+HUGO_SECTION: posts/fleeting
 #+HUGO_TAGS: fleeting emacs nix
-#+HUGO_DRAFT: true
+#+HUGO_DRAFT: false
 #+STARTUP: content
 #+STARTUP: fold
 * Introduction
@@ -19,10 +19,10 @@
 * Background
 
 - copilot.elのバージョンが上がった
-- =@GitHub/copilot-language-server= をnpmでインストールして使う必要があった
-- 以下を満たしたい
+- =@gitHub/copilot-language-server= をnpmでインストールして使う必要があった
+- 以下の要件を満たしたい
   - Nixでパッケージングしたい
-  - neovimなどのエディタでも使えるようにしたい
+  - neovimなどのエディタでも汎用的に使えるようにしたい
 
 * 対応手順
 ** 1. node2nixでパッケージングする
@@ -41,7 +41,7 @@
 - =node2nix/node-packages.nix=
 
 #+begin_src console
-  nix-shell -p nodePackages.node2nix --command "node2nix -i ./node-packages.json -o node-packages.nix"
+  $ nix-shell -p nodePackages.node2nix --command "node2nix -i ./node-packages.json -o node-packages.nix"
 #+end_src
 ** 2. 実行ファイルを取得する
 
@@ -93,11 +93,11 @@ copilot-language-server は以下のようなディレクトリ構造になっ�
   }
 #+end_src
 
-=2025/03/03(Mon)= 現在、以下のような環境変数が定義されている。
+=2025/03/27(Mon)= 現在、以下のような環境変数が定義されている。
 
 #+begin_src console
   $ echo $COPILOT_LANGUAGE_SERVER_PATH
-  /nix/store/4d2ghcnjs7yzqd1jgjv7wh5ffzcsfxqp-_at_github_slash_copilot-language-server-1.276.0/lib/node_modules/@github/copilot-language-server/native/darwin-arm64/copilot-language-server
+  /nix/store/314dbj3vqb5s0f37gszm948arm37layx-_at_github_slash_copilot-language-server-1.291.0/lib/node_modules/@github/copilot-language-server/native/darwin-arm64/copilot-language-server
 #+end_src
 ** 3. copilot.elにPATHを通す
 
@@ -113,6 +113,5 @@ copilot.el:
   (setopt copilot-server-executable (getenv "COPILOT_LANGUAGE_SERVER_PATH"))
 #+end_src
 
-* Appendix
 * 終わりに
 問題なく使えるようになってうれしい。今後ともcopilotを使い倒していきたい。
