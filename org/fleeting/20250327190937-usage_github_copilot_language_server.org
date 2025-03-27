@@ -1,7 +1,7 @@
 :PROPERTIES:
 :ID:       7081F597-ED52-4BA5-8854-3A6C14FD58DE
 :END:
-#+TITLE: copilot-language-serverをNixで扱う時のメモ
+#+TITLE: @github/copilot-language-serverをNixで扱う時のメモ
 #+AUTHOR: takeokunn
 #+DESCRIPTION: description
 #+DATE: 2025-02-27T21:37:32+0900
