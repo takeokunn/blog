@@ -114,10 +114,6 @@ https://github.com/takeokunn.gpg
     pages {
       build_type = "workflow"
       cname      = "www.takeokunn.org"
-      source {
-        branch = "gh-pages"
-        path   = "/"
-      }
     }
   }
 
