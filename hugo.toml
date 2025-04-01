@@ -7,6 +7,8 @@ enableEmoji = true
 ignoreErrors = ["additional-script-loading-error"]
 theme = "hugo-take-theme"
 
+timeZone = "Asia/Tokyo"
+
 [params]
 DateForm = "2006.1.2"
 
