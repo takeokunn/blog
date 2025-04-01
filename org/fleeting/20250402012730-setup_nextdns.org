@@ -14,7 +14,7 @@
 #+STARTUP: fold
 * Introduction
 
-かねてから興味があった [[https://nextdns.io/][NextDNS]] が Terraform Provider と nix-darwin/nixos で設定できることを知り、折角なので導入してみた。
+かねてから興味があった [[https://nextdns.io/][NextDNS]] が Terraform Provider と nix-darwin/nixos で設定できることを知り、せっかくなので導入してみた。
 
 * What is NextDNS?
 
@@ -22,7 +22,7 @@
 
 https://gist.github.com/takeokunn/aa9bc9ef2c7d670b71bfd962c8a1a80e
 
-日本人でも使ってる人がちらほらいる。
+日本人でも使っている人がちらほらいる。
 
 - [[https://vpn-taizen.com/what_is_nextdns/][ほぼ無料で全てまとめて広告ブロックできるNextDNSとは]]
 - [[https://mkusaka.com/2023/06/18/nextdns/][NextDNSを使ってみて広告ブロックが捗ったので紹介]]
@@ -148,7 +148,7 @@ https://search.nixos.org/options?channel=24.11&from=0&size=50&sort=relevance&typ
 
 ** 4. 接続確認
 
-あまりよくわかっていないが、以下を明示的に叩く必要があった。(要調査)
+あまりよくわかっていないが、以下を明示的にたたく必要があった。（要調査）
 
 #+begin_src console
   $ nix run nixpkgs#nextdns activate
