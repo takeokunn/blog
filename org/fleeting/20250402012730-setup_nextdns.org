@@ -1,0 +1,15 @@
+:PROPERTIES:
+:ID:       4E845C70-F095-47B3-BF75-F6872164BD43
+:END:
+#+TITLE: NextDNSを導入した
+#+AUTHOR: takeokunn
+#+DESCRIPTION: description
+#+DATE: 2025-04-02T01:41:49+0900
+#+HUGO_BASE_DIR: ../../
+#+HUGO_CATEGORIES: fleeting
+#+HUGO_SECTION: posts/fleeting
+#+HUGO_TAGS: fleeting nextdns
+#+HUGO_DRAFT: true
+#+STARTUP: content
+#+STARTUP: fold
+* Introduction
