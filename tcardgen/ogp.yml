@@ -5,9 +5,12 @@ title:
   enabled: true
   start:
     px: 100
-    py: 330
+    py: 360
+  start:
+    px: 100
+    py: 400
   fgHexColor: "#bd93f9"   # Purple
-  fontSize: 60
+  fontSize: 50
   fontStyle: Bold
   maxWidth: 1000
 
