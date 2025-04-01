@@ -13,3 +13,161 @@
 #+STARTUP: content
 #+STARTUP: fold
 * Introduction
+
+かねてから興味があった [[https://nextdns.io/][NextDNS]] が Terraform Provider と nix-darwin/nixos で設定できることを知り、折角なので導入してみた。
+
+* What is NextDNS?
+
+流行のDeep Reasearchの結果は以下Gist。
+
+https://gist.github.com/takeokunn/aa9bc9ef2c7d670b71bfd962c8a1a80e
+
+日本人でも使ってる人がちらほらいる。
+
+- [[https://vpn-taizen.com/what_is_nextdns/][ほぼ無料で全てまとめて広告ブロックできるNextDNSとは]]
+- [[https://mkusaka.com/2023/06/18/nextdns/][NextDNSを使ってみて広告ブロックが捗ったので紹介]]
+- [[https://www.qam-web.com/?p=21061#google_vignette][NextDNSで安全で快適なブラウジング]]
+
+* 作業手順
+** 1. アカウント作成してAPI Key発行
+
+公式サイトからメールアドレスとパスワードで登録する。
+https://nextdns.io/
+
+管理画面からMFAを設定してAPI keyを発行する。
+https://my.nextdns.io/account
+
+** 2. Terraform設定
+
+ドキュメントを参考に画面上で設定できるものを宣言的に設定する。
+https://registry.terraform.io/providers/carbans/nextdns/latest/docs
+
+*** 2.1 providerを設定
+[[https://github.com/getsops/sops][sops]] にAPI Tokenを保存して [[https://github.com/carlpett/terraform-provider-sops][terraform-provider-sops]] 経由で入れる。
+
+#+begin_src terraform
+  terraform {
+    required_providers {
+      sops = {
+        source  = "carlpett/sops"
+        version = "~> 0.5"
+      }
+      nextdns = {
+        source  = "carbans/nextdns"
+        version = "~> 0.2"
+      }
+    }
+  }
+
+  provider "sops" {}
+
+  data "sops_file" "secret" {
+    source_file = "./secrets.yaml"
+  }
+
+  provider "nextdns" {
+    api_key = data.sops_file.secret.data.nextdns
+  }
+#+end_src
+
+*** 2.2 各種設定
+
+とりあえず有効にできるものは有効にした。
+
+#+begin_src terraform
+  resource "nextdns_profile" "main" {
+    name = "Main Network"
+  }
+
+  resource "nextdns_security" "main" {
+    profile_id                = nextdns_profile.main.id
+    ai_threat_detection       = true
+    crypto_jacking            = true
+    csam                      = true
+    ddns                      = true
+    dga                       = true
+    dns_rebinding             = true
+    google_safe_browsing      = true
+    idn_homographs            = true
+    nrd                       = false
+    parking                   = true
+    threat_intelligence_feeds = true
+    typo_squatting            = true
+  }
+
+  resource "nextdns_privacy" "main" {
+    profile_id         = nextdns_profile.main.id
+    disguised_trackers = true
+    allow_affiliate    = true
+  }
+
+  resource "nextdns_settings" "main" {
+    profile_id = nextdns_profile.main.id
+    web3       = true
+    logs {
+      enabled   = true
+      retention = "1 day"
+      location  = "us"
+
+      privacy {
+        log_clients_ip = true
+        log_domains    = true
+      }
+    }
+
+    block_page {
+      enabled = true
+    }
+
+    performance {
+      ecs              = true
+      cache_boost      = true
+      cname_flattening = true
+    }
+  }
+#+end_src
+
+** 3. Nix設定
+*** 3.1 nix-darwin設定
+
+nix-darwinはserviceで提供してくれているので有効にするだけ。
+https://mynixos.com/nix-darwin/options/services.nextdns
+
+#+begin_src nix
+  {
+    services.nextdns = {
+      enable = true;
+      arguments = [ "-profile" "xxxx" ];
+    };
+  }
+#+end_src
+*** 3.2 NixOS設定
+
+NixOS公式が提供してくれているので同様に有効するだけ。
+https://search.nixos.org/options?channel=24.11&from=0&size=50&sort=relevance&type=packages&query=nextdns
+
+** 4. 接続確認
+
+あまりよくわかっていないが、以下を明示的に叩く必要があった。(要調査)
+
+#+begin_src console
+  $ nix run nixpkgs#nextdns activate
+#+end_src
+
+管理画面で有効になっていることを確認できれば良い。
+
+[[file:../../static/images/F20AAC35-AE8E-4165-BE3C-F39FDC46731A.png]]
+
+ついでにAndroidも設定をした。
+
+#+begin_example
+  プライベート DNS
+  Android 9 以降
+
+  1. 設定 → ネットワークとインターネット → 詳細設定 → プライベート DNS に移動します。
+  2.「プライベート DNS プロバイダのホスト名」オプションを選択します。
+  3. xxxx.dns.nextdns.io を入力し、「保存」を押します。
+#+end_example
+* 作業結果
+Webサイトへのアクセスが体感速くなったがあくまで体感。
+もう少し運用してみて様子を見たい。
