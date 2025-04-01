@@ -1,34 +1,53 @@
 template: tcardgen/ogp.png
+
+# ---------- title ----------
 title:
+  enabled: true
   start:
     px: 100
-    py: 150
-  fgHexColor: "#333333"
+    py: 390
+  fgHexColor: "#bd93f9"   # Purple
   fontSize: 60
   fontStyle: Bold
   maxWidth: 1000
-  lineSpacing: 10
+
+# ---------- category ----------
 category:
+  enabled: true
   start:
     px: 100
-    py: 100
-  fgHexColor: "#E5B52A"
-  fontSize: 42
-  fontStyle: Bold
-info:
-  start:
-    px: 270
-    py: 390
-  fgHexColor: "#333333"
-  fontSize: 38
+    py: 360
+  fgHexColor: "#6272a4"   # Comment
+  fontSize: 24
   fontStyle: Regular
-  separator: " - "
-tags:
+
+# ---------- info ----------
+info:
+  enabled: true
   start:
-    px: 270
-    py: 460
-  fgHexColor: "#FFFFFF"
-  bgHexColor: "#333333"
-  fontSize: 22
+    px: 100
+    py: 570
+  fgHexColor: "#8be9fd"   # Cyan
+  fontSize: 24
+  fontStyle: Regular
+  separator: "・"
+  timeFormat: "2006.1.2"
+
+# ---------- tags ----------
+tags:
+  enabled: true
+  limit: 0
+  start:
+    px: 1100
+    py: 570
+  fgHexColor: "#282a36"   # Background color as text (for contrast)
+  bgHexColor: "#ff79c6"   # Pink
+  fontSize: 24
   fontStyle: Medium
-  boxAlign: Left
+  boxAlign: Right
+  boxSpacing: 6
+  boxPadding:
+    top: 6
+    right: 10
+    bottom: 6
+    left: 10
