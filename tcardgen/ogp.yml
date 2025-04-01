@@ -5,7 +5,7 @@ title:
   enabled: true
   start:
     px: 100
-    py: 390
+    py: 330
   fgHexColor: "#bd93f9"   # Purple
   fontSize: 60
   fontStyle: Bold
