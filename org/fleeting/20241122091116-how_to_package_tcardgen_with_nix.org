@@ -20,7 +20,7 @@ HugoからOGPを動的に吐き出すツールとして [[https://github.com/Lad
 * 流れ
 ** 1. 自作nur-packages に登録
 
-[[https://github.com/takeokunn/nur-packages][takeokunn/nur-packages]] に雑に以下のようにパッケージングをした。
+[[https://github.com/takeokunn/nur-packages][takeokunn/nur-packages]] に雑に次のようにパッケージングをした。
 
 #+begin_src nix
   { buildGoModule, fetchFromGitHub }:
@@ -135,7 +135,7 @@ goのversionが合わないというエラーだった。
 
 ** 4. devenvで利用
 
-以下のように記述すると[[https://devenv.sh/][ devenv]] でも利用することが可能。
+次のように記述すると[[https://devenv.sh/][ devenv]] でも利用することが可能。
 
 devenv.yaml:
 

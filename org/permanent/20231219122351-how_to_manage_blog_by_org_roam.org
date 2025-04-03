@@ -25,7 +25,7 @@
 * 考え方
 ** ブログサービスについて
 
-[[https://zenn.dev/][Zenn]] や [[https://qiita.com/][Qiita]] などブログサービスを提供している会社は世の中に無数にありますが、「ブログ記事という形式で世の中に公開する」ということには大きく分けて以下の2つの要素があります。
+[[https://zenn.dev/][Zenn]] や [[https://qiita.com/][Qiita]] などブログサービスを提供している会社は世の中に無数にありますが、「ブログ記事という形式で世の中に公開する」ということには大きく分けて次の2つの要素があります。
 
 - コンテンツ管理
 - 記事公開
@@ -35,13 +35,13 @@
 
 しかしながら、ブログサービスにも当然栄枯盛衰があり自分が使っているサービスの行く末など個人には分かりようがありません。
 現に私がプログラミングを初めた2014年ごろはQiitaが技術系ブログサービス一強でしたが、2023年現在ではZennが主流になっています。
-常により良いブログサービスが出たら移動することも念頭に置く必要があります。
+常によりよいブログサービスが出たら移動することも念頭に置く必要があります。
 
 私が勤めている会社では多少技術的な記事だったとしても広報目的に[[https://note.com/][note]]に書くという運用がされていたり、以前所属していた会社では、[[https://hatenablog.com/][はてなブログ]]で技術ブログを運用していました。
 ソフトウェアエンジニアとして働く以上「どこに対して記事公開するか」というのは自分ではコントロール効かないという前提があります。
 
 上記で述べたように「記事公開」に関しては自分でどうしようもない部分が多々ありますが、「コンテンツ管理」に関しては完全に自分でコントロールを効かせることができます。
-適切なフォーマットで公開すれば良いだけですので、どのように記事を管理されようとブログサービスからしたらDBのレコードの1つなだけなでどうでも良いことなのです。
+適切なフォーマットで公開すればよいだけですので、どのように記事を管理されようとブログサービスからしたらDBのレコードの1つなだけなでどうでもよいことなのです。
 
 ** ソフトウェアエンジニアとして
 
@@ -57,8 +57,8 @@
 私は今までさまざまなテキストエディタを使い込んできました。
 その中で一番時間をつぎ込んだ時に高みを目指せるのはEmacsだということを確信しました。
 
-「simpleが良いか、easyが良いか」という議論はエンジニア界隈ではよく話題にされます。
-私としては簡単さもシンプルさも本当にどうでもよく、たとえ難しかろうと複雑だろうと時間がかかろうと到達点が一番高いものが良いが一番良いと考えています。
+「simpleがよいか、easyがよいか」という議論はエンジニア界隈ではよく話題にされます。
+私としては簡単さもシンプルさも本当にどうでもよく、たとえ難しかろうと複雑だろうと時間がかかろうと到達点が一番高いものがよいが一番よいと考えています。
 
 今回の記事はorg-modeが主体になりますが、はっきり言ってorg-modeはsimpleでもeasyでもありません。
 巷にある「爆速で構築する」系の記事とは正反対です。
@@ -73,7 +73,7 @@
 
 ** 必要条件
 
-[[https://www.gnu.org/software/emacs/manual/html_node/emacs/index.html][The Emacs Editor Manual]] や [[https://www.lispworks.com/documentation/HyperSpec/Front/][Common Lisp Hyperspec]] のような数十年前のWebサイト程度の要件を最低限満たしていれば最低限ブログサイトとして名乗っても良いでしょう。
+[[https://www.gnu.org/software/emacs/manual/html_node/emacs/index.html][The Emacs Editor Manual]] や [[https://www.lispworks.com/documentation/HyperSpec/Front/][Common Lisp Hyperspec]] のような数十年前のWebサイト程度の要件を最低限満たしていれば最低限ブログサイトとして名乗ってもよいでしょう。
 
 *** コンテンツ管理
 
@@ -88,7 +88,7 @@
 - 意図したHyperTextを継続的に配信できる
 - 画像やCSSも配信でき、最低限文章を読めるデザインで配信する
 
-最低限Webサイトとしての体を成していれば良いと考えています。
+最低限Webサイトとしての体を成していればよいと考えています。
 
 ** 十分条件
 
@@ -134,7 +134,7 @@
 
 * 記事公開先
 ** 記事の属性
-私の場合、ブログ記事の属性として以下の4つを想定する必要があります。
+私の場合、ブログ記事の属性として次の4つを想定する必要があります。
 
 - 所属会社の広報用記事
   - e.g. [[https://note.openlogi.com/n/nde050fa4ff2a?magazine_key=m9f98ae49ed2f][PHPConference 2023に登壇してきました - note]]
@@ -148,7 +148,7 @@
 上記の記事公開の十分要件を踏まえたざっくりとしたマトリックスは以下。
 
 - ○ ... 必要
-- △ ... どちらでも良い
+- △ ... どちらでもよい
 - × ... 不要
 
 #+begin_example
@@ -217,13 +217,13 @@ Webデザインに特別こだわりがあったり、Webサイトを学習目�
 ** Zettelkasten
 
 ソフトウェア開発は業界が未成熟な面と日進月歩で進化して続けているという二面があり、知識が陳腐化しやすいという性質を持っています。
-長期的にコンテンツ管理をするという前提で、継続的に知見をアップデートをするにあたってどう管理運用をしていけば良いのかを考慮する必要があります。
+長期的にコンテンツ管理をするという前提で、継続的に知見をアップデートをするにあたってどう管理運用をしていけばよいのかを考慮する必要があります。
 
 いろいろ検討した結果Zettelkastenを採用することにしました。
 
-[[https://gigazine.net/news/20200604-zettelkasten-note/][効率的なノートを作成できるドイツの社会学者が生み出した方法「Zettelkasten」とは？ - gigazine]] にもある通り、小さな知識を相互にリンクさせることによって巨大な知識体系を作ることができます。
+[[https://gigazine.net/news/20200604-zettelkasten-note/][効率的なノートを作成できるドイツの社会学者が生み出した方法「Zettelkasten」とは？ - gigazine]] にもあるとおり、小さな知識を相互にリンクさせることによって巨大な知識体系を作ることができます。
 
-Zettelkastenについて日本語で解説した記事はあまりなくどう運用すれば良いのか非常に悩みました。
+Zettelkastenについて日本語で解説した記事はあまりなくどう運用すればよいのか非常に悩みました。
 
 jMatsuzaki氏のZettelkasten関連が一番参考になったのでメモしておきます。
 
@@ -247,7 +247,7 @@ org file間の関係性をSQLiteで管理していて、[[https://github.com/org
 なお私の運用は完全にZettelkastenに寄せている訳ではありませんので注意してください。
 *** ディレクトリ構成
 
-[[https://jmatsuzaki.com/archives/28172][Zettelkasten（ツェッテルカステン）で使うノートの種類と構成まとめ - jMatsuzaki]] によると、以下のようなディレクトリ構成にすることが推奨されているようです。
+[[https://jmatsuzaki.com/archives/28172][Zettelkasten（ツェッテルカステン）で使うノートの種類と構成まとめ - jMatsuzaki]] によると、次のようなディレクトリ構成にすることが推奨されているようです。
 
 - 一時メモ
   - Fleeting Notes
@@ -260,7 +260,7 @@ org file間の関係性をSQLiteで管理していて、[[https://github.com/org
 - プロジェクト管理
   - Project Notes
 
-私は以下のようなディレクトリ構成で運用しています。
+私は次のようなディレクトリ構成で運用しています。
 
 - org/
   - fleeting/ ... 技術的なメモ
@@ -276,11 +276,11 @@ org file間の関係性をSQLiteで管理していて、[[https://github.com/org
 
 私はどちらかというとEmacsの設定に関して几帳面なので各Elisp fileごとにsetqをする運用をしています。
 
-以下の設定は [[https://github.com/org-roam/org-roam][org-roam/org-roam]] 内の設定のみですが、[[https://github.com/org-roam/org-roam-ui][org-roam/org-roam-ui]]や[[https://github.com/tefkah/org-roam-timestamps][tefkah/org-roam-timestamps]]も導入することをお勧めします。
+次の設定は [[https://github.com/org-roam/org-roam][org-roam/org-roam]] 内の設定のみですが、[[https://github.com/org-roam/org-roam-ui][org-roam/org-roam-ui]]や[[https://github.com/tefkah/org-roam-timestamps][tefkah/org-roam-timestamps]]も導入することをお勧めします。
 
 **** org-roam
 
-org-roamは [[https://github.com/takeokunn/blog][takeokunn/blog]] のみで使っているので、以下のように設定しています。
+org-roamは [[https://github.com/takeokunn/blog][takeokunn/blog]] のみで使っているので、次のように設定しています。
 
 個人的にはリポジトリ管理は [[https://github.com/x-motemen/ghq][x-motemen/ghq]] を使うことを推奨しています。
 
@@ -293,7 +293,7 @@ org-roamは [[https://github.com/takeokunn/blog][takeokunn/blog]] のみで使�
 
 =org-roam-node-find= と =org-roam-node-insert= はorg-roamを使うにあたって一番使うコマンドと言っても過言ではありません。
 
-=org-roam-completion-everywhere= を有効にすると補完が効いてくれるようになるが、 =org-roam-node-insert= で明示的にリンクを入力すれば良いだけなので好みで有効にしてください。
+=org-roam-completion-everywhere= を有効にすると補完が効いてくれるようになるが、 =org-roam-node-insert= で明示的にリンクを入力すればよいだけなので好みで有効にしてください。
 
 #+begin_src emacs-lisp
   (autoload-if-found '(org-roam-node-find org-roam-node-insert) "org-roam-node" nil t)
@@ -306,7 +306,7 @@ org-roamは [[https://github.com/takeokunn/blog][takeokunn/blog]] のみで使�
 **** org-roam-db
 =org-roam-db-autosync-enable= を有効にすることによって、非同期で =org-roam.db= を更新してくれるようです。
 
-=org-roam-db-gc-threshold= はドキュメントを読んでいると多めに設定しておいても良いだろうということで多めに設定してます。
+=org-roam-db-gc-threshold= はドキュメントを読んでいると多めに設定しておいてもよいだろうということで多めに設定してます。
 
 https://www.orgroam.com/manual.html#Garbage-Collection
 
@@ -397,13 +397,13 @@ org-roamはgpgで暗号化したファイルも管理下に置くことができ
 https://www.orgroam.com/manual.html#Encryption
 
 前述した =org-roam-capture= で =foo.org.gpg= のように拡張子にgpgを付けたファイルを生成するだけで暗号化できます。
-なお [[https://www.takeokunn.org/posts/fleeting/20230624130858-how_to_escape_emacs_gpg_bug/][Emacs内でgpg fileがsaveできなくなった時に対応したことメモ]] にもある通り、gpgのversionを下げないとEmacsがHang upしてしまうので注意が必要です。
+なお [[https://www.takeokunn.org/posts/fleeting/20230624130858-how_to_escape_emacs_gpg_bug/][Emacs内でgpg fileがsaveできなくなった時に対応したことメモ]] にもあるとおり、gpgのversionを下げないとEmacsがHang upしてしまうので注意が必要です。
 
 ** textlint
 
 日本語の文章の校正を自動化するにあたって[[https://github.com/textlint/textlint][textlint/textlint]]を導入しました。
 textlintは日本語に特化したルールセットを提供してくれており、日本語のOSS校正ツールとしては一番普及しています。
-textlint自体の詳細な解説は省きますが、この記事を執筆するにあたってtextlintのルールセットを新調して以下のルールを有効にしました。
+textlint自体の詳細な解説は省きますが、この記事を執筆するにあたってtextlintのルールセットを新調して次のルールを有効にしました。
 
 - [[https://www.npmjs.com/package/textlint][textlint]]
 - [[https://www.npmjs.com/package/textlint-plugin-org][textlint-plugin-org]]
@@ -503,7 +503,7 @@ prh.yml:
 - [[https://knowledge.sakura.ad.jp/22908/][静的サイトジェネレータ「Hugo」と技術文書公開向けテーマ「Docsy」でOSSサイトを作る - さくらのナレッジ]]
 - [[https://qiita.com/peaceiris/items/ef38cc2a4b5565d0dd7c][Hugo で静的なサイト・ブログを構築しよう - Qiita]]
 
-現状特に不満はありませんが、特にHugoにこだわりがある訳ではないので、より良い静的サイトジェネレータがあれば乗り換える可能性は十分にあります。
+現状特に不満はありませんが、特にHugoにこだわりがある訳ではないので、よりよい静的サイトジェネレータがあれば乗り換える可能性は十分にあります。
 *** Org to Markdown
 
 =export-org-roam-files= を実行してorg-roam管理下のHugoに出力したいディレクトリを指定して[[https://ox-hugo.scripter.co/][ ox-hugo]] でMarkdownに変換しています。
@@ -593,7 +593,7 @@ https://github.com/takeokunn/hugo-take-theme
 *** OGP
 HugoでOGPを自動生成できないかなと調べていたら [[https://github.com/Ladicle/tcardgen][Ladicle/tcardgen]] というツールがあったので導入しました。
 
-ベースの素材は適当に[[https://www.canva.com/ja_jp/][canva]]で作成し、shell scriptを実行したら良い感じに出力されるように調整しました。
+ベースの素材は適当に[[https://www.canva.com/ja_jp/][canva]]で作成し、shell scriptを実行したらよい感じに出力されるように調整しました。
 
 #+begin_src shell
   tcardgen --fontDir=tcardgen/font --output=static/ogp --config=tcardgen/ogp.yml content/posts/**/*.md
@@ -640,7 +640,7 @@ tcardgen/ogp.yml:
 
 [[file:../../static/images/7393CC74-ED44-4DEF-8374-550864B07D49.png]]
 
-生成したOGPを反映するには自作テーマ側の変更の必要だったので以下のように対応しました。
+生成したOGPを反映するには自作テーマ側の変更の必要だったので次のように対応しました。
 https://github.com/takeokunn/hugo-take-theme/blob/88ed46b61d65aabf0bde514a6d6432ea34854b27/layouts/partials/head.html#L32-L53
 
 ** Zenn
@@ -648,7 +648,7 @@ https://github.com/takeokunn/hugo-take-theme/blob/88ed46b61d65aabf0bde514a6d6432
 「所属会社の広報用記事」「所属会社の技術記事」を対象にしています。
 一度公開したものはあまり変更しないようにする必要がある為慎重にリリースする必要があります。
 *** Basic
-[[https://zenn.dev/zenn/articles/connect-to-github][GitHubリポジトリでZennのコンテンツを管理する -  Zenn]] にもある通り、ZennはGitHub連携を提供しています。
+[[https://zenn.dev/zenn/articles/connect-to-github][GitHubリポジトリでZennのコンテンツを管理する -  Zenn]] にもあるとおり、ZennはGitHub連携を提供しています。
 リポジトリとブランチを指定してpushにhookして記事が反映されるしくみのようです。
 
 zenn branchを作成して連携するように設定しました。
@@ -689,7 +689,7 @@ https://zenn.dev/settings/export
 ** dependabot
 
 [[https://docs.github.com/ja/code-security/dependabot/working-with-dependabot][dependabot]] はプロジェクト内の依存関係のバージョンを上げるPull Requestを自動で作成してくれるサービスです。
-[[https://github.com/takeokunn/blog][takeokunn/blog]] ではnpmとGitHub Actionsのみ依存パッケージを管理しているので以下のように設定しました。
+[[https://github.com/takeokunn/blog][takeokunn/blog]] ではnpmとGitHub Actionsのみ依存パッケージを管理しているので次のように設定しました。
 
 #+begin_src yaml
   version: 2

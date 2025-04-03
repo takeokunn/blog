@@ -16,7 +16,7 @@
 
 Neovimに入門したいと思い早n年だったが、vim-jpの皆さんのおかげでようやくミニマムの設定が完了したのでブログにまとめておきます。
 
-[[id:E1C13122-4090-47F6-B84E-238CCC981E72][VimとNeovimの使い分けと最小構成]] の通りVimは最小構成にしているので、Neovimはヘビーカスタマイズしていく方針です。
+[[id:E1C13122-4090-47F6-B84E-238CCC981E72][VimとNeovimの使い分けと最小構成]] のとおりVimは最小構成にしているので、Neovimはヘビーカスタマイズしていく方針です。
 
 Neovimの設定はこちら。
 
@@ -154,31 +154,31 @@ windowやbufferの切り替えは簡単な設定をしています。
 
 - [[https://github.com/smoka7/hop.nvim][hop-nvim]]
   - easymotionみたいなplugin
-  - Emacsで言う所の[[https://github.com/abo-abo/avy][avy]]
+  - Emacsでいう所の[[https://github.com/abo-abo/avy][avy]]
 - [[https://github.com/ConradIrwin/vim-bracketed-paste][vim-bracketed-paste]]
   - クリップボード用
 - [[https://github.com/lambdalisue/vim-fern][vim-fern]]
   - ありすえwareのファイラ
-  - Emacsで言う所の[[https://www.google.com/search?q=neotree+emacs&oq=neotree&gs_lcrp=EgZjaHJvbWUqBwgBEAAYgAQyBggAEEUYOTIHCAEQABiABDIHCAIQABiABDIHCAMQABiABDIHCAQQABiABDIGCAUQABgeMgYIBhAAGB4yBggHEAAYHjIGCAgQABgeMgYICRAAGB7SAQgyMzY4ajBqNKgCALACAA&sourceid=chrome&ie=UTF-8][neotree]]
+  - Emacsでいう所の[[https://www.google.com/search?q=neotree+emacs&oq=neotree&gs_lcrp=EgZjaHJvbWUqBwgBEAAYgAQyBggAEEUYOTIHCAEQABiABDIHCAIQABiABDIHCAMQABiABDIHCAQQABiABDIGCAUQABgeMgYIBhAAGB4yBggHEAAYHjIGCAgQABgeMgYICRAAGB7SAQgyMzY4ajBqNKgCALACAA&sourceid=chrome&ie=UTF-8][neotree]]
 - [[https://github.com/lambdalisue/vim-nerdfont][vim-nerdfont]]
   - nerdfontを扱えるようにするやつ
 - [[https://github.com/lambdalisue/vim-fern-renderer-nerdfont][vim-fern-renderer-nerdfont]]
   - ファイラにアイコンを表示するやつ
 - [[https://github.com/mbbill/undotree][undotree]]
   - undo historyを可視化するやつ
-  - Emacsで言う所の[[https://github.com/emacsmirror/undo-fu][undo-fu]]
+  - Emacsでいう所の[[https://github.com/emacsmirror/undo-fu][undo-fu]]
 - [[https://github.com/kana/vim-textobj-entire][vim-textobj-entire]]
   - buffer全体をテキストオブジェクトにするやつ
 - [[https://github.com/vim-jp/vimdoc-ja][vimdoc-ja]]
   - 日本語help
 - [[https://github.com/jiangmiao/auto-pairs][auto-pairs]]
-  - Emacsで言う所のelectric-pair-modeみたいなやつ
+  - Emacsでいう所のelectric-pair-modeみたいなやつ
 - [[https://github.com/luochen1990/rainbow/][rainbow]]
   - 括弧の対応をハイライトしてくれるやつ
-  - Emacsで言う所の[[https://github.com/Fanael/rainbow-delimiters][rainbow-delimiters]]
+  - Emacsでいう所の[[https://github.com/Fanael/rainbow-delimiters][rainbow-delimiters]]
 - [[https://github.com/machakann/vim-sandwich][vim-sandwich]]
   - 括弧の操作を簡単にできるやつ
-  - Emacsで言う所の[[https://github.com/AmaiKinono/puni][puni-mode]]
+  - Emacsでいう所の[[https://github.com/AmaiKinono/puni][puni-mode]]
 - [[https://github.com/vim-denops/denops.vim][denops-vim]]
   - Deno製plugin用
 
@@ -188,13 +188,13 @@ windowやbufferの切り替えは簡単な設定をしています。
 
 - [[https://github.com/lewis6991/gitsigns.nvim][gitsigns-nvim]]
   - 変更を可視化してくれるやつ
-  - Emacsで言う所の[[https://github.com/emacsorphanage/git-gutter][git-gutter]]
+  - Emacsでいう所の[[https://github.com/emacsorphanage/git-gutter][git-gutter]]
 - [[https://github.com/lambdalisue/vim-gin][gin]]
   - ありすえwareのGit clinet
-  - Emacsで言う所の[[https://github.com/magit/magit][magit]]
+  - Emacsでいう所の[[https://github.com/magit/magit][magit]]
 
 そこまで使っていないです。
-Git操作はTerminalでも良いのかなという気持ちになってます。
+Git操作はTerminalでもよいのかなという気持ちになってます。
 
 *** language
 
@@ -207,9 +207,9 @@ Git操作はTerminalでも良いのかなという気持ちになってます。
 
 - [[https://github.com/hrsh7th/nvim-cmp][nvim-cmp]]
 - [[https://github.com/neovim/nvim-lspconfig][nvim-lspconfig]]
-  - Emacsで言う所の[[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]
+  - Emacsでいう所の[[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]
 - [[https://github.com/nvimdev/lspsaga.nvim][lspsaga-nvim]]
-  - Emacsで言う所の[[https://github.com/emacs-lsp/lsp-ui][lsp-ui]]
+  - Emacsでいう所の[[https://github.com/emacs-lsp/lsp-ui][lsp-ui]]
 
 ざっくりとした設定は以下。最低限満足するUIになってくれました。
 
@@ -300,7 +300,7 @@ Git操作はTerminalでも良いのかなという気持ちになってます。
 *** skk
 
 - [[https://github.com/vim-skk/skkeleton][skkeleton]]
-  - Emacsで言う所の[[https://github.com/skk-dev/ddskk][ddskk]]
+  - Emacsでいう所の[[https://github.com/skk-dev/ddskk][ddskk]]
 - [[https://github.com/kei-s16/skkeleton-azik-kanatable][skkeleton-azik-kanatable]]
 
 簡易的な設定とskkservへの接続、AZIKの有効化をしました。
@@ -340,7 +340,7 @@ Git操作はTerminalでも良いのかなという気持ちになってます。
 
 telescopeは簡単に導入できるということで導入しました。
 
-Emacsで言う所の、というのは説明が難しいですね。
+Emacsでいう所の、というのは説明が難しいですね。
 tomoyaさんの [[https://blog.tomoya.dev/posts/a-new-wave-has-arrived-at-emacs/][Emacsの次世代ミニバッファ補完UI]] あたりが参考になりそうです。
 
 =<leader>= はデフォルトでマッピングされてないのでこれで問題ないようです。
@@ -367,9 +367,9 @@ tomoyaさんの [[https://blog.tomoya.dev/posts/a-new-wave-has-arrived-at-emacs/
 *** themes
 
 - [[https://github.com/Mofiqul/dracula.nvim][dracula-nvim]]
-  - Emacsで言う所の[[https://github.com/doomemacs/themes][doom-theme]]
+  - Emacsでいう所の[[https://github.com/doomemacs/themes][doom-theme]]
 - [[https://github.com/nvim-lualine/lualine.nvim][lualine-nvim]]
-  - Emacsで言う所の[[https://github.com/seagle0128/doom-modeline][doom-modeline]]
+  - Emacsでいう所の[[https://github.com/seagle0128/doom-modeline][doom-modeline]]
 
 すべてのカラーテーマをdraculaに寄せているので導入しました。
 また、modelineはlualine-nvimがイマドキらしいです。

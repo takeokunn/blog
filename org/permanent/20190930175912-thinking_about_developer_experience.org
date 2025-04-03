@@ -49,7 +49,7 @@
 安全にDeployできるような仕組みを作る
 #+end_quote
 
-AWS ECSのようにコンテナマネージドサービスの場合はCircleCIからたたけばよいだろうし、そうでなければとりあえずdeploy用のサーバを立てcapisoranoでdeployしちゃっても良いだろう。
+AWS ECSのようにコンテナマネージドサービスの場合はCircleCIからたたけばよいだろうし、そうでなければとりあえずdeploy用のサーバを立てcapisoranoでdeployしちゃってもよいだろう。
 
 大事なのはlocalに依存しないことと再現性のあること。
 

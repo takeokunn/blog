@@ -33,8 +33,8 @@ queryのCRUDとdashboardのCRUDが用意されている。api tokenを発行し�
 
 Golangを入れることすら面倒くさいのだ。
 
-今回の用途では雑にcurlで取得できればよかったので以下のように投げた。
-あとは必要なフォーマットに合わせてよしなにjqを使えば良い。
+今回の用途では雑にcurlで取得できればよかったので次のように投げた。
+あとは必要なフォーマットに合わせてよしなにjqを使えばよい。
 
 #+begin_src shell
   $ curl "https://<redash url>/api/queries" \

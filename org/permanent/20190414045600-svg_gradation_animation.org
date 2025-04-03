@@ -44,7 +44,7 @@
 
 [[https://developer.mozilla.org/ja/docs/Web/SVG/Element/linearGradient]]
 
-良いサンプルがなかったので調べていたら、以下のようなsnippetがたくさん落ちていた。
+よいサンプルがなかったので調べていたら、次のようなsnippetがたくさん落ちていた。
 
 - [[https://code.sololearn.com/Wvac74Zd8Ry3/#html]]
 - [[https://codepen.io/NickNoordijk/pen/VLvxLE]]

@@ -13,12 +13,12 @@
 #+STARTUP: content
 #+STARTUP: nohideblocks
 * Introduction
-[[https://forest.watch.impress.co.jp/docs/news/1563594.html][Rust製コードエディター「Zed」がオープンソースに ～v1.0リリースへ向けて門戸を開く - 窓の杜]] にもある通り、[[https://github.com/zed-industries/zed][zed-industries/zed]]が公開されたのでコードをざっくり読んでみたのでメモする。
+[[https://forest.watch.impress.co.jp/docs/news/1563594.html][Rust製コードエディター「Zed」がオープンソースに ～v1.0リリースへ向けて門戸を開く - 窓の杜]] にもあるとおり、[[https://github.com/zed-industries/zed][zed-industries/zed]]が公開されたのでコードをざっくり読んでみたのでメモする。
 
 Rustへの知見が皆無であること、雑なコードリーディング要素があるのでご了承ください。
 * Feature
 
-[[https://zed.dev/][https://zed.dev/]] には以下のようなことを書いている。
+[[https://zed.dev/][https://zed.dev/]] には次のようなことを書いている。
 
 - ハイパフォーマンス
 - AIサポート
@@ -36,7 +36,7 @@ Rustへの知見が皆無であること、雑なコードリーディング要�
 
 * Local Build
 
-[[https://github.com/zed-industries/zed/blob/7068161bd7405553fd3fecaf44057449d8137878/docs/src/developing_zed__building_zed.md][docs/src/developing_zed__building_zed.md]] にある手順通りコマンドを実行したら手元で簡単にBuildできた。
+[[https://github.com/zed-industries/zed/blob/7068161bd7405553fd3fecaf44057449d8137878/docs/src/developing_zed__building_zed.md][docs/src/developing_zed__building_zed.md]] にある手順とおりコマンドを実行したら手元で簡単にBuildできた。
 
 [[https://github.com/zed-industries/zed/blob/7068161bd7405553fd3fecaf44057449d8137878/docs/src/system_requirements.md][docs/src/system_requirements.md]] にはMacしかサポートしてないことが記述されている。
 

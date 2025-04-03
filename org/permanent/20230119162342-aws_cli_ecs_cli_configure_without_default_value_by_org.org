@@ -16,7 +16,7 @@
 #+STARTUP: nohideblocks
 * 前提
 
-私は普段以下のような条件でAWSを触っています。
+私は普段次のような条件でAWSを触っています。
 
 - AWSアカウントを複数社分扱っている
 - SwitchRoleで複数扱っている
@@ -38,7 +38,7 @@
 その為のツールとしてEmacsの[[https://orgmode.org/ja/][org-mode]]はおあつらえ向きです。
 Markdown同様手軽に文章を書け、分割した設定も管理でき、ファイルに出力でき、 ~org-babel~ を使えばコマンドを実行できます。
 
-たとえば以下のようにコードブロックを作って ~org-babel~ すると ~RESULTS~ に結果が出力されます。
+たとえば次のようにコードブロックを作って ~org-babel~ すると ~RESULTS~ に結果が出力されます。
 
 #+begin_src org
   ,#+begin_src shell
@@ -54,7 +54,7 @@ Markdown同様手軽に文章を書け、分割した設定も管理でき、フ
 
 ** aws-cli周り
 
-=~/.aws/config= は以下のように ~org-mode~ で管理をしています。
+=~/.aws/config= は次のように ~org-mode~ で管理をしています。
 ~:noweb-ref~ でimportできるようにして、 ~:tangle~ で出力先を設定し、 ~M-x org-babel-tangle~ でファイルを出力するようにしています。
 
 =~/.aws/config= と同様 =~/.aws/credential= も ~org-mode~ で管理をしています。
@@ -88,7 +88,7 @@ Markdown同様手軽に文章を書け、分割した設定も管理でき、フ
   ,#+end_src
 #+end_src
 
-コマンドを流す時は以下のようにいったんorgファイルに記述したうえで ~org-babel~ なりterminalなりで実行するようにしています。
+コマンドを流す時は次のようにいったんorgファイルに記述したうえで ~org-babel~ なりterminalなりで実行するようにしています。
 ~aws~ コマンドは ~--profile~ オプションがあり、 **必ず指定** するようにしています。
 
 https://docs.aws.amazon.com/ja_jp/cli/latest/userguide/cli-configure-profiles.html
@@ -104,7 +104,7 @@ https://docs.aws.amazon.com/ja_jp/cli/latest/userguide/cli-configure-profiles.ht
   | 2022-07-19 | 19:29:50 | demo-bucket |
 #+end_src
 
-terraformを手元から流す場合にも影響が出ますが、以下のように ~terraform init~ をすれば良いでしょう。
+terraformを手元から流す場合にも影響が出ますが、次のように ~terraform init~ をすればよいでしょう。
 
 [[https://developer.hashicorp.com/terraform/language/settings/backends/configuration#partial-configuration][https://developer.hashicorp.com/terraform/language/settings/backends/configuration#partial-configuration]]
 

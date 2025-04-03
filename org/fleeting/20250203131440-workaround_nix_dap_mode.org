@@ -24,7 +24,7 @@
 
 * 最小構成と解決策
 
-以下のように =preBuild= をoverlaysに追加すればBuildできるようになった。
+次のように =preBuild= をoverlaysに追加すればBuildできるようになった。
 
 #+begin_src nix
   {
@@ -87,7 +87,7 @@ https://github.com/nix-community/Emacs-overlay/blob/a7f332f6e0813c9d0f53fe6539be
   }
 #+end_src
 
-自分のhome-managerには以下のように追記した。
+自分のhome-managerには次のように追記した。
 
 https://github.com/takeokunn/nixos-configuration/commit/16c55223327058cd184aa189b2b324dd1f823463
 

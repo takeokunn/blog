@@ -54,7 +54,7 @@ Shougo です。こんにちは。お二人は Emacs 使いとして vim-jp で�
 「デフォルト設定は悪、すべてを設定可能にする考え方」は可処分時間が無尽蔵にあるならひとつずつ理解をしながら設定したい所ですが、人生の短さが悔まれますね。
 すべてを設定可能にする考え方は、Emacs Lispの場合は[[https://ayatakesi.github.io/emacs/24.5/elisp_html/Advising-Functions.html][advice関数]]があるし、 =defconst= で定義したものであろうと =setq= で上書きできるので、他エディタよりも圧倒的に柔軟性があるように感じています。
 
-Emacserの飲み会でよく話題になるのですが、Emacs本体が提供しているEmacs Lispのコードでさえすべては参考実装であって、ユーザーが好きなように上書きしても良いというのが我々の感覚です。
+Emacserの飲み会でよく話題になるのですが、Emacs本体が提供しているEmacs Lispのコードでさえすべては参考実装であって、ユーザーが好きなように上書きしてもよいというのが我々の感覚です。
 なので他テキストエディタよりも本体へのコントリビューションに対しての感覚が弱いかもしれないですね。
 ** こまもかさんからのお便り
 #+begin_quote
@@ -71,7 +71,7 @@ Lispにもっと踏み込みたいなら [[https://www.asahi-net.or.jp/~kc7k-nd/
 ソフトウェアを開発していると後方非互換の回し車に常に追われており、頻繁なバージョンアップを余儀なくされます。
 phpプロジェクトは1年塩漬にされているとさまざまな依存関係のせいで動かないことが多々あります。
 
-また、[[https://daregada.sakuraweb.com/paredit_tutorial_ja.html][paredit]] などを使うと括弧の編集体験が気持ち良すぎるので、単に書いて気持ちが良いというのもあります。
+また、[[https://daregada.sakuraweb.com/paredit_tutorial_ja.html][paredit]] などを使うと括弧の編集体験が気持ち良すぎるので、単に書いて気持ちがよいというのもあります。
 ** kuuさんからのお便り
 #+begin_quote
 tomoyaさん、ありすえさん、tadsanさん、たけてぃさん はじめまして、最近Emacsの補完はいいぞと思ってますkuuです。
@@ -238,7 +238,7 @@ Emacsユーザーで小指が痛いって言っている人本当に見たこと
 #+end_export
 
 Emacsの語源は =Editing MACroS= であって小指やキーバインドが本質ではないです。小指が痛い人は[[https://github.com/emacs-evil/evil][evil]]をガンガン使いましょう。
-「お前はVimとEmacsから逃げられない」という記事が最近バズってましたが、Emacsは自分好みにカスタマイズしてこそのEmacsなのでキーバインドは好きにすれば良いと思っています。
+「お前はVimとEmacsから逃げられない」という記事が最近バズってましたが、Emacsは自分好みにカスタマイズしてこそのEmacsなのでキーバインドは好きにすればよいと思っています。
 ネタ記事にマジレスするのは野暮ですね。
 
 #+begin_export markdown
@@ -264,7 +264,7 @@ https://qiita.com/Neuroi/items/1ed446a0c87f47858727
 
 不思議な仕様ですね。Vimできることが少なすぎてたいへんそうだなと常に思っています。
 ** 定義ジャンプ
-PATHを通しても良いのですが、そもそもGNU系のプロジェクトは手元でBuildするのが基本なので可能な限りやりましょう。
+PATHを通してもよいのですが、そもそもGNU系のプロジェクトは手元でBuildするのが基本なので可能な限りやりましょう。
 Cのコードに簡単に定義ジャンプできるが、謎のEmacs特有のCマクロがガンガン使われており、コードリーディングには骨が折れますね。
 ** DWIM文化
 [[https://en.wikipedia.org/wiki/DWIM][DWIM (do what I mean)]] 文化はEmacs以外で見たことがないですね。ほかにもあれば教えてもらいたいです。
@@ -272,7 +272,7 @@ Cのコードに簡単に定義ジャンプできるが、謎のEmacs特有のC�
 
 「ひとつのことをうまくやる」UNIX文化とは真逆の世界のように感じられます。
 ** Emacs普及してない
-「Emacsに一生入門できねえ2020」にも書いてある通り、素の状態は難しいし、Emacs Lispも初見だと難しいですよね。
+「Emacsに一生入門できねえ2020」にも書いてあるとおり、素の状態は難しいし、Emacs Lispも初見だと難しいですよね。
 
 #+begin_export markdown
 https://anond.hatelabo.jp/20200921040234
@@ -312,7 +312,7 @@ shellの上でEmacsを使う者と、Emacsの上でshellを使う者だ。
 https://qiita.com/fnobi/items/8906c8e7759751d32b6b
 #+end_export
 ** major-modeとminor-mode
-minor-modeはフィーチャートグルという説明良いなと思いました。今後使わせてもらいます。
+minor-modeはフィーチャートグルという説明よいなと思いました。今後使わせてもらいます。
 ** org-modeでスライド
 org-tree-slideなどもありますが、個人的には最近Typstにはまっているのでorg-modeからTypstを出力するようにしています。
 #+begin_export markdown

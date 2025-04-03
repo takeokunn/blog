@@ -29,7 +29,7 @@ FetchAPIについては今回は含めない。
 
 同一オリジンの場合は自動的にCookieが使われる。
 
-別オリジンの場合にCookieを使いたいなら ~{ withCredentials: true }~ をoptionに持たせれば良い。
+別オリジンの場合にCookieを使いたいなら ~{ withCredentials: true }~ をoptionに持たせればよい。
 
 #+begin_src js
   axios.get('https://www.uuum.jp', { withCredentials: true });

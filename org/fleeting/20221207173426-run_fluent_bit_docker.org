@@ -16,7 +16,7 @@
 #+STARTUP: nohideblocks
 * プロジェクト構成
 
-以下のように適当なディレクトリを作成する。
+次のように適当なディレクトリを作成する。
 
 #+begin_src shell
   $ tree .

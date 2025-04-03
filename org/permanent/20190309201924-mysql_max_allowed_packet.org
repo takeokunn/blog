@@ -70,7 +70,7 @@ Consoleで変更できたので、ユーザーの少ない時間に再起動を�
 
 --------------
 
-~gem: mysql2~ では今のエラーを以下のように表現している。
+~gem: mysql2~ では今のエラーを次のように表現している。
 
 [[https://github.com/brianmario/mysql2/blob/master/lib/mysql2/error.rb#L18]]
 

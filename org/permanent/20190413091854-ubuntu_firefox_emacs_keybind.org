@@ -23,7 +23,7 @@ Chromeには[[https://chrome.google.com/webstore/detail/chromemacs/kfdibhbheajea
 
 --------------
 
-以下の記事を参考した。
+次の記事を参考した。
 
 [[https://qiita.com/mooz@github/items/c5f25f27847333dd0b37][xkeysnail - もうひとつの Linux 向けキーリマッパ]]
 

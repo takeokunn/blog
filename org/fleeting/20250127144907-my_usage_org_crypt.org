@@ -27,9 +27,9 @@
 
 * =org-crypt= 使い方
 
-[[https://github.com/emacs-mirror/emacs/blob/6a390fd42ec4ef97d637899fc93f34ea65639e3c/lisp/org/org-crypt.el][org-crypt.el]] を読むのでも良いが、 [[https://fluca1978.github.io/2021/09/16/Emacs_Org_Encrypt.html][Encrypting the content of Emacs Org files]] にわかりやすくまとまっている。
+[[https://github.com/emacs-mirror/emacs/blob/6a390fd42ec4ef97d637899fc93f34ea65639e3c/lisp/org/org-crypt.el][org-crypt.el]] を読むのでもよいが、 [[https://fluca1978.github.io/2021/09/16/Emacs_Org_Encrypt.html][Encrypting the content of Emacs Org files]] にわかりやすくまとまっている。
 
-以下のように設定した。
+次のように設定した。
 
 #+begin_src emacs-lisp
   (with-eval-after-load 'org
@@ -39,12 +39,12 @@
     (setopt org-crypt-key "0B10DAA7BA0236D7382287660F79C0AB03FD7A1C"))
 #+end_src
 
-=:crypt:= タグをつけて =M-x org-encrypt-entries= を実行すると以下のようにGPGで暗号化される。
+=:crypt:= タグをつけて =M-x org-encrypt-entries= を実行すると次のようにGPGで暗号化される。
 タグはヘッダで =C-c C-c= を押すと入力できる。
 
 =M-x org-decrypt-entries= でファイル内全体を復号することも可能。
 
-=:crypt:= タグを変えたいなら =org-crypt-tag-matcher= を設定すれば良い。
+=:crypt:= タグを変えたいなら =org-crypt-tag-matcher= を設定すればよい。
 
 #+begin_src org
   ,* before
@@ -127,7 +127,7 @@ ng:
   ,#+end_src
 #+end_src
 
-[[https://github.com/emacs-mirror/emacs/blob/6a390fd42ec4ef97d637899fc93f34ea65639e3c/lisp/org/org-crypt.el#L313-L318][org-crypt-use-before-save-magic]] は有効にすると、以下のような問題が発生する。
+[[https://github.com/emacs-mirror/emacs/blob/6a390fd42ec4ef97d637899fc93f34ea65639e3c/lisp/org/org-crypt.el#L313-L318][org-crypt-use-before-save-magic]] は有効にすると、次のような問題が発生する。
 
 1. =org-decrypt-entries= を実行する
 2. =org-babel-tangle= を実行すると内部的にsave処理が走る

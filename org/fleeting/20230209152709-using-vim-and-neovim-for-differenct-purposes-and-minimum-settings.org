@@ -16,9 +16,9 @@
 #+STARTUP: nohideblocks
 * VimとNeovimの運用方針
 
-[[https://mobile.twitter.com/takeokunn/status/1464971704124710915][Twitterではずっと主張してること]] だが、VimとNeovimの設定は共通化しない方が良いと考えています。
+[[https://mobile.twitter.com/takeokunn/status/1464971704124710915][Twitterではずっと主張してること]] だが、VimとNeovimの設定は共通化しない方がよいと考えています。
 
-以下のような使い分けをしています。
+次のような使い分けをしています。
 
 - Vim → サーバ用の最小設定
 - Neovim → 日常的な開発用
@@ -40,13 +40,13 @@ Emacs自体は本来安定しているのですが、Emacsを毎朝 ~git pull~ �
 
 * 最低限のVimの設定
 
-以下のcommandをたたけば入ります。
+次のcommandをたたけば入ります。
 
 #+begin_src shell
   curl -s https://raw.githubusercontent.com/takeokunn/dotfiles/master/modules/vim/dot.vimrc > ~/.vimrc
 #+end_src
 
-自分が最低限必要な設定は以下の30行です。
+自分が最低限必要な設定は次の30行です。
 
 #+begin_src vimrc
   set encoding=utf-8
@@ -81,7 +81,7 @@ Emacs自体は本来安定しているのですが、Emacsを毎朝 ~git pull~ �
   filetype plugin indent on
 #+end_src
 
-ファイルを開いて文字列を検索することが多いので以下の設定がお気に入りです。
+ファイルを開いて文字列を検索することが多いので次の設定がお気に入りです。
 
 #+begin_src vimrc
   nnoremap <Esc><Esc> :nohlsearch<CR><Esc>

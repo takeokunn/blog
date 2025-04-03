@@ -36,17 +36,17 @@ fluent-bitと調べてもあまりまとまった情報がなく、非常にと�
 
 * 環境構築
 
-[[id:7622D819-68E9-4265-83D5-40E1AC66F930][fluent-bitをDockerで動かす]] を参考に作ると良い。
+[[id:7622D819-68E9-4265-83D5-40E1AC66F930][fluent-bitをDockerで動かす]] を参考に作るとよい。
 
-* どうやって詳しくなっていけば良いか
+* どうやって詳しくなっていけばよいか
 
 fluent-bitは ~input~ ~parser~ ~filter~ ~routing~ 部分を弄ることになる。
 
-それぞれ以下のドキュメントに細かく書いてある。
+それぞれ次のドキュメントに細かく書いてある。
 [[https://docs.fluentbit.io/manual/pipeline/pipeline-monitoring][https://docs.fluentbit.io/manual/pipeline/pipeline-monitoring]]
 
 input値挟まざまな値を取ることができる。
 
 [[https://docs.fluentbit.io/manual/pipeline/inputs/dummy][https://docs.fluentbit.io/manual/pipeline/inputs/dummy]]
 
-input値を変えてみたり、filterやoutput（routing）を変えながらどのように風に変化するか弄ってみると良い。
+input値を変えてみたり、filterやoutput（routing）を変えながらどのように風に変化するか弄ってみるとよい。

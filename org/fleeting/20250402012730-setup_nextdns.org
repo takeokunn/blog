@@ -154,7 +154,7 @@ https://search.nixos.org/options?channel=24.11&from=0&size=50&sort=relevance&typ
   $ nix run nixpkgs#nextdns activate
 #+end_src
 
-管理画面で有効になっていることを確認できれば良い。
+管理画面で有効になっていることを確認できればよい。
 
 [[file:../../static/images/F20AAC35-AE8E-4165-BE3C-F39FDC46731A.png]]
 

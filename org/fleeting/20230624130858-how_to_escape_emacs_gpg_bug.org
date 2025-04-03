@@ -30,7 +30,7 @@
 
 「[[https://stackoverflow.com/questions/76388376/emacs-org-encrypt-entry-hangs-when-file-is-modified][emacs org-encrypt-entry hangs when file is modified - stackoverflow]]」に同様の問題が投稿されていました。
 
-Emacsのcommitに以下のような記述が追加されていました。
+Emacsのcommitに次のような記述が追加されていました。
 [[https://git.savannah.gnu.org/cgit/emacs.git/commit/?h=emacs-29&id=1b9812af80b6ceec8418636dbf84c0fbcd3ab694][https://git.savannah.gnu.org/cgit/emacs.git/commit/?h=emacs-29&id=1b9812af80b6ceec8418636dbf84c0fbcd3ab694]]
 
 #+begin_example
@@ -68,7 +68,7 @@ Homebrewで入れる場合はちゃんとlogin shellにパスを通してあげ�
   gpg (GnuPG) 2.4.0
 #+end_src
 
-以下のようにGnuPGのversionを下げます。
+次のようにGnuPGのversionを下げます。
 
 #+begin_src shell
   $ brew uninstall --ignore-dependencies gpg

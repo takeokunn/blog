@@ -33,7 +33,7 @@
 
 * 方針
 
-以下の3ステップで実現した。
+次の3ステップで実現した。
 
 - org-modeで記述したファイルをTypstに変換
 - NixでTypstをBuildできるようにする
@@ -66,9 +66,9 @@
 
 ** 1. org-modeで記述したファイルをTypstに変換
 
-組版記事の場合、[[https://github.com/jmpunkt/ox-typst][jmpunkt/ox-typst]] を用いて通常通りOrgファイルをTypstに変換する。(=M-x org-typst-export-to-typst= を実行)
+組版記事の場合、[[https://github.com/jmpunkt/ox-typst][jmpunkt/ox-typst]] を用いて通常とおりOrgファイルをTypstに変換する。(=M-x org-typst-export-to-typst= を実行)
 
-[[https://github.com/takeokunn/blog/blob/11609d8503ffd9b9eb8a3e2a5d19f3f51ee5b579/typst/phperkaigi-2025-pamphlet/article.org][PHPerKaigi2025のパンフ記事]]の場合、以下のようにTypstの設定をExportしている。
+[[https://github.com/takeokunn/blog/blob/11609d8503ffd9b9eb8a3e2a5d19f3f51ee5b579/typst/phperkaigi-2025-pamphlet/article.org][PHPerKaigi2025のパンフ記事]]の場合、次のようにTypstの設定をExportしている。
 
 #+begin_src org
   ,#+BEGIN_EXPORT typst
@@ -96,7 +96,7 @@
   ,#+END_EXPORT
 #+end_src
 
-スライドの場合、 Orgファイルには登壇メモをしつつ、 =#+BEGIN_EXPORT typst= のみ出力してほしかったので以下のようなElispを書いた。
+スライドの場合、 Orgファイルには登壇メモをしつつ、 =#+BEGIN_EXPORT typst= のみ出力してほしかったので次のようなElispを書いた。
 
 #+begin_src emacs-lisp
   (require 'ox-typst)
@@ -171,7 +171,7 @@ output抜粋:
       };
 #+end_src
 
-呼び出し方はシンプルで、以下のように =packages.*= で定義するとBuildできるようになった。
+呼び出し方はシンプルで、次のように =packages.*= で定義するとBuildできるようになった。
 
 #+begin_src nix
   packages = {
@@ -189,7 +189,7 @@ output抜粋:
 =#import "@preview/codly:1.2.0": *= のようにインポート記述のみすると、Nix Sandbox環境だとうまくインストールできなかった。(参考: [[https://zenn.dev/omochice/articles/reproducible-compilation-of-typst-by-typix][Typixを使って複数環境でtypstでスライドをコンパイルする - Zenn]])
 
 inputsに [[https://github.com/typst/packages][typst-packages]] を定義してPATHを通すとうまくBuildできた。
-TypstのNixラッパである [[https://github.com/loqusion/typix][loqusion/typix]] のコードも読んだが、自分の用途だと自前で書けば良いという結論に至ったので採用しなかった。
+TypstのNixラッパである [[https://github.com/loqusion/typix][loqusion/typix]] のコードも読んだが、自分の用途だと自前で書けばよいという結論に至ったので採用しなかった。
 
 inputs抜粋:
 

@@ -23,7 +23,7 @@ TwitterのUIDについて調べてたら、自分の浮動小数点の挙動に�
 
 以前同じような作業をしたとき結構漏れがあったので、Twitter UIDの妥当性やscreen nameが本当に存在するかどうかを確認する必要があった。
 
-[[https://idtwi.com/][TwitterのIDチェッカー]]などのWebサイトを利用してもよかったが、100件を超える量のデータを手動で確認取るのは面倒だったため、以下のような検証scriptを雑に書いた。
+[[https://idtwi.com/][TwitterのIDチェッカー]]などのWebサイトを利用してもよかったが、100件を超える量のデータを手動で確認取るのは面倒だったため、次のような検証scriptを雑に書いた。
 
 #+begin_src shell
   #!/bin/bash
@@ -45,7 +45,7 @@ Twitter Developer Documentに ~Twitter IDs~ という記事がある。
 
 [[https://developer.twitter.com/en/docs/twitter-ids]]
 
-以下のようなことが書かれていた。
+次のようなことが書かれていた。
 
 - ユーザーの増加によりTwitterのUIDは64bit
 - unsignedでuniqueな値として管理されている
@@ -54,7 +54,7 @@ Twitter Developer Documentに ~Twitter IDs~ という記事がある。
 
 ここから分かるのは、自分は↑のshell scriptで ~id~ を見ていたから正しい値をとれていなかった、~id_str~ を使うべきだったことが分かる。
 
-たしかに、以下のように =toString()= をしたらずれることについて確認がとれたがどうしてだろうか。
+たしかに、次のように =toString()= をしたらずれることについて確認がとれたがどうしてだろうか。
 また、今回はbash scriptを書いたのにJavaScriptと同じ挙動をするのはどうしてなのか調べる必要がある。
 
 
@@ -83,7 +83,7 @@ double型で安全に表現できる最大値は ~Number.MAX_SAFE_INTEGER~ で�
 
 JavaScriptには ~bigint~ も用意されている。
 
-MDNには以下のように書かれているので日常使いするのは辞めておくべきだろう。
+MDNには次のように書かれているので日常使いするのは辞めておくべきだろう。
 
 #+begin_quote
 Number と BigInt との間の型変換は精度が落ちる可能性があるため、 BigInt

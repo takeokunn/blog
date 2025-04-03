@@ -25,7 +25,7 @@
   - Dvorak - 右利き: 最もよく使用されるキーが右手の下に配置されています。
 #+end_example
 
-以下のような設定になってれば良い。
+次のような設定になってればよい。
 
 [[file:../../static/images/7F6C45FE-1CBF-468E-A23A-4FDA51F8265F.png]]
 * AquaSKK設定

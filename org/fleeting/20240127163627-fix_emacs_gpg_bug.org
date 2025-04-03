@@ -14,7 +14,7 @@
 #+STARTUP: nohideblocks
 * Summary
 
-[[id:DB5D710F-6168-47D4-9044-1ED3D24D61E6][Emacs内でgpg fileがsaveできなくなった時に対応したことメモ]] にもある通り、GnuPG 2.4.0を使うとEasyPGが正常に動かないという問題があったが、GnuPGを2.4.4に上げると解決した。
+[[id:DB5D710F-6168-47D4-9044-1ED3D24D61E6][Emacs内でgpg fileがsaveできなくなった時に対応したことメモ]] にもあるとおり、GnuPG 2.4.0を使うとEasyPGが正常に動かないという問題があったが、GnuPGを2.4.4に上げると解決した。
 
 * 一連の流れ
 
@@ -32,7 +32,7 @@ GnuPG側の変更は[[https://git.gnupg.org/cgi-bin/gitweb.cgi?p=gnupg.git;a=com
 
 Homebrewではすでに[[https://github.com/Homebrew/homebrew-core/commit/efdeda1c8613c9eda4b75ec6603e876fab593cd9][こちらのcommit]]で対応済みなので =brew update= で更新される。
 
-Nixユーザーは[[https://github.com/NixOS/nixpkgs/blob/nixos-23.11/pkgs/tools/security/gnupg/24.nix][nixpkgs]]が対応するまでは以下のようにoverlayを定義して対応すれば良い。
+Nixユーザーは[[https://github.com/NixOS/nixpkgs/blob/nixos-23.11/pkgs/tools/security/gnupg/24.nix][nixpkgs]]が対応するまでは次のようにoverlayを定義して対応すればよい。
 
 #+begin_src nix
   {

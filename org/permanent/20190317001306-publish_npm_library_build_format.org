@@ -17,7 +17,7 @@
 
 半年前くらいにnpm package作ってみたいなぁと思って作ってみた時学んだことをまとめていく。
 
-以下の記事でだいたい理解できたのだが、実際にやってみて細かいところでつまずた部分を書いていく。
+次の記事でだいたい理解できたのだが、実際にやってみて細かいところでつまずた部分を書いていく。
 
 - [[https://qiita.com/TsutomuNakamura/items/f943e0490d509f128ae2][初めてのnpmパッケージ公開]]
 - [[https://qiita.com/fnobi/items/f6b1574fb9f4518ed520][3分でできるnpmモジュール]]
@@ -36,7 +36,7 @@
 
 --------------
 
-~npm~ のpackageと一口に言っても、 ~server side javascript~ なのか、 ~frontend javascript~ なのかで毛色が違う。通常以下のようにライブラリを呼び出す。
+~npm~ のpackageと一口に言っても、 ~server side javascript~ なのか、 ~frontend javascript~ なのかで毛色が違う。通常次のようにライブラリを呼び出す。
 
 frontend:
 
@@ -50,7 +50,7 @@ server side:
   const businesh = require('businesh');
 #+end_src
 
-上記のように呼び出すには、以下のようにpackageを提供する必要がある。
+上記のように呼び出すには、次のようにpackageを提供する必要がある。
 
 frontend:
 
@@ -77,7 +77,7 @@ server side:
 - [[https://www.davidbcalhoun.com/2014/what-is-amd-commonjs-and-umd/][What is AMD, CommonJS, and UMD?]]
 - [[https://auth0.com/blog/javascript-module-systems-showdown/][JavaScript Module Systems Showdown: CommonJS vs AMD vs ES2015]]
 
-~bundler~ のbuild optionで解決できる。 ~rollup~ を使っているので以下のように設定すれば良い。
+~bundler~ のbuild optionで解決できる。 ~rollup~ を使っているので次のように設定すればよい。
 
 [[https://github.com/takeokunn/businesh/blob/master/rollup.config.js][takeokunn/businesh/blob/master/rollup.config.js]]:
 
@@ -134,9 +134,9 @@ server side:
   }
 #+end_src
 
-これでうまく ~npm install~ した時良い感じに読み込むことができる。
+これでうまく ~npm install~ した時よい感じに読み込むことができる。
 
-ちなみに、イマイチ良い記事がなかったので[[https://github.com/reduxjs/redux/blob/master/package.json][reduxjs/redux]] を参考にした。
+ちなみに、イマイチよい記事がなかったので[[https://github.com/reduxjs/redux/blob/master/package.json][reduxjs/redux]] を参考にした。
 
 --------------
 

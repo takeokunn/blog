@@ -166,4 +166,4 @@ DenoでCLIツールを試験的に作ったのでメモしておく。
   10:   .command('grep', grepCommand)
 #+end_src
 * 終わりに
-TypeScriptで記述できるのはnpmの資産が使えて便利だし、cliffyも使い勝手が非常に良い。
+TypeScriptで記述できるのはnpmの資産が使えて便利だし、cliffyも使い勝手が非常によい。

@@ -20,21 +20,21 @@
 
 - [[https://github.com/copilot-emacs/copilot.el][copilot.el]] のバージョンが上がった
 - [[https://github.com/orgs/github/packages/npm/package/copilot-language-server][@github/copilot-language-server]] をnpmでインストールして使う必要があった
-- 以下の要件を満たしたい
+- 次の要件を満たしたい
   - Nixでパッケージングしたい
   - Neovimなどのエディタでも汎用的に使えるようにしたい
 
 * 対応手順
 ** 1. node2nixでパッケージングする
 
-=node2nix/node-packages.json= に以下のような記述をした。
+=node2nix/node-packages.json= に次のような記述をした。
 
 #+begin_src json
   ["@github/copilot-language-server"]
 #+end_src
 
 
-以下のshell scriptを実行するとファイルが生成された。
+次のshell scriptを実行するとファイルが生成された。
 
 - =node2nix/default.nix=
 - =node2nix/node-env.nix=
@@ -52,7 +52,7 @@
 #+end_src
 
 
-copilot-language-server は以下のようなディレクトリ構造になっている。
+copilot-language-server は次のようなディレクトリ構造になっている。
 
 #+begin_src console
   $ dust native/
@@ -93,7 +93,7 @@ copilot-language-server は以下のようなディレクトリ構造になっ�
   }
 #+end_src
 
-=2025/03/27(Mon)= 現在、以下のような環境変数が定義されている。
+=2025/03/27(Mon)= 現在、次のような環境変数が定義されている。
 
 #+begin_src console
   $ echo $COPILOT_LANGUAGE_SERVER_PATH

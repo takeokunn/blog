@@ -15,7 +15,7 @@
 #+STARTUP: content
 #+STARTUP: nohideblocks
 
-stack overflowに以下の2つの質問をした。
+stack overflowに次の2つの質問をした。
 
 - [[https://stackoverflow.com/questions/54868796/cannot-post-slack-webhook-url-in-common-lisp][Cannot post slack webhook url in common lisp]]
 - [[https://stackoverflow.com/questions/55066131/getenv-xxx-is-not-a-lisp-string-or-pointer][(GETENV XXX) is not a Lisp string or pointer Ask Question]]
@@ -93,9 +93,9 @@ print(")")
 
 GOOD!
 
-~allocate~ と ~free~ の値が調べられてしまうのは良い挙動ではないです。
+~allocate~ と ~free~ の値が調べられてしまうのはよい挙動ではないです。
 
-Lispでは以下のようになってほしい。
+Lispでは次のようになってほしい。
 
 #+begin_src lisp
   (dolist (entry allocation-log)
@@ -139,7 +139,7 @@ Lisp> (mess-with 20 "foo")
 
 / 単なる ~quote~ ではく、 ~backquote~ /
 
-良いですね！　偶然にも、このパターンは（ほとんどの）macroでとても一般的ですので、そのための特別な構文があります。
+よいですね！　偶然にも、このパターンは（ほとんどの）macroでとても一般的ですので、そのための特別な構文があります。
 
 backquote:
 

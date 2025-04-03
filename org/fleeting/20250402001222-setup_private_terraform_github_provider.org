@@ -125,7 +125,7 @@ https://github.com/takeokunn.gpg
 
 上記の設定をすると [[https://github.com/takeokunn/blog][takeokunn/blog]] のようにtopicが反映される。
 
-既存のリポジトリは =terraform import= で帳尻を合わせれば良い
+既存のリポジトリは =terraform import= で帳尻を合わせればよい
 
 #+begin_src console
   $ erraform import module.github.github_repository.blog blog

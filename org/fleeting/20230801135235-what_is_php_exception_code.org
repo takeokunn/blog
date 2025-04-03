@@ -21,7 +21,7 @@
 
 * 簡易的な調査
 ** Interface定義
-php.netのUser Contributed Notesに以下のような記述がある。
+php.netのUser Contributed Notesに次のような記述がある。
 https://www.php.net/manual/en/language.exceptions.php#91159
 
 #+begin_src php
@@ -43,9 +43,9 @@ https://www.php.net/manual/en/language.exceptions.php#91159
   }
 #+end_src
 
-=code= とは =User-defined Exception code= と書いてある通り、ユーザー側が任意の数値を入れられる。
+=code= とは =User-defined Exception code= と書いてあるとおり、ユーザー側が任意の数値を入れられる。
 
-PHPStanを実行すると以下のような型として認識されているようだ。
+PHPStanを実行すると次のような型として認識されているようだ。
 
 #+begin_src php
   public function __construct(string $message = null, int $code = 0);
@@ -119,7 +119,7 @@ Exceptionが提供しているmethodは =getCode= のみ。
 
 * 使用例
 
-以下のように取得できる。
+次のように取得できる。
 プロジェクト内でエラーコードをintegerで統一できているなら使い道がありそう。
 
 #+begin_src php :exports both

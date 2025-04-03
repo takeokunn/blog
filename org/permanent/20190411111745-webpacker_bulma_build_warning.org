@@ -105,7 +105,7 @@ issueにも上がっていた。[[https://github.com/jgthms/bulma/issues/1190]]
           warnings: false
 #+end_src
 
-「warning握りつぶすのは危険なのできればしたくない」というレビューをいただいた。その通り過ぎるので却下した。
+「warning握りつぶすのは危険なのできればしたくない」というレビューをいただいた。そのとおり過ぎるので却下した。
 
 2. ~bulma~ の ~variable~ を変更して対象コードを実行しないようにする。
 
@@ -116,7 +116,7 @@ issueにも上がっていた。[[https://github.com/jgthms/bulma/issues/1190]]
   @import '~bulma';
 #+end_src
 
-これが一番良いので採用した。
+これが一番よいので採用した。
 
 デメリットは ~variable-gap~ が使えなくなることだが、今回はまだ使う予定なかったので楽に対応できた。
 

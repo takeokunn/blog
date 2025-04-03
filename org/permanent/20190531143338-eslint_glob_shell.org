@@ -55,7 +55,7 @@ macの標準のshellは ~bash~ なのだが、これだとうまくglobを評価
 
 つまり、macではちゃんと動いていなかっただけだったのだ。
 
-そこで以下のようにglob部分を ~'~ で囲った。
+そこで次のようにglob部分を ~'~ で囲った。
 
 #+begin_src json
   "scripts": {
@@ -94,4 +94,4 @@ Ubuntu標準は ~dash~ みたいだ。
   lrwxrwxrwx 1 root root    7  3月  7 05:51 static-sh -> busybox
 #+end_src
 
-~sh~ って言うけど、 ~/bin/sh~ に別の ~shell~ の ~symbolic link~ 貼っているだけのようだ。
+~sh~ っていうけど、 ~/bin/sh~ に別の ~shell~ の ~symbolic link~ 貼っているだけのようだ。

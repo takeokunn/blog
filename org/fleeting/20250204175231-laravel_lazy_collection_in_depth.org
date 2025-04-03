@@ -21,7 +21,7 @@ LazyCollection自体のソースコードを読んでかなり理解できたの
 
 * 前提
 
-以下のバージョンを想定しています。
+次のバージョンを想定しています。
 
 - laravel: 10.0
 - php: 8.2
@@ -85,7 +85,7 @@ https://github.com/laravel/framework/blob/10.x/src/Illuminate/Collections/LazyCo
   }
 #+end_src
 
-以下の簡単なサンプルでは、map実行時にyieldをネストしたような形の =Closure= が定義され、新しいLazyCollectionを作りつつsourceに代入される。
+次の簡単なサンプルでは、map実行時にyieldをネストしたような形の =Closure= が定義され、新しいLazyCollectionを作りつつsourceに代入される。
 
 #+begin_src php
   // make時
@@ -256,7 +256,7 @@ https://github.com/laravel/framework/blob/10.x/src/Illuminate/Collections/LazyCo
 * 想定QA
 ** Q. LazyCollection作成時の引数に巨大な配列を渡した場合はどうなる?
 
-以下のように10000000件の配列を代入した場合は当然 =LazyCollection#source= に10000000件の配列が代入される。
+次のように10000000件の配列を代入した場合は当然 =LazyCollection#source= に10000000件の配列が代入される。
 #+begin_src php
   \Illuminate\Support\LazyCollection::make(range(1, 10000000)); // 10000000件の配列を代入する
 #+end_src
@@ -267,7 +267,7 @@ https://github.com/laravel/framework/blob/10.x/src/Illuminate/Collections/LazyCo
 
 使う関数が =return new static= を返しているか、 =LazyCollection#source= の評価タイミングがいつなのかを常に意識する必要がある。
 このあたりのケアが面倒なので件数が少ない時は =Collection= を素直に使うのでも良さそう。
-逆に言うと、そのあたりをちゃんとケアできる自信があるなら =LazyCollection= ですべて処理しても良さそう。
+逆にいうと、そのあたりをちゃんとケアできる自信があるなら =LazyCollection= ですべて処理しても良さそう。
 
 * 終わりに
 職場で扱うデータ量が多いと學びが多い。

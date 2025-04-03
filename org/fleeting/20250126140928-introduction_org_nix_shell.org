@@ -22,8 +22,8 @@ org-nix-shellはOrg関連パッケージの中でもキラーアプリケーシ�
 - GitHub: https://github.com/AntonHakansson/org-nix-shell/blob/main/README.org
 - melpa: https://melpa.org/#/org-nix-shell
 
-Melpa経由で入れても良いし、GitHub経由で直接インストールしても良い。
-以下のように設定するだけで機能してくれる。
+Melpa経由で入れてもよいし、GitHub経由で直接インストールしてもよい。
+次のように設定するだけで機能してくれる。
 
 #+begin_src emacs-lisp
   (require 'org-nix-shell)
@@ -34,7 +34,7 @@ Melpa経由で入れても良いし、GitHub経由で直接インストールし
 * 使い方
 ** Basic
 
-以下のようにNixを定義して =:nix-shell= で読み込む。
+次のようにNixを定義して =:nix-shell= で読み込む。
 
 #+begin_src org
   ,#+name: tmp-shell
@@ -48,7 +48,7 @@ Melpa経由で入れても良いし、GitHub経由で直接インストールし
   ,#+end_src
 #+end_src
 
-また、以下のURLから古いバージョンを取ってきて実行することも可能。
+また、次のURLから古いバージョンを取ってきて実行することも可能。
 https://lazamar.co.uk/nix-versions
 
 #+begin_src org

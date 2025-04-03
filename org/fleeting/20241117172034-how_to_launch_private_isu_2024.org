@@ -30,7 +30,7 @@ https://docs.aws.amazon.com/ja_jp/AWSEC2/latest/UserGuide/finding-an-ami.html
 
 * 修正方法
 
-[[https://github.com/catatsuy/private-isu?tab=readme-ov-file#ami][catatsuy/private-isu#ami]] に動くAMIが記述されているのでそちらに修正し、費用面を考慮して =InstanceType= を以下のように修正した。
+[[https://github.com/catatsuy/private-isu?tab=readme-ov-file#ami][catatsuy/private-isu#ami]] に動くAMIが記述されているのでそちらに修正し、費用面を考慮して =InstanceType= を次のように修正した。
 
 | Name   | ImageId               | InstanceType |
 |--------+-----------------------+--------------|
@@ -154,4 +154,4 @@ https://docs.aws.amazon.com/ja_jp/AWSEC2/latest/UserGuide/finding-an-ami.html
 
 * 終わりに
 
-実際に練習するなら指定された環境のまま起動した方が良いだろうが、あくまで練習として =private-isu= を立ち上げたいだけという今回の用途ではこれで十分。
+実際に練習するなら指定された環境のまま起動した方がよいだろうが、あくまで練習として =private-isu= を立ち上げたいだけという今回の用途ではこれで十分。
