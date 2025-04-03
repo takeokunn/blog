@@ -5,11 +5,11 @@ title:
   enabled: true
   start:
     px: 100
-    py: 360
+    py: 260
   start:
     px: 100
-    py: 400
-  fgHexColor: "#bd93f9"   # Purple
+    py: 320
+  fgHexColor: "#bd93f9" # Purple
   fontSize: 50
   fontStyle: Bold
   maxWidth: 1000
@@ -19,7 +19,7 @@ category:
   enabled: true
   start:
     px: 100
-    py: 360
+    py: 270
   fgHexColor: "#6272a4"   # Comment
   fontSize: 24
   fontStyle: Regular
@@ -29,7 +29,7 @@ info:
   enabled: true
   start:
     px: 100
-    py: 570
+    py: 550
   fgHexColor: "#8be9fd"   # Cyan
   fontSize: 24
   fontStyle: Regular
@@ -42,7 +42,7 @@ tags:
   limit: 0
   start:
     px: 1100
-    py: 570
+    py: 550
   fgHexColor: "#282a36"   # Background color as text (for contrast)
   bgHexColor: "#ff79c6"   # Pink
   fontSize: 24
