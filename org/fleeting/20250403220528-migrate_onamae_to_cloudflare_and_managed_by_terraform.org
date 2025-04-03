@@ -35,7 +35,7 @@ vim-jpで令和時代にドメインを管理するならCloudFlare一択とい�
 ** 1. CloudFlareにアカウントを作成する
 公式サイトから新規登録をしてクレジットカードを登録する。
 https://www.CloudFlare.com/ja-jp/
-** 2. お名前comからCloufflareに移管する
+** 2. お名前comからCloudflareに移管する
 
 [[https://zenn.dev/muchoco/articles/9039762136e15c][お名前.com から Cloudflare Registrar にドメイン移管した話 - Zenn]] を参考に移管した。
 
