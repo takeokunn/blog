@@ -1,7 +1,7 @@
 :PROPERTIES:
 :ID:       D411A179-B5A7-4F1C-A4D6-94AADB8DF2F9
 :END:
-#+TITLE: deno-cli-sandbox
+#+TITLE: Denoで簡易的なCLIツールを作る
 #+AUTHOR: takeokunn
 #+DESCRIPTION: description
 #+DATE: 2025-04-03T21:23:45+0900
