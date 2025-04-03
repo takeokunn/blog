@@ -34,7 +34,7 @@ DenoでCLIツールを試験的に作ったのでメモしておく。
       ├── deps.ts
       └── main.ts
 
-  3 directories, 7 files
+  3 directories, 6 files
 #+end_src
 * 作業手順
 ** 1. 依存関係をインストール
