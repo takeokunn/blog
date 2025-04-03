@@ -4,7 +4,7 @@
 #+TITLE: flake.nixでポータブルな最小構成のEmacsを作成する
 #+AUTHOR: takeokunn
 #+DESCRIPTION: description
-#+DATE: 2025-04-03T15:07:14+0900
+#+DATE: 2025-04-03T13:07:14+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting
 #+HUGO_SECTION: posts/fleeting
