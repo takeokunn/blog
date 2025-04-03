@@ -34,7 +34,7 @@ jobs:
     steps:
       - run: date
         env:
-          TZ: 'Asia/Tokyo'
+          TZ: Asia/Tokyo
       - name: Checkout
         uses: actions/checkout@v4
         with:
