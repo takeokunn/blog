@@ -21,8 +21,8 @@ unsafe = true
 
 [markup.tableOfContents]
 startLevel = 2
-endLevel = 3
-ordered = true
+endLevel = 4
+ordered = false
 
 [taxonomies]
 tag = "tags"
