@@ -18,27 +18,17 @@
 誰でも同じ環境を整えられるようにすると問題解決が捗るので構築方法をメモしておく。
 
 * 作業手順
-** 1. プロジェクト作成
-
-=flake.nix= がGitで認識されていないと実行できないので雑にGit Projectを作る。
-
-#+begin_src console
-  $ mkdir -p ~/path/to/dir/minimum-emacs
-  $ cd ~/path/to/dir/minimum-emacs
-  $ touch flake.nix
-  $ touch init.el
-  $ git init && git add .
-#+end_src
-** 2. init.el作成
+** 1. init.el作成
 
 今回のサンプルは[[https://melpa.org/#/rainbow-delimiters][rainbow-delimiters]]が動作するか確認するものにする。
 
 #+begin_src emacs-lisp
   (use-package rainbow-delimiters
+    :ensure t
     :hook
     (prog-mode-hook . rainbow-delimiters-mode))
 #+end_src
-** 3. flake.nix作成
+** 2. flake.nix作成
 
 =alwaysEnsure = true;= にすると =init.el= 内の =:ensure t= を読んでNix Build時によしなにインストールしてくれる。
 
@@ -73,7 +63,7 @@ https://github.com/nix-community/emacs-overlay/blob/master/overlays/emacs.nix
         };
   }
 #+end_src
-** 4. Nix Buildして実行
+** 3. Nix Buildして実行
 
 Localに一切依存しない形でEmacsをBuildできる。
 
