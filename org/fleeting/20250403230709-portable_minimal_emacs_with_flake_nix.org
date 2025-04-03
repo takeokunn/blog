@@ -73,3 +73,6 @@ Localに一切依存しない形でEmacsをBuildできる。
 #+end_src
 * 終わりに
 「最小構成を作ってください」の正解は =flake.nix= だと思っている。
+
+余談だが、natsukiumの「一般構築魔法(Nix)のVimへの応用について」の「Nixでプラグインの実行環境を提供する」でも同じことが書かれている。
+https://zenn.dev/natsukium/articles/b4899d7b1e6a9a#nix%E3%81%A7%E3%83%97%E3%83%A9%E3%82%B0%E3%82%A4%E3%83%B3%E3%81%AE%E5%AE%9F%E8%A1%8C%E7%92%B0%E5%A2%83%E3%82%92%E6%8F%90%E4%BE%9B%E3%81%99%E3%82%8B
