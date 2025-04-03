@@ -82,4 +82,4 @@ Localに一切依存しない形でEmacsをBuildできる。
   $ ./result/bin/emacs -nw -Q
 #+end_src
 * 終わりに
-「最小構成を作ってください」の正解はflake.nixだと思っている。
+「最小構成を作ってください」の正解は =flake.nix= だと思っている。
