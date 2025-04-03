@@ -42,7 +42,7 @@
 
 =alwaysEnsure = true;= にすると =init.el= 内の =:ensure t= を読んでNix Build時によしなにインストールしてくれる。
 
-また、[[https://github.com/nix-community/emacs-overlay][emacs-overlay]] を使うと =unstable/stable/head= など複数バージョンで実行することができるので検証の幅を簡単に広げられる。
+また、[[https://github.com/nix-community/emacs-overlay][emacs-overlay]] を使うと =unstable/stable/head= など複数バージョンで実行できるので検証の幅を簡単に広げられる。
 https://github.com/nix-community/emacs-overlay/blob/master/overlays/emacs.nix
 
 #+begin_src nix
@@ -75,7 +75,7 @@ https://github.com/nix-community/emacs-overlay/blob/master/overlays/emacs.nix
 #+end_src
 ** 4. Nix Buildして実行
 
-Localに一切依存しない形でEmacsをBuildすることができる。
+Localに一切依存しない形でEmacsをBuildできる。
 
 #+begin_src console
   $ nix build .#default
