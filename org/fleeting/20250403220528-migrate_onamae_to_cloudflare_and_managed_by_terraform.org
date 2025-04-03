@@ -1,0 +1,120 @@
+:PROPERTIES:
+:ID:       861C8003-2791-4BF3-8126-489838D804F9
+:END:
+#+TITLE: お名前comからCloudflareにドメイン移管してTerraformで管理する
+#+AUTHOR: takeokunn
+#+DESCRIPTION: description
+#+DATE: 2025-04-03T22:05:33+0900
+#+HUGO_BASE_DIR: ../../
+#+HUGO_CATEGORIES: fleeting
+#+HUGO_SECTION: posts/fleeting
+#+HUGO_TAGS: fleeting terraform
+#+HUGO_DRAFT: false
+#+STARTUP: content
+#+STARTUP: fold
+* Introduction
+
+お名前comで管理していた =takeokunn.org= をCloudFlareに移管したのでメモしておく。
+
+* Background
+
+お名前comには世の中のエンジニアと同じように、長年次の不満を抱えていた。
+
+- 管理画面がとにかく使いづらい
+- 広告・営業メールが多い
+- 自動更新やオプションの設定が本当に分かりづらい
+- IaCに対応していない
+
+vim-jpで令和時代にドメインを管理するならCloudFlare一択という意見をもらったので移管した。
+
+* 作業手順
+
+ドメインの移管はじめてだったこと、個人ドメインであることからダウンタイムが発生許容した。
+2と3を入れ替えればダウンタイムが発生しなかったかもしれない。
+
+** 1. CloudFlareにアカウントを作成する
+公式サイトから新規登録をしてクレジットカードを登録する。
+https://www.CloudFlare.com/ja-jp/
+** 2. お名前comからCloufflareに移管する
+
+[[https://zenn.dev/muchoco/articles/9039762136e15c][お名前.com から Cloudflare Registrar にドメイン移管した話 - Zenn]] を参考に移管した。
+
+「トランスファー申請の承認」が15分以上かかったがいずれ来るので気長に待てばよい。
+** 3. Terraformで管理する
+
+Terraform CloudFlare Providerを使う。
+
+https://registry.terraform.io/providers/CloudFlare/CloudFlare/latest/docs
+
+*** 3.1 provider作成
+
+[[https://github.com/getsops/sops][sops]] にAPI Tokenを保存して [[https://github.com/carlpett/terraform-provider-sops][terraform-provider-sops]] 経由で入れる。
+
+#+begin_src terraform
+  terraform {
+    required_providers {
+      sops = {
+        source  = "carlpett/sops"
+        version = "~> 0.5"
+      }
+      cloudflare = {
+        source  = "cloudflare/cloudflare"
+        version = "~> 5"
+      }
+    }
+  }
+
+  provider "sops" {}
+
+  data "sops_file" "secret" {
+    source_file = "./secrets.yaml"
+  }
+
+  provider "cloudflare" {
+    api_token = data.sops_file.secret.data.cloudflare
+  }
+#+end_src
+*** 3.2 レコード作成
+#+begin_src terraform
+  locals {
+    # for takeokunn.org
+    takeokunn_org_zone_id = "xxx"
+  }
+
+  resource "cloudflare_dns_record" "a_records" {
+    provider = cloudflare
+    for_each = toset([
+      "185.199.108.153",
+      "185.199.109.153",
+      "185.199.110.153",
+      "185.199.111.153"
+    ])
+    zone_id = local.takeokunn_org_zone_id
+    name    = "takeokunn.org"
+    content = each.key
+    type    = "A"
+    ttl     = 1
+    proxied = false
+  }
+
+  resource "cloudflare_dns_record" "cname_emacs" {
+    zone_id = local.takeokunn_org_zone_id
+    name    = "emacs.takeokunn.org"
+    content = "takeokunn.github.io"
+    type    = "CNAME"
+    ttl     = 1
+    proxied = false
+  }
+#+end_src
+** 4. 管理画面から確認する
+
+正常に =terraform apply=  されていることを確認する。
+
+[[file:../../static/images/67154738-5226-46D6-80F3-959E0BD1F962.png]]
+
+* 終わりに
+
+お名前comからの脱却と、手元環境のTerraform化が進んできて非常によい。
+
+- [[id:4E845C70-F095-47B3-BF75-F6872164BD43][NextDNSを導入した]]
+- [[id:A942A0CA-829F-45C0-A9CC-F7CA8C0DE873][Terraform GitHub Providerを導入した]]
