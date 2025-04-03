@@ -1,0 +1,169 @@
+:PROPERTIES:
+:ID:       D411A179-B5A7-4F1C-A4D6-94AADB8DF2F9
+:END:
+#+TITLE: deno-cli-sandbox
+#+AUTHOR: takeokunn
+#+DESCRIPTION: description
+#+DATE: 2025-04-03T21:23:45+0900
+#+HUGO_BASE_DIR: ../../
+#+HUGO_CATEGORIES: fleeting
+#+HUGO_SECTION: posts/fleeting
+#+HUGO_TAGS: fleeting deno cliffy
+#+HUGO_DRAFT: false
+#+STARTUP: content
+#+STARTUP: fold
+* Introduction
+
+DenoでCLIツールを試験的に作ったのでメモしておく。
+
+* 方針
+
+- [[https://cliffy.io/][cliffy]] で作成
+- =cat= と =grep= をSub Commandで簡易的に作成
+
+* ディレクトリ構造
+#+begin_src console
+  $ nix run nixpkgs#tree .
+  .
+  ├── deno.json
+  ├── deno.lock
+  └── src
+      ├── commands
+      │   ├── cat.ts
+      │   └── grep.ts
+      ├── deps.ts
+      └── main.ts
+
+  3 directories, 7 files
+#+end_src
+* 作業手順
+** 1. 依存関係をインストール
+
+=$ deno install= で入れて使い易いように =src/deps.ts= を用意する
+
+=deno.json=:
+
+#+begin_src json
+  {
+    "imports": {
+      "@cliffy/command": "jsr:@cliffy/command@^1.0.0-rc.7"
+    }
+  }
+#+end_src
+
+=src/deps.ts=:
+
+#+begin_src typescript
+  export { Command } from '@cliffy/command';
+#+end_src
+** 2. Command作成
+#+begin_src typescript
+  import { Command } from './deps.ts';
+  import { catCommand } from './commands/cat.ts';
+  import { grepCommand } from './commands/grep.ts';
+
+  await new Command()
+    .name('mycli')
+    .version('0.1.0')
+    .description('My CLI tool')
+    .command('cat', catCommand)
+    .command('grep', grepCommand)
+    .parse(Deno.args);
+#+end_src
+** 3. Sub Command
+*** 3.1 cat
+#+begin_src typescript
+  import { Command } from '../deps.ts';
+
+  const displayFiles = async (files: string[]): Promise<void> => {
+    for (const file of files) {
+      try {
+        const content = await Deno.readTextFile(file);
+        console.log(`--- ${file} ---`);
+        console.log(content);
+      } catch (err) {
+        if (err instanceof Error) {
+          console.error(`Error reading ${file}: ${err.message}`);
+        } else {
+          console.error(`Unknown error:`, err);
+        }
+      }
+    }
+  };
+
+  export const catCommand = new Command()
+    .name('cat')
+    .description('Display content of files')
+    .arguments('<files...>')
+    .action(async (_, ...files: string[]) => await displayFiles(files));
+#+end_src
+*** 3.2 grep
+#+begin_src typescript
+  import { Command } from '../deps.ts';
+
+  const grepFiles = async (pattern: string, files: string[]): Promise<void> => {
+    const regex = new RegExp(pattern, 'g');
+
+    for (const file of files) {
+      try {
+        const content = await Deno.readTextFile(file);
+        const lines = content.split('\n');
+        let matchFound = false;
+
+        for (let i = 0; i < lines.length; i++) {
+          if (regex.test(lines[i])) {
+            if (!matchFound) {
+              console.log(`\n--- ${file} ---`);
+              matchFound = true;
+            }
+            console.log(`${i + 1}: ${lines[i]}`);
+            regex.lastIndex = 0; // Reset regex for next test
+          }
+        }
+      } catch (err) {
+        if (err instanceof Error) {
+          console.error(`Error reading ${file}: ${err.message}`);
+        } else {
+          console.error(`Unknown error:`, err);
+        }
+      }
+    }
+  };
+
+  export const grepCommand = new Command()
+    .name('grep')
+    .description('Search for pattern in files')
+    .arguments('<pattern> <files...>')
+    .action(async (_, pattern: string, ...files: string[]) =>
+      await grepFiles(pattern, files)
+    );
+#+end_src
+** 4. Command実行
+*** 4.1 cat
+#+begin_src console
+  $ deno run --allow-read src/main.ts cat deno.json src/deps.ts
+  --- deno.json ---
+  {
+    "imports": {
+      "@cliffy/command": "jsr:@cliffy/command@^1.0.0-rc.7"
+    }
+  }
+
+  --- src/deps.ts ---
+  export { Command } from '@cliffy/command';
+#+end_src
+*** 4.2 grep
+#+begin_src console
+  $ deno run --allow-read src/main.ts grep "command" deno.json src/main.ts
+
+  --- deno.json ---
+  3:     "@cliffy/command": "jsr:@cliffy/command@^1.0.0-rc.7"
+
+  --- src/main.ts ---
+  2: import { catCommand } from './commands/cat.ts';
+  3: import { grepCommand } from './commands/grep.ts';
+  9:   .command('cat', catCommand)
+  10:   .command('grep', grepCommand)
+#+end_src
+* 終わりに
+TypeScriptで記述できるのはnpmの資産が使えて便利だし、cliffyも使い勝手が非常に良い。
