@@ -20,7 +20,7 @@
 また、[[id:624F0A4B-0F8A-40B1-8AAD-DCC88CFC719A][Authyからpassword-store-otpに移行した]]でAuthyも使わなくなったのでついでに削除する。
 
 * 作業手順
-** Bitwarden
+** 1. Bitwarden
 
 公式ドキュメントを参考に削除する。
 
@@ -30,7 +30,7 @@ https://bitwarden.com/ja-jp/help/delete-your-account/
 
 [[file:../../static/images/F156CC55-0D2F-4F33-9B11-DD831588D5A7.png]]
 
-** Authy
+** 2. Authy
 
 公式の削除動線を辿って確認メールを踏んで削除する。
 
