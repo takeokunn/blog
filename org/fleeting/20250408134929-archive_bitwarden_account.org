@@ -21,7 +21,9 @@
 
 * 作業手順
 ** Bitwarden
+
 公式ドキュメントを参考に削除する。
+
 https://bitwarden.com/ja-jp/help/delete-your-account/
 
 「個人のアカウントを削除します > アカウントを削除」で特に警告も出ずにサクっと消えた。
@@ -31,6 +33,7 @@ https://bitwarden.com/ja-jp/help/delete-your-account/
 ** Authy
 
 公式の削除動線を辿って確認メールを踏んで削除する。
+
 https://www.authy.com/account/delete/
 
 [[file:../../static/images/9AE8AD89-1FE5-4218-8EF8-0F31B915EF11.png]]
