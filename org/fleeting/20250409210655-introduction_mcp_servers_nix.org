@@ -32,6 +32,9 @@ natsukium謹製の [[https://github.com/natsukium/mcp-servers-nix][natsukium/mcp
 - 秘密鍵は [[https://github.com/Mic92/sops-nix][sops-nix]] で管理
 
 * 作業内容
+
+[[https://zenn.dev/natsukium/articles/f010c1ec1c51b2][MCPサーバーの設定をセキュアでGit friendlyにする - Zenn]] を事前に読む。
+
 ** 1. sops-nixに登録
 
 =sops/password.yml= に以下を登録する。
