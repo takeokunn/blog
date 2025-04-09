@@ -1,0 +1,147 @@
+:PROPERTIES:
+:ID:       6AE255A8-DDF7-42D3-ACAF-0100E4057B44
+:END:
+#+TITLE: emacsでuniversal-ctagsを使う
+#+AUTHOR: takeokunn
+#+DESCRIPTION: description
+#+DATE: 2025-04-10T00:28:30+0900
+#+HUGO_BASE_DIR: ../../
+#+HUGO_CATEGORIES: fleeting
+#+HUGO_SECTION: posts/fleeting
+#+HUGO_TAGS: fleeting
+#+HUGO_DRAFT: true
+#+STARTUP: content
+#+STARTUP: fold
+* Introduction
+
+[[https://github.com/universal-ctags/ctags][universal-ctags/ctags]] の検証をしたのでメモしておく。
+
+* 概要
+Wikipedia的には以下。
+https://ja.wikipedia.org/wiki/Ctags
+
+#+begin_quote
+Ctags（英: Ctags）はソース及びヘッダ内にある名前のインデックス（又はタグ）ファイルを生成するプログラム。様々なプログラミング言語に対応している。言語に依存するが、サブルーチン(関数)、変数、クラスのメンバ、マクロ等がインデックス化される。これらのタグによりテキストエディタなどのツールで高速かつ容易に定義を参照できる。相互参照ファイルを出力でき、また名前についての情報を人が読みやすい形で列挙した言語ファイルを生成することもできる。
+
+Ctagsはケン・アーノルドがBSD Unix用に開発した。後にJim KlecknerによりFortranがサポートされ、ビル・ジョイによりPascalがサポートされた。
+#+end_quote
+
+universal-ctagsは「A maintained ctags implementation」と自称しているとおり、2025年4月現在も活発にメンテナンスされている。
+https://github.com/universal-ctags/ctags
+
+* universal-ctags使い方
+
+Nix経由なら簡単に実行できる。
+https://search.nixos.org/packages?channel=24.11&show=universal-ctags&from=0&size=50&sort=relevance&type=packages&query=universal-ctags
+
+#+begin_src console
+  $ nix run nixpkgs#universal-ctags -- --version
+
+  Universal Ctags 6.1.0, Copyright (C) 2015-2023 Universal Ctags Team
+  Universal Ctags is derived from Exuberant Ctags.
+  Exuberant Ctags 5.8, Copyright (C) 1996-2009 Darren Hiebert
+    URL: https://ctags.io/
+    Output version: 0.0
+    Optional compiled features: +wildcards, +regex, +gnulib_fnmatch, +gnulib_regex, +iconv, +option-directory, +xpath, +json, +interactive, +yaml, +case-insensitive-filenames, +packcc, +optscript, +pcre2
+#+end_src
+
+PHPプロジェクトである [[https://github.com/bobthecow/psysh][bobthecow/psysh]] を例に =TAGS= を生成する。
+
+#+begin_src console
+  $ nix run nixpkgs#universal-ctags -- -R --languages=+php,-python -e .
+#+end_src
+
+=-e= オプションはEmacs用。
+
+#+begin_src console
+  -e   Output tag file for use with Emacs.
+#+end_src
+
+たとえば =src/CodeCleaner.php= は次のように出力される。
+https://github.com/bobthecow/psysh/blob/85057ceedee50c49d4f6ecaff73ee96adb3b3625/src/CodeCleaner.php
+
+#+begin_src console
+  $ nix run nixpkgs#universal-ctags -- -R --languages=+php,-python -e src/CodeCleaner.php
+  $ cat -p TAGS
+
+  src/CodeCleaner.php,3540
+  namespace Psy;^?Psy^A12,215
+  use PhpParser\NodeTraverser;^?NodeTraverser^A14,231
+  use PhpParser\Parser;^?Parser^A15,260
+  use PhpParser\PrettyPrinter\Standard as Printer;^?Printer^A16,282
+  use Psy\CodeCleaner\AbstractClassPass;^?AbstractClassPass^A17,331
+  use Psy\CodeCleaner\AssignThisVariablePass;^?AssignThisVariablePass^A18,370
+  use Psy\CodeCleaner\CalledClassPass;^?CalledClassPass^A19,414
+  use Psy\CodeCleaner\CallTimePassByReferencePass;^?CallTimePassByReferencePass^A20,451
+  use Psy\CodeCleaner\CodeCleanerPass;^?CodeCleanerPass^A21,500
+  use Psy\CodeCleaner\EmptyArrayDimFetchPass;^?EmptyArrayDimFetchPass^A22,537
+  use Psy\CodeCleaner\ExitPass;^?ExitPass^A23,581
+  use Psy\CodeCleaner\FinalClassPass;^?FinalClassPass^A24,611
+  use Psy\CodeCleaner\FunctionContextPass;^?FunctionContextPass^A25,647
+  use Psy\CodeCleaner\FunctionReturnInWriteContextPass;^?FunctionReturnInWriteContextPass^A26,688
+  use Psy\CodeCleaner\ImplicitReturnPass;^?ImplicitReturnPass^A27,742
+  use Psy\CodeCleaner\IssetPass;^?IssetPass^A28,782
+  use Psy\CodeCleaner\LabelContextPass;^?LabelContextPass^A29,813
+  use Psy\CodeCleaner\LeavePsyshAlonePass;^?LeavePsyshAlonePass^A30,851
+  use Psy\CodeCleaner\ListPass;^?ListPass^A31,892
+  use Psy\CodeCleaner\LoopContextPass;^?LoopContextPass^A32,922
+  use Psy\CodeCleaner\MagicConstantsPass;^?MagicConstantsPass^A33,959
+  use Psy\CodeCleaner\NamespacePass;^?NamespacePass^A34,999
+  use Psy\CodeCleaner\PassableByReferencePass;^?PassableByReferencePass^A35,1034
+  use Psy\CodeCleaner\RequirePass;^?RequirePass^A36,1079
+  use Psy\CodeCleaner\ReturnTypePass;^?ReturnTypePass^A37,1112
+  use Psy\CodeCleaner\StrictTypesPass;^?StrictTypesPass^A38,1148
+  use Psy\CodeCleaner\UseStatementPass;^?UseStatementPass^A39,1185
+  use Psy\CodeCleaner\ValidClassNamePass;^?ValidClassNamePass^A40,1223
+  use Psy\CodeCleaner\ValidConstructorPass;^?ValidConstructorPass^A41,1263
+  use Psy\CodeCleaner\ValidFunctionNamePass;^?ValidFunctionNamePass^A42,1305
+  use Psy\Exception\ParseErrorException;^?ParseErrorException^A43,1348
+  class CodeCleaner^?CodeCleaner^A49,1550
+      private bool $yolo = false;^?yolo^A51,1570
+      private bool $strictTypes = false;^?strictTypes^A52,1602
+      private Parser $parser;^?parser^A54,1642
+      private Printer $printer;^?printer^A55,1670
+      private NodeTraverser $traverser;^?traverser^A56,1700
+      private ?array $namespace = null;^?namespace^A57,1738
+      public function __construct(?Parser $parser = null, ?Printer $printer = null, ?NodeTraverser^?__construct^A68,2359
+      public function yolo(): bool^?yolo^A85,2982
+      private function getDefaultPasses(): array^?getDefaultPasses^A95,3151
+      private function addImplicitDebugContext(array $passes)^?addImplicitDebugContext^A159,5472
+      private static function getDebugFile()^?getDebugFile^A195,6446
+      private static function isDebugCall(array $stackFrame): bool^?isDebugCall^A219,7096
+      public function clean(array $codeLines, bool $requireSemicolons = false)^?clean^A238,7790
+      public function setNamespace(?array $namespace = null)^?setNamespace^A263,8524
+      public function getNamespace()^?getNamespace^A273,8724
+      protected function parse(string $code, bool $requireSemicolons = false)^?parse^A288,9128
+      private function parseErrorIsEOF(\PhpParser\Error $e): bool^?parseErrorIsEOF^A322,10102
+      private function parseErrorIsUnclosedString(\PhpParser\Error $e, string $code): bool^?parseErrorIsUnclosedString^A336,10569
+      private function parseErrorIsUnterminatedComment(\PhpParser\Error $e, string $code): bool^?parseErrorIsUnterminatedComment^A351,10952
+      private function parseErrorIsTrailingComma(\PhpParser\Error $e, string $code): bool^?parseErrorIsTrailingComma^A356,11122
+#+end_src
+
+以下が読み方らしい。
+
+| 行                                                                                        | 説明                                 |
+|-------------------------------------------------------------------------------------------+--------------------------------------|
+| namespace Psy;^?Psy^A12,215                                                               | Psy という名前空間を定義している（行12） |
+| use PhpParser\Parser;^?Parser^A15,260                                                     | Parser を use している（行15）         |
+| class CodeCleaner^?CodeCleaner^A49,1550                                                   | CodeCleaner クラスの定義（行49）       |
+| private bool $yolo = false;^?yolo^A51,1570                                                | yolo プロパティの定義（行51）           |
+| public function clean（array $codeLines, bool $requireSemicolons = false）^?clean^A238,7790 | clean 関数の定義（行238）              |
+
+* emacsとの繋ぎ込み
+
+特に設定していなくても =<project-root>/TAGS= があれば、任意の関数で =M-x xref-find-definitions(M-.)=  を実行してジャンプできる。
+
+xrefのbackendがetagsになり、次のようにTAGSのPATHを解決してる。
+
+#+begin_src emacs-lisp
+  (expand-file-name "TAGS" (locate-dominating-file default-directory "TAGS"))
+#+end_src
+
+- https://github.com/emacs-mirror/emacs/blob/master/lisp/progmodes/etags.el
+- https://github.com/emacs-mirror/emacs/blob/master/lisp/progmodes/xref.el
+
+* 終わりに
+思った以上に簡単に使えた。
+php-srcやvimなどのOSSコードリーディングはLSP重いしこれでよいのかもしれない。
