@@ -8,8 +8,8 @@
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting
 #+HUGO_SECTION: posts/fleeting
-#+HUGO_TAGS: fleeting
-#+HUGO_DRAFT: true
+#+HUGO_TAGS: fleeting emacs
+#+HUGO_DRAFT: false
 #+STARTUP: content
 #+STARTUP: fold
 * Introduction
