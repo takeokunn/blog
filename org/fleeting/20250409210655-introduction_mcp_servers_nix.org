@@ -1,0 +1,161 @@
+:PROPERTIES:
+:ID:       653CAD86-42DF-4987-9642-D5179B90CA97
+:END:
+#+TITLE: mcp-servers-nixを導入した
+#+AUTHOR: takeokunn
+#+DESCRIPTION: description
+#+DATE: 2025-04-09T21:09:33+0900
+#+HUGO_BASE_DIR: ../../
+#+HUGO_CATEGORIES: fleeting
+#+HUGO_SECTION: posts/fleeting
+#+HUGO_TAGS: fleeting nix
+#+HUGO_DRAFT: false
+#+STARTUP: content
+#+STARTUP: fold
+* Introduction
+
+natsukium謹製の [[https://github.com/natsukium/mcp-servers-nix][natsukium/mcp-servers-nix]] を [[https://github.com/takeokunn/nixos-configuration][takeokunn/nixos-configuration]] に導入したのでメモしておく。
+
+* 変更点
+** Before
+
+- Orgファイルから =org-babel-tangle= で =~/Library/Application\ Support/Claude/claude_desktop_config.json= を出力
+- 必要なpackageは [[https://github.com/svanderburg/node2nix][node2nix]] 経由で入れる
+- 秘密鍵はOrgファイルで =org-encrypt= して管理
+  - ref. [[id:C5A797A4-C474-4CFE-96E8-22C12F609A80][org-crypt運用メモ]]
+
+** After
+
+- [[https://github.com/natsukium/mcp-servers-nix][natsukium/mcp-servers-nix]] からMCPに必要なものをjsonを出力
+- 必要なpackageは大体 [[https://github.com/natsukium/mcp-servers-nix][natsukium/mcp-servers-nix]] に同梱されてる
+  - 足りないものは [[https://github.com/svanderburg/node2nix][node2nix]] 経由で入れる
+- 秘密鍵は [[https://github.com/Mic92/sops-nix][sops-nix]] で管理
+
+* 作業内容
+** 1. sops-nixに登録
+
+=sops/password.yml= に以下を登録する。
+
+#+begin_src yaml
+  brave-api-token: BRAVE_API_KEY=xxxx
+#+end_src
+
+=sops/default.nix= で読み込めるようにする。
+
+#+begin_src nix
+  {
+    sops = {
+      defaultSopsFile = ./password.yaml;
+      secrets = {
+        brave-api-token = { };
+      };
+    };
+  }
+#+end_src
+
+** 2. mcp-serversを記述する
+
+~envFile = config.sops.secrets.brave-api-token.path;~ のように環境変数を渡す。
+
+#+begin_src nix
+  {
+    pkgs,
+    config,
+    mcp-servers-nix,
+    nodePkgs,
+  }:
+  let
+    programs = {
+      fetch.enable = true;
+      playwright.enable = true;
+      brave-search = {
+        enable = true;
+        envFile = config.sops.secrets.brave-api-token.path;
+      };
+    };
+  in
+  [
+    {
+      home.file."Library/Application\ Support/Claude/claude_desktop_config.json" = {
+        source = mcp-servers-nix.lib.mkConfig pkgs {
+          inherit programs;
+        };
+      };
+    }
+  ]
+#+end_src
+
+** 3. home-managerに組込み
+
+=home-manager/advanced.nix= で =imports= で登録すればよい。
+
+#+begin_src nix
+  {
+    config,
+    system,
+    nixpkgs,
+    org-babel,
+    emacs-overlay,
+    mcp-servers-nix,
+    ...
+  }:
+  let
+    # --- 中略 ---
+    pkgs = import nixpkgs {
+      inherit system;
+      config.allowUnfree = true;
+      overlays = basicOverlay ++ advancedOverlay;
+    };
+    nodePkgs = pkgs.callPackage ../node2nix { inherit pkgs; };
+
+    # mcp servers
+    mcpServers = import ./mcp-servers {
+      inherit pkgs nodePkgs;
+      inherit config mcp-servers-nix;
+    };
+  in
+  {
+    imports =  mcpServers;
+  }
+#+end_src
+* 作業結果
+
+正常に動くことを確認できた。
+
+[[file:../../static/images/B895E989-CD33-4A5E-967D-66E6DD2F3401.png]]
+
+[[file:../../static/images/B7AFBD4E-D4F3-49E8-A809-DEA091F5B3B0.png]]
+
+=$ cat ~/Library/Application\ Support/Claude/claude_desktop_config.json=:
+
+#+begin_src json
+  {
+    "mcpServers": {
+      "brave-search": {
+        "args": [],
+        "command": "/nix/store/ycnnbcc78f826p1qv1ishw51i7kizvpn-mcp-server-brave-search/bin/mcp-server-brave-search",
+        "env": {}
+      },
+      "fetch": {
+        "args": [],
+        "command": "/nix/store/bygbip4rxvmpyrcccznv69ssvg65985m-mcp-server-fetch-2025.3.28/bin/mcp-server-fetch",
+        "env": {}
+      },
+      "playwright": {
+        "args": [
+          "--executable-path",
+          "/nix/store/97prd65kac7lms777bigyjq56igmx2jq-google-chrome-135.0.7049.42/bin/google-chrome-stable"
+        ],
+        "command": "/nix/store/xp3hby1vl5ppf1xpmlnzj9b8lpnf94q1-playwright-mcp-0.0.9/bin/mcp-server-playwright",
+        "env": {}
+      }
+    }
+  }
+#+end_src
+* 終わりに
+
+sopsに雑にパスワードを登録してるのでもう少しオシャレに管理したい。
+
+#+begin_src yaml
+  brave-api-token: BRAVE_API_KEY=xxxx
+#+end_src
