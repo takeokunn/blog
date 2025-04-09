@@ -142,6 +142,8 @@ xrefのbackendがetagsになり、次のようにTAGSのPATHを解決してる�
 - https://github.com/emacs-mirror/emacs/blob/master/lisp/progmodes/etags.el
 - https://github.com/emacs-mirror/emacs/blob/master/lisp/progmodes/xref.el
 
+buffer saveにhookしてctagsを再生成するのが一般的のようだ。
+
 * 終わりに
 思った以上に簡単に使えた。
 php-srcやvimなどのOSSコードリーディングはLSP重いしこれでよいのかもしれない。
