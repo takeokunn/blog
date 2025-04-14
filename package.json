@@ -4,7 +4,7 @@
     "lint:secret": "secretlint '**/*'"
   },
   "devDependencies": {
-    "@secretlint/secretlint-rule-preset-recommend": "^9.3.0",
+    "@secretlint/secretlint-rule-preset-recommend": "^9.3.1",
     "secretlint": "^9.3.0"
   }
 }
