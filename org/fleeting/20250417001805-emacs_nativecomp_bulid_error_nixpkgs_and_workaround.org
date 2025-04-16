@@ -20,6 +20,8 @@
 
 packageに =withNativeCompilation = false;= を書く。
 
+https://github.com/NixOS/nixpkgs/blob/e51f02babf0ecf7d66e081917e609ae2c3d43ef2/pkgs/applications/editors/emacs/make-emacs.nix#L69
+
 home-managerをoverlayする場合:
 
 #+begin_src nix
