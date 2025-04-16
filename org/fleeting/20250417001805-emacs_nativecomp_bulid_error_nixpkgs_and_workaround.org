@@ -14,7 +14,7 @@
 #+STARTUP: fold
 * Introduction
 
-2025年4月16日現在、 =aarch64-darwin= 環境でnixpkgs unstableのemacs(nativecomp)をビルドできない問題が発生している。
+2025年4月16日現在、 =aarch64-darwin= 環境でnixpkgs unstableのemacs（nativecomp）をビルドできない問題が発生している。
 
 * ワークアラウンド方法
 
@@ -60,7 +60,7 @@ https://github.com/NixOS/nixpkgs/issues/395169
 
 macOS Sequoia 15.4でLC_RPATHが重複して登録されると =Duplicate LC_RPATH are deprecated= で落ちるようになった。
 
-以下のようなshell scriptを実行することで解決しているDraft PRがあるが、まだ時間がかかりそうな印象。
+次のようなshell scriptを実行することで解決しているDraft PRがあるが、まだ時間がかかりそうな印象。
 https://github.com/NixOS/nixpkgs/pull/398156
 
 #+begin_src bash
