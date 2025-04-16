@@ -1,0 +1,40 @@
+:PROPERTIES:
+:ID:       56166403-21CE-472A-9C0B-A73E4A54893F
+:END:
+#+TITLE: PHPカンファレンス小田原で「定義ジャンプ入門」というテーマで登壇しました
+#+DESCRIPTION: description
+#+DATE: 2025-04-14T19:59:20+0900
+#+GFM_TAGS: php editor
+#+GFM_CUSTOM_FRONT_MATTER: :emoji 👍
+#+GFM_CUSTOM_FRONT_MATTER: :type idea
+#+GFM_CUSTOM_FRONT_MATTER: :published false
+#+STARTUP: content
+#+STARTUP: fold
+#+OPTIONS: toc:nil
+* Introduction
+
+2025年4月11日に開催されたPHPカンファレンス小田原に「定義ジャンプ入門」というテーマで登壇しました。
+本記事は登壇内容の紹介と登壇時に話しきれなかったことの補足を目的としています。
+
+* 登壇までの流れ
+
+* 登壇内容
+
+スライドはこちら。
+https://docs.google.com/presentation/d/1HkiYZNKf6YBBOPNsHcvuOq2IKp1fw0L40j_T7RhrKZE/edit#slide=id.p
+
+** 1. 定義ジャンプ概要
+** 2. 定義ジャンプの歴史
+** 3. ctags
+** 4. LSP
+** 5. 動的解析
+* 登壇の反応
+
+- 会場がかなり埋まってて良かった
+- 昼の14:30からということで少々眠い時間帯に多少退屈な話をしてしまったという反省がある
+- フィードバックでの反応が良くて安心した
+  - ありがとうございます
+
+* 終わりに
+
+- 20分トークはちょうど良い

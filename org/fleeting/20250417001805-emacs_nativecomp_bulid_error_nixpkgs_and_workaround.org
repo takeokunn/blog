@@ -1,0 +1,98 @@
+:PROPERTIES:
+:ID:       85A5A5FA-92DA-491F-8CDC-FC1442F77DD7
+:END:
+#+TITLE: nixpkgsのunstableでEmacs Nativecomp Buildができない問題とワークアラウンド
+#+AUTHOR: takeokunn
+#+DESCRIPTION: description
+#+DATE: 2025-04-17T00:18:12+0900
+#+HUGO_BASE_DIR: ../../
+#+HUGO_CATEGORIES: fleeting
+#+HUGO_SECTION: posts/fleeting
+#+HUGO_TAGS: fleeting emacs nix
+#+HUGO_DRAFT: false
+#+STARTUP: content
+#+STARTUP: fold
+* Introduction
+
+2025年4月16日現在、 =aarch64-darwin= 環境でnixpkgs unstableのemacs(nativecomp)をビルドできない問題が発生している。
+
+* ワークアラウンド方法
+
+packageに =withNativeCompilation = false;= を書く。
+
+home-managerをoverlayする場合:
+
+#+begin_src nix
+  { emacs-overlay }:
+  [
+    (import emacs-overlay)
+
+    # bug: https://github.com/NixOS/nixpkgs/issues/395169
+    (final: prev: {
+      emacs = prev.emacs.override {
+        withNativeCompilation = false;
+      };
+      emacs-unstable = prev.emacs-unstable.override {
+        withNativeCompilation = false;
+      };
+      emacs-git = prev.emacs-git.override {
+        withNativeCompilation = false;
+      };
+    })
+  ]
+#+end_src
+
+pkgsをoverrideする場合:
+
+#+begin_src nix
+  { pkgs }:
+  pkgs.emacs.override {
+    withNativeCompilation = false;
+  }
+#+end_src
+
+* 原因
+
+「emacs: fails to launch on macOS Sequoia 15.4 #395169」に纏まってる。
+https://github.com/NixOS/nixpkgs/issues/395169
+
+macOS Sequoia 15.4でLC_RPATHが重複して登録されると =Duplicate LC_RPATH are deprecated= で落ちるようになった。
+
+以下のようなshell scriptを実行することで解決しているDraft PRがあるが、まだ時間がかかりそうな印象。
+https://github.com/NixOS/nixpkgs/pull/398156
+
+#+begin_src bash
+  # maxOS Sequoia 15.4 updated their link-loader to refuse to evaluate
+  # dylibs that include duplciate LC_RPATH instructions. Some libraries
+  # haven't properly fixed this yet, and some internal NixOS builds seem
+  # to cause this type of issue to occur. This hook simply cleans up any
+  # duplicates detected inside dylib files.
+
+  fixupOutputHooks+=('fixDarwinDuplicateRpathsIn $prefix')
+
+  removeDarwinDuplicateRpaths() {
+      dylib_path=$1
+      duplicates=$(@targetPrefix@otool -l "$dylib_path" | awk '/cmd LC_RPATH/{getline; getline; paths[$2]+=1} END { for (p in paths) if (paths[p]>1) print p }')
+      if [ -n "$duplicates" ]; then
+          echo "$dylib_path: removing duplicates"
+          echo "$duplicates"
+          while IFS= read -r dup; do
+              @targetPrefix@install_name_tool $dylib_path -delete_rpath "$dup"
+          done <<< "$duplicates"
+      fi
+  }
+
+  fixDarwinDuplicateRpathsIn() {
+      local dir="$1"
+      dirs=$(find $dir -name "*.dylib")
+      if [ -n "$dirs" ]; then
+          while IFS= read -r dylib_path; do
+              removeDarwinDuplicateRpaths $dylib_path
+          done <<< "$dirs"
+      fi
+  }
+#+end_src
+
+* 終わりに
+
+nativecompが有効になってなくても速度面でストレスはないので、暫くはこの運用を続けようと思う。
