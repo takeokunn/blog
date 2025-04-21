@@ -1,6 +1,0 @@
-#+STARTUP: content
-#+STARTUP: fold
-* PHPUnitを低速化する技術 by たけてぃ
-
-PHPカンファレンス名古屋2025
-https://fortee.jp/phpcon-nagoya-2025/proposal/8c520c5c-d564-4f6e-b5d9-10821b35d98c

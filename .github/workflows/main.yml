@@ -88,10 +88,6 @@ jobs:
         run: |
           nix build ./typst#phperkaigi-2025-pamphlet
           cp result/phperkaigi-2025-pamphlet.pdf public/pdf/
-      - name: Generate phpcon-nagoya-2025
-        run: |
-          nix build ./typst#phpcon-nagoya-2025
-          cp result/phpcon-nagoya-2025.pdf public/pdf/
 
       # for artifacts
       - name: Upload coverage report to artifacts

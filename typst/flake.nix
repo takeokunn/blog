@@ -76,10 +76,6 @@
               name = "phperkaigi-2025-pamphlet";
               type = "article";
             };
-            phpcon-nagoya-2025 = buildTypstProject {
-              name = "phpcon-nagoya-2025";
-              type = "slide";
-            };
           };
         }
     );
