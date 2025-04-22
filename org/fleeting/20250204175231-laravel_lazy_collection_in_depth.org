@@ -222,7 +222,7 @@ https://github.com/laravel/framework/blob/10.x/src/Illuminate/Collections/LazyCo
 :end:
 *** passthru関数
 
-既存の =Collection= ni生えているメソッドを実行したうえで =LazyCollection= にしたい場合は =LazyCollection#passthru= を使う必要がある。
+既存の =Collection= に生えているメソッドを実行したうえで =LazyCollection= にしたい場合は =LazyCollection#passthru= を使う必要がある。
 
 https://github.com/laravel/framework/blob/10.x/src/Illuminate/Collections/LazyCollection.php#L1760-L1772
 
