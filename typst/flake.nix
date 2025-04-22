@@ -61,6 +61,7 @@
                 export TYPST_PACKAGE_PATH="${typstPackagesCache}/typst/packages"
 
                 cp ./theme.typ ${name}/theme.typ
+                cp ./Dracula.tmTheme ${name}/Dracula.tmTheme
                 typst compile ${name}/article.typ
               '';
               installPhase = ''

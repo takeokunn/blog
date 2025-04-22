@@ -62,6 +62,8 @@
   text-size: 23pt,
   body,
 ) = {
+  set raw(theme: "./Dracula.tmTheme")
+
   set page(
     paper: "presentation-16-9",
     fill: blue,

@@ -69,21 +69,14 @@ fdsafasf
 #+begin_export typst
 #new-section[My second section]
 
-#slide[
-  = Heron algorithm
+#sourcecode(frame: none)[```c
+    #include <stdio.h>
 
-  ```julia
-  function heron(x)
-      r = x
-      while abs(r^2 - x) > eps()
-          r = (r + x / r) / 2
-      end
-      return r
-  end
-
-  @test heron(42) ≈ sqrt(42)
-  ```
-]
+    int main() {
+        printf("Hello, World!\n");
+        return 0;
+    }
+```]
 #+end_export
 * last
 #+begin_export typst
