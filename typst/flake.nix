@@ -19,6 +19,9 @@
       system:
       let
         pkgs = import nixpkgs { inherit system; };
+        emacsPkg = pkgs.emacs.override {
+          withNativeCompilation = false;
+        };
         typstPackagesCache = pkgs.stdenvNoCC.mkDerivation {
           name = "typst-packages-cache";
           src = pkgs.symlinkJoin {
@@ -47,13 +50,17 @@
               nativeBuildInputs = with pkgs; [
                 typst
                 migu
-                (emacs.pkgs.withPackages (epkgs: with epkgs; [ org ox-typst ]))
+                fira-math
+                fira-code
+                (emacsPkg.pkgs.withPackages (epkgs: with epkgs; [ org ox-typst ]))
               ];
               buildPhase = ''
                 ${emacsBuildPhase name}
 
-                export TYPST_FONT_PATHS="${pkgs.migu}/share/fonts/truetype/migu"
+                export TYPST_FONT_PATHS="${pkgs.migu}/share/fonts/truetype/migu:${pkgs.fira-math}/share/fonts/opentype:${pkgs.fira-code}/share/fonts/truetype/NerdFonts/FiraCode/"
                 export TYPST_PACKAGE_PATH="${typstPackagesCache}/typst/packages"
+
+                cp ./theme.typ ${name}/theme.typ
                 typst compile ${name}/article.typ
               '';
               installPhase = ''

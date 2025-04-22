@@ -20,6 +20,9 @@
           system:
           let
             pkgs = nixpkgs.legacyPackages.${system};
+            emacsPkg = pkgs.emacs.override {
+              withNativeCompilation = false;
+            };
             nur-pkgs = nur-packages.legacyPackages.${system};
             textlintrc = (pkgs.formats.json { }).generate "textlintrc" {
               plugins = {
@@ -73,7 +76,7 @@
                 packages = with pkgs; [
                   hugo
                   nur-pkgs.tcardgen
-                  (emacs.pkgs.withPackages (epkgs: (with epkgs.melpaPackages; [
+                  (emacsPkg.pkgs.withPackages (epkgs: (with epkgs.melpaPackages; [
                     ox-hugo
                     org-roam
                     ox-zenn

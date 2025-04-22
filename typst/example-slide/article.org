@@ -6,13 +6,8 @@
 #+STARTUP: content
 #+STARTUP: fold
 #+BEGIN_EXPORT typst
-#import "@preview/polylux:0.3.1": *
-#import "@preview/codelst:2.0.0": sourcecode
-#import themes.simple: *
-#set text(lang: "ja", font: "Migu")
-#set page(paper: "presentation-16-9")
-#set text(size: 25pt)
-#show: simple-theme.with(footer: [Simple slides])
+#import "./theme.typ": *
+#show: setup
 #+END_EXPORT
 * Title
 
@@ -24,73 +19,76 @@ fdsafasf
 =fdasfas= ~fadsfas~ hogegeh
 
 #+begin_export typst
-#title-slide[
-  = Keep it simple!
-  #v(2em)
+#slide[
+  #set page(header: none, footer: none, margin: 3em)
 
-  Alpha #footnote[Uni Augsburg] #h(1em)
-  Bravo #footnote[Uni Bayreuth] #h(1em)
-  Charlie #footnote[Uni Chemnitz] #h(1em)
+  #text(size: 1.3em)[
+    ,*こんにちは世界*
+  ]
 
-  July 23
+  My subtitle
+
+  #divider
+
+  #set text(size: .8em, weight: "light")
+  The Author
+
+  Jan 16, 2025
+
+  Some extra info
 ]
 #+end_export
-* first slide
+* agenda
 #+begin_export typst
 #slide[
-  == First slide
+  = Agenda
 
-  #sourcecode[```c
-    #include <stdio.h>
+  #outline
+]
+#+end_export
+* first section
+#+begin_export typst
+#new-section[My first section]
 
-    int main() {
-        printf("Hello, World!\n");
-        return 0;
-    }
-  ```]
+#slide[
+  = The Fundamental Theorem of Calculus
+
+  For $f = (dif F) / (dif x)$ we _know_ that
+  $
+    integral_a^b f(x) dif x = F(b) - F(a)
+  $
+
+  See `https://en.wikipedia.org/wiki/Fundamental_theorem_of_calculus`
+]
+
+#slide[
+  slide without a title
 ]
 #+end_export
 * second slide
 #+begin_export typst
-#focus-slide[
-  _Focus!_
+#new-section[My second section]
 
-  This is very important.
-]
-#+end_export
-* thrid slide
-** 1
-#+begin_export typst
-#centered-slide[
-  = Let's start a new 1 section! fdsafasf
-]
-#+end_export
-** 2
-#+begin_export typst
-#centered-slide[
-  = Let's start a new 1 section! fdsafasf
-  = Let's start a new 2 section! fdsafasf
-]
-#+end_export
-** 3
-#+begin_export typst
-#centered-slide[
-  = Let's start a new 1 section! fdsafasf
-  = Let's start a new 2 section! fdsafasf
-  = Let's start a new 3 section! fdsafasf
-]
-#+end_export
-* force slide
+#slide[
+  = Heron algorithm
 
-- fdsafdsa memo
-- hello
+  ```julia
+  function heron(x)
+      r = x
+      while abs(r^2 - x) > eps()
+          r = (r + x / r) / 2
+      end
+      return r
+  end
 
+  @test heron(42) ≈ sqrt(42)
+  ```
+]
+#+end_export
+* last
 #+begin_export typst
 #slide[
-  == Dynamic slide
-  Did you know that...
-
-  #pause
-  ...you can see the current section at the top of the slide?
+  #show: focus
+  Something very important
 ]
 #+end_export

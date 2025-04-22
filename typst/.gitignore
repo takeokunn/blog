@@ -1,3 +1,5 @@
 result
-*.typ
 *.pdf
+
+*.typ
+!theme.typ
