@@ -19,13 +19,15 @@ jobs:
     permissions:
       id-token: write
       contents: read
+    defaults:
+      run:
+        working-directory: ./zenn
     steps:
       - uses: actions/checkout@v4
       - name: Setup nix
         uses: ./.github/actions/setup-nix
       - name: flake check
         run: nix develop --command bash -c "textlint 'org/**/*.org'"
-        working-directory: ./zenn
   secretlint:
     runs-on: ubuntu-latest
     steps:
