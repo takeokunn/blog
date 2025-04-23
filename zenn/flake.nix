@@ -74,8 +74,6 @@
               };
               deploy = pkgs.mkShell {
                 packages = with pkgs; [
-                  hugo
-                  nur-pkgs.tcardgen
                   (emacsPkg.pkgs.withPackages (epkgs: (with epkgs.melpaPackages; [ ox-zenn ])))
                 ];
               };
