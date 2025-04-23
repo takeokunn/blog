@@ -110,7 +110,7 @@ jobs:
       id-token: write
     needs:
       - build-hugo
-      # - build-pdf
+      - build-pdf
     runs-on: ubuntu-latest
     steps:
       - name: Download Hugo site artifacts
