@@ -21,7 +21,7 @@ jobs:
 
       # for Org-Zenn to Markdown
       - name: Build org to markdown
-        run: nix develop .#deploy --command bash -c "emacs --batch --load ox-zenn.el --funcall export-org-zenn-files"
+        run: nix develop .#deploy --command bash -c "emacs --batch --load scripts/ox-zenn.el --funcall export-org-zenn-files"
 
       - name: Deploy Zenn
         uses: peaceiris/actions-gh-pages@v4
@@ -49,7 +49,7 @@ jobs:
       - name: Remove gpg file
         run: rm -fr org/private
       - name: Build org to markdown
-        run: nix develop .#deploy --command bash -c "emacs --batch --load ox-roam.el --funcall export-org-roam-files"
+        run: nix develop .#deploy --command bash -c "emacs --batch --load scripts/ox-roam.el --funcall export-org-roam-files"
 
       # for Generate OGP
       - name: Create public
