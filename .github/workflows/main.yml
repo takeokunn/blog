@@ -40,8 +40,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          submodules: recursive
       - name: Setup nix
         uses: ./.github/actions/setup-nix
 
@@ -103,29 +101,31 @@ jobs:
           name: build-pdf
           path: ./public/pdf
 
-  # deploy:
-  #   permissions:
-  #     contents: write
-  #     pages: write
-  #     id-token: write
-  #   needs: [build-hugo, build-pdf]
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Download Hugo site artifacts
-  #       uses: actions/download-artifact@v4
-  #       with:
-  #         name: build-hugo
-  #         path: ./public
-  #         merge-multiple: true
-  #     - name: Download PDF artifacts
-  #       uses: actions/download-artifact@v4
-  #       with:
-  #         name: build-pdf
-  #         path: ./public/pdf
-  #         merge-multiple: true
-  #     - name: Upload artifact
-  #       uses: actions/upload-pages-artifact@v3
-  #       with:
-  #         path: ./public
-  #     - name: Deploy to GitHub Pages
-  #       uses: actions/deploy-pages@v4
+  deploy:
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+    needs:
+      - build-hugo
+      - build-pdf
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Hugo site artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-hugo
+          path: ./public
+          merge-multiple: true
+      - name: Download PDF artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-pdf
+          path: ./public/pdf
+          merge-multiple: true
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./public
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
