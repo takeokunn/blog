@@ -1,0 +1,61 @@
+{
+  "nodes": {
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1745413786,
+        "narHash": "sha256-+8RHsEwE0oTLRkb+ButiySMbmCGkLoYda2+s4bVkgXE=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "cfc9542f42a96874c3303cae0b5832b6b1e2c8bc",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_2": {
+      "locked": {
+        "lastModified": 1741037377,
+        "narHash": "sha256-SvtvVKHaUX4Owb+PasySwZsoc5VUeTf1px34BByiOxw=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "02032da4af073d0f6110540c8677f16d4be0117f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixpkgs-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nur-packages": {
+      "inputs": {
+        "nixpkgs": "nixpkgs_2"
+      },
+      "locked": {
+        "lastModified": 1743700011,
+        "narHash": "sha256-KEJRfkr6HYWuelyFXTV6myc84WlZs0/Cb1pwQA4X3Pw=",
+        "owner": "takeokunn",
+        "repo": "nur-packages",
+        "rev": "73bb08030a7e87ffcf162b6e604a66810c97ec12",
+        "type": "github"
+      },
+      "original": {
+        "owner": "takeokunn",
+        "repo": "nur-packages",
+        "type": "github"
+      }
+    },
+    "root": {
+      "inputs": {
+        "nixpkgs": "nixpkgs",
+        "nur-packages": "nur-packages"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}

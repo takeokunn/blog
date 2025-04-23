@@ -18,107 +18,108 @@ jobs:
 
       # for Org-Zenn to Markdown
       - name: Build org to markdown
-        run: nix develop .#deploy --command bash -c "emacs --batch --load scripts/ox-zenn.el --funcall export-org-zenn-files"
+        run: nix develop .#deploy --command bash -c "emacs --batch --load ox-zenn.el --funcall export-org-zenn-files"
+        working-directory: ./zenn
 
       - name: Deploy Zenn
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./zenn
+          publish_dir: ./zenn/public
           publish_branch: zenn
           force_orphan: true
 
-  build-hugo:
-    runs-on: ubuntu-latest
-    needs: ci
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          submodules: recursive
-      - name: Setup nix
-        uses: ./.github/actions/setup-nix
+  # build-hugo:
+  #   runs-on: ubuntu-latest
+  #   needs: ci
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v4
+  #       with:
+  #         submodules: recursive
+  #     - name: Setup nix
+  #       uses: ./.github/actions/setup-nix
 
-      # for Org-Roam to Markdown
-      - name: Remove gpg file
-        run: rm -fr org/private
-      - name: Build org to markdown
-        run: nix develop .#deploy --command bash -c "emacs --batch --load scripts/ox-roam.el --funcall export-org-roam-files"
+  #     # for Org-Roam to Markdown
+  #     - name: Remove gpg file
+  #       run: rm -fr org/private
+  #     - name: Build org to markdown
+  #       run: nix develop .#deploy --command bash -c "emacs --batch --load scripts/ox-roam.el --funcall export-org-roam-files"
 
-      # for Generate OGP
-      - name: Create public
-        run: mkdir -p ./public
-      - name: Generate OGP
-        run: nix develop .#deploy --command bash -c "tcardgen --fontDir=tcardgen/font --output=static/ogp --config=tcardgen/ogp.yml content/posts/**/*.md"
+  #     # for Generate OGP
+  #     - name: Create public
+  #       run: mkdir -p ./public
+  #     - name: Generate OGP
+  #       run: nix develop .#deploy --command bash -c "tcardgen --fontDir=tcardgen/font --output=static/ogp --config=tcardgen/ogp.yml content/posts/**/*.md"
 
-      # for Hugo
-      - name: Build with Hugo
-        env:
-          HUGO_ENVIRONMENT: production
-          HUGO_ENV: production
-          TZ: Asia/Tokyo
-        run: nix develop .#deploy --command bash -c "hugo --minify"
+  #     # for Hugo
+  #     - name: Build with Hugo
+  #       env:
+  #         HUGO_ENVIRONMENT: production
+  #         HUGO_ENV: production
+  #         TZ: Asia/Tokyo
+  #       run: nix develop .#deploy --command bash -c "hugo --minify"
 
-      # for artifacts
-      - name: Upload coverage report to artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-hugo
-          path: ./public
+  #     # for artifacts
+  #     - name: Upload coverage report to artifacts
+  #       uses: actions/upload-artifact@v4
+  #       with:
+  #         name: build-hugo
+  #         path: ./public
 
-  build-pdf:
-    runs-on: ubuntu-latest
-    needs: ci
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          submodules: recursive
-      - name: Setup nix
-        uses: ./.github/actions/setup-nix
-      - name: Generate example-slide
-        run: mkdir -p public/pdf/
+  # build-pdf:
+  #   runs-on: ubuntu-latest
+  #   needs: ci
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v4
+  #       with:
+  #         submodules: recursive
+  #     - name: Setup nix
+  #       uses: ./.github/actions/setup-nix
+  #     - name: Generate example-slide
+  #       run: mkdir -p public/pdf/
 
-      # for PDF
-      - name: Generate example-slide
-        run: |
-          nix build ./typst#example-slide
-          cp result/example-slide.pdf public/pdf/
-      - name: Generate phperkaigi-2025-pamphlet
-        run: |
-          nix build ./typst#phperkaigi-2025-pamphlet
-          cp result/phperkaigi-2025-pamphlet.pdf public/pdf/
+  #     # for PDF
+  #     - name: Generate example-slide
+  #       run: |
+  #         nix build ./typst#example-slide
+  #         cp result/example-slide.pdf public/pdf/
+  #     - name: Generate phperkaigi-2025-pamphlet
+  #       run: |
+  #         nix build ./typst#phperkaigi-2025-pamphlet
+  #         cp result/phperkaigi-2025-pamphlet.pdf public/pdf/
 
-      # for artifacts
-      - name: Upload coverage report to artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-pdf
-          path: ./public/pdf
+  #     # for artifacts
+  #     - name: Upload coverage report to artifacts
+  #       uses: actions/upload-artifact@v4
+  #       with:
+  #         name: build-pdf
+  #         path: ./public/pdf
 
-  deploy:
-    permissions:
-      contents: write
-      pages: write
-      id-token: write
-    needs: [build-hugo, build-pdf]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download Hugo site artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: build-hugo
-          path: ./public
-          merge-multiple: true
-      - name: Download PDF artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: build-pdf
-          path: ./public/pdf
-          merge-multiple: true
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: ./public
-      - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v4
+  # deploy:
+  #   permissions:
+  #     contents: write
+  #     pages: write
+  #     id-token: write
+  #   needs: [build-hugo, build-pdf]
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Download Hugo site artifacts
+  #       uses: actions/download-artifact@v4
+  #       with:
+  #         name: build-hugo
+  #         path: ./public
+  #         merge-multiple: true
+  #     - name: Download PDF artifacts
+  #       uses: actions/download-artifact@v4
+  #       with:
+  #         name: build-pdf
+  #         path: ./public/pdf
+  #         merge-multiple: true
+  #     - name: Upload artifact
+  #       uses: actions/upload-pages-artifact@v3
+  #       with:
+  #         path: ./public
+  #     - name: Deploy to GitHub Pages
+  #       uses: actions/deploy-pages@v4

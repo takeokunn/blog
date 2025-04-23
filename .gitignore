@@ -9,18 +9,6 @@ node_modules/
 content/*
 !content/.gitkeep
 
-zenn/articles/*
-!zenn/articles/0b5f07debc3b72.md
-!zenn/articles/1d2059be369380.md
-!zenn/articles/650eba2532585a.md
-!zenn/articles/56010618502ccc.md
-!zenn/articles/bba928c9e07af3.md
-!zenn/articles/f45eb5dcda618e.md
-
-zenn/books/zenn-book-test/*
-!zenn/books/zenn-book-test/config.yaml
-!zenn/books/zenn-book-test/cover.png
-
 static/ogp
 .textlintrc
 

@@ -4,9 +4,9 @@
   "Exports Org files to Zenn markdown."
   (interactive)
   (let ((org-publish-project-alist `(("zenn"
-                                      :base-directory "org/zenn/articles"
+                                      :base-directory "org/articles"
                                       :base-extension "org"
-                                      :publishing-directory "zenn/articles"
+                                      :publishing-directory "public/articles"
                                       :publishing-function org-zenn-publish-to-markdown))))
     (org-publish-all t)))
 
@@ -15,9 +15,9 @@
   (interactive)
   (let ((org-publish-project-alist `(("zenn"
                                       :recursive t
-                                      :base-directory "org/zenn/books"
+                                      :base-directory "org/books"
                                       :base-extension "org"
-                                      :publishing-directory "zenn/books"
+                                      :publishing-directory "public/books"
                                       :publishing-function org-zenn-publish-to-markdown))))
     (org-publish-all t)))
 
