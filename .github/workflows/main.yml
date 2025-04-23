@@ -67,35 +67,35 @@ jobs:
   #         name: build-hugo
   #         path: ./public
 
-  # build-pdf:
-  #   runs-on: ubuntu-latest
-  #   needs: ci
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v4
-  #       with:
-  #         submodules: recursive
-  #     - name: Setup nix
-  #       uses: ./.github/actions/setup-nix
-  #     - name: Generate example-slide
-  #       run: mkdir -p public/pdf/
+  build-pdf:
+    runs-on: ubuntu-latest
+    needs: ci
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - name: Setup nix
+        uses: ./.github/actions/setup-nix
+      - name: Generate example-slide
+        run: mkdir -p public/pdf/
 
-  #     # for PDF
-  #     - name: Generate example-slide
-  #       run: |
-  #         nix build ./typst#example-slide
-  #         cp result/example-slide.pdf public/pdf/
-  #     - name: Generate phperkaigi-2025-pamphlet
-  #       run: |
-  #         nix build ./typst#phperkaigi-2025-pamphlet
-  #         cp result/phperkaigi-2025-pamphlet.pdf public/pdf/
+      # for PDF
+      - name: Generate example-slide
+        run: |
+          nix build ./typst#example-slide
+          cp result/example-slide.pdf public/pdf/
+      - name: Generate phperkaigi-2025-pamphlet
+        run: |
+          nix build ./typst#phperkaigi-2025-pamphlet
+          cp result/phperkaigi-2025-pamphlet.pdf public/pdf/
 
-  #     # for artifacts
-  #     - name: Upload coverage report to artifacts
-  #       uses: actions/upload-artifact@v4
-  #       with:
-  #         name: build-pdf
-  #         path: ./public/pdf
+      # for artifacts
+      - name: Upload coverage report to artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-pdf
+          path: ./public/pdf
 
   # deploy:
   #   permissions:
