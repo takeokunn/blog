@@ -1,6 +1,4 @@
 {
-  description = "takeokunn's blog";
-
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs";
     nur-packages.url = "github:takeokunn/nur-packages";
@@ -79,7 +77,6 @@
                   (emacsPkg.pkgs.withPackages (epkgs: (with epkgs.melpaPackages; [
                     ox-hugo
                     org-roam
-                    ox-zenn
                   ])))
                 ];
               };

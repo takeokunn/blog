@@ -1,0 +1,26 @@
+version: 1
+rules:
+  - expected: Zettelkasten
+  - expected: Neovim
+  - expected: Tree-sitter
+  - expected: Emacs Lisp
+    pattern:  /\bEmacsLisp\b|\bemacs-lisp\b|\bemacslisp\b/
+  - expected: Common Lisp
+    pattern:  /\bCommonLisp\b|\bcommon-lisp\b|\bcommonlisp\b/
+  - expected: Vim script
+    pattern:  /\bvimscript\b|\bVim Script\b|\bVimScript\b/
+  - expected: Vue.js
+    pattern:  /\bVueJS\b|\bVueJs\b|\bvuejs\b/
+  - expected: React.js
+    pattern:  /\bReactJS\b|\bReactJs\b|\breactjs\b/
+  - expected: Bitwarden
+  - expected: Dvorak
+  - expected: GnuPG
+  - expected: org-mode
+    pattern:  /org-m(o|e|d)(o|e|d)(o|e|d)/
+  - expected: org-roam
+    pattern:  /org-r(o|a|m)(o|a|m)(o|a|m)/
+  - expected: ISUCON
+  - expected: 技術書展
+    patterns: 技術書店
+  - expected: OmniSharp

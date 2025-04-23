@@ -14,6 +14,20 @@ jobs:
         run: |
           bash <(curl https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash)
           ./actionlint -color
+  textlint-hugo:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    defaults:
+      run:
+        working-directory: ./hugo
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup nix
+        uses: ./.github/actions/setup-nix
+      - name: flake check
+        run: nix develop --command bash -c "textlint 'org/**/*.org'"
   textlint-zenn:
     runs-on: ubuntu-latest
     permissions:
@@ -44,7 +58,11 @@ jobs:
         run: npm run lint:secret
   dependabot:
     runs-on: ubuntu-latest
-    needs: [actionlint, textlint-zenn, secretlint]
+    needs:
+      - actionlint
+      - textlint-hugo
+      - textlint-zenn
+      - secretlint
     if: github.actor == 'dependabot[bot]'
     permissions:
       contents: write
