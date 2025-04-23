@@ -68,38 +68,38 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: build-hugo
-          path: ./public
+          path: ./hugo/public
 
-  build-pdf:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./typst
-    needs: ci
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Setup nix
-        uses: ./.github/actions/setup-nix
-      - name: mkdir -p public/pdf/
-        run: mkdir -p public/pdf/
+  # build-pdf:
+  #   runs-on: ubuntu-latest
+  #   defaults:
+  #     run:
+  #       working-directory: ./typst
+  #   needs: ci
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v4
+  #     - name: Setup nix
+  #       uses: ./.github/actions/setup-nix
+  #     - name: mkdir -p public/pdf/
+  #       run: mkdir -p public/pdf/
 
-      # for PDF
-      - name: Generate example-slide
-        run: |
-          nix build .#example-slide
-          cp result/example-slide.pdf public/pdf/
-      - name: Generate phperkaigi-2025-pamphlet
-        run: |
-          nix build .#phperkaigi-2025-pamphlet
-          cp result/phperkaigi-2025-pamphlet.pdf public/pdf/
+  #     # for PDF
+  #     - name: Generate example-slide
+  #       run: |
+  #         nix build .#example-slide
+  #         cp result/example-slide.pdf public/pdf/
+  #     - name: Generate phperkaigi-2025-pamphlet
+  #       run: |
+  #         nix build .#phperkaigi-2025-pamphlet
+  #         cp result/phperkaigi-2025-pamphlet.pdf public/pdf/
 
-      # for artifacts
-      - name: Upload coverage report to artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-pdf
-          path: ./public/pdf
+  #     # for artifacts
+  #     - name: Upload coverage report to artifacts
+  #       uses: actions/upload-artifact@v4
+  #       with:
+  #         name: build-pdf
+  #         path: ./public/pdf
 
   deploy:
     permissions:
@@ -108,7 +108,7 @@ jobs:
       id-token: write
     needs:
       - build-hugo
-      - build-pdf
+      # - build-pdf
     runs-on: ubuntu-latest
     steps:
       - name: Download Hugo site artifacts
@@ -117,12 +117,12 @@ jobs:
           name: build-hugo
           path: ./public
           merge-multiple: true
-      - name: Download PDF artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: build-pdf
-          path: ./public/pdf
-          merge-multiple: true
+      # - name: Download PDF artifacts
+      #   uses: actions/download-artifact@v4
+      #   with:
+      #     name: build-pdf
+      #     path: ./public/pdf
+      #     merge-multiple: true
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
