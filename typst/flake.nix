@@ -40,9 +40,9 @@
             _ = assert builtins.elem; type [ "article" "slide" ];
             emacsBuildPhase = name: if type == "article"
                                     then
-                                      "emacs --batch --load ox-typst.el --file ${name}/article.org --funcall org-typst-export-to-typst"
+                                      "emacs --batch --load scripts/ox-typst.el --file org/${name}/article.org --funcall org-typst-export-to-typst"
                                     else
-                                      "emacs --batch --load ox-typst.el --file ${name}/article.org --funcall org-typst-slide-export-to-typst";
+                                      "emacs --batch --load scripts/ox-typst.el --file org/${name}/article.org --funcall org-typst-slide-export-to-typst";
           in
             pkgs.stdenv.mkDerivation {
               inherit name;
@@ -60,13 +60,14 @@
                 export TYPST_FONT_PATHS="${pkgs.migu}/share/fonts/truetype/migu:${pkgs.fira-math}/share/fonts/opentype:${pkgs.fira-code}/share/fonts/truetype/NerdFonts/FiraCode/"
                 export TYPST_PACKAGE_PATH="${typstPackagesCache}/typst/packages"
 
-                cp ./theme.typ ${name}/theme.typ
-                cp ./Dracula.tmTheme ${name}/Dracula.tmTheme
-                typst compile ${name}/article.typ
+                ls -la ./themes/
+                cp ./themes/slide.typ org/${name}/slide.typ
+                cp ./themes/Dracula.tmTheme org/${name}/Dracula.tmTheme
+                typst compile org/${name}/article.typ
               '';
               installPhase = ''
                 mkdir -p $out
-                cp ${name}/article.pdf $out/${name}.pdf
+                cp org/${name}/article.pdf $out/${name}.pdf
               '';
             };
       in

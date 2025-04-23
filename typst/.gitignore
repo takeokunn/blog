@@ -2,4 +2,4 @@ result
 *.pdf
 
 *.typ
-!theme.typ
+!themes/slide.typ
