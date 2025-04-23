@@ -6,3 +6,5 @@ runs:
   steps:
     - uses: nixbuild/nix-quick-install-action@v30
     - uses: nix-community/cache-nix-action@v6
+      with:
+        primary-key: nix-${{ runner.os }}-${{ hashFiles('**/*.nix', '**/flake.lock') }}
