@@ -68,7 +68,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: build-hugo
-          path: ./hugo/public
+          path: ./public
 
   build-pdf:
     runs-on: ubuntu-latest
@@ -99,7 +99,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: build-pdf
-          path: ./typst/public/pdf
+          path: ./public/pdf
 
   deploy:
     permissions:
