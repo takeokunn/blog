@@ -29,13 +29,6 @@ jobs:
         working-directory: ./hugo
     steps:
       - uses: actions/checkout@v4
-      - name: Check if secret is defined
-        run: |
-          if [ -z "${{ secrets.CACHIX_AUTH_TOKEN }}" ]; then
-            echo "CACHIX_AUTH_TOKEN is empty"
-          else
-            echo "CACHIX_AUTH_TOKEN is set (masked)"
-          fi
       - name: Setup nix
         uses: ./.github/actions/setup-nix
         with:

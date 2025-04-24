@@ -10,11 +10,6 @@ inputs:
 runs:
   using: composite
   steps:
-    - name: hoge
-      shell: bash
-      run: |
-        echo "Auth token is: '${{ inputs.cachix-auth-token }}'"
-        echo "Signing key is: '${{ inputs.cachix-signing-key }}'"
     - uses: cachix/install-nix-action@v31
     - uses: cachix/cachix-action@v14
       with:
