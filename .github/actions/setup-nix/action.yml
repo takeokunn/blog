@@ -1,6 +1,12 @@
 name: Run setup-nix
 description: Set up Nix environment for GitHub Actions
 
+inputs:
+  cachix-auth-token:
+    required: true
+  cachix-signing-key:
+    required: false
+
 runs:
   using: composite
   steps:
@@ -8,5 +14,5 @@ runs:
     - uses: cachix/cachix-action@v14
       with:
         name: takeokunn-blog
-        authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
-        signingKey: '${{ secrets.CACHIX_SIGNING_KEY }}'
+        authToken: '${{ inputs.cachix-auth-token }}'
+        signingKey: '${{ inputs.cachix-signing-key }}'
