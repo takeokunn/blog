@@ -10,7 +10,6 @@ jobs:
     uses: ./.github/workflows/ci.yml
     secrets:
       CACHIX_AUTH_TOKEN: ${{ secrets.CACHIX_AUTH_TOKEN }}
-      CACHIX_SIGNING_KEY: ${{ secrets.CACHIX_SIGNING_KEY }}
   build-zenn:
     runs-on: ubuntu-latest
     needs: ci
@@ -23,7 +22,6 @@ jobs:
         uses: ./.github/actions/setup-nix
         with:
           cachix-auth-token: ${{ secrets.CACHIX_AUTH_TOKEN }}
-          cachix-signing-key: ${{ secrets.CACHIX_SIGNING_KEY }}
 
       # for Org-Zenn to Markdown
       - name: Build org to markdown
@@ -94,7 +92,6 @@ jobs:
         uses: ./.github/actions/setup-nix
         with:
           cachix-auth-token: ${{ secrets.CACHIX_AUTH_TOKEN }}
-          cachix-signing-key: ${{ secrets.CACHIX_SIGNING_KEY }}
       - name: mkdir -p public/pdf/
         run: mkdir -p public/pdf/
 

@@ -4,8 +4,6 @@ description: Set up Nix environment for GitHub Actions
 inputs:
   cachix-auth-token:
     required: true
-  cachix-signing-key:
-    required: true
 
 runs:
   using: composite
@@ -15,4 +13,3 @@ runs:
       with:
         name: takeokunn-blog
         authToken: '${{ inputs.cachix-auth-token }}'
-        # signingKey: '${{ inputs.cachix-signing-key }}'
