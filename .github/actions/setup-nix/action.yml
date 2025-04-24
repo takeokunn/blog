@@ -15,4 +15,4 @@ runs:
       with:
         name: takeokunn-blog
         authToken: '${{ inputs.cachix-auth-token }}'
-        signingKey: '${{ inputs.cachix-signing-key }}'
+        # signingKey: '${{ inputs.cachix-signing-key }}'
