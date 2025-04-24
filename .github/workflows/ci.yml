@@ -1,8 +1,13 @@
 name: CI
 
 on:
-  workflow_call:
   pull_request:
+  workflow_call:
+    secrets:
+      CACHIX_AUTH_TOKEN:
+        required: true
+      CACHIX_SIGNING_KEY:
+        required: true
 
 jobs:
   actionlint:
