@@ -1,5 +1,7 @@
 (require 'ox-zenn)
 
+(setq org-publish-timestamp-directory "./.org-timestamps")
+
 (defun export-org-zenn-articles-files ()
   "Exports Org files to Zenn markdown."
   (interactive)

@@ -22,11 +22,8 @@ jobs:
         uses: ./.github/actions/setup-nix
         with:
           cachix-auth-token: ${{ secrets.CACHIX_AUTH_TOKEN }}
-
-      # for Org-Zenn to Markdown
-      - name: Build org to markdown
-        run: nix develop .#deploy --command bash -c "emacs --batch --load scripts/ox-zenn.el --funcall export-org-zenn-files"
-
+      - name: Build zenn
+        run: nix build .#build-zenn
       - name: Deploy Zenn
         uses: peaceiris/actions-gh-pages@v4
         with:
@@ -58,7 +55,7 @@ jobs:
           name: build-hugo
           path: ./hugo/result
 
-  build-pdf:
+  build-typst:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -88,7 +85,7 @@ jobs:
       - name: Upload coverage report to artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: build-pdf
+          name: build-typst
           path: ./typst/public/pdf
 
   deploy:
@@ -98,7 +95,7 @@ jobs:
       id-token: write
     needs:
       - build-hugo
-      - build-pdf
+      - build-typst
     runs-on: ubuntu-latest
     steps:
       - name: Download Hugo site artifacts
@@ -110,7 +107,7 @@ jobs:
       - name: Download PDF artifacts
         uses: actions/download-artifact@v4
         with:
-          name: build-pdf
+          name: build-typst
           path: ./public/pdf
           merge-multiple: true
       - name: Upload artifact
