@@ -50,33 +50,13 @@ jobs:
         uses: ./.github/actions/setup-nix
         with:
           cachix-auth-token: ${{ secrets.CACHIX_AUTH_TOKEN }}
-
-      # for Org-Roam to Markdown
-      - name: Remove gpg file
-        run: rm -fr org/private
-      - name: Build org to markdown
-        run: nix develop .#deploy --command bash -c "emacs --batch --load scripts/ox-roam.el --funcall export-org-roam-files"
-
-      # for Generate OGP
-      - name: Create public
-        run: mkdir -p ./public
-      - name: Generate OGP
-        run: nix develop .#deploy --command bash -c "tcardgen --fontDir=tcardgen/font --output=static/ogp --config=tcardgen/ogp.yml content/posts/**/*.md"
-
-      # for Hugo
-      - name: Build with Hugo
-        env:
-          HUGO_ENVIRONMENT: production
-          HUGO_ENV: production
-          TZ: Asia/Tokyo
-        run: nix develop .#deploy --command bash -c "hugo --minify"
-
-      # for artifacts
+      - name: Build hugo
+        run: nix build .?submodules=1#build-hugo
       - name: Upload coverage report to artifacts
         uses: actions/upload-artifact@v4
         with:
           name: build-hugo
-          path: ./hugo/public
+          path: ./hugo/result
 
   build-pdf:
     runs-on: ubuntu-latest

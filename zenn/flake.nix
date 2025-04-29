@@ -1,6 +1,4 @@
 {
-  description = "takeokunn's blog";
-
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs";
     nur-packages.url = "github:takeokunn/nur-packages";

@@ -5,10 +5,8 @@
 #+AUTHOR: takeokunn
 #+STARTUP: content
 #+STARTUP: fold
-#+BEGIN_EXPORT typst
-#import "./slide.typ": *
-#show: setup
-#+END_EXPORT
+#+TYPST: #import "./slide.typ": *
+#+TYPST: #show: setup
 * Title
 
 fdsafasf
