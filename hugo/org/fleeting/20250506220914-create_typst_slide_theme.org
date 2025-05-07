@@ -23,7 +23,7 @@
 - ソースコードのシンタックスハイライトサポート
 - 数式サポート
 
-個人的にはDracula Themeが好きなのでDracula Theme風に作る。
+個人的にDracula Themeが好きなのでDracula Theme風に作る。
 
 * 試したこと・やったこと
 ** 1. theme自作
