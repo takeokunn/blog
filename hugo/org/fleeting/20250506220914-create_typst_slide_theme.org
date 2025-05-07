@@ -1,0 +1,204 @@
+:PROPERTIES:
+:ID:       C6F8F599-5F2A-4C8C-8148-0DF03644CE35
+:END:
+#+TITLE: Typstテーマを自作した
+#+AUTHOR: takeokunn
+#+DESCRIPTION: description
+#+DATE: 2025-05-06T22:12:04+0900
+#+HUGO_BASE_DIR: ../../
+#+HUGO_CATEGORIES: fleeting
+#+HUGO_SECTION: posts/fleeting
+#+HUGO_TAGS: fleeting typst org-mode
+#+HUGO_DRAFT: true
+#+STARTUP: content
+#+STARTUP: fold
+* 背景・動機
+
+[[id:0D13FCEA-F8EC-4729-B700-9A88FD1D5EB9][NixでTypstをBuildしGitHub Pagesでホスティングする]] でTypstから生成したPDFスライドを配信する仕組みを作った。
+今後の登壇は可能な限りTypstから生成するつもりなのでテーマを自作した。
+
+以下の要件を満たす必要があった。
+
+- ライトテーマ/ダークテーマなどテーマを簡単に切り替えられるようにする
+- ソースコードのシンタックスハイライトサポート
+- 数式サポート
+
+個人的にはDracula Themeが好きなので一旦Dracula Theme風に作る。
+
+* 試したこと・やったこと
+** 1. theme自作
+
+[[https://typst.app/universe/package/polylux/][polylux]] をベースに自作した。[[https://typst.app/universe/package/basic-polylux/][basic-polylux]] あたりを参考に改造した。
+
+シンタックスハイライトは [[https://typst.app/universe/package/codly/][codelst]] に [[https://github.com/dracula/textmate/blob/master/Dracula.tmTheme][Dracula.tmTheme]] を読ませてハイライトしている。
+
+#+begin_src typst
+#import "@preview/codelst:2.0.2": sourcecode
+#import "@preview/polylux:0.4.0": *
+
+#let blue = rgb("#282a36")
+#let white = rgb("#f8f8f2")
+#let pink = rgb("#ff79c6")
+#let purple = rgb("#bd93f9")
+#let orange = rgb("#ffb86c")
+#let green = rgb("#50fa7b")
+#let gray = rgb("#6272a4")
+
+#let slide-title-header = toolbox.next-heading(h => {
+  show: toolbox.full-width-block.with(fill: blue, inset: 1em)
+  set text(fill: purple, size: 1.2em)
+  strong(h)
+})
+
+#let the-footer(content) = {
+  set text(size: 0.8em)
+  show: pad.with(.5em)
+  set align(bottom)
+  context text(fill: white.lighten(40%), content)
+  h(1fr)
+}
+
+#let outline = toolbox.all-sections((sections, _current) => {
+  enum(tight: false, ..sections)
+})
+
+#let progress-bar = toolbox.progress-ratio(ratio => {
+  set grid.cell(inset: (y: .03em))
+  grid(
+    columns: (ratio * 100%, 1fr),
+    grid.cell(fill: pink)[],
+    grid.cell(fill: purple)[],
+  )
+})
+
+#let new-section(name) = slide({
+  set page(header: none, footer: none)
+  show: pad.with(20%)
+  set text(size: 1.5em)
+  name
+  toolbox.register-section(name)
+  progress-bar
+})
+
+#let focus(body) = context {
+  set page(header: none, footer: none, fill: blue, margin: 2em)
+  set text(fill: orange, size: 1.5em)
+  set align(center)
+  body
+}
+
+#let divider = line(length: 100%, stroke: .1em + pink)
+
+#let setup(
+  footer: none,
+  text-font: "Migu",
+  math-font: "Fira Math",
+  code-font: "Fira Code",
+  text-size: 23pt,
+  body,
+) = {
+  set raw(theme: "./Dracula.tmTheme")
+
+  set page(
+    paper: "presentation-16-9",
+    fill: blue,
+    margin: (rest: 4em),
+    footer: the-footer(footer),
+    header: slide-title-header,
+  )
+  set text(
+    font: text-font,
+    size: text-size,
+    fill: white,
+  )
+  set strong(delta: 100)
+  show math.equation: set text(font: math-font)
+  show raw: set text(font: code-font)
+  set align(horizon)
+  show emph: it => text(fill: pink, it.body)
+  show heading.where(level: 1): _ => none
+
+  body
+}
+#+end_src
+** 2. flake.nixでBuildする
+
+以下抜粋。
+https://github.com/takeokunn/blog/blob/d7501711936b11d3f53c312c2775e20faab35602/typst/flake.nix
+
+#+begin_src nix
+  {
+    pkgs.stdenv.mkDerivation {
+        inherit name;
+        src = ./.;
+        nativeBuildInputs = with pkgs; [
+          typst
+          migu
+          fira-math
+          fira-code
+          (emacsPkg.pkgs.withPackages (epkgs: with epkgs; [ org ox-typst ]))
+        ];
+        buildPhase = ''
+          emacs --batch --load scripts/ox-typst.el --file org/${name}/article.org --funcall org-typst-slide-export-to-typst
+          export TYPST_FONT_PATHS="${pkgs.migu}/share/fonts/truetype/migu:${pkgs.fira-math}/share/fonts/opentype:${pkgs.fira-code}/share/fonts/truetype/NerdFonts/FiraCode/"
+          export TYPST_PACKAGE_PATH="${typstPackagesCache}/typst/packages"
+
+          cp ./themes/dracula.typ org/${name}/dracula.typ
+          cp ./themes/Dracula.tmTheme org/${name}/Dracula.tmTheme
+          typst compile org/${name}/article.typ
+        '';
+        installPhase = ''
+          mkdir -p $out
+          cp org/${name}/article.pdf $out/${name}.pdf
+        '';
+      };
+  }
+#+end_src
+** 3. org-modeでスライドを作成
+
+=#+begin_export typst= 内にtypstを記述する。
+
+#+begin_src org
+  ,#+TYPST: #import "./dracula.typ": *
+  ,#+TYPST: #show: setup
+  ,* Title
+
+  スピーカーノートを記述。
+
+  ,#+begin_export typst
+  #slide[
+    #set page(header: none, footer: none, margin: 3em)
+
+    #text(size: 1.3em)[
+      ,,*こんにちは世界*
+    ]
+
+    My subtitle
+
+    #divider
+
+    #set text(size: .8em, weight: "light")
+    The Author
+
+    Jan 16, 2025
+
+    Some extra info
+  ]
+  ,#+end_export
+#+end_src
+* 得られた結果・所感
+
+PDFを生成できるようになった。
+https://www.takeokunn.org/pdf/example-slide.pdf
+
+file:../../static/images/2EC21D4B-FC41-44C1-A5E0-8F2E6F326812.jpg
+file:../../static/images/0C793D17-EBA9-49C1-9679-CC1C9ED4359B.jpg
+file:../../static/images/5A54F358-F53F-4295-B219-9C7DC400DE7F.jpg
+file:../../static/images/4CF07E20-20B6-4B4A-838D-C7071F3A2B03.jpg
+file:../../static/images/4F026E33-FB7C-458D-82CD-4393F0F5297B.jpg
+file:../../static/images/61370467-F63F-44F7-A8C8-0653BF33F660.jpg
+file:../../static/images/64AED4DD-9B08-42A0-A4C6-83C0E46328E7.jpg
+
+* 今後の展開・検討事項
+
+今後の発表でガンガン使うことによってtypstに慣れたい。

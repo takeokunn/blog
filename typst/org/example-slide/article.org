@@ -5,7 +5,7 @@
 #+AUTHOR: takeokunn
 #+STARTUP: content
 #+STARTUP: fold
-#+TYPST: #import "./slide.typ": *
+#+TYPST: #import "./dracula.typ": *
 #+TYPST: #show: setup
 * Title
 

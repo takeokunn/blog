@@ -2,4 +2,4 @@ result
 *.pdf
 
 *.typ
-!themes/slide.typ
+!themes/dracula.typ

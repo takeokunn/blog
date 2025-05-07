@@ -60,8 +60,7 @@
                 export TYPST_FONT_PATHS="${pkgs.migu}/share/fonts/truetype/migu:${pkgs.fira-math}/share/fonts/opentype:${pkgs.fira-code}/share/fonts/truetype/NerdFonts/FiraCode/"
                 export TYPST_PACKAGE_PATH="${typstPackagesCache}/typst/packages"
 
-                ls -la ./themes/
-                cp ./themes/slide.typ org/${name}/slide.typ
+                cp ./themes/dracula.typ org/${name}/dracula.typ
                 cp ./themes/Dracula.tmTheme org/${name}/Dracula.tmTheme
                 typst compile org/${name}/article.typ
               '';
