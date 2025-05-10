@@ -13,7 +13,7 @@
 #+HUGO_TAGS: emacs org-roam zettelkasten
 #+HUGO_DRAFT: false
 #+STARTUP: content
-#+STARTUP: nohideblocks
+#+STARTUP: fold
 * Introduction
 
 [[https://qiita.com/advent-calendar/2023/emacs][2023年度Emacsアドベントカレンダー]]2日目の記事です。

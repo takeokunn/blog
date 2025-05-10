@@ -16,8 +16,6 @@
 
 [[https://www.takeokunn.org/][takeokunn.org]] は [[https://www.orgroam.com/][org-roam]] で管理している。
 
-- [[id:E6243AE2-CFE4-4D21-B9B7-E076B13CF486][org-roamで記事を管理しGitHub Actionsで適切に公開する]]
-
 org-roamの可視化ツールに [[https://github.com/org-roam/org-roam-ui][org-roam-ui]] があるが、次のような問題を抱えていた。
 
 - Next.jsでリッチに作られすぎてる
