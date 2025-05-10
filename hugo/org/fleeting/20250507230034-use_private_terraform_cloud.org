@@ -1,0 +1,147 @@
+:PROPERTIES:
+:ID:       FFA7027E-161A-498C-AD36-C0033C7A9CD6
+:END:
+#+TITLE: private-terraformをHCP Terraformに移行した
+#+AUTHOR: takeokunn
+#+DESCRIPTION: description
+#+DATE: 2025-05-07T23:00:55+0900
+#+HUGO_BASE_DIR: ../../
+#+HUGO_CATEGORIES: fleeting
+#+HUGO_SECTION: posts/fleeting
+#+HUGO_TAGS: fleeting terraform
+#+HUGO_DRAFT: false
+#+STARTUP: content
+#+STARTUP: fold
+* 背景・動機
+
+個人用のTerraformプロジェクトを用意して、GitHubとCloudflareとNextDNSの管理をしている。
+
+- [[id:A942A0CA-829F-45C0-A9CC-F7CA8C0DE873][Terraform GitHub Providerを導入した]]
+- [[id:861C8003-2791-4BF3-8126-489838D804F9][お名前comからCloudflareにドメイン移管してTerraformで管理する]]
+- [[id:4E845C70-F095-47B3-BF75-F6872164BD43][NextDNSを導入した]]
+
+tfstateのファイルをLocalマシンで雑に管理をしていたのだが、PCの引越し作業が発生したので管理方法を検討する必要があったので対応したことを纏めておく。
+
+* 試したこと・やったこと
+** 1. tfstate管理方法を検討
+
+- MUST
+  - 無料
+  - セキュリティリスクが低い
+- SHOULD
+  - 安全なterraform実行環境の保証
+
+HCP Terraform(旧terraform cloud)はHashiCorp謹製のCloudサービス。
+https://www.hashicorp.com/ja/cloud
+
+500 resourcesまでは無料なので個人利用なら無料で完結する。
+https://www.hashicorp.com/en/pricing
+
+候補としてはさくらインターネットやCloudFlareのストレージに上げることも検討していたが、そもそも各サービスを利用しなくなることも考えられるので却下した。
+
+** 2. HCP Terraform自体のTerraformを書く
+j
+以下を参考にterraformを書いた。
+https://registry.terraform.io/providers/hashicorp/tfe/latest/docs
+
+=TF_API_TOKEN= は管理画面から手ぽちで入力している。
+
+#+begin_src terraform
+  terraform {
+    required_version = "1.11.4"
+
+    cloud {
+      organization = "takeokunn-private"
+      workspaces {
+        name = "tfe"
+      }
+    }
+
+    required_providers {
+      tfe = {
+        source  = "hashicorp/tfe"
+        version = "0.65.2"
+      }
+    }
+  }
+
+  variable "TF_API_TOKEN" {
+    type = string
+  }
+
+  provider "tfe" {
+    token = var.TF_API_TOKEN
+  }
+
+  resource "tfe_organization" "private" {
+    name                     = "takeokunn-private"
+    email                    = "bararararatty@gmail.com"
+    collaborator_auth_policy = "two_factor_mandatory"
+  }
+
+  resource "tfe_project" "default" {
+    organization = tfe_organization.private.name
+    name         = "private"
+  }
+
+  resource "tfe_workspace" "tfe" {
+    name         = "tfe"
+    organization = tfe_organization.private.name
+    project_id   = tfe_project.default.id
+  }
+
+  resource "tfe_workspace" "nextdns" {
+    name         = "nextdns"
+    organization = tfe_organization.private.name
+    project_id   = tfe_project.default.id
+  }
+
+  resource "tfe_workspace" "cloudflare" {
+    name         = "cloudflare"
+    organization = tfe_organization.private.name
+    project_id   = tfe_project.default.id
+  }
+
+  resource "tfe_workspace" "github" {
+    name         = "github"
+    organization = tfe_organization.private.name
+    project_id   = tfe_project.default.id
+  }
+#+end_src
+** 3. ディレクトリ構成変更
+
+元々はentrypoint1つで全てを流せるようにしていたが、以下のようにサービスごとに分け、 =cd= で移動してからterraformを実行する運用に変更した。
+この対応によって他サービスの変更に依存せずにversionを上げられるようになった。
+
+#+begin_src console
+  $ nix run nixpkgs#tree .
+  .
+  ├── projects
+  │   ├── cloudflare
+  │   │   └── main.tf
+  │   ├── github
+  │   │   ├── archive_repo.tf
+  │   │   ├── main.tf
+  │   │   ├── private_repo.tf
+  │   │   ├── public_repo.tf
+  │   │   └── user_settings.tf
+  │   ├── nextdns
+  │   │   └── main.tf
+  │   └── tfe
+  │       └── main.tf
+  └── README.org
+#+end_src
+** 4. 既存リソースの移行
+
+=terraform import= を気合で入力して既存リソースの移行作業をした。
+
+ディレクトリ構成変更が功を奏して小さく移行することができた。
+
+* 得られた結果・所感
+
+terraformの安全な実行環境を手に入れたので非常に満足している。
+特に難易度の高い所はなかったのですんなり導入することができた。
+
+* 今後の展開・検討事項
+
+現状管理画面に手ぽちで直接秘密鍵を入れているので、sops経由で登録できるようにしたい。
