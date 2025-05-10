@@ -15,6 +15,6 @@ This is a [[https://en.wikipedia.org/wiki/Zettelkasten][Zettelkasten]] blog gene
 
 Using [[https://github.com/takeokunn/hugo-take-theme][takeokunn/hugo-take-theme]].
 
-#+begin_src shell :results output none :dir ./hugo
+#+begin_src shell :results output none
    git submodule update --remote --recursive
 #+end_src
