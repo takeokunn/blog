@@ -31,7 +31,7 @@ tfstateのファイルをLocalマシンで雑に管理をしていたのだが�
 - SHOULD
   - 安全なterraform実行環境の保証
 
-HCP Terraform(旧terraform cloud)はHashiCorp謹製のCloudサービス。
+HCP Terraform（旧terraform cloud）はHashiCorp謹製のCloudサービス。
 https://www.hashicorp.com/ja/cloud
 
 500 resourcesまでは無料なので個人利用なら無料で完結する。
@@ -110,7 +110,7 @@ https://registry.terraform.io/providers/hashicorp/tfe/latest/docs
 #+end_src
 ** 3. ディレクトリ構成変更
 
-元々はentrypoint1つで全てを流せるようにしていたが、以下のようにサービスごとに分け、 =cd= で移動してからterraformを実行する運用に変更した。
+元々はentrypoint1つですべてを流せるようにしていたが、次のようにサービスごとに分け、 =cd= で移動してからterraformを実行する運用に変更した。
 この対応によって他サービスの変更に依存せずにversionを上げられるようになった。
 
 #+begin_src console
@@ -135,12 +135,12 @@ https://registry.terraform.io/providers/hashicorp/tfe/latest/docs
 
 =terraform import= を気合で入力して既存リソースの移行作業をした。
 
-ディレクトリ構成変更が功を奏して小さく移行することができた。
+ディレクトリ構成変更が功を奏して小さく移行できた。
 
 * 得られた結果・所感
 
 terraformの安全な実行環境を手に入れたので非常に満足している。
-特に難易度の高い所はなかったのですんなり導入することができた。
+特に難易度の高い所はなかったのですんなり導入できた。
 
 * 今後の展開・検討事項
 
