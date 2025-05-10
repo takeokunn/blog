@@ -1,0 +1,62 @@
+:PROPERTIES:
+:ID:       8F655307-A5CF-4101-84C8-4A85887E8B7C
+:END:
+#+TITLE: markdown-preview-modeとxwidgetsでリアルタイムプレビューする
+#+AUTHOR: takeokunn
+#+DESCRIPTION: description
+#+DATE: 2025-05-10T18:40:29+0900
+#+HUGO_BASE_DIR: ../../
+#+HUGO_CATEGORIES: fleeting
+#+HUGO_SECTION: posts/fleeting
+#+HUGO_TAGS: fleeting emacs
+#+HUGO_DRAFT: false
+#+STARTUP: content
+#+STARTUP: fold
+* 背景・動機
+
+最近AIが生成したMarkdownを読む機会が増えた。
+Emacs Buffer上で読むのもよいのだが、ブラウザ上でCSSを当てた方が読みやすいので今回対応した。
+
+* 試したこと・やったこと
+** 1. markdown-preview-modeを用意する
+
+- [[https://github.com/ancane/markdown-preview-mode][ancane/markdown-preview-mode]] をインストールする
+  - Melpa経由で入る
+- Markdownをコンパイルする為に [[https://pandoc.org/][pandoc]] を用意する
+
+** 2. markdown-preview-modeの設定をする
+
+solarized-lightのテーマを選んだ。
+
+#+begin_src emacs-lisp
+  (setq markdown-preview-stylesheets (list "http://thomasf.github.io/solarized-css/solarized-light.min.css"))
+#+end_src
+
+既存のテーマで画像を表示すると表示ずれ発生するのでスタイルを上書きした。
+
+#+begin_src emacs-lisp
+  (defun my/markdown-preview-css-filter (orig-return)
+    (concat orig-return "<style>img { max-width: 100%; }</style>"))
+
+  (advice-add 'markdown-preview--css :filter-return #'my/markdown-preview-css-filter)
+#+end_src
+
+previewを起動する時にxwidget経由で開くようにした。
+
+#+begin_src emacs-lisp
+  (defun my/markdown-preview--start-with-xwidget (orig-fun &rest args)
+    (let ((browse-url-browser-function #'xwidget-webkit-browse-url))
+      (apply orig-fun args)))
+
+  (advice-add 'markdown-preview--start :around #'my/markdown-preview--start-with-xwidget)
+#+end_src
+* 得られた結果・所感
+
+他エディタに遜色ないくらい体験が良くなった。
+WebSocket Serverも立ててくれるのでリアルタイムプレビューも可能になった。
+
+[[file:../../static/images/294497E0-19F6-44FD-8664-826BF09039CF.png]]
+
+* 今後の展開・検討事項
+
+org-modeの場合は [[https://github.com/jakebox/org-preview-html][org-preview-html]] で実現できるのでxwidget対応をする。
