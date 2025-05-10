@@ -4,7 +4,7 @@
 #+TITLE: org-roam-ui-liteでblogの関係性を可視化する
 #+AUTHOR: takeokunn
 #+DESCRIPTION: description
-#+DATE: 2025-05-11T01:58:43+0900
+#+DATE: 2025-05-10T23:58:43+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting
 #+HUGO_SECTION: posts/fleeting
@@ -14,7 +14,7 @@
 #+STARTUP: fold
 * 背景・動機
 
-[[https://www.takeokunn.org/][takeokunn.org]] は [[https://www.orgroam.com/][org-roam]] で管理している。
+[[id:81C7AAB6-1AD5-4994-B39A-3998BAACABC0][org-roam-ui-liteでblogの関係性を可視化する]] に書いたとおり [[https://www.takeokunn.org/][takeokunn.org]] は [[https://www.orgroam.com/][org-roam]] で管理している。
 
 org-roamの可視化ツールに [[https://github.com/org-roam/org-roam-ui][org-roam-ui]] があるが、次のような問題を抱えていた。
 
