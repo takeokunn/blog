@@ -44,7 +44,7 @@ https://www.hashicorp.com/en/pricing
 候補としてはさくらインターネットやCloudFlareのストレージに上げることも検討していたが、そもそも各サービスを利用しなくなることも考えられるので却下した。
 
 ** 2. HCP Terraform自体のTerraformを書く
-j
+
 以下を参考にterraformを書いた。
 https://registry.terraform.io/providers/hashicorp/tfe/latest/docs
 
