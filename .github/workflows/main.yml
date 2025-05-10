@@ -53,6 +53,28 @@ jobs:
           name: build-hugo
           path: ./hugo/result
 
+
+  build-hugo-org-roam-ui-lite:
+    runs-on: ubuntu-latest
+    needs: ci
+    defaults:
+      run:
+        working-directory: ./hugo
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup nix
+        uses: ./.github/actions/setup-nix
+        with:
+          cachix-auth-token: ${{ secrets.CACHIX_AUTH_TOKEN }}
+      - name: Build build-org-roam-ui-lite
+        run: nix build .#build-org-roam-ui-lite
+      - name: Upload coverage report to artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-hugo-org-roam-ui-lite
+          path: ./hugo/result
+
   build-typst:
     runs-on: ubuntu-latest
     defaults:
@@ -108,6 +130,16 @@ jobs:
           name: build-typst
           path: ./public/pdf
           merge-multiple: true
+
+      - name: Download org-roam-ui-lite artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-hugo-org-roam-ui-lite
+          path: ./public/graph
+          merge-multiple: true
+      - name: Move api directory
+        run: mv ./public/graph/api ./public/api
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

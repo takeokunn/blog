@@ -3,9 +3,10 @@
     nixpkgs.url = "github:NixOS/nixpkgs";
     nur-packages.url = "github:takeokunn/nur-packages";
     flake-utils.url = "github:numtide/flake-utils";
+    org-roam-ui-lite.url = "github:tani/org-roam-ui-lite";
   };
 
-  outputs = { self, nixpkgs, nur-packages, flake-utils }:
+  outputs = { self, nixpkgs, nur-packages, flake-utils, org-roam-ui-lite }:
     flake-utils.lib.eachDefaultSystem (
       system:
       let
@@ -80,6 +81,22 @@
                 emacs --batch --load scripts/ox-roam.el --funcall export-org-roam-files
                 tcardgen --fontDir=tcardgen/font --output=static/ogp --config=tcardgen/ogp.yml content/posts/**/*.md
                 env HUGO_ENVIRONMENT=production hugo --minify
+              '';
+              installPhase = ''
+                cp -r ./public $out/
+              '';
+            };
+            build-org-roam-ui-lite = pkgs.stdenv.mkDerivation {
+              name = "build-org-roam-ui-lite";
+              src = ./.;
+              nativeBuildInputs = with pkgs; [
+                org-roam-ui-lite.packages.${system}.export
+                (emacsPkg.pkgs.withPackages (epkgs: (with epkgs.melpaPackages; [ org-roam ])))
+              ];
+              buildPhase = ''
+                rm -fr org/private/
+                emacs --batch --load scripts/org-roam-ui.el --funcall org-roam-db-sync
+                org-roam-ui-lite-export -d org-roam.db -o ./public
               '';
               installPhase = ''
                 cp -r ./public $out/
