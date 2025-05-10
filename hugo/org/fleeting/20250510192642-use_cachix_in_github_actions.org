@@ -1,0 +1,86 @@
+:PROPERTIES:
+:ID:       CCCBEB19-626D-4776-B981-52EC623D34C0
+:END:
+#+TITLE: GitHub ActionsでCachixを導入する
+#+AUTHOR: takeokunn
+#+DESCRIPTION: description
+#+DATE: 2025-05-10T19:28:45+0900
+#+HUGO_BASE_DIR: ../../
+#+HUGO_CATEGORIES: fleeting
+#+HUGO_SECTION: posts/fleeting
+#+HUGO_TAGS: fleeting nix
+#+HUGO_DRAFT: false
+#+STARTUP: content
+#+STARTUP: fold
+* 背景・動機
+
+NixにハマってからGitHub Actions上でNixを実行する機会が増えた。
+Nixというツールの性質上、どうしても実行環境の準備に時間がかかってしまうのでキャッシュ機能を導入したいと以前から思っていた。
+
+一番メジャーなサービスがCachixで個人利用程度なら無料で使えるので今回はじめて利用してみた。
+
+* 試したこと・やったこと
+** 1. Cachixの設定をする
+
+アカウントを新規作成して、New Cacheで作成する。
+https://app.cachix.org/
+
+「Settings > Cache Auth Tokens」でアクセストークンを作成して,GitHub Actions Secretに =CACHIX_AUTH_TOKEN= に登録する。
+
+** 2. GitHub Actionsで設定する
+
+reusable actionで次のように定義した。
+
+#+begin_src yaml
+  name: Run setup-nix
+  description: Set up Nix environment for GitHub Actions
+
+  inputs:
+    cachix-auth-token:
+      required: true
+
+  runs:
+    using: composite
+    steps:
+      - uses: cachix/install-nix-action@v31
+      - uses: cachix/cachix-action@v14
+        with:
+          name: takeokunn-blog
+          authToken: '${{ inputs.cachix-auth-token }}'
+#+end_src
+
+次のように呼び出すとよしなにCache HitしたらCachixからCopyしてくれるようになった。
+
+#+begin_src yaml
+  steps:
+    - name: Setup nix
+      uses: ./.github/actions/setup-nix
+      with:
+        cachix-auth-token: ${{ secrets.CACHIX_AUTH_TOKEN }}
+#+end_src
+
+あとはよしなにnixを実行する。
+
+#+begin_src yaml
+  # nix buildの場合
+  - name: Build zenn
+    run: nix build .#build-zenn
+
+  # nix developの場合
+  - name: flake check
+    run: nix develop --command bash -c "textlint 'org/**/*.org'"
+#+end_src
+* 得られた結果・所感
+
+[[https://github.com/takeokunn/blog][takeokunn/blog]] の場合、平均して1分でNix実行環境を用意できるようになり大幅なCI速度改善を実現できた。
+https://github.com/takeokunn/blog/actions
+
+[[file:../../static/images/E79CB8EB-4877-4997-AD8C-C78E1045C12E.png]]
+
+Cachixの導入は簡単で苦労した所が特になかった。
+
+今回の対応に合わせてflake.nixを充実させた結果、LocalとGitHub Actions上で同一の環境を再現性高く構築できるようになったのが良かった。
+
+* 今後の展開・検討事項
+
+LintのチェックなどのCI部分もflake.nix化の対応したい。
