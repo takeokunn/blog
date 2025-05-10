@@ -17,19 +17,21 @@
 NixにハマってからGitHub Actions上でNixを実行する機会が増えた。
 Nixというツールの性質上、どうしても実行環境の準備に時間がかかってしまうのでキャッシュ機能を導入したいと以前から思っていた。
 
-一番メジャーなサービスがCachixで個人利用程度なら無料で使えるので今回はじめて利用してみた。
+Cachixが一番メジャーなサービスであり、個人利用程度なら無料で使えるので今回はじめて利用してみた。
 
 * 試したこと・やったこと
 ** 1. Cachixの設定をする
 
-アカウントを新規作成して、New Cacheで作成する。
+アカウントを新規作成して、New Cacheで作成した。
+
 https://app.cachix.org/
 
-「Settings > Cache Auth Tokens」でアクセストークンを作成して,GitHub Actions Secretに =CACHIX_AUTH_TOKEN= に登録する。
+「Settings > Cache Auth Tokens」でアクセストークンを作成して,GitHub Actions Secretに =CACHIX_AUTH_TOKEN= に登録した。
 
 ** 2. GitHub Actionsで設定する
 
 reusable actionで次のように定義した。
+reusable actionからは =secrets.XX= を参照できないので引数で渡す必要がある。
 
 #+begin_src yaml
   name: Run setup-nix
@@ -73,6 +75,7 @@ reusable actionで次のように定義した。
 * 得られた結果・所感
 
 [[https://github.com/takeokunn/blog][takeokunn/blog]] の場合、平均して1分でNix実行環境を用意できるようになり大幅なCI速度改善を実現できた。
+
 https://github.com/takeokunn/blog/actions
 
 [[file:../../static/images/E79CB8EB-4877-4997-AD8C-C78E1045C12E.png]]
