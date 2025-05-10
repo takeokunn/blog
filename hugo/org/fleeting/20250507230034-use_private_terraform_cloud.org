@@ -26,10 +26,14 @@ tfstateのファイルをLocalマシンで雑に管理をしていたのだが�
 ** 1. tfstate管理方法を検討
 
 - MUST
-  - 無料
+  - 料金が無料
   - セキュリティリスクが低い
-- SHOULD
   - 安全なterraform実行環境の保証
+- SHOULD
+  - バージョン管理
+  - 実行結果の可視性
+- OPTIONAL
+  - CI統合
 
 HCP Terraform（旧terraform cloud）はHashiCorp謹製のCloudサービス。
 https://www.hashicorp.com/ja/cloud
