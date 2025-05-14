@@ -83,6 +83,8 @@ sonoma 15.5ではなぜかできなかったので次の手順で行った。（
 4. ABCを消す
 5. 日本語ローマ字を消す
 
+[[file:../../static/images/7DFF4EC0-8C18-44F1-93B4-73B770624715.png]]
+
 *** 4.4. アプリ周り
 
 Spotlightをdisabledにして[[https://www.raycast.com/][Raycast]]を有効にするなどの細かい対応をした。
@@ -113,6 +115,8 @@ chshがうまくいかなかったので、以下を参考に設定しておく�
 
 - https://github.com/natsukium/dotfiles/blob/26851d3917b99047c507fa5f7f7ad52b40a0d630/systems/darwin/common.nix#L27-L35
 - https://github.com/nix-darwin/nix-darwin/issues/1237#issuecomment-2562242340
+
+=Option+Tab= の設定が面倒なのでKarabiner-Elementsを入れてもよいのかもしれない。
 
 MacはGUI経由じゃないとできない固有の設定が多い（nix-darwinがサポートしてない部分）ので大変だったが、NixOSならもっと工数を減らせるはず。
 NixOSの設定も頑張りたい。
