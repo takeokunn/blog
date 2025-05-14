@@ -19,10 +19,10 @@
 - [[id:8311DF4F-44EF-4541-BB28-889161EE216A][Bitwardenからpassword-storeに移行した]]
 - [[id:8A0AAFA0-0FDA-4C4C-BDC3-8279A68CE44C][credential管理をorg-encryptからpassword-storeに移行した]]
 
-GPG Keyの運用についてかねてから悩んでいたが、YubiKey運用が一番良いという結論に至った。
-丁度Macを初期化するタイミングがあったので完全に移行した。
+GPG Keyの運用についてかねてから悩んでいたが、YubiKey運用が一番よいという結論に至った。
+ちょうどMacを初期化するタイミングがあったので完全に移行した。
 
-以下の記事を参考にした。
+次の記事を参考にした。
 
 - [[https://zenn.dev/lambdalisue/articles/gpg-with-yubikey-2024][GPG 鍵と YubiKey の運用メモ - Zenn]]
 - [[https://keens.github.io/blog/2021/03/23/yubikeywotsukau_openpghen/][YubikeyでOpenPGP鍵をセキュアに使う]]
@@ -31,14 +31,14 @@ GPG Keyの運用についてかねてから悩んでいたが、YubiKey運用が
 * 試したこと・やったこと
 ** 0. 運用方針を決める
 
-[[https://zenn.dev/lambdalisue/articles/gpg-with-yubikey-2024][GPG 鍵と YubiKey の運用メモ - Zenn]] と同様、以下の方針で運用してくことにした。
+[[https://zenn.dev/lambdalisue/articles/gpg-with-yubikey-2024][GPG 鍵と YubiKey の運用メモ - Zenn]] と同様、次の方針で運用してくことにした。
 
-- YubiKey には主鍵と副鍵 (Encrypt) を焼き、持ち歩く
-- YubiKey の主鍵を利用して副鍵 (Sign, Auth) をデバイス毎に作成・保存しておく
-  - コミット署名はデバイス毎の副鍵 (Sign) を利用する
-  - SSH Keyはデバイス毎の副鍵(Auth) =gpg --export-ssh-key= 経由で端末ごとに生成する
+- YubiKey には主鍵と副鍵 （Encrypt） を焼き、持ち歩く
+- YubiKey の主鍵を利用して副鍵 （Sign, Auth） をデバイス毎に作成・保存しておく
+  - コミット署名はデバイス毎の副鍵 （Sign） を利用する
+  - SSH Keyはデバイス毎の副鍵（Auth） =gpg --export-ssh-key= 経由で端末ごとに生成する
     - keygrepを =/.gnupg/sshcontrol= に入れる
-- 暗号化・復号機能は YubiKey の副鍵 (Encrypt) を利用する
+- 暗号化・復号機能は YubiKey の副鍵 （Encrypt） を利用する
 
 元記事に加えてSSH KeyもGPG経由で生成することにした。
 [[id:A942A0CA-829F-45C0-A9CC-F7CA8C0DE873][Terraform GitHub Providerを導入した]] でIaCの土壌が用意されているので、端末が増えるごとに毎回追加する運用にしていく。
@@ -49,7 +49,7 @@ GPGの仕組みについてはChatGPTにひたすら質問して不安な部分�
 
 Amazonで [[https://www.amazon.co.jp/dp/B08DHL1YDL?ref=ppx_yo2ov_dt_b_fed_asin_title][Yubico セキュリティキー YubiKey 5C NFC USB-C/FIDO2/WebAuthn/U2F/2段階認証/高耐久性/耐衝撃性/防水]] を購入した。
 
-古いファームウェアには脆弱性があるようで、最新の5.7が届くことを祈りながら注文したら問題なく届いてくれた。(サポートには問合せ済み)
+古いファームウェアには脆弱性があるようで、最新の5.7が届くことを祈りながら注文したら問題なく届いてくれた。（サポートには問合せ済み）
 
 https://news.mynavi.jp/techplus/article/20240906-3019439/
 
@@ -67,7 +67,7 @@ https://ykey.yubion.com/collections/yubikey-5/products/yubikey-5c-nfc
 - [[https://zenn.dev/lambdalisue/articles/gpg-with-yubikey-2024#%E4%B8%BB%E9%8D%B5%E3%81%AE%E7%B7%A8%E9%9B%86][https://zenn.dev/lambdalisue/articles/gpg-with-yubikey-2024#主鍵の編集]]
 - [[https://zenn.dev/lambdalisue/articles/gpg-with-yubikey-2024#yubikey-%E3%81%B8%E3%81%AE%E7%84%BC%E3%81%8D%E4%BB%98%E3%81%91][https://zenn.dev/lambdalisue/articles/gpg-with-yubikey-2024#yubikey-への焼き付け]]
 
-** 3. 新規端末で副鍵(Sign, Auth)を焼く
+** 3. 新規端末で副鍵（Sign, Auth）を焼く
 
 こちらもありすえさんの記事を元に =addkey= をして副鍵を生成した。
 元記事に加えて =Auth= も付与して生成した。
@@ -85,7 +85,7 @@ Authを付与するには =--expert= のオプションが必要なので注意�
 #+end_src
 ** 4. ssh keyを生成する
 
-gpg-agentを有効にして =~/.gnupg/gpg-agent.conf= に以下のような設定をした。
+gpg-agentを有効にして =~/.gnupg/gpg-agent.conf= に次のような設定をした。
 
 https://github.com/takeokunn/nixos-configuration/blob/main/home-manager/services/gpg-agent/default.nix
 
@@ -105,7 +105,7 @@ keygrepを取得して =~/.gnupg/sshcontrol= にkeygripを書き込む。
 #+end_src
 ** 5. githubにssh keyを登録する
 
-[[id:A942A0CA-829F-45C0-A9CC-F7CA8C0DE873][Terraform GitHub Providerを導入した]] の通り、terraform経由でssh keyを登録する。
+[[id:A942A0CA-829F-45C0-A9CC-F7CA8C0DE873][Terraform GitHub Providerを導入した]] のとおり、terraform経由でssh keyを登録する。
 
 #+begin_src console
   $ gpg --export-ssh-key <KEY_ID>
@@ -116,13 +116,14 @@ keygrepを取得して =~/.gnupg/sshcontrol= にkeygripを書き込む。
 
 https://github.com/takeokunn.keys
 
-GPG keyのpublic keyは変化ないので初回登録しておけば良い。
+GPG keyのpublic keyは変化ないので初回登録しておけばよい。
 
 https://github.com/takeokunn.keys
 
 * 得られた結果・所感
 
-想像以上にスムーズにYubiKeyに移行することができた。
+想像以上にスムーズにYubiKeyに移行できた。
+
 なんだかんだ以前生成した =~/.ssh/id_ed25519= を使っていたので、SSH Keyから解放されたのが個人的には一番嬉しいポイントかもしれない。
 
 * 今後の展開・検討事項
