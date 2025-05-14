@@ -1,7 +1,7 @@
 :PROPERTIES:
 :ID:       DEFB70C3-662B-42DC-A630-78A4B4D6D24F
 :END:
-#+TITLE: Macを再インストールした時のメモ
+#+TITLE: 2025年5月 Macの再インストール手順メモ
 #+AUTHOR: takeokunn
 #+DESCRIPTION: description
 #+DATE: 2025-05-14T22:24:34+0900
