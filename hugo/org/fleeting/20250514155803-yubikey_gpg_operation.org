@@ -119,7 +119,7 @@ https://github.com/takeokunn.keys
 
 GPG keyのpublic keyは変化ないので初回登録しておけばよい。
 
-https://github.com/takeokunn.keys
+https://github.com/takeokunn.gpg
 
 * 得られた結果・所感
 
