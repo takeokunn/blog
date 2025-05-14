@@ -4,7 +4,7 @@
 #+TITLE: 巨大なLaravelレポジトリでphpactorを使うTips
 #+AUTHOR: takeokunn
 #+DESCRIPTION: description
-#+DATE: 2025-05-15T00:48:37+0900
+#+DATE: 2025-05-14T23:48:37+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting
 #+HUGO_SECTION: posts/fleeting
