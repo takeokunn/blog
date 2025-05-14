@@ -25,8 +25,8 @@ GPG Keyの運用についてかねてから悩んでいたが、YubiKey運用が
 次の記事を参考にした。
 
 - [[https://zenn.dev/lambdalisue/articles/gpg-with-yubikey-2024][GPG 鍵と YubiKey の運用メモ - Zenn]]
-- [[https://keens.github.io/blog/2021/03/23/yubikeywotsukau_openpghen/][YubikeyでOpenPGP鍵をセキュアに使う]]
-- [[https://fuwa.dev/posts/yubikey/][YubiKey(OpenPGP card)には主鍵を入れよう]]
+- [[https://keens.github.io/blog/2021/03/23/yubikeywotsukau_openpghen/][YubikeyでOpenPGP鍵をセキュアに使う - κeenのHappy Hacκing Blog]]
+- [[https://fuwa.dev/posts/yubikey/][YubiKey(OpenPGP card)には主鍵を入れよう - ふわわあのへや]]
 
 * 試したこと・やったこと
 ** 0. 運用方針を決める
