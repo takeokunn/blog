@@ -67,7 +67,7 @@ https://ykey.yubion.com/collections/yubikey-5/products/yubikey-5c-nfc
 - [[https://zenn.dev/lambdalisue/articles/gpg-with-yubikey-2024#%E4%B8%BB%E9%8D%B5%E3%81%AE%E7%B7%A8%E9%9B%86][https://zenn.dev/lambdalisue/articles/gpg-with-yubikey-2024#主鍵の編集]]
 - [[https://zenn.dev/lambdalisue/articles/gpg-with-yubikey-2024#yubikey-%E3%81%B8%E3%81%AE%E7%84%BC%E3%81%8D%E4%BB%98%E3%81%91][https://zenn.dev/lambdalisue/articles/gpg-with-yubikey-2024#yubikey-への焼き付け]]
 
-** 3. 新規端末で副鍵（Sign, Auth）を焼く
+** 3. 新規端末で副鍵（Sign, Auth）を入れる
 
 こちらもありすえさんの記事を元に =addkey= をして副鍵を生成した。
 元記事に加えて =Auth= も付与して生成した。
