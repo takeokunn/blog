@@ -89,7 +89,7 @@ sonoma 15.5ではなぜかできなかったので次の手順で行った。（
 
 Spotlightをdisabledにして[[https://www.raycast.com/][Raycast]]を有効にするなどの細かい対応をした。
 
-** 5. その他
+** 6. その他
 
 細かい対応を都度行った。
 
