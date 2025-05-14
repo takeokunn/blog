@@ -131,4 +131,4 @@ https://github.com/takeokunn.keys
 冗長性を高めるために自宅に厳重に保管する用のYubikeyも買って主鍵を焼く。
 また、管理課の端末を増やして主鍵副鍵運用をもっと洗練させていく。
 
-この記事を書いている間に [[https://www.atalie.net/ja/blog/11:gpg-agent-bestpractice/][【令和最新版】sshcontrolは使わないで！最近のGPGによるSSH認証のベストプラクティス]] という記事を見つけたので
+この記事を書いている間に [[https://www.atalie.net/ja/blog/11:gpg-agent-bestpractice/][【令和最新版】sshcontrolは使わないで！最近のGPGによるSSH認証のベストプラクティス]] という記事を見つけたので別途調査する。
