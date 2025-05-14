@@ -17,6 +17,7 @@
 2025年5月の自分の手元の環境はGPGに重度に依存している。
 
 - [[id:8311DF4F-44EF-4541-BB28-889161EE216A][Bitwardenからpassword-storeに移行した]]
+- [[id:624F0A4B-0F8A-40B1-8AAD-DCC88CFC719A][Authyからpassword-store-otpに移行した]]
 - [[id:8A0AAFA0-0FDA-4C4C-BDC3-8279A68CE44C][credential管理をorg-encryptからpassword-storeに移行した]]
 
 GPG Keyの運用についてかねてから悩んでいたが、YubiKey運用が一番よいという結論に至った。
