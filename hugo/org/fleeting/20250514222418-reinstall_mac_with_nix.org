@@ -89,7 +89,7 @@ Spotlightをdisabledにして[[https://www.raycast.com/][Raycast]]を有効に�
 
 ** 5. その他
 
-細かい所の対応を都度行った。
+細かい対応を都度行った。
 
 - Webサービスログイン作業
 - Slackセットアップ
