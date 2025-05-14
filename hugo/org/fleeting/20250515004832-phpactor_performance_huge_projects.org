@@ -159,7 +159,7 @@ phpactorのtimeoutを伸ばしたのであわせてlsp-modeのtimoutも伸ばす
 LSPを立ち上げる前に必ず次のコマンドを叩いてcacheを温めておく。（140万行の方は10分くらいかかる）
 
 #+begin_src console
-  $ phpactor index:build -vvv
+  $ phpactor index:build -v
 #+end_src
 * 得られた結果・所感
 
