@@ -57,13 +57,13 @@ GitHubのssh認証を確認する。
   $ ssh -T git@github.com
   Hi takeokunn! You've successfully authenticated, but GitHub does not provide shell access.
 #+end_src
-** 4. Mac固有の設定をする
-*** 4.1. 必要なレポジトリを落としてsecret.orgをorg-babel-tangleする
+** 4. 必要なレポジトリを落としてsecret.orgをorg-babel-tangleする
 
 =$ ghq get= で必要なレポジトリを網羅的に落とす。
 [[id:8A0AAFA0-0FDA-4C4C-BDC3-8279A68CE44C][credential管理をorg-encryptからpassword-storeに移行した]] のとおり、 =M-x org-babel-tangle= でpassword-storeを実行して必要な設定ファイルのほぼすべてを配置できるようにしている。
 
-*** 4.2. Keyboard周り
+** 5. Mac固有の設定をする
+*** 5.1. Keyboard周り
 
 [[https://qiita.com/Yinaura/items/10fe5fe0cb0a795a0f58][Mac | Option + Tab キーで、同じアプリ内のウィンドウを切り替え可能にする - Qiita]] を参考に =Option+Tab= で切り替えられるようにした。
 
@@ -71,7 +71,7 @@ CAPS_LOCKなどはnix-darwin側で設定している。
 
 https://github.com/takeokunn/nixos-configuration/blob/e49ba0e9e88cbb96a51e4810dbbdb60343e9c5cb/nix-darwin/config/keyboard.nix
 
-*** 4.3. IME周り
+*** 5.2. IME周り
 
 [[https://zenn.dev/yoshiyoshifujii/articles/78798db6472bf4][Mac で AquaSKK を Ctrl+Space で切り替えなくても良くする方法 - Zenn]] を参考にAquaSKKのみ表示されるようにする。
 
@@ -85,7 +85,7 @@ sonoma 15.5ではなぜかできなかったので次の手順で行った。（
 
 [[file:../../static/images/7DFF4EC0-8C18-44F1-93B4-73B770624715.png]]
 
-*** 4.4. アプリ周り
+*** 5.3. アプリ周り
 
 Spotlightをdisabledにして[[https://www.raycast.com/][Raycast]]を有効にするなどの細かい対応をした。
 

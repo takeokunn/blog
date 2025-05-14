@@ -37,7 +37,7 @@ GPG Keyの運用についてかねてから悩んでいたが、YubiKey運用が
 - YubiKey の主鍵を利用して副鍵 （Sign, Auth） をデバイス毎に作成・保存しておく
   - コミット署名はデバイス毎の副鍵 （Sign） を利用する
   - SSH Keyはデバイス毎の副鍵（Auth） =gpg --export-ssh-key= 経由で端末ごとに生成する
-    - keygrepを =/.gnupg/sshcontrol= に入れる
+    - keygrepを =~/.gnupg/sshcontrol= に入れる
 - 暗号化・復号機能は YubiKey の副鍵 （Encrypt） を利用する
 
 元記事に加えてSSH KeyもGPG経由で生成することにした。
