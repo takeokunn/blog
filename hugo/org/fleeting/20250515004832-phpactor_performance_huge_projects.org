@@ -132,7 +132,6 @@ https://phpactor.readthedocs.io/en/master/integrations.html
       ],
       "language_server_worse_reflection.workspace_index.update_interval": 5000,
       "language_server.diagnostics_on_update": false,
-      "language_server_highlight.enabled": false,
       "language_server_indexer.workspace_symbol_search_limit": 2500,
       "language_server_reference_reference_finder.reference_timeout": 90,
       "language_server_reference_finder.soft_timeout": 60
