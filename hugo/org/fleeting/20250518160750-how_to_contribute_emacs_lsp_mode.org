@@ -18,7 +18,7 @@ EmacsのLSP Clientはeglot、lsp-mode、lsp-bridgeの3種類ある。
 それぞれメリットデメリットがあるが、私個人的にはlsp-modeを推していて今後も使い続けるつもりでいる。
 lsp-mode最大のメリットはClientサポート数の多さにあり、メジャーなLSP Clientなら必ず収録されていると言っても過言ではない。
 
-過去に以下の2つのClientを追加するPRを出したことがあるので、後学の為にも追加方法を纏めておく。
+過去に次の2つのClientを追加するPRを出したことがあるので、後学の為にも追加方法を纏めておく。
 
 - [[https://github.com/emacs-lsp/lsp-mode/pull/4785][Add support for Python(ty) #4785]]
   - 追加で修正してくれた [[https://github.com/emacs-lsp/lsp-mode/pull/4786][lsp-python-py: make it add-on and activated on python #4786]]
@@ -28,9 +28,9 @@ lsp-mode最大のメリットはClientサポート数の多さにあり、メジ
 ** 0. LSP Server選定
 
 追加したいLSP Serverをみつける。
-流石に個人が趣味で開発した中途半端なものは避けるべきだと思うが、そこは取り込む人が判断するのでとりあえず出してみるのが良いかもしれない。
+流石に個人が趣味で開発した中途半端なものは避けるべきだと思うが、そこは取り込む人が判断するのでとりあえず出してみるのがよいかもしれない。
 
-CONTRIBUTINGを熟読して、Pull Requestに既にあるかどうかを確認する。
+CONTRIBUTINGを熟読して、Pull Requestにすでにあるかどうかを確認する。
 
 https://github.com/emacs-lsp/lsp-mode/blob/master/CONTRIBUTING.md
 
@@ -42,11 +42,11 @@ EmacsからPATHを通して =(require 'lsp-mode)= を実行する。
 
 ** 2. lsp-modeの設定をする
 
-=clients/lsp-python-ty.el= のように =clients/= 以下に空気を読んでファイルを作成する。
+=clients/lsp-python-ty.el= のように =clients/= 次に空気を読んでファイルを作成する。
 
 Jsonnetの場合は以下。
 
-最低限以下の2つを定義すれば良い。
+最低限次の2つを定義すればよい。
 完成度の高いLanguage Serverはオプションがあるので =defcustom= で都度定義する。
 
 - =server-executable=
@@ -82,7 +82,7 @@ https://github.com/emacs-lsp/lsp-mode/blob/master/clients/lsp-jsonnet.el
 #+end_src
 ** 3. 手元で動作確認する
 
-ちょうど良いサイズのプロジェクトを手元に用意して実際に動かしてみる。
+ちょうどよいサイズのプロジェクトを手元に用意して実際に動かしてみる。
 基本的なLSP機能が正常に動くか確認する。
 
 - 定義ジャンプ
@@ -93,19 +93,19 @@ https://github.com/emacs-lsp/lsp-mode/blob/master/clients/lsp-jsonnet.el
 
 lsp-mode.elのlsp-client-packagesにclient追加をする必要がある。
 
-また[[https://emacs-lsp.github.io/lsp-mode/][ドキュメント]]やCHANGELOGに反映させる必要があるので、以下のファイルを追加する。
+また[[https://emacs-lsp.github.io/lsp-mode/][ドキュメント]]やCHANGELOGに反映させる必要があるので、次のファイルを追加する。
 
 - [[https://github.com/emacs-lsp/lsp-mode/blob/8a266b83ea0fb880ef697771893c41f8745a04de/docs/lsp-clients.json][docs/lsp-clients.json]]
 - [[https://github.com/emacs-lsp/lsp-mode/blob/8a266b83ea0fb880ef697771893c41f8745a04de/lsp-mode.el][lsp-mode.el]]
 - [[https://github.com/emacs-lsp/lsp-mode/blob/8a266b83ea0fb880ef697771893c41f8745a04de/mkdocs.yml][mkdocs.yml]]
 - [[https://github.com/emacs-lsp/lsp-mode/blob/8a266b83ea0fb880ef697771893c41f8745a04de/CHANGELOG.org][CHANGELOG.org]]
 
-あとはdescriptionを書いてPRを出し、レビュワーの指示に従って修正する。
+あとはdescriptionを書いてPRを出し、レビュワーの指示にしたがって修正する。
 
 * 得られた結果・所感
 
-lsp-modeプロジェクトは非常に良く出来ているので追加が簡単。
-レビュワーから速攻レビューが返ってきたので本当に助かる。
+lsp-modeプロジェクトは非常に良くできているので追加が簡単。
+レビュワーから速攻レビューが返ってきたので本当に助かった。
 
 * 今後の展開・検討事項
 
