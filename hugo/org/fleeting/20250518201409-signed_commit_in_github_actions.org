@@ -1,0 +1,126 @@
+:PROPERTIES:
+:ID:       4492D4DB-0A17-459A-96E6-5663121602E1
+:END:
+#+TITLE: GitHub Actions内で署名付きCommitをする
+#+AUTHOR: takeokunn
+#+DESCRIPTION: description
+#+DATE: 2025-05-18T20:14:16+0900
+#+HUGO_BASE_DIR: ../../
+#+HUGO_CATEGORIES: fleeting
+#+HUGO_SECTION: posts/fleeting
+#+HUGO_TAGS: fleeting gpg
+#+HUGO_DRAFT: true
+#+STARTUP: content
+#+STARTUP: fold
+* 背景・動機
+
+[[id:A942A0CA-829F-45C0-A9CC-F7CA8C0DE873][Terraform GitHub Providerを導入した]] で署名付きCommitを強制するBranch Ruleを網羅的に適用した。
+
+#+begin_src terraform
+  resource "github_repository_ruleset" "default-branch" {
+    name        = "main"
+    repository  = "repo-name"
+    target      = "branch"
+    enforcement = "active"
+
+    conditions {
+      ref_name {
+        include = ["~DEFAULT_BRANCH"]
+        exclude = []
+      }
+    }
+
+    rules {
+      required_signatures = true
+      non_fast_forward    = true
+    }
+  }
+#+end_src
+
+2025年5月現在、 [[https://github.com/takeokunn/nixos-configuration][takeokunn/nixos-configuration]] では以下のGitHub Actionsが動いている。
+
+1. 毎日20時に発火する
+2. =nix flake update= などを実行して依存を更新する
+3. 変更をcommitしてpushする
+
+署名付きCommitを強制する変更を加えた影響で「3. 変更をcommitしてpushする」が動かなくなってしまった。
+
+調べた所、GitHub Actions内で署名付きCommitをしている人が世の中に少なかったので対応方法を纏めておく。
+
+* 試したこと・やったこと
+** 1. 署名用のGPG Keyを生成する
+
+[[id:B3ECD5FA-DFCE-447B-AAB0-72BEAAA28AEF][GPG KeyのYubiKey運用をはじめた]] にある通り、自分の手元では主鍵副鍵運用をしている。
+
+主鍵から =addkey= Signのみを付与した副鍵を生成する。
+生成する際に必ずパスフレーズも設定する。
+
+後に使うのでフィンガープリントもメモしておく。
+
+#+begin_src console
+  $ gpg -K --with-fingerprint
+#+end_src
+** 2. GitHub Actions Secretに副鍵のPrivate Keyを登録する
+
+=GPG_PRIVATE_KEY= と =PASSPHRASE= を設定する。
+
+自分の場合はTerraform GitHub Provider経由で設定をした。
+
+#+begin_src terraform
+  resource "github_actions_secret" "nixos-configuration-GPG_PRIVATE_KEY" {
+    repository      = github_repository.nixos-configuration.name
+    secret_name     = "GPG_PRIVATE_KEY"
+    plaintext_value = var.GPG_PRIVATE_KEY
+  }
+
+  resource "github_actions_secret" "nixos-configuration-PASSPHRASE" {
+    repository      = github_repository.nixos-configuration.name
+    secret_name     = "PASSPHRASE"
+    plaintext_value = var.PASSPHRASE
+  }
+#+end_src
+** 3. GitHub Actionsに組込む
+
+全体像は以下。
+
+https://github.com/takeokunn/nixos-configuration/blob/ff99ab4eb83d729f93f76608273daea49a9dae85/.github/workflows/update.yml
+
+[[http://github.com/crazy-max/ghaction-import-gpg][crazy-max/ghaction-import-gpg]] を使い、以下のように =GPG_PRIVATE_KEY= と =PASSPHRASE= とfingerprintを設定する。
+
+#+begin_src yaml
+  steps:
+    - name: Import GPG key
+      uses: crazy-max/ghaction-import-gpg@v6
+      with:
+        gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+        passphrase: ${{ secrets.PASSPHRASE }}
+        fingerprint: <控えておいたfingerprint>
+        git_user_signingkey: true
+        git_commit_gpgsign: true
+        git_config_global: true
+#+end_src
+
+commit部分はsigned optionをつけてpushをする。
+
+#+begin_src console
+  git commit -S -m "Update lockfile"
+  git push origin HEAD
+#+end_src
+* 得られた結果・所感
+
+多少強引だが無事に実現することができた。
+
+=GPG_PRIVATE_KEY= が漏れる経路は以下が考えられる。
+
+- Terraform CloudのSecretが抜かれた時
+- GitHub Actions Secretが抜かれた時
+- [[http://github.com/crazy-max/ghaction-import-gpg][crazy-max/ghaction-import-gpg]] に不正なコードが入った時
+
+副鍵にはSignしか降ってないので失効対応をすれば問題ない認識だが注意して扱う必要がある。
+
+調査する過程で、GitHubの署名付きCommitはGPGだけでなくSSHやX.509も対応していることが分かった。
+
+https://docs.github.com/ja/authentication/managing-commit-signature-verification/telling-git-about-your-signing-key
+
+* 今後の展開・検討事項
+そもそも論としてPull Requestを自動で作成しCIが通ったらMergeするようにすべきなので対応する。
