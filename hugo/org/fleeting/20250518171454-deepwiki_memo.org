@@ -76,7 +76,7 @@ DeepWikiのクオリティが圧倒的に高いことがわかったので、今
 deepwiki-openは当初触った時、あまり網羅性がなく質の悪いアウトプットだったが、2週間くらい経って一気にクオリティが上がった。
 AI関連ツールの進化は尋常じゃないくらい早いので2週間前に使ってイマイチだったからといって使えないと判断するのは早計だなと改めて感じた。
 
-[[https://x.com/ryoppippi][@ryoppippi]] がDeepWikiのbatchを作れるOSSを作っていたので流行に乗って [[https://github.com/takeokunn/blog][takeokunn/blog]] と [[https://github.com/takeokunn/nixos-configuration][takeokunn/nixos-configuration]] に配置した。（Thanks ryopi）
+[[https://x.com/ryoppippi][@ryoppippi]] がDeepWikiのbadgeを作れるOSSを作っていたので流行に乗って [[https://github.com/takeokunn/blog][takeokunn/blog]] と [[https://github.com/takeokunn/nixos-configuration][takeokunn/nixos-configuration]] に配置した。（Thanks ryopi）
 
 #+begin_export html
 <blockquote class="twitter-tweet"><p lang="ja" dir="ltr"><a href="https://t.co/GBM768y5Ev">https://t.co/GBM768y5Ev</a><a href="https://t.co/4OzgVqloK9">https://t.co/4OzgVqloK9</a><br>GitHubのREADME用にDeepWikiのバッジを簡単に生成できるサイトを作りました！ぜひ使ってみてください</p>&mdash; ryoppippi (@ryoppippi) <a href="https://twitter.com/ryoppippi/status/1916248906523906227?ref_src=twsrc%5Etfw">April 26, 2025</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
