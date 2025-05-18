@@ -47,7 +47,7 @@ EmacsからPATHを通して =(require 'lsp-mode)= を実行する。
 
 ** 2. lsp-modeの設定をする
 
-=clients/lsp-python-ty.el= のように =clients/= 次に空気を読んでファイルを作成する。
+=clients/lsp-python-ty.el= のように =clients/= に空気を読んでファイルを作成する。
 
 Jsonnetの場合は以下。
 
