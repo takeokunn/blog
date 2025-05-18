@@ -63,7 +63,8 @@ Chatで普段使ってる人しか知らなさそうなことを質問しまく�
 記事公開日現在、DeepWikiで生成されたものとdeepwiki-openが生成したものを見比べてみた。
 DeepWikiには多少劣るが、かなりのクオリティで出力されるようになった。
 
-https://deepwiki.com/asyncfuncai/deepwiki-open
+- https://deepwiki.com/asyncfuncai/deepwiki-open
+- https://gist.github.com/takeokunn/4579d4e3390ddfd862f1fbbc3eb1a940
 
 [[file:../../static/images/6432A8D0-34A8-487A-AD44-D08D18ECEC93.png]]
 
