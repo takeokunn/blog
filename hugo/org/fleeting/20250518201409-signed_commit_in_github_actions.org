@@ -123,4 +123,4 @@ commit部分はsigned optionをつけてpushをする。
 https://docs.github.com/ja/authentication/managing-commit-signature-verification/telling-git-about-your-signing-key
 
 * 今後の展開・検討事項
-そもそも論としてPull Requestを自動で作成しCIが通ったらMergeするようにすべきなので対応する。
+そもそも論としてPull Requestを自動で作成しCIが通ったらMergeするようにすべきなので別途対応する。
