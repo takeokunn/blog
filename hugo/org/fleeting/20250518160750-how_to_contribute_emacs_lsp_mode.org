@@ -14,7 +14,12 @@
 #+STARTUP: fold
 * 背景・動機
 
-EmacsのLSP Clientはeglot、lsp-mode、lsp-bridgeの3種類ある。
+メジャーなEmacsのLSP Clientは3種類ある。
+
+- [[https://github.com/joaotavora/eglot][eglot]]
+- [[https://github.com/emacs-lsp/lsp-mode][lsp-mode]]
+- [[https://github.com/manateelazycat/lsp-bridge][lsp-bridge]]
+
 それぞれメリットデメリットがあるが、私個人的にはlsp-modeを推していて今後も使い続けるつもりでいる。
 lsp-mode最大のメリットはClientサポート数の多さにあり、メジャーなLSP Clientなら必ず収録されていると言っても過言ではない。
 
