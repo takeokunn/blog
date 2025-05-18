@@ -1,0 +1,182 @@
+:PROPERTIES:
+:ID:       57E8F735-BD82-49F9-BE50-6740DAF4F603
+:END:
+#+TITLE: 個人的Local環境のGit Branch運用について
+#+AUTHOR: takeokunn
+#+DESCRIPTION: description
+#+DATE: 2025-05-18T14:49:03+0900
+#+HUGO_BASE_DIR: ../../
+#+HUGO_CATEGORIES: fleeting
+#+HUGO_SECTION: posts/fleeting
+#+HUGO_TAGS: fleeting git emacs
+#+HUGO_DRAFT: true
+#+STARTUP: content
+#+STARTUP: fold
+* 背景・動機
+
+複数人で触っているRepoをLocalでGit操作する時、次のような問題が発生していた。
+
+- 直pushしてしまった
+- 意図しない作業ブランチで作業してしまった
+- コンフリクト解消ミスで本来必要なコードを消してしまう
+
+GitHubのBranch RuleやCIなどでミスを防ぐべきだが、そういうのが整っていない環境というのは多々ある。
+自衛のために個人的に行っているGit Branch運用について纏めておく。
+
+当記事の前提は以下。
+
+- Git ClientはMagit
+- Default Branchは =main=
+- GitHubを利用している
+
+* 試したこと・やったこと
+** 0. 方針を決める
+
+基本方針は以下。
+
+- 最新のRemote Branchを常に取得する
+- デフォルトがLocal Branchが一切ない状態にする
+  - =main= Branchすら用意しない
+- 作業するタイミング **のみ** Local Branchを作成する
+  - 作業が終わったら必ずGit Pushする（Remote管理）
+
+** 1. 手元から一切のLocal Branchを消す
+
+次のようなLocal Branchがあったとする。
+
+#+begin_src console
+  $ git branch
+     feature/xxx
+     feature/yyy
+     feature/zzz
+  ,*  main
+#+end_src
+
+=origin/main= に移動して、 =main= Branch含めすべてのLocal Branchを削除する。
+
+#+begin_src console
+  $ git checkout origin/main
+
+  $ git branch -D main
+  $ git branch -D feature/xxx
+  $ git branch -D feature/yyy
+  $ git branch -D feature/zzz
+#+end_src
+
+次のような状態になるとよい。
+
+#+begin_src console
+  $ git branch
+  ,* (HEAD detached at origin/main)
+#+end_src
+** 2. 最新のRemote Branchを取得
+
+定期的にRemote BranchをFetchをする。
+
+#+begin_src console
+  $ git fetch --prune
+#+end_src
+
+=~/.config/git/config= に次のようにprune optionを付けておくことをオススメしている。
+
+https://tracpath.com/docs/git-fetch/
+
+#+begin_src conf
+  [fetch]
+  prune = true
+  pruneTags = true
+#+end_src
+
+[[https://github.com/andrmuel/projectile-git-autofetch][andrmuel/projectile-git-autofetch]] というEmacs Packageを使えば、開いてるプロジェクトを定期的にFetchすることが可能。
+
+#+begin_src emacs-lisp
+  (autoload-if-found '(projectile-git-autofetch-setup) "projectile-git-autofetch" nil t)
+
+  (add-hook 'emacs-startup-hook #'projectile-git-autofetch-setup)
+
+  (with-eval-after-load 'projectile-git-autofetch
+    ;; config
+    (setopt projectile-git-autofetch-notify nil)
+    (setopt projectile-git-autofetch-interval 60)
+    (setopt projectile-git-autofetch-fetch-args '("--no-progress" "--prune" "--prune-tags")))
+#+end_src
+** 3. Localで作業をする場合
+
+**必ず** =origin/main= からCheckoutする。
+
+#+begin_src console
+  $ git branch
+  ,* (HEAD detached at origin/main)
+  $ git fetch
+
+  $ git checkout -b feature/xxx
+#+end_src
+
+ひととおり作業が終わったらGit PushしてPull Requestを出す。
+Pull Requestを出してレビュー状態になったら =origin/main= にCheckoutして作業Branchを消す。
+
+レビュー指摘を貰って修正する時はRemote BranchからLocal Branchを落としてきて作業をする。（以下ループ）
+
+#+begin_src console
+  $ git checkout feature/xxx
+#+end_src
+** 4. Pull Request Reviewの場合
+
+GitHub上のレビューで完結せず、手元で動作確認したい時はFetchした上でRemote BranchにCheckoutする。
+
+#+begin_src console
+  $ git fetch
+  $ git checkout origin/feature/zzz
+#+end_src
+
+GitHub CLIを使えば簡単にCheckoutできる。
+=--detach= オプションをつければRemote BranchにCheckoutできる。
+
+#+begin_src console
+  $ gh pr checkout --detach 2191
+#+end_src
+** 5. Magitの場合
+
+Magitのtransient menuを拡張して =gh pr checkout= コマンドを拡張した。
+=c p <pr-number>= でRemote Branch、 =c P <pr-number>= でLocal BranchにCheckoutできるようになった。
+
+#+begin_src emacs-lisp
+  (defun my/magit-gh-pr-checkout (pr-number detach)
+    (let* ((args (append '("pr" "checkout")
+                         (when detach '("--detach"))
+                         (list (number-to-string pr-number))))
+           (cmd (string-join (cons "gh" args) " ")))
+      (message "Executing: %s" cmd)
+      (apply #'call-process "gh" nil nil nil args)
+      (magit-refresh)))
+
+  (defun my/magit-gh-pr-checkout-detach ()
+    (interactive)
+    (let ((pr (read-number "GitHub PR number (detach): ")))
+      (my/magit-gh-pr-checkout pr t)))
+
+  (defun my/magit-gh-pr-checkout-normal ()
+    (interactive)
+    (let ((pr (read-number "GitHub PR number (branch): ")))
+      (my/magit-gh-pr-checkout pr nil)))
+
+  (with-eval-after-load 'magit-branch
+    (transient-append-suffix 'magit-branch "c"
+      '("p" "Checkout PR (detach)" my/magit-gh-pr-checkout-detach))
+
+    (transient-append-suffix 'magit-branch "c"
+      '("P" "Checkout PR (branch)" my/magit-gh-pr-checkout-normal)))
+#+end_src
+* 得られた結果・所感
+
+運用をはじめて半年くらい経ったが圧倒的にミスが減った。
+特に最新の =main= Branchを取り込む作業が安全に行えるようになったのが良かった。
+
+当初は運用コストかかるかなと思っていたが、Local Branchのケアが不要になってむしろコストが下がったのでよい施策だった。
+
+* 今後の展開・検討事項
+
+手元の環境はあくまで手元なので本質的な解決ではない。
+本来はGithub（Remote）側で解決するべき問題なのでBranch Ruleなどで解決をしたい。
+
+また、[[id:A942A0CA-829F-45C0-A9CC-F7CA8C0DE873][Terraform GitHub Providerを導入した]] のように、GitHubの設定を統一的にTerraform管理できるように理想的な運用を模索したい。
