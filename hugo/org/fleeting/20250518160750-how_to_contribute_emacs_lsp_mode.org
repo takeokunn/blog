@@ -25,7 +25,7 @@ lsp-mode最大のメリットはClientサポート数の多さにあり、メジ
 - [[https://github.com/emacs-lsp/lsp-mode/pull/4283][Add support for Jsonnet #4283]]
 
 * 試したこと・やったこと
-** 0. LSP Server選定
+** 0. Language Server選定
 
 追加したいLSP Serverをみつける。
 流石に個人が趣味で開発した中途半端なものは避けるべきだと思うが、そこは取り込む人が判断するのでとりあえず出してみるのがよいかもしれない。
