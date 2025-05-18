@@ -74,7 +74,7 @@ GitHubのBranch RuleやCIなどでミスを防ぐべきだが、そういうの�
 定期的にRemote BranchをFetchをする。
 
 #+begin_src console
-  $ git fetch --prune
+  $ git fetch
 #+end_src
 
 =~/.config/git/config= に次のようにprune optionを付けておくことをオススメしている。

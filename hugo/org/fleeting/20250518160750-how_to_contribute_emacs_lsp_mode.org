@@ -1,0 +1,112 @@
+:PROPERTIES:
+:ID:       63EF484B-FFFF-4EF6-9687-52A8EF770F5B
+:END:
+#+TITLE: Emacs lsp-modeに新しいClientを追加する方法
+#+AUTHOR: takeokunn
+#+DESCRIPTION: description
+#+DATE: 2025-05-18T16:09:49+0900
+#+HUGO_BASE_DIR: ../../
+#+HUGO_CATEGORIES: fleeting
+#+HUGO_SECTION: posts/fleeting
+#+HUGO_TAGS: fleeting emacs
+#+HUGO_DRAFT: true
+#+STARTUP: content
+#+STARTUP: fold
+* 背景・動機
+
+EmacsのLSP Clientはeglot、lsp-mode、lsp-bridgeの3種類ある。
+それぞれメリットデメリットがあるが、私個人的にはlsp-modeを推していて今後も使い続けるつもりでいる。
+lsp-mode最大のメリットはClientサポート数の多さにあり、メジャーなLSP Clientなら必ず収録されていると言っても過言ではない。
+
+過去に以下の2つのClientを追加するPRを出したことがあるので、後学の為にも追加方法を纏めておく。
+
+- [[https://github.com/emacs-lsp/lsp-mode/pull/4785][Add support for Python(ty) #4785]]
+  - 追加で修正してくれた [[https://github.com/emacs-lsp/lsp-mode/pull/4786][lsp-python-py: make it add-on and activated on python #4786]]
+- [[https://github.com/emacs-lsp/lsp-mode/pull/4283][Add support for Jsonnet #4283]]
+
+* 試したこと・やったこと
+** 0. LSP Server選定
+
+追加したいLSP Serverをみつける。
+流石に個人が趣味で開発した中途半端なものは避けるべきだと思うが、そこは取り込む人が判断するのでとりあえず出してみるのが良いかもしれない。
+
+CONTRIBUTINGを熟読して、Pull Requestに既にあるかどうかを確認する。
+
+https://github.com/emacs-lsp/lsp-mode/blob/master/CONTRIBUTING.md
+
+** 1. Repoをforkして手元に落とす
+
+[[https://github.com/emacs-lsp/lsp-mode][emacs-lsp/lsp-mode]] からforkボタンを押して、自分の手元にGit Cloneする。
+
+EmacsからPATHを通して =(require 'lsp-mode)= を実行する。
+
+** 2. lsp-modeの設定をする
+
+=clients/lsp-python-ty.el= のように =clients/= 以下に空気を読んでファイルを作成する。
+
+Jsonnetの場合は以下。
+
+最低限以下の2つを定義すれば良い。
+完成度の高いLanguage Serverはオプションがあるので =defcustom= で都度定義する。
+
+- =server-executable=
+- =lsp-register-client=
+
+https://github.com/emacs-lsp/lsp-mode/blob/master/clients/lsp-jsonnet.el
+
+#+begin_src emacs-lisp
+  (require 'lsp-mode)
+
+  (defgroup lsp-jsonnet nil
+    "LSP support for jsonnet."
+    :group 'lsp-mode
+    :link '(url-link "https://github.com/grafana/jsonnet-language-server"))
+
+  (defcustom lsp-clients-jsonnet-server-executable '("jsonnet-language-server")
+    "The jsonnet language server executable to use."
+    :group 'lsp-jsonnet
+    :risky t
+    :type '(repeat string))
+
+  (lsp-register-client
+   (make-lsp-client
+    :new-connection (lsp-stdio-connection (lambda () lsp-clients-jsonnet-server-executable))
+    :activation-fn (lsp-activate-on "jsonnet")
+    :priority -1
+    :major-modes '(jsonnet-mode)
+    :server-id 'jsonnet-lsp))
+
+  (lsp-consistency-check lsp-jsonnet)
+
+  (provide 'lsp-jsonnet)
+#+end_src
+** 3. 手元で動作確認する
+
+ちょうど良いサイズのプロジェクトを手元に用意して実際に動かしてみる。
+基本的なLSP機能が正常に動くか確認する。
+
+- 定義ジャンプ
+- 構文エラー表示
+- Rename
+- 補完
+** 4. Pull Requestを出す
+
+lsp-mode.elのlsp-client-packagesにclient追加をする必要がある。
+
+また[[https://emacs-lsp.github.io/lsp-mode/][ドキュメント]]やCHANGELOGに反映させる必要があるので、以下のファイルを追加する。
+
+- [[https://github.com/emacs-lsp/lsp-mode/blob/8a266b83ea0fb880ef697771893c41f8745a04de/docs/lsp-clients.json][docs/lsp-clients.json]]
+- [[https://github.com/emacs-lsp/lsp-mode/blob/8a266b83ea0fb880ef697771893c41f8745a04de/lsp-mode.el][lsp-mode.el]]
+- [[https://github.com/emacs-lsp/lsp-mode/blob/8a266b83ea0fb880ef697771893c41f8745a04de/mkdocs.yml][mkdocs.yml]]
+- [[https://github.com/emacs-lsp/lsp-mode/blob/8a266b83ea0fb880ef697771893c41f8745a04de/CHANGELOG.org][CHANGELOG.org]]
+
+あとはdescriptionを書いてPRを出し、レビュワーの指示に従って修正する。
+
+* 得られた結果・所感
+
+lsp-modeプロジェクトは非常に良く出来ているので追加が簡単。
+レビュワーから速攻レビューが返ってきたので本当に助かる。
+
+* 今後の展開・検討事項
+
+新しいLanguage Serverを見つけたら積極的にPull Requestを出していきたい。
