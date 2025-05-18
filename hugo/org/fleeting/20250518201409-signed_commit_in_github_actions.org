@@ -37,7 +37,7 @@
   }
 #+end_src
 
-2025年5月現在、 [[https://github.com/takeokunn/nixos-configuration][takeokunn/nixos-configuration]] では以下のGitHub Actionsが動いている。
+2025年5月現在、 [[https://github.com/takeokunn/nixos-configuration][takeokunn/nixos-configuration]] では次のGitHub Actionsが動いている。
 
 1. 毎日20時に発火する
 2. =nix flake update= などを実行して依存を更新する
@@ -50,7 +50,7 @@
 * 試したこと・やったこと
 ** 1. 署名用のGPG Keyを生成する
 
-[[id:B3ECD5FA-DFCE-447B-AAB0-72BEAAA28AEF][GPG KeyのYubiKey運用をはじめた]] にある通り、自分の手元では主鍵副鍵運用をしている。
+[[id:B3ECD5FA-DFCE-447B-AAB0-72BEAAA28AEF][GPG KeyのYubiKey運用をはじめた]] にあるとおり、自分の手元では主鍵副鍵運用をしている。
 
 主鍵から =addkey= Signのみを付与した副鍵を生成する。
 生成する際に必ずパスフレーズも設定する。
@@ -85,7 +85,7 @@
 
 https://github.com/takeokunn/nixos-configuration/blob/ff99ab4eb83d729f93f76608273daea49a9dae85/.github/workflows/update.yml
 
-[[http://github.com/crazy-max/ghaction-import-gpg][crazy-max/ghaction-import-gpg]] を使い、以下のように =GPG_PRIVATE_KEY= と =PASSPHRASE= とfingerprintを設定する。
+[[http://github.com/crazy-max/ghaction-import-gpg][crazy-max/ghaction-import-gpg]] を使い、次のように =GPG_PRIVATE_KEY= と =PASSPHRASE= とfingerprintを設定する。
 
 #+begin_src yaml
   steps:
@@ -108,7 +108,7 @@ commit部分はsigned optionをつけてpushをする。
 #+end_src
 * 得られた結果・所感
 
-多少強引だが無事に実現することができた。
+多少強引だが無事に実現できた。
 
 =GPG_PRIVATE_KEY= が漏れる経路は以下が考えられる。
 
