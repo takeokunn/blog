@@ -80,8 +80,8 @@
               name = "example-slide";
               type = "slide";
             };
-            nix-meetup-3-my-nix-usage = buildTypstProject {
-              name = "nix-meetup-3-my-nix-usage";
+            nix-meetup-3-my-nix-usecase = buildTypstProject {
+              name = "nix-meetup-3-my-nix-usecase";
               type = "slide";
             };
             phperkaigi-2025-pamphlet = buildTypstProject {
