@@ -1,0 +1,3 @@
+#+STARTUP: content
+#+STARTUP: fold
+* 最近のNix活用方法について
