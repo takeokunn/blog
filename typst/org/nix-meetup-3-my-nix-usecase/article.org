@@ -1,7 +1,7 @@
 :PROPERTIES:
 :ID:       BA7DD44D-3A8E-E0E4-DF63-50C1F85692EB
 :END:
-#+TITLE: 個人的Nixユースケース紹介
+#+TITLE: 2025年5月 個人的Nixユースケース紹介
 #+AUTHOR: takeokunn
 #+STARTUP: content
 #+STARTUP: fold
@@ -13,7 +13,7 @@
     #set page(header: none, footer: none, margin: 3em)
 
     #text(size: 1.3em)[
-        個人的Nixユースケース紹介
+        2025年5月 個人的Nixユースケース紹介
     ]
 
     Nix Meetup #3
