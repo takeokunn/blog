@@ -1,0 +1,142 @@
+:PROPERTIES:
+:ID:       B8EE3DB1-3A8C-4773-85E4-F8CF326260F7
+:END:
+#+TITLE: Excelファイルをtxtファイルに変換してNotebookLMに食わせる
+#+AUTHOR: takeokunn
+#+DESCRIPTION: description
+#+DATE: 2025-05-23T22:12:39+0900
+#+HUGO_BASE_DIR: ../../
+#+HUGO_CATEGORIES: fleeting
+#+HUGO_SECTION: posts/fleeting
+#+HUGO_TAGS: fleeting excel
+#+HUGO_DRAFT: false
+#+STARTUP: content
+#+STARTUP: fold
+* 背景・動機
+
+利用規約の関係で明確に言及できないが、某ECプラットフォーム（以下 A社）とのAPI連携を実装していた。
+
+A社のAPI含む全体的なドキュメントの管理方法は次のようになっている。
+
+- APIの情報がWeb上に公開されていない
+  - 技術ブログに書いている人がいない
+- 管理画面を使うには申請が必要
+- 管理画面の奥の方にAPIドキュメントがある
+- APIドキュメントをzipでダウンロードする方式
+  - EndpointごとにExcelファイルが入っている
+  - セルの結合などを駆使して見易いように書かれている
+  - Excelのシートが複数枚ある
+- エラーメッセージなどは別のダウンロードリンクに纏まっている
+
+開発する上で次のような問題を抱えていた。
+
+- 今回の対応で必要なEndpointの取捨選択を効率的にしたい
+- ひとつずつExcelファイルを開いて確認するのが面倒
+- 横断した情報の整合性を確認するのが大変
+
+今回のようにExcelファイルが与えられた時にどう対応するべきなのか後学の為にメモしておく。
+
+* 試したこと・やったこと
+** 1. ExcelファイルをGoogle Driveにアップロードする
+
+ExcelファイルをGoogle DriveにアップロードするとSpreadSheetから閲覧できる。
+こうすることで、ExcelファイルにURL Linkからアクセスすることが可能になるのがよい。
+
+** 2. Excelファイルを文字列に起こす
+
+=xlsx2csv= を使ってcsvファイルに変換する。
+
+#+begin_src console
+  $ xlsx2csv -s 2 tmp.xlsx > tmp.csv
+#+end_src
+
+=-s= オプションでシート番号を指定できる。
+
+#+begin_src console
+  usage: xlsx2csv [-h] [-v] [-a] [-c OUTPUTENCODING] [-d DELIMITER] [--hyperlinks] [-e] [--no-line-breaks] [-E EXCLUDE_SHEET_PATTERN [EXCLUDE_SHEET_PATTERN ...]] [-f DATEFORMAT] [-t TIMEFORMAT]
+                  [--floatformat FLOATFORMAT] [--sci-float] [-I INCLUDE_SHEET_PATTERN [INCLUDE_SHEET_PATTERN ...]] [--exclude_hidden_sheets] [--ignore-formats IGNORE_FORMATS [IGNORE_FORMATS ...]]
+                  [-l LINETERMINATOR] [-m] [-n SHEETNAME] [-i] [--skipemptycolumns] [-p SHEETDELIMITER] [-q QUOTING] [-s SHEETID] [--include-hidden-rows]
+                  xlsxfile [outfile]
+
+  xlsx to csv converter
+
+  positional arguments:
+    xlsxfile              xlsx file path, use '-' to read from STDIN
+    outfile               output csv file path
+
+  options:
+    -h, --help            show this help message and exit
+    -v, --version         show program's version number and exit
+    -a, --all             export all sheets
+    -c OUTPUTENCODING, --outputencoding OUTPUTENCODING
+                          encoding of output csv ** Python 3 only ** (default: utf-8)
+    -d DELIMITER, --delimiter DELIMITER
+                          delimiter - columns delimiter in csv, 'tab' or 'x09' for a tab (default: comma ',')
+    --hyperlinks, --hyperlinks
+                          include hyperlinks
+    -e, --escape          Escape \r\n\t characters
+    --no-line-breaks, --no-line-breaks
+                          Replace \r\n\t with space
+    -E EXCLUDE_SHEET_PATTERN [EXCLUDE_SHEET_PATTERN ...], --exclude_sheet_pattern EXCLUDE_SHEET_PATTERN [EXCLUDE_SHEET_PATTERN ...]
+                          exclude sheets named matching given pattern, only effects when -a option is enabled.
+    -f DATEFORMAT, --dateformat DATEFORMAT
+                          override date/time format (ex. %Y/%m/%d)
+    -t TIMEFORMAT, --timeformat TIMEFORMAT
+                          override time format (ex. %H/%M/%S)
+    --floatformat FLOATFORMAT
+                          override float format (ex. %.15f)
+    --sci-float           force scientific notation to float
+    -I INCLUDE_SHEET_PATTERN [INCLUDE_SHEET_PATTERN ...], --include_sheet_pattern INCLUDE_SHEET_PATTERN [INCLUDE_SHEET_PATTERN ...]
+                          only include sheets named matching given pattern, only effects when -a option is enabled.
+    --exclude_hidden_sheets
+                          Exclude hidden sheets from the output, only effects when -a option is enabled.
+    --ignore-formats IGNORE_FORMATS [IGNORE_FORMATS ...]
+                          Ignores format for specific data types.
+    -l LINETERMINATOR, --lineterminator LINETERMINATOR
+                          line terminator - lines terminator in csv, '\n' '\r\n' or '\r' (default: \n)
+    -m, --merge-cells     merge cells
+    -n SHEETNAME, --sheetname SHEETNAME
+                          sheet name to convert
+    -i, --ignoreempty     skip empty lines
+    --skipemptycolumns    skip trailing empty columns
+    -p SHEETDELIMITER, --sheetdelimiter SHEETDELIMITER
+                          sheet delimiter used to separate sheets, pass '' if you do not need delimiter, or 'x07' or '\f' for form feed (default: '--------')
+    -q QUOTING, --quoting QUOTING
+                          quoting - fields quoting in csv, 'none' 'minimal' 'nonnumeric' or 'all' (default: minimal)
+    -s SHEETID, --sheet SHEETID
+                          sheet number to convert
+    --include-hidden-rows
+                          include hidden rows
+#+end_src
+
+次のように再帰的に実行するのでもよい。
+
+#+begin_src console
+  $ find . -name '*.xlsx' -exec bash -c 'for f; do out="${f%.xlsx}.csv"; xlsx2csv -s 2 "$f" > "$out"; done' bash {} +
+#+end_src
+
+** 3. NotebookLMにアップロードする
+
+NotebookLMはcsvアップロードに対応していないので、いったんtxtに変換してアップロードする。
+
+#+begin_src console
+  $ find . -type f -name '*.csv' -print0 | while IFS= read -r -d '' file; do   mv "$file" "${file%.csv}.txt"; done
+#+end_src
+
+あとはよしなにNotebookLMに質問する。
+
+* 得られた結果・所感
+
+変換されたcsvはセル結合のせいでだいぶ酷い形式だが、NotebookLMを介することによって圧倒的に読みやすくなった。
+また、管理画面上のAPIに関する情報もついでに食わせることによって自分の疑問がかなり晴れたし、どこから参照したのかも教えてくれるので自分でも確認できるのがNotebookLMのよい所だなとあらためて感じた。
+
+=xlsx2csv= はnixpkgsで提供してくれているので、雑に =nix-shell= で隔離したShell環境に入ればよい。
+
+https://search.nixos.org/packages?channel=unstable&show=xlsx2csv&from=0&size=50&sort=relevance&type=packages&query=xlsx2csv
+
+#+begin_src console
+  $ nix-shell -p xlsx2csv
+#+end_src
+* 今後の展開・検討事項
+
+Excelだと読み辛いのでopenapi.yamlをNotebookLMに生成させて、openapiからTypeScriptを生成する。
