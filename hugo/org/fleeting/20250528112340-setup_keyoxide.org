@@ -1,0 +1,175 @@
+:PROPERTIES:
+:ID:       CAB486B2-21D7-4DF0-AC10-CF21F0B8F537
+:END:
+#+TITLE: keyoxideセットアップ
+#+AUTHOR: takeokunn
+#+DESCRIPTION: description
+#+DATE: 2025-05-28T11:23:45+0900
+#+HUGO_BASE_DIR: ../../
+#+HUGO_CATEGORIES: fleeting
+#+HUGO_SECTION: posts/fleeting
+#+HUGO_TAGS: fleeting gpg
+#+HUGO_DRAFT: false
+#+STARTUP: content
+#+STARTUP: fold
+* 背景・動機
+
+友人のこまもか君(@Comamoca_)がTwitterでなりすましをされていた。
+
+#+begin_export html
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">なりすましを発見したので本物であることを主張しておきますね〜<br><br>署名済みテキスト:<a href="https://t.co/Q5jcSsJACw">https://t.co/Q5jcSsJACw</a><br><br>keybase:<br>僕のGitコミットは基本的にkeybase管理下のPGP鍵で署名してるので、なんか怪しい人いたら各自検証してください<br>🙏<a href="https://t.co/ufJ5K1j5ig">https://t.co/ufJ5K1j5ig</a></p>&mdash; こまもか🦊 (@Comamoca_) <a href="https://twitter.com/Comamoca_/status/1927205397250646518?ref_src=twsrc%5Etfw">May 27, 2025</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+#+end_export
+
+自分はまだされたことがないが、将来的になりすまされた時の為に今のうちに手を打っておこうということで今回対応した。
+
+* 試したこと・やったこと
+** 0. 方針を決める
+
+インターネットでなりすましではないことを証明するのは根本的に難しい。
+
+ChatGPTによると、本人性を証明するためのアプローチは以下の3つが上げられる。
+
+- A. 他媒体連携型証明（クロスメディア検証）
+- B. 動画・写真による自己証明
+- C. 本人だけが知る事実・履歴を提示
+
+今回の要件としては、自分のことをあまり知らない不特定多数から見て自己をどう証明するのかというものがある。
+私の場合Twitter/GitHub/ブログがメインなので、これらを証明する手段が求められている。(A. 他媒体連携型証明)
+
+[[id:B3ECD5FA-DFCE-447B-AAB0-72BEAAA28AEF][GPG KeyのYubiKey運用をはじめた]] にも書いた通り、可能な限りGPGに寄せたいと考えている。
+自分のソーシャルアカウントや公開鍵との関連性を証明するサービスは幾つかあるようだ。
+
+- Keybase
+- Keyoxide
+- Sigstore
+- etc..
+
+当初keybaseを採用しようとしていたが、自分にとってSNS機能は不要だったり、Zoomが買収してから開発が停滞気味という噂を聞き、Keyoxideを採用することにした。
+
+また友人のnatsukiumも利用していたので決断の後押しになった。
+
+https://keyoxide.org/DCCB2D69E06EEAA48904F8A12D5ADD7530F56A42
+
+** 1. Keyoxideに認識させる
+
+基本的にはドキュメントを参考に上から順に行えば良い。
+
+https://docs.keyoxide.org/getting-started/creating-profile-openpgp/
+
+[[id:B3ECD5FA-DFCE-447B-AAB0-72BEAAA28AEF][GPG KeyのYubiKey運用をはじめた]] で既にSigned Keyは持っていたのでGPG Key生成手順はスキップできた。
+
+以下のコマンドで =public.asc= を生成して管理画面からアップロードする。
+
+https://keys.openpgp.org/upload
+
+#+begin_src console
+  $ gpg --armor --output public.asc --export <key>
+#+end_src
+
+keyoxide側が勝手にopenpgpを参照してページを作ってくれる。
+
+https://keyoxide.org/0B10DAA7BA0236D7382287660F79C0AB03FD7A1C
+
+** 2. Twitter紐付け作業
+
+こちらを参考に対応する。
+
+https://docs.keyoxide.org/service-providers/twitter/
+
+=openpgp4fpr:<fpr>= を含めたツイートをする。
+
+#+begin_export html
+<blockquote class="twitter-tweet"><p lang="in" dir="ltr">keyoxide用<br><br>openpgp4fpr:0B10DAA7BA0236D7382287660F79C0AB03FD7A1C</p>&mdash; たけてぃ𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1927387715441414384?ref_src=twsrc%5Etfw">May 27, 2025</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+#+end_export
+
+ツイートのリンクを =notation= で付与する。
+
+#+begin_src console
+  $ gpg --edit-key <key>
+
+  > notation
+  @Enter the notation: proof@ariadne.id=https://twitter.com/takeokunn/status/1927387715441414384
+
+  > save
+#+end_src
+
+以下のコマンドで =public.asc= を生成して管理画面からアップロードする。
+
+https://keys.openpgp.org/upload
+
+#+begin_src console
+  $ gpg --armor --output public.asc --export <key>
+#+end_src
+
+** 3. GitHub紐付け作業
+
+こちらを参考に対応する。
+
+https://docs.keyoxide.org/service-providers/github/
+
+=openpgp4fpr:<fpr>= を含めたGistを作成する。
+
+https://gist.github.com/takeokunn/51d8c50bb4e6f08ff50d68a125d7fb54
+
+Gistのリンクを =notation= を付与する。
+
+#+begin_src console
+  $ gpg --edit-key <key>
+
+  > notation
+  @Enter the notation: proof@ariadne.id=https://gist.github.com/takeokunn/51d8c50bb4e6f08ff50d68a125d7fb54
+
+  > save
+#+end_src
+
+以下のコマンドで =public.asc= を生成して管理画面からアップロードする。
+
+https://keys.openpgp.org/upload
+
+#+begin_src console
+  $ gpg --armor --output public.asc --export <key>
+#+end_src
+
+** 4. DNS紐付け作業
+
+こちらを参考に対応する。
+
+https://docs.keyoxide.org/service-providers/dns/
+
+=openpgp4fpr:<fpr>= を含めたTXT Recordを作成する。
+
+#+begin_src console
+  $ dig TXT takeokunn.org | grep openpgp
+  takeokunn.org.          300     IN      TXT     "openpgp4fpr:0B10DAA7BA0236D7382287660F79C0AB03FD7A1C"
+#+end_src
+
+DNSの情報を =notation= を付与する。
+
+#+begin_src console
+  $ gpg --edit-key <key>
+
+  > notation
+  @Enter the notation: proof@ariadne.id=dns:takeokunn.org?type=TXT
+
+  > save
+#+end_src
+
+以下のコマンドで =public.asc= を生成して管理画面からアップロードする。
+
+https://keys.openpgp.org/upload
+
+#+begin_src console
+  $ gpg --armor --output public.asc --export <key>
+#+end_src
+
+* 得られた結果・所感
+
+多少作業が詰まったが、無事keyoxide上で証明することができた。
+
+https://keyoxide.org/0B10DAA7BA0236D7382287660F79C0AB03FD7A1C
+
+[[file:../../static/images/480ABAFE-75DD-415C-99FB-941039A5D1FD.png]]
+
+* 今後の展開・検討事項
+
+今回はkeyoxideに入門しただけなので、keyoxide自体の仕組みや実際の実装を読んで理解を深めたい。
