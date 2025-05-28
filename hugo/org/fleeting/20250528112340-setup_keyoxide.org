@@ -14,7 +14,7 @@
 #+STARTUP: fold
 * 背景・動機
 
-友人のこまもか君(@Comamoca_)がTwitterでなりすましをされていた。
+友人のこまもか君（@Comamoca_）がTwitterでなりすましをされていた。
 
 #+begin_export html
 <blockquote class="twitter-tweet"><p lang="ja" dir="ltr">なりすましを発見したので本物であることを主張しておきますね〜<br><br>署名済みテキスト:<a href="https://t.co/Q5jcSsJACw">https://t.co/Q5jcSsJACw</a><br><br>keybase:<br>僕のGitコミットは基本的にkeybase管理下のPGP鍵で署名してるので、なんか怪しい人いたら各自検証してください<br>🙏<a href="https://t.co/ufJ5K1j5ig">https://t.co/ufJ5K1j5ig</a></p>&mdash; こまもか🦊 (@Comamoca_) <a href="https://twitter.com/Comamoca_/status/1927205397250646518?ref_src=twsrc%5Etfw">May 27, 2025</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -27,17 +27,17 @@
 
 インターネットでなりすましではないことを証明するのは根本的に難しい。
 
-ChatGPTによると、本人性を証明するためのアプローチは以下の3つが上げられる。
+ChatGPTによると、本人性を証明するためのアプローチは次の3つが上げられる。
 
 - A. 他媒体連携型証明（クロスメディア検証）
 - B. 動画・写真による自己証明
 - C. 本人だけが知る事実・履歴を提示
 
 今回の要件としては、自分のことをあまり知らない不特定多数から見て自己をどう証明するのかというものがある。
-私の場合Twitter/GitHub/ブログがメインなので、これらを証明する手段が求められている。(A. 他媒体連携型証明)
+私の場合Twitter/GitHub/ブログがメインなので、これらを証明する手段が求められている。（A. 他媒体連携型証明）
 
-[[id:B3ECD5FA-DFCE-447B-AAB0-72BEAAA28AEF][GPG KeyのYubiKey運用をはじめた]] にも書いた通り、可能な限りGPGに寄せたいと考えている。
-自分のソーシャルアカウントや公開鍵との関連性を証明するサービスは幾つかあるようだ。
+[[id:B3ECD5FA-DFCE-447B-AAB0-72BEAAA28AEF][GPG KeyのYubiKey運用をはじめた]] にも書いたとおり、可能な限りGPGに寄せたいと考えている。
+自分のソーシャルアカウントや公開鍵との関連性を証明するサービスはいくつかあるようだ。
 
 - Keybase
 - Keyoxide
@@ -52,13 +52,13 @@ https://keyoxide.org/DCCB2D69E06EEAA48904F8A12D5ADD7530F56A42
 
 ** 1. Keyoxideに認識させる
 
-基本的にはドキュメントを参考に上から順に行えば良い。
+基本的にはドキュメントを参考に上から順に行えばよい。
 
 https://docs.keyoxide.org/getting-started/creating-profile-openpgp/
 
-[[id:B3ECD5FA-DFCE-447B-AAB0-72BEAAA28AEF][GPG KeyのYubiKey運用をはじめた]] で既にSigned Keyは持っていたのでGPG Key生成手順はスキップできた。
+[[id:B3ECD5FA-DFCE-447B-AAB0-72BEAAA28AEF][GPG KeyのYubiKey運用をはじめた]] ですでにSigned Keyは持っていたのでGPG Key生成手順はスキップできた。
 
-以下のコマンドで =public.asc= を生成して管理画面からアップロードする。
+次のコマンドで =public.asc= を生成して管理画面からアップロードする。
 
 https://keys.openpgp.org/upload
 
@@ -93,7 +93,7 @@ https://docs.keyoxide.org/service-providers/twitter/
   > save
 #+end_src
 
-以下のコマンドで =public.asc= を生成して管理画面からアップロードする。
+次のコマンドで =public.asc= を生成して管理画面からアップロードする。
 
 https://keys.openpgp.org/upload
 
@@ -122,7 +122,7 @@ Gistのリンクを =notation= を付与する。
   > save
 #+end_src
 
-以下のコマンドで =public.asc= を生成して管理画面からアップロードする。
+次のコマンドで =public.asc= を生成して管理画面からアップロードする。
 
 https://keys.openpgp.org/upload
 
@@ -154,7 +154,7 @@ DNSの情報を =notation= を付与する。
   > save
 #+end_src
 
-以下のコマンドで =public.asc= を生成して管理画面からアップロードする。
+次のコマンドで =public.asc= を生成して管理画面からアップロードする。
 
 https://keys.openpgp.org/upload
 
@@ -164,7 +164,7 @@ https://keys.openpgp.org/upload
 
 * 得られた結果・所感
 
-多少作業が詰まったが、無事keyoxide上で証明することができた。
+多少作業が詰まったが、無事keyoxide上で証明できた。
 
 https://keyoxide.org/0B10DAA7BA0236D7382287660F79C0AB03FD7A1C
 
