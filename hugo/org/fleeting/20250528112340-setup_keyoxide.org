@@ -170,6 +170,21 @@ https://keyoxide.org/0B10DAA7BA0236D7382287660F79C0AB03FD7A1C
 
 [[file:../../static/images/480ABAFE-75DD-415C-99FB-941039A5D1FD.png]]
 
+=showpref= で現在の =notations= を確認できる。
+
+#+begin_src console
+  @gpg> showpref
+  [ultimate] (1). takeo obara <bararararatty@gmail.com>
+       Cipher: AES256, AES192, AES, 3DES
+       AEAD: OCB, EAX
+       Digest: SHA512, SHA384, SHA256, SHA224, SHA1
+       Compression: ZLIB, BZIP2, ZIP, Uncompressed
+       Features: MDC, AEAD, Keyserver no-modify
+       Notations: proof@ariadne.id=https://gist.github.com/takeokunn/51d8c50bb4e6f08ff50d68a125d7fb54
+                  proof@ariadne.id=https://twitter.com/takeokunn/status/1927387715441414384
+                  proof@ariadne.id=dns:takeokunn.org?type=TXT
+#+end_src
+
 * 今後の展開・検討事項
 
 今回はkeyoxideに入門しただけなので、keyoxide自体の仕組みや実際の実装を読んで理解を深めたい。
