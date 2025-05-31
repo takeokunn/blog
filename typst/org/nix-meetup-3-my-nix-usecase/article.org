@@ -16,12 +16,12 @@
         2025年5月 個人的Nixユースケース紹介
     ]
 
-    Nix Meetup #3
+    Nix Meetup \#3
 
     #divider
 
     #set text(size: .8em, weight: "light")
-    @takeokunn
+    \@takeokunn
 
     Mar 24, 2025
 ]
@@ -35,278 +35,244 @@
 ]
 #+end_export
 * 自己紹介
-** new-section
 #+begin_export typst
 #new-section[自己紹介]
 
 #slide[
-  #show: focus
-  自己紹介
-]
-#+end_export
-** お前誰よ
-#+begin_export typst
-#slide[
-    = お前誰よ
+    #place(
+        top + right,
+        image("./images/icon.jpeg", width: 100pt)
+    )
 
-    たけてぃ @takeokunn
-    Nix Meetup 共同主催
-    Nix歴ようやく1年経った
+    = 自己紹介
 
-    仕事ではPHPコミュニティ所属
-    個人ではテキストエディタコミュニティ所属
+    - たけてぃ \@takeokunn
+    - Nix Meetup 共同主催
+    - Nix歴ようやく1年経った
+    - 仕事ではPHPコミュニティ所属
+    - 個人ではテキストエディタコミュニティ所属
 ]
 #+end_export
 * 今回話したいこと
-** new-secton
 #+begin_export typst
 #new-section[今回話したいこと]
 
 #slide[
-  #show: focus
-  今回話したいこと
-]
-#+end_export
-** タイトル
-#+begin_export typst
-#slide[
-   = 今回話したいこと
-
-    #show: focus
-    2025年5月 普段私が使っている
-    Nixのユースケース紹介
-]
-#+end_export
-** 補足
-#+begin_export typst
-#slide[
     = 今回話したいこと
 
-    Nixの仕組みに乗っかれば多様なユースケースを実現できる。
-    それ故にどう使えば良いのか逆に難しくなっているというのが現状。
-
-    この1年で自分がどういう取り組みをしたのかを紹介する。
+    - Nixの仕組みに乗っかれば多様なユースケースを実現できる
+    - それ故にどう使えば良いのか逆に難しくなっているというのが現状
+    - この1年で自分がどういう取り組みをしたのかを紹介する
 ]
 #+end_export
 * 事例紹介
-** new-section
 #+begin_export typst
 #new-section[事例紹介]
-
-#slide[
-  #show: focus
-  事例紹介
-]
 #+end_export
-** nix run
-*** 紹介
+* 事例紹介(nix run)
 #+begin_export typst
 #slide[
-   = $ nix run nixpkgs#xxx
+    = \$ nix run nixpkgs\#xxx
 
-    nixpkgsにあるコマンドをプレインンストールせずにワンショットで実行できるコマンド。
-    必要な依存Packageを随時落して対象をBuildし、即時実行する。
+    - nixpkgsにあるコマンドをプレインンストールせずにワンショットで実行できるコマンド
+    - 必要な依存Packageを随時落して対象をBuildし、即時実行する
+]
+
+#slide[
+    = \$ nix run nixpkgs\#xxx
+
+    #sourcecode(frame: none, showlines: true)[```console
+$ nix run nixpkgs#pwgen
+
+ac5aep9A xah7ahNg hoW6Oozu ohBooN9S oh4eem3A Oi6daw2k aiba8Pa0 ahNa2Tho
+aem5woeR oop1Quef ius5ahY6 Kae0wohc Uayibai3 Bai1ta4i xeezae8E Oaz4vie0
+Aeku0fai aFoca8sa eighu3Ye Udie4neV igahKii4 ohXee6me eehohm5A fahle4Ou
+Tha8iuz3 Uj3xoira phi8aiY8 Eecu3shu gu5chieM Lietha6i ohx3raiR thool9Go
+Iengie6Z Bohgh1Ja Iez1rahs ahNae0xu shei1Ahc xeeJou0e cee9Soo4 chie2Fou
+...
+    ```]
 ]
 #+end_export
-*** コマンド
-#+begin_export typst
-#sourcecode(frame: none)[```bash
-    $ nix run nixpkgs#tokei
-    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-     Language              Files        Lines         Code     Comments       Blanks
-    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-     BASH                      1          116           88            7           21
-     CSS                       2          108           94            0           14
-     Emacs Lisp                1           15           13            0            2
-     Fish                     48         2757         2027          404          326
-     JSON                      7         2610         2610            0            0
-     Common Lisp               1            3            3            0            0
-     Lua                       1           52           40            4            8
-     Nix                     159         7164         6320          415          429
-     Org                       5         8554         6910          858          786
-     Shell                     5           74           60            5            9
-     TOML                      1          284          220            5           59
-     YAML                      1           28           27            0            1
-    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-     Total                   232        21765        18412         1698         1655
-    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-```]
-#+end_export
-
-** nix-shell
-*** 紹介
+* 事例紹介(nix-shell)
 #+begin_export typst
 #slide[
-   = $ nix-shell
+    = \$ nix-shell
 
-    nixpkgsにあるコマンドにPATHを通した状態の隔離したShell環境を作れる。
-    Shell芸のような複雑なコマンドを試したい時に便利。
+    - nixpkgsにあるコマンドにPATHを通した状態の隔離したShell環境を作れる
+    - Shell芸のような複雑なコマンドを試したい時に便利。
+]
+
+#slide[
+    = \$ nix-shell
+
+    #sourcecode(frame: none)[```console
+$ nix-shell -p xlsx2csv
+
+@[nix-shell:~]$ xlsx2csv --version
+0.8.4
+    ```]
 ]
 #+end_export
-*** コマンド
+* 事例紹介(devenv)
 #+begin_export typst
-#sourcecode(frame: none)[```bash
-    $ nix-shell -p xlsx2csv
+#slide[
+    = devenv
 
-    @[nix-shell:~]$ xlsx2csv --version
-    0.8.4
-```]
-#+end_export
+    - Cachix社製のflake.nixラッパー
+    - flake.nixよりも圧倒的に高級に書ける割に柔軟性がかなり高いのでプロジェクトに必要なツールを入れる場合に便利
+    - 類似ツールはdevbox
+    - devboxはjsonでのみ記述できるので個人的にはNix式で書けるdevenvの方が好み
+    - project rootにorg-modeからdevenv.nixを出力している
+]
 
-** devenv
-*** 紹介
-#+begin_export typst
 #slide[
    = devenv
 
-    Cachix社製のflake.nixラッパー。
-    flake.nixよりも圧倒的に高級に書ける割に柔軟性がかなり高いのでプロジェクトに必要なツールを入れる場合に便利。
+    #place(image("./images/20250126135045-personal_devenv_tips.png", fit: "contain", width: 100%, height: 100%))
+]
 
-    類似ツールはdevbox。
-    devboxはjsonでのみ記述できるので個人的にはNix式で書けるdevenvの方が好み。
+#slide[
+   = devenv
 
-    project rootにorg-modeからdevenv.nixを出力している。
+    #sourcecode(frame: none)[```nix
+{ pkgs, config, inputs, ... }: {
+  cachix.enable = false;
+  dotenv.disableHint = true;
+
+  packages = with pkgs; [ typescript typescript-language-server ];
+
+  languages.javascript = {
+    enable = true;
+    package = pkgs.nodejs_22;
+  };
+}
+    ```]
 ]
 #+end_export
-*** ブログ記事 スクショ
-
-https://www.takeokunn.org/posts/fleeting/20250126135045-personal_devenv_tips/
-
-*** devenv.nix
-#+begin_export typst
-#sourcecode(frame: none)[```nix
-    { pkgs, config, inputs, ... }: {
-      cachix.enable = false;
-      dotenv.disableHint = true;
-
-      packages = with pkgs; [ typescript typescript-language-server ];
-
-      languages.javascript = {
-        enable = true;
-        package = pkgs.nodejs_22;
-      };
-    }
-```]
-#+end_export
-
-** nixos-configuration
-*** OGP
-
-https://github.com/takeokunn/nixos-configuration
-
-*** 特徴
+* 事例紹介(nixos-configuration)
 #+begin_export typst
 #slide[
-   = takeokunn/nixos-configuration
+    = nixos-configuration
 
-    Mac/NixOS/Android対応
-    毎日最新のunstableを落としてBuildしてる
-    emacs.takeokunn.org ホスティング
+    #place(image("./images/nixos-configuration.png", fit: "contain", width: 100%, height: 100%))
+]
+
+#slide[
+    = Feature - nixos-configuration
+    - Mac/NixOS/Android対応
+    - 毎日最新のunstableを落としてBuildしてる
+    - emacs.takeokunn.org ホスティング
+]
+
+#slide[
+    = DeepWiki- nixos-configuration
+
+    #place(image("./images/nixos-configuration-deep-wiki.png", fit: "contain", width: 100%, height: 100%))
+]
+
+#slide[
+    = Mac再インストール - nixos-configuration
+
+    #place(image("./images/20250514222418-reinstall_mac_with_nix.png", fit: "contain", width: 100%, height: 100%))
+]
+
+#slide[
+    = Emacs設定 - nixos-configuration
+
+    #place(image("./images/nixos-configuration-emacs.png", fit: "contain", width: 100%, height: 100%))
+]
+
+#slide[
+    = MCP Client - nixos-configuration
+
+    #place(image("./images/20250409210655-introduction_mcp_servers_nix.png", fit: "contain", width: 100%, height: 100%))
 ]
 #+end_export
-*** レポジトリ構造
-
-https://deepwiki.com/takeokunn/nixos-configuration/1-overview
-
-*** Mac再インストール
-
-https://www.takeokunn.org/posts/fleeting/20250514222418-reinstall_mac_with_nix/
-
-*** Emacs設定
-
-https://toyboot4e.github.io/2024-09-08-nixify-emacs.html
-
-*** MCP Client管理
-
-https://www.takeokunn.org/posts/fleeting/20250409210655-introduction_mcp_servers_nix/
-
-** nur-packages
-*** OGP
-
-https://github.com/takeokunn/nur-packages
-
-*** 特徴
+* 事例紹介(nur-packages)
 #+begin_export typst
 #slide[
-   = takeokunn/nur-packages
+    = nur-packages
+
+    #place(image("./images/nur-packages.png", fit: "contain", width: 100%, height: 100%))
+]
+
+#slide[
+    = Feature - nur-packages
 
     自前nixpkgs
     自作CLIツールやnixpkgsに入っていないPackageを公開できる
 ]
-#+end_export
-*** ブログ
 
-https://www.takeokunn.org/posts/fleeting/20241122091116-how_to_package_tcardgen_with_nix/
-
-** blog
-*** OGP
-
-https://github.com/takeokunn/blog
-
-*** CI
-#+begin_export typst
 #slide[
-   = takeokunn/blog CI
+    = tcardgen例 - nur-packages
 
-    textlint実行環境を用意してる
-
-    GitHub Actionsでtextlint実行
-    Emacs FlycheckからNixで入れたtextlintにPATHを通してリアルタイムでエラーの確認ができる
+    #place(image("./images/20241122091116-how_to_package_tcardgen_with_nix.png", fit: "contain", width: 100%, height: 100%))
 ]
 #+end_export
-*** Deploy
+* 事例紹介(blog)
 #+begin_export typst
 #slide[
-   = takeokunn/blog Deploy
+    = blog
+    #place(image("./images/blog.png", fit: "contain", width: 100%, height: 100%))
+]
 
-    Org Mode + Zettelekasten運用
+#slide[
+    = GitHub Actions - blog
 
-    Hugo: Org Mode → Hugo Markdown → Generate OGP → GitHub Pages
-    Org Roam UI: Org Mode → Org Roam UI → GitHub Pages
-    Zenn: Org Mode → Zenn Markdown
-    Typst: Org Mode → Typst → Generate PDF → GitHub Pages
+    - textlint実行環境を用意してる
+    - GitHub Actionsでtextlint実行
+    - Emacs FlycheckからNixで入れたtextlintにPATHを通してリアルタイムでエラーの確認ができる
+]
+
+#slide[
+    = Deploy - blog
+
+    - Org Mode + Zettelekasten運用
+
+    - Hugo: Org Mode → Hugo Markdown → Generate OGP → GitHub Pages
+    - Org Roam UI: Org Mode → Org Roam UI → GitHub Pages
+    - Zenn: Org Mode → Zenn Markdown
+    - Typst: Org Mode → Typst → Generate PDF → GitHub Pages
+]
+
+#slide[
+    = Hugo - blog
+
+    #place(image("./images/blog-hugo.png", fit: "contain", width: 100%, height: 100%))
+]
+
+#slide[
+    = Graph - blog
+
+    #place(image("./images/blog-graph.png", fit: "contain", width: 100%, height: 100%))
+]
+
+#slide[
+    = Zenn - blog
+
+    #place(image("./images/blog-zenn.png", fit: "contain", width: 100%, height: 100%))
+]
+
+#slide[
+    = Typst - blog
+
+    #place(image("./images/20250126114218-build_and_deploy_typst_using_nix.png", fit: "contain", width: 100%, height: 100%))
 ]
 #+end_export
-*** Hugo スクショ
-
-https://www.takeokunn.org/
-
-*** Graph スクショ
-
-https://www.takeokunn.org/graph/
-
-*** Zenn スクショ
-
-https://zenn.dev/takeokunn/
-
-*** Typst スクショ
-
-https://www.takeokunn.org/posts/fleeting/20250126114218-build_and_deploy_typst_using_nix/
-
 * 今後やりたいこと
-** new-section
 #+begin_export typst
 #new-section[今後やりたいこと]
 
 #slide[
-  #show: focus
-  今後やりたいこと
-]
-#+end_export
-** やりたいことリスト
-#+begin_export typst
-#slide[
-   = 今後やりたいこと
+    = 今後やりたいこと
 
-    Emacsとの親和性を高める
-
-    手元のNixOS Thinkpadの設定(e.g. disko, impermanence)
-    NixOSでのサーバ運用(e.g. RaspberryPi, AWS)
-
-    Nix Meetupの継続的な開催
-    Nix関連のOSSコントリビューション
-    雑誌や書籍執筆
-    別コミュニティへのアプローチ
+    - Emacsとの親和性を高める
+    - 手元のNixOS Thinkpadの設定(e.g. disko, impermanence)
+    - NixOSでのサーバ運用(e.g. RaspberryPi, AWS)
+    - Nix Meetupの継続的な開催
+    - Nix関連のOSSコントリビューション
+    - 雑誌や書籍執筆
+    - 別コミュニティへのアプローチ
 ]
 #+end_export
 * ご静聴ありがとうございました

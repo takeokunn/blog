@@ -54,6 +54,13 @@
 
 #let divider = line(length: 100%, stroke: .1em + pink)
 
+#let note(where, body) = place(      
+  center + where,
+  float: true,
+  clearance: 6pt,
+  rect(body),
+)
+
 #let setup(
   footer: none,
   text-font: "Migu",
