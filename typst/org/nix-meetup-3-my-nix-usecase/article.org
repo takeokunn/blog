@@ -199,12 +199,13 @@ $ nix-shell -p xlsx2csv
 #slide[
     = Feature - nur-packages
 
-    自前nixpkgs
-    自作CLIツールやnixpkgsに入っていないPackageを公開できる
+    - 自前nixpkgs
+    - 自作CLIツールやnixpkgsに入っていないPackageを公開できる
+    - PackageをGitHubにPushするだけで使える
 ]
 
 #slide[
-    = tcardgen例 - nur-packages
+    = tcardgen - nur-packages
 
     #place(image("./images/20241122091116-how_to_package_tcardgen_with_nix.png", fit: "contain", width: 100%, height: 100%))
 ]
