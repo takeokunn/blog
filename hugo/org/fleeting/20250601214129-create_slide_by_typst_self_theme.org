@@ -16,6 +16,8 @@
 
 [[https://nix-ja.connpass.com/event/353532/][Nix meetup #3 大阪]] で大阪への新幹線の中で登壇スライドを作成した。
 
+https://www.takeokunn.org/pdf/nix-meetup-3-my-nix-usecase.pdf
+
 今まではGoogle Slideでスライドを作成していたが、今回は [[id:C6F8F599-5F2A-4C8C-8148-0DF03644CE35][Typstテーマを自作した]] にもあるとおり自作テーマで初の登壇仕様を作成してみた。
 
 スライドは作ったものの、時間の関係で登壇できなかったので別の機会で流用する。
