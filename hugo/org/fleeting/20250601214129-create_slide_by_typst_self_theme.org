@@ -16,7 +16,7 @@
 
 [[https://nix-ja.connpass.com/event/353532/][Nix meetup #3 大阪]] で大阪への新幹線の中で登壇スライドを作成した。
 
-今まではGoogle Slideでスライドを作成していたが、今回は [[id:C6F8F599-5F2A-4C8C-8148-0DF03644CE35][Typstテーマを自作した]] にもある通り自作テーマで初の登壇仕様を作成してみた。
+今まではGoogle Slideでスライドを作成していたが、今回は [[id:C6F8F599-5F2A-4C8C-8148-0DF03644CE35][Typstテーマを自作した]] にもあるとおり自作テーマで初の登壇仕様を作成してみた。
 
 スライドは作ったものの、時間の関係で登壇できなかったので別の機会で流用する。
 
@@ -99,7 +99,7 @@
 
 [[file:../../static/images/3EC43E62-8425-4B75-805A-820EF84BE986.png]]
 
-=#place= と =image= 関数だけで良い。
+=#place= と =image= 関数だけでよい。
 
 #+begin_src typst
   #slide[
@@ -111,7 +111,7 @@
 
 [[file:../../static/images/B7A532B7-4A07-445A-8C3C-0FF5B227D6FF.png]]
 
-通常通り箇条書きすれば良い。
+通常とおり箇条書きすればよい。
 
 #+begin_export typst
 #slide[
@@ -141,9 +141,9 @@
 
 * 得られた結果・所感
 
-見栄えの良いスライドをorg-modeとTypstで簡単に作成できた。
+見栄えのよいスライドをorg-modeとTypstで簡単に作成できた。
 
-[[id:0D13FCEA-F8EC-4729-B700-9A88FD1D5EB9][NixでTypstをBuildしGitHub Pagesでホスティングする]] にもある通り、 =git push= したら数分後にGitHub Pagesからアクセスできるようになるので体験が非常に良い。
+[[id:0D13FCEA-F8EC-4729-B700-9A88FD1D5EB9][NixでTypstをBuildしGitHub Pagesでホスティングする]] にもあるとおり、 =git push= したら数分後にGitHub Pagesからアクセスできるようになるので体験が非常によい。
 
 - pdf
   - https://www.takeokunn.org/pdf/nix-meetup-3-my-nix-usecase.pdf
