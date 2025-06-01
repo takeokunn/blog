@@ -1,0 +1,156 @@
+:PROPERTIES:
+:ID:       9A373386-769A-4152-BDED-20931CA588BC
+:END:
+#+TITLE: Typst自作テーマで登壇スライドを作成した
+#+AUTHOR: takeokunn
+#+DESCRIPTION: description
+#+DATE: 2025-06-01T21:41:33+0900
+#+HUGO_BASE_DIR: ../../
+#+HUGO_CATEGORIES: fleeting
+#+HUGO_SECTION: posts/fleeting
+#+HUGO_TAGS: fleeting typst
+#+HUGO_DRAFT: false
+#+STARTUP: content
+#+STARTUP: fold
+* 背景・動機
+
+[[https://nix-ja.connpass.com/event/353532/][Nix meetup #3 大阪]] で大阪への新幹線の中で登壇スライドを作成した。
+
+今まではGoogle Slideでスライドを作成していたが、今回は [[id:C6F8F599-5F2A-4C8C-8148-0DF03644CE35][Typstテーマを自作した]] にもある通り自作テーマで初の登壇仕様を作成してみた。
+
+スライドは作ったものの、時間の関係で登壇できなかったので別の機会で流用する。
+
+* 試したこと・やったこと
+** 「オープニングスライド」の場合
+
+[[file:../../static/images/D81466CB-B613-45D1-8A75-4D4FFD3F9DB1.png]]
+
+** 「Agenda」の場合
+
+[[file:../../static/images/56A9F6DF-679D-4299-AD9A-5FA68F7B16E5.png]]
+
+=#outline= で自動で取得できる。
+
+#+begin_src typst
+  #slide[
+     = Agenda
+
+      #outline
+  ]
+#+end_src
+
+
+[[file:../../static/images/27AD5F73-C5C0-46FA-BD3B-69DB46F770EA.png]]
+
+=#new-section= が対象。
+
+#+begin_src typst
+  #new-section[自己紹介]
+  #new-section[今回話したいこと]
+  #new-section[事例紹介]
+  #new-section[今後やりたいこと]
+#+end_src
+** 「自己紹介スライド」の場合
+
+画像は =#place= で右上に表示。
+
+#+begin_src typst
+  #slide[
+      #place(
+          top + right,
+          image("./images/icon.jpeg", width: 100pt)
+      )
+
+      = 自己紹介
+
+      - たけてぃ \@takeokunn
+      - Nix Meetup 共同主催
+      - Nix歴ようやく1年経った
+      - 仕事ではPHPコミュニティ所属
+      - 個人ではテキストエディタコミュニティ所属
+  ]
+#+end_src
+** 「ソースコード」の場合
+
+[[file:../../static/images/5C591DBD-F3EF-46EA-B922-D9E04D18B4EE.png]]
+
+コードは =#sourcecode= でシンタックスハイライトされる。
+
+#+begin_src typst
+  #slide[
+     = devenv
+
+      #sourcecode(frame: none)[```nix
+  { pkgs, config, inputs, ... }: {
+    cachix.enable = false;
+    dotenv.disableHint = true;
+
+    packages = with pkgs; [ typescript typescript-language-server ];
+
+    languages.javascript = {
+      enable = true;
+      package = pkgs.nodejs_22;
+    };
+  }
+      ```]
+  ]
+#+end_src
+** 「OGP画像」の場合
+
+[[file:../../static/images/3EC43E62-8425-4B75-805A-820EF84BE986.png]]
+
+=#place= と =image= 関数だけで良い。
+
+#+begin_src typst
+  #slide[
+      = blog
+      #place(image("./images/blog.png", fit: "contain", width: 100%, height: 100%))
+  ]
+#+end_src
+** 「箇条書き」の場合
+
+[[file:../../static/images/B7A532B7-4A07-445A-8C3C-0FF5B227D6FF.png]]
+
+通常通り箇条書きすれば良い。
+
+#+begin_export typst
+#slide[
+    = 今後やりたいこと
+
+    - Emacsとの親和性を高める
+    - 手元のNixOS Thinkpadの設定(e.g. disko, impermanence)
+    - NixOSでのサーバ運用(e.g. RaspberryPi, AWS)
+    - Nix Meetupの継続的な開催
+    - Nix関連のOSSコントリビューション
+    - 雑誌や書籍執筆
+    - 別コミュニティへのアプローチ
+]
+#+end_export
+** 「終わりに」の場合
+
+[[file:../../static/images/0D31D178-3B7F-48C3-AD33-204775E11CE9.png]]
+
+中央に大きめの文字を配置するパターン。 =#show: focus= で実現できる。
+
+#+begin_src typst
+  #slide[
+    #show: focus
+    ご静聴ありがとうございました
+  ]
+#+end_src
+
+* 得られた結果・所感
+
+見栄えの良いスライドをorg-modeとTypstで簡単に作成できた。
+
+[[id:0D13FCEA-F8EC-4729-B700-9A88FD1D5EB9][NixでTypstをBuildしGitHub Pagesでホスティングする]] にもある通り、 =git push= したら数分後にGitHub Pagesからアクセスできるようになるので体験が非常に良い。
+
+- pdf
+  - https://www.takeokunn.org/pdf/nix-meetup-3-my-nix-usecase.pdf
+- org
+  - https://raw.githubusercontent.com/takeokunn/blog/37e5243406000d794c9141a9e8cfd63fc9b2b678/typst/org/nix-meetup-3-my-nix-usecase/article.org
+
+* 今後の展開・検討事項
+
+簡易的なレイアウトは実現できるようになったので、レイアウトの幅をもっと柔軟にして質の高いスライドを作成できるようにしたい。
+また、日本語フォントの選定が
