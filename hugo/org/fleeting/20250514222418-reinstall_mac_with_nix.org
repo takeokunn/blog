@@ -10,7 +10,6 @@
 #+HUGO_SECTION: posts/fleeting
 #+HUGO_TAGS: fleeting nix gpg
 #+HUGO_DRAFT: false
-#+STARTUP: content
 #+STARTUP: fold
 * 背景・動機
 

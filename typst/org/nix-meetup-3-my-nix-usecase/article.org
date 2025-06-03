@@ -3,7 +3,6 @@
 :END:
 #+TITLE: 2025年5月 個人的Nixユースケース紹介
 #+AUTHOR: takeokunn
-#+STARTUP: content
 #+STARTUP: fold
 #+TYPST: #import "./dracula.typ": *
 #+TYPST: #show: setup

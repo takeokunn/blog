@@ -3,7 +3,6 @@
 :END:
 #+TITLE: Phpactorから学ぶLanguage Server Protocolの仕組み
 #+AUTHOR: takeokunn
-#+STARTUP: content
 #+STARTUP: fold
 #+BEGIN_EXPORT typst
 #set text(lang: "ja", font: "Migu", size: 8pt)

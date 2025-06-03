@@ -9,7 +9,6 @@
 #+GFM_CUSTOM_FRONT_MATTER: :emoji 😶‍🌫️
 #+GFM_CUSTOM_FRONT_MATTER: :type idea
 #+GFM_CUSTOM_FRONT_MATTER: :published true
-#+STARTUP: content
 #+STARTUP: fold
 #+OPTIONS: ^:nil
 #+OPTIONS: toc:nil

@@ -5,7 +5,6 @@
 #+HUGO_SECTION: ./
 #+TITLE: About
 #+HUGO_CATEGORIES: about
-#+STARTUP: content
 #+STARTUP: fold
 * プロフィール
 

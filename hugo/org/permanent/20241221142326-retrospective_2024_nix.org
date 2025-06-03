@@ -10,7 +10,6 @@
 #+HUGO_SECTION: posts/permanent
 #+HUGO_TAGS: permanent nix
 #+HUGO_DRAFT: true
-#+STARTUP: content
 #+STARTUP: fold
 * Introduction
 * Nixに時間を投資する理由

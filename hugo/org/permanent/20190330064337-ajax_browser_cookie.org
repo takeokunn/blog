@@ -12,7 +12,6 @@
 #+HUGO_CATEGORIES: permanent
 #+HUGO_TAGS: javascript
 #+HUGO_DRAFT: false
-#+STARTUP: content
 #+STARTUP: nohideblocks
 
 「ブラウザからアクセスするのと、AjaxからアクセスするのってCookieってかわっちゃうの？」という質問をされたので自分なりの答えを書いていく。

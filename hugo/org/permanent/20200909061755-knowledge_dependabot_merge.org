@@ -12,7 +12,6 @@
 #+HUGO_CATEGORIES: permanent
 #+HUGO_TAGS: dependabot
 #+HUGO_DRAFT: false
-#+STARTUP: content
 #+STARTUP: nohideblocks
 
 Railsプロジェクトのdependabotをひたすら毎週月曜日の11時にmergeし続けて半年以上たったのでそろそろ知見をまとめておく。

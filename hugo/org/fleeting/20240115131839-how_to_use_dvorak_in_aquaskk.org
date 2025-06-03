@@ -10,7 +10,6 @@
 #+HUGO_SECTION: posts/fleeting
 #+HUGO_TAGS: fleeting dvorak
 #+HUGO_DRAFT: false
-#+STARTUP: content
 #+STARTUP: nohideblocks
 * Introduction
 [[https://ja.wikipedia.org/wiki/QWERTY%E9%85%8D%E5%88%97][QWERTY配列]]から[[https://ja.wikipedia.org/wiki/Dvorak%E9%85%8D%E5%88%97][Dvorak配列]]に移行するにあたって[[https://ja.osdn.net/projects/aquaskk/][AquaSKK]]もDvorak仕様にする必要があったのでメモ。

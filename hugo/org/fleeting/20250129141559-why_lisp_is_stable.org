@@ -10,7 +10,6 @@
 #+HUGO_SECTION: posts/fleeting
 #+HUGO_TAGS: fleeting
 #+HUGO_DRAFT: false
-#+STARTUP: content
 #+STARTUP: fold
 * 背景
 [[https://zenn.dev/takeokunn/articles/20250126133908][vim-jpラジオのEmacs回に出演しました - Zenn]] を書いたのだが、conao3から「n年前のコードを動かすためにはn年成長しなければよい、そこはアピールポイントにならないという気持ちではある」という指摘を受けた。

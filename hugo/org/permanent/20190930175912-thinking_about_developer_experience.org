@@ -12,7 +12,6 @@
 #+HUGO_CATEGORIES: permanent
 #+HUGO_TAGS: experience
 #+HUGO_DRAFT: false
-#+STARTUP: content
 #+STARTUP: nohideblocks
 
 会社での仕事の大半はDX向上な気がしているので、普段やっていることについてまとめていく。

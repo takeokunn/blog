@@ -12,7 +12,6 @@
 #+HUGO_CATEGORIES: permanent
 #+HUGO_TAGS: docker
 #+HUGO_DRAFT: false
-#+STARTUP: content
 #+STARTUP: nohideblocks
 
 おもしろい挙動をするので記事化する。

@@ -10,7 +10,6 @@
 #+HUGO_SECTION: posts/permanent
 #+HUGO_TAGS: permanent php
 #+HUGO_DRAFT: false
-#+STARTUP: content
 #+STARTUP: nohideblocks
 * 注意
 

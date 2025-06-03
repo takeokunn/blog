@@ -3,7 +3,6 @@
 :END:
 #+TITLE: Example Slide
 #+AUTHOR: takeokunn
-#+STARTUP: content
 #+STARTUP: fold
 #+TYPST: #import "./dracula.typ": *
 #+TYPST: #show: setup

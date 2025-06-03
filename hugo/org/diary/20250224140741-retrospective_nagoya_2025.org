@@ -10,7 +10,6 @@
 #+HUGO_SECTION: posts/diary
 #+HUGO_TAGS: diary
 #+HUGO_DRAFT: false
-#+STARTUP: content
 #+STARTUP: fold
 * Introduction
 2025/2/21から2025/2/24までの名古屋旅行についての振り返りです。

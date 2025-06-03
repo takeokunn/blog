@@ -12,7 +12,6 @@
 #+HUGO_CATEGORIES: permanent
 #+HUGO_TAGS: npm
 #+HUGO_DRAFT: false
-#+STARTUP: content
 #+STARTUP: nohideblocks
 
 半年前くらいにnpm package作ってみたいなぁと思って作ってみた時学んだことをまとめていく。

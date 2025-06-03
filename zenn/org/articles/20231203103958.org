@@ -11,7 +11,6 @@
 #+GFM_CUSTOM_FRONT_MATTER: :emoji 👍
 #+GFM_CUSTOM_FRONT_MATTER: :type tech
 #+GFM_CUSTOM_FRONT_MATTER: :published false
-#+STARTUP: content
 #+STARTUP: fold
 * test
 test

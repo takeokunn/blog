@@ -10,7 +10,6 @@
 #+HUGO_SECTION: posts/permanent
 #+HUGO_TAGS: permanent org-mode
 #+HUGO_DRAFT: false
-#+STARTUP: content
 #+STARTUP: nohideblocks
 * Introduction
 

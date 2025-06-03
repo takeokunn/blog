@@ -1,3 +1,2 @@
-#+STARTUP: content
 #+STARTUP: fold
 * 2025年5月 個人的Nixユースケース紹介

@@ -12,7 +12,6 @@
 #+HUGO_CATEGORIES: diary
 #+HUGO_TAGS: php
 #+HUGO_DRAFT: false
-#+STARTUP: content
 #+STARTUP: nohideblocks
 * Introduction
 

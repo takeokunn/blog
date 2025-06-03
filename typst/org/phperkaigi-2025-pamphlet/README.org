@@ -1,4 +1,3 @@
-#+STARTUP: content
 #+STARTUP: fold
 * Phpactorから学ぶLanguage Server Protocolの仕組み by たけてぃ
 

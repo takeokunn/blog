@@ -10,6 +10,5 @@
 #+HUGO_SECTION: posts/fleeting
 #+HUGO_TAGS: fleeting
 #+HUGO_DRAFT: true
-#+STARTUP: content
 #+STARTUP: fold
 * Introduction

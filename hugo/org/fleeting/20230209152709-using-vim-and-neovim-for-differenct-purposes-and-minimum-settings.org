@@ -12,7 +12,6 @@
 #+HUGO_CATEGORIES: fleeting
 #+HUGO_TAGS: vim
 #+HUGO_DRAFT: false
-#+STARTUP: content
 #+STARTUP: nohideblocks
 * VimとNeovimの運用方針
 

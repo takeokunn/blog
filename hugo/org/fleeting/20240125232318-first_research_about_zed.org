@@ -10,7 +10,6 @@
 #+HUGO_SECTION: posts/fleeting
 #+HUGO_TAGS: fleeting zed
 #+HUGO_DRAFT: false
-#+STARTUP: content
 #+STARTUP: nohideblocks
 * Introduction
 [[https://forest.watch.impress.co.jp/docs/news/1563594.html][Rust製コードエディター「Zed」がオープンソースに ～v1.0リリースへ向けて門戸を開く - 窓の杜]] にもあるとおり、[[https://github.com/zed-industries/zed][zed-industries/zed]]が公開されたのでコードをざっくり読んでみたのでメモする。

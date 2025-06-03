@@ -1,3 +1,2 @@
-#+STARTUP: content
 #+STARTUP: fold
 * Typst

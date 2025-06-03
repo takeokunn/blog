@@ -10,7 +10,6 @@
 #+HUGO_SECTION: posts/poem
 #+HUGO_TAGS: poem
 #+HUGO_DRAFT: true
-#+STARTUP: content
 #+STARTUP: fold
 * Introduction
 

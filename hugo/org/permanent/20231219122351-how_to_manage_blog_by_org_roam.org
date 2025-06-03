@@ -12,7 +12,6 @@
 #+HUGO_SECTION: posts/permanent
 #+HUGO_TAGS: emacs org-roam zettelkasten
 #+HUGO_DRAFT: false
-#+STARTUP: content
 #+STARTUP: fold
 * Introduction
 

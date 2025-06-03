@@ -7,7 +7,6 @@
 #+HUGO_CATEGORIES: diary
 #+HUGO_TAGS: php
 #+HUGO_DRAFT: false
-#+STARTUP: content
 #+STARTUP: nohideblocks
 * Introduction
 2023年10月27日から1泊2日で小田原に夏休みを利用して旅行しました。

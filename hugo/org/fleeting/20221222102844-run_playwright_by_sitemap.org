@@ -12,7 +12,6 @@
 #+HUGO_CATEGORIES: fleeting
 #+HUGO_TAGS: playwright
 #+HUGO_DRAFT: false
-#+STARTUP: content
 #+STARTUP: nohideblocks
 * やりたいこと
 
