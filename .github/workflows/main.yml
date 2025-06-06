@@ -24,6 +24,10 @@ jobs:
           cachix-auth-token: ${{ secrets.CACHIX_AUTH_TOKEN }}
       - name: Build zenn
         run: nix build .#build-zenn
+      - name: Make directory
+        run: mkdir -p public/
+      - name: Copy result
+        run: cp -r result/* public/
       - name: Deploy Zenn
         uses: peaceiris/actions-gh-pages@v4
         with:
