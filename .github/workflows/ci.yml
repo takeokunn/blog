@@ -54,13 +54,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Cache node_modules
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: npm
-      - name: Install npm
-        run: npm ci
+      - name: Setup nix
+        uses: ./.github/actions/setup-node
       - name: Run secretlint
         run: npm run lint:secret
   dependabot:
