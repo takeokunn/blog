@@ -1,0 +1,201 @@
+:PROPERTIES:
+:ID:       B046C3A9-62E8-4DD7-BC71-4DF4FFA34664
+:END:
+#+TITLE: typstとpdfpcでプレゼン機能を実現する
+#+AUTHOR: takeokunn
+#+DESCRIPTION: description
+#+DATE: 2025-06-08T14:52:33+0900
+#+HUGO_BASE_DIR: ../../
+#+HUGO_CATEGORIES: fleeting
+#+HUGO_SECTION: posts/fleeting
+#+HUGO_TAGS: fleeting typst
+#+HUGO_DRAFT: false
+#+STARTUP: fold
+* 背景・動機
+
+Typstでスライドを作るフローがだいぶ固まってきた。
+
+- [[id:0D13FCEA-F8EC-4729-B700-9A88FD1D5EB9][NixでTypstをBuildしGitHub Pagesでホスティングする]]
+- [[id:C6F8F599-5F2A-4C8C-8148-0DF03644CE35][Typstテーマを自作した]]
+- [[id:9A373386-769A-4152-BDED-20931CA588BC][Typst自作テーマで登壇スライドを作成した]]
+
+過去に普段資料はGoogle Slideで作成していたのだが、以下の理由でGoogle Slideを使っていた。
+
+例: [AWS SQSとLaravelで大規模トラフィックを捌く - phpcon新潟](https://docs.google.com/presentation/d/1_vOdQO0SY671SRQpnpEz1xvVyUy-Vzl_Dk4Ph6ujy84/edit?slide=id.p#slide=id.p)
+
+- Google Driveで管理できる
+- 自己紹介部分など過去のスライドを流用できる
+- 文字や画像の配置に自由度がある
+- プレゼンター表示ができる
+  - スピーカーノートを別画面で見れる
+  - 経過時間の計測ができる
+
+管理方法やスライドに関するものはTypst力が上がればカバーできるが、プレゼンター表示に関しては何か対策を講じなければ代替できない。
+
+今回は実際に登壇に耐えうるツールの選定と運用の検討をしたのでメモしておく。
+
+* 試したこと・やったこと
+** 0. ツールの選定
+
+自分がプレゼンテーションモードに求めている機能をリストアップすると以下。
+
+- MUST
+  - 登壇スライドとは別にスピーカーノートを別画面で見れる
+  - 経過時間の計測ができる
+  - Typst内 or Orgファイル内でスピーカーノートを管理できる
+- SHOULD
+  - 次スライドの表示
+  - 全体のスライド表示
+- MAY
+  - ホワイトボード／ペンツール機能
+  - オフラインで機能する
+  - 動画やスライドアニメーションなどの制御
+
+Typstから生成したPDFをそのままプレゼン資料として表示できるツールは無数にある。
+
+- [[https://www.apple.com/jp/keynote/][Keynote]]
+- [[https://www.microsoft.com/ja-jp/microsoft-365/powerpoint][PowerPoint]]
+- [[https://github.com/Cimbali/pympress][Pympress]]
+- etc..
+
+[[id:C6F8F599-5F2A-4C8C-8148-0DF03644CE35][Typstテーマを自作した]] にも書いた通り、Typstのベーステーマに [[https://polylux.dev/book/polylux.html][polylux]] を利用している。
+
+polyluxのドキュメントを読んでいるとpdfpcと繋ぎ込む記述があり、これを用いるとスピーカーノートを実現できることが分かる。
+可能な限り公式がサポートしているものを使う方が筋が良い、また要件を十分に満たしていることが確認が取れたので今回は[[https://pdfpc.github.io/][pdfpc]]を選択した。
+
+https://polylux.dev/book/external/pdfpc.html#pdfpc
+
+** 1. Typstとpdfpcとの繋ぎ込み
+
+pdfpc integrationは [[https://github.com/polylux-typ/polylux][polylux-typ/polylux]] の [[https://github.com/polylux-typ/polylux/blob/c58e89c890c397eb300e1a144e6c88b5b2851399/src/toolbox/pdfpc.typ][src/toolbox/pdfpc.typ]] にある。
+使い方は簡単で、以下のように記述するだけで良い。
+
+#+begin_src typst
+  #import "@preview/polylux:0.4.0": *
+
+  #slide[
+      #toolbox.pdfpc.speaker-note("This is a note that only the speaker will see.")
+  ]
+#+end_src
+
+[[https://search.nixos.org/packages?channel=25.05&show=polylux2pdfpc&from=0&size=50&sort=relevance&type=packages&query=polylux2pdfpc][polylux2pdfpc]]を使ってpdfpcファイルを生成する。
+
+#+begin_src bash
+  # PDFを生成
+  $ typst compile foo.typ
+
+  # pdfpcを生成
+  $ polylux2pdfpc foo.typ
+#+end_src
+
+=foo.pdfpc= が生成される。
+
+#+begin_src json
+  {
+    "pdfpcFormat": 2,
+    "disableMarkdown": false,
+    "pages": [
+      {
+        "idx": 0,
+        "label": 1,
+        "overlay": 0,
+        "forcedOverlay": false,
+        "hidden": false,
+        "note": "This is a note that only the speaker will see."
+      },
+      {
+        "idx": 1,
+        "label": 2,
+        "overlay": 0,
+        "forcedOverlay": false,
+        "hidden": false
+      },
+      {
+        "idx": 2,
+        "label": 3,
+        "overlay": 0,
+        "forcedOverlay": false,
+        "hidden": false
+      },
+      {
+        "idx": 3,
+        "label": 4,
+        "overlay": 0,
+        "forcedOverlay": false,
+        "hidden": false
+      },
+      {
+        "idx": 4,
+        "label": 5,
+        "overlay": 0,
+        "forcedOverlay": false,
+        "hidden": false
+      },
+      {
+        "idx": 5,
+        "label": 6,
+        "overlay": 0,
+        "forcedOverlay": false,
+        "hidden": false
+      },
+      {
+        "idx": 7,
+        "label": 7,
+        "overlay": 0,
+        "forcedOverlay": false,
+        "hidden": false
+      }
+    ]
+  }
+#+end_src
+
+なお私はNixユーザなのでflake.nixで記述している。
+
+https://github.com/takeokunn/blog/blob/8416672d96853732b5bf97c77586beab9bd4051f/typst/flake.nix#L59-L77
+
+** 2. pdfpcインストール
+
+pdfpcはnixpkgsにあるのでインストールが簡単だが、手元のM1 Macだと以下のようなエラーが出て入らなかった。
+
+https://search.nixos.org/packages?channel=25.05&show=pdfpc&from=0&size=50&sort=relevance&type=packages&query=pdfpc
+
+#+begin_src console
+  error: Package ‘webkitgtk-2.48.2+abi=4.1’ in /nix/store/dzwwydggypqg4p8r6if5zdaqyzhsxjkd-source/pkgs/development/libraries/webkitgtk/default.nix:254 is marked as broken, refusing to evaluate.
+#+end_src
+
+homebrewにもパッケージがあるのでこちらから入れた。
+
+https://formulae.brew.sh/formula/pdfpc
+
+以下のようにコマンドを叩いて生成したpdfpcファイルと共にpdfを指定するとビューワーが起動した。
+
+複数モニタにしてから起動すると手元PCには管理側の画像、外部モニターにはPDFが全画面で表示された。
+
+#+begin_src console
+  $ /opt/homebrew/bin/pdfpc result/foo.pdf -R result/foo.pdfpc
+#+end_src
+
+[[file:../../static/images/10CAB95D-C307-46B7-BDBA-29E0D9085FA3.png]]
+
+** 3. pdfpcの使い方確認
+
+[[https://qiita.com/s417-lama/items/9f332abf55710b4688b5][マスタリングpdfpc - Qiita]] に操作方法が詳細に記述してある。
+
+手元のM1 Macの場合は微妙にキーバインドが違うのか期待通り動いてくれなかったので要練習。
+
+- =j/k= で次のスライドに移動できない
+- ポインタやお絵描きのキーバインドが異なる
+
+=?= で画面上でkeybindを確認できるようだ。
+
+[[file:../../static/images/DA6E03AC-6232-4B94-82C0-ABA25F6ED732.png]]
+
+* 得られた結果・所感
+
+当初の目標であるGoogle Slideの脱却が今回の対応で可能になったのは個人的に大きい。
+pdfpcの使い方に関しては登壇を通じて練習していきたい。
+
+* 今後の展開・検討事項
+
+登壇の場数を踏んでより洗練させていきたい。
+登壇周りの全てがプレーンテキスト(Org)で管理できるようになったので、次はAIによるスライド生成にチャレンジしたい。
