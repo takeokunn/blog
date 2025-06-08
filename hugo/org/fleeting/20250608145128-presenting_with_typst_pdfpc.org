@@ -19,9 +19,9 @@ Typstでスライドを作るフローがだいぶ固まってきた。
 - [[id:C6F8F599-5F2A-4C8C-8148-0DF03644CE35][Typstテーマを自作した]]
 - [[id:9A373386-769A-4152-BDED-20931CA588BC][Typst自作テーマで登壇スライドを作成した]]
 
-過去に普段資料はGoogle Slideで作成していたのだが、以下の理由でGoogle Slideを使っていた。
+過去に普段資料はGoogle Slideで作成していたのだが、次の理由でGoogle Slideを使っていた。
 
-例: [AWS SQSとLaravelで大規模トラフィックを捌く - phpcon新潟](https://docs.google.com/presentation/d/1_vOdQO0SY671SRQpnpEz1xvVyUy-Vzl_Dk4Ph6ujy84/edit?slide=id.p#slide=id.p)
+例: [[https://docs.google.com/presentation/d/1_vOdQO0SY671SRQpnpEz1xvVyUy-Vzl_Dk4Ph6ujy84/edit?slide=id.p#slide=id.p][AWS SQSとLaravelで大規模トラフィックを捌く - phpcon新潟]]
 
 - Google Driveで管理できる
 - 自己紹介部分など過去のスライドを流用できる
@@ -58,17 +58,17 @@ Typstから生成したPDFをそのままプレゼン資料として表示でき
 - [[https://github.com/Cimbali/pympress][Pympress]]
 - etc..
 
-[[id:C6F8F599-5F2A-4C8C-8148-0DF03644CE35][Typstテーマを自作した]] にも書いた通り、Typstのベーステーマに [[https://polylux.dev/book/polylux.html][polylux]] を利用している。
+[[id:C6F8F599-5F2A-4C8C-8148-0DF03644CE35][Typstテーマを自作した]] にも書いたとおり、Typstのベーステーマに [[https://polylux.dev/book/polylux.html][polylux]] を利用している。
 
 polyluxのドキュメントを読んでいるとpdfpcと繋ぎ込む記述があり、これを用いるとスピーカーノートを実現できることが分かる。
-可能な限り公式がサポートしているものを使う方が筋が良い、また要件を十分に満たしていることが確認が取れたので今回は[[https://pdfpc.github.io/][pdfpc]]を選択した。
+可能な限り公式がサポートしているものを使う方が筋がよい、また要件を十分に満たしていることが確認が取れたので今回は[[https://pdfpc.github.io/][pdfpc]]を選択した。
 
 https://polylux.dev/book/external/pdfpc.html#pdfpc
 
 ** 1. Typstとpdfpcとの繋ぎ込み
 
 pdfpc integrationは [[https://github.com/polylux-typ/polylux][polylux-typ/polylux]] の [[https://github.com/polylux-typ/polylux/blob/c58e89c890c397eb300e1a144e6c88b5b2851399/src/toolbox/pdfpc.typ][src/toolbox/pdfpc.typ]] にある。
-使い方は簡単で、以下のように記述するだけで良い。
+使い方は簡単で、次のように記述するだけでよい。
 
 #+begin_src typst
   #import "@preview/polylux:0.4.0": *
@@ -155,7 +155,7 @@ https://github.com/takeokunn/blog/blob/8416672d96853732b5bf97c77586beab9bd4051f/
 
 ** 2. pdfpcインストール
 
-pdfpcはnixpkgsにあるのでインストールが簡単だが、手元のM1 Macだと以下のようなエラーが出て入らなかった。
+pdfpcはnixpkgsにあるのでインストールが簡単だが、手元のM1 Macだと次のようなエラーが出て入らなかった。
 
 https://search.nixos.org/packages?channel=25.05&show=pdfpc&from=0&size=50&sort=relevance&type=packages&query=pdfpc
 
@@ -167,7 +167,7 @@ homebrewにもパッケージがあるのでこちらから入れた。
 
 https://formulae.brew.sh/formula/pdfpc
 
-以下のようにコマンドを叩いて生成したpdfpcファイルと共にpdfを指定するとビューワーが起動した。
+次のようにコマンドを叩いて生成したpdfpcファイルと共にpdfを指定するとビューワーが起動した。
 
 複数モニタにしてから起動すると手元PCには管理側の画像、外部モニターにはPDFが全画面で表示された。
 
@@ -181,7 +181,7 @@ https://formulae.brew.sh/formula/pdfpc
 
 [[https://qiita.com/s417-lama/items/9f332abf55710b4688b5][マスタリングpdfpc - Qiita]] に操作方法が詳細に記述してある。
 
-手元のM1 Macの場合は微妙にキーバインドが違うのか期待通り動いてくれなかったので要練習。
+手元のM1 Macの場合は微妙にキーバインドが違うのか期待とおり動いてくれなかったので要練習。
 
 - =j/k= で次のスライドに移動できない
 - ポインタやお絵描きのキーバインドが異なる
@@ -198,4 +198,4 @@ pdfpcの使い方に関しては登壇を通じて練習していきたい。
 * 今後の展開・検討事項
 
 登壇の場数を踏んでより洗練させていきたい。
-登壇周りの全てがプレーンテキスト(Org)で管理できるようになったので、次はAIによるスライド生成にチャレンジしたい。
+登壇周りのすべてがプレーンテキスト（Org）で管理できるようになったので、次はAIによるスライド生成にチャレンジしたい。
