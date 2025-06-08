@@ -49,6 +49,7 @@
               src = ./.;
               nativeBuildInputs = with pkgs; [
                 typst
+                polylux2pdfpc
                 migu
                 hackgen-font
                 fira-math
@@ -67,10 +68,12 @@
                 cp ./themes/dracula.typ org/${name}/dracula.typ
                 cp ./themes/Dracula.tmTheme org/${name}/Dracula.tmTheme
                 typst compile org/${name}/article.typ
+                polylux2pdfpc org/${name}/article.typ
               '';
               installPhase = ''
                 mkdir -p $out
                 cp org/${name}/article.pdf $out/${name}.pdf
+                cp org/${name}/article.pdfpc $out/${name}.pdfpc
               '';
             };
       in

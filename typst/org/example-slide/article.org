@@ -17,6 +17,8 @@ fdsafasf
 
 #+begin_export typst
 #slide[
+  #toolbox.pdfpc.speaker-note("This is a note that only the speaker will see.")
+
   #set page(header: none, footer: none, margin: 3em)
 
   #text(size: 1.3em)[
