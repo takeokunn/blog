@@ -1,7 +1,7 @@
 :PROPERTIES:
 :ID:       B046C3A9-62E8-4DD7-BC71-4DF4FFA34664
 :END:
-#+TITLE: typstとpdfpcでプレゼン機能を実現する
+#+TITLE: Typstとpdfpcでプレゼン機能を実現する
 #+AUTHOR: takeokunn
 #+DESCRIPTION: description
 #+DATE: 2025-06-08T14:52:33+0900
