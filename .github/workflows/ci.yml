@@ -54,7 +54,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Setup nix
+      - name: Setup node
         uses: ./.github/actions/setup-node
       - name: Run secretlint
         run: npm run lint:secret

@@ -10,4 +10,5 @@ runs:
         node-version: 22
         cache: npm
     - name: Install npm
+      shell: bash
       run: npm ci
