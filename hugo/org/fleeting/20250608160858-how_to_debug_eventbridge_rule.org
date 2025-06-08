@@ -1,0 +1,117 @@
+:PROPERTIES:
+:ID:       7E096727-55AF-4E37-9CFF-88D45CA06AAF
+:END:
+#+TITLE: EventBridge Ruleデバッグ方法メモ
+#+AUTHOR: takeokunn
+#+DESCRIPTION: description
+#+DATE: 2025-06-08T16:16:20+0900
+#+HUGO_BASE_DIR: ../../
+#+HUGO_CATEGORIES: fleeting
+#+HUGO_SECTION: posts/fleeting
+#+HUGO_TAGS: fleeting aws
+#+HUGO_DRAFT: false
+#+STARTUP: fold
+* 背景・動機
+
+業務をしていると、「EventBridgeでメタ情報を付与してSQSに流す」といった要件に出くわす機会がある。
+
+e.g. [[https://docs.google.com/presentation/d/1_vOdQO0SY671SRQpnpEz1xvVyUy-Vzl_Dk4Ph6ujy84/edit?slide=id.p#slide=id.p][AWS SQSとLaravelで大規模トラフィックを捌く - phpcon新潟]]
+
+Event Busが一次受けをして複数のEventBridge Ruleでマッチしたものに情報を付与して次に流す、といった挙動になっている。
+
+- [[https://docs.aws.amazon.com/ja_jp/eventbridge/latest/userguide/eb-what-is.html][EventBridge - AWS公式ドキュメント]]
+- [[https://docs.aws.amazon.com/ja_jp/eventbridge/latest/userguide/eb-rules.html][Amazon EventBridge ルール]]
+- [[https://docs.aws.amazon.com/ja_jp/eventbridge/latest/userguide/eb-event-patterns.html][Amazon EventBridge イベントパターン]]
+
+EventBridge Ruleのデバッグをするには[[https://docs.aws.amazon.com/ja_jp/eventbridge/latest/userguide/eb-create-rule.html][Amazon EventBridge でイベントに応答するルールの作成]] に書いてあるとおりにやればいいのだが、AWSのドキュメントは初学者から見たら分かりにくく混乱した。
+今回は後学の為に画像付きでメモしておく。
+
+* 試したこと・やったこと
+** 1. AWS consoleから対象のEventBridge Rulesを開く
+
+対象のEventBusを選択して =Create Rule= を押す。
+
+[[file:../../static/images/448BDAE9-E4D3-45BF-84EA-8C954508FED8.png]]
+
+** 2. 「Build event pattern」を開く
+
+Define rule detailのnameは適当に入れる。
+
+** 3. Sample eventでJsonを入れる
+
+「Enter my own」を選択して「Misc > Webhook Sample」にあるようなテスト用のJsonを入れる。
+
+[[file:../../static/images/8CDED877-B8C3-4432-BA86-F867C5914C31.png]]
+
+以下はShopifyの =inventory_items/create= の実データをマスクしたもの。
+
+#+begin_src json
+  {
+      "version": "0",
+      "id": "xxx-xxx-xx-xxx",
+      "detail-type": "shopifyWebhook",
+      "source": "aws.partner/shopify.com/000000/test",
+      "account": "000000000000",
+      "time": "2025-03-01T06:29:19Z",
+      "region": "ap-northeast-1",
+      "resources": [],
+      "detail": {
+          "payload": {
+              "id": 100000000000,
+              "sku": "",
+              "created_at": "2025-03-01T01:29:17-05:00",
+              "updated_at": "2025-03-01T01:29:17-05:00",
+              "requires_shipping": true,
+              "cost": null,
+              "country_code_of_origin": null,
+              "province_code_of_origin": null,
+              "harmonized_system_code": "111111",
+              "tracked": true,
+              "country_harmonized_system_codes": [],
+              "admin_graphql_api_id": "gid://shopify/InventoryItem/0000001"
+          },
+          "metadata": {
+              "Content-Type": "application/json",
+              "X-Shopify-Topic": "inventory_items/create",
+              "X-Shopify-Shop-Domain": "test.myshopify.com",
+              "X-Shopify-Hmac-SHA256": "xxxx",
+              "X-Shopify-Webhook-Id": "xxx-xxx-xxx-xxx-xxxx",
+              "X-Shopify-API-Version": "2024-10",
+              "X-Shopify-Triggered-At": "2025-03-01T06:29:17.989779121Z"
+          }
+      }
+  }
+#+end_src
+** 4. Event patternを入力してテストをする
+
+検証したいEventBridge Ruleを貼り付けて 「Test pattern」 をすると検証できる。
+
+[[file:../../static/images/86DD23E0-7577-47D1-BC1E-84930BA9DBB3.png]]
+
+* 得られた結果・所感
+
+AWS ConsoleからEventBridge Ruleの検証を気軽にできるようになった。
+
+suffix-matchingの仕様が直感から反するのでメモをしておく。
+
+https://docs.aws.amazon.com/ja_jp/eventbridge/latest/userguide/eb-create-pattern-operators.html#eb-filtering-suffix-matching
+
+次のサンプルは FileName のsuffixが =.png= のものだけひっかかるようなRule。
+
+#+begin_src json
+  {
+      "FileName": [ { "suffix": ".png" } ]
+  }
+#+end_src
+
+suffixはstringのみを受け付けておりintegerは許可されていない。
+なので、 =id: 12345= のようなinteger値が飛んできた時に次のRuleは発火しない。
+
+#+begin_src json
+  {
+      "id": [ { "suffix": "5" } ]
+  }
+#+end_src
+* 今後の展開・検討事項
+
+CIでテストする方法がないか追加で調査する。
