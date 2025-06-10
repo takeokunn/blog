@@ -60,12 +60,14 @@
 
     - Typstでスライドを生成できるようにした
     - その内容をブログから抽出してAIにスライドを生成させた
-    - 実際に登壇がうまくいくのか検証する回(AIパワポカラオケ)
+    - 実際に登壇がうまくいくのか検証する回
+        - AIパワポカラオケ
     - プロンプトをチューニングしきれてないのは御愛嬌
+        - Gemini 2.5 Proのデフォルト
 ]
 
 #slide[
-    = AI生成について
+    = AI生成方法
 
     #place(image("./images/20250610215948-ai_powered_typst_slide_generation.png", fit: "contain", width: 100%, height: 100%))
 ]
