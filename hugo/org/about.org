@@ -13,7 +13,7 @@
 #+STARTUP: fold
 * Hello World
 
-Webエンジニアとして日々ものづくりを楽しんでいるたけてぃ(@takeokunn)です。
+Webエンジニアとして日々ものづくりを楽しんでいるたけてぃ（@takeokunn）です。
 このページでは、私の仕事としての活動と、個人としての技術探究を分けてご紹介します。
 
 * プロフィール概要
@@ -32,7 +32,7 @@ Webエンジニアとして日々ものづくりを楽しんでいるたけて�
 | Service    | Account                                  |
 |------------+------------------------------------------|
 | GitHub     | [[https://github.com/takeokunn/][@takeokunn]]                               |
-| Twitter(X) | [[https://x.com/takeokunn/][@takeokunn]]                               |
+| Twitter（X） | [[https://x.com/takeokunn/][@takeokunn]]                               |
 | Zenn       | [[https://zenn.dev/takeokunn][@takeokunn]]                               |
 | keyoxide   | [[https://keyoxide.org/0B10DAA7BA0236D7382287660F79C0AB03FD7A1C][0B10DAA7BA0236D7382287660F79C0AB03FD7A1C]] |
 
@@ -44,7 +44,7 @@ CI/CD整備や開発環境整備やバージョンアップなどの足回りを
 
 ** 直近よく使う技術
 
-※ 2025/06/08(Sun) 現在
+※ 2025/06/08（Sun） 現在
 
 | Key          | Value                                  |
 |--------------+----------------------------------------|
@@ -64,7 +64,7 @@ CI/CD整備や開発環境整備やバージョンアップなどの足回りを
 * 個人活動
 ** 直近よく使う技術
 
-※ 2025/06/08(Sun) 現在
+※ 2025/06/08（Sun） 現在
 
 - Emacs
 - Org Mode
@@ -73,7 +73,7 @@ CI/CD整備や開発環境整備やバージョンアップなどの足回りを
 
 ** 外部活動
 
-以下のコミュニティを主催しています。
+次のコミュニティを主催しています。
 
 - [[https://tokyo-emacs.connpass.com/][東京Emacs勉強会 - connpass]]
 - [[https://nix-ja.connpass.com/][Nix日本語コミュニティ - connpass]]
@@ -84,9 +84,9 @@ CI/CD整備や開発環境整備やバージョンアップなどの足回りを
 
 | Event                     | Title                                          | Slide | 枠                      |
 |---------------------------+------------------------------------------------+-------+-------------------------|
-| [[https://fortee.jp/phpcon-fukuoka-2024][PHPカンファレンス福岡2024]]   | [[https://fortee.jp/phpcon-fukuoka-2024/proposal/fde5c43f-885e-455b-9b4f-6fdb4c697a19][Nixを用いて再現可能なPHP環境を用意する]]             | [[https://docs.google.com/presentation/d/1I5yWPV_hIOaN0FfRQPwyhdQTVFv2uQEK0A08sMHPLiA/edit?slide=id.p#slide=id.p][link]]  | レギュラートーク(15分)    |
-| [[https://fortee.jp/phpconodawara-2024][PHPカンファレンス小田原2024]] | [[https://fortee.jp/phpconodawara-2024/proposal/8f98a351-96fc-41ef-82c0-ec76fedbb33c][Laravelに0からPHPStanを導入して継続的に運用する方法]] | [[https://docs.google.com/presentation/d/1436T1dx_0igdNzNCVpGIf0kVA5wOVF4kcVmH9VRJobA/edit][link]]  | セッション(15分)         |
-| [[https://fortee.jp/phpconodawara-2025][PHPカンファレンス小田原2025]] | [[https://fortee.jp/phpconodawara-2025/proposal/6d853d31-19ed-4e75-b7fb-841b9490d9a8][定義ジャンプ入門]]                                 | [[https://docs.google.com/presentation/d/1HkiYZNKf6YBBOPNsHcvuOq2IKp1fw0L40j_T7RhrKZE/edit?slide=id.p#slide=id.p][link]]  | レギュラーセッション(20分) |
+| [[https://fortee.jp/phpcon-fukuoka-2024][PHPカンファレンス福岡2024]]   | [[https://fortee.jp/phpcon-fukuoka-2024/proposal/fde5c43f-885e-455b-9b4f-6fdb4c697a19][Nixを用いて再現可能なPHP環境を用意する]]             | [[https://docs.google.com/presentation/d/1I5yWPV_hIOaN0FfRQPwyhdQTVFv2uQEK0A08sMHPLiA/edit?slide=id.p#slide=id.p][link]]  | レギュラートーク（15分）    |
+| [[https://fortee.jp/phpconodawara-2024][PHPカンファレンス小田原2024]] | [[https://fortee.jp/phpconodawara-2024/proposal/8f98a351-96fc-41ef-82c0-ec76fedbb33c][Laravelに0からPHPStanを導入して継続的に運用する方法]] | [[https://docs.google.com/presentation/d/1436T1dx_0igdNzNCVpGIf0kVA5wOVF4kcVmH9VRJobA/edit][link]]  | セッション（15分）         |
+| [[https://fortee.jp/phpconodawara-2025][PHPカンファレンス小田原2025]] | [[https://fortee.jp/phpconodawara-2025/proposal/6d853d31-19ed-4e75-b7fb-841b9490d9a8][定義ジャンプ入門]]                                 | [[https://docs.google.com/presentation/d/1HkiYZNKf6YBBOPNsHcvuOq2IKp1fw0L40j_T7RhrKZE/edit?slide=id.p#slide=id.p][link]]  | レギュラーセッション（20分） |
 | [[https://fortee.jp/phpcon-nagoya-2025][PHPカンファレンス名古屋2025]] | [[https://fortee.jp/phpcon-nagoya-2025/proposal/8c520c5c-d564-4f6e-b5d9-10821b35d98c][PHPUnitを低速化する技術]]                          | [[https://docs.google.com/presentation/d/1ZC1KlpoPfQsa-2lNzN26f9Uula_X3E1waFuPzKlwfgA/edit][link]]  | レギュラートーク（15分）   |
 |                           | HypertextをPreprocessする                      |       |                         |
 
