@@ -1,0 +1,6 @@
+#+STARTUP: fold
+* Typstで登壇できるようになったので練習させてくれ
+
+第177回 PHP勉強会＠東京
+
+https://phpstudy.connpass.com/event/357699/
