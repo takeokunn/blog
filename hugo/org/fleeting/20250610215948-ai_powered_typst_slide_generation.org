@@ -1,0 +1,183 @@
+:PROPERTIES:
+:ID:       A442DBE9-559A-4B75-AAF3-4A925F5BA5E4
+:END:
+#+TITLE: AIを駆使してTypstスライドを生成する
+#+AUTHOR: takeokunn
+#+DESCRIPTION: description
+#+DATE: 2025-06-10T22:00:23+0900
+#+HUGO_BASE_DIR: ../../
+#+HUGO_CATEGORIES: fleeting
+#+HUGO_SECTION: posts/fleeting
+#+HUGO_TAGS: fleeting typst
+#+HUGO_DRAFT: false
+#+STARTUP: fold
+* 背景・動機
+
+[[id:B046C3A9-62E8-4DD7-BC71-4DF4FFA34664][Typstとpdfpcでプレゼン機能を実現する]] のNext Actionに次のようなことを書いた。
+
+#+begin_quote
+登壇の場数を踏んでより洗練させていきたい。
+登壇周りのすべてがプレーンテキスト（Org）で管理できるようになったので、次はAIによるスライド生成にチャレンジしたい。
+#+end_quote
+
+実際に練習がてら登壇してみたかったので、[[https://phpstudy.connpass.com/event/357699/][第177回 PHP勉強会＠東京]] で「Typstで登壇できるようになったので練習させてくれ」というテーマでLTをすることにした。
+
+そこで今回は実際にAIにスライドの目次案からTypstを生成させてホスティングする所までやってみた。
+
+* 試したこと・やったこと
+** 1. AIでプロンプトを作る
+*** プロンプト
+
+関連するブログをリストアップしてMarkdownで目次を生成させてみた。
+
+#+begin_src markdown
+  「typstで登壇できるようになったので練習させてくれ」というタイトルでLTしようと考えています。
+
+  登壇資料のアウトラインを作りたいです。
+  以下の記事を読んで起承転結でMarkdownで纏めてください。
+
+  - Typstとpdfpcでプレゼン機能を実現する
+    - https://www.takeokunn.org/posts/fleeting/20250608145128-presenting_with_typst_pdfpc/
+  - Typst自作テーマで登壇スライドを作成した
+    - https://www.takeokunn.org/posts/fleeting/20250601214129-create_slide_by_typst_self_theme/
+  - Typstテーマを自作した
+    - https://www.takeokunn.org/posts/fleeting/20250506220914-create_typst_slide_theme/
+  - NixでTypstをBuildしGitHub Pagesでホスティングする
+    - https://www.takeokunn.org/posts/fleeting/20250126114218-build_and_deploy_typst_using_nix/
+#+end_src
+*** アウトライン例
+
+以下は対話しながらGeminiから生成させたものを改変した。
+
+#+begin_src markdown
+  # Typstで登壇できるようになったので練習させてくれ
+  ## 全体構成
+  ### きっかけと違和感
+
+  - かつてはGoogle Slidesは最高の相棒だった
+      - 画像位置を調整するのが簡単
+      - 過去に作ったスライド資産がある
+      - 外部への共有も簡単
+  - スライド作成の流れ
+      - Emacsでアウトラインを書く
+      - 過去スライドをコピペしてくる
+      - アウトラインに沿ってスライドを作る
+      - スピーカーノートを用意する
+  - 心に刺さった"小さなトゲ
+      - プレーンテキストで管理できない
+      - AIによる自動生成できない
+      - Emacsから編集できない
+      - etc...
+  - 違和感の正体 = エンジニアとしての"業"（カルマ）
+      - バージョン管理が恋しい
+      - 再利用性が低い (No DRY!)
+      - 自動化できない
+  - 僕らは、スライドという成果物も“コード”として管理したい生き物なんだ！
+
+  ### Typstとの出会いと感動
+
+  - そんな僕が出会ったのが"Typst"
+      - まさに「プレゼン資料も構造化・宣言的に書ける」言語
+      - 探し求めていた理想がそこにあった
+  - 最初の感動ポイント（＝"トゲ"が抜けていく快感）
+      - コードでスライドが書ける → Emacsから離れなくていい！
+      - アウトライン作成からスライド執筆まで、すべてが愛用のエディタで完結
+      - Gitで管理できる → 変更履歴はすべてお見通し！
+      - テーマが自作できる → DRY原則、スライドにも！
+      - コードハイライトが美しい → エンジニアとして一番見せたいものが輝く！
+  - Typstスライドを支える技術（しくみ）
+      - Polylux：Typstのためのスライドエンジン
+      - codelst：コードを美しく見せるスタイリスト
+      - Nix：すべてを固める魔法の環境
+
+  ### 実用に耐えるまでの道のり
+
+  - しかし、現実は甘くなかった
+      - 理想の環境はすぐそこに見えたが、やってみると色々な壁にぶつかる
+      - 「言うは易く行うは難し」を実感する日々
+  - やってみて困ったこと（理想と現実のギャップ）
+      - テーマの調整が超むずい
+      - polyluxやcodelstのドキュメントとひたすらにらめっこ
+      - 絵文字： Macでは出るのにCI（Linux）でビルドすると豆腐（□）になる！
+      - フォント設定： この日本語フォントを使いたいだけなのに…
+      - 画像の配置： ドラッグ＆ドロップの偉大さを思い知る
+  - それでも続けた理由（Typstの魅力に立ち返る）
+      - 記法が明快で、根本的な書き心地は最高だった
+      - スライド構成が自分の思考にフィットした
+      - 「構造から考え、中身を埋める」スタイルが気持ちよかった
+  - 補助ツールとの統合（そして"最強"の環境へ）
+      - Typst単体ではなく、エコシステム全体で課題を解決していく
+      - pdfpc：ついに「登壇」できるようになった瞬間
+      - GitHub Actions：完全なる自動化の世界へ
+      - Hugo：発表資料を"資産"にする
+
+  ### Typst登壇はこう変えた
+
+  - Typstを手に入れた結果、登壇準備のすべてが変わった
+      - Before/Afterで振り返る、スライド制作プロセスの変化
+      - 「きっかけと違和感」で感じていた違和感がすべて解消されていく
+  - 登壇準備がこう変わった！
+      - 迷わず構成から入れる
+          - Before：まずGoogle Slidesを開き、どのテーマにしようか悩む…
+          - After：まずEmacsでアウトライン（構造）を書くことに集中できる
+      - 見た目を気にしすぎなくていい
+          - Before：テキストボックスの位置、フォントサイズ…ピクセル単位の調整地獄
+          - After：自作テーマを適用すればOK。「見た目は後からついてくる」安心感
+      - 再利用性・再現性が圧倒的に高い
+          - Before：過去スライドからコピペ。コピペミスやうっかり編集しちゃったなどヒューマンエラーが頻発。
+          - After：過去の資産はGitリポジトリに。Nixのおかげで誰でも同じPDFを生成
+  - Typstで登壇する未来
+      - 自分だけのテーマを育てる文化
+          - 発表のたびにテーマを少しずつ改善していく。自分だけの"刀"を研ぐ感覚
+      - コード × 構造 × 登壇の三位一体
+      - Slide as Codeの世界へようこそ
+  - まとめとメッセージ
+      - Google Slidesへの違和感から始まり、困難を乗り越え、最強の環境を手に入れました
+      - 「一度書いてみれば、この快感が分かる」
+      - 発表資料も"成果物"にしたい、すべてのエンジニアへ
+      - その場限りの資料ではなく、再利用可能な“資産”を作りたい人は、ぜひTypstへ！
+#+end_src
+** 2. Gemini 2.5 Proに実装させる
+
+作業指示を書いて8割くらいのクオリティでAIに実装させる。
+
+#+begin_src markdown
+  作業指示
+
+  1. 下記のMarkdownを読み込む
+  2. typst/org/nix-meetup-3-my-nix-usecase/article.org のコードを読む
+  3. typst/org/typst-presentation-practice/article.org にOrgベースでTypstスライドを作成する
+     - typst/org/nix-meetup-3-my-nix-usecase/article.org を可能な限り参考にする
+  4. typst/flake.nix に typst-presentation-practice を追記する
+  5. .github/workflows/main.yml に追記する
+
+  ----
+
+  <<アウトラインのMarkdownを貼る>>
+#+end_src
+** 3. スライドのクオリティを上げる
+
+次の対応をした。
+
+- 自己紹介やアジェンダなどテンプレ追加
+- 画像を追加
+- 生成されたTypstを手直し
+- 文言やスピーカーノートを追加修正
+
+** 4. git pushする
+
+[[id:0D13FCEA-F8EC-4729-B700-9A88FD1D5EB9][NixでTypstをBuildしGitHub Pagesでホスティングする]] にもあるとおり、 =git push= するだけで公開される。
+
+* 得られた結果・所感
+
+無事スライドができてホスティングできた。
+
+https://www.takeokunn.org/pdf/typst-presentation-practice.pdf
+
+[[file:../../static/images/2E2BE49E-2CFB-4FC6-B25A-237B90C5D5C8.png]]
+
+ベースのプロンプトやTypst力が上がればLTスライドの生成まで1時間あれば終わることが分かった。
+
+* 今後の展開・検討事項
+
+実際の登壇の感想は後日記述する。

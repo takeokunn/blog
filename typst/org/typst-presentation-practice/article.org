@@ -1,7 +1,7 @@
 :PROPERTIES:
 :ID:       73628eb8-79f6-3754-fc43-acdb982eefe8
 :END:
-#+TITLE: typstで登壇できるようになったので練習させてくれ
+#+TITLE: Typstで登壇できるようになったので練習させてくれ
 #+AUTHOR: takeokunn
 #+STARTUP: fold
 #+TYPST: #import "./dracula.typ": *
@@ -51,6 +51,42 @@
 ]
 #+end_export
 
+* 今日の話について
+#+begin_export typst
+#new-section[今日の話について]
+
+#slide[
+    = 今日の話について
+
+    - Typstでスライドを生成できるようにした
+    - その内容をブログから抽出してAIにスライドを生成させた
+    - 実際に登壇がうまくいくのか検証する回
+]
+
+#slide[
+    = 元ブログ(1)
+
+    #place(image("./images/20250126114218-build_and_deploy_typst_using_nix.png", fit: "contain", width: 100%, height: 100%))
+]
+
+#slide[
+    = 元ブログ(2)
+
+    #place(image("./images/20250506220914-create_typst_slide_theme.png", fit: "contain", width: 100%, height: 100%))
+]
+
+#slide[
+    = 元ブログ(3)
+
+    #place(image("./images/20250601214129-create_slide_by_typst_self_theme.png", fit: "contain", width: 100%, height: 100%))
+]
+
+#slide[
+    = 元ブログ(4)
+
+    #place(image("./images/20250608145128-presenting_with_typst_pdfpc.png", fit: "contain", width: 100%, height: 100%))
+]
+#+end_export
 * きっかけと違和感
 #+begin_export typst
 #new-section[きっかけと違和感]
@@ -238,6 +274,7 @@
 #+begin_export typst
 #slide[
     #show: focus
+
     ご清聴ありがとうございました
 ]
 #+end_export
