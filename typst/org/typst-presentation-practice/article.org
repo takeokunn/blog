@@ -226,7 +226,7 @@
 #+end_export
 * Typst登壇はこう変えた
 #+begin_export typst
-#new-section[Typst登壇はこう変えた
+#new-section[Typst登壇はこう変えた]
 
 #slide[
     = Before/After
