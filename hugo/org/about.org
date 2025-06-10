@@ -3,34 +3,91 @@
 :END:
 #+HUGO_BASE_DIR: ../
 #+HUGO_SECTION: ./
-#+TITLE: About
+#+TITLE: About Me
+#+AUTHOR: takeokunn
+#+DESCRIPTION: description
+#+DATE: 2025-06-08T19:35:24+0900
 #+HUGO_CATEGORIES: about
+#+HUGO_TAGS: about
+#+HUGO_DRAFT: false
 #+STARTUP: fold
-* プロフィール
+* Hello World
 
-ソフトウェア開発歴10年以上の経験をもつエンジニア。
+Webエンジニアとして日々ものづくりを楽しんでいるたけてぃ(@takeokunn)です。
+このページでは、私の仕事としての活動と、個人としての技術探究を分けてご紹介します。
 
-- *現在の役割*: Webエンジニア
-- *拠点*: 東京都
-- *主な専門分野*: バックエンド開発、DevOps、開発環境の最適化
+* プロフィール概要
+** Basic
 
-* 個人的な興味・発信領域
+| Key                 | Value                                       |
+|---------------------+---------------------------------------------|
+| 名前                | たけてぃ                                     |
+| 生年月日             | 1995年10月10日                              |
+| 居住地              | 東京都練馬区                                 |
+| プログラミング経験年数 | 10年以上                                    |
+| 得意領域             | Webアプリケーション開発・CI/CD・環境構築の自動化 |
 
-- Emacsのカスタマイズと効率的な使用方法
-- Nix/NixOSを用いた環境構築と設定管理
-- 開発環境の最適化とツールチェイン
-- Org Modeの活用と文芸的プログラミング
+** SNS
 
-* コミュニティ活動
+| Service    | Account                                  |
+|------------+------------------------------------------|
+| GitHub     | [[https://github.com/takeokunn/][@takeokunn]]                               |
+| Twitter(X) | [[https://x.com/takeokunn/][@takeokunn]]                               |
+| Zenn       | [[https://zenn.dev/takeokunn][@takeokunn]]                               |
+| keyoxide   | [[https://keyoxide.org/0B10DAA7BA0236D7382287660F79C0AB03FD7A1C][0B10DAA7BA0236D7382287660F79C0AB03FD7A1C]] |
 
-- 個人技術ブログの運営
-- 技術記事の執筆と情報発信
-- 東京Emacs勉強会/Nix Meetupの運営
-- PHP Conference複数回登壇経験
+* 仕事での活動
+** 主な業務内容
 
-* Links
+フロントエンドからインフラまでWeb開発全般の開発運用を行う。
+CI/CD整備や開発環境整備やバージョンアップなどの足回りを整える仕事が多い。
 
-- *GitHub*: [[https://github.com/takeokunn][github.com/takeokunn]]
-- *ブログ*: [[https://www.takeokunn.org][takeokunn.org]]
-- *Zenn*: [[https://zenn.dev/takeokunn][zenn.dev/takeokunn]]
-- *Twitter/X*: [[https://x.com/takeokunn][x.com/takeokunn]]
+** 直近よく使う技術
+
+※ 2025/06/08(Sun) 現在
+
+| Key          | Value                                  |
+|--------------+----------------------------------------|
+| OS           | Mac                                    |
+| 言語         | PHP, TypeScript                        |
+| フロントエンド | React, Next.js                         |
+| サーバサイド  | Laravel, WordPress                     |
+| インフラ      | AWS, Docker, Terraform, CloudFormation |
+| CI           | GitHub Actions                         |
+
+** スタンス
+
+- Win-Winな関係を構築する
+- ホスピタリティ高くありたい
+- 開発者体験を向上させる取り組みを積極的に行う
+
+* 個人活動
+** 直近よく使う技術
+
+※ 2025/06/08(Sun) 現在
+
+- Emacs
+- Org Mode
+- Nix/NixOS
+- Lisp
+
+** 外部活動
+
+以下のコミュニティを主催しています。
+
+- [[https://tokyo-emacs.connpass.com/][東京Emacs勉強会 - connpass]]
+- [[https://nix-ja.connpass.com/][Nix日本語コミュニティ - connpass]]
+
+* 登壇活動
+
+※ 適宜追記します
+
+| Event                     | Title                                          | Slide | 枠                      |
+|---------------------------+------------------------------------------------+-------+-------------------------|
+| [[https://fortee.jp/phpcon-fukuoka-2024][PHPカンファレンス福岡2024]]   | [[https://fortee.jp/phpcon-fukuoka-2024/proposal/fde5c43f-885e-455b-9b4f-6fdb4c697a19][Nixを用いて再現可能なPHP環境を用意する]]             | [[https://docs.google.com/presentation/d/1I5yWPV_hIOaN0FfRQPwyhdQTVFv2uQEK0A08sMHPLiA/edit?slide=id.p#slide=id.p][link]]  | レギュラートーク(15分)    |
+| [[https://fortee.jp/phpconodawara-2024][PHPカンファレンス小田原2024]] | [[https://fortee.jp/phpconodawara-2024/proposal/8f98a351-96fc-41ef-82c0-ec76fedbb33c][Laravelに0からPHPStanを導入して継続的に運用する方法]] | [[https://docs.google.com/presentation/d/1436T1dx_0igdNzNCVpGIf0kVA5wOVF4kcVmH9VRJobA/edit][link]]  | セッション(15分)         |
+| [[https://fortee.jp/phpconodawara-2025][PHPカンファレンス小田原2025]] | [[https://fortee.jp/phpconodawara-2025/proposal/6d853d31-19ed-4e75-b7fb-841b9490d9a8][定義ジャンプ入門]]                                 | [[https://docs.google.com/presentation/d/1HkiYZNKf6YBBOPNsHcvuOq2IKp1fw0L40j_T7RhrKZE/edit?slide=id.p#slide=id.p][link]]  | レギュラーセッション(20分) |
+| [[https://fortee.jp/phpcon-nagoya-2025][PHPカンファレンス名古屋2025]] | [[https://fortee.jp/phpcon-nagoya-2025/proposal/8c520c5c-d564-4f6e-b5d9-10821b35d98c][PHPUnitを低速化する技術]]                          | [[https://docs.google.com/presentation/d/1ZC1KlpoPfQsa-2lNzN26f9Uula_X3E1waFuPzKlwfgA/edit][link]]  | レギュラートーク（15分）   |
+|                           | HypertextをPreprocessする                      |       |                         |
+
+* 執筆活動
