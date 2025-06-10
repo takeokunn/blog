@@ -1,0 +1,250 @@
+:PROPERTIES:
+:ID:       2F3A4B5C-6D7E-8F90-1A2B-3C4D5E6F7A8B
+:END:
+#+TITLE: typstで登壇できるようになったので練習させてくれ
+#+AUTHOR: takeokunn
+#+STARTUP: fold
+
+#+BEGIN_EXPORT typst
+#import "dracula.typ": * // Import all from the theme (includes setup, colors, etc.)
+#import "@preview/polylux:0.4.0": * // Import polylux, version matching dracula.typ
+#import "@preview/codelst:2.0.2": sourcecode // Import codelst, version matching dracula.typ
+
+// Apply the theme setup to the entire document
+#show: doc => setup(
+  footer: "takeokunn - typstで登壇できるようになったので練習させてくれ", // Customize footer as needed
+  doc // Pass the rest of the document to the theme
+)
+
+// Override raw block handling to use codelst for syntax highlighting.
+// This comes AFTER the theme's setup, so it takes precedence.
+// The theme dracula.typ sets the font for raw blocks and a fallback .tmTheme via `set raw(theme: ...)`.
+// This rule ensures codelst (imported as `sourcecode`) is used for highlighting.
+#show raw.where(block: true): it => {
+  let lang = if it.has("lang") { it.lang } else { "txt" } // Default to "txt" if no lang
+  sourcecode(
+    it.text, // Pass the text content of the raw block
+    lang: lang,
+    theme: "./Dracula.tmTheme" // Path relative to article.typ (copied by flake.nix)
+  )
+}
+
+// The #slide elements will be processed by polylux using the theme's settings.
+#+END_EXPORT
+
+* 【表紙】
+#+BEGIN_EXPORT typst
+#slide[
+  #align(center)[
+    #text(size: 22pt, weight: "bold")[typstで登壇できるようになったので練習させてくれ]
+    #v(2em)
+    #text(size: 16pt)[takeokunn]
+    #v(1em)
+    #text(size: 14pt)[このスライドもTypstで作りました！]
+  ]
+  #speaker-note[]
+]
+#+END_EXPORT
+
+* 起：なぜTypstで登壇したかったのか？
+** スライド1：はじめに
+#+BEGIN_EXPORT typst
+#slide[
+  == はじめに
+
+  - 自己紹介
+  - これまでの発表資料作成の悩み
+    - PowerPoint/Keynote：バージョン管理しにくい、数式が書きづらい
+    - Marp/Reveal.js：環境構築が少し手間、デザインのカスタマイズに限界を感じる
+  - #strong[→ 「もっと楽に、綺麗で、管理しやすいスライドを作りたい！」]
+
+  #speaker-note[
+    自己紹介（名前、所属など）。
+    これまでの発表資料作成で感じていた具体的な課題を共有。
+    聴衆の共感を得やすいポイントを強調する。
+  ]
+]
+#+END_EXPORT
+
+** スライド2：Typstとの出会い
+#+BEGIN_EXPORT typst
+#slide[
+  == Typstとの出会い
+
+  - テキストベースで書ける組版システム「Typst」を発見
+  - 魅力に感じた点：
+    - シンプルな記法
+    - 数式や図の描画が強力
+    - 再現性の高い環境を構築できそう（→ #strong[Nix]との出会いへ）
+  - #strong[ゴール設定：] Typstで開発ドキュメントを書くだけでなく、#strong[登壇スライドも作れる環境]を整えたい！
+
+  #speaker-note[
+    Typstを知ったきっかけ。
+    特に魅力に感じた点を具体的に説明。
+    Nixとの連携に触れることで、技術的な関心を引く。
+  ]
+]
+#+END_EXPORT
+
+* 承：理想の環境へ！テーマ自作と環境構築
+** スライド3：環境構築の自動化 (参照記事4)
+#+BEGIN_EXPORT typst
+#slide[
+  == 環境構築の自動化
+
+  - #strong[課題：] どこでも同じ環境でTypstをビルドしたい
+  - #strong[解決策：] #strong[Nix Flakes]でTypstのビルド環境を定義
+  - #strong[自動化：] GitHub Actionsでビルドし、GitHub PagesでPDFをホスティング
+  - #strong[成果：] #code[git push]するだけでスライドが公開される仕組みが完成！
+
+  #speaker-note[
+    Nix Flakesを使った環境構築のメリットを説明。
+    GitHub ActionsによるCI/CDの便利さをアピール。
+    参照記事4への言及（口頭または注釈で）。
+  ]
+]
+#+END_EXPORT
+
+** スライド4：見た目へのこだわり (参照記事3)
+#+BEGIN_EXPORT typst
+#slide[
+  == 見た目へのこだわり
+
+  - #strong[課題：] 既存のテーマでは満足できない。自分だけのデザインが欲しい！
+  - #strong[解決策：] #code[polylux]をベースに#strong[Typstテーマを自作]
+  - こだわった点：
+    - ライト/ダークテーマの切り替え
+    - ソースコードのシンタックスハイライト (#code[codelst] + Draculaテーマ)
+    - ヘッダー、フッター、ページ番号などのレイアウト調整
+
+  #speaker-note[
+    自作テーマのモチベーション。
+    こだわったデザインポイントを具体的に紹介。
+    codelstとDraculaテーマについても触れる。
+    参照記事3への言及。
+  ]
+]
+#+END_EXPORT
+
+** スライド5：自作テーマでスライド作成 (参照記事2)
+#+BEGIN_EXPORT typst
+#slide[
+  == 自作テーマでスライド作成
+
+  - 実際に自作したテーマを使って登壇スライドを作成した事例を紹介
+  - （例：Nix Meetupでの発表スライド）
+    #figure(
+      image("images/placeholder-nix-meetup-slide.png", width: 70%),
+      caption: [Nix Meetup発表スライド（イメージ）]
+    )
+  - #strong[課題の表面化：] 「スライドはできた。でも、これでどうやって登壇するんだ…？」
+
+  #speaker-note[
+    自作テーマを使用した実際の成果物を見せる（画像やデモ）。
+    具体的な課題感を提示し、次の展開への期待感を高める。
+    参照記事2への言及。
+    (注： images/placeholder-nix-meetup-slide.png は適切な画像に置き換えてください)
+  ]
+]
+#+END_EXPORT
+
+* 転：最後のピースは「発表者ツール」
+** スライド6：登壇における「最後の壁」
+#+BEGIN_EXPORT typst
+#slide[
+  == 登壇における「最後の壁」
+
+  - ただPDFを全画面表示するだけでは、発表者としては機能不足
+  - 求めていた機能：
+    - #strong[スピーカーノート（カンペ）]を手元で見たい
+    - #strong[次のスライド]を確認したい
+    - #strong[経過時間]を把握したい
+
+  #speaker-note[
+    発表者ツールがない場合の不便さを具体的に説明。
+    聴衆にも共感できる「あるある」な悩みを提示する。
+  ]
+]
+#+END_EXPORT
+
+** スライド7：救世主「pdfpc」 (参照記事1)
+#+BEGIN_EXPORT typst
+#slide[
+  == 救世主「pdfpc」
+
+  - PDFプレゼンテーションコンソール#strong[#code[pdfpc]]を発見
+  - Typstのノート機能を#code[pdfpc]形式に変換する#code[polylux2pdfpc]を利用
+  - #strong[コマンド一発]で、Typstファイルから発表者ツール対応のファイルが生成可能に！
+#+END_EXPORT
+#+BEGIN_SRC bash
+  typst compile foo.typ
+  polylux2pdfpc foo.typ
+#+END_SRC
+#+BEGIN_EXPORT typst
+  #speaker-note[
+    pdfpcの導入経緯と、polylux2pdfpcの役割を説明。
+    コマンド実行のシンプルさを強調。
+    参照記事1への言及。
+  ]
+]
+#+END_EXPORT
+
+** スライド8：ついに登壇できる環境が整った！
+#+BEGIN_EXPORT typst
+#slide[
+  == ついに登壇できる環境が整った！
+
+  - 手元のPCには「現在のスライド、次のスライド、ノート、タイマー」
+  - プロジェクターには「現在のスライドのみ」
+  #figure(
+    image("images/placeholder-pdfpc-screenshot.png", width: 80%),
+    caption: [pdfpc利用時の画面構成（イメージ）]
+  )
+  - #strong[→ これで安心して登壇できる！]
+
+  #speaker-note[
+    pdfpcの実際の画面構成（スクリーンショットやデモ）を見せる。
+    これにより得られる安心感やメリットを伝える。
+    (注： images/placeholder-pdfpc-screenshot.png は適切な画像に置き換えてください)
+  ]
+]
+#+END_EXPORT
+
+* 結：まとめと今後の展望
+** スライド9：本日のまとめ
+#+BEGIN_EXPORT typst
+#slide[
+  == 本日のまとめ
+
+  - #strong[起：] テキストベースで綺麗なスライドを作りたかった
+  - #strong[承：] Nixで環境を固め、自作テーマでデザインを追求した
+  - #strong[転：] #code[pdfpc]で発表者ツールの壁を乗り越えた
+  - #strong[結：] #strong[Typstで最高の登壇環境が完成！]
+
+  #speaker-note[
+    起承転結でストーリーを振り返る。
+    各フェーズでのキーポイントを簡潔にまとめる。
+  ]
+]
+#+END_EXPORT
+
+** スライド10：結論
+#+BEGIN_EXPORT typst
+#slide[
+  == 結論
+
+  - Typstはいいぞ！
+    - テキストベースでGit管理可能
+    - Nixで再現性もばっちり
+    - テーマ自作でデザイン自由自在
+    - pdfpcを使えば本格的な登壇も可能！
+  - 今日はその練習ができて感無量です。
+  - ご清聴ありがとうございました！
+
+  #speaker-note[
+    Typstのメリットを改めて強調。
+    聴衆への感謝を述べる。
+    質疑応答へスムーズに移行する。
+  ]
+]
+#+END_EXPORT
