@@ -12,7 +12,7 @@
     #set page(header: none, footer: none, margin: 3em)
 
     #text(size: 1.3em)[
-        typstで登壇できるようになったので練習させてくれ
+        Typstで登壇できるようになったので練習させてくれ
     ]
 
     第177回 PHP勉強会＠東京
