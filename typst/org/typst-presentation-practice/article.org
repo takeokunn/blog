@@ -6,3 +6,262 @@
 #+STARTUP: fold
 #+TYPST: #import "./dracula.typ": *
 #+TYPST: #show: setup
+
+* 【表紙】
+#+begin_export typst
+#slide[
+  #set page(header: none, footer: none, margin: (rest: 2em, top: 3em, bottom: 3em)) // Adjusted margin for title slide
+  #align(center)[
+    #text(size: 22pt, weight: "bold")[typstで登壇できるようになったので練習させてくれ]
+    #v(2em)
+    #text(size: 16pt)[takeokunn]
+    #v(1em)
+    #text(size: 14pt)[このスライドもTypstで作りました！]
+  ]
+]
+#+end_export
+
+* Agenda
+#+begin_export typst
+#slide[
+   = Agenda
+
+    #outline
+]
+#+end_export
+
+* 自己紹介
+#+begin_export typst
+#new-section[自己紹介]
+
+#slide[
+    #place(
+        top + right,
+        image("./images/icon.jpeg", width: 100pt) // Path updated to local image
+    )
+
+    = 自己紹介
+
+    - たけてぃ \@takeokunn
+    - Nix Meetup 共同主催
+    - Nix歴ようやく1年経った
+    - 仕事ではPHPコミュニティ所属
+    - 個人ではテキストエディタコミュニティ所属
+]
+#+end_export
+
+* きっかけと違和感
+#+begin_export typst
+#new-section[きっかけと違和感]
+#+end_export
+
+** かつての相棒: Google Slides
+#+begin_export typst
+#slide[
+  == かつての相棒: Google Slides
+  - かつてはGoogle Slidesは最高の相棒だった
+    - 画像位置を調整するのが簡単
+    - 過去に作ったスライド資産がある
+    - 外部への共有も簡単
+]
+#+end_export
+
+** 当時のスライド作成フロー
+#+begin_export typst
+#slide[
+  == 当時のスライド作成フロー
+  - スライド作成の流れ
+    - Emacsでアウトラインを書く
+    - 過去スライドをコピペしてくる
+    - アウトラインに沿ってスライドを作る
+    - スピーカーノートを用意する
+]
+#+end_export
+
+** 心に刺さった"小さなトゲ"
+#+begin_export typst
+#slide[
+  == 心に刺さった"小さなトゲ"
+  - プレーンテキストで管理できない
+  - AIによる自動生成できない
+  - Emacsから編集できない
+  - etc...
+]
+#+end_export
+
+** 違和感の正体
+#+begin_export typst
+#slide[
+  == 違和感の正体
+  - エンジニアとしての"業"（カルマ）
+    - バージョン管理が恋しい
+    - 再利用性が低い (No DRY!)
+    - 自動化できない
+]
+#+end_export
+
+** エンジニアの性（さが）
+#+begin_export typst
+#slide[
+  == エンジニアの性（さが）
+  - 僕らは、スライドという成果物も“コード”として管理したい生き物なんだ！
+]
+#+end_export
+
+* Typstとの出会いと感動
+#+begin_export typst
+#new-section[Typstとの出会いと感動]
+#+end_export
+
+** 運命の出会い: Typst
+#+begin_export typst
+#slide[
+  == 運命の出会い: Typst
+  - そんな僕が出会ったのが #strong["Typst"]
+    - まさに「プレゼン資料も構造化・宣言的に書ける」言語
+    - 探し求めていた理想がそこにあった
+]
+#+end_export
+
+** 最初の感動ポイント
+#+begin_export typst
+#slide[
+  == 最初の感動ポイント
+  #block[（＝"トゲ"が抜けていく快感）]
+  - コードでスライドが書ける → Emacsから離れなくていい！
+    - アウトライン作成からスライド執筆まで、すべてが愛用のエディタで完結
+  - Gitで管理できる → 変更履歴はすべてお見通し！
+  - テーマが自作できる → DRY原則、スライドにも！
+  - コードハイライトが美しい → エンジニアとして一番見せたいものが輝く！
+]
+#+end_export
+
+** Typstスライドを支える技術
+#+begin_export typst
+#slide[
+  == Typstスライドを支える技術（しくみ）
+  - Polylux：Typstのためのスライドエンジン
+  - codelst：コードを美しく見せるスタイリスト
+  - Nix：すべてを固める魔法の環境
+]
+#+end_export
+
+* 実用に耐えるまでの道のり
+#+begin_export typst
+#new-section[実用に耐えるまでの道のり]
+#+end_export
+
+** 現実は甘くなかった
+#+begin_export typst
+#slide[
+  == 現実は甘くなかった
+  - しかし、現実は甘くなかった
+    - 理想の環境はすぐそこに見えたが、やってみると色々な壁にぶつかる
+    - 「言うは易く行うは難し」を実感する日々
+]
+#+end_export
+
+** やってみて困ったこと
+#+begin_export typst
+#slide[
+  == やってみて困ったこと（理想と現実のギャップ）
+  - テーマの調整が超むずい
+    - polyluxやcodelstのドキュメントとひたすらにらめっこ
+  - 絵文字： Macでは出るのにCI（Linux）でビルドすると豆腐（□）になる！
+  - フォント設定： この日本語フォントを使いたいだけなのに…
+  - 画像の配置： ドラッグ＆ドロップの偉大さを思い知る
+]
+#+end_export
+
+** それでも続けた理由
+#+begin_export typst
+#slide[
+  == それでも続けた理由（Typstの魅力に立ち返る）
+  - 記法が明快で、根本的な書き心地は最高だった
+  - スライド構成が自分の思考にフィットした
+    - 「構造から考え、中身を埋める」スタイルが気持ちよかった
+]
+#+end_export
+
+** 補助ツールとの統合
+#+begin_export typst
+#slide[
+  == 補助ツールとの統合（そして"最強"の環境へ）
+  - Typst単体ではなく、エコシステム全体で課題を解決していく
+  - pdfpc：ついに「登壇」できるようになった瞬間
+  - GitHub Actions：完全なる自動化の世界へ
+  - Hugo：発表資料を"資産"にする
+]
+#+end_export
+
+* Typst登壇はこう変えた
+#+begin_export typst
+#new-section[Typst登壇はこう変えた]
+#+end_export
+
+** Before/After
+#+begin_export typst
+#slide[
+  == Before/After
+  - Typstを手に入れた結果、登壇準備のすべてが変わった
+    - Before/Afterで振り返る、スライド制作プロセスの変化
+    - 「きっかけと違和感」で感じていた違和感がすべて解消されていく
+]
+#+end_export
+
+** 変化1: 迷わず構成から入れる
+#+begin_export typst
+#slide[
+  == 変化1: 迷わず構成から入れる
+  - #strong[Before：]まずGoogle Slidesを開き、どのテーマにしようか悩む…
+  - #strong[After：]まずEmacsでアウトライン（構造）を書くことに集中できる
+]
+#+end_export
+
+** 変化2: 見た目を気にしすぎなくていい
+#+begin_export typst
+#slide[
+  == 変化2: 見た目を気にしすぎなくていい
+  - #strong[Before：]テキストボックスの位置、フォントサイズ…ピクセル単位の調整地獄
+  - #strong[After：]自作テーマを適用すればOK。「見た目は後からついてくる」安心感
+]
+#+end_export
+
+** 変化3: 再利用性・再現性が圧倒的
+#+begin_export typst
+#slide[
+  == 変化3: 再利用性・再現性が圧倒的
+  - #strong[Before：]過去スライドからコピペ。コピペミスやうっかり編集しちゃったなどヒューマンエラーが頻発。
+  - #strong[After：]過去の資産はGitリポジトリに。Nixのおかげで誰でも同じPDFを生成
+]
+#+end_export
+
+** Typstで登壇する未来
+#+begin_export typst
+#slide[
+  == Typstで登壇する未来
+  - 自分だけのテーマを育てる文化
+    - 発表のたびにテーマを少しずつ改善していく。自分だけの"刀"を研ぐ感覚
+  - コード × 構造 × 登壇の三位一体
+  - Slide as Codeの世界へようこそ
+]
+#+end_export
+
+** まとめとメッセージ
+#+begin_export typst
+#slide[
+  == まとめとメッセージ
+  - Google Slidesへの違和感から始まり、困難を乗り越え、最強の環境を手に入れました
+  - 「一度書いてみれば、この快感が分かる」
+  - 発表資料も"成果物"にしたい、すべてのエンジニアへ
+  - その場限りの資料ではなく、再利用可能な“資産”を作りたい人は、ぜひTypstへ！
+]
+#+end_export
+
+* ご清聴ありがとうございました
+#+begin_export typst
+#slide[
+  #show: focus
+  ご清聴ありがとうございました
+]
+#+end_export
