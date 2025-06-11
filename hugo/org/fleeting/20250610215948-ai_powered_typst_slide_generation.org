@@ -176,6 +176,9 @@ https://www.takeokunn.org/pdf/typst-presentation-practice.pdf
 
 [[file:../../static/images/2E2BE49E-2CFB-4FC6-B25A-237B90C5D5C8.png]]
 
+実際のコードはこちら。
+https://raw.githubusercontent.com/takeokunn/blog/refs/heads/main/typst/org/typst-presentation-practice/article.org
+
 ベースのプロンプトやTypst力が上がればLTスライドの生成まで1時間あれば終わることが分かった。
 
 * 今後の展開・検討事項
