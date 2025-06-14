@@ -35,7 +35,8 @@ https://github.com/takeokunn/nixos-configuration/tree/e2cf7d9df556a56e242b3f44b0
 | IDE支援          | Nix LSP の補完・型チェックの恩恵を受けられる              |
 | 統一性           | `nixpkgs` の差し替えなど、構成記述の一貫性・統一性が上がる |
 | 再利用性          | モジュールとして切り出すことで複数環境で再利用しやすくなる   |
-| ライフサイクル     | rebuild switchのタイミングで反映させられる               |
+| ライフサイクル     | rebuild switchのライフサイクルで反映できる               |
+| 変数埋込          | Nixから変数を代入できる                                |
 
 *** Cons
 
