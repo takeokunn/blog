@@ -24,7 +24,13 @@ https://github.com/takeokunn/nixos-configuration/tree/e2cf7d9df556a56e242b3f44b0
 * 試したこと・やったこと
 ** 0. なぜやるのかの整理
 
-次のようなメリット/デメリットが考えられる。
+大きく分けて3パターンが考えられる。
+
+1. home-managerで自作moduleを作る
+2. ファイルを作成してhome-managerでsymbolic linkを貼る
+3. Nix管理外でメンテする
+
+1とそれ以外で次のようなメリット/デメリットが考えられる。
 可能な限りNix（Nix式）に寄せたいと考えているので今回採用することにした。
 
 *** Pros
