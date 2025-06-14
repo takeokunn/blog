@@ -1,0 +1,174 @@
+:PROPERTIES:
+:ID:       EC822B0C-8DF4-4AC2-94DE-F460D99A5663
+:END:
+#+TITLE: home-managerで自作moduleを作る
+#+AUTHOR: takeokunn
+#+DESCRIPTION: description
+#+DATE: 2025-06-14T06:29:49+0900
+#+HUGO_BASE_DIR: ../../
+#+HUGO_CATEGORIES: fleeting
+#+HUGO_SECTION: posts/fleeting
+#+HUGO_TAGS: fleeting nix
+#+HUGO_DRAFT: false
+#+STARTUP: fold
+* 背景・動機
+
+home-managerには沢山のmoduleが提供されている。
+
+https://github.com/nix-community/home-manager/tree/master/modules
+
+home-manager moduleは自分でも作成可能なので後学のためにメモしておく。
+
+https://github.com/takeokunn/nixos-configuration/tree/e2cf7d9df556a56e242b3f44b0957884cd6191dd/home-manager/modules
+
+* 試したこと・やったこと
+** 0. なぜやるのかの整理
+
+次のようなメリット/デメリットが考えられる。
+可能な限りNix（Nix式）に寄せたいと考えているので今回採用することにした。
+
+*** Pros
+
+| 観点             | 内容                                                 |
+|------------------+------------------------------------------------------|
+| フォーマット抽象化 | 多様なフォーマットを意識せずに Nix 式で統一管理できる      |
+| IDE支援          | Nix LSP の補完・型チェックの恩恵を受けられる              |
+| 統一性           | `nixpkgs` の差し替えなど、構成記述の一貫性・統一性が上がる |
+| 再利用性          | モジュールとして切り出すことで複数環境で再利用しやすくなる   |
+| ライフサイクル     | rebuild switchのタイミングで反映させられる               |
+
+*** Cons
+
+| 観点        | 内容                                                           |
+|-------------+----------------------------------------------------------------|
+| 表現力の制限 | Nix 式で記述できないもの（複雑な YAML/TOML 等）は文字列での管理が必要 |
+| LSPの範囲   | LSP は Nix に対してしか効かず、生成対象の構文チェックは別途必要       |
+| 保守性      | 作り込むと構造が複雑化し、メンテナンスコストが上がる可能性がある        |
+| 依存性      | home-manager に構成が強く依存し、他ツールへの移行が難しくなることも   |
+| デバッグ性   | モジュール解決や展開の追跡が難しく、デバッグの難易度が多少上がる        |
+
+** 1. 自作home-manager moduleを作成する
+
+home-mnaagerのobjectでimportするだけで使える。
+
+https://github.com/takeokunn/nixos-configuration/blob/e2cf7d9df556a56e242b3f44b0957884cd6191dd/home-manager/advanced.nix#L71
+
+*** 1.1. tigの場合
+
+=~/.tigrc= に文字列をそのまま出力する運用にしている。
+
+[[https://github.com/takeokunn/nixos-configuration/blob/e2cf7d9df556a56e242b3f44b0957884cd6191dd/home-manager/modules/tig/default.nix][home-manager/modules/tig/default.nix]]
+
+#+begin_src nix
+  {
+    pkgs,
+    lib,
+    config,
+    ...
+  }:
+  let
+    cfg = config.programs.tig;
+  in
+  with lib;
+  {
+    options.programs.tig = {
+      enable = mkEnableOption "Text-mode interface for git";
+      package = mkPackageOption pkgs "tig" { };
+      config = mkOption {
+        type = types.lines;
+        default = "";
+      };
+    };
+
+    config = mkIf cfg.enable {
+      home.packages = [ cfg.package ];
+      home.file.".tigrc".text = cfg.config;
+    };
+  }
+#+end_src
+
+*** 1.2. lnavの場合
+
+=~/.config/lnav/config.json= にNix式をJsonに変換して出力するようにしている。
+
+[[https://github.com/takeokunn/nixos-configuration/blob/e2cf7d9df556a56e242b3f44b0957884cd6191dd/home-manager/modules/lnav/default.nix][home-manager/modules/lnav/default.nix]]
+
+#+begin_src nix
+  {
+    pkgs,
+    lib,
+    config,
+    ...
+  }:
+  let
+    cfg = config.programs.lnav;
+    jsonFormat = pkgs.formats.json { };
+  in
+  with lib;
+  {
+    options.programs.lnav = {
+      enable = mkEnableOption "Log file navigator";
+      package = mkPackageOption pkgs "lnav" { };
+      config = mkOption { type = jsonFormat.type; };
+    };
+
+    config = mkIf cfg.enable {
+      home.packages = [ cfg.package ];
+      xdg.configFile = {
+        "lnav/config.json".source = jsonFormat.generate "config.json" cfg.config;
+      };
+    };
+  }
+#+end_src
+** 2. 自作home-manager moduleを利用する
+*** 2.1. tigの場合
+
+通常とおり =programs.tig= に記述すればよい。（以下抜粋）
+
+[[https://github.com/takeokunn/nixos-configuration/blob/e2cf7d9df556a56e242b3f44b0957884cd6191dd/home-manager/programs/tig/default.nix][home-manager/programs/tig/default.nix]]
+
+#+begin_src nix
+  {
+    programs.tig = {
+      enable = true;
+      config = ''
+        # config
+        set main-view = id date author:email-user commit-title:graph=yes,refs=yes
+        set blame-view = date:default author:email-user id:yes,color line-number:yes,interval=1 text
+      '';
+    };
+
+  }
+#+end_src
+*** 2.2. lnavの場合
+
+通常とおり =programs.lnav= に記述すればよい。（以下抜粋）
+
+[[https://github.com/takeokunn/nixos-configuration/blob/e2cf7d9df556a56e242b3f44b0957884cd6191dd/home-manager/programs/lnav/default.nix][home-manager/programs/lnav/default.nix]]
+
+#+begin_src nix
+  { pkgs }:
+  {
+    programs.lnav = {
+      enable = true;
+      package = pkgs.lnav;
+      config = {
+        ui.theme = "dracula";
+        format-repos = [
+          "https://github.com/hagfelsh/lnav_formats.git"
+          "https://github.com/PaulWay/lnav-formats.git"
+          "https://github.com/penntaylor/lnav-ruby-logger-format.git"
+          "https://github.com/aspiers/lnav-formats.git"
+        ];
+      };
+    };
+  }
+#+end_src
+* 得られた結果・所感
+
+Nix式で一元管理できるようになって統一的な記述ができるようになって嬉しい。
+また、home-managerの仕組みの理解が進んで個人的には大満足。
+
+* 今後の展開・検討事項
+
+手元の運用で安定してきたらhome-manager本体にPRを出していきたい。
