@@ -1,0 +1,373 @@
+:PROPERTIES:
+:ID:       E97F76FA-906B-4277-92DA-EAE12FC952B2
+:END:
+#+TITLE: React Router v7周辺キャッチアップメモ
+#+AUTHOR: takeokunn
+#+DESCRIPTION: description
+#+DATE: 2025-06-16T13:22:53+0900
+#+HUGO_BASE_DIR: ../../
+#+HUGO_CATEGORIES: fleeting
+#+HUGO_SECTION: posts/fleeting
+#+HUGO_TAGS: fleeting react
+#+HUGO_DRAFT: false
+#+STARTUP: fold
+* 背景・動機
+
+普段からWebフロントエンドは書いているものの、2025年6月現在の最新のフロントエンド事情は追えていなかった。
+最後にWebフロントエンドを追っていたのが2021年頃だったので3〜4年のビハインドがあった。
+2021年頃はNext.jsが最盛期でNext.js一択だった。
+
+仕事の都合で最新のWebフロントエンド事情をキャッチアップする必要に迫られた。
+新規プロジェクトに生かせる為にどのPackageを使うのがよいのか、トレンドはどう変化したのか、過去使っていたpackageはどうなったのか、新しい概念はあるのか等を調べたのでメモしておく。
+
+また、将来的にAIに書かせること前提にドキュメントの整備方法についても検討する。
+
+* 試したこと・やったこと
+
+作業レポジトリは以下。
+練習がてら可能な限りAI（Aider + Gemini 2.5 Pro）に書かせたのでコミット数が多い。
+
+https://github.com/takeokunn/react-router-sandbox
+
+** 0. キャッチアップ方針決め
+
+キャッチアップをする方法で一番よいのは詳しい人に聞くことなので [[https://x.com/ryoppippi][@ryoppippi]] と [[https://x.com/tomoyaton][@tomoyaton]] にそれぞれ2〜3時間くらい質問攻めにした。
+
+その結果次のことが分かった。
+
+- Bundleツール
+  - Webpackは遅いしモダンではない
+    - TurbopackやRspackなどWebpack互換のRust製ツールが隆盛
+  - 今使うならVite
+    - esbuildとrollupとのよい所取り
+    - rollup互換のRust製ツールであるrolldownが隆盛（experimental）
+- Component Library
+  - 結局Reactが選択され続けている
+  - Vue周りの話は減った
+- Framework
+  - Next.jsはモダンではない認識
+    - Webpack依存を剥せなくてBuildが重い
+    - SSGは廃れた
+    - CJS依存
+  - 2025年6月はReactを使うならReact Router v7を使うのが無難
+    - Remixと合流し、「モダンReactのデファクトルーティング」へ変化中
+      - ref. https://remix.run/blog/react-router-v7
+    - SSR + Partial Rendering
+      - Partial Renderingはこの記事が分かりやすい
+        - ref. https://nextjs.org/docs/app/getting-started/partial-prerendering
+    - オススメのディレクトリ構造などを教えてもらった
+    - =react-router typegen= で型情報を出力できるようになって一気にType Safeになったらしい
+- UI Library
+  - Mantineが使い勝手がよい
+- Request Library
+  - swrあたりを使っておくのが無難
+- Logging Library
+  - pinoが使い勝手良かったらしい
+- Testing Library
+  - Lint/Formatter
+    - 以前としてESLint/PrettierがあるけどBiomeが強い
+  - Unit TestはVitestを使うとよい
+    - Jest互換でTypeScript Native
+    - ESMベース
+  - 残りのE2Eやらは都度考える
+    - 場合によってstorybookやらPlaywrightやらを使うとよい
+- CI/CD
+  - GitHub Actionsで回しちゃうのが楽でよい
+- Package Manager
+  - npm/yarn/pnpmがあるが、基本的には好きなものを使えばよい
+  - OSSはpnpmを使ってるプロジェクトが多い
+- Form/Validation Library
+  - confirmが使い勝手良くてよいらしい
+  - zod/valibotあたりを使うのば無難らしい
+- Hosting
+  - SSRするのでWebサーバを用意する必要がある
+  - cloudflare workerやらAWS ECSやら選択肢が色々ある
+- Runtime
+  - Node/Deno/Bunがある
+  - Node/DenoはV8、BunはJavaScript Coreを積んでいる
+  - 何も考えたくなければNodeだけど、Bunの方が速度出るかも?
+
+** 1. 技術選定とSandbox
+
+今回の練習用レポジトリで実際に試してみる技術は次にする。
+
+- react-router v7
+- Mantine
+- Biome
+- Vite
+- Vitest
+- pnpm
+
+** 2. 公式ドキュメントを流し読みしてチュートリアルをやる
+
+- 作業レポジトリ
+  - https://github.com/takeokunn/react-router-sandbox
+- 公式ドキュメント
+  - https://reactrouter.com/
+- チュートリアル
+  - https://reactrouter.com/tutorials/address-book
+
+チュートリアルはやるだけなので割愛。題材としての出来が良かった。
+
+** 3. 開発ツール導入
+*** 3.1. Biome導入
+
+Biomeを導入した。
+別プロジェクトでも導入したことがあったので特に困らなかった。
+
+https://github.com/takeokunn/react-router-sandbox/blob/main/biome.json
+
+npm scriptに適当に登録した。
+
+#+begin_src json
+  "scripts": {
+    "lint": "pnpm biome check app/",
+    "lint:fix": "pnpm biome check --fix --unsafe app/"
+  },
+#+end_src
+*** 3.2. Vitest導入
+
+動かすまでに思ったよりも大変だった。
+
+- https://github.com/takeokunn/react-router-sandbox/blob/main/vite.config.mts
+- https://github.com/takeokunn/react-router-sandbox/blob/main/setupTests.ts
+
+React Routerと相性が悪く、テストの場合はif文が必要だった。
+
+https://github.com/remix-run/react-router/discussions/12655
+
+*** 3.3. GitHub Actions導入
+
+検証用なので適当に導入した。
+
+https://github.com/takeokunn/react-router-sandbox/blob/main/.github/workflows/ci.yml
+
+#+begin_src yaml
+  name: CI
+
+  on:
+    push:
+
+  jobs:
+    test:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v4
+        - uses: pnpm/action-setup@v4
+          name: Install pnpm
+          with:
+            version: 10
+            run_install: true
+
+        - name: Run vitest
+          run: pnpm run test:coverage
+        - name: Run lint
+          run: pnpm run lint
+        - name: Run typecheck
+          run: pnpm run typecheck
+        - name: Run build
+          run: pnpm run build
+#+end_src
+** 4. 実開発
+*** 4.1. ディレクトリ整理
+
+ディレクトリ構造についてAIから出力しているので詳しくはこちらを参照。
+
+https://github.com/takeokunn/react-router-sandbox/blob/main/docs/app.md
+
+- 責務の分離とファイルの分離を徹底する
+- =(ts|tsx)= ファイルに対応する =.spec.(ts|tsx)= を必ず作成する
+
+#+begin_src console
+  [N] ~/g/g/t/r/a/routes/contact (*´ω｀*) < nix run nixpkgs#tree .
+  .
+  ├── action.spec.tsx
+  ├── action.tsx
+  ├── components
+  │   ├── ContactActions.spec.tsx
+  │   ├── ContactActions.tsx
+  │   ├── ContactAvatar.spec.tsx
+  │   ├── ContactAvatar.tsx
+  │   ├── ContactHeader.spec.tsx
+  │   ├── ContactHeader.tsx
+  │   ├── ContactNotes.spec.tsx
+  │   ├── ContactNotes.tsx
+  │   ├── ContactTwitter.spec.tsx
+  │   ├── ContactTwitter.tsx
+  │   ├── Favorite.spec.tsx
+  │   └── Favorite.tsx
+  ├── index.ts
+  ├── loader.spec.tsx
+  ├── loader.tsx
+  ├── route.spec.tsx
+  └── route.tsx
+
+  2 directories, 19 files
+#+end_src
+
+*** 4.2. 型記述について
+
+「型推論に頼った方がよいだろう」ということになったので、あまり明示的に書いていない。
+
+たとえば次の例だと =export type TLoader = typeof loader;= でexportしてる。
+
+https://github.com/takeokunn/react-router-sandbox/blob/main/app/routes/edit-contact/loader.tsx
+
+#+begin_src typescript
+  import { getContact } from "../../data";
+  import type { Route } from "./+types";
+
+  export async function loader({ params }: Route.LoaderArgs) {
+    const contact = await getContact(params.contactId);
+    if (!contact) {
+      throw new Response("Not Found", { status: 404 });
+    }
+    return { contact };
+  }
+
+  export type TLoader = typeof loader;
+#+end_src
+
+利用する側ではこんな感じになる。
+
+#+begin_src typescript
+  import type { TLoader } from "./loader";
+
+  const { contact } = useLoaderData<TLoader>();
+#+end_src
+*** 4.3. Vitest記述
+
+AIに書かせて手直しして書いてみた。
+
+=$ pnpm vitest= でvitestでfile changeをwatchし続けてテストを回せたので体験が良かった。
+
+以下は実際に書かせた例。
+
+- component
+  - container component
+    - https://github.com/takeokunn/react-router-sandbox/blob/main/app/routes/contact/route.spec.tsx
+  - presentational component
+    - https://github.com/takeokunn/react-router-sandbox/blob/main/app/routes/contact/components/ContactAvatar.spec.tsx
+- loader
+  - https://github.com/takeokunn/react-router-sandbox/blob/main/app/routes/edit-contact/loader.spec.tsx
+- action
+  - https://github.com/takeokunn/react-router-sandbox/blob/main/app/routes/edit-contact/action.spec.tsx
+
+Vitestはカバレッジを簡単に出力できるのもよい。
+
+#+begin_src console
+  $ pnpm run test:coverage
+
+   Test Files  27 passed (27)
+        Tests  88 passed (88)
+     Start at  15:31:38
+     Duration  12.36s (transform 307ms, setup 3.82s, collect 16.17s, tests 1.28s, environment 15.01s, prepare 2.51s)
+
+   % Coverage report from v8
+  --------------------------------|---------|----------|---------|---------|-------------------
+  File                            | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
+  --------------------------------|---------|----------|---------|---------|-------------------
+  All files                       |    97.1 |    85.26 |   94.11 |    97.1 |
+   app/layouts/sidebar            |   91.66 |    57.14 |   66.66 |   91.66 |
+    layout.tsx                    |   90.56 |       40 |      50 |   90.56 | 27-31
+    loader.tsx                    |     100 |      100 |     100 |     100 |
+   app/layouts/sidebar/components |     100 |    83.33 |     100 |     100 |
+    ContactNavList.tsx            |     100 |       75 |     100 |     100 | 19,21
+    NewContactButton.tsx          |     100 |      100 |     100 |     100 |
+    SearchFormComponent.tsx       |     100 |      100 |     100 |     100 |
+    SidebarHeader.tsx             |     100 |      100 |     100 |     100 |
+   app/root                       |     100 |      100 |     100 |     100 |
+    action.ts                     |     100 |      100 |     100 |     100 |
+    loader.ts                     |     100 |      100 |     100 |     100 |
+   app/root/components            |     100 |     92.3 |     100 |     100 |
+    App.tsx                       |     100 |      100 |     100 |     100 |
+    ErrorBoundary.tsx             |     100 |       90 |     100 |     100 | 33
+    HydrateFallback.tsx           |     100 |      100 |     100 |     100 |
+    Layout.tsx                    |     100 |      100 |     100 |     100 |
+   app/routes/about               |     100 |      100 |     100 |     100 |
+    route.tsx                     |     100 |      100 |     100 |     100 |
+   app/routes/contact             |   84.78 |    66.66 |      75 |   84.78 |
+    action.tsx                    |     100 |      100 |     100 |     100 |
+    loader.tsx                    |     100 |      100 |     100 |     100 |
+    route.tsx                     |   79.41 |    33.33 |      50 |   79.41 | 13-14,19-23
+   app/routes/contact/components  |     100 |      100 |     100 |     100 |
+    ContactActions.tsx            |     100 |      100 |     100 |     100 |
+    ContactAvatar.tsx             |     100 |      100 |     100 |     100 |
+    ContactHeader.tsx             |     100 |      100 |     100 |     100 |
+    ContactNotes.tsx              |     100 |      100 |     100 |     100 |
+    ContactTwitter.tsx            |     100 |      100 |     100 |     100 |
+    Favorite.tsx                  |     100 |      100 |     100 |     100 |
+   app/routes/destroy-contact     |     100 |      100 |     100 |     100 |
+    action.tsx                    |     100 |      100 |     100 |     100 |
+   app/routes/edit-contact        |     100 |    54.54 |     100 |     100 |
+    action.tsx                    |     100 |      100 |     100 |     100 |
+    loader.tsx                    |     100 |      100 |     100 |     100 |
+    route.tsx                     |     100 |    28.57 |     100 |     100 | 17-37
+   app/routes/home                |     100 |      100 |     100 |     100 |
+    route.tsx                     |     100 |      100 |     100 |     100 |
+   testing-utils                  |     100 |      100 |     100 |     100 |
+    index.ts                      |     100 |      100 |     100 |     100 |
+    render.tsx                    |     100 |      100 |     100 |     100 |
+  --------------------------------|---------|----------|---------|---------|-------------------
+#+end_src
+
+GUIでも確認が取れる。
+
+[[file:../../static/images/8E8A4CC8-DB1A-455D-B0A8-E27B46932786.png]]
+
+*** 4.4. Mantine導入
+
+Getting Startedを読んで導入後、既存のコンポーネントをAIに書き直させた。
+https://mantine.dev/getting-started/
+
+AIが思った以上に書いてくれなかったので手で直したのと、Vitestのテストが落ちまくったので気合で直した。
+Componentのテストは =role= でやるのではなく、 =test-id= でやった方がやりやすかった。
+
+VitestでMantine Componentをテストする時に =render= する度に =<MantineProvier>= で囲う必要があったので自作した。
+
+https://github.com/takeokunn/react-router-sandbox/blob/main/testing-utils/render.tsx
+
+#+begin_src typescript
+  import { render as testingLibraryRender } from '@testing-library/react';
+  import { MantineProvider } from '@mantine/core';
+
+  export function render(ui: React.ReactNode) {
+    return testingLibraryRender(<>{ui}</>, {
+      wrapper: ({ children }: { children: React.ReactNode }) => (
+        <MantineProvider>{children}</MantineProvider>
+      ),
+    });
+  }
+#+end_src
+
+** 5. AI用ドキュメント
+*** 5.1. ドキュメント生成用ドキュメントを用意
+
+ChatGPTにベースのプロンプトを用意させて手直しした。
+
+https://gist.github.com/takeokunn/6cae212c57039ecd6cd506540c50315e
+
+*** 5.2. プロジェクト内にドキュメントを配備
+
+=docs/= に出力させて都度手直しした。
+
+https://github.com/takeokunn/react-router-sandbox/tree/main/docs
+
+* 得られた結果・所感
+
+質問時間5〜6時間、検証時間15時間のざっくり20時間くらい調査して大体把握できたのが良かった。
+
+File Base Routingや型がうまくつけられなかったNext.jsよりも圧倒的に書きやすくなったなーという感覚で進化を感じた。
+VitestやMantineでそれなりに詰まったので、小さく試せるSandbox環境でまず検証してみるのが重要だなと改めて感じた。
+
+UIライブラリはいつも悩みの種だったのでMantineの使い勝手の良さに感動した。
+今後toBサービスではこれを採用していきたい。
+
+Vitest周りがうまく動かなくて想像以上に苦労したが、初期セットアップのときだけ詰まるような内容なので喉元過ぎた。
+
+* 今後の展開・検討事項
+
+confirmやzodやpinoはまだ試しきれていないので追加で調査する。
+
+実際にプロダクション導入してみてAIにコードを書かせてみて知見を溜めたい。
