@@ -61,11 +61,12 @@ https://github.com/takeokunn/react-router-sandbox
   - Mantineが使い勝手がよい
 - Request Library
   - swrあたりを使っておくのが無難
+  - 最近はtanstack queryの方が人気らしい
 - Logging Library
   - pinoが使い勝手良かったらしい
 - Testing Library
   - Lint/Formatter
-    - 以前としてESLint/PrettierがあるけどBiomeが強い
+    - 依然としてESLint/PrettierがあるけどBiomeが強い
   - Unit TestはVitestを使うとよい
     - Jest互換でTypeScript Native
     - ESMベース
@@ -77,7 +78,7 @@ https://github.com/takeokunn/react-router-sandbox
   - npm/yarn/pnpmがあるが、基本的には好きなものを使えばよい
   - OSSはpnpmを使ってるプロジェクトが多い
 - Form/Validation Library
-  - confirmが使い勝手良くてよいらしい
+  - conformが使い勝手良くてよいらしい
   - zod/valibotあたりを使うのば無難らしい
 - Hosting
   - SSRするのでWebサーバを用意する必要がある
@@ -87,9 +88,9 @@ https://github.com/takeokunn/react-router-sandbox
   - Node/DenoはV8、BunはJavaScript Coreを積んでいる
   - 何も考えたくなければNodeだけど、Bunの方が速度出るかも?
 
-** 1. 技術選定とSandbox
+** 1. 技術選定
 
-今回の練習用レポジトリで実際に試してみる技術は次にする。
+今回の練習用レポジトリで実際に試してみる技術は以下。
 
 - react-router v7
 - Mantine
@@ -97,6 +98,14 @@ https://github.com/takeokunn/react-router-sandbox
 - Vite
 - Vitest
 - pnpm
+
+awesome-yasunoriが参考実装。
+
+- repo
+  - https://github.com/times-yasunori/awesome-yasunori
+- url
+  - https://awesome.yasunori.dev/
+
 
 ** 2. 公式ドキュメントを流し読みしてチュートリアルをやる
 
@@ -368,7 +377,7 @@ Vitest周りがうまく動かなくて想像以上に苦労したが、初期�
 
 * 今後の展開・検討事項
 
-confirmやzodやpinoはまだ試しきれていないので追加で調査する。
+conformやzodやpinoはまだ試しきれていないので追加で調査する。
 
 実際にプロダクション導入してみてAIにコードを書かせてみて知見を溜めたい。
 AIコーディング時代ではリグレッションテストの重要性が増しているので色々試してみたい。
