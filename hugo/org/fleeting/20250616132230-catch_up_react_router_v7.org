@@ -101,11 +101,8 @@ https://github.com/takeokunn/react-router-sandbox
 
 awesome-yasunoriが参考実装。
 
-- repo
-  - https://github.com/times-yasunori/awesome-yasunori
-- url
-  - https://awesome.yasunori.dev/
-
+- repo: https://github.com/times-yasunori/awesome-yasunori
+- url: https://awesome.yasunori.dev/
 
 ** 2. 公式ドキュメントを流し読みしてチュートリアルをやる
 
