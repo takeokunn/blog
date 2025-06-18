@@ -50,6 +50,7 @@
               nativeBuildInputs = with pkgs; [
                 typst
                 polylux2pdfpc
+                migu
                 hackgen-font
                 fira-math
                 fira-code
@@ -58,6 +59,7 @@
               buildPhase = ''
                 ${emacsBuildPhase name}
 
+                export TYPST_FONT_PATHS="${pkgs.migu}/share/fonts/truetype/migu"
                 export TYPST_FONT_PATHS="$TYPST_FONT_PATHS:${pkgs.fira-math}/share/fonts/opentype"
                 export TYPST_FONT_PATHS="$TYPST_FONT_PATHS:${pkgs.fira-code}/share/fonts/truetype/NerdFonts/FiraCode/"
                 export TYPST_FONT_PATHS="$TYPST_FONT_PATHS:${pkgs.hackgen-font}/share/fonts/hackgen"
@@ -65,7 +67,6 @@
 
                 cp ./themes/dracula.typ org/${name}/dracula.typ
                 cp ./themes/Dracula.tmTheme org/${name}/Dracula.tmTheme
-
                 typst compile org/${name}/article.typ
                 polylux2pdfpc org/${name}/article.typ
               '';

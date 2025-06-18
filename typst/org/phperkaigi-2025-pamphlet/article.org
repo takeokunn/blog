@@ -5,7 +5,7 @@
 #+AUTHOR: takeokunn
 #+STARTUP: fold
 #+BEGIN_EXPORT typst
-#set text(lang: "ja", font: "HackGen", size: 8pt)
+#set text(lang: "ja", font: "Migu", size: 8pt)
 
 #set page(
   width: 210mm,
