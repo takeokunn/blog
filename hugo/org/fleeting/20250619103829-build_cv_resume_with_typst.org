@@ -1,0 +1,144 @@
+:PROPERTIES:
+:ID:       22C11682-3405-48C4-A720-5FF3080480DD
+:END:
+#+TITLE: Typstで履歴書と職務経歴書をBuildする
+#+AUTHOR: takeokunn
+#+DESCRIPTION: description
+#+DATE: 2025-06-19T11:04:30+0900
+#+HUGO_BASE_DIR: ../../
+#+HUGO_CATEGORIES: fleeting
+#+HUGO_SECTION: posts/fleeting
+#+HUGO_TAGS: fleeting typst
+#+HUGO_DRAFT: false
+#+STARTUP: fold
+* 背景・動機
+
+直近履歴書と職務経歴書を書く必要があった。
+
+以前はGoogle Docsやpagesを使って適当に書いていたのだが、これからのAI時代はコードベースで管理できた方がよいだろうということで移行を決意した。
+最近Typst推しなので、TypstからPDFをNix Buildで生成できるようにしてみた。
+
+* 試したこと・やったこと
+** 0. アプローチのやり方を考える
+
+世間一般的には履歴書や職務経歴書の絶対的な規格というものはなく、業界や各事業者によってさまざまな運用がされているらしい。
+履歴書にはJIS規格があるが、必ずしも準拠する必要はないらしい。
+
+会社的に必要な情報というのはある程度決まっており、それに倣っておくと汎用性の高い履歴書と職務経歴書になる。
+
+今回は次のようにコンテンツとテンプレートを分けて、より管理をしやすいように設計した。
+
+- YAML: コンテンツをKey/Valueで表現する
+- Typst: YAMLを読み込んでテンプレートからPDFを作成する
+
+** 1. レポジトリ作成
+
+現状GitHubのレポジトリや設定をTerraform上で管理しているので、Terraform経由でPrivateレポジトリを作成した。
+
+- [[id:A942A0CA-829F-45C0-A9CC-F7CA8C0DE873][Terraform GitHub Providerを導入した]]
+- [[id:FFA7027E-161A-498C-AD36-C0033C7A9CD6][private-terraformをHCP Terraformに移行した]]
+
+また、他の人が使えるようにOSS版も作った。
+
+https://github.com/takeokunn/typst-resume-template
+
+** 2. Nix Build周り整備
+
+fontは日本語を正しく描画してくれるHackgenを選んだ。
+fontもNix経由でインストールできるの非常に体験がよい。
+
+https://github.com/takeokunn/typst-resume-template/blob/main/cv/flake.nix
+
+flake.nix:
+
+#+begin_src nix
+  {
+    inputs = {
+      nixpkgs.url = "github:NixOS/nixpkgs";
+      flake-utils.url = "github:numtide/flake-utils";
+    };
+
+    outputs =
+      {
+        self,
+        nixpkgs,
+        flake-utils
+      }:
+      flake-utils.lib.eachDefaultSystem (
+        system:
+        let
+          pkgs = import nixpkgs { inherit system; };
+        in
+          {
+            devShells.default = pkgs.mkShell {
+              packages = with pkgs; [ typst ];
+            };
+
+            packages.default = pkgs.stdenv.mkDerivation {
+              name = "private-career-cv";
+              src = ./.;
+              nativeBuildInputs = with pkgs; [ typst hackgen-font ];
+              buildPhase = ''
+                typst compile main.typ --font-path ${pkgs.hackgen-font}/share/fonts/hackgen-nf
+              '';
+              installPhase = ''
+                mkdir -p $out
+                cp main.pdf $out/cv.pdf
+              '';
+            };
+          }
+      );
+  }
+#+end_src
+
+** 3. 履歴書テンプレート作成
+
+次の記事を参考に履歴書を書くTypstを作った。
+
+https://github.com/takeokunn/typst-resume-template/tree/main/cv
+
+- [[https://github.com/Nikudanngo/typst-ja-resume-template][Nikudanngo/typst-ja-resume-template]]
+- [[https://qiita.com/Nikudanngo/items/ed9a452b5f63101fb26b][Typstで履歴書を書く - Qiita]]
+
+実際にNix Buildで生成したPDFはここから確認できる。
+
+https://github.com/takeokunn/typst-resume-template/blob/main/cv/cv.pdf
+
+[[file:../../static/images/A5A59874-BF32-497C-A7F5-C8043C66B8E8.png]]
+
+** 4. 職務経歴書テンプレート作成
+
+次の記事を参考に職務経歴書を書くTypstを作った。
+
+https://github.com/takeokunn/typst-resume-template/tree/main/resume
+
+- [[https://github.com/Nikudanngo/typst-ja-resume-template][Nikudanngo/typst-ja-resume-template]]
+- [[https://qiita.com/Nikudanngo/items/ed9a452b5f63101fb26b][Typstで履歴書を書く - Qiita]]
+
+- [[https://github.com/ShinoharaTa/typst-work-resume][ShinoharaTa/typst-work-resume]]
+- [[https://zenn.dev/shino3/articles/a0c9eeb0d09c3a][エンジニアは職務経歴書をTypstでビルドしよう - Zenn]]
+
+実際にNix Buildで生成したPDFはここから確認できる。
+
+https://github.com/takeokunn/typst-resume-template/blob/main/resume/resume.pdf
+
+[[file:../../static/images/EAE12BCE-37A4-4138-B50F-B71A6BD2F7A5.png]]
+
+** 5. コンテンツを埋めて提出する
+
+YAMLに必要な情報を埋めてBuild結果のPDFを確認しながら添削をする。
+
+- https://github.com/takeokunn/typst-resume-template/tree/main/cv/content
+- https://github.com/takeokunn/typst-resume-template/tree/main/resume/content
+
+* 得られた結果・所感
+
+無事Typstから生成したもので提出ができたし、保守性が一気に向上したので良かった。
+今後は定期的にメンテすることによって、いつでも履歴書や職務経歴書を提出できるようにしていきたい。
+
+* 今後の展開・検討事項
+
+GitHub Actions上でNix BuildをしてPDFを生成し、Tag Reelaseでその日付のPDFを保存する仕組みを作りたい。
+とりあえず作ったはいいものの、Nix Build時にHackGenがちゃんと反映されなくて豆腐になってしまい辛い。
+
+また、Nix Build時に年齢の計算がうまくいかなかったのでこの辺りも調整したい。
