@@ -1,0 +1,96 @@
+:PROPERTIES:
+:ID:       86EA901D-8BF0-4AD8-B9D5-64284E4D1322
+:END:
+#+TITLE: node2nixの使い方
+#+AUTHOR: takeokunn
+#+DESCRIPTION: description
+#+DATE: 2025-06-22T13:34:59+0900
+#+HUGO_BASE_DIR: ../../
+#+HUGO_CATEGORIES: fleeting
+#+HUGO_SECTION: posts/fleeting
+#+HUGO_TAGS: fleeting nix
+#+HUGO_DRAFT: false
+#+STARTUP: fold
+* 背景・動機
+
+最近のAIツールの隆盛でnpm packageを使う機会が増えてきた。
+MCP実行するpackageの管理や、claude codeのようなpackageの管理をNixなどが具体例として挙げられる。
+
+[[id:7081F597-ED52-4BA5-8854-3A6C14FD58DE][@github/copilot-language-serverをNixで扱う時のメモ]] や [[id:653CAD86-42DF-4987-9642-D5179B90CA97][mcp-servers-nixを導入した]] でも =node2nix= を使っていることを書いていたので、 =node2nix= の使い方について後学の為に纏めておく。
+
+* 試したこと・やったこと
+** 1. node2nix周辺調査
+
+公式レポジトリは以下で、「Generate Nix expressions to build NPM packages」というdescriptionがあるとおり、npm packageをnix packageとして扱えるようにしてくれるもの。
+
+https://github.com/svanderburg/node2nix
+
+日本語解説記事は以下。
+
+- [[https://zenn.dev/pandaman64/articles/zenn-built-with-nix][NixでZenn CLIをビルドする - Zenn]]
+- [[https://scrapbox.io/mrsekut-p/node2nix][node2nix - mrsekut-p scrapbox]]
+
+** 2. node2nixセットアップ
+
+自分のnixos-configurationに =node2nix/= というディレクトリを掘った。
+
+https://github.com/takeokunn/nixos-configuration/tree/main/node2nix
+
+次のようにコマンドを叩くと必要なファイルが作成される。
+
+#+begin_src console
+  $ nix-shell -p nodePackages.node2nix
+  $ echo '["@github/copilot-language-server", "@anthropic-ai/claude-code", "sitemcp"]' >> node-packages.json
+  $ node2nix -i node-packages.json
+#+end_src
+** 3. home-managerに組込み
+
+=node2nix= のディレクトリをimportして =home.packages= に登録するだけ。
+
+#+begin_src nix
+  let
+    pkgs = import nixpkgs {
+      inherit system;
+      config.allowUnfree = true;
+      overlays = basicOverlay ++ advancedOverlay;
+    };
+    nodePkgs = pkgs.callPackage ../node2nix { inherit pkgs; };
+  in
+  n{
+    home.packages = [
+      nodePkgs."@anthropic-ai/claude-code"
+    ];
+  }
+#+end_src
+
+** 4. GitHub Actionsで定期的に更新
+
+一部抜粋すると以下。毎日packageの更新を実行するようにしている。
+
+https://github.com/takeokunn/nixos-configuration/blob/main/.github/workflows/update.yml
+
+#+begin_src yaml
+  name: update
+  on:
+    workflow_dispatch:
+    schedule:
+      - cron: 0 10 * * *
+  jobs:
+    nix-update:
+      name: Update lockfile
+      runs-on: ubuntu-latest
+      steps:
+        - name: Run node2nix
+          run: |
+            cd node2nix/
+            nix-shell -p nodePackages.node2nix --command "node2nix -i ./node-packages.json -o node-packages.nix"
+#+end_src
+* 得られた結果・所感
+
+AI関連ツールの進化は激しすぎるので継続的に更新する必要がある。
+運用しはじめて半年くらい経ったが、特に事故ることもなく極めて安全に更新し続けられているので導入してよかった。
+
+* 今後の展開・検討事項
+
+AI関連ツールをもっと簡単に検証してブログに書いていきたい。
+=node2nix= だけでなく =hoge2nix= をもっと活用していきたい。
