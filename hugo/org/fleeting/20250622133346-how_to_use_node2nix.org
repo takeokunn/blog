@@ -65,7 +65,7 @@ https://github.com/takeokunn/nixos-configuration/tree/main/node2nix
 
 ** 4. GitHub Actionsで定期的に更新
 
-一部抜粋すると以下。毎日packageの更新を実行するようにしている。
+一部抜粋すると以下。毎日packageの更新するようにしている。
 
 https://github.com/takeokunn/nixos-configuration/blob/main/.github/workflows/update.yml
 
