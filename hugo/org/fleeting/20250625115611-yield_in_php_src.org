@@ -180,7 +180,7 @@ throwを投げることもできる。
   echo $g->getReturn();
 #+end_src
 ** php-srcコードリーディング
-
+*** コンパイラ
 [[https://github.com/php/php-src/blob/8b61c49987750b74bee19838c7f7c9fbbf53aace/Zend/zend_language_parser.y][Zend/zend_language_parser.y]] に予約語として登録されている。
 
 #+begin_src bison
@@ -343,6 +343,13 @@ https://github.com/php/php-src/blob/8b61c49987750b74bee19838c7f7c9fbbf53aace/Zen
   	}
   }
 #+end_src
+*** Interface
+
+php docに記述されている。
+
+- generator: https://www.php.net/manual/ja/class.generator.php
+- iterator: https://www.php.net/manual/ja/class.iterator.php
+
 * 得られた結果・所感
 
 yieldの知らなかった使い方や実際にphp-srcがどういう実装になっているのか深堀できてよかった。
