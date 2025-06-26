@@ -1,0 +1,358 @@
+:PROPERTIES:
+:ID:       AFA79DCA-DA84-40CA-9C25-FEC5EB2309A5
+:END:
+#+TITLE: php-srcとyieldについて調査メモ
+#+AUTHOR: takeokunn
+#+DESCRIPTION: description
+#+DATE: 2025-06-25T11:57:47+0900
+#+HUGO_BASE_DIR: ../../
+#+HUGO_CATEGORIES: fleeting
+#+HUGO_SECTION: posts/fleeting
+#+HUGO_TAGS: fleeting php
+#+HUGO_DRAFT: false
+#+STARTUP: fold
+* 背景・動機
+
+[[https://github.com/php/php-src][php/php-src]] でyieldはどう扱われているのか調査したのでメモしておく。
+
+* 試したこと・やったこと
+** RFCを読む
+
+2012/06/05にNikita Popov氏が「Request for Comments: Generators」というRFCを出している。
+yield構文はPHP 5.5で導入されたようだ。
+
+https://wiki.php.net/rfc/generators
+
+yieldは次の点で優れているという主張をしている。
+
+- パフォーマンスとメモリ効率
+- 可読性・保守性
+- イテレーション処理の標準化
+
+GeneratorのInterfaceは以下。
+Iteratorを継承しているのでforeachでloopを回せる。
+
+#+begin_src php
+  final class Generator implements Iterator {
+      void  rewind();
+      bool  valid();
+      mixed current();
+      mixed key();
+      void  next();
+
+      mixed send(mixed $value);
+      mixed throw(Exception $exception);
+  }
+#+end_src
+
+他言語の実装は以下。
+
+- Python
+  - https://wiki.python.org/moin/Generators
+- ECMAScript
+  - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_generators#Generators:_a_better_way_to_build_Iterators
+- C#
+  - https://csharpindepth.com/Articles/IteratorBlockImplementation
+
+** サンプルコード
+*** 最小サンプル
+#+begin_src php
+  function gen() {
+      yield 1;
+      yield 2;
+      yield 3;
+  }
+
+  $g = gen();
+
+  echo $g->current(); // 1
+  $g->next();
+
+  echo $g->current(); // 2
+  $g->next();
+
+  echo $g->current(); // 3
+  $g->next();
+#+end_src
+*** foreach
+
+Iteratorなのでforeachで回せる。
+
+#+begin_src php
+  function keyedGen() {
+      yield 'first'  => 'A';
+      yield 'second' => 'B';
+      yield 'third' => 'C';
+  }
+
+  foreach (keyedGen() as $key => $val) {
+      echo "$key => $val\n";   // first => A / second => B / third => C
+  }
+#+end_src
+*** yield from
+
+yieldの合成可能。
+
+#+begin_src php
+  function sub()
+  {
+      yield 1;
+      yield 2;
+  }
+
+  function main()
+  {
+      yield 0;
+      yield from sub();
+      yield 3;
+  }
+
+  foreach (main() as $v) echo $v; // 0 1 2 3
+#+end_src
+*** CLIアプリ例
+
+yieldを使えば対話式のアプリケーションを簡単に作成できる。
+
+#+begin_src php
+  function interactiveForm() {
+      echo "フォーム開始\n";
+
+      $name = yield "お名前を入力してください:";
+      $age  = yield "年齢を入力してください:";
+      $lang = yield "好きな言語を入力してください:";
+
+      yield "確認: {$name}さん ({$age}歳)、{$lang}が好きなんですね。";
+  }
+
+  $gen = interactiveForm();
+
+  while ($gen->valid()) {
+      $prompt = $gen->current();
+      echo $prompt . "\n";
+
+      $input = readline("> ");
+      $gen->send($input);
+  }
+#+end_src
+
+#+begin_src console
+  $ nix run nixpkgs#php test.php
+  フォーム開始
+  お名前を入力してください:
+  @> take
+  年齢を入力してください:
+  @> 29
+  好きな言語を入力してください:
+  @> php
+  確認: takeさん (29歳)、phpが好きなんですね。
+  @> yes
+#+end_src
+*** throw例
+
+throwを投げることもできる。
+
+#+begin_src php
+  function worker() {
+      try {
+          while (true) {
+              $task = yield;
+              echo "work on $task\n";
+          }
+      } catch (Exception $e) {
+          echo "stop: {$e->getMessage()}\n";
+      }
+  }
+
+  $g = worker();  $g->rewind();
+  $g->send('task-1');
+  $g->throw(new Exception('interrupt'));
+#+end_src
+*** 戻り値付き
+#+begin_src php
+  function sum($a, $b) {
+      yield $a;
+      return $a + $b;
+  }
+
+  $g = sum(2, 3);
+  $g->next();
+
+  echo $g->getReturn();
+#+end_src
+** php-srcコードリーディング
+
+[[https://github.com/php/php-src/blob/8b61c49987750b74bee19838c7f7c9fbbf53aace/Zend/zend_language_parser.y][Zend/zend_language_parser.y]] に予約語として登録されている。
+
+#+begin_src bison
+  %precedence T_YIELD
+  %precedence T_YIELD_FROM
+#+end_src
+
+次の3つの構文をサポートしている。
+
+- 単純なyield: T_YIELD のみ
+- 値付きyield: T_YIELD expr
+- キー・値付きyield: T_YIELD expr T_DOUBLE_ARROW expr
+
+#+begin_src bison
+  |	T_YIELD { $$ = zend_ast_create(ZEND_AST_YIELD, NULL, NULL); CG(extra_fn_flags) |= ZEND_ACC_GENERATOR; }
+  |	T_YIELD expr { $$ = zend_ast_create(ZEND_AST_YIELD, $2, NULL); CG(extra_fn_flags) |= ZEND_ACC_GENERATOR; }
+  |	T_YIELD expr T_DOUBLE_ARROW expr { $$ = zend_ast_create(ZEND_AST_YIELD, $4, $2); CG(extra_fn_flags) |= ZEND_ACC_GENERATOR; }
+  |	T_YIELD_FROM expr { $$ = zend_ast_create(ZEND_AST_YIELD_FROM, $2); CG(extra_fn_flags) |= ZEND_ACC_GENERATOR; }
+#+end_src
+
+[[https://github.com/php/php-src/blob/8b61c49987750b74bee19838c7f7c9fbbf53aace/Zend/zend_compile.c#L1530-L1560][Zend/zend_compile.c]] でgenerator関数かどうかを判定している。 =ZEND_ACC_GENERATOR= としてマークする。
+
+#+begin_src c
+  static bool is_generator_compatible_class_type(const zend_string *name) {
+  	return zend_string_equals_ci(name, ZSTR_KNOWN(ZEND_STR_TRAVERSABLE))
+  		|| zend_string_equals_literal_ci(name, "Iterator")
+  		|| zend_string_equals_literal_ci(name, "Generator");
+  }
+
+  /* 中略 */
+
+  static void zend_mark_function_as_generator(void) /* {{{ */
+  {
+  	if (!CG(active_op_array)->function_name) {
+  		zend_error_noreturn(E_COMPILE_ERROR,
+  			"The \"yield\" expression can only be used inside a function");
+  	}
+
+  	if (CG(active_op_array)->fn_flags & ZEND_ACC_HAS_RETURN_TYPE) {
+  		const zend_type return_type = CG(active_op_array)->arg_info[-1].type;
+  		bool valid_type = (ZEND_TYPE_FULL_MASK(return_type) & MAY_BE_OBJECT) != 0;
+  		if (!valid_type) {
+  			const zend_type *single_type;
+  			ZEND_TYPE_FOREACH(return_type, single_type) {
+  				if (ZEND_TYPE_HAS_NAME(*single_type)
+  						&& is_generator_compatible_class_type(ZEND_TYPE_NAME(*single_type))) {
+  					valid_type = 1;
+  					break;
+  				}
+  			} ZEND_TYPE_FOREACH_END();
+  		}
+
+  		if (!valid_type) {
+  			zend_string *str = zend_type_to_string(return_type);
+  			zend_error_noreturn(E_COMPILE_ERROR,
+  				"Generator return type must be a supertype of Generator, %s given",
+  				ZSTR_VAL(str));
+  		}
+  	}
+
+  	CG(active_op_array)->fn_flags |= ZEND_ACC_GENERATOR;
+  }
+#+end_src
+
+yieldはTracing JITではサポートされていない。
+JITに関しては [[id:C81D01DB-6135-46CD-B491-F35F42002417][PHP8から追加されたJITについて学ぼう!]] に書いている。
+
+https://github.com/php/php-src/blob/8b61c49987750b74bee19838c7f7c9fbbf53aace/ext/opcache/jit/zend_jit.c#L2752-L2754
+
+#+begin_src c
+  /* switch through trampoline */
+  case ZEND_YIELD:
+  case ZEND_YIELD_FROM:
+#+end_src
+
+=ZEND_ACC_GENERATOR= flagが立っているものは =ZEND_GENERATOR_CREATE= というOPCODEに割り当てられて処理される。
+
+https://github.com/php/php-src/blob/8b61c49987750b74bee19838c7f7c9fbbf53aace/Zend/zend_vm_def.h#L4644-L4720
+
+1. ジェネレーターオブジェクト作成: ジェネレータークラスのオブジェクトを初期化し、通常のVMスタックではなくヒープ上に実行コンテキスト（execute_data）を割り当てて、実行の中断・再開に備える
+2. 実行コンテキスト保存: 現在の実行状態をヒープ上の新しい領域にコピーし、ジェネレーターオブジェクト内に保存して、ZEND_CALL_GENERATORフラグを設定する
+3. 呼び出しフレーム管理: 現在の実行コンテキストを前の実行データに戻し、呼び出し情報に応じて適切なクリーンアップ処理を行ってVMから離脱する
+
+#+begin_src c
+  ZEND_VM_HANDLER(139, ZEND_GENERATOR_CREATE, ANY, ANY)
+  {
+  	zval *return_value = EX(return_value);
+
+  	if (EXPECTED(return_value)) {
+  		USE_OPLINE
+  		zend_generator *generator;
+  		zend_execute_data *gen_execute_data;
+  		uint32_t num_args, used_stack, call_info;
+
+  		SAVE_OPLINE();
+  		object_init_ex(return_value, zend_ce_generator);
+
+  		/*
+  		 ,* Normally the execute_data is allocated on the VM stack (because it does
+  		 ,* not actually do any allocation and thus is faster). For generators
+  		 ,* though this behavior would be suboptimal, because the (rather large)
+  		 ,* structure would have to be copied back and forth every time execution is
+  		 ,* suspended or resumed. That's why for generators the execution context
+  		 ,* is allocated on heap.
+  		 ,*/
+  		num_args = EX_NUM_ARGS();
+  		if (EXPECTED(num_args <= EX(func)->op_array.num_args)) {
+  			used_stack = (ZEND_CALL_FRAME_SLOT + EX(func)->op_array.last_var + EX(func)->op_array.T) * sizeof(zval);
+  			gen_execute_data = (zend_execute_data*)emalloc(used_stack);
+  			used_stack = (ZEND_CALL_FRAME_SLOT + EX(func)->op_array.last_var) * sizeof(zval);
+  		} else {
+  			used_stack = (ZEND_CALL_FRAME_SLOT + num_args + EX(func)->op_array.last_var + EX(func)->op_array.T - EX(func)->op_array.num_args) * sizeof(zval);
+  			gen_execute_data = (zend_execute_data*)emalloc(used_stack);
+  		}
+  		memcpy(gen_execute_data, execute_data, used_stack);
+
+  		/* Save execution context in generator object. */
+  		generator = (zend_generator *) Z_OBJ_P(EX(return_value));
+  		generator->func = gen_execute_data->func;
+  		generator->execute_data = gen_execute_data;
+  		generator->frozen_call_stack = NULL;
+  		generator->execute_fake.opline = NULL;
+  		generator->execute_fake.func = NULL;
+  		generator->execute_fake.prev_execute_data = NULL;
+  		ZVAL_OBJ(&generator->execute_fake.This, (zend_object *) generator);
+
+  		gen_execute_data->opline = opline;
+  		/* EX(return_value) keeps pointer to zend_object (not a real zval) */
+  		gen_execute_data->return_value = (zval*)generator;
+  		call_info = Z_TYPE_INFO(EX(This));
+  		if ((call_info & Z_TYPE_MASK) == IS_OBJECT
+  		 && (!(call_info & (ZEND_CALL_CLOSURE|ZEND_CALL_RELEASE_THIS))
+  			 /* Bug #72523 */
+  			|| UNEXPECTED(zend_execute_ex != execute_ex))) {
+  			ZEND_ADD_CALL_FLAG_EX(call_info, ZEND_CALL_RELEASE_THIS);
+  			Z_ADDREF(gen_execute_data->This);
+  		}
+  		ZEND_ADD_CALL_FLAG_EX(call_info, (ZEND_CALL_TOP_FUNCTION | ZEND_CALL_ALLOCATED | ZEND_CALL_GENERATOR));
+  		Z_TYPE_INFO(gen_execute_data->This) = call_info;
+  		gen_execute_data->prev_execute_data = NULL;
+
+  		call_info = EX_CALL_INFO();
+  		EG(current_execute_data) = EX(prev_execute_data);
+  		if (EXPECTED(!(call_info & (ZEND_CALL_TOP|ZEND_CALL_ALLOCATED)))) {
+  			EG(vm_stack_top) = (zval*)execute_data;
+  			execute_data = EX(prev_execute_data);
+  			LOAD_NEXT_OPLINE();
+  			ZEND_VM_LEAVE();
+  		} else if (EXPECTED(!(call_info & ZEND_CALL_TOP))) {
+  			zend_execute_data *old_execute_data = execute_data;
+  			execute_data = EX(prev_execute_data);
+  			zend_vm_stack_free_call_frame_ex(call_info, old_execute_data);
+  			LOAD_NEXT_OPLINE();
+  			ZEND_VM_LEAVE();
+  		} else {
+  			ZEND_VM_RETURN();
+  		}
+  	} else {
+  		ZEND_VM_DISPATCH_TO_HELPER(zend_leave_helper);
+  	}
+  }
+#+end_src
+* 得られた結果・所感
+
+yieldの知らなかった使い方や実際にphp-srcがどういう実装になっているのか深堀できてよかった。
+[[id:3A6CCE42-1D89-46CC-8AC4-8358CE2A751C][Laravel LazyCollection in depth]] の理解がより深まった。
+
+DeepWikiで質問をしながら実際のコードを読むというのは体験が良かった。
+[[id:D835E9E4-9229-40B9-97F1-9953C91F74F8][DeepWiki調査メモ]] にも書いたとおり、deepwiki-openを使えばprivate repoでも実現できるので積極的に活用していきたい。
+
+https://deepwiki.com/php/php-src
+
+* 今後の展開・検討事項
+
+他にもphp-srcの気になる機能のコードリーディングを気軽にやっていきたい。
