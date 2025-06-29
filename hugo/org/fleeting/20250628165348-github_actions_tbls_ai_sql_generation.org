@@ -1,0 +1,106 @@
+:PROPERTIES:
+:ID:       D7472C4A-F4BF-442A-A0AD-225E01971B8A
+:END:
+#+TITLE: GitHub Actions上でtblsを使ってスキーマ情報を取得してAIでSQLを生成する
+#+AUTHOR: takeokunn
+#+DESCRIPTION: description
+#+DATE: 2025-06-28T16:53:54+0900
+#+HUGO_BASE_DIR: ../../
+#+HUGO_CATEGORIES: fleeting
+#+HUGO_SECTION: posts/fleeting
+#+HUGO_TAGS: fleeting tbls
+#+HUGO_DRAFT: false
+#+STARTUP: fold
+* 背景・動機
+
+日頃から [[https://github.com/k1LoW/tbls][k1LoW/tbls]] を 利用しているが、個人的に気に入ってる運用をメモしておく。
+
+* 試したこと・やったこと
+** 1. GitHub ActionsでDBに入れつつtblsを実行する
+
+[[https://k1low.hatenablog.com/entry/2023/02/16/093315][tblsをセットアップするGitHub Actionとしてsetup-tbls（を作るツールとしてgh-setup）を作った]] にもあるとおり、[[https://github.com/k1low/setup-tbls][k1low/setup-tbls]] を利用すればGitHub Actions上でtblsを簡単に利用できる。
+
+以下はISUCONで使っているGitHub Actionsだが、Laravelでも同じように =php artisan migrate= すればよい。
+=main= branchにpushされたら更新される。
+
+1. MySQLのセットアップ
+2. tblsをインストール
+3. DBにスキーマ情報を反映
+4. tbls docを実行する
+5. dbdoc branchに =./dbdoc= を反映してpushする
+
+#+begin_src yaml
+  name: Run db_tbls
+
+  on:
+    workflow_dispatch:
+    push:
+      branches:
+        - main
+
+  permissions:
+    contents: write
+
+  jobs:
+    db-tbls:
+      runs-on: ubuntu-latest
+      timeout-minutes: 300
+      services:
+        mysql:
+          image: mysql:8
+          options: --health-cmd "mysqladmin ping -h localhost" --health-interval 20s --health-timeout 10s --health-retries 10
+          ports:
+            - 3306:3306
+          env:
+            MYSQL_DATABASE: isuride
+            MYSQL_ROOT_PASSWORD: isucon
+            MYSQL_ROOT_HOST: '%'
+      steps:
+        - uses: actions/checkout@v4
+        - uses: k1low/setup-tbls@v1
+
+        - name: Run schema.sql
+          run: mysql --host="127.0.0.1" --port=3306 --user="root" --password="isucon" isuride < webapp/sql/1-schema.sql
+
+        - name: Run tbls for generate database document
+          run: tbls doc --dsn "mysql://root:isucon@127.0.0.1:3306/isuride"
+
+        - name: Deploy dbdob
+          uses: peaceiris/actions-gh-pages@v4
+          with:
+            github_token: ${{ secrets.GITHUB_TOKEN }}
+            publish_dir: ./dbdoc
+            publish_branch: dbdoc
+#+end_src
+** 2. dbdoc repoを用意する
+
+=<repo-name>-dbdoc>= を用意する。
+
+#+begin_src console
+  $ ghq get git@github.com:takeokunn/test-repo.git
+  $ mv ~/ghq/github.com/takeokunn/test-repo ~/ghq/github.com/takeokunn/test-repo-dbdoc
+  $ git checkout origin/main
+#+end_src
+
+[[id:57E8F735-BD82-49F9-BE50-6740DAF4F603][個人的Local環境のGit Branch運用について]] にも書いたとおり、local branchを作らずに定期的に =git fetch -p= をする。
+
+#+begin_src console
+  $ cd ~/ghq/github.com/takeokunn/test-repo-dbdoc
+  $ git fetch -p
+  $ git branch -D main
+#+end_src
+** 3. AI AgentでSQLを生成する
+
+自分の場合は [[https://aider.chat/][aider]] だが、適当なAI AgentにSQLを作成させる。
+
+#+begin_src markdown
+  ユーザ数を計算するSQLを作成して
+#+end_src
+* 得られた結果・所感
+
+運用フローが固まったのでかなりSQLを書くハードルが下がった。
+tblsがCIフレンドリーだからこそできる運用フローなので作者のk1Lowさんに感謝。
+
+* 今後の展開・検討事項
+
+SQLを精度高く生成させるプロンプトを用意する。
