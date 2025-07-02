@@ -179,3 +179,10 @@ Magitのtransient menuを拡張して =gh pr checkout= コマンドを拡張し�
 本来はGithub（Remote）側で解決するべき問題なのでBranch Ruleなどで解決をしたい。
 
 また、[[id:A942A0CA-829F-45C0-A9CC-F7CA8C0DE873][Terraform GitHub Providerを導入した]] のように、GitHubの設定を統一的にTerraform管理できるように理想的な運用を模索したい。
+
+* あとがき
+
+vim-jpで本記事を参考にしてくれた人がいたのでメモしておく。
+
+- [[https://zenn.dev/kawarimidoll/articles/94fe6d900ed4d6][gitのdetatched head運用でmainの誤commitにサヨナラ - Zenn]]
+- [[https://zenn.dev/mikinovation/articles/20250519-claude-code-pull-request][Claude Codeを活用したNeovimでのGit運用フロー]]
