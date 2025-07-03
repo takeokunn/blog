@@ -13,7 +13,7 @@
 #+STARTUP: fold
 * Introduction
 
-お名前comで管理していた =takeokunn.org= をCloudFlareに移管したのでメモしておく。
+お名前comで管理していた =takeokunn.org= をCloudflareに移管したのでメモしておく。
 
 * Background
 
@@ -24,16 +24,19 @@
 - 自動更新やオプションの設定が本当に分かりづらい
 - IaCに対応していない
 
-vim-jpで令和時代にドメインを管理するならCloudFlare一択という意見をもらったので移管した。
+vim-jpで令和時代にドメインを管理するならCloudflare一択という意見をもらったので移管した。
 
 * 作業手順
 
 ドメインの移管はじめてだったこと、個人ドメインであることからダウンタイムが発生許容した。
 2と3を入れ替えればダウンタイムが発生しなかったかもしれない。
 
-** 1. CloudFlareにアカウントを作成する
+** 1. Cloudflareにアカウントを作成する
+
 公式サイトから新規登録をしてクレジットカードを登録する。
-https://www.CloudFlare.com/ja-jp/
+
+[[https://www.cloudflare.com/ja-jp/][https://www.cloudflare.com/ja-jp/]]
+
 ** 2. お名前comからCloudflareに移管する
 
 [[https://zenn.dev/muchoco/articles/9039762136e15c][お名前.com から Cloudflare Registrar にドメイン移管した話 - Zenn]] を参考に移管した。
@@ -41,9 +44,9 @@ https://www.CloudFlare.com/ja-jp/
 「トランスファー申請の承認」が15分以上かかったがいずれ来るので気長に待てばよい。
 ** 3. Terraformで管理する
 
-Terraform CloudFlare Providerを使う。
+Terraform Cloudflare Providerを使う。
 
-https://registry.terraform.io/providers/CloudFlare/CloudFlare/latest/docs
+[[https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs][https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs]]
 
 *** 3.1 provider作成
 

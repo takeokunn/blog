@@ -24,3 +24,4 @@ rules:
   - expected: 技術書展
     patterns: 技術書店
   - expected: OmniSharp
+  - expected: Cloudflare

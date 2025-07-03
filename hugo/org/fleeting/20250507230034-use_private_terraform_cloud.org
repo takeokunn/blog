@@ -40,7 +40,7 @@ https://www.hashicorp.com/ja/cloud
 500 resourcesまでは無料なので個人利用なら無料で完結する。
 https://www.hashicorp.com/en/pricing
 
-候補としてはさくらインターネットやCloudFlareのストレージに上げることも検討していたが、そもそも各サービスを利用しなくなることも考えられるので却下した。
+候補としてはさくらインターネットやCloudflareのストレージに上げることも検討していたが、そもそも各サービスを利用しなくなることも考えられるので却下した。
 
 ** 2. HCP Terraform自体のTerraformを書く
 

@@ -82,7 +82,7 @@ https://github.com/takeokunn/react-router-sandbox
   - zod/valibotあたりを使うのば無難らしい
 - Hosting
   - SSRするのでWebサーバを用意する必要がある
-  - cloudflare workerやらAWS ECSやら選択肢が色々ある
+  - Cloudflare workerやらAWS ECSやら選択肢が色々ある
 - Runtime
   - Node/Deno/Bunがある
   - Node/DenoはV8、BunはJavaScript Coreを積んでいる
