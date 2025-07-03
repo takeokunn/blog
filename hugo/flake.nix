@@ -40,6 +40,7 @@
             };
             prh = {
               rulePaths = [
+                "prh.yml"
                 "${pkgs.textlint-rule-prh}/lib/node_modules/textlint-rule-prh/node_modules/prh/prh-rules/media/techbooster.yml"
               ];
             };

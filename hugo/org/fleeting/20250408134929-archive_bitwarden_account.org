@@ -23,7 +23,7 @@
 
 公式ドキュメントを参考に削除する。
 
-https://bitwarden.com/ja-jp/help/delete-your-account/
+[[https://bitwarden.com/ja-jp/help/delete-your-account/][https://bitwarden.com/ja-jp/help/delete-your-account/]]
 
 「個人のアカウントを削除します > アカウントを削除」で特に警告も出ずにサクっと消えた。
 
