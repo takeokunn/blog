@@ -17,6 +17,8 @@ yasunoriがZennに書いた「[[https://zenn.dev/loglass/articles/0016-make-make
 「コマンドが覚え辛い」という、どのプロジェクトにもあるような問題を「Makefileをコマンドメモとして整える」ことによって解決するという記事でした。
 SNSやvim-jp slackを見ていると賛同の声が多い印象を受けています。
 
+https://b.hatena.ne.jp/entry/s/zenn.dev/loglass/articles/0016-make-makefile
+
 私個人も過去に同様のMakefileを作ったことがあるし、現職でもMakefileが入っているプロジェクトがあるくらいにはよくある手法です。
 
 しかし、この記事を読んだ時に自分としてはこの手法がイマイチだと感じました。
