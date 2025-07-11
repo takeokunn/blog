@@ -4,7 +4,7 @@
 #+TITLE: Makefileを便利コマンドメモとして使うことに対する違和感
 #+AUTHOR: takeokunn
 #+DESCRIPTION: description
-#+DATE: 2022-12-22T09:00:00+09:00
+#+DATE: 2025-07-11T16:41:09+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/permanent
 #+HUGO_CATEGORIES: permanent
@@ -136,6 +136,13 @@ Terminalに不慣れな人向けに =make up= で =docker compose up --build= �
 
 そもそも =docker compose up --build= などの複雑な文字入力をさせるのは困難な場合があるので、そういう時はしぶしぶMakefileを作って =make up= だけ叩いてくださいというのが早くて正確なのでしょうがなく作っています。
 そういう人向けには可能な限りTargetを減らして最低限で提供したい所です。
+
+** 「そのプロジェクトに精通しているプログラマ」はそもそもMakefileを使わない
+
+大体の「そのプロジェクトに精通しているプログラマ」は自分の意図したコマンドを意識して細かく実行するので、変に抽象化されたMakefileは逆に足枷になりがちな印象があります。
+Makefileのメンテナンスがおざなりになり、ちゃんと動くことを保証されなくなりがちです。
+
+これはREADMEでも起こりがちな問題ですがREADMEを充実させる方が筋がよいだろう、というのが自分の意見です。
 
 ** 「マシン環境に依存するコマンド」をMakefileで実行することに対して違和感がある
 
