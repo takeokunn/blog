@@ -24,9 +24,10 @@ SNSやvim-jp slackを見ていると賛同の声が多い印象を受けてい�
 
 決して元記事を批判するつもりはなく、こういう視点もあるよというくらいの温度感で捉えてほしいです。
 
-#+begin_src html
+#+begin_export html
   <blockquote class="twitter-tweet"><p lang="ja" dir="ltr">Makefileをコマンドメモに使うな</p>&mdash; たけてぃ𓁈𓈷 (@takeokunn) <a href="https://twitter.com/takeokunn/status/1247911308646699019?ref_src=twsrc%5Etfw">April 8, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-#+end_src
+#+end_export
+
 * Makefileをプロジェクトに入れたい時の前提整理
 
 そもそも「誰のために」「どのプロジェクト規模で」「どういう問題を解決したくて」Makefileをプロジェクトに追加するものなのか整理する必要があります。
