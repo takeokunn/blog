@@ -11,6 +11,12 @@
 #+HUGO_TAGS: permanent Makefile
 #+HUGO_DRAFT: false
 #+STARTUP: fold
+* 追記
+
+この記事に対するyasunoriの補足記事はこちら。
+
+https://blog.yasunori0418.dev/p/appendix-makefile/
+
 * Introduction
 
 yasunoriがZennに書いた「[[https://zenn.dev/loglass/articles/0016-make-makefile][職場のプロジェクトに必ず配置しちゃうMakefileの話]]」というのがバズっています。
