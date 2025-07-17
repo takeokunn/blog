@@ -1,0 +1,147 @@
+:PROPERTIES:
+:ID:       8B3B0181-F5A9-92C4-1DFB-52B4ECD19EC5
+:END:
+#+TITLE: 「Makefileを便利コマンドメモとして使うことに対する違和感」振り返り
+#+AUTHOR: takeokunn
+#+DESCRIPTION: description
+#+DATE: 2025-07-14T16:16:35+0900
+#+HUGO_BASE_DIR: ../../
+#+HUGO_CATEGORIES: permanent
+#+HUGO_SECTION: posts/permanent
+#+HUGO_TAGS: permanent Makefile
+#+HUGO_DRAFT: true
+#+STARTUP: fold
+* Introduction
+
+Makefileを便利コマンドメモとして使うことに対する違和感 を書いた直後にネット上でバズったので後学のために振り返り記事を書いておく。
+
+* 背景
+
+元ブログがバズってるのを見て、正直個人的にはイマイチだった。
+当然Makefileは使い手が満足してるならそれでよいが自分の主張は主張で丁寧に書くのは重要。
+
+https://x.com/asumikam/status/1943621188095185120
+
+文章のテイストはtomoyaさんの「PyCon JPはいますぐ生まれ変わるべき」を意識して書いた。
+だいぶ読み易い形になったんじゃないかな。
+
+https://blog.tomoya.dev/posts/pyconjp-should-be-reborn/
+
+* ネット上の反応
+
+ツイートが伸びた。
+
+https://x.com/takeokunn/status/1943609593176703426
+
+おおむね同意の声が大かった。
+
+https://x.com/hamako9999/status/1943835776309244296
+https://x.com/mackee_w/status/1943901832558019012
+https://x.com/mizchi/status/1943654418345263355?s=46&t=eAOvItftZCoIO1405dQqIw
+https://x.com/nazo/status/1943910772138291503
+
+はてなブックマークが100User越えた。
+
+https://b.hatena.ne.jp/entry/s/www.takeokunn.org/posts/permanent/20250711132607-why_not_command_memo_makefile/
+
+vim-jpの #hot-channels でも1位だった。
+
+* トピック
+** vim-jp slack
+*** Makefileで細かくTargetを切って運用している
+
+vim-jp slackの #tech-cli でそういう話をした。
+
+1ターゲットが小さいことと、ターゲット間のシンプルであることが徹底されていれば、仮にMakefileが1万行でも労力としては楽なんですよね。多分AIも理解できるし
+
+#+begin_src makefile
+  front-setup: ## フロントエンド開発環境初回構築
+  	npm install
+#+end_src
+*** 大規模プロジェクトでコントロールが効かない場合もあるからMakefileを入れることもある
+
+自分が主導権を握れるならドキュメントや規模感ならいくらでもコントロールする（できる）けど、他人様のプロジェクトにヘルプで規模感も制御できないってなった時に、1個で完結するMakefileは有効な手段だとは思いますね。
+
+*** QMKのMakefileがすごい
+
+https://github.com/qmk/qmk_firmware/blob/master/Makefile
+
+*** GolangやPythonなどはしょうがなく使うこともある
+
+ふと思ったんだけど、GoやJavaはUNIX文化圏の名残りで、他のツールで十分なところは再発明しない≒makeを流用するってことが続いてるのかも
+
+*** なんだかんだshell scriptは辛いよね
+
+shellcheckくらい通してほしい
+
+*** .PHONYで雑にgrepするだけで満足してる
+#+begin_src bash
+  cat Makefile | grep .PHONY
+#+end_src
+*** プロジェクトは用途に応じて適切に分割したい
+
+俺が管理しているやつは、タスクは最初に作ってからほぼ増えないよ。コードはもちろん増えるけど、プロジェクトの目的は増えないという感じかな。
+もっとプロジェクトをきれいに整理する方が大事で、それをしている人には利点がよくわからんという感じなのかも。
+
+*** Makefileよりもconfigureに恨みがある人の方が多そう
+
+autotoolsはヤバい
+
+** Twitter
+*** Makefileは使うけど必要最小限に抑えてる
+
+そうだよねって内容。
+
+https://x.com/mirko_960/status/1943614748978790771
+https://x.com/tadsan/status/1943635525363196190
+
+*** Makefile以外にもある
+
+=Justfile= とか =Taskfile= とかあるよね
+
+[[https://taskfile.dev/]]
+[[https://just.systems/]]
+[[https://github.com/google/kati]]
+
+mise
+https://zenn.dev/dress_code/articles/a99ff13634bbe6
+
+それNix
+
+*** make -nオプション
+
+@echoは読み間違えてた。
+
+https://blog.yasunori0418.dev/p/appendix-makefile/#%E6%9C%AC%E6%9D%A5%E3%81%AFreadme%E3%82%92%E5%85%85%E5%AE%9F%E3%81%95%E3%81%9B%E3%82%8B%E3%81%B9%E3%81%8D%E3%81%AEecho%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6
+
+https://x.com/podhmo/status/1943635643805966743
+https://x.com/podhmo/status/1943638441087922572
+
+*** README.mdを実行可能にする
+
+org-modeの文脈。
+
+xc
+https://zenn.dev/trap/articles/af32614c07214d
+
+*** みんなが本当に欲しかったのはMakefileじゃなくてディレクトリレベルで管理できるエイリアスなのでは
+
+https://x.com/conao_3/status/1942184882912034998
+
+https://blog.3qe.us/entry/2025/07/14/000748
+
+*** shell scriptからは逃れられない
+
+今回の文脈と関係あるかどうかは分かってない。
+
+https://x.com/songmu/status/1943717441936536058
+https://x.com/songmu/status/1943718703448961290
+https://x.com/songmu/status/1943719390634975536
+https://x.com/songmu/status/1943720825901003104
+
+* 総括
+ネットの反応が面白かったし、よいテーマでブログを書けて満足した。
+
+ブログに対してSNSで短文で批評するのが主流だけも、ちゃんと長文で網羅的に書いた方がいいと思うんだよな。
+
+https://blog.yasunori0418.dev/p/appendix-makefile/
