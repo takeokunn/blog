@@ -37,10 +37,19 @@ mainSections = ['posts']
 dateFormat = "2 May 2023"
 
 [outputFormats]
-[outputFormats.TXT]
+[outputFormats.llms]
 mediaType = "text/plain"
 baseName = "llms"
 isPlainText = true
+rel = "alternate"
+root = true
+
+[outputFormats.llmsfull]
+mediaType = "text/plain"
+baseName = "llms-full"
+isPlainText = true
+rel = "alternate"
+root = true
 
 [outputs]
-home = ["HTML", "TXT"]
+home = ["HTML", "llms", "llmsfull"]
