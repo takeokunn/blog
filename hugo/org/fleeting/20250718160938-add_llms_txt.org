@@ -1,0 +1,132 @@
+:PROPERTIES:
+:ID:       A96B1E8F-9E31-48D0-8675-3DF41C9B79E8
+:END:
+#+TITLE: llms.txtとllms-full.txtに対応した
+#+AUTHOR: takeokunn
+#+DESCRIPTION: description
+#+DATE: 2025-07-18T16:09:48+0900
+#+HUGO_BASE_DIR: ../../
+#+HUGO_CATEGORIES: fleeting
+#+HUGO_SECTION: posts/fleeting
+#+HUGO_TAGS: fleeting llm
+#+HUGO_DRAFT: false
+#+STARTUP: fold
+* 背景・動機
+
+[[https://tech.basemachina.jp/entry/llms-full-txt-ai-support-chat][llms-full.txtで始めるAIサポートチャット - basemachina]] を読んだ。
+
+最近gemini-cliで文章を書かせることが増えたので、自分の文章スタイルを学習させればブログを半自動生成できるんだろうなと思ったので試してみた。
+
+
+[[id:56166403-21CE-472A-9C0B-A73E4A54893F][PHPカンファレンス小田原で「定義ジャンプ入門」というテーマで登壇しました]]
+* 試したこと・やったこと
+** 1. llms.txtの規格について簡単に調査する
+
+以下が仕様。
+https://llmstxt.org/
+
+- llms.txt: サイトの概要や、サイトに含まれるページへのリンク一覧
+- llms-full.txt: サイト全体の情報を1つに収めた文書ファイル
+
+- Cursor （約500KB）
+  - https://docs.cursor.com/llms-full.txt
+- Anthropic （約2.5MB）
+  - https://docs.anthropic.com/llms-full.txt
+- Mastra （約4MB）
+  - https://mastra.ai/llms-full.txt
+- Cloudflare （約17MB）
+  - https://developers.Cloudflare.com/llms-full.txt
+
+** 2. hugoに導入する
+
+[[https://masutaka.net/2025-05-18-1/][Hugo で作ったサイトに llms.txt と llms-full.txt を設置した]] を参考にした。
+
+[[https://github.com/takeokunn/hugo-take-theme][takeokunn/hugo-take-theme]] で次のlayoutを作成した。
+
+[[https://github.com/takeokunn/hugo-take-theme/blob/main/layouts/index.llms.txt][index.llms.txt]]:
+
+#+begin_src markdown
+  # takeokunn's blog
+
+  たけてぃ(@takeokunn)の個人的なメモです。
+
+  ## URL Structure
+
+  Zettelkasten
+
+  - fleeting
+      - 小さい技術的なメモ
+  - permanent
+      - 纏まった技術的メモ
+  - poem
+      - 個人的なポエム
+  - diary
+      - 個人的な日記
+
+  ## Content
+
+  {{ range .Site.RegularPages }}
+  - [{{ .Title }}]({{ .Permalink }})
+  {{ end }}
+#+end_src
+
+[[https://github.com/takeokunn/hugo-take-theme/blob/main/layouts/index.llmsfull.txt][index.llmsfull.txt]]:
+
+#+begin_src markdown
+  # {{ .Site.Title }}
+
+  > {{ .Site.Params.Description }}
+
+  {{/* Articles */}}
+  {{ range where (where (sort (.Site.GetPage "/posts/").Pages "Date" "desc") "Draft" "ne" true) "Sitemap.Disable" "ne" true }}
+  --------------------------------------------------------------------------------
+  title: "{{ .Title }}"
+  date: "{{ .Date.Format "2006-01-02" }}"
+  --------------------------------------------------------------------------------
+  {{ replaceRE "{{&lt;\\s*comment\\s*&gt;}}(.|\n)*?{{&lt;\\s*/comment\\s*&gt;}}" "" .RawContent -}}
+  {{ end -}}
+
+  {{/* Others */}}
+  {{ range slice "about.md" -}}
+  {{ with site.GetPage . -}}
+  --------------------------------------------------------------------------------
+  title: "{{ .Title }}"
+  lastmod: "{{ .Date.Format "2006-01-02" }}"
+  --------------------------------------------------------------------------------
+  {{ replaceRE "{{&lt;\\s*comment\\s*&gt;}}(.|\n)*?{{&lt;\\s*/comment\\s*&gt;}}" "" .RawContent -}}
+  {{ end -}}
+  {{ end -}}
+#+end_src
+
+ [[github.com/takeokunn/blog][takeokunn/blog]] に [[https://github.com/takeokunn/blog/blob/main/hugo/hugo.toml][hugo.toml]] を追記した。
+
+#+begin_src toml
+  [outputFormats]
+  [outputFormats.llms]
+  mediaType = "text/plain"
+  baseName = "llms"
+  isPlainText = true
+  rel = "alternate"
+  root = true
+
+  [outputFormats.llmsfull]
+  mediaType = "text/plain"
+  baseName = "llms-full"
+  isPlainText = true
+  rel = "alternate"
+  root = true
+
+  [outputs]
+  home = ["HTML", "llms", "llmsfull"]
+#+end_src
+
+* 得られた結果・所感
+
+無事ホスティングできた。
+
+- https://www.takeokunn.org/llms.txt
+- https://www.takeokunn.org/llms-full.txt
+
+* 今後の展開・検討事項
+
+当初の予定とおり、 =llms-full.txt= を =gemini-cli= に食わせて自分っぽい文章を生成させられるようにしたい。
