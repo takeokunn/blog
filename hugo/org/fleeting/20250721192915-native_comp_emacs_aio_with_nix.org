@@ -1,7 +1,7 @@
 :PROPERTIES:
 :ID:       9CB40F35-E8C5-465F-992A-B696D751321A
 :END:
-#+TITLE: native-comp-emacs-aio-with-nix
+#+TITLE: emacs-aioがnativecompで落ちるのでpatchをあてる
 #+AUTHOR: takeokunn
 #+DESCRIPTION: description
 #+DATE: 2025-07-21T19:29:23+0900
