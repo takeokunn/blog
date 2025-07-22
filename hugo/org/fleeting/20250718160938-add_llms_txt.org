@@ -96,7 +96,7 @@ https://llmstxt.org/
   {{ end -}}
 #+end_src
 
- [[github.com/takeokunn/blog][takeokunn/blog]] に [[https://github.com/takeokunn/blog/blob/main/hugo/hugo.toml][hugo.toml]] を追記した。
+[[https://github.com/takeokunn/blog][takeokunn/blog]] に [[https://github.com/takeokunn/blog/blob/main/hugo/hugo.toml][hugo.toml]] を追記した。
 
 #+begin_src toml
   [outputFormats]
@@ -127,4 +127,4 @@ https://llmstxt.org/
 
 * 今後の展開・検討事項
 
-当初の予定とおり、 =llms-full.txt= を =gemini-cli= に食わせて自分っぽい文章を生成させられるようにしたい。
+当初の予定とおり、llms-full.txtをgemini-cliに食わせて自分っぽい文章を生成させられるようにしたい。
