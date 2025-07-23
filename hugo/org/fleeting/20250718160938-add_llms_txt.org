@@ -26,6 +26,8 @@ https://llmstxt.org/
 - llms.txt: サイトの概要や、サイトに含まれるページへのリンク一覧
 - llms-full.txt: サイト全体の情報を1つに収めた文書ファイル
 
+各サービスのlls-full.txtは以下。
+
 - Cursor （約500KB）
   - https://docs.cursor.com/llms-full.txt
 - Anthropic （約2.5MB）
