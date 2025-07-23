@@ -1,14 +1,14 @@
 :PROPERTIES:
 :ID:       A96B1E8F-9E31-48D0-8675-3DF41C9B79E8
 :END:
-#+TITLE: llms.txtとllms-full.txtに対応した
+#+TITLE: Hugoで生成したブログにllms.txtとllms-full.txtを導入した
 #+AUTHOR: takeokunn
 #+DESCRIPTION: description
 #+DATE: 2025-07-18T16:09:48+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting
 #+HUGO_SECTION: posts/fleeting
-#+HUGO_TAGS: fleeting llm
+#+HUGO_TAGS: fleeting llm hugo
 #+HUGO_DRAFT: false
 #+STARTUP: fold
 * 背景・動機
