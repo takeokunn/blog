@@ -133,20 +133,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download Hugo site artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: build-hugo
           path: ./public
           merge-multiple: true
       - name: Download PDF artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: build-typst
           path: ./public/pdf
           merge-multiple: true
 
       - name: Download org-roam-ui-lite artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: build-hugo-org-roam-ui-lite
           path: ./public/graph
