@@ -117,7 +117,7 @@ VimConfではEmacsに関するテーマで応募しましたが、残念なが�
 これらを事前に確認することで、「音楽性の不一致」をある程度は避けられるかもしれません。
 
 - [[https://speakerdeck.com/magnolia/ibentoyun-ying-karajian-tadeng-tan-zhe-henoqi-dai][イベント運営から見た登壇者への期待 - speakerdeck]]
-- [[https://note.com/phpcon_kansai/n/n0aa7041c46f0][PHPerKaigi 2020のCfPで心がけたこと、気をつけていること - note]]
+- [[https://note.com/phpcon_kansai/n/n0aa7041c46f0][PHPカンファレンス関西2025 採択方法を公開します！ - note]]
 
 とはいえ、プロポーザルが採択されるかどうかの8割は、1と2、つまり「内容の良さ」と「プロポーザルの質」で決まると私は考えています。
 これらは日々の努力で十分にカバーできる領域であり、この2点に焦点を当てて解説していきます。
