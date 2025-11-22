@@ -108,18 +108,17 @@ TAGS-STRING should be comma-separated."
 
 ;;;;; JSON Generation
 
-(defun org-devto--build-json-data (title published tags description devto-id existing-json)
+(defun org-devto--build-json-data (title published tags description devto-id devto-slug)
   "Build JSON data alist for article.json.
 TITLE, PUBLISHED, TAGS, and DESCRIPTION are article metadata.
 DEVTO-ID is the dev.to article ID from Org property.
-EXISTING-JSON is parsed data from existing article.json, used to preserve id and slug."
-  (let ((existing-slug (when existing-json (cdr (assoc 'slug existing-json)))))
-    `((title . ,title)
-      (published . ,published)
-      (tags . ,(vconcat tags))
-      ,@(when description `((description . ,description)))
-      ,@(when devto-id `((id . ,(string-to-number devto-id))))
-      ,@(when existing-slug `((slug . ,existing-slug))))))
+DEVTO-SLUG is the dev.to article slug from Org property."
+  `((title . ,title)
+    (published . ,published)
+    (tags . ,(vconcat tags))
+    ,@(when description `((description . ,description)))
+    ,@(when devto-id `((id . ,(string-to-number devto-id))))
+    ,@(when devto-slug `((slug . ,devto-slug)))))
 
 (defun org-devto--write-article-json (slug pub-dir)
   "Generate article.json in PUB-DIR/SLUG directory.
@@ -129,12 +128,11 @@ Returns the article directory path."
          (tags (org-devto--parse-tags (org-devto--get-keyword "TAGS")))
          (description (org-devto--get-keyword "DESCRIPTION"))
          (devto-id (org-devto--get-keyword "DEVTO_ID"))
+         (devto-slug (org-devto--get-keyword "DEVTO_SLUG"))
          (article-dir (expand-file-name slug pub-dir))
          (json-file (expand-file-name "article.json" article-dir))
-         (existing-json (when (file-exists-p json-file)
-                          (json-read-file json-file)))
          (json-data (org-devto--build-json-data
-                     title published tags description devto-id existing-json)))
+                     title published tags description devto-id devto-slug)))
     (unless (file-directory-p article-dir)
       (make-directory article-dir t))
     (with-temp-file json-file

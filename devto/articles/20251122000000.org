@@ -1,13 +1,14 @@
 :PROPERTIES:
 :ID:       51301ebb-2373-0794-838b-44ab40369fc3
 :END:
-#+DEVTO_ID: 3048601
 #+TITLE: devto test1 aaaa
 #+AUTHOR: takeokunn
 #+DESCRIPTION: description
 #+DATE: 2025-11-22T21:41:14+0900
 #+PUBLISHED: true
 #+TAGS: test
+#+DEVTO_ID: 3048601
+#+DEVTO_SLUG: devto-test-ol9
 * test
 
 test
