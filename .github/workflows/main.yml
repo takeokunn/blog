@@ -57,8 +57,9 @@ jobs:
       - name: Sync articles to dev.to
         uses: calvinmclean/article-sync@v1.3.4
         with:
-          api-key: ${{ secrets.DEV_TO_TOKEN }}
-          path: ./devto/public
+          api_key: ${{ secrets.DEV_TO_TOKEN }}
+          article_path: ./devto/public
+          type: synchronize
       - name: Create devto branch
         uses: peaceiris/actions-gh-pages@v4
         with:
