@@ -68,6 +68,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           files: './devto/public/*.md'
           branch: devto
+          conventional_commits: true
 
   build-hugo:
     runs-on: ubuntu-latest
