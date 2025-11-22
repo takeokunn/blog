@@ -60,6 +60,7 @@ jobs:
           api_key: ${{ secrets.DEV_TO_TOKEN }}
           article_path: ./devto/public
           type: synchronize
+          gh_token: ${{ secrets.GITHUB_TOKEN }}
       - name: Create devto branch
         uses: peaceiris/actions-gh-pages@v4
         with:
