@@ -1,7 +1,7 @@
 :PROPERTIES:
 :ID:       659E1539-468E-4C95-B5D4-7607A13426F2
 :END:
-#+TITLE: PHP Conference Japan 2025「yieldが変えるLaravelの世界 LazyCollection徹底入門」登壇レポート
+#+TITLE: PHP Conference Japan 2025「yieldが変えるLaravelの世界 LazyCollection徹底入門」登壇報告
 #+DESCRIPTION: description
 #+DATE: 2025-07-17T11:19:10+0900
 #+GFM_TAGS: php
