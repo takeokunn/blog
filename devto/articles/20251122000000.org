@@ -5,7 +5,7 @@
 #+AUTHOR: takeokunn
 #+DESCRIPTION: description
 #+DATE: 2025-11-22T21:41:14+0900
-#+PUBLISHED: false
+#+PUBLISHED: true
 #+TAGS: test
 * test
 
