@@ -52,13 +52,13 @@ jobs:
         run: nix build .#build-devto
       - name: Prepare articles directory
         run: |
-          mkdir -p articles/
-          cp -r result/* articles/
+          mkdir -p public/
+          cp -r result/* public/
       - name: Sync articles to dev.to
         uses: calvinmclean/article-sync@v1.3.4
         with:
           api-key: ${{ secrets.DEV_TO_TOKEN }}
-          path: ./devto/public/articles
+          path: ./devto/public
       - name: Create devto branch
         uses: peaceiris/actions-gh-pages@v4
         with:
