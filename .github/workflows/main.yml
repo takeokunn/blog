@@ -55,7 +55,7 @@ jobs:
           mkdir -p articles/
           cp -r result/* articles/
       - name: Sync articles to dev.to
-        uses: calvinmclean/article-sync@v2
+        uses: calvinmclean/article-sync@v1.3.4
         with:
           api-key: ${{ secrets.DEV_TO_TOKEN }}
           path: ./devto/public/articles
