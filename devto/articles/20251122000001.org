@@ -1,12 +1,12 @@
 :PROPERTIES:
 :ID:       83f3257f-a13c-2504-3833-1fde4df9bbc1
 :END:
-#+DEVTO_ID: 2pa3
+#+DEVTO_ID: 3048603
 #+TITLE: devto test 2 bbbb
 #+AUTHOR: takeokunn
 #+DESCRIPTION: description
 #+DATE: 2025-11-22T21:41:14+0900
-#+PUBLISHED: true
+#+PUBLISHED: false
 #+TAGS: test2
 * test2
 
