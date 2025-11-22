@@ -53,7 +53,7 @@ jobs:
       - name: Prepare articles directory
         run: |
           mkdir -p public/
-          cp -r result/* public/
+          rsync -a --chmod=u+w result/ public/
       - name: Sync articles to dev.to
         uses: calvinmclean/article-sync@v1.3.4
         with:
