@@ -118,7 +118,7 @@ EXISTING-JSON is parsed data from existing article.json, used to preserve id and
       (published . ,published)
       (tags . ,(vconcat tags))
       ,@(when description `((description . ,description)))
-      ,@(when devto-id `((id . ,devto-id)))
+      ,@(when devto-id `((id . ,(string-to-number devto-id))))
       ,@(when existing-slug `((slug . ,existing-slug))))))
 
 (defun org-devto--write-article-json (slug pub-dir)
