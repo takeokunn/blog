@@ -1,0 +1,5 @@
+.textlintrc
+result
+
+public/*
+!public/.gitkeep
