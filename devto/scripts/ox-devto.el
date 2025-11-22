@@ -40,12 +40,6 @@
   :type 'string
   :group 'org-devto)
 
-(defcustom org-devto-default-published nil
-  "Default published status for new articles.
-When nil, articles are created as drafts."
-  :type 'boolean
-  :group 'org-devto)
-
 (defcustom org-devto-articles-directory "articles"
   "Base directory for Org source files."
   :type 'string
@@ -90,15 +84,6 @@ KEYWORD should be an Org keyword name without the `#+' prefix."
   (or (org-devto--get-keyword "TITLE")
       org-devto-default-title))
 
-(defun org-devto--get-published ()
-  "Get published status from current buffer.
-Returns t if PUBLISHED keyword is \"true\", otherwise returns configured default."
-  (let ((published-str (org-devto--get-keyword "PUBLISHED")))
-    (if (and published-str
-             (string= (downcase published-str) "true"))
-        t
-      (if org-devto-default-published t :json-false))))
-
 (defun org-devto--parse-tags (tags-string)
   "Parse TAGS-STRING into a list of trimmed tag strings.
 TAGS-STRING should be comma-separated."
@@ -108,13 +93,12 @@ TAGS-STRING should be comma-separated."
 
 ;;;;; JSON Generation
 
-(defun org-devto--build-json-data (title published tags description devto-id devto-slug)
+(defun org-devto--build-json-data (title tags description devto-id devto-slug)
   "Build JSON data alist for article.json.
-TITLE, PUBLISHED, TAGS, and DESCRIPTION are article metadata.
+TITLE, TAGS, and DESCRIPTION are article metadata.
 DEVTO-ID is the dev.to article ID from Org property.
 DEVTO-SLUG is the dev.to article slug from Org property."
   `((title . ,title)
-    (published . ,published)
     (tags . ,(vconcat tags))
     ,@(when description `((description . ,description)))
     ,@(when devto-id `((id . ,(string-to-number devto-id))))
@@ -124,7 +108,6 @@ DEVTO-SLUG is the dev.to article slug from Org property."
   "Generate article.json in PUB-DIR/SLUG directory.
 Returns the article directory path."
   (let* ((title (org-devto--get-title))
-         (published (org-devto--get-published))
          (tags (org-devto--parse-tags (org-devto--get-keyword "TAGS")))
          (description (org-devto--get-keyword "DESCRIPTION"))
          (devto-id (org-devto--get-keyword "DEVTO_ID"))
@@ -132,7 +115,7 @@ Returns the article directory path."
          (article-dir (expand-file-name slug pub-dir))
          (json-file (expand-file-name "article.json" article-dir))
          (json-data (org-devto--build-json-data
-                     title published tags description devto-id devto-slug)))
+                     title tags description devto-id devto-slug)))
     (unless (file-directory-p article-dir)
       (make-directory article-dir t))
     (with-temp-file json-file
@@ -156,8 +139,7 @@ CONTENTS is nil.  INFO is the export communication channel."
 
 (org-export-define-derived-backend 'devto 'jekyll
   :options-alist
-  '((:devto-published "PUBLISHED" nil "false" t)
-    (:devto-tags "TAGS" nil nil t)
+  '((:devto-tags "TAGS" nil nil t)
     (:description "DESCRIPTION" nil nil t))
   :translate-alist
   '((template . org-devto--template)

@@ -5,8 +5,7 @@
 #+AUTHOR: takeokunn
 #+DESCRIPTION: description
 #+DATE: 2025-11-22T21:41:14+0900
-#+PUBLISHED: false
-#+TAGS: test
+#+TAGS: example
 #+DEVTO_ID: 3048601
 #+DEVTO_SLUG: devto-test-ol9
 * testhogehogeho
