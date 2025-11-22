@@ -54,13 +54,13 @@ jobs:
         run: mkdir -p public/
       - name: Copy result
         run: cp -r result/* public/
-      # - name: Create devto branch
-      #   uses: peaceiris/actions-gh-pages@v4
-      #   with:
-      #     github_token: ${{ secrets.GITHUB_TOKEN }}
-      #     publish_dir: ./devto/public
-      #     publish_branch: devto
-      #     force_orphan: true
+      - name: Create devto branch
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./devto/public
+          publish_branch: devto
+          force_orphan: true
       - name: Publish articles on dev.to
         uses: sinedied/publish-devto@v2
         with:
