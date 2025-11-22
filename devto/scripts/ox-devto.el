@@ -3,7 +3,7 @@
 ;; Copyright (C) 2025 takeokunn
 ;; Author: takeokunn
 ;; Version: 1.0.0
-;; Package-Requires: ((emacs "27.1") (ox-jekyll-md "0.0.1"))
+;; Package-Requires: ((emacs "27.1") (ox-gfm "1.0"))
 ;; Keywords: org, markdown, dev.to
 ;; URL: https://github.com/takeokunn/blog
 
@@ -25,7 +25,7 @@
 
 ;;;; Requirements
 
-(require 'ox-jekyll-md)
+(require 'ox-gfm)
 (require 'json)
 
 ;;;; Customization
@@ -63,26 +63,12 @@
   "Generate URL slug from TITLE.
 Non-alphanumeric characters are replaced with hyphens.
 Leading and trailing hyphens are removed."
-  (let ((slug (downcase title)))
-    (setq slug (replace-regexp-in-string "[^a-z0-9]+" "-" slug))
-    (setq slug (replace-regexp-in-string "^-+\\|-+$" "" slug))
-    slug))
+  (thread-last title
+    downcase
+    (replace-regexp-in-string "[^a-z0-9]+" "-")
+    (replace-regexp-in-string "^-+\\|-+$" "")))
 
-;;;;; Keyword Extraction
-
-(defun org-devto--get-keyword (keyword)
-  "Extract value of KEYWORD from current buffer.
-KEYWORD should be an Org keyword name without the `#+' prefix."
-  (save-excursion
-    (goto-char (point-min))
-    (when (re-search-forward
-           (format "^#\\+%s:[ \t]*\\(.+\\)$" keyword) nil t)
-      (string-trim (match-string 1)))))
-
-(defun org-devto--get-title ()
-  "Get article title from current buffer."
-  (or (org-devto--get-keyword "TITLE")
-      org-devto-default-title))
+;;;;; Tag Parsing
 
 (defun org-devto--parse-tags (tags-string)
   "Parse TAGS-STRING into a list of trimmed tag strings.
@@ -104,14 +90,15 @@ DEVTO-SLUG is the dev.to article slug from Org property."
     ,@(when devto-id `((id . ,(string-to-number devto-id))))
     ,@(when devto-slug `((slug . ,devto-slug)))))
 
-(defun org-devto--write-article-json (slug pub-dir)
-  "Generate article.json in PUB-DIR/SLUG directory.
+(defun org-devto--write-article-json (info slug pub-dir)
+  "Generate article.json in PUB-DIR/SLUG directory using INFO plist.
+INFO is the export communication channel from `org-export-get-environment'.
 Returns the article directory path."
-  (let* ((title (org-devto--get-title))
-         (tags (org-devto--parse-tags (org-devto--get-keyword "TAGS")))
-         (description (org-devto--get-keyword "DESCRIPTION"))
-         (devto-id (org-devto--get-keyword "DEVTO_ID"))
-         (devto-slug (org-devto--get-keyword "DEVTO_SLUG"))
+  (let* ((title (or (car (plist-get info :title)) org-devto-default-title))
+         (tags (org-devto--parse-tags (plist-get info :devto-tags)))
+         (description (plist-get info :devto-description))
+         (devto-id (plist-get info :devto-id))
+         (devto-slug (plist-get info :devto-slug))
          (article-dir (expand-file-name slug pub-dir))
          (json-file (expand-file-name "article.json" article-dir))
          (json-data (org-devto--build-json-data
@@ -125,25 +112,12 @@ Returns the article directory path."
 
 ;;;; Export Backend
 
-(defun org-devto--template (contents _info)
-  "Return CONTENTS without front matter.
-INFO is the export communication channel (unused)."
-  contents)
-
-(defun org-devto--src-block (src-block _contents info)
-  "Transcode SRC-BLOCK to GitHub Flavored Markdown code block.
-CONTENTS is nil.  INFO is the export communication channel."
-  (let ((lang (org-element-property :language src-block))
-        (code (org-export-format-code-default src-block info)))
-    (format "```%s\n%s```\n" (or lang "") code)))
-
-(org-export-define-derived-backend 'devto 'jekyll
+(org-export-define-derived-backend 'devto 'gfm
   :options-alist
   '((:devto-tags "TAGS" nil nil t)
-    (:description "DESCRIPTION" nil nil t))
-  :translate-alist
-  '((template . org-devto--template)
-    (src-block . org-devto--src-block)))
+    (:devto-description "DESCRIPTION" nil nil t)
+    (:devto-id "DEVTO_ID" nil nil t)
+    (:devto-slug "DEVTO_SLUG" nil nil t)))
 
 ;;;; Public Functions
 
@@ -154,9 +128,10 @@ PLIST is the project property list."
          (work-buffer (or visiting (find-file-noselect filename))))
     (unwind-protect
         (with-current-buffer work-buffer
-          (let* ((title (org-devto--get-title))
+          (let* ((info (org-export-get-environment 'devto))
+                 (title (or (car (plist-get info :title)) org-devto-default-title))
                  (slug (org-devto--generate-slug title))
-                 (article-dir (org-devto--write-article-json slug pub-dir))
+                 (article-dir (org-devto--write-article-json info slug pub-dir))
                  (md-file (expand-file-name "article.md" article-dir)))
             (org-export-to-file 'devto md-file nil nil nil nil plist)
             md-file))

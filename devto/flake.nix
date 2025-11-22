@@ -45,7 +45,7 @@
               name = "build-devto";
               src = ./.;
               nativeBuildInputs = with pkgs; [
-                (emacsPkg.pkgs.withPackages (epkgs: (with epkgs.melpaPackages; [ ox-jekyll-md ])))
+                (emacsPkg.pkgs.withPackages (epkgs: (with epkgs.melpaPackages; [ ox-gfm ])))
               ];
               buildPhase = ''
                 mkdir -p ./articles
