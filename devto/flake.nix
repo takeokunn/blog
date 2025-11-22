@@ -20,6 +20,9 @@
             write-good = {
               weasel = false;
             };
+            common-misspellings = true;
+            alex = true;
+            terminology = true;
           };
         };
       in
@@ -30,6 +33,9 @@
                 nodejs
                 (textlint.withPackages [
                   textlint-rule-write-good
+                  textlint-rule-common-misspellings
+                  textlint-rule-alex
+                  textlint-rule-terminology
                   textlint-plugin-org
                 ])
               ];
@@ -53,7 +59,7 @@
               '';
               installPhase = ''
                 mkdir -p $out
-                # Article Sync 形式: articles/{slug}/article.json + article.md
+                # Article Sync Format: articles/{slug}/article.json + article.md
                 for dir in ./articles/*/; do
                   if [ -f "$dir/article.json" ]; then
                     cp -r "$dir" $out/
