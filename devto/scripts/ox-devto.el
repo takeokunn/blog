@@ -64,9 +64,9 @@
 Non-alphanumeric characters are replaced with hyphens.
 Leading and trailing hyphens are removed."
   (thread-last title
-    downcase
-    (replace-regexp-in-string "[^a-z0-9]+" "-")
-    (replace-regexp-in-string "^-+\\|-+$" "")))
+               downcase
+               (replace-regexp-in-string "[^a-z0-9]+" "-")
+               (replace-regexp-in-string "^-+\\|-+$" "")))
 
 ;;;;; Tag Parsing
 

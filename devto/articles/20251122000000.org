@@ -4,7 +4,7 @@
 #+TITLE: devto test1 aaaa
 #+AUTHOR: takeokunn
 #+DESCRIPTION: description
-#+TAGS: example
+#+TAGS: sandbox
 #+DEVTO_ID: 3048601
 #+DEVTO_SLUG: devto-test-ol9
 * testhogehogeho
