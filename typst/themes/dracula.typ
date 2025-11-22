@@ -63,9 +63,9 @@
 
 #let setup(
   footer: none,
-  text-font: "Migu",
-  math-font: "Fira Math",
-  code-font: "Fira Code",
+  text-font: "HackGen",
+  math-font: "XITS Math",
+  code-font: "HackGen Console",
   text-size: 23pt,
   body,
 ) = {
