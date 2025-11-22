@@ -1,0 +1,44 @@
+:PROPERTIES:
+:ID:       795ABE1A-4CCA-66E4-C9AB-37D82893C7D3
+:END:
+#+TITLE: パッケージマネージャNixで実現する宣言的でクリーンなPHP開発環境の構築
+#+AUTHOR: takeokunn
+#+STARTUP: fold
+#+BEGIN_EXPORT typst
+#set text(lang: "ja", font: "Migu", size: 8pt)
+
+#set page(
+  width: 210mm,
+  height: 297mm,
+  margin: 20mm,
+  columns: 1
+)
+
+#import "@preview/codly:1.2.0": *
+#import "@preview/codly-languages:0.1.1": *
+#show: codly-init.with()
+#codly(languages: codly-languages)
+
+#align(center)[
+  #set text(size: 18pt)
+  パッケージマネージャNixで実現する宣言的でクリーンなPHP開発環境の構築
+
+  #set text(size: 12pt)
+  たけてぃ \@takeokunn
+]
+#+END_EXPORT
+* はじめに - なぜローカル環境は「壊れる」のか
+
+xxx
+
+* Nixパッケージマネージャの概念：パラダイムシフト
+
+xxx
+
+* 実践：Nix Flakes でつくる「使い捨て」PHP環境
+
+xxx
+
+* 終わりに
+
+xxx

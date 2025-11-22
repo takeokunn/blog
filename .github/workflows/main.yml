@@ -109,6 +109,10 @@ jobs:
         run: |
           nix build .#phperkaigi-2025-pamphlet
           cp result/phperkaigi-2025-pamphlet.pdf public/pdf/
+      - name: Generate phperkaigi-2026-pamphlet
+        run: |
+          nix build .#phperkaigi-2026-pamphlet
+          cp result/phperkaigi-2026-pamphlet.pdf public/pdf/
       - name: Generate typst-presentation-practice
         run: |
           nix build .#typst-presentation-practice

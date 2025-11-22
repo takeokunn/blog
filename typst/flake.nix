@@ -95,6 +95,10 @@
               name = "phperkaigi-2025-pamphlet";
               type = "article";
             };
+            phperkaigi-2026-pamphlet = buildTypstProject {
+              name = "phperkaigi-2026-pamphlet";
+              type = "article";
+            };
             typst-presentation-practice = buildTypstProject {
               name = "typst-presentation-practice";
               type = "slide";
