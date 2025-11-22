@@ -5,9 +5,8 @@
 #+AUTHOR: takeokunn
 #+DESCRIPTION: description
 #+DATE: 2025-11-22T21:41:14+0900
-#+GFM_PUBLISHED: false
-#+GFM_TAGS: test
-#+STARTUP: fold
+#+PUBLISHED: false
+#+TAGS: test
 * test
 
 test
