@@ -48,12 +48,17 @@ jobs:
         uses: ./.github/actions/setup-nix
         with:
           cachix-auth-token: ${{ secrets.CACHIX_AUTH_TOKEN }}
-      - name: Build devto
+      - name: Build devto (Article Sync format)
         run: nix build .#build-devto
-      - name: Make directory
-        run: mkdir -p public/
-      - name: Copy result
-        run: cp -r result/* public/
+      - name: Prepare articles directory
+        run: |
+          mkdir -p articles/
+          cp -r result/* articles/
+      - name: Sync articles to dev.to
+        uses: calvinmclean/article-sync@v2
+        with:
+          api-key: ${{ secrets.DEV_TO_TOKEN }}
+          path: ./devto/public/articles
       - name: Create devto branch
         uses: peaceiris/actions-gh-pages@v4
         with:
@@ -61,14 +66,6 @@ jobs:
           publish_dir: ./devto/public
           publish_branch: devto
           force_orphan: true
-      - name: Publish articles on dev.to
-        uses: sinedied/publish-devto@v2
-        with:
-          devto_key: ${{ secrets.DEV_TO_TOKEN }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          files: './devto/public/*.md'
-          branch: devto
-          conventional_commits: true
 
   build-hugo:
     runs-on: ubuntu-latest

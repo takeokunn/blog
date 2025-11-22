@@ -1,56 +1,197 @@
+;;; ox-devto.el --- Export Org files to dev.to Article Sync format -*- lexical-binding: t; -*-
+
+;; Copyright (C) 2025 takeokunn
+;; Author: takeokunn
+;; Version: 1.0.0
+;; Package-Requires: ((emacs "27.1") (ox-jekyll-md "0.0.1"))
+;; Keywords: org, markdown, dev.to
+;; URL: https://github.com/takeokunn/blog
+
+;;; Commentary:
+
+;; This package provides an Org export backend for dev.to's Article Sync format.
+;; It exports Org files to a directory structure compatible with the
+;; calvinmclean/article-sync GitHub Action:
+;;
+;;   articles/{slug}/
+;;     ├── article.json  (metadata: title, tags, published, description)
+;;     └── article.md    (content in GitHub Flavored Markdown)
+;;
+;; Usage:
+;;   (require 'ox-devto)
+;;   (export-org-devto-files)
+
+;;; Code:
+
+;;;; Requirements
+
 (require 'ox-jekyll-md)
+(require 'json)
 
-(setq org-publish-timestamp-directory "./.org-timestamps")
+;;;; Customization
 
-(defun org-devto--yaml-front-matter (info)
-  "dev.to 用の YAML front matter を生成"
-  (let ((title (org-export-data (plist-get info :title) info))
-        (published (plist-get info :devto-published))
-        (tags (plist-get info :devto-tags))
-        (description (plist-get info :description)))
-    (concat "---\n"
-            (format "title: \"%s\"\n" title)
-            (format "published: %s\n" (or published "false"))
-            (when tags (format "tags: %s\n" tags))
-            (when description (format "description: %s\n" description))
-            "---\n\n")))
+(defgroup org-devto nil
+  "Options for exporting Org files to dev.to Article Sync format."
+  :group 'org-export
+  :prefix "org-devto-")
 
-(defun org-devto-template (contents info)
-  "dev.to 用のテンプレート関数"
-  (concat (org-devto--yaml-front-matter info)
-          contents))
+(defcustom org-devto-default-title "Untitled"
+  "Default title when TITLE keyword is not specified."
+  :type 'string
+  :group 'org-devto)
 
-(defun org-devto-src-block (src-block _contents info)
-  "GFM 形式のコードブロックを生成（Jekyll の highlight 形式ではなく）"
+(defcustom org-devto-default-published nil
+  "Default published status for new articles.
+When nil, articles are created as drafts."
+  :type 'boolean
+  :group 'org-devto)
+
+(defcustom org-devto-articles-directory "articles"
+  "Base directory for Org source files."
+  :type 'string
+  :group 'org-devto)
+
+(defcustom org-devto-output-directory "articles/"
+  "Output directory for Article Sync format files."
+  :type 'string
+  :group 'org-devto)
+
+(defcustom org-devto-timestamp-directory "./.org-timestamps"
+  "Directory for Org publish timestamps."
+  :type 'string
+  :group 'org-devto)
+
+;;;; Internal Functions
+
+;;;;; Slug Generation
+
+(defun org-devto--generate-slug (title)
+  "Generate URL slug from TITLE.
+Non-alphanumeric characters are replaced with hyphens.
+Leading and trailing hyphens are removed."
+  (let ((slug (downcase title)))
+    (setq slug (replace-regexp-in-string "[^a-z0-9]+" "-" slug))
+    (setq slug (replace-regexp-in-string "^-+\\|-+$" "" slug))
+    slug))
+
+;;;;; Keyword Extraction
+
+(defun org-devto--get-keyword (keyword)
+  "Extract value of KEYWORD from current buffer.
+KEYWORD should be an Org keyword name without the `#+' prefix."
+  (save-excursion
+    (goto-char (point-min))
+    (when (re-search-forward
+           (format "^#\\+%s:[ \t]*\\(.+\\)$" keyword) nil t)
+      (string-trim (match-string 1)))))
+
+(defun org-devto--get-title ()
+  "Get article title from current buffer."
+  (or (org-devto--get-keyword "TITLE")
+      org-devto-default-title))
+
+(defun org-devto--get-published ()
+  "Get published status from current buffer.
+Returns t if PUBLISHED keyword is \"true\", otherwise returns configured default."
+  (let ((published-str (org-devto--get-keyword "PUBLISHED")))
+    (if (and published-str
+             (string= (downcase published-str) "true"))
+        t
+      (if org-devto-default-published t :json-false))))
+
+(defun org-devto--parse-tags (tags-string)
+  "Parse TAGS-STRING into a list of trimmed tag strings.
+TAGS-STRING should be comma-separated."
+  (if tags-string
+      (mapcar #'string-trim (split-string tags-string ","))
+    []))
+
+;;;;; JSON Generation
+
+(defun org-devto--build-json-data (title published tags description existing-json)
+  "Build JSON data alist for article.json.
+TITLE, PUBLISHED, TAGS, and DESCRIPTION are article metadata.
+EXISTING-JSON is parsed data from existing article.json, used to preserve id and slug."
+  (let ((existing-id (when existing-json (cdr (assoc 'id existing-json))))
+        (existing-slug (when existing-json (cdr (assoc 'slug existing-json)))))
+    `((title . ,title)
+      (published . ,published)
+      (tags . ,(vconcat tags))
+      ,@(when description `((description . ,description)))
+      ,@(when existing-id `((id . ,existing-id)))
+      ,@(when existing-slug `((slug . ,existing-slug))))))
+
+(defun org-devto--write-article-json (slug pub-dir)
+  "Generate article.json in PUB-DIR/SLUG directory.
+Returns the article directory path."
+  (let* ((title (org-devto--get-title))
+         (published (org-devto--get-published))
+         (tags (org-devto--parse-tags (org-devto--get-keyword "TAGS")))
+         (description (org-devto--get-keyword "DESCRIPTION"))
+         (article-dir (expand-file-name slug pub-dir))
+         (json-file (expand-file-name "article.json" article-dir))
+         (existing-json (when (file-exists-p json-file)
+                          (json-read-file json-file)))
+         (json-data (org-devto--build-json-data
+                     title published tags description existing-json)))
+    (unless (file-directory-p article-dir)
+      (make-directory article-dir t))
+    (with-temp-file json-file
+      (insert (json-encode json-data))
+      (json-pretty-print-buffer))
+    article-dir))
+
+;;;; Export Backend
+
+(defun org-devto--template (contents _info)
+  "Return CONTENTS without front matter.
+INFO is the export communication channel (unused)."
+  contents)
+
+(defun org-devto--src-block (src-block _contents info)
+  "Transcode SRC-BLOCK to GitHub Flavored Markdown code block.
+CONTENTS is nil.  INFO is the export communication channel."
   (let ((lang (org-element-property :language src-block))
         (code (org-export-format-code-default src-block info)))
     (format "```%s\n%s```\n" (or lang "") code)))
 
-;; ox-jekyll-md を継承して devto バックエンドを定義
 (org-export-define-derived-backend 'devto 'jekyll
   :options-alist
   '((:devto-published "PUBLISHED" nil "false" t)
     (:devto-tags "TAGS" nil nil t)
     (:description "DESCRIPTION" nil nil t))
   :translate-alist
-  '((template . org-devto-template)
-    (src-block . org-devto-src-block)))
+  '((template . org-devto--template)
+    (src-block . org-devto--src-block)))
 
-(defun org-devto-export-to-md (&optional async subtreep visible-only)
-  "現在のバッファを dev.to 用 markdown ファイルにエクスポート"
-  (interactive)
-  (let ((outfile (org-export-output-file-name ".md" subtreep)))
-    (org-export-to-file 'devto outfile async subtreep visible-only)))
+;;;; Public Functions
 
-(defun org-devto-publish-to-md (plist filename pub-dir)
-  "org ファイルを dev.to 用 markdown にパブリッシュ"
-  (org-publish-org-to 'devto filename ".md" plist pub-dir))
+(defun org-devto-publish-to-article-sync (plist filename pub-dir)
+  "Publish FILENAME to Article Sync format in PUB-DIR.
+PLIST is the project property list."
+  (let* ((visiting (find-buffer-visiting filename))
+         (work-buffer (or visiting (find-file-noselect filename))))
+    (unwind-protect
+        (with-current-buffer work-buffer
+          (let* ((title (org-devto--get-title))
+                 (slug (org-devto--generate-slug title))
+                 (article-dir (org-devto--write-article-json slug pub-dir))
+                 (md-file (expand-file-name "article.md" article-dir)))
+            (org-export-to-file 'devto md-file nil nil nil nil plist)
+            md-file))
+      (unless visiting (kill-buffer work-buffer)))))
 
 (defun export-org-devto-files ()
-  (let ((org-publish-project-alist `(("devto"
-                                      :recursive t
-                                      :base-directory "articles"
-                                      :base-extension "org"
-                                      :publishing-directory "public/"
-                                      :publishing-function org-devto-publish-to-md))))
+  "Export all Org files in articles directory to Article Sync format."
+  (setq org-publish-timestamp-directory org-devto-timestamp-directory)
+  (let ((org-publish-project-alist
+         `(("devto"
+            :recursive t
+            :base-directory ,org-devto-articles-directory
+            :base-extension "org"
+            :publishing-directory ,org-devto-output-directory
+            :publishing-function org-devto-publish-to-article-sync))))
     (org-publish-all t)))
+
+(provide 'ox-devto)
+;;; ox-devto.el ends here

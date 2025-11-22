@@ -48,10 +48,17 @@
                 (emacsPkg.pkgs.withPackages (epkgs: (with epkgs.melpaPackages; [ ox-jekyll-md ])))
               ];
               buildPhase = ''
+                mkdir -p ./articles
                 emacs --batch --load scripts/ox-devto.el --funcall export-org-devto-files
               '';
               installPhase = ''
-                cp -r ./public $out/
+                mkdir -p $out
+                # Article Sync 形式: articles/{slug}/article.json + article.md
+                for dir in ./articles/*/; do
+                  if [ -f "$dir/article.json" ]; then
+                    cp -r "$dir" $out/
+                  fi
+                done
               '';
             };
           };
