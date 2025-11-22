@@ -1,0 +1,11 @@
+:PROPERTIES:
+:ID:       fe7147c1-fc6a-0ae4-bdeb-a3c4a1f0f6dc
+:END:
+#+TITLE: Chapter 0 まえがき
+#+DESCRIPTION: description
+#+DATE: 2024-02-08T15:10:41+0900
+#+STARTUP: fold
+#+OPTIONS: toc:nil
+* aaa
+
+bbb

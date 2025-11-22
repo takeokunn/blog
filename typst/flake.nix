@@ -50,18 +50,14 @@
               nativeBuildInputs = with pkgs; [
                 typst
                 polylux2pdfpc
-                migu
+                xits-math
                 hackgen-font
-                fira-math
-                fira-code
                 (emacsPkg.pkgs.withPackages (epkgs: with epkgs; [ org ox-typst ]))
               ];
               buildPhase = ''
                 ${emacsBuildPhase name}
 
-                export TYPST_FONT_PATHS="${pkgs.migu}/share/fonts/truetype/migu"
-                export TYPST_FONT_PATHS="$TYPST_FONT_PATHS:${pkgs.fira-math}/share/fonts/opentype"
-                export TYPST_FONT_PATHS="$TYPST_FONT_PATHS:${pkgs.fira-code}/share/fonts/truetype/NerdFonts/FiraCode/"
+                export TYPST_FONT_PATHS="${pkgs.xits-math}/share/fonts/opentype"
                 export TYPST_FONT_PATHS="$TYPST_FONT_PATHS:${pkgs.hackgen-font}/share/fonts/hackgen"
                 export TYPST_PACKAGE_PATH="${typstPackagesCache}/typst/packages"
 
@@ -93,6 +89,10 @@
             };
             phperkaigi-2025-pamphlet = buildTypstProject {
               name = "phperkaigi-2025-pamphlet";
+              type = "article";
+            };
+            phperkaigi-2026-pamphlet = buildTypstProject {
+              name = "phperkaigi-2026-pamphlet";
               type = "article";
             };
             typst-presentation-practice = buildTypstProject {
