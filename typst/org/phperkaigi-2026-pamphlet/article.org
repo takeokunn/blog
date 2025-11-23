@@ -36,6 +36,7 @@
 
   #set text(size: 12pt)
   たけてぃ \@takeokunn
+  #v(1em)
 ]
 #+END_EXPORT
 * はじめに
