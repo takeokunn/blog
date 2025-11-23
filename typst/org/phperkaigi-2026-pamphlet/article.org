@@ -225,8 +225,10 @@ brew install php@8.3 && pecl install redis xdebug
 { pkgs, ... }: {
   languages.php = {
     enable = true;
-    package = pkgs.php83;
-    extensions = [ "redis" "xdebug" ];
+    package = pkgs.php83.buildEnv {
+      extensions = { all, enabled }: with all; enabled ++ [ redis xdebug ];
+      extraConfig = "memory_limit = 256M";
+    };
   };
 }
 # → 設定ファイル自体がドキュメント
@@ -297,10 +299,13 @@ Nix言語を一切書かずに環境構築できるため、導入障壁が最�
 Nix言語で記述しますが、言語ごとに最適化されたオプションを提供します。
 
 #+begin_src nix
-  # devenv.nix
+# devenv.nix
+{ pkgs, ... }: {
   languages.php.enable = true;
-  languages.php.package = pkgs.php83;
-  languages.php.extensions = [ "redis" ];
+  languages.php.package = pkgs.php83.buildEnv {
+    extensions = { all, enabled }: with all; enabled ++ [ redis ];
+  };
+}
 #+end_src
 
 devboxは手軽さが魅力ですが、devenvはサービス統合（MySQL、Redis等）、pre-commitフック、カスタムスクリプトなど、より高度な機能を備えています。
@@ -340,33 +345,35 @@ devenv.nixファイルにPHP環境を記述します。
 PHPのバージョン、拡張モジュール、php.iniの設定、追加パッケージなどを一箇所で管理できます。
 
 #+begin_src nix
-  # devenv.nix
-  { pkgs, ... }:
-  {
-    languages.php = {
-      enable = true;
-      package = pkgs.php83;
-      extensions = [ "redis" "xdebug" "pdo_mysql" "mbstring" "gd" ];
-      ini = ''
+# devenv.nix
+{ pkgs, ... }:
+{
+  languages.php = {
+    enable = true;
+    package = pkgs.php83.buildEnv {
+      extensions = { all, enabled }:
+        with all; enabled ++ [ redis xdebug pdo_mysql mbstring gd ];
+      extraConfig = ''
         memory_limit = 256M
         display_errors = On
         xdebug.mode = debug
       '';
     };
+  };
 
-    packages = with pkgs; [ nodejs_20 yarn ];
+  packages = with pkgs; [ nodejs_20 yarn ];
 
-    enterShell = ''
-      echo "PHP $(php -v | head -n1)"
-    '';
-  }
+  enterShell = ''
+    echo "PHP $(php -v | head -n1)"
+  '';
+}
 #+end_src
 
 各ディレクトリにdevenv.nixを配置するだけで、本業プロジェクト（PHP 8.3）、副業案件（PHP 8.1）、個人OSS（PHP 8.4）といった複数環境を完全分離できます。
 
 ** スクリプトとフック
 
-devenvでは =scripts= でカスタムコマンドを、 =pre-commit= でGitフックを定義できます。
+devenvでは =scripts= でカスタムコマンドを、 =git-hooks.hooks= でGitフックを定義できます。
 
 #+begin_src nix
 { pkgs, ... }:
@@ -385,7 +392,7 @@ devenvでは =scripts= でカスタムコマンドを、 =pre-commit= でGitフ�
       ./vendor/bin/phpstan analyse src/ --level=max
     '';
     ci.exec = ''
-      devenv-lint && devenv-analyze && devenv-test
+      lint && analyze && test
     '';
     test.exec = ''
       ./vendor/bin/phpunit
@@ -394,13 +401,15 @@ devenvでは =scripts= でカスタムコマンドを、 =pre-commit= でGitフ�
 
   # Git pre-commitフック
   git-hooks.hooks = {
-    php-cs-fixer = {
+    check-php-cs-fixer = {
       enable = true;
+      name = "PHP CS Fixer";
       entry = "./vendor/bin/php-cs-fixer fix --dry-run --diff";
       files = "\\.php$";
     };
-    phpstan = {
+    check-phpstan = {
       enable = true;
+      name = "PHPStan";
       entry = "./vendor/bin/phpstan analyse --no-progress";
       files = "\\.php$";
       pass_filenames = false;
@@ -409,7 +418,7 @@ devenvでは =scripts= でカスタムコマンドを、 =pre-commit= でGitフ�
 }
 #+end_src
 
-=lint= という名前で定義したスクリプトは =devenv-lint= コマンドとして実行できます。
+=lint= という名前で定義したスクリプトは =lint= コマンドとしてシェル内で直接実行できます。
 pre-commitフックは =devenv shell= に入ると自動的にセットアップされ、コミット時に実行されます。
 
 ** 環境変数とシークレット管理
