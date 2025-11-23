@@ -289,9 +289,12 @@ Nixを簡単に使うためのラッパーツールとして *devbox*[fn:4] と 
 Nix言語を一切書かずに環境構築できるため、導入障壁が最も低いのが特徴です。
 
 #+begin_src json
-// devbox.json
 {
-  "packages": ["php83", "php83Extensions.redis", "nodejs_20"]
+  "packages": [
+    "php@latest",
+    "php83Packages.composer@latest",
+    "nodejs@20"
+  ]
 }
 #+end_src
 
@@ -376,38 +379,32 @@ PHPのバージョン、拡張モジュール、php.iniの設定、追加パッ�
 devenvでは =scripts= でカスタムコマンドを、 =git-hooks.hooks= でGitフックを定義できます。
 
 #+begin_src nix
+  # devenv.nix - カスタムスクリプト
   { pkgs, ... }:
   {
     languages.php.enable = true;
 
-    # カスタムスクリプト
     scripts = {
-      lint.exec = ''
-        ./vendor/bin/phpcs --standard=PSR12 src/
-      '';
-      format.exec = ''
-        ./vendor/bin/php-cs-fixer fix
-      '';
-      analyze.exec = ''
-        ./vendor/bin/phpstan analyse src/ --level=max
-      '';
-      ci.exec = ''
-        lint && analyze && test
-      '';
-      test.exec = ''
-        ./vendor/bin/phpunit
-      '';
+      test.exec = "./vendor/bin/phpunit";
+      lint.exec = "./vendor/bin/phpcs --standard=PSR12 src/";
+      format.exec = "./vendor/bin/php-cs-fixer fix";
+      analyze.exec = "./vendor/bin/phpstan analyse src/ --level=max";
     };
+  }
+#+end_src
 
-    # Git pre-commitフック
+#+begin_src nix
+  # devenv.nix - Git pre-commitフック
+  { pkgs, ... }:
+  {
+    languages.php.enable = true;
+
     git-hooks.hooks = {
-      check-php-cs-fixer = {
-        enable = true;
-        name = "PHP CS Fixer";
-        entry = "./vendor/bin/php-cs-fixer fix --dry-run --diff";
-        files = "\\.php$";
-      };
-      check-phpstan = {
+      # 組み込みフック
+      php-cs-fixer.enable = true;
+
+      # カスタムフック
+      phpstan = {
         enable = true;
         name = "PHPStan";
         entry = "./vendor/bin/phpstan analyse --no-progress";
@@ -418,7 +415,7 @@ devenvでは =scripts= でカスタムコマンドを、 =git-hooks.hooks= でGi
   }
 #+end_src
 
-=lint= という名前で定義したスクリプトは =lint= コマンドとしてシェル内で直接実行できます。
+=test= という名前で定義したスクリプトは =test= コマンドとしてシェル内で直接実行できます。
 pre-commitフックは =devenv shell= に入ると自動的にセットアップされ、コミット時に実行されます。
 
 ** 環境変数とシークレット管理
