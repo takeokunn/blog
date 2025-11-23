@@ -78,20 +78,20 @@ nixpkgs[fn:2]はNixの公式パッケージリポジトリで、10万以上の�
 GitHubで最もアクティブなリポジトリの一つで、PHPも複数バージョン（8.0〜8.4）が利用可能です。
 
 #+begin_src bash
-# nixpkgsで利用可能なPHPバージョンを確認
-nix search nixpkgs php
-# php74, php80, php81, php82, php83, php84 などが表示される
+  # nixpkgsで利用可能なPHPバージョンを確認
+  $ nix search nixpkgs php
+  # php82, php83, php84 などが表示される
 #+end_src
 
 Nixはデフォルトでcache.nixos.orgからビルド済みバイナリをダウンロードします。
 ソースからビルドする必要がないため、 =brew install= と同等の速度でパッケージをインストールできます。
 
 #+begin_src bash
-# バイナリキャッシュから取得（数秒〜数十秒）
-nix profile install nixpkgs#php83
+  # バイナリキャッシュから取得（数秒〜数十秒）
+  $ nix run nixpkgs#php
 
-# キャッシュがない場合はソースビルド（数分〜数十分）
-# → 通常のパッケージはほぼキャッシュが存在
+  # キャッシュがない場合はソースビルド（数分〜数十分）
+  # → 通常のパッケージはほぼキャッシュが存在
 #+end_src
 
 [fn:2] nixpkgs, https://github.com/NixOS/nixpkgs
@@ -119,7 +119,7 @@ Nixのビルドはサンドボックス環境で実行され、ネットワー�
 
 #+begin_src bash
 # 同じflake.lockを使えば、誰がいつどこでビルドしても同じ結果
-nix build .#myapp  # → /nix/store/xyz789...-myapp
+$ nix build .#myapp  # → /nix/store/xyz789...-myapp
 
 # 1年後に別のマシンで実行しても同じハッシュ
 #+end_src
@@ -145,14 +145,14 @@ Nixは必要なパッケージだけを参照するプロファイルを作成�
 不要なパッケージは =nix-collect-garbage= で削除できます。
 
 #+begin_src bash
-# 未使用パッケージの削除
-nix-collect-garbage
+  # 未使用パッケージの削除
+  $ nix-collect-garbage
 
-# 古い世代も含めて削除（より多くの容量を解放）
-nix-collect-garbage -d
+  # 古い世代も含めて削除（より多くの容量を解放）
+  $ nix-collect-garbage -d
 
-# ストアの容量確認
-du -sh /nix/store
+  # ストアの容量確認
+  $ du -sh /nix/store
 #+end_src
 
 Nixは環境の「世代」を保持しているため、問題が発生した場合は以前の状態にロールバックできます。
@@ -215,23 +215,23 @@ NixはIaC（Infrastructure as Code）の考え方を開発環境に適用した�
 TerraformがAWSリソースを =.tf= ファイルで定義するように、Nixは開発環境を設定ファイルで定義します。
 
 #+begin_src bash
-# 命令的（Homebrew）- 手順を実行
-brew install php@8.3 && pecl install redis xdebug
-# → 手順書が必要、環境差異が発生しやすい
+  # 命令的（Homebrew）- 手順を実行
+  $ brew install php@8.3 && pecl install redis xdebug
+  # → 手順書が必要、環境差異が発生しやすい
 #+end_src
 
 #+begin_src nix
-# 宣言的（Nix）- あるべき状態を記述
-{ pkgs, ... }: {
-  languages.php = {
-    enable = true;
-    package = pkgs.php83.buildEnv {
-      extensions = { all, enabled }: with all; enabled ++ [ redis xdebug ];
-      extraConfig = "memory_limit = 256M";
+  # 宣言的（Nix）- あるべき状態を記述
+  { pkgs, ... }: {
+    languages.php = {
+      enable = true;
+      package = pkgs.php83.buildEnv {
+        extensions = { all, enabled }: with all; enabled ++ [ redis xdebug ];
+        extraConfig = "memory_limit = 256M";
+      };
     };
-  };
-}
-# → 設定ファイル自体がドキュメント
+  }
+  # → 設定ファイル自体がドキュメント
 #+end_src
 
 命令的アプローチは「どうやって構築するか」を記述し、宣言的アプローチは「どうあるべきか」を記述します。
@@ -326,18 +326,18 @@ devenvは =devenv.nix= と =devenv.lock= の2つのファイルでプロジェ�
 セットアップは以下の手順で完了します。
 
 #+begin_src bash
-  # Nixのインストール
-  curl -L https://nixos.org/nix/install | sh
+  # Nixのインストール(例)
+  $ curl -L https://nixos.org/nix/install | sh
 
   # Flakesの有効化（~/.config/nix/nix.conf）
   # experimental-features = nix-command flakes
 
   # devenvのインストール
-  nix profile install nixpkgs#devenv
+  $ nix-shell -p devenv
 
   # プロジェクトの初期化
-  cd myproject
-  devenv init
+  $ cd myproject
+  $ devenv init
 #+end_src
 ** PHP環境の設定
 
@@ -345,28 +345,28 @@ devenv.nixファイルにPHP環境を記述します。
 PHPのバージョン、拡張モジュール、php.iniの設定、追加パッケージなどを一箇所で管理できます。
 
 #+begin_src nix
-# devenv.nix
-{ pkgs, ... }:
-{
-  languages.php = {
-    enable = true;
-    package = pkgs.php83.buildEnv {
-      extensions = { all, enabled }:
-        with all; enabled ++ [ redis xdebug pdo_mysql mbstring gd ];
-      extraConfig = ''
-        memory_limit = 256M
-        display_errors = On
-        xdebug.mode = debug
-      '';
+  # devenv.nix
+  { pkgs, ... }:
+  {
+    languages.php = {
+      enable = true;
+      package = pkgs.php83.buildEnv {
+        extensions = { all, enabled }:
+          with all; enabled ++ [ redis xdebug pdo_mysql mbstring gd ];
+        extraConfig = ''
+          memory_limit = 256M
+          display_errors = On
+          xdebug.mode = debug
+        '';
+      };
     };
-  };
 
-  packages = with pkgs; [ nodejs_20 yarn ];
+    packages = with pkgs; [ nodejs_20 yarn ];
 
-  enterShell = ''
-    echo "PHP $(php -v | head -n1)"
-  '';
-}
+    enterShell = ''
+      echo "PHP $(php -v | head -n1)"
+    '';
+  }
 #+end_src
 
 各ディレクトリにdevenv.nixを配置するだけで、本業プロジェクト（PHP 8.3）、副業案件（PHP 8.1）、個人OSS（PHP 8.4）といった複数環境を完全分離できます。
@@ -376,46 +376,46 @@ PHPのバージョン、拡張モジュール、php.iniの設定、追加パッ�
 devenvでは =scripts= でカスタムコマンドを、 =git-hooks.hooks= でGitフックを定義できます。
 
 #+begin_src nix
-{ pkgs, ... }:
-{
-  languages.php.enable = true;
+  { pkgs, ... }:
+  {
+    languages.php.enable = true;
 
-  # カスタムスクリプト
-  scripts = {
-    lint.exec = ''
-      ./vendor/bin/phpcs --standard=PSR12 src/
-    '';
-    format.exec = ''
-      ./vendor/bin/php-cs-fixer fix
-    '';
-    analyze.exec = ''
-      ./vendor/bin/phpstan analyse src/ --level=max
-    '';
-    ci.exec = ''
-      lint && analyze && test
-    '';
-    test.exec = ''
-      ./vendor/bin/phpunit
-    '';
-  };
+    # カスタムスクリプト
+    scripts = {
+      lint.exec = ''
+        ./vendor/bin/phpcs --standard=PSR12 src/
+      '';
+      format.exec = ''
+        ./vendor/bin/php-cs-fixer fix
+      '';
+      analyze.exec = ''
+        ./vendor/bin/phpstan analyse src/ --level=max
+      '';
+      ci.exec = ''
+        lint && analyze && test
+      '';
+      test.exec = ''
+        ./vendor/bin/phpunit
+      '';
+    };
 
-  # Git pre-commitフック
-  git-hooks.hooks = {
-    check-php-cs-fixer = {
-      enable = true;
-      name = "PHP CS Fixer";
-      entry = "./vendor/bin/php-cs-fixer fix --dry-run --diff";
-      files = "\\.php$";
+    # Git pre-commitフック
+    git-hooks.hooks = {
+      check-php-cs-fixer = {
+        enable = true;
+        name = "PHP CS Fixer";
+        entry = "./vendor/bin/php-cs-fixer fix --dry-run --diff";
+        files = "\\.php$";
+      };
+      check-phpstan = {
+        enable = true;
+        name = "PHPStan";
+        entry = "./vendor/bin/phpstan analyse --no-progress";
+        files = "\\.php$";
+        pass_filenames = false;
+      };
     };
-    check-phpstan = {
-      enable = true;
-      name = "PHPStan";
-      entry = "./vendor/bin/phpstan analyse --no-progress";
-      files = "\\.php$";
-      pass_filenames = false;
-    };
-  };
-}
+  }
 #+end_src
 
 =lint= という名前で定義したスクリプトは =lint= コマンドとしてシェル内で直接実行できます。
@@ -426,24 +426,24 @@ pre-commitフックは =devenv shell= に入ると自動的にセットアップ
 開発用の環境変数は =env= で直接定義するか、 =dotenv= で =.env= ファイルから読み込めます。
 
 #+begin_src nix
-{ pkgs, ... }:
-{
-  # 環境変数の直接定義
-  env = {
-    APP_ENV = "development";
-    APP_DEBUG = "true";
-    LOG_LEVEL = "debug";
-  };
+  { pkgs, ... }:
+  {
+    # 環境変数の直接定義
+    env = {
+      APP_ENV = "development";
+      APP_DEBUG = "true";
+      LOG_LEVEL = "debug";
+    };
 
-  # .envファイルから読み込み
-  dotenv.enable = true;
+    # .envファイルから読み込み
+    dotenv.enable = true;
 
-  # シェル起動時に動的に設定
-  enterShell = ''
-    export APP_KEY=$(cat .app-key 2>/dev/null || echo "base64:dummy")
-    export PATH="$PWD/vendor/bin:$PATH"
-  '';
-}
+    # シェル起動時に動的に設定
+    enterShell = ''
+      export APP_KEY=$(cat .app-key 2>/dev/null || echo "base64:dummy")
+      export PATH="$PWD/vendor/bin:$PATH"
+    '';
+  }
 #+end_src
 
 本番用シークレットは =.env= をgitignoreに追加し、 =.env.example= をリポジトリに含める従来のパターンがそのまま使えます。
@@ -454,16 +454,16 @@ devenvはDockerなしでデータベースやキャッシュサーバを起動�
 =devenv up= でサービスを起動し、データは =.devenv/= に保存されます。
 
 #+begin_src nix
-{ pkgs, ... }:
-{
-  services.mysql = {
-    enable = true;
-    initialDatabases = [{ name = "myapp"; }];
-  };
+  { pkgs, ... }:
+  {
+    services.mysql = {
+      enable = true;
+      initialDatabases = [{ name = "myapp"; }];
+    };
 
-  services.redis.enable = true;
-  services.mailhog.enable = true;
-}
+    services.redis.enable = true;
+    services.mailhog.enable = true;
+  }
 #+end_src
 
 [fn:6] Supported Services - devenv, https://devenv.sh/services/
