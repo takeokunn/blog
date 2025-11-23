@@ -506,7 +506,15 @@ home-manager[fn:8]を使えばgit、vim、zshなどの開発ツールや、シ�
 さらにnix-darwin（macOS）やNixOS（Linux）を使えば、OS全体の設定をNixで管理することも可能です。
 「開発環境のIaC」から始めて、徐々に管理範囲を広げていくのもよいでしょう。
 
-また、Software Design 2025年9月号〜2026年1月号にてNixの連載記事を執筆しました。
+また、Software Design 2025年9月号[fn:9]〜2026年1月号にてNixの連載記事を執筆しました。
 本記事で興味を持たれた方は、ぜひそちらもご覧ください。
 
+#+BEGIN_EXPORT typst
+#figure(
+  image("images/TH800_642509.jpg", width: 80%),
+  caption: [Software Design 2025年9月号表紙]
+)
+#+END_EXPORT
+
 [fn:8] home-manager, https://nix-community.github.io/home-manager/
+[fn:9] Software Design 2025年9月号 https://gihyo.jp/magazine/SD/archive/2025/202509
