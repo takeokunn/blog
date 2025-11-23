@@ -225,7 +225,7 @@ brew install php@8.3 && pecl install redis xdebug
 { pkgs, ... }: {
   languages.php = {
     enable = true;
-    version = "8.3";
+    package = pkgs.php83;
     extensions = [ "redis" "xdebug" ];
   };
 }
@@ -299,7 +299,7 @@ Nix言語で記述しますが、言語ごとに最適化されたオプショ�
 #+begin_src nix
   # devenv.nix
   languages.php.enable = true;
-  languages.php.version = "8.3";
+  languages.php.package = pkgs.php83;
   languages.php.extensions = [ "redis" ];
 #+end_src
 
@@ -345,7 +345,7 @@ PHPのバージョン、拡張モジュール、php.iniの設定、追加パッ�
   {
     languages.php = {
       enable = true;
-      version = "8.3";
+      package = pkgs.php83;
       extensions = [ "redis" "xdebug" "pdo_mysql" "mbstring" "gd" ];
       ini = ''
         memory_limit = 256M
@@ -393,7 +393,7 @@ devenvでは =scripts= でカスタムコマンドを、 =pre-commit= でGitフ�
   };
 
   # Git pre-commitフック
-  pre-commit.hooks = {
+  git-hooks.hooks = {
     php-cs-fixer = {
       enable = true;
       entry = "./vendor/bin/php-cs-fixer fix --dry-run --diff";
