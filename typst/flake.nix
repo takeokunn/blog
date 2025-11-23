@@ -63,6 +63,10 @@
 
                 cp ./themes/dracula.typ org/${name}/dracula.typ
                 cp ./themes/Dracula.tmTheme org/${name}/Dracula.tmTheme
+
+                cp ./themes/alucard.typ org/${name}/alucard.typ
+                cp ./themes/Alucard.tmTheme org/${name}/Alucard.tmTheme
+
                 typst compile org/${name}/article.typ
                 polylux2pdfpc org/${name}/article.typ
               '';
@@ -81,6 +85,10 @@
           packages = {
             example-slide = buildTypstProject {
               name = "example-slide";
+              type = "slide";
+            };
+            example-slide-light-theme = buildTypstProject {
+              name = "example-slide-light-theme";
               type = "slide";
             };
             nix-meetup-3-my-nix-usecase = buildTypstProject {

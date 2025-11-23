@@ -3,3 +3,4 @@ result
 
 *.typ
 !themes/dracula.typ
+!themes/alucard.typ

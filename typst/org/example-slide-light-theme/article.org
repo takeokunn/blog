@@ -1,0 +1,84 @@
+:PROPERTIES:
+:ID:       30FF0077-42E8-76C4-4EFB-4F68F26095BD
+:END:
+#+TITLE: Example Slide Light Theme
+#+AUTHOR: takeokunn
+#+STARTUP: fold
+#+TYPST: #import "./alucard.typ": *
+#+TYPST: #show: setup
+* Title
+
+fdsafasf
+
+- fdsafas
+- [[http://example.com][hoge]]
+
+=fdasfas= ~fadsfas~ hogegeh
+
+#+begin_export typst
+#slide[
+  #set page(header: none, footer: none, margin: 3em)
+
+  #text(size: 1.3em)[
+    ,*こんにちは世界*
+  ]
+
+  My subtitle
+
+  #divider
+
+  #set text(size: .8em, weight: "light")
+  The Author
+
+  Jan 16, 2025
+
+  Some extra info
+]
+#+end_export
+* agenda
+#+begin_export typst
+#slide[
+  = Agenda
+
+  #outline
+]
+#+end_export
+* first section
+#+begin_export typst
+#new-section[My first section]
+
+#slide[
+  = The Fundamental Theorem of Calculus
+
+  For $f = (dif F) / (dif x)$ we _know_ that
+  $
+    integral_a^b f(x) dif x = F(b) - F(a)
+  $
+
+  See `https://en.wikipedia.org/wiki/Fundamental_theorem_of_calculus`
+]
+
+#slide[
+  slide without a title
+]
+#+end_export
+* second slide
+#+begin_export typst
+#new-section[My second section]
+
+#sourcecode(frame: none)[```c
+    #include <stdio.h>
+
+    int main() {
+        printf("Hello, World!\n");
+        return 0;
+    }
+```]
+#+end_export
+* last
+#+begin_export typst
+#slide[
+  #show: focus
+  Something very important
+]
+#+end_export
