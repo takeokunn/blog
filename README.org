@@ -98,7 +98,7 @@ Each subdirectory contains:
 #+end_src
 *** Typst
 #+begin_src console
-  cd typst && nix build .#example-slide
+  $ cd typst && nix build .#example-slide
 #+end_src
 
 Available Typst packages:
