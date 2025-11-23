@@ -11,34 +11,472 @@
   width: 210mm,
   height: 297mm,
   margin: 20mm,
-  columns: 1
+  columns: 2
 )
+#set columns(gutter: 12pt)
 
 #import "@preview/codly:1.2.0": *
 #import "@preview/codly-languages:0.1.1": *
 #show: codly-init.with()
 #codly(languages: codly-languages)
 
-#align(center)[
+// コードブロックのフォントサイズを小さくしてカラムに収める
+#show raw: set text(size: 6pt)
+
+// タイトルを全幅で表示
+#place(
+  top + center,
+  float: true,
+  scope: "parent",
+  clearance: 1em,
+)[
   #set text(size: 18pt)
-  パッケージマネージャNixで実現する宣言的でクリーンなPHP開発環境の構築
+  パッケージマネージャNixで実現する \
+  宣言的でクリーンなPHP開発環境の構築
 
   #set text(size: 12pt)
   たけてぃ \@takeokunn
 ]
 #+END_EXPORT
-* はじめに - なぜローカル環境は「壊れる」のか
+* はじめに
 
-xxx
+PHP開発者にとって環境構築は永遠の課題です。
+PHP 8.3、8.0やバージョン拡張モジュールの違いなど、複数プロジェクトを並行開発する際に環境の混在は避けられません。
+本業とOSS・副業プロジェクトの環境が混在し、マシン買い替え時の環境再構築に苦労した経験は誰しもあるのではないでしょうか。
 
-* Nixパッケージマネージャの概念：パラダイムシフト
+環境構築で遭遇する典型的な問題を挙げてみます。
 
-xxx
+- =pecl install redis= が謎のコンパイルエラーで失敗する
+- Intel MacからApple Silicon Macへの移行でHomebrewのパスが変わり環境が壊れる
+- =brew upgrade= したら依存していたPHPバージョンが消えてプロジェクトが動かなくなる
+- 新メンバーのオンボーディングで「READMEの手順通りにやったのに動かない」と言われる
+- 半年ぶりに触るプロジェクトの環境構築手順を思い出せない
 
-* 実践：Nix Flakes でつくる「使い捨て」PHP環境
+これらの問題の多くは、環境構築が「手順の実行」に依存していることに起因します。
+手順書は陳腐化し、環境は人によって微妙に異なり、再現性が担保されません。
 
-xxx
+本記事ではそんな環境構築の課題を解決する選択肢として、パッケージマネージャNixとdevenvを使った宣言的なPHP開発環境の構築について紹介します。
+
+* Nixについて
+** 概要
+
+Nix[fn:1]は2003年にEelco Dolstra氏によって開発された純粋関数型パッケージマネージャです。
+従来のパッケージマネージャと異なり、パッケージを副作用なく管理できることが特徴です。
+
+Nixの最大の特徴は「宣言的管理」です。
+「あるべき状態」を設定ファイルに記述し、Nixがその状態を実現します。
+これにより、設定ファイル自体が環境のドキュメントとなり、半年後の自分でも同じ環境を再現できます。
+
+Nixはパッケージマネージャとしてだけでなく、NixOS（Linuxディストリビューション）やnix-darwin（macOS設定管理）の基盤技術でもあります。
+本記事ではパッケージマネージャとしてのNixに焦点を当てます。
+
+[fn:1] Nix, https://nixos.org/
+
+** nixpkgsとバイナリキャッシュ
+
+nixpkgs[fn:7]はNixの公式パッケージリポジトリで、10万以上のパッケージが含まれています。
+GitHubで最もアクティブなリポジトリの一つで、PHPも複数バージョン（7.4〜8.4）が利用可能です。
+
+#+begin_src bash
+# nixpkgsで利用可能なPHPバージョンを確認
+nix search nixpkgs php
+# php74, php80, php81, php82, php83, php84 などが表示される
+#+end_src
+
+Nixはデフォルトでcache.nixos.orgからビルド済みバイナリをダウンロードします。
+ソースからビルドする必要がないため、 =brew install= と同等の速度でパッケージをインストールできます。
+
+#+begin_src bash
+# バイナリキャッシュから取得（数秒〜数十秒）
+nix profile install nixpkgs#php83
+
+# キャッシュがない場合はソースビルド（数分〜数十分）
+# → 通常のパッケージはほぼキャッシュが存在
+#+end_src
+
+[fn:7] nixpkgs, https://github.com/NixOS/nixpkgs
+
+** Nixの仕組み
+*** Nixストアによるパッケージ分離
+
+従来のパッケージマネージャでは =/usr/local/bin/php= のような共有パスを使うため、PHP 8.3と8.1を同時にインストールすると衝突が発生します。
+
+Nixはすべてのパッケージを =/nix/store= という専用ディレクトリに、ハッシュ値を含むパスで保存します。
+
+#+begin_src bash
+/nix/store/abc123...-php-8.3.0/bin/php
+/nix/store/def456...-php-8.1.27/bin/php
+/nix/store/ghi789...-composer-2.7.1/bin/composer
+#+end_src
+
+このハッシュ値はソースコード、ビルド手順、依存関係から計算されます。
+同じ入力からは必ず同じハッシュが生成されるため、ビルドの再現性が保証されます。
+
+*** 再現性の保証
+
+Nixのビルドはサンドボックス環境で実行され、ネットワークアクセスや環境変数が遮断されます。
+これにより「自分のマシンでは動くのに」という問題を根本から排除します。
+
+#+begin_src bash
+# 同じflake.lockを使えば、誰がいつどこでビルドしても同じ結果
+nix build .#myapp  # → /nix/store/xyz789...-myapp
+
+# 1年後に別のマシンで実行しても同じハッシュ
+#+end_src
+
+PHPの =composer.lock= が依存ライブラリを固定するように、Nixは実行環境全体（PHP本体、拡張モジュール、システムライブラリ）を固定します。
+
+*** シンボリックリンクによる環境切り替え
+
+では、 =/nix/store= 内の各パッケージをどう使うのでしょうか。
+Nixは「プロファイル」というシンボリックリンクの集合を作成し、必要なパッケージだけを参照します。
+
+#+begin_src bash
+~/.nix-profile/bin/php -> /nix/store/abc123...-php-8.3.0/bin/php
+~/.nix-profile/bin/composer -> /nix/store/ghi789...-composer-2.7.1/bin/composer
+#+end_src
+
+プロジェクトごとに異なるプロファイルを持てるため、Aプロジェクトでは PHP 8.3、BプロジェクトではPHP 8.1 といった使い分けが可能です。
+実体は =/nix/store= に共存しており、シンボリックリンクの切り替えだけで環境が変わります。
+
+*** ガベージコレクションとロールバック
+
+=/nix/store= には使用中・未使用のパッケージが蓄積されていきます。
+不要なパッケージは =nix-collect-garbage= で削除できます。
+
+#+begin_src bash
+# 未使用パッケージの削除
+nix-collect-garbage
+
+# 古い世代も含めて削除（より多くの容量を解放）
+nix-collect-garbage -d
+
+# ストアの容量確認
+du -sh /nix/store
+#+end_src
+
+Nixは環境の「世代」を保持しているため、問題が発生した場合は以前の状態にロールバックできます。
+PHPのバージョンアップで不具合が出ても、一瞬で元の環境に戻せる安心感があります。
+
+*** Flakesによる厳密なバージョン管理
+
+=flake.lock= はnixpkgsのリビジョン（コミットハッシュ）を記録します。
+nixpkgsには10万以上のパッケージが含まれており、リビジョンを固定することで、PHP、MySQL、Node.jsなどすべてのパッケージのバージョンが一意に決まります。
+
+#+begin_src json
+// flake.lock（一部抜粋）
+{
+  "nodes": {
+    "nixpkgs": {
+      "locked": {
+        "rev": "abc123...",
+        "type": "github"
+      }
+    }
+  }
+}
+#+end_src
+
+=flake.lock= をGit管理すれば、チーム全員が同じバージョンのパッケージを使えます。
+=composer.lock= がPHPライブラリを固定するように、 =flake.lock= は実行環境全体を固定します。
+
+** 既存ツールの課題
+
+PHP開発環境の構築には様々なツールが存在しますが、それぞれに課題があります。
+
+*Homebrew* はグローバル環境を汚染し、 =brew unlink= / =brew link= によるバージョン切り替えは煩雑です。
+=php@8.1= と =php@8.3= を同時にアクティブにできず、プロジェクト間の切り替えが手動になります。
+
+*Docker* はオーバーヘッド（起動時間、メモリ消費）が大きく、macOSではファイル同期の遅延が開発体験を損ないます。
+また、Docker Desktopのライセンス問題（従業員250人以上または年間売上1000万ドル以上の企業は有料）も考慮が必要です。
+
+*phpenv/asdf/mise* は古いPHPバージョンのビルド失敗が頻発します。
+macOSのシステムライブラリ変更（特にOpenSSL、libxml2）の影響を受けやすく、 =brew install openssl= してからパスを通すなどの作業が必要になることがあります。
+
+** 宣言的管理の特徴
+
+NixはIaC（Infrastructure as Code）の考え方を開発環境に適用したものです。
+TerraformがAWSリソースを =.tf= ファイルで定義するように、Nixは開発環境を設定ファイルで定義します。
+
+#+begin_src bash
+# 命令的（Homebrew）- 手順を実行
+brew install php@8.3 && pecl install redis xdebug
+# → 手順書が必要、環境差異が発生しやすい
+#+end_src
+
+#+begin_src nix
+# 宣言的（Nix）- あるべき状態を記述
+{ pkgs, ... }: {
+  languages.php = {
+    enable = true;
+    version = "8.3";
+    extensions = [ "redis" "xdebug" ];
+  };
+}
+# → 設定ファイル自体がドキュメント
+#+end_src
+
+命令的アプローチは「どうやって構築するか」を記述し、宣言的アプローチは「どうあるべきか」を記述します。
+Nixが差分を検出し、あるべき状態に収束させます。
+
+** 言語仕様
+
+Nix言語は純粋関数型言語で、パッケージのビルド定義に特化しています。
+構文はJSONを拡張したような形式で、関数や変数束縛が追加されています。
+
+#+begin_src nix
+  # 基本的な値
+  "hello"              # 文字列
+  42                   # 数値
+  true                 # 真偽値
+  [ 1 2 3 ]            # リスト
+  { name = "php"; }    # アトリビュートセット
+#+end_src
+
+関数は =引数: 本体= の形式で定義します。
+
+#+begin_src nix
+  # 関数定義
+  add = x: y: x + y;   # add(1)(2) => 3
+
+  # パターンマッチ引数（devenv.nixでよく見る形）
+  { pkgs, ... }: { languages.php.enable = true; }
+#+end_src
+
+=let ... in= で変数を束縛し、 =with= でスコープを簡略化できます。
+
+#+begin_src nix
+  let
+    phpVersion = "8.3";
+  in {
+    packages = with pkgs; [ php composer nodejs ];
+    # pkgs.php, pkgs.composer... と書く代わりに短縮
+  }
+#+end_src
+
+詳細は公式マニュアル[fn:6]を参照してください。
+
+[fn:6] Nix Language, https://nix.dev/manual/nix/latest/language/
+
+* PHPを取り巻くNix環境
+
+NixでPHP開発環境を構築する方法は主に3つあります。
+
+従来の *nix-shell* は =shell.nix= を記述して環境に入る方法ですが、依存関係のバージョン固定が弱く再現性に課題があります。
+*Nix Flakes* は =flake.nix= と =flake.lock= で厳密なバージョン管理を実現しますが、Nix言語の知識が必要でPHP向けの設定は冗長になりがちです。
+
+Nixを簡単に使うためのラッパーツールとして *devbox*[fn:8] と *devenv*[fn:2] があります。
+
+*devbox* はJetpack社が開発するツールで、JSONベースの設定ファイルを使用します。
+Nix言語を一切書かずに環境構築できるため、導入障壁が最も低いのが特徴です。
+
+#+begin_src json
+// devbox.json
+{
+  "packages": ["php83", "php83Extensions.redis", "nodejs_20"]
+}
+#+end_src
+
+一方、 *devenv* はCachix社が開発するFlakesベースのツールです。
+Nix言語で記述しますが、言語ごとに最適化されたオプションを提供します。
+
+#+begin_src nix
+  # devenv.nix
+  languages.php.enable = true;
+  languages.php.version = "8.3";
+  languages.php.extensions = [ "redis" ];
+#+end_src
+
+devboxは手軽さが魅力ですが、devenvはサービス統合（MySQL、Redis等）、pre-commitフック、カスタムスクリプトなど、より高度な機能を備えています。
+PHP開発では拡張モジュールの細かな設定やphp.iniのカスタマイズが必要になることが多いため、本記事ではより自由度の高いdevenvを使った環境構築を紹介します。
+
+[fn:2] devenv, https://devenv.sh/
+[fn:8] devbox, https://www.jetify.com/devbox
+
+* devenvについて
+** 概要
+
+devenvを使えば、学習コストを最小限に抑えてすぐにNixを使い始められます。
+
+devenvは =devenv.nix= と =devenv.lock= の2つのファイルでプロジェクトの開発環境を定義します。
+=devenv.nix= には言語、パッケージ、サービス、スクリプトなどを記述し、 =devenv.lock= で依存関係のバージョンを固定します。
+=devenv shell= コマンドで定義した環境に入り、 =devenv up= でMySQLやRedisなどのサービスを起動できます。
+
+セットアップは以下の手順で完了します。
+
+#+begin_src bash
+  # Nixのインストール
+  curl -L https://nixos.org/nix/install | sh
+
+  # Flakesの有効化（~/.config/nix/nix.conf）
+  # experimental-features = nix-command flakes
+
+  # devenvのインストール
+  nix profile install nixpkgs#devenv
+
+  # プロジェクトの初期化
+  cd myproject
+  devenv init
+#+end_src
+** PHP環境の設定
+
+devenv.nixファイルにPHP環境を記述します。
+PHPのバージョン、拡張モジュール、php.iniの設定、追加パッケージなどを一箇所で管理できます。
+
+#+begin_src nix
+  # devenv.nix
+  { pkgs, ... }:
+  {
+    languages.php = {
+      enable = true;
+      version = "8.3";
+      extensions = [ "redis" "xdebug" "pdo_mysql" "mbstring" "gd" ];
+      ini = ''
+        memory_limit = 256M
+        display_errors = On
+        xdebug.mode = debug
+      '';
+    };
+
+    packages = with pkgs; [ nodejs_20 yarn ];
+
+    enterShell = ''
+      echo "PHP $(php -v | head -n1)"
+    '';
+  }
+#+end_src
+
+各ディレクトリにdevenv.nixを配置するだけで、本業プロジェクト（PHP 8.3）、副業案件（PHP 8.1）、個人OSS（PHP 8.4）といった複数環境を完全分離できます。
+
+** スクリプトとフック
+
+devenvでは =scripts= でカスタムコマンドを、 =pre-commit= でGitフックを定義できます。
+
+#+begin_src nix
+{ pkgs, ... }:
+{
+  languages.php.enable = true;
+
+  # カスタムスクリプト
+  scripts = {
+    lint.exec = ''
+      ./vendor/bin/phpcs --standard=PSR12 src/
+    '';
+    format.exec = ''
+      ./vendor/bin/php-cs-fixer fix
+    '';
+    analyze.exec = ''
+      ./vendor/bin/phpstan analyse src/ --level=max
+    '';
+    ci.exec = ''
+      devenv-lint && devenv-analyze && devenv-test
+    '';
+    test.exec = ''
+      ./vendor/bin/phpunit
+    '';
+  };
+
+  # Git pre-commitフック
+  pre-commit.hooks = {
+    php-cs-fixer = {
+      enable = true;
+      entry = "./vendor/bin/php-cs-fixer fix --dry-run --diff";
+      files = "\\.php$";
+    };
+    phpstan = {
+      enable = true;
+      entry = "./vendor/bin/phpstan analyse --no-progress";
+      files = "\\.php$";
+      pass_filenames = false;
+    };
+  };
+}
+#+end_src
+
+=devenv-lint= のようにスクリプト名に =devenv-= プレフィックスを付けて実行できます。
+pre-commitフックは =devenv shell= に入ると自動的にセットアップされ、コミット時に実行されます。
+
+** 環境変数とシークレット管理
+
+開発用の環境変数は =env= で直接定義するか、 =dotenv= で =.env= ファイルから読み込めます。
+
+#+begin_src nix
+{ pkgs, ... }:
+{
+  # 環境変数の直接定義
+  env = {
+    APP_ENV = "development";
+    APP_DEBUG = "true";
+    LOG_LEVEL = "debug";
+  };
+
+  # .envファイルから読み込み
+  dotenv.enable = true;
+
+  # シェル起動時に動的に設定
+  enterShell = ''
+    export APP_KEY=$(cat .app-key 2>/dev/null || echo "base64:dummy")
+    export PATH="$PWD/vendor/bin:$PATH"
+  '';
+}
+#+end_src
+
+本番用シークレットは =.env= をgitignoreに追加し、 =.env.example= をリポジトリに含める従来のパターンがそのまま使えます。
+
+** サービス統合
+
+devenvはDockerなしでデータベースやキャッシュサーバを起動できます。[fn:3]
+=devenv up= でサービスを起動し、データは =.devenv/= に保存されます。
+
+#+begin_src nix
+{ pkgs, ... }:
+{
+  services.mysql = {
+    enable = true;
+    initialDatabases = [{ name = "myapp"; }];
+  };
+
+  services.redis.enable = true;
+  services.mailhog.enable = true;
+}
+#+end_src
+
+[fn:3] Supported Services - devenv, https://devenv.sh/services/
+
+** direnvとの連携
+
+direnv[fn:4]と連携することで、ディレクトリ移動だけで環境が自動的に切り替わります。
+
+#+begin_src bash
+  # direnvのセットアップ
+  eval "$(devenv direnvrc)"
+  use devenv
+#+end_src
+
+#+begin_src bash
+  $ cd ~/projects/legacy-app    # PHP 8.1環境に自動切り替え
+  direnv: loading .envrc
+  PHP 8.1.x
+
+  $ cd ~/projects/new-app       # PHP 8.3環境に自動切り替え
+  direnv: loading .envrc
+  PHP 8.3.x
+#+end_src
+
+「このプロジェクトはPHP何だっけ？」と悩む時間がゼロになります。
+
+[fn:4] direnv, https://direnv.net/
 
 * 終わりに
 
-xxx
+普段何気なく使っている開発環境にも、さまざまなツールの選択肢があります。
+Nixは学習コストこそありますが、devenvを使えばその壁を大幅に下げられます。
+
+宣言的な環境管理を導入することで、「あのプロジェクトの環境どうやって作ったっけ？」という悩みから解放されます。
+興味のある方はぜひNix公式サイト[fn:1]やdevenv公式ドキュメント[fn:2]を参照してみてください。
+
+発展的なトピックとして、home-manager[fn:5]を使えばPHP以外の個人ツール（git, vim, zsh等）も宣言的に管理できます。
+また、Software Design 2025年9月号〜2026年1月号にてNixの連載記事を執筆しました。
+本記事で興味を持たれた方は、ぜひそちらもご覧ください。
+
+[fn:5] home-manager, https://nix-community.github.io/home-manager/
