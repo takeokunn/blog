@@ -1,5 +1,5 @@
 :PROPERTIES:
-:ID:       795ABE1A-4CCA-66E4-C9AB-37D82893C7D3
+:ID:       A568A220-C2C5-7FF4-9753-9367791E8598
 :END:
 #+TITLE: パッケージマネージャNixで実現する宣言的でクリーンなPHP開発環境の構築
 #+AUTHOR: takeokunn
