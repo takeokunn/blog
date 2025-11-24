@@ -8,4 +8,4 @@
 #+OPTIONS: toc:nil
 * aaa
 
-bbb
+Emacsに統合されたOrg-modeの強力な機能を、基本操作からHackingの領域まで深掘りします。

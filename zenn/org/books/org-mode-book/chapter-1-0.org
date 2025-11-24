@@ -8,4 +8,4 @@
 #+OPTIONS: toc:nil
 * aaa
 
-bbb
+Emacsという環境の前に、マークアップ言語としてのOrg-modeの仕様と、それがもたらす構造化のメリットについて解説します。
