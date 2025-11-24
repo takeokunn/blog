@@ -1,0 +1,8 @@
+title: "Org-mode 実践入門"
+summary: "思考の速度で書き、未来に残すためのプレーンテキスト技術"
+topics: ["org-mode", "emacs"]
+published: false
+price: 0
+chapters:
+  - chapter-0
+  - chapter-1-0
