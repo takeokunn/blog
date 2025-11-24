@@ -3,7 +3,6 @@
 :END:
 #+TITLE: 2.10. org-protocolによる外部アプリ連携
 #+DESCRIPTION: description
-#+DATE: 2024-02-08T15:10:41+0900
 #+STARTUP: fold
 #+OPTIONS: toc:nil
 * org-protocolとは

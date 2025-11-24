@@ -3,7 +3,6 @@
 :END:
 #+TITLE: Appendix G. 著名Emacsユーザーの設定から学ぶ
 #+DESCRIPTION: description
-#+DATE: 2024-02-08T15:10:41+0900
 #+STARTUP: fold
 #+OPTIONS: toc:nil
 * Carsten Dominik氏（Org Mode作者）

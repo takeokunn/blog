@@ -3,7 +3,6 @@
 :END:
 #+TITLE: 2.8. org-columnによるプロパティの俯瞰ビュー
 #+DESCRIPTION: Column Viewを使ったスプレッドシート的なプロパティの可視化と管理
-#+DATE: 2024-02-08T15:10:41+0900
 #+STARTUP: fold
 #+OPTIONS: toc:nil
 * Column Viewとは

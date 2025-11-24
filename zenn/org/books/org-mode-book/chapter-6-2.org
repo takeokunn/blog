@@ -3,7 +3,6 @@
 :END:
 #+TITLE: 6.2. 次世代の検索とナビゲーション
 #+DESCRIPTION: description
-#+DATE: 2024-02-08T15:10:41+0900
 #+STARTUP: fold
 #+OPTIONS: toc:nil
 * 補完フレームワーク

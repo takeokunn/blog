@@ -3,7 +3,6 @@
 :END:
 #+TITLE: 4.3. org-super-agendaによる高度なグルーピング
 #+DESCRIPTION: description
-#+DATE: 2024-02-08T15:10:41+0900
 #+STARTUP: fold
 #+OPTIONS: toc:nil
 * org-super-agendaとは

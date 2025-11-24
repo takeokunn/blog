@@ -3,7 +3,6 @@
 :END:
 #+TITLE: 2.6. org-foldとインデント制御
 #+DESCRIPTION: description
-#+DATE: 2024-02-08T15:10:41+0900
 #+STARTUP: fold
 #+OPTIONS: toc:nil
 * org-fold: Org 9.6の新しい折りたたみ実装
