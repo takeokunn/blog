@@ -522,7 +522,7 @@ git commit -m "Configure Git LFS for attachments"
 ;; 会議用テンプレート
 (add-to-list 'org-capture-templates
   '("m" "Meeting" entry
-    (file+headline "~/org/meetings.org" "Meetings")
+    （file+headline "~/org/meetings.org" "Meetings"）
     "* TODO %^{Meeting Title}
   SCHEDULED: %^T
   :PROPERTIES:

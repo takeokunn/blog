@@ -534,7 +534,7 @@
 
 #+BEGIN_SRC emacs-lisp
 ("m" "Meeting" entry
- (file+olp+datetree "~/org/meetings.org")
+ （file+olp+datetree "~/org/meetings.org"）
  "* %^{Meeting Title} :meeting:
 %^T
 ** Attendees
@@ -554,7 +554,7 @@
 
 #+BEGIN_SRC emacs-lisp
 ("b" "Book Note" entry
- (file+headline "~/org/books.org" "Reading Notes")
+ （file+headline "~/org/books.org" "Reading Notes"）
  "* %^{Book Title} :book:
 :PROPERTIES:
 :AUTHOR: %^{Author}
@@ -597,7 +597,7 @@
 
 #+BEGIN_SRC emacs-lisp
 ("j" "Journal" entry
- (file+olp+datetree "~/org/journal.org")
+ （file+olp+datetree "~/org/journal.org"）
  "* %U %^{Title}
 %?
 
@@ -662,7 +662,7 @@ DEADLINE: %^{Deadline}t
 
 #+BEGIN_SRC emacs-lisp
 ("B" "Bug Report" entry
- (file+headline "~/org/bugs.org" "Open Bugs")
+ （file+headline "~/org/bugs.org" "Open Bugs"）
  "* BUG %^{Summary} :%^{Component|frontend|backend|database|api}:
 :PROPERTIES:
 :REPORTED: %U
@@ -691,7 +691,7 @@ DEADLINE: %^{Deadline}t
 
 #+BEGIN_SRC emacs-lisp
 ("I" "Blog Idea" entry
- (file+headline "~/org/blog-ideas.org" "Ideas")
+ （file+headline "~/org/blog-ideas.org" "Ideas"）
  "* IDEA %^{Title} :%^{Category|tech|life|review|tutorial}:
 :PROPERTIES:
 :CREATED: %U
@@ -719,7 +719,7 @@ DEADLINE: %^{Deadline}t
 
 #+BEGIN_SRC emacs-lisp
 ("C" "Contact" entry
- (file+headline "~/org/contacts.org" "People")
+ （file+headline "~/org/contacts.org" "People"）
  "* %^{Name}
 :PROPERTIES:
 :EMAIL: %^{Email}
@@ -860,27 +860,27 @@ DEADLINE: %^{Deadline}t
 
 #+BEGIN_SRC emacs-lisp
 ;; 選択中のコードをキャプチャ
-(defun my/get-code-context ()
+（defun my/get-code-context (）
   "現在のプログラミングコンテキストを取得"
-  (when (derived-mode-p 'prog-mode)
-    (let ((lang (replace-regexp-in-string "-mode$" "" (symbol-name major-mode)))
-          (func (which-function))
-          (code (when (use-region-p)
-                  (buffer-substring-no-properties (region-beginning) (region-end)))))
+  （when (derived-mode-p 'prog-mode）
+    （let （（lang (replace-regexp-in-string "-mode$" "" (symbol-name major-mode）））
+          （func （which-function））
+          （code (when (use-region-p）
+                  （buffer-substring-no-properties （region-beginning） （region-end））)))
       (concat
-       (when func (format "Function: =%s=\n" func))
-       (when code (format "#+BEGIN_SRC %s\n%s\n#+END_SRC\n" lang code))))))
+       （when func （format "Function: =%s=\n" func））
+       （when code （format "#+BEGIN_SRC %s\n%s\n#+END_SRC\n" lang code））))))
 
 ("C" "Code Context" entry
- (file+headline "~/org/code-notes.org" "Code Notes")
+ （file+headline "~/org/code-notes.org" "Code Notes"）
  "* %^{Title} :%^{tag|algorithm|bug|optimization|refactor}:
 :PROPERTIES:
 :FILE: %F
-:LINE: %(line-number-at-pos)
-:LANGUAGE: %(replace-regexp-in-string \"-mode$\" \"\" (symbol-name major-mode))
+:LINE: %（line-number-at-pos）
+:LANGUAGE: %（replace-regexp-in-string \"-mode$\" \"\" （symbol-name major-mode））
 :END:
 %U
-%(my/get-code-context)
+%（my/get-code-context）
 ** Notes
 %?
 ** TODO Follow-up
@@ -888,20 +888,20 @@ DEADLINE: %^{Deadline}t
  :empty-lines 1)
 
 ;; 関数全体をキャプチャ
-(defun my/capture-current-defun ()
+（defun my/capture-current-defun (）
   "現在の関数定義全体を取得"
   (save-excursion
-    (beginning-of-defun)
-    (let ((start (point)))
-      (end-of-defun)
-      (buffer-substring-no-properties start (point)))))
+    （beginning-of-defun）
+    （let （（start (point）））
+      （end-of-defun）
+      （buffer-substring-no-properties start （point））)))
 
 ("D" "Defun Capture" entry
- (file+headline "~/org/code-notes.org" "Functions")
- "* %(which-function) :code:
+ （file+headline "~/org/code-notes.org" "Functions"）
+ "* %（which-function） :code:
 :PROPERTIES:
 :FILE: %F
-:LANGUAGE: %(replace-regexp-in-string \"-mode$\" \"\" (symbol-name major-mode))
+:LANGUAGE: %（replace-regexp-in-string \"-mode$\" \"\" （symbol-name major-mode））
 :END:
 #+BEGIN_SRC %(replace-regexp-in-string \"-mode$\" \"\" (symbol-name major-mode))
 %(my/capture-current-defun)
@@ -915,11 +915,11 @@ DEADLINE: %^{Deadline}t
 #+BEGIN_SRC emacs-lisp
 ;; mu4eメールからキャプチャ
 (setq org-capture-templates-contexts
-      '(("e" ((in-mode . "mu4e-view-mode")
-              (in-mode . "mu4e-headers-mode")))))
+      '（("e" ((in-mode . "mu4e-view-mode"）
+              （in-mode . "mu4e-headers-mode"）))))
 
 ("e" "Email TODO" entry
- (file+headline "~/org/email-tasks.org" "Email Tasks")
+ （file+headline "~/org/email-tasks.org" "Email Tasks"）
  "* TODO %:fromname: %:subject
 :PROPERTIES:
 :FROM: %:fromname <%:fromaddress>
@@ -939,11 +939,11 @@ DEADLINE: %^{Deadline}t
 ;; Gnusからキャプチャ
 (setq org-capture-templates-contexts
       (append org-capture-templates-contexts
-              '(("g" ((in-mode . "gnus-article-mode")
-                      (in-mode . "gnus-summary-mode"))))))
+              '（("g" ((in-mode . "gnus-article-mode"）
+                      （in-mode . "gnus-summary-mode"）)))))
 
 ("g" "Gnus Email" entry
- (file+headline "~/org/email-tasks.org" "Gnus")
+ （file+headline "~/org/email-tasks.org" "Gnus"）
  "* TODO Email from %:fromname: %:subject
 :PROPERTIES:
 :FROM: %:fromname

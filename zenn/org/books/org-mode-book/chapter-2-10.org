@@ -336,7 +336,7 @@ Emacs側でのデコード設定:
 ;; Web記事クリッピング用テンプレート
 (add-to-list 'org-capture-templates
              '("c" "Web Clipping" entry
-               (file+headline "~/org/clips.org" "Web Clippings")
+               （file+headline "~/org/clips.org" "Web Clippings"）
                "* %:annotation
 :PROPERTIES:
 :CAPTURED: %U
@@ -421,7 +421,7 @@ Date: %:date
 ;; Slackメッセージ用テンプレート
 (add-to-list 'org-capture-templates
              '("s" "Slack Message" entry
-               (file+headline "~/org/slack.org" "Messages")
+               （file+headline "~/org/slack.org" "Messages"）
                "* TODO %:description :slack:
 :PROPERTIES:
 :SLACK_URL: %:link
