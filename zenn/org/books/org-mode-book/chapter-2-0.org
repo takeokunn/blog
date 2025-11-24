@@ -6,6 +6,20 @@
 #+DATE: 2024-02-08T15:10:41+0900
 #+STARTUP: fold
 #+OPTIONS: toc:nil
-* aaa
+* 第2章の目的
 
-Emacsに統合されたOrg-modeの強力な機能を、基本操作からHackingの領域まで深掘りします。
+- Emacsに統合されたOrg-modeの強力な機能を学ぶ
+- 基本操作からHackingまで
+
+* Emacs + Org-modeの相乗効果
+
+- プログラマブルな編集環境
+- Elispによる無限の拡張性
+
+* 本章で学ぶこと
+
+- アウトライン操作の基本
+- org-capture による情報収集
+- タスク管理と時間管理
+- Org-table による表計算
+- Org-modeの拡張（Hacking）

@@ -6,9 +6,25 @@
 #+DATE: 2024-02-08T15:10:41+0900
 #+STARTUP: fold
 #+OPTIONS: toc:nil
-* aaa
-
-- `gptel` / `org-ai` によるChatGPT/Claude連携
-- **Local Intelligence:** Ollamaを用いたローカルLLM環境の構築とプライバシー保護
-- コンテキスト認識：OrgサブツリーをAIに参照させるテクニック
-- 音声入力からのTODO自動生成ワークフロー
+* gptel
+- ChatGPT/Claude連携
+- 基本設定
+- Orgバッファでの対話
+- ストリーミング応答
+* org-ai
+- Org-mode統合
+- コードブロック内でのAI実行
+- 画像生成対応
+* ローカルLLM
+- Ollama の導入
+- プライバシー保護
+- gptel-ollama
+- パフォーマンス考慮
+* コンテキスト認識
+- サブツリーをAIに参照させる
+- 選択範囲の活用
+- プロンプトエンジニアリング
+* 音声入力
+- whisper.cpp 連携
+- 音声→テキスト→TODO
+- ワークフロー例

@@ -6,7 +6,16 @@
 #+DATE: 2024-02-08T15:10:41+0900
 #+STARTUP: fold
 #+OPTIONS: toc:nil
-* aaa
-
-- Magitを用いた変更履歴の管理とコミットフロー
-- 現代的なツール（Google Calendar/Gmail）とEmacsの使い分け戦略
+* Magit
+- Git操作のEmacs統合
+- 基本操作（status, commit, push）
+- Orgファイルの差分表示
+- ブランチ管理
+* orgファイルとGit
+- 差分の見やすさ
+- マージコンフリクトの解決
+- .gitignore 設定
+* 現代ツールとの使い分け
+- カレンダー: Google Calendar vs Org
+- メール: Gmail vs mu4e
+- 統合の是非

@@ -6,9 +6,22 @@
 #+DATE: 2024-02-08T15:10:41+0900
 #+STARTUP: fold
 #+OPTIONS: toc:nil
-* aaa
-
-- org-transclusionによる動的コンテンツ埋め込み
-- org-noterを用いたPDF/EPUB注釈とOrg連携
-- org-marginalia：インライン注釈の管理
-- 知識の再利用と文脈保持のバランス
+* org-transclusion
+- 動的コンテンツ埋め込み
+- 複数ファイルからの参照
+- リアルタイム更新
+- 設定と使い方
+* org-noter
+- PDF/EPUB注釈
+- ドキュメントとノートの同期
+- ページ番号との連携
+- 読書ノートワークフロー
+* org-marginalia
+- インライン注釈
+- 非侵入的なメモ
+- ハイライトとコメント
+* 知識の再利用
+- 単一ソース、複数出力
+- #+INCLUDE: ディレクティブ
+- noWeb参照との組み合わせ
+- 文脈保持のバランス

@@ -6,8 +6,21 @@
 #+DATE: 2024-02-08T15:10:41+0900
 #+STARTUP: fold
 #+OPTIONS: toc:nil
-* aaa
-
-- Consult, Vertico, Orderless によるインクリメンタル検索
-- `consult-org-heading` による高速ジャンプ
-- Embarkによるコンテキストメニュー活用
+* 補完フレームワーク
+- Vertico: ミニバッファ補完
+- Orderless: 柔軟なマッチング
+- Marginalia: 注釈表示
+- Embark: コンテキストアクション
+* Consult
+- consult-org-heading
+- consult-org-agenda
+- consult-ripgrep + Org
+- プレビュー機能
+* org-ql
+- SQLライクなクエリ
+- 複雑な条件でのタスク検索
+- カスタムビューの作成
+* 高速ジャンプ
+- avy + Org
+- ace-link
+- org-goto の改善

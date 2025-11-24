@@ -6,9 +6,38 @@
 #+DATE: 2024-02-08T15:10:41+0900
 #+STARTUP: fold
 #+OPTIONS: toc:nil
-* aaa
+* org-captureの概念
 
-- キャプチャテンプレートの設計と実装
-- org-protocol連携によるブラウザからの即時キャプチャ
-- org-refileによる情報の再配置と整理
-- キャプチャからアジェンダへのワークフロー構築
+- 「今やっていることを中断せずに」情報を記録
+- GTDにおけるInboxの実現
+
+* キャプチャテンプレートの基本
+
+- org-capture-templates の構造
+- %^{prompt}, %t, %T, %U, %a 等のテンプレート変数
+- ファイル指定、見出し指定、日付ツリー
+
+* 実践的なテンプレート例
+
+- TODO項目のキャプチャ
+- 日記/ジャーナルエントリ
+- 読書メモ
+- 会議メモ
+- コードスニペット
+
+* org-protocol連携
+
+- ブラウザからのキャプチャ設定
+- bookmarklet の作成
+- org-protocol-capture-html
+
+* org-refile
+
+- キャプチャした項目の再配置
+- org-refile-targets の設定
+- org-refile-use-outline-path
+
+* キャプチャからアジェンダへのワークフロー
+
+- Inboxの定期的なレビュー
+- 2分ルールの適用

@@ -6,8 +6,43 @@
 #+DATE: 2024-02-08T15:10:41+0900
 #+STARTUP: fold
 #+OPTIONS: toc:nil
-* aaa
+* org-agenda-filesの設定
 
-- org-agenda-filesの設定と管理
-- デフォルトアジェンダビューの理解
-- 基本的なキーバインドと操作
+- 単一ファイル指定
+- ディレクトリ指定
+- C-c [ / C-c ] でのファイル追加/削除
+- .org拡張子の自動認識
+
+* デフォルトビュー
+
+- a: 週間/日間アジェンダ
+- t: グローバルTODOリスト
+- T: 特定TODOキーワード
+- m: タグマッチ
+- M: タグマッチ（TODOのみ）
+- s: キーワード検索
+
+* アジェンダの起動と操作
+
+- C-c a でディスパッチャー起動
+- f/b: 前後の期間へ移動
+- .: 今日へジャンプ
+- v d/w/m: 日/週/月表示切替
+- RET: 項目へジャンプ
+- TAB: 項目を別ウィンドウで表示
+
+* 基本的なキーバインド
+
+- t: TODO状態変更
+- :: タグ設定
+- ,: 優先度設定
+- S-RIGHT/LEFT: 日付変更
+- I/O: クロックイン/アウト
+- C-c C-s/d: スケジュール/締切設定
+
+* 表示のカスタマイズ
+
+- org-agenda-span
+- org-agenda-start-on-weekday
+- org-agenda-start-day
+- org-agenda-show-all-dates

@@ -6,9 +6,47 @@
 #+DATE: 2024-02-08T15:10:41+0900
 #+STARTUP: fold
 #+OPTIONS: toc:nil
-* aaa
+* TODOキーワード
 
-- TODOキーワードのカスタマイズと状態遷移の定義
-- スケジューリング（SCHEDULED）と締切（DEADLINE）の厳密な運用
-- Agenda Viewによるタスクの集約とフィルタリング
-- Habit（習慣化）とClocking（作業時間計測）の活用
+- デフォルト（TODO, DONE）
+- カスタムキーワードの設定（org-todo-keywords）
+- ワークフロー例（TODO→DOING→DONE, TODO→WAITING→DONE）
+- キーワードごとの色設定
+
+* 状態遷移
+
+- C-c C-t: 状態変更
+- S-LEFT / S-RIGHT: 状態サイクル
+- ログ記録（org-log-done, org-log-into-drawer）
+
+* スケジューリング
+
+- SCHEDULED: 着手予定日
+- DEADLINE: 締切日
+- C-c C-s / C-c C-d でのデート入力
+- 繰り返し（+1w, ++1w, .+1w の違い）
+
+* 優先度
+
+- [#A], [#B], [#C] の設定
+- S-UP / S-DOWN での変更
+- org-priority-faces でのカスタマイズ
+
+* タグ
+
+- 見出し末尾の :tag1:tag2: 形式
+- C-c C-c でのタグ設定
+- タグの継承
+- org-tag-alist での定義
+
+* 習慣（Habit）
+
+- STYLE プロパティ
+- 習慣トラッキングの表示
+- org-habit-graph-column
+
+* 時間計測（Clocking）
+
+- C-c C-x C-i / C-c C-x C-o: クロックイン/アウト
+- クロックレポートの生成
+- org-clock-report のカスタマイズ

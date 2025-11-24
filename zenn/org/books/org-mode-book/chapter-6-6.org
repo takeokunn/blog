@@ -6,10 +6,25 @@
 #+DATE: 2024-02-08T15:10:41+0900
 #+STARTUP: fold
 #+OPTIONS: toc:nil
-* aaa
-
-- ddskk：Emacs内蔵日本語入力の決定版
-- 辞書管理とユーザー辞書の育て方
-- SKK + Org-modeの相性と注意点
-- mozc / ibus連携という選択肢
-- 日本語文書における禁則処理とフォント設定
+* ddskk
+- SKKとは
+- Emacs内蔵の利点
+- 基本操作
+- Org-modeとの相性
+* 辞書管理
+- システム辞書
+- ユーザー辞書
+- 辞書の育て方
+- SKK-JISYO.L 等
+* 注意点
+- モード切替
+- 変換候補
+- Org構文との干渉
+* mozc/ibus連携
+- OSのIME活用
+- emacs-mozc
+- 選択の判断基準
+* 日本語組版
+- 禁則処理
+- フォント設定
+- fill-column の調整

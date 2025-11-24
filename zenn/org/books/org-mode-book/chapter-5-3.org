@@ -6,8 +6,31 @@
 #+DATE: 2024-02-08T15:10:41+0900
 #+STARTUP: fold
 #+OPTIONS: toc:nil
-* aaa
-
-- 組み込みの引用機能（Org 9.5以降）
-- BibTeX/BibLaTeXとの連携
-- citar / org-refとの使い分け
+* org-citeとは
+- Org 9.5で導入された標準引用機能
+- 外部パッケージ不要
+- 拡張可能な設計
+* 基本的な使い方
+- [cite:@key] 形式
+- [cite/style:@key] でスタイル指定
+- 複数引用 [cite:@key1;@key2]
+* 文献ファイルの設定
+- #+bibliography: file.bib
+- org-cite-global-bibliography
+- BibTeX/BibLaTeX形式
+* 引用スタイル
+- 著者年（author-year）
+- 番号（numeric）
+- カスタムスタイル
+* エクスポート時の処理
+- LaTeX出力: natbib/biblatex連携
+- HTML出力: csl-json
+- CSL（Citation Style Language）
+* citar との連携
+- 補完フレームワーク統合
+- Vertico/Consult対応
+- ファイルオープン、ノート作成
+* org-ref との使い分け
+- org-ref: 学術論文向け、多機能
+- org-cite: 軽量、標準、カスタマイズ性
+- 移行の考慮点

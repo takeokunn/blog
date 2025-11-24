@@ -6,6 +6,25 @@
 #+DATE: 2024-02-08T15:10:41+0900
 #+STARTUP: fold
 #+OPTIONS: toc:nil
-* aaa
+* 第4章の目的
 
-org-agendaを中心としたタスク管理の全体像を解説します。
+- org-agendaを中心としたタスク管理を深く学ぶ
+- GTDの実践からカスタムビューまで
+
+* なぜorg-agendaを独立章にするか
+
+- Org-modeの中核機能
+- 設定の奥深さと可能性
+- 生産性への直接的影響
+
+* GTDとの関係
+
+- David Allenの「Getting Things Done」
+- Org-modeによるGTDの実装
+
+* 本章で学ぶこと
+
+- org-agendaの基本設定
+- カスタムビューの設計
+- org-super-agendaによる高度化
+- レビューワークフローの構築

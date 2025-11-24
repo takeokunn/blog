@@ -6,8 +6,29 @@
 #+DATE: 2024-02-08T15:10:41+0900
 #+STARTUP: fold
 #+OPTIONS: toc:nil
-* aaa
-
-- 階層型整理からネットワーク型整理へ
-- バックリンクとグラフ構造による「第2の脳」の構築
-- Zettelkastenメソッドの適用と注意点
+* Org-roamとは
+- Roam Researchのインスピレーション
+- Zettelkasten（メモ箱）メソッド
+- Emacsネイティブ実装
+* インストールと初期設定
+- org-roam-directory
+- org-roam-db-autosync-mode
+- SQLiteデータベース
+* ノートの作成
+- org-roam-node-find
+- org-roam-node-insert
+- テンプレートの設定（org-roam-capture-templates）
+* バックリンクとグラフ
+- org-roam-buffer
+- バックリンクの表示
+- org-roam-graph（グラフ可視化）
+- org-roam-ui（インタラクティブUI）
+* Zettelkastenの実践
+- 永続ノート vs 一時ノート
+- 原子性（1ノート1アイデア）
+- リンクの重要性
+- デイリーノート
+* 注意点
+- ノートの粒度
+- 過剰なリンク
+- グラフの意味

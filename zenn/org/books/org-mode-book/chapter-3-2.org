@@ -6,9 +6,49 @@
 #+DATE: 2024-02-08T15:10:41+0900
 #+STARTUP: fold
 #+OPTIONS: toc:nil
-* aaa
+* 変数（:var）の活用
 
-- :var, :results, :sessionの詳細制御
-- #+CALL:によるコードブロックの参照と再利用
-- noweb参照（<<block-name>>）の活用
-- 言語間のデータ受け渡し
+- 基本的な変数渡し（:var name=value）
+- テーブルからの変数（:var data=tablename）
+- 他ブロックの結果参照（:var x=blockname）
+- リストと配列の扱い
+
+* 結果（:results）の制御
+
+- 出力形式: value/output
+- 結果タイプ: table/list/scalar/file/raw/html/latex
+- 結果処理: replace/append/prepend/silent
+- ラッパー: drawer/code/org
+
+* セッション（:session）管理
+
+- セッションの概念と用途
+- :session name での名前付けセッション
+- 変数の永続化と共有
+- セッションのリセット
+
+* #+CALL: による再利用
+
+- 名前付きブロックの呼び出し
+- 引数の上書き
+- インライン呼び出し（call_blockname()）
+- ライブラリ的な活用
+
+* noWeb参照
+
+- <<block-name>> 形式の参照
+- :noWeb yes/no/tangle
+- コードの分割と再構成
+- 実践的なnoWeb活用例
+
+* 言語間のデータ受け渡し
+
+- テーブルを介したデータ共有
+- JSON/CSVでの受け渡し
+- Shell→Python→Gnuplot パイプライン例
+
+* 対応言語と設定
+
+- org-babel-load-languages
+- 各言語の固有設定
+- カスタム言語の追加

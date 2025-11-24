@@ -6,7 +6,32 @@
 #+DATE: 2024-02-08T15:10:41+0900
 #+STARTUP: fold
 #+OPTIONS: toc:nil
-* aaa
+* GitHub Actions
 
-- 継続的インテグレーションによるPDF自動ビルド
-- 「書くこと」に集中するための自動化パイプライン
+- ワークフロー定義
+- Emacsのヘッドレス実行
+- キャッシュ戦略
+
+* 自動ビルドフロー
+
+- プッシュトリガー
+- org→PDF変換
+- 成果物のアップロード
+
+* Emacsのバッチ実行
+
+- emacs --batch
+- -l / -f オプション
+- init.el の読み込み制御
+
+* 実践的なワークフロー例
+
+- Org→HTML→GitHub Pages
+- Org→PDF→Releases
+- Org→Markdown→Zenn
+
+* エラーハンドリング
+
+- ビルド失敗の検知
+- ログ出力
+- 通知設定

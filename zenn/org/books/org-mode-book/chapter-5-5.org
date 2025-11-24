@@ -6,8 +6,27 @@
 #+DATE: 2024-02-08T15:10:41+0900
 #+STARTUP: fold
 #+OPTIONS: toc:nil
-* aaa
-
-- Orgzly / Organice を用いたスマートフォンでの編集と同期
-- `org-protocol` によるブラウザからの情報キャプチャ
-- Hugoとox-hugoを用いたブログ・静的サイト生成フロー
+* Orgzly（Android）
+- アプリの概要
+- Dropbox/Syncthing連携
+- 同期の設定
+- 制限事項
+* Organice（Web）
+- ブラウザベースのOrg編集
+- Dropbox/GitHub連携
+- PWA対応
+- 機能と制限
+* org-protocol
+- ブラウザからのキャプチャ
+- プロトコルハンドラの設定
+- bookmarklet の作成
+- テンプレートとの連携
+* ox-hugo
+- HugoサイトのためのOrg→Markdown変換
+- ブログ記事の管理
+- サブツリーエクスポート
+- フロントマターの生成
+* GitHub Actionsとの連携
+- プッシュ時の自動ビルド
+- Emacsのヘッドレス実行
+- デプロイの自動化

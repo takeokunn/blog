@@ -6,8 +6,51 @@
 #+DATE: 2024-02-08T15:10:41+0900
 #+STARTUP: fold
 #+OPTIONS: toc:nil
-* aaa
+* org-agenda-custom-commands
 
-- org-agenda-custom-commandsの構造
-- ブロックアジェンダによる複合ビュー
-- タグ・プロパティを活用したフィルタリング戦略
+- 基本構造: （key desc type match settings files）
+- キーの設定と階層化
+- 説明文の記述
+
+* 単一ビューの定義
+
+- agenda: カレンダービュー
+- alltodo: 全TODO
+- tags: タグマッチ
+- tags-todo: タグマッチ（TODOのみ）
+- todo: 特定TODO
+- search: テキスト検索
+
+* マッチ式の書き方
+
+- タグ: +tag, -tag
+- プロパティ: PROPERTY="value"
+- TODO: /TODO/DONE
+- 優先度: [#A]
+- 組み合わせ: +work-meeting/TODO
+
+* ブロックアジェンダ
+
+- 複数ビューの組み合わせ
+- agenda + tags-todo の例
+- セクション見出しの設定
+
+* ローカル設定
+
+- org-agenda-overriding-header
+- org-agenda-sorting-strategy
+- org-agenda-prefix-format
+- org-agenda-todo-keyword-format
+
+* フィルタリング戦略
+
+- タグによる分類（@office, @home）
+- プロパティによる絞り込み
+- カテゴリ（ファイル名）の活用
+
+* 実践的なビュー例
+
+- 今日やること
+- 今週の予定
+- 待ち状態の確認
+- プロジェクト別進捗

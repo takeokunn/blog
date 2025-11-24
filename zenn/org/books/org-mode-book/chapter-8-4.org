@@ -6,9 +6,29 @@
 #+DATE: 2024-02-08T15:10:41+0900
 #+STARTUP: fold
 #+OPTIONS: toc:nil
-* aaa
+* org-reveal / org-re-reveal
 
-- org-reveal / org-re-reveal によるReveal.jsスライド生成
-- Beamer出力：学術発表向けの定番フォーマット
-- org-tree-slide：Emacs内でのプレゼンテーション
-- スライド用の構造設計とエクスポート設定
+- Reveal.js 出力
+- スライド構造
+- 設定オプション
+- カスタムテーマ
+
+* Beamer
+
+- LaTeXベースのスライド
+- 学術発表向け
+- org-beamer-mode
+- フレーム設定
+
+* org-tree-slide
+
+- Emacs内プレゼン
+- ライブデモに最適
+- 設定とキーバインド
+
+* スライド設計
+
+- 見出しレベルとスライド
+- 箇条書きの活用
+- 画像の配置
+- スピーカーノート
