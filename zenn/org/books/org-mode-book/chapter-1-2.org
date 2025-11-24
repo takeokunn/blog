@@ -1,11 +1,13 @@
 :PROPERTIES:
 :ID:       f1a2d86c-2edf-7704-1e5b-262cf4bfa598
 :END:
-#+TITLE: Chapter 0 まえがき
+#+TITLE: [第1章] 2. Org構文の基礎と構造化
 #+DESCRIPTION: description
 #+DATE: 2024-02-08T15:10:41+0900
 #+STARTUP: fold
 #+OPTIONS: toc:nil
 * aaa
 
-bbb
+- アウトライン構造の論理的優位性
+- プロパティとドロワー：テキストへのメタデータ埋め込み
+- 動的ブロックと静的記述の使い分け

@@ -1,11 +1,13 @@
 :PROPERTIES:
 :ID:       eae495fa08a7-0cd6-3a94-c65b-6629ec4e2e8b
 :END:
-#+TITLE: Chapter 0 まえがき
+#+TITLE: [第1章] 3. Emacs以外でのOrg活用
 #+DESCRIPTION: description
 #+DATE: 2024-02-08T15:10:41+0900
 #+STARTUP: fold
 #+OPTIONS: toc:nil
 * aaa
 
-bbb
+- Neovim（nvim-orgmode）における実装状況
+- VS Code（vscode-org-mode）での利用
+- Pandocを用いたドキュメント変換ハブとしての活用
