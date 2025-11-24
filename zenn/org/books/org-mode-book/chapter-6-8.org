@@ -1,0 +1,22 @@
+:PROPERTIES:
+:ID:       bd6baf5c-a8e4-7bcd-ef9c-4d5a6b7c89ab
+:END:
+#+TITLE: 6.8. org-modeとLSP/Tree-sitter
+#+DESCRIPTION: description
+#+DATE: 2024-02-08T15:10:41+0900
+#+STARTUP: fold
+#+OPTIONS: toc:nil
+* aaa
+
+- 現代的なEmacs環境との統合
+  - eglot（Emacs標準）/ lsp-modeによるLSP統合
+  - Tree-sitter対応（Emacs 29以降の組み込みサポート）
+  - モダンな開発環境とorg-modeの共存
+- org-mode内でのLSP活用（コードブロック内）
+  - org-babelソースブロックでのLSP補完
+  - org-src-modeでの編集時LSP連携
+  - polymode / org-src-lang-modes の設定
+- Tree-sitterによるシンタックスハイライト
+  - tree-sitter-langs / treesit-auto の設定
+  - コードブロック内での高精度ハイライト
+  - パフォーマンス面でのメリット（正規表現ベースとの比較）

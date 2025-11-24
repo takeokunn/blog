@@ -1,0 +1,13 @@
+:PROPERTIES:
+:ID:       d5e6f7a8-b9c0-d1e2-f3a4-b5c6d7e8f9a0
+:END:
+#+TITLE: 3.4. org-exportの内部構造
+#+DESCRIPTION: description
+#+DATE: 2024-02-08T15:10:41+0900
+#+STARTUP: fold
+#+OPTIONS: toc:nil
+* aaa
+
+- バックエンドの仕組み、カスタムエクスポーターの作り方
+- #+OPTIONS:の網羅的解説
+- フィルター関数による出力カスタマイズ

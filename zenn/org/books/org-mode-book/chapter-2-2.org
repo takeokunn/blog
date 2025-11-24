@@ -1,11 +1,14 @@
 :PROPERTIES:
 :ID:       87254f85-6f70-e8b4-6dab-79375dc1102f
 :END:
-#+TITLE: 2.2. 基本操作とキーバインドの体系
+#+TITLE: 2.2. org-capture：情報収集の入り口
 #+DESCRIPTION: description
 #+DATE: 2024-02-08T15:10:41+0900
 #+STARTUP: fold
 #+OPTIONS: toc:nil
 * aaa
 
-bbb
+- キャプチャテンプレートの設計と実装
+- org-protocol連携によるブラウザからの即時キャプチャ
+- org-refileによる情報の再配置と整理
+- キャプチャからアジェンダへのワークフロー構築

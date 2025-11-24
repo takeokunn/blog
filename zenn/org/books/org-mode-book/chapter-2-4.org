@@ -1,13 +1,13 @@
 :PROPERTIES:
-:ID:       2ead5214-1b18-c254-451b-3e71a6a6c9d3
+:ID:       d8c5a038-da04-6604-38d3-78b3c95517f0
 :END:
-#+TITLE: 2.4. Org-modeの拡張（Hacking）
+#+TITLE: 2.4. Org-tableによる表計算とデータ処理
 #+DESCRIPTION: description
 #+DATE: 2024-02-08T15:10:41+0900
 #+STARTUP: fold
 #+OPTIONS: toc:nil
 * aaa
 
-- `org-mode-hook` による挙動のカスタマイズ
-- Org Parser入門：`org-element-parse-buffer` によるAST解析
-- Elispによるスクリプト作成：特定条件の見出し抽出と加工
+- Markdownテーブルとの決定的な違い
+- 表計算ソフトを使わずにテキスト内で完結させる計算式（Calc）
+- Gnuplot連携によるグラフ描画の自動化

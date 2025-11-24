@@ -1,13 +1,13 @@
 :PROPERTIES:
-:ID:       f3dd4196-bcf5-57a4-aba3-b50840a2f876
+:ID:       0b8e7462-b22f-b2b4-4b03-5919a74dbc62
 :END:
-#+TITLE: 5.1. パフォーマンス・チューニングの技術
+#+TITLE: 5.1. Org-roamによる知識のネットワーク化
 #+DESCRIPTION: description
 #+DATE: 2024-02-08T15:10:41+0900
 #+STARTUP: fold
 #+OPTIONS: toc:nil
 * aaa
 
-- ガベージコレクション（GC）の動的調整と `gcmh-mode`
-- `org-element-cache` の仕組みとフォントロックの最適化
-- 行番号表示による描画負荷の回避
+- 階層型整理からネットワーク型整理へ
+- バックリンクとグラフ構造による「第2の脳」の構築
+- Zettelkastenメソッドの適用と注意点

@@ -1,0 +1,23 @@
+:PROPERTIES:
+:ID:       ac5a9e4b-f7d3-6abc-de8b-3c4f5a6b789a
+:END:
+#+TITLE: 6.7. Emacsの起動高速化
+#+DESCRIPTION: description
+#+DATE: 2024-02-08T15:10:41+0900
+#+STARTUP: fold
+#+OPTIONS: toc:nil
+* aaa
+
+- use-package, leaf, straight.el, elpacaの比較
+  - use-package: Emacs標準（29以降）、宣言的設定の定番
+  - leaf: use-packageの日本発代替、マクロ展開が明快
+  - straight.el: 再現性重視のパッケージ管理、ロックファイル対応
+  - elpaca: 非同期インストール、straight.elの後継的存在
+- early-init.el, native-comp, pdumperの活用
+  - early-init.el: GUI初期化前の最適化（ツールバー無効化等）
+  - native-comp (GccEmacs): ELispのネイティブコンパイル
+  - pdumper: カスタムdumpファイルによる起動時間短縮
+- 遅延ロードの戦略
+  - :defer, :commands, :hook による条件付きロード
+  - autoloadの仕組みと活用
+  - ベンチマーク（esup, benchmark-init）による測定

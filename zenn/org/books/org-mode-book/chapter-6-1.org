@@ -1,12 +1,13 @@
 :PROPERTIES:
-:ID:       8354745b-a7d4-8884-7c8b-dad74112b834
+:ID:       f411fae9-3b6a-19c4-3fbb-59b4925a7c6a
 :END:
-#+TITLE: 6.1. 執筆プロジェクトの管理
+#+TITLE: 6.1. 入力と編集速度の最大化
 #+DESCRIPTION: description
 #+DATE: 2024-02-08T15:10:41+0900
 #+STARTUP: fold
 #+OPTIONS: toc:nil
 * aaa
 
-- ディレクトリ構成と分割ファイルのインクルード（Include）
-- Citar / Org-ref による参考文献管理と引用
+- Yasnippet / Tempel による定型文入力の効率化
+- `org-cliplink` によるURLリンク作成の自動化
+- Evil-org：Vimキーバインドユーザーのための最適化設定

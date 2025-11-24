@@ -1,0 +1,12 @@
+:PROPERTIES:
+:ID:       c6d7e8f9-a0b1-c2d3-e4f5-a6b7c8d9e0f1
+:END:
+#+TITLE: Appendix D. キーバインド一覧
+#+DESCRIPTION: description
+#+DATE: 2024-02-08T15:10:41+0900
+#+STARTUP: fold
+#+OPTIONS: toc:nil
+* aaa
+
+- 必須コマンドのクイックリファレンス
+- アウトライン操作、編集、ナビゲーション、エクスポートのカテゴリ別

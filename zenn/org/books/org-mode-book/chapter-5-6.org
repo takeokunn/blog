@@ -1,0 +1,14 @@
+:PROPERTIES:
+:ID:       c3d4e5f6-a7b8-9012-cdef-345678901234
+:END:
+#+TITLE: 5.6. コンテンツの横断と注釈
+#+DESCRIPTION: description
+#+DATE: 2024-02-08T15:10:41+0900
+#+STARTUP: fold
+#+OPTIONS: toc:nil
+* aaa
+
+- org-transclusionによる動的コンテンツ埋め込み
+- org-noterを用いたPDF/EPUB注釈とOrg連携
+- org-marginalia：インライン注釈の管理
+- 知識の再利用と文脈保持のバランス

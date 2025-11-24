@@ -1,0 +1,13 @@
+:PROPERTIES:
+:ID:       368d5370-ddc0-a884-510b-0bd6b8b835c8
+:END:
+#+TITLE: 8.2. Typst経由での組版とPDF生成
+#+DESCRIPTION: description
+#+DATE: 2024-02-08T15:10:41+0900
+#+STARTUP: fold
+#+OPTIONS: toc:nil
+* aaa
+
+- 標準エクスポートと出版品質エクスポートの違い
+- `minted` パッケージ連携によるソースコードのシンタックスハイライト
+- Typst紹介

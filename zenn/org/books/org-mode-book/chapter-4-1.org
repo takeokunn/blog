@@ -1,13 +1,13 @@
 :PROPERTIES:
-:ID:       f411fae9-3b6a-19c4-3fbb-59b4925a7c6a
+:ID:       f7a8b9c0-d1e2-f3a4-b5c6-d7e8f9a0b1c2
 :END:
-#+TITLE: 4.1. 入力と編集速度の最大化
+#+TITLE: 4.1. org-agendaの基本設定
 #+DESCRIPTION: description
 #+DATE: 2024-02-08T15:10:41+0900
 #+STARTUP: fold
 #+OPTIONS: toc:nil
 * aaa
 
-- Yasnippet / Tempel による定型文入力の効率化
-- `org-cliplink` によるURLリンク作成の自動化
-- Evil-org：Vimキーバインドユーザーのための最適化設定
+- org-agenda-filesの設定と管理
+- デフォルトアジェンダビューの理解
+- 基本的なキーバインドと操作

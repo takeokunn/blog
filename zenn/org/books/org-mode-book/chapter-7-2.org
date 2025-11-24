@@ -1,0 +1,13 @@
+:PROPERTIES:
+:ID:       b0b58ec6-4c4b-2af4-9c73-cc7a240c3f68
+:END:
+#+TITLE: 7.2. 大規模ファイルの運用戦略
+#+DESCRIPTION: description
+#+DATE: 2024-02-08T15:10:41+0900
+#+STARTUP: fold
+#+OPTIONS: toc:nil
+* aaa
+
+- 数MBクラスの巨大ファイル（Monolith）を扱う `visiting big files` 設定
+- アーカイブ機能（Archive）による情報の退避と軽量化
+- `org-attach` による添付ファイルディレクトリの管理

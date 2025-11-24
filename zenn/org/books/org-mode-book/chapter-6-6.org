@@ -1,0 +1,15 @@
+:PROPERTIES:
+:ID:       d4e5f6a7-b8c9-0123-defa-456789012345
+:END:
+#+TITLE: 6.6. 日本語入力環境の最適化
+#+DESCRIPTION: description
+#+DATE: 2024-02-08T15:10:41+0900
+#+STARTUP: fold
+#+OPTIONS: toc:nil
+* aaa
+
+- ddskk：Emacs内蔵日本語入力の決定版
+- 辞書管理とユーザー辞書の育て方
+- SKK + Org-modeの相性と注意点
+- mozc / ibus連携という選択肢
+- 日本語文書における禁則処理とフォント設定

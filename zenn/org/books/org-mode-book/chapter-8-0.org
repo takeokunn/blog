@@ -1,0 +1,11 @@
+:PROPERTIES:
+:ID:       1497a4a7-5486-b6e4-c92b-ed1f51cb1ceb
+:END:
+#+TITLE: 8.0. ドキュメント作成と出版ワークフロー —— 論文執筆から自動ビルドまで
+#+DESCRIPTION: description
+#+DATE: 2024-02-08T15:10:41+0900
+#+STARTUP: fold
+#+OPTIONS: toc:nil
+* aaa
+
+本書自体の執筆環境をモデルケースとした、高品質なドキュメント生成のフローを紹介します。

@@ -1,0 +1,12 @@
+:PROPERTIES:
+:ID:       8354745b-a7d4-8884-7c8b-dad74112b834
+:END:
+#+TITLE: 8.1. 執筆プロジェクトの管理
+#+DESCRIPTION: description
+#+DATE: 2024-02-08T15:10:41+0900
+#+STARTUP: fold
+#+OPTIONS: toc:nil
+* aaa
+
+- ディレクトリ構成と分割ファイルのインクルード（Include）
+- Citar / Org-ref による参考文献管理と引用

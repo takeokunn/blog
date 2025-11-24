@@ -1,11 +1,13 @@
 :PROPERTIES:
-:ID:       b0b58ec6-4c4b-2af4-9c73-cc7a240c3f68
+:ID:       e2f3a4b5-c6d7-e8f9-a0b1-c2d3e4f5a6b7
 :END:
-#+TITLE: 5.3. 日本語入力
+#+TITLE: 5.3. org-citeと文献管理
 #+DESCRIPTION: description
 #+DATE: 2024-02-08T15:10:41+0900
 #+STARTUP: fold
 #+OPTIONS: toc:nil
 * aaa
 
-- ddskkなど
+- 組み込みの引用機能（Org 9.5以降）
+- BibTeX/BibLaTeXとの連携
+- citar / org-refとの使い分け

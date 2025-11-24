@@ -1,13 +1,13 @@
 :PROPERTIES:
-:ID:       20ab9024-62d1-f494-13eb-2088c25997bd
+:ID:       a8b9c0d1-e2f3-a4b5-c6d7-e8f9a0b1c2d3
 :END:
-#+TITLE: 4.2. 次世代の検索とナビゲーション
+#+TITLE: 4.2. カスタムアジェンダビューの設計
 #+DESCRIPTION: description
 #+DATE: 2024-02-08T15:10:41+0900
 #+STARTUP: fold
 #+OPTIONS: toc:nil
 * aaa
 
-- Consult, Vertico, Orderless によるインクリメンタル検索
-- `consult-org-heading` による高速ジャンプ
-- Embarkによるコンテキストメニュー活用
+- org-agenda-custom-commandsの構造
+- ブロックアジェンダによる複合ビュー
+- タグ・プロパティを活用したフィルタリング戦略

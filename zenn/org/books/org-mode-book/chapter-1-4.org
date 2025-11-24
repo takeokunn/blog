@@ -1,14 +1,14 @@
 :PROPERTIES:
-:ID:       02af76e1-2f3b-e634-4813-05d81b2b7ac9
+:ID:       a1b2c3d4-e5f6-7890-abcd-ef1234567890
 :END:
-#+TITLE: 1.4. 文芸的プログラミングの実践
+#+TITLE: 1.4. 他ツールとの比較と選択基準
 #+DESCRIPTION: description
 #+DATE: 2024-02-08T15:10:41+0900
 #+STARTUP: fold
 #+OPTIONS: toc:nil
 * aaa
 
-- 概念としてのLiterate Programming
-- コードブロック（Src Block）の構文と引数制御
-- TangleとWeave：ドキュメント構造とコード構造の分離
-- 多言語混在プログラミングの可能性
+- Obsidian / Logseq / Notion との思想的差異
+- プロプライエタリ vs オープンフォーマットの長期的影響
+- 「エディタに依存しない」という幻想と現実
+- ツール選択の判断基準：ユースケース別の最適解
