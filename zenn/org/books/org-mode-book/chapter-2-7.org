@@ -75,7 +75,7 @@
 #+END_SRC
 
 ** 自動挿入系
-*** %(sexp) - Elisp式評価
+*** %（sexp） - Elisp式評価
 
 #+BEGIN_SRC emacs-lisp
 ;; 現在時刻を特定フォーマットで
@@ -518,7 +518,7 @@
 #+END_SRC
 
 * 実践的テンプレート例10パターン
-** (1) 基本TODO - シンプルなタスク
+** （1） 基本TODO - シンプルなタスク
 
 #+BEGIN_SRC emacs-lisp
 ("t" "Todo" entry
@@ -530,7 +530,7 @@
  :empty-lines 1)
 #+END_SRC
 
-** (2) 会議メモ - 参加者、日時、議題
+** （2） 会議メモ - 参加者、日時、議題
 
 #+BEGIN_SRC emacs-lisp
 ("m" "Meeting" entry
@@ -550,7 +550,7 @@
  :empty-lines 1)
 #+END_SRC
 
-** (3) 読書メモ - 書籍情報、引用、感想
+** （3） 読書メモ - 書籍情報、引用、感想
 
 #+BEGIN_SRC emacs-lisp
 ("b" "Book Note" entry
@@ -574,7 +574,7 @@
  :empty-lines 1)
 #+END_SRC
 
-** (4) コードスニペット - 言語、説明、コード
+** （4） コードスニペット - 言語、説明、コード
 
 #+BEGIN_SRC emacs-lisp
 ("s" "Code Snippet" entry
@@ -593,7 +593,7 @@
  :empty-lines 1)
 #+END_SRC
 
-** (5) 日記/ジャーナル - datetree形式
+** （5） 日記/ジャーナル - datetree形式
 
 #+BEGIN_SRC emacs-lisp
 ("j" "Journal" entry
@@ -612,7 +612,7 @@
  :empty-lines 1)
 #+END_SRC
 
-** (6) 買い物リスト - チェックボックス
+** （6） 買い物リスト - チェックボックス
 
 #+BEGIN_SRC emacs-lisp
 ("S" "Shopping Item" checkitem
@@ -633,7 +633,7 @@
  :empty-lines 1)
 #+END_SRC
 
-** (7) プロジェクトタスク - プロジェクト選択
+** （7） プロジェクトタスク - プロジェクト選択
 
 #+BEGIN_SRC emacs-lisp
 ("P" "Project Task" entry
@@ -658,7 +658,7 @@ DEADLINE: %^{Deadline}t
  :empty-lines 1)
 #+END_SRC
 
-** (8) バグレポート - 再現手順、期待結果
+** （8） バグレポート - 再現手順、期待結果
 
 #+BEGIN_SRC emacs-lisp
 ("B" "Bug Report" entry
@@ -687,7 +687,7 @@ DEADLINE: %^{Deadline}t
  :empty-lines 1)
 #+END_SRC
 
-** (9) ブログアイデア - カテゴリ、タグ
+** （9） ブログアイデア - カテゴリ、タグ
 
 #+BEGIN_SRC emacs-lisp
 ("I" "Blog Idea" entry
@@ -715,7 +715,7 @@ DEADLINE: %^{Deadline}t
  :empty-lines 1)
 #+END_SRC
 
-** (10) 連絡先 - 名前、メール、電話
+** （10） 連絡先 - 名前、メール、電話
 
 #+BEGIN_SRC emacs-lisp
 ("C" "Contact" entry

@@ -7,7 +7,7 @@
 #+OPTIONS: toc:nil
 * org-agenda-custom-commandsの完全な構造
 
-=org-agenda-custom-commands= はOrg-modeのアジェンダをカスタマイズするための最も強力な変数です。この変数を理解することで、自分だけのタスク管理システムを構築できます。
+=org-agenda-custom-commands= はOrg-modeのアジェンダをカスタマイズするためのもっとも強力な変数です。この変数を理解することで、自分だけのタスク管理システムを構築できます。
 
 ** 基本構造: 6つの要素
 
@@ -527,7 +527,7 @@ TODOキーワードの表示形式:
 
 ** 基本パターン
 
-*** (1) 今日のアジェンダ
+*** （1）今日のアジェンダ
 
 #+BEGIN_SRC emacs-lisp
 ("d" "Today's Agenda" agenda ""
@@ -536,7 +536,7 @@ TODOキーワードの表示形式:
   (org-agenda-overriding-header "Today's Schedule")))
 #+END_SRC
 
-*** (2) 今週のアジェンダ
+*** （2）今週のアジェンダ
 
 #+BEGIN_SRC emacs-lisp
 ("w" "This Week" agenda ""
@@ -545,7 +545,7 @@ TODOキーワードの表示形式:
   (org-agenda-overriding-header "This Week")))
 #+END_SRC
 
-*** (3) 全TODOリスト
+*** （3）全TODOリスト
 
 #+BEGIN_SRC emacs-lisp
 ("T" "All TODOs" alltodo ""
@@ -553,7 +553,7 @@ TODOキーワードの表示形式:
   (org-agenda-sorting-strategy '(priority-down category-keep))))
 #+END_SRC
 
-*** (4) 高優先度タスク
+*** （4）高優先度タスク
 
 #+BEGIN_SRC emacs-lisp
 ("A" "Priority A tasks" tags-todo "+PRIORITY=\"A\""
@@ -563,7 +563,7 @@ TODOキーワードの表示形式:
 
 ** タグ/プロパティ活用
 
-*** (5) コンテキスト別（@office, @home, @errands）
+*** （5）コンテキスト別（@office, @home, @errands）
 
 #+BEGIN_SRC emacs-lisp
 ;; オフィスでできるタスク
@@ -582,7 +582,7 @@ TODOキーワードの表示形式:
   (org-agenda-sorting-strategy '(priority-down))))
 #+END_SRC
 
-*** (6) プロジェクト別
+*** （6）プロジェクト別
 
 #+BEGIN_SRC emacs-lisp
 ;; プロジェクトAのタスク
@@ -595,7 +595,7 @@ TODOキーワードの表示形式:
   (org-agenda-skip-function 'my/skip-non-projects)))
 #+END_SRC
 
-*** (7) エネルギーレベル別
+*** （7）エネルギーレベル別
 
 #+BEGIN_SRC emacs-lisp
 ;; 高エネルギー時向けタスク
@@ -609,7 +609,7 @@ TODOキーワードの表示形式:
   (org-agenda-sorting-strategy '(effort-up))))
 #+END_SRC
 
-*** (8) 所要時間別
+*** （8）所要時間別
 
 #+BEGIN_SRC emacs-lisp
 ;; 5分以内のクイックタスク
@@ -630,7 +630,7 @@ TODOキーワードの表示形式:
 
 ** ブロックアジェンダ
 
-*** (9) GTDダッシュボード
+*** （9）GTDダッシュボード
 
 #+BEGIN_SRC emacs-lisp
 ("g" "GTD Dashboard"
@@ -660,7 +660,7 @@ TODOキーワードの表示形式:
              ((org-agenda-overriding-header "=== SOMEDAY/MAYBE ===")))))
 #+END_SRC
 
-*** (10) デイリーレビュー用
+*** （10）デイリーレビュー用
 
 #+BEGIN_SRC emacs-lisp
 ("D" "Daily Review"
@@ -684,7 +684,7 @@ TODOキーワードの表示形式:
         ((org-agenda-overriding-header "=== DEADLINES WITHIN 3 DAYS ===")))))
 #+END_SRC
 
-*** (11) 週次レビュー用
+*** （11）週次レビュー用
 
 #+BEGIN_SRC emacs-lisp
 ("R" "Weekly Review"
@@ -712,7 +712,7 @@ TODOキーワードの表示形式:
 
 ** 高度なパターン
 
-*** (12) スタックプロジェクト（子タスクすべて完了で表示）
+*** （12）スタックプロジェクト（子タスクすべて完了で表示）
 
 #+BEGIN_SRC emacs-lisp
 (defun my/is-project-p ()
@@ -735,7 +735,7 @@ TODOキーワードの表示形式:
   (org-agenda-skip-function 'my/skip-non-stuck-projects)))
 #+END_SRC
 
-*** (13) 特定期間内のDEADLINE
+*** （13）特定期間内のDEADLINE
 
 #+BEGIN_SRC emacs-lisp
 ;; 今後7日以内のデッドライン
@@ -757,7 +757,7 @@ TODOキーワードの表示形式:
   (org-agenda-sorting-strategy '(deadline-up))))
 #+END_SRC
 
-*** (14) 最近完了したタスク
+*** （14）最近完了したタスク
 
 #+BEGIN_SRC emacs-lisp
 ;; 今日完了したタスク
@@ -775,7 +775,7 @@ TODOキーワードの表示形式:
   (org-agenda-sorting-strategy '(tsia-down))))
 #+END_SRC
 
-*** (15) クロック中タスク関連
+*** （15）クロック中タスク関連
 
 #+BEGIN_SRC emacs-lisp
 ;; 最近クロックしたタスク
@@ -791,7 +791,7 @@ TODOキーワードの表示形式:
         ((org-agenda-overriding-header "Clocked This Week")))))
 #+END_SRC
 
-*** (16) 習慣トラッキング専用
+*** （16）習慣トラッキング専用
 
 #+BEGIN_SRC emacs-lisp
 (defun my/skip-non-habits ()
@@ -809,7 +809,7 @@ TODOキーワードの表示形式:
   (org-habit-show-habits-only-for-today t)))
 #+END_SRC
 
-*** (17) 特定ファイルのみ
+*** （17）特定ファイルのみ
 
 #+BEGIN_SRC emacs-lisp
 ;; 仕事用ファイルのみ
@@ -823,7 +823,7 @@ TODOキーワードの表示形式:
   (org-agenda-overriding-header "All Project Tasks")))
 #+END_SRC
 
-*** (18) 特定ファイルを除外
+*** （18）特定ファイルを除外
 
 #+BEGIN_SRC emacs-lisp
 (defun my/agenda-files-without-archive ()
@@ -837,7 +837,7 @@ TODOキーワードの表示形式:
   (org-agenda-overriding-header "Tasks (excluding archives)")))
 #+END_SRC
 
-*** (19) カスタムソート
+*** （19）カスタムソート
 
 #+BEGIN_SRC emacs-lisp
 ;; カスタムソート関数
@@ -861,7 +861,7 @@ TODOキーワードの表示形式:
   (org-agenda-sorting-strategy '(user-defined-up priority-down))))
 #+END_SRC
 
-*** (20) 検索結果の保存（エクスポート）
+*** （20）検索結果の保存（エクスポート）
 
 #+BEGIN_SRC emacs-lisp
 ;; アジェンダをファイルに書き出す設定
@@ -879,7 +879,7 @@ TODOキーワードの表示形式:
 
 ** 追加の実践パターン
 
-*** (21) 2分ルール対応（すぐできるタスク）
+*** （21）2分ルール対応（すぐできるタスク）
 
 #+BEGIN_SRC emacs-lisp
 ("2" "2-Minute Tasks" tags-todo "Effort<3"
@@ -888,7 +888,7 @@ TODOキーワードの表示形式:
   (org-agenda-max-entries 5)))
 #+END_SRC
 
-*** (22) 今日中にやるべきタスク
+*** （22）今日中にやるべきタスク
 
 #+BEGIN_SRC emacs-lisp
 ("!" "Must Do Today"
@@ -901,7 +901,7 @@ TODOキーワードの表示形式:
              ((org-agenda-overriding-header "=== HIGH PRIORITY ===")))))
 #+END_SRC
 
-*** (23) 未スケジュールのタスク
+*** （23）未スケジュールのタスク
 
 #+BEGIN_SRC emacs-lisp
 ("U" "Unscheduled TODOs" alltodo ""
@@ -911,7 +911,7 @@ TODOキーワードの表示形式:
   (org-agenda-sorting-strategy '(priority-down category-keep))))
 #+END_SRC
 
-*** (24) 委譲済みタスクの追跡
+*** （24）委譲済みタスクの追跡
 
 #+BEGIN_SRC emacs-lisp
 ("W" "Delegated Tasks" todo "DELEGATED"
@@ -920,7 +920,7 @@ TODOキーワードの表示形式:
   (org-agenda-prefix-format " %i %-12:c [%e] ")))
 #+END_SRC
 
-*** (25) アーカイブ候補の確認
+*** （25）アーカイブ候補の確認
 
 #+BEGIN_SRC emacs-lisp
 ("a" "Archive Candidates" tags "CLOSED<=\"<-30d>\""

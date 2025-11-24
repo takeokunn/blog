@@ -7,11 +7,11 @@
 #+OPTIONS: toc:nil
 * Org-mode主要フック一覧
 
-Org-modeには多数のフックが用意されており、様々なタイミングで処理をカスタマイズできる。
+Org-modeには多数のフックが用意されており、さまざまなタイミングで処理をカスタマイズできる。
 
 ** org-mode-hook
 
-Org-modeバッファが有効化されたときに実行される。最も基本的なフック。
+Org-modeバッファが有効化されたときに実行される。もっとも基本的なフック。
 
 #+begin_src emacs-lisp
 ;; org-mode有効化時の設定
@@ -281,7 +281,7 @@ Tangle処理の前後に実行される。
 
 * 実践的なフック活用例
 
-** (1) org-mode-hook の設定例
+** （1） org-mode-hook の設定例
 
 #+begin_src emacs-lisp
 (defun my/org-mode-setup ()
@@ -319,7 +319,7 @@ Tangle処理の前後に実行される。
 (add-hook 'org-mode-hook #'my/org-mode-setup)
 #+end_src
 
-** (2) org-after-todo-state-change-hook の活用
+** （2） org-after-todo-state-change-hook の活用
 
 #+begin_src emacs-lisp
 (defun my/org-todo-state-change-actions ()
@@ -351,7 +351,7 @@ Tangle処理の前後に実行される。
           #'my/org-todo-state-change-actions)
 #+end_src
 
-** (3) org-clock-in-hook / org-clock-out-hook の活用
+** （3） org-clock-in-hook / org-clock-out-hook の活用
 
 #+begin_src emacs-lisp
 ;; Slack Status更新（要request.el）
@@ -408,7 +408,7 @@ Tangle処理の前後に実行される。
 (add-hook 'org-clock-in-hook #'my/org-clock-toggl-start)
 #+end_src
 
-** (4) org-babel-after-execute-hook の活用
+** （4） org-babel-after-execute-hook の活用
 
 #+begin_src emacs-lisp
 ;; 画像結果の自動インライン表示
@@ -476,7 +476,7 @@ Tangle処理の前後に実行される。
           #'my/org-babel-show-execution-time)
 #+end_src
 
-** (5) org-agenda-finalize-hook の活用
+** （5） org-agenda-finalize-hook の活用
 
 #+begin_src emacs-lisp
 (defun my/org-agenda-custom-highlights ()

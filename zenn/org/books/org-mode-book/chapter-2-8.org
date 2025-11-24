@@ -7,7 +7,7 @@
 #+OPTIONS: toc:nil
 * Column Viewとは
 
-Column Viewは、Org-modeのエントリに設定されたプロパティをスプレッドシートのように表形式で俯瞰・編集できる機能である。
+Column Viewは、Org-modeのエントリに設定されたプロパティをスプレッドシートのように表形式で俯瞰・編集できる機能です。
 
 ** スプレッドシート的な表示
 
@@ -28,7 +28,7 @@ Column Viewは、Org-modeのエントリに設定されたプロパティをス�
    :END:
 #+end_src
 
-Column Viewを有効にすると、以下のような表形式で表示される:
+Column Viewを有効にすると、次のような表形式で表示されます:
 
 #+begin_example
 | ITEM                    | TODO       | PRIORITY   | DEADLINE        |
@@ -57,7 +57,7 @@ Column Viewでは、各プロパティが列として表示され、階層構造
 
 ** 基本構文
 
-COLUMNS プロパティは以下の構文で定義する:
+COLUMNS プロパティは次の構文で定義します:
 
 #+begin_src text
 %[WIDTH]PROPERTY[(TITLE)][{SUMMARY-TYPE}]
@@ -906,9 +906,9 @@ Dynamic Blockはエクスポート時にもそのままテーブルとして出�
 
 * まとめ
 
-Column Viewは、Org-modeの強力なプロパティ管理機能を最大限に活用するための俯瞰ビューである。
+Column Viewは、Org-modeの強力なプロパティ管理機能を最大限に活用するための俯瞰ビューです。
 スプレッドシートのような表形式でプロパティを一覧・編集でき、サマリータイプによる自動集計も可能。
-プロジェクト管理、工数管理、予算管理など、様々な用途に応用できる。
+プロジェクト管理、工数管理、予算管理など、さまざまな用途に応用できます。
 
 Dynamic Blockと組み合わせることで、レポートの自動生成やエクスポートにも活用できる。
 org-agendaが時間軸でのタスク俯瞰を得意とするのに対し、Column Viewはプロパティ軸での俯瞰を得意とする。

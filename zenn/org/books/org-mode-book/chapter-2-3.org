@@ -85,7 +85,7 @@
   - ブロック中のタスクはTODO変更が制限される
   - 前提タスクの完了で解除
 - TRIGGERの使い方
-  - :TRIGGER: chain-siblings(NEXT)
+  - :TRIGGER: chain-siblings（NEXT）
   - 完了時に次のタスクを自動で（NEXT）状態に
   - chain-find-next の活用
 - 実践的なワークフロー

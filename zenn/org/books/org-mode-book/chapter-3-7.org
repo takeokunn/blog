@@ -9,7 +9,7 @@
 
 ** ox.elの役割
 
-=ox.el= はOrg-modeのエクスポートフレームワークの中核を担うモジュールである。
+=ox.el= はOrg-modeのエクスポートフレームワークの中核を担うモジュールです。
 
 #+begin_src emacs-lisp
 ;; ox.elの主要な責務
@@ -27,7 +27,7 @@
 
 ** トランスコード（Transcoder）の概念
 
-トランスコーダーはOrg要素を出力形式に変換する関数である。
+トランスコーダーはOrg要素を出力形式に変換する関数です。
 
 #+begin_src emacs-lisp
 ;; トランスコーダーは3つの引数を受け取る:
@@ -264,7 +264,7 @@
 
 ** org-export-filter-*-functions
 
-フィルターは各要素タイプに対して適用される関数のリストである。
+フィルターは各要素タイプに対して適用される関数のリストです。
 
 #+begin_src emacs-lisp
 ;; フィルター関数のシグネチャ
@@ -657,7 +657,7 @@ org-export-filter-quote-block-functions
 
 * ox-hugoの仕組み解析
 
-ox-hugoはOrg-modeからHugo（静的サイトジェネレータ）向けMarkdownを生成する派生バックエンドである。
+ox-hugoはOrg-modeからHugo（静的サイトジェネレータ）向けMarkdownを生成する派生バックエンドです。
 詳細なワークフローについては第9章を参照。
 
 ** ox-blackfriday を派生
