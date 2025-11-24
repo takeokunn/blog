@@ -7,7 +7,7 @@
 #+OPTIONS: toc:nil
 * org-protocolとは
 
-org-protocolは、外部アプリケーションからEmacsにデータを送信するための仕組みである。カスタムURLスキーム =org-protocol://= を使用し、ブラウザやメーラーなどからOrg-modeの機能を呼び出すことができる。
+org-protocolは、外部アプリケーションからEmacsにデータを送信するための仕組みです。カスタムURLスキーム =org-protocol://= を使用し、ブラウザやメーラーなどからOrg-modeの機能を呼び出すことができます。
 
 ** カスタムURLスキーム
 
@@ -75,7 +75,7 @@ Emacs.appの =Info.plist= を編集して、org-protocol URLスキームを登�
 
 1. Automatorで「アプリケーション」を新規作成
 2. 「シェルスクリプトを実行」アクションを追加
-3. 以下のスクリプトを設定:
+3. 次のスクリプトを設定:
 
 #+begin_src bash
 /usr/local/bin/emacsclient -n "$1"
@@ -330,7 +330,7 @@ Emacs側でのデコード設定:
 
 * 実践例
 
-** (1) Web記事のクリッピング
+** （1）Web記事のクリッピング
 
 #+begin_src emacs-lisp
 ;; Web記事クリッピング用テンプレート
@@ -356,7 +356,7 @@ Emacs側でのデコード設定:
 javascript:location.href='org-protocol://capture?template=c&url='+encodeURIComponent(location.href)+'&title='+encodeURIComponent(document.title)+'&body='+encodeURIComponent(window.getSelection().toString());
 #+end_src
 
-** (2) Webページの「後で読む」登録
+** （2）Webページの「後で読む」登録
 
 #+begin_src emacs-lisp
 ;; 後で読む用テンプレート
@@ -377,7 +377,7 @@ SCHEDULED: %(org-insert-time-stamp (org-read-date nil t \"+1d\") nil nil)
 javascript:location.href='org-protocol://capture?template=r&url='+encodeURIComponent(location.href)+'&title='+encodeURIComponent(document.title);
 #+end_src
 
-** (3) メールからのタスク作成
+** （3）メールからのタスク作成
 
 *** mu4eとの連携
 
@@ -415,7 +415,7 @@ Date: %:date
 %a")))
 #+end_src
 
-** (4) Slackメッセージのキャプチャ
+** （4）Slackメッセージのキャプチャ
 
 #+begin_src emacs-lisp
 ;; Slackメッセージ用テンプレート

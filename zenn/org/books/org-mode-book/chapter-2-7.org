@@ -995,7 +995,7 @@ DEADLINE: %^{Deadline}t
               (org-align-tags))))
 #+END_SRC
 
-* doct (Declarative Org Capture Templates) の活用
+* doct（Declarative Org Capture Templates）の活用
 ** doctの利点
 
 #+BEGIN_SRC emacs-lisp

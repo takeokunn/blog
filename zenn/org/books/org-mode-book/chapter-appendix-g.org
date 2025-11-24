@@ -59,7 +59,7 @@ Emacs Newsの週刊キュレーターとして、Emacsコミュニティに多�
 
 * Bernt Hansen氏
 
-GTD（Getting Things Done）をOrg Modeで実装する際のバイブルとも言える詳細なドキュメントを公開しています。
+GTD（Getting Things Done）をOrg Modeで実装する際のバイブルともいえる詳細なドキュメントを公開しています。
 
 - GTD実装の詳細解説
   - 包括的なOrg Modeワークフロー
@@ -76,7 +76,7 @@ GTD（Getting Things Done）をOrg Modeで実装する際のバイブルとも�
 
 * Nicolas Goaziou氏（org-element作者）
 
-Org Modeのパーサーであるorg-elementの作者として、Org Modeの内部構造を最も理解している開発者の一人です。
+Org Modeのパーサーであるorg-elementの作者として、Org Modeの内部構造をもっとも理解している開発者の一人です。
 
 - org-element設計思想
   - 文書の構造化表現
@@ -110,7 +110,7 @@ PIM（Personal Information Management）の研究者として、タグやファ�
 
 * Protesilaos Stavrou氏（Prot）
 
-modus-themesの作者として知られ、Emacsの哲学と実践について深い洞察を持つユーザーです。
+modus-themesの作者として知られ、Emacsの哲学と実践について深い洞察をもつユーザーです。
 
 - modus-themes作者
   - アクセシビリティを重視したテーマ
@@ -192,7 +192,7 @@ YouTubeでEmacsチュートリアルを提供し、Emacs入門者に大きな影
 
 * 設定を参考にする際の注意点
 
-他者の設定を参考にする際は、以下の点に注意が必要です。
+他者の設定を参考にする際は、次の点に注意が必要です。
 
 - バージョンの違い
   - 古い設定は動かないことがある

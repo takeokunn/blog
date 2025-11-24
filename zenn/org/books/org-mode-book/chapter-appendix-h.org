@@ -15,13 +15,13 @@ Org Modeは学術論文から技術書まで幅広い出版物の執筆に使わ
   - 化学工学分野の査読論文をOrg Modeで執筆
   - Supporting Informationに実行可能なコードを埋め込み
   - https://kitchingroup.cheme.cmu.edu/
-- Journal of Statistical Software Vol.46 Issue 3 (2012)
+- Journal of Statistical Software Vol.46 Issue 3（2012）
   - "A Multi-Language Computing Environment for Literate Programming and Reproducible Research"
   - Schulte E., Davison D., Dye T., Dominik C.
-- Computing in Science & Engineering Vol.13 Issue 3 (2011)
+- Computing in Science & Engineering Vol.13 Issue 3（2011）
   - "Active Documents with Org-Mode"
   - Schulte E., Davison D.
-- ACM SIGOPS Operating Systems Review (2015)
+- ACM SIGOPS Operating Systems Review（2015）
   - "An Effective Git And Org-Mode Based Workflow For Reproducible Research"
   - Stanisic L., Legrand A., Danjean V.
 
@@ -33,7 +33,7 @@ Org Modeは学術論文から技術書まで幅広い出版物の執筆に使わ
 - "Python Computations in Science and Engineering"
   - John Kitchin著
   - Org形式で実行可能なコードを含む
-- "Literate Configuration" (Leanpub)
+- "Literate Configuration"（Leanpub）
   - Emacsとorg-modeによる設定ファイルのリテラルプログラミング解説
 
 ** 電子書籍の生成
@@ -86,7 +86,7 @@ Org Modeは学術論文から技術書まで幅広い出版物の執筆に使わ
 
 ** Emacs設定（.emacs.d）
 
-Literate Config（設定ファイルのドキュメント化）は最も一般的なユースケース。
+Literate Config（設定ファイルのドキュメント化）はもっとも一般的なユースケース。
 
 代表的なリポジトリ:
 - Tecosaur's Doom Config
@@ -154,7 +154,7 @@ Org Modeの優位点:
 
 参考:
 - ob-jupyter: JupyterカーネルをOrg Babelから利用
-- EIN (Emacs IPython Notebook)との連携
+- EIN（Emacs IPython Notebook）との連携
 
 ** データ分析パイプライン
 
@@ -178,7 +178,7 @@ Org Modeの優位点:
 
 ** タスク管理システムとして
 
-- GTD (Getting Things Done) 実装
+- GTD（Getting Things Done）実装
   - org-gtd.el: https://github.com/Trevoke/org-gtd.el
   - Charles Cave's GTD workflow
   - コンテキストタグ（@home, @office等）
@@ -285,7 +285,7 @@ Org Modeの優位点:
   - 技術書オンリーの同人即売会
   - 2016年開始、年2回開催
   - 来場者1万人超
-- 技術書同人誌博覧会（技書博）
+- 技術書の同人誌博覧会（技書博）
 - コミックマーケット技術島
 
 ** コミケでのOrg-mode本
@@ -319,7 +319,7 @@ Zenn:
 
 * 興味深いユースケース
 
-Org Modeの柔軟性により、様々な用途で活用されている。
+Org Modeの柔軟性により、さまざまな用途で活用されている。
 
 ** 家計簿
 
@@ -450,7 +450,7 @@ doom.d config.org
 
 * まとめ
 
-Org Modeは単なるメモツールを超え、以下の分野で実際に活用されている:
+Org Modeは単なるメモツールを超え、次の分野で実際に活用されている:
 
 1. *学術出版*: 再現可能な研究論文の執筆
 2. *ソフトウェア開発*: ドキュメント、設定管理
