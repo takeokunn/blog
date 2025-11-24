@@ -22,6 +22,10 @@ chapters:
   - chapter-2-4
   - chapter-2-5
   - chapter-2-6
+  - chapter-2-7
+  - chapter-2-8
+  - chapter-2-9
+  - chapter-2-10
 
   # 第3章：文芸的プログラミングとOrg Babel
   - chapter-3-0
@@ -31,6 +35,7 @@ chapters:
   - chapter-3-4
   - chapter-3-5
   - chapter-3-6
+  - chapter-3-7
 
   # 第4章：タスク管理とアジェンダ
   - chapter-4-0
@@ -47,6 +52,8 @@ chapters:
   - chapter-5-4
   - chapter-5-5
   - chapter-5-6
+  - chapter-5-7
+  - chapter-5-8
 
   # 第6章：執筆環境の最適化
   - chapter-6-0
@@ -85,3 +92,6 @@ chapters:
   - chapter-appendix-c
   - chapter-appendix-d
   - chapter-appendix-e
+  - chapter-appendix-f
+  - chapter-appendix-g
+  - chapter-appendix-h
