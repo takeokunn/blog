@@ -1,34 +1,38 @@
 :PROPERTIES:
-:ID:       8354745b-a7d4-8884-7c8b-dad74112b834
+:ID:       f3dd4196-bcf5-57a4-aba3-b50840a2f876
 :END:
-#+TITLE: 8.1. 執筆プロジェクトの管理
+#+TITLE: 8.1. パフォーマンス・チューニングの技術
 #+DESCRIPTION: description
 #+DATE: 2024-02-08T15:10:41+0900
 #+STARTUP: fold
 #+OPTIONS: toc:nil
-* ディレクトリ構成
+* ガベージコレクション
 
-- 単一ファイル vs 複数ファイル
-- 章ごとの分割
-- 共通部品の管理
-- アセット（画像等）の配置
+- gc-cons-threshold の調整
+- gcmh-mode（Garbage Collector Magic Hack）
+- 起動時と通常時の切り替え
 
-* #+INCLUDE:
+* org-element-cache
 
-- ファイルのインクルード
-- 行番号指定
-- ブロック指定
-- 入れ子インクルード
+- キャッシュの仕組み
+- 有効化と無効化
+- キャッシュ破損時の対処
+- org-element-cache-reset
 
-* Citar/Org-ref
+* フォントロック
 
-- 文献管理の選択
-- .bibファイルの管理
-- 引用の挿入
-- 参考文献リストの生成
+- jit-lock-defer-time
+- org-fontify-* 変数
+- 必要最小限のフォントロック
 
-* プロジェクト設定
+* 行番号表示
 
-- .dir-locals.el
-- ファイルローカル変数
-- org-publish 設定
+- display-line-numbers-mode の影響
+- Org-modeでの無効化
+- nlinum vs native line numbers
+
+* その他の最適化
+
+- org-startup-folded
+- org-agenda-inhibit-startup
+- so-long-mode

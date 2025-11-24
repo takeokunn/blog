@@ -30,6 +30,7 @@ chapters:
   - chapter-3-3
   - chapter-3-4
   - chapter-3-5
+  - chapter-3-6
 
   # 第4章：タスク管理とアジェンダ
   - chapter-4-0
@@ -47,19 +48,14 @@ chapters:
   - chapter-5-5
   - chapter-5-6
 
-  # 第6章：執筆環境の拡張とAI連携
+  # 第6章：執筆環境の最適化
   - chapter-6-0
   - chapter-6-1
   - chapter-6-2
   - chapter-6-3
   - chapter-6-4
-  - chapter-6-5
-  - chapter-6-6
-  - chapter-6-7
-  - chapter-6-8
-  - chapter-6-9
 
-  # 第7章：大規模運用とトラブルシューティング
+  # 第7章：開発環境とツール連携
   - chapter-7-0
   - chapter-7-1
   - chapter-7-2
@@ -67,13 +63,21 @@ chapters:
   - chapter-7-4
   - chapter-7-5
 
-  # 第8章：ドキュメント作成と出版ワークフロー
+  # 第8章：大規模運用とトラブルシューティング
   - chapter-8-0
   - chapter-8-1
   - chapter-8-2
   - chapter-8-3
   - chapter-8-4
   - chapter-8-5
+
+  # 第9章：ドキュメント作成と出版ワークフロー
+  - chapter-9-0
+  - chapter-9-1
+  - chapter-9-2
+  - chapter-9-3
+  - chapter-9-4
+  - chapter-9-5
 
   # Appendix
   - chapter-appendix-a

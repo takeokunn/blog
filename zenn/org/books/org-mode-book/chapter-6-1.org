@@ -28,3 +28,23 @@
 - 頻繁に使う操作のショートカット化
 - which-key による発見可能性
 - hydra による操作グループ化
+* org-download
+- 画像の効率的な取り込み
+  - ドラッグ&ドロップ対応
+  - クリップボードからの貼り付け
+  - スクリーンショットの直接挿入
+- 基本設定
+  - org-download-method（directory / attach）
+  - org-download-image-dir
+  - org-download-heading-lvl
+- 使い方
+  - org-download-clipboard
+  - org-download-screenshot
+  - org-download-yank
+- ファイル名の制御
+  - org-download-timestamp
+  - org-download-abbreviate-filename-function
+- 実践的な活用
+  - ブログ執筆での画像管理
+  - ノートへのスクリーンショット添付
+  - org-attachとの使い分け

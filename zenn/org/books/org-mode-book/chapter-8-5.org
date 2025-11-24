@@ -1,32 +1,40 @@
 :PROPERTIES:
-:ID:       b8c9d0e1-f2a3-4567-bcde-890123456789
+:ID:       b5c6d7e8-f9a0-b1c2-d3e4-f5a6b7c8d9e0
 :END:
-#+TITLE: 8.5. 本書の執筆環境
+#+TITLE: 8.5. セキュリティとプライバシー
 #+DESCRIPTION: description
 #+DATE: 2024-02-08T15:10:41+0900
 #+STARTUP: fold
 #+OPTIONS: toc:nil
-* ディレクトリ構成
+* org-crypt
 
-- 本書で採用した構成
-- org/ と public/ の分離
-- 章ファイルの命名規則
+- サブツリー暗号化
+- :crypt: タグ
+- 自動暗号化/復号
+- org-crypt-key の設定
 
-* Zenn Books変換
+* GPG連携
 
-- ox-zenn の概要（あれば）
-- Org→Markdown変換
-- フロントマターの生成
-- 画像の扱い
+- EasyPG （EPA）
+- 鍵管理
+- パスフレーズキャッシュ
+- gpg-agent 設定
 
-* 執筆中の課題
+* auth-source
 
-- 大量ファイルの管理
-- 章番号の変更
-- クロスリファレンス
+- 認証情報の管理
+- ~/.authinfo.gpg
+- Org-modeからの参照
 
-* メタ構造
+* センシティブ情報
 
-- Org-modeでOrg-modeの本を書く
-- 自己言及の面白さ
-- 読者への説得力
+- パスワード管理
+- APIキーの扱い
+- .gitignore 設定
+- 環境変数の活用
+
+* ベストプラクティス
+
+- 暗号化の粒度
+- バックアップと暗号化
+- 復号できなくなるリスク

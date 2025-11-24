@@ -1,7 +1,7 @@
 :PROPERTIES:
 :ID:       0635f4f9-b846-f054-238b-2a2030650afa
 :END:
-#+TITLE: 2.3. タスク管理と時間管理の統合
+#+TITLE: 2.3. 個別タスクの操作と時間管理
 #+DESCRIPTION: description
 #+DATE: 2024-02-08T15:10:41+0900
 #+STARTUP: fold
@@ -50,3 +50,46 @@
 - C-c C-x C-i / C-c C-x C-o: クロックイン/アウト
 - クロックレポートの生成
 - org-clock-report のカスタマイズ
+
+* org-pomodoroによるポモドーロ・テクニック
+
+- ポモドーロ・テクニックとは
+  - 25分作業 + 5分休憩のサイクル
+  - 集中力の持続と疲労防止
+- org-pomodoroの導入
+  - インストールと基本設定
+  - クロッキングとの統合
+- 使い方
+  - M-x org-pomodoro でタイマー開始
+  - タスク見出し上で実行
+  - 完了時の通知設定
+- カスタマイズ
+  - org-pomodoro-length（作業時間）
+  - org-pomodoro-short-break-length（短い休憩）
+  - org-pomodoro-long-break-length（長い休憩）
+  - org-pomodoro-audio-player（通知音）
+- org-clockとの連携
+  - ポモドーロ中は自動でクロックイン
+  - クロックレポートへの反映
+  - 統計情報の活用
+
+* org-dependによるタスク依存関係
+
+- タスク依存関係の必要性
+  - 「AはBの完了後に着手」
+  - プロジェクト管理での活用
+- org-dependの基本
+  - BLOCKER プロパティ
+  - TRIGGER プロパティ
+- BLOCKERの使い方
+  - :BLOCKER: task-id
+  - ブロック中のタスクはTODO変更が制限される
+  - 前提タスクの完了で解除
+- TRIGGERの使い方
+  - :TRIGGER: chain-siblings(NEXT)
+  - 完了時に次のタスクを自動でNEXT状態に
+  - chain-find-next の活用
+- 実践的なワークフロー
+  - プロジェクトの順次実行
+  - 並列タスクの管理
+  - 依存関係の可視化

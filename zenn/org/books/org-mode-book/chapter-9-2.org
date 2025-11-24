@@ -1,0 +1,38 @@
+:PROPERTIES:
+:ID:       368d5370-ddc0-a884-510b-0bd6b8b835c8
+:END:
+#+TITLE: 9.2. Typst経由での組版とPDF生成
+#+DESCRIPTION: description
+#+DATE: 2024-02-08T15:10:41+0900
+#+STARTUP: fold
+#+OPTIONS: toc:nil
+* Typstとは
+
+- 次世代組版システム
+- LaTeXの代替
+- 高速コンパイル
+- モダンな構文
+
+* ox-typst
+
+- Org→Typst変換
+- 設定方法
+- テンプレートカスタマイズ
+
+* 標準エクスポート vs 出版品質
+
+- デフォルト出力の限界
+- カスタムスタイル
+- フォント設定
+
+* コードハイライト
+
+- Typstの組み込み機能
+- mintedパッケージ（LaTeX）
+- 言語ごとの設定
+
+* 日本語対応
+
+- フォント設定
+- 禁則処理
+- 縦書き対応

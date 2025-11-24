@@ -1,40 +1,21 @@
 :PROPERTIES:
-:ID:       b0b58ec6-4c4b-2af4-9c73-cc7a240c3f68
+:ID:       26c77dfc-761d-3964-ea7b-91e5c0186ea0
 :END:
-#+TITLE: 7.2. 大規模ファイルの運用戦略
+#+TITLE: 7.2. バージョン管理システムとの統合
 #+DESCRIPTION: description
 #+DATE: 2024-02-08T15:10:41+0900
 #+STARTUP: fold
 #+OPTIONS: toc:nil
-* Monolithアプローチ
-
-- 単一ファイルの利点
-- 限界点（数MB、数万行）
-- いつ分割を検討するか
-
-* ファイル分割戦略
-
-- トピック別分割
-- 年次/月次分割
-- #+INCLUDE: での統合
-- org-agenda-files での管理
-
-* アーカイブ
-
-- C-c C-x C-a: サブツリーアーカイブ
-- org-archive-location
-- 日付ベースアーカイブ
-- アーカイブからの検索
-
-* org-attach
-
-- 添付ファイル管理
-- ID連携
-- ディレクトリ構造
-- 継承設定
-
-* 巨大ファイルの設定
-
-- large-file-warning-threshold
-- org-startup-with-inline-images nil
-- 折りたたみ状態の保存
+* Magit
+- Git操作のEmacs統合
+- 基本操作（status, commit, push）
+- Orgファイルの差分表示
+- ブランチ管理
+* orgファイルとGit
+- 差分の見やすさ
+- マージコンフリクトの解決
+- .gitignore 設定
+* 現代ツールとの使い分け
+- カレンダー: Google Calendar vs Org
+- メール: Gmail vs mu4e
+- 統合の是非

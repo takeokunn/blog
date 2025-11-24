@@ -1,38 +1,30 @@
 :PROPERTIES:
-:ID:       f3dd4196-bcf5-57a4-aba3-b50840a2f876
+:ID:       f2e6dae0-5d99-a874-278b-bc0b9543adb3
 :END:
-#+TITLE: 7.1. パフォーマンス・チューニングの技術
+#+TITLE: 7.1. 生成AIとの協働とローカルLLMの活用
 #+DESCRIPTION: description
 #+DATE: 2024-02-08T15:10:41+0900
 #+STARTUP: fold
 #+OPTIONS: toc:nil
-* ガベージコレクション
-
-- gc-cons-threshold の調整
-- gcmh-mode（Garbage Collector Magic Hack）
-- 起動時と通常時の切り替え
-
-* org-element-cache
-
-- キャッシュの仕組み
-- 有効化と無効化
-- キャッシュ破損時の対処
-- org-element-cache-reset
-
-* フォントロック
-
-- jit-lock-defer-time
-- org-fontify-* 変数
-- 必要最小限のフォントロック
-
-* 行番号表示
-
-- display-line-numbers-mode の影響
-- Org-modeでの無効化
-- nlinum vs native line numbers
-
-* その他の最適化
-
-- org-startup-folded
-- org-agenda-inhibit-startup
-- so-long-mode
+* gptel
+- ChatGPT/Claude連携
+- 基本設定
+- Orgバッファでの対話
+- ストリーミング応答
+* org-ai
+- Org-mode統合
+- コードブロック内でのAI実行
+- 画像生成対応
+* ローカルLLM
+- Ollama の導入
+- プライバシー保護
+- gptel-ollama
+- パフォーマンス考慮
+* コンテキスト認識
+- サブツリーをAIに参照させる
+- 選択範囲の活用
+- プロンプトエンジニアリング
+* 音声入力
+- whisper.cpp 連携
+- 音声→テキスト→TODO
+- ワークフロー例
