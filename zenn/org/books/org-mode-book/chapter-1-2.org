@@ -29,8 +29,8 @@
 * インライン要素
 
 - 強調（*bold*, /italic/, _underline_, +strikethrough+, ~code~, =verbatim=）
-- リンク（[[URL][description]]）
-- 脚注（[fn:1]）
+- リンク
+- 脚注（ =[fn:1]= ）
 - LaTeX数式（$inline$, \begin{equation}...）
 
 * リスト

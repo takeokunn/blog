@@ -25,6 +25,7 @@
               no-exclamation-question-mark = false;
               sentence-length = false;
               no-doubled-joshi = false;
+              no-unmatched-pair = false;
               max-kanji-continuous-len = {
                 max = 8;
               };
@@ -36,11 +37,12 @@
               sentence-length = false;
               no-doubled-joshi = false;
             };
-            prh = {
-              rulePaths = [
-                "${pkgs.textlint-rule-prh}/lib/node_modules/textlint-rule-prh/node_modules/prh/prh-rules/media/techbooster.yml"
-              ];
-            };
+            prh = false;
+            # prh = {
+            #   rulePaths = [
+            #     "${pkgs.textlint-rule-prh}/lib/node_modules/textlint-rule-prh/node_modules/prh/prh-rules/media/techbooster.yml"
+            #   ];
+            # };
           };
         };
       in

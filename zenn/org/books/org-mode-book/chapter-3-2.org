@@ -9,7 +9,7 @@
 
 - 基本的な変数渡し（:var name=value）
 - テーブルからの変数（:var data=tablename）
-- 他ブロックの結果参照（:var x=blockname）
+- 他ブロックの結果参照（ =:var x=blockname= ）
 - リストと配列の扱い
 
 * 結果（:results）の制御
@@ -30,7 +30,7 @@
 
 - 名前付きブロックの呼び出し
 - 引数の上書き
-- インライン呼び出し（call_blockname()）
+- インライン呼び出し（ =call_blockname()= ）
 - ライブラリ的な活用
 
 * noWeb参照

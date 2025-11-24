@@ -11,7 +11,7 @@
   - コードと説明の一体化
   - 数年後の自分への説明
   - 他者への共有
-- 管理のしやすさ
+- 管理が容易
   - トピック別の整理
   - 依存関係の明示
   - 無効化の容易さ
@@ -32,7 +32,7 @@
 * org-babel-load-file
 
 - 起動時の自動tangle
-  - (org-babel-load-file "~/.emacs.d/config.org")
+  - （org-babel-load-file "~/.emacs.d/config.org"）
   - .elファイルのキャッシュ
   - 更新検知と再tangle
 - 利点と欠点
@@ -48,7 +48,7 @@
 - :tangle "filename"
   - 出力先の指定
   - 複数ファイルへの分割
-- :noweb yes
+- :noWeb yes
   - コードブロックの参照
   - 共通部品の再利用
 - :comments link
@@ -75,7 +75,7 @@
   - system-type によるOS判定
   - window-system によるGUI判定
 - 条件付きtangle
-  - :tangle (when (eq system-type 'darwin) "init.el")
+  - :tangle （when （eq system-type 'darwin） "init.el"）
   - Elisp式の評価
 - 環境変数の活用
   - getenv での取得

@@ -59,7 +59,7 @@ Emacs Newsの週刊キュレーターとして、Emacsコミュニティに多�
 
 * Bernt Hansen氏
 
-GTD（Getting Things Done）をOrg Modeで実装する際のバイブルともいえる詳細なドキュメントを公開しています。
+GTDメソッドをOrg Modeで実装する際のバイブルともいえる詳細なドキュメントを公開しています。
 
 - GTD実装の詳細解説
   - 包括的なOrg Modeワークフロー
