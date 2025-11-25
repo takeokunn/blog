@@ -1,0 +1,16 @@
+:PROPERTIES:
+:ID:       B6A5FC74-D497-4380-A864-122B053DE7C0
+:END:
+#+TITLE: 2025年12月 AI Coding Agentワークフロー
+#+AUTHOR: takeokunn
+#+DESCRIPTION: description
+#+DATE: 2025-11-25T19:01:57+0900
+#+HUGO_BASE_DIR: ../../
+#+HUGO_CATEGORIES: permanent
+#+HUGO_SECTION: posts/permanent
+#+HUGO_TAGS: permanent ai
+#+HUGO_DRAFT: true
+#+STARTUP: fold
+* aaa
+
+bbb
