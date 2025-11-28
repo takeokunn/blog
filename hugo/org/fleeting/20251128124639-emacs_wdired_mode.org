@@ -13,17 +13,19 @@
 #+STARTUP: fold
 * 背景・動機
 
-- どのような課題意識・ニーズがあったか
-  - e.g. ◯◯ツールでは〜ができずに困っていた
-  - e.g. △△な成果物を作るため、より柔軟なxx環境が欲しかった
+[[https://x.com/ryoppippi][ryoppippi]] の「【外資ITエンジニアの開発環境】VimmerによるVimmer(になりたい人)のためのVim動画」という動画を見た。
+
+#+begin_export html
+<iframe width="560" height="315" src="https://www.youtube.com/embed/XsAlXYWzcv4?si=BCtjXraq6TWjCdH8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+#+end_export
+
+その中で [[https://github.com/stevearc/oil.nvim][oil.nvim]] 紹介があり、vimの通常操作でファイル操作が可能になる機能がある。
+EmacsのDiredでも同様のことがないか調査した所、標準機能に [[https://github.com/emacs-mirror/emacs/blob/master/lisp/wdired.el][wdired.el]] というものがあったので使ってみた。
 
 * 試したこと・やったこと
-
-- 実施内容、設計方針、使用技術
-  - e.g. ◯◯を用いて構成を再設計
-  - e.g. 外部リソース・ライブラリの活用
-  - e.g. 自作の〜テンプレートでレイアウト制御
-
+** 1. wdiredの機能調査
+** 2. wdired設定
+** 3. 実際の挙動確認
 * 得られた結果・所感
 
 - 成果、苦労した点、気づき
