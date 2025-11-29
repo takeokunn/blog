@@ -1,39 +1,295 @@
 :PROPERTIES:
 :ID:       3BB6D87A-A064-45A3-AC62-E75E8B61DBFB
 :END:
-#+TITLE: Aerospace設定
+#+TITLE: 個人的Aerospace設定
 #+AUTHOR: takeokunn
 #+DESCRIPTION: description
 #+DATE: 2025-11-25T00:03:22+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting
 #+HUGO_SECTION: posts/fleeting
-#+HUGO_TAGS: fleeting aerospace
-#+HUGO_DRAFT: fales
+#+HUGO_TAGS: fleeting aerospace nix
+#+HUGO_DRAFT: false
 #+STARTUP: fold
 * 背景・動機
 
-- どのような課題意識・ニーズがあったか
-  - e.g. ◯◯ツールでは〜ができずに困っていた
-  - e.g. △△な成果物を作るため、より柔軟なxx環境が欲しかった
+タイル型Window Managerは割と好きで、Linux Desktopではswayを使っているのだが、macOSでも使いたいと思っていた。
+macOSでは昔ながらの[[https://github.com/koekeishiya/yabai][yabai]]と後発の[[https://github.com/nikitabobko/AeroSpace][AeroSpace]]があるが、AeroSpaceで自分のユースケースをすべて満たせていたので採用した。
+
+1年使ってほぼ運用が固まったので後学の為にブログに書いておく。
+
+設定の全文はこちら。
+
+https://github.com/takeokunn/nixos-configuration/blob/main/nix-darwin/config/services/aerospace/default.nix
 
 * 試したこと・やったこと
+** 1. nix-darwinでAeroSpaceを有効にする
 
-- 実施内容、設計方針、使用技術
-  - e.g. ◯◯を用いて構成を再設計
-  - e.g. 外部リソース・ライブラリの活用
-  - e.g. 自作の〜テンプレートでレイアウト制御
+nix-darwinでservices moduleが提供されている。
+enableにするだけでlaunchd agentの設定が有効になり、 =Quit AeroSpace= しても再起動されるようになる。
 
+https://github.com/nix-darwin/nix-darwin/blob/master/modules/services/aerospace/default.nix
+
+#+begin_src nix
+  # 自分の設定
+  {
+    services.aerospace = {
+      enable = true;
+    };
+  }
+#+end_src
+
+#+begin_src nix
+  # nix-darwin記述抜粋
+  {
+    launchd.user.agents.aerospace = {
+      command =
+        "${cfg.package}/Applications/AeroSpace.app/Contents/MacOS/AeroSpace"
+        + (lib.optionalString (cfg.settings != { }) " --config-path ${configFile}");
+      serviceConfig = {
+        KeepAlive = true;
+        RunAtLoad = true;
+      };
+      managedBy = "services.aerospace.enable";
+    };
+  }
+#+end_src
+** 2. 基本設定
+
+適当に便利そうな設定を入れている。
+[[https://github.com/FelixKratz/SketchyBar][sketchybar]] の関係で ~gaps.outer.top=10~ を入れて調整している。
+
+#+begin_src nix
+  {
+    settings = {
+      enable-normalization-flatten-containers = true;
+      enable-normalization-opposite-orientation-for-nested-containers = true;
+      accordion-padding = 0;
+      on-focused-monitor-changed = [ "move-mouse monitor-lazy-center" ];
+      exec-on-workspace-change = [
+        "/bin/bash"
+        "-c"
+        "sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$(/run/current-system/sw/bin/aerospace list-workspaces --focused)"
+      ];
+
+      gaps = {
+        inner = {
+          horizontal = 0;
+          vertical = 0;
+        };
+        outer = {
+          left = 0;
+          bottom = 0;
+          top = 10;
+          right = 0;
+        };
+      };
+    };
+  }
+#+end_src
+
+** 3. keybind周りの設定
+
+=alt= で操作する割と一般的な設定をしている。
+
+#+begin_src nix
+  {
+    main = {
+      binding = {
+        alt-h = "focus left";
+        alt-l = "focus right";
+
+        alt-shift-h = "move left";
+        alt-shift-l = "move right";
+
+        alt-shift-space = "layout floating tiling";
+
+        alt-1 = "workspace 1";
+        alt-2 = "workspace 2";
+        alt-3 = "workspace 3";
+        alt-4 = "workspace 4";
+        alt-5 = "workspace 5";
+        alt-6 = "workspace 6";
+        alt-7 = "workspace 7";
+        alt-8 = "workspace 8";
+        alt-9 = "workspace 9";
+        alt-0 = "workspace 10";
+
+        alt-shift-1 = [
+          "move-node-to-workspace 1"
+          "workspace 1"
+        ];
+        alt-shift-2 = [
+          "move-node-to-workspace 2"
+          "workspace 2"
+        ];
+        alt-shift-3 = [
+          "move-node-to-workspace 3"
+          "workspace 3"
+        ];
+        alt-shift-4 = [
+          "move-node-to-workspace 4"
+          "workspace 4"
+        ];
+        alt-shift-5 = [
+          "move-node-to-workspace 5"
+          "workspace 5"
+        ];
+        alt-shift-6 = [
+          "move-node-to-workspace 6"
+          "workspace 6"
+        ];
+        alt-shift-7 = [
+          "move-node-to-workspace 7"
+          "workspace 7"
+        ];
+        alt-shift-8 = [
+          "move-node-to-workspace 8"
+          "workspace 8"
+        ];
+        alt-shift-9 = [
+          "move-node-to-workspace 9"
+          "workspace 9"
+        ];
+        alt-shift-0 = [
+          "move-node-to-workspace 10"
+          "workspace 10"
+        ];
+
+        alt-r = "mode resize";
+      };
+    };
+
+    resize = {
+      binding = {
+        h = "resize width -50";
+        j = "resize height +50";
+        k = "resize height -50";
+        l = "resize width +50";
+        enter = "mode main";
+        esc = "mode main";
+      };
+    };
+  }
+#+end_src
+** 4. アプリケーション配置
+
+タイル型Window Managerを効率良く使う為には、「workspaceに開くapplicationは固定化する」「1 workspace 1 application、全画面表示」というのを個人的にオススメしている。
+
+自分の場合はswayでも次のように固定化している。
+
+1. ブラウザ関連（e.g. Chrome）
+2. Terminal関連（e.g. Kitty）
+3. Emacs
+4. 雑多なアプリケーション（e.g. Draw.io）
+5. 別ディスプレイに写したいもの
+6. （特になし）
+7. （特になし）
+8. Discord（ほぼ使わない）
+9. AI関連
+10. Slack
+
+次のように =on-window-detected= を設定している。
+
+https://nikitabobko.github.io/AeroSpace/guide#on-window-detected-callback
+
+Chromeは複数プロファイルを使う前提なので =layout floating= で起動するようにしている。
+この設定で勝手に指定した位置にアプリケーションが立ち上がってくれるので一々考える必要がなくなった。
+
+#+begin_src nix
+  {
+    mode.on-window-detected = [
+      {
+        "if".app-id = "com.google.Chrome";
+        run = [
+          "layout floating"
+          "move-node-to-workspace 1"
+        ];
+      }
+      {
+        "if".app-id = "com.apple.Terminal";
+        run = [ "move-node-to-workspace 2" ];
+      }
+      {
+        "if".app-id = "net.kovidgoyal.kitty";
+        run = [ "move-node-to-workspace 2" ];
+      }
+      {
+        "if".app-id = "org.gnu.Emacs";
+        run = [ "move-node-to-workspace 3" ];
+      }
+      {
+        "if".app-id = "com.jgraph.drawio.desktop";
+        run = [ "move-node-to-workspace 4" ];
+      }
+      {
+        "if".app-id = "com.lambdalisue.Arto";
+        run = [ "move-node-to-workspace 4" ];
+      }
+      {
+        "if".app-id = "com.sequel-ace.sequel-ace";
+        run = [ "move-node-to-workspace 4" ];
+      }
+      {
+        "if".app-id = "com.hnc.Discord";
+        run = [ "move-node-to-workspace 8" ];
+      }
+      {
+        "if".app-id = "com.anthropic.claudefordesktop";
+        run = [ "move-node-to-workspace 9" ];
+      }
+      {
+        "if".app-id = "com.openai.chat";
+        run = [ "move-node-to-workspace 9" ];
+      }
+      {
+        "if".app-id = "com.clickup.desktop-app";
+        run = [ "move-node-to-workspace 9" ];
+      }
+      {
+        "if".app-id = "com.tinyspeck.slackmacgap";
+        run = [ "move-node-to-workspace 10" ];
+      }
+    ];
+  }
+
+#+end_src
+** 5. 外部ディスプレイ表示
+
+=assign-workspaces-to-monitors= でどこのモニターに出力するか制御できる。
+
+https://nikitabobko.github.io/AeroSpace/guide#assign-workspaces-to-monitors
+
+- main - "Main" monitor （"main" as in System Settings → Displays → Use as）
+- secondary - Non-main monitor in case when there are only two monitors
+- <number> （e.g. 1, 2） - Sequence number of the monitor from left to right. 1-based indexing
+- <regex-pattern> （e.g. dell.*, built-in.*） - Case insensitive regex substring pattern
+
+前述したとおり、workspaceの5番をサブディスプレイに出力する運用にしている。
+
+#+begin_src nix
+  {
+    workspace-to-monitor-force-assignment = {
+      "1" = "main";
+      "2" = "main";
+      "3" = "main";
+      "4" = "main";
+      "5" = "secondary";
+      "6" = "main";
+      "7" = "main";
+      "8" = "main";
+      "9" = "main";
+      "10" = "main";
+    };
+  }
+#+end_src
 * 得られた結果・所感
 
-- 成果、苦労した点、気づき
-  - e.g. ◯◯の表現力が予想以上だった
-  - e.g. △△の構文で詰まったが、〜で解決
-  - e.g. 複数人で共通スタイルを使えるようになった
+集中時はAeroSpace、そうじゃない場合はDisabledにして無効にする、という運用になってからWindow切り替えの効率が段違いに上がったという実感がある。
+AeroSpaceはちょくちょくレンダリングがバグるのだが、 =Quit AeroSpace= で消して、launchdに勝手に再起動させるだけでいいのも利点。
+
+=alt= key起点のkeybindなので、地味にEmacsの =M-l= と被ってしまうのだけが辛い。
 
 * 今後の展開・検討事項
 
-- 派生プロジェクト、汎用化、他分野展開
-  - e.g. OSSテンプレートとして配布予定
-  - e.g. CI/CDでの自動PDF出力＋SNSシェアを統合
-  - e.g. ◯◯領域にも応用できそうなので検討中
+[[https://github.com/FelixKratz/SketchyBar][sketchybar]] との組み合わせについての知見も溜ったのでこちらも記事に纏めていきたい。
