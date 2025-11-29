@@ -4,12 +4,12 @@
 #+TITLE: k9sをDracula Theme対応した
 #+AUTHOR: takeokunn
 #+DESCRIPTION: description
-#+DATE: 2025-11-25T00:43:07+0900
+#+DATE: 2025-11-29T22:00:24+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting
 #+HUGO_SECTION: posts/fleeting
 #+HUGO_TAGS: fleeting k8s nix
-#+HUGO_DRAFT: true
+#+HUGO_DRAFT: false
 #+STARTUP: fold
 * 背景・動機
 
