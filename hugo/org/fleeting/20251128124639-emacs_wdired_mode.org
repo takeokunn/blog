@@ -4,7 +4,7 @@
 #+TITLE: emacs wdiredが便利だった
 #+AUTHOR: takeokunn
 #+DESCRIPTION: description
-#+DATE: 2025-11-28T12:46:49+0900
+#+DATE: 2025-11-29T21:06:48+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting
 #+HUGO_SECTION: posts/fleeting
