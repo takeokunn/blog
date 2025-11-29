@@ -19,7 +19,7 @@
 <iframe width="560" height="315" src="https://www.youtube.com/embed/XsAlXYWzcv4?si=BCtjXraq6TWjCdH8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 #+end_export
 
-その中で [[https://github.com/stevearc/oil.nvim][oil.nvim]] 紹介があり、vimの通常操作でファイル操作が可能になる機能があru.
+その中で [[https://github.com/stevearc/oil.nvim][oil.nvim]] 紹介があり、vimの通常操作でファイル操作が可能になる機能がある。
 EmacsのDiredでも同様のことがないか調査した所、標準機能に =wdired.el= というものがあったので使ってみた。
 
 * 試したこと・やったこと
