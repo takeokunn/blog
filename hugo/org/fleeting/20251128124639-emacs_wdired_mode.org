@@ -77,7 +77,7 @@ Dired上で起動するの方法は =wdired-change-to-wdired-mode= を有効に�
 
 1. 適当なディレクトリでdiredを開いて =r= を押す
 2. ファイル名やpermissionを変更する
-3. =C-c C-c= で保存する
+3. =C-c C-c= で保存する or =C-c C-k= でロールバックする
 
 #+begin_src fundamental
   /Users/take/Desktop/tmp:
