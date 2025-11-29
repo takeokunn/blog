@@ -32,9 +32,9 @@ https://github.com/emacs-mirror/emacs/blob/master/lisp/wdired.el
 大きな特徴は3点。
 Emacs上で完結しているが故のkmacroなどの他の機能を使えるのが便利。
 
-1. テキスト処理としてのファイル管理
+1. テキスト処理の延長でファイル操作ができる
 2. 安全性とトランザクション
-3. Emacs Lispによる拡張性
+3. Emacs Lispによる拡張可能
 
 ** 2. wdired設定
 
