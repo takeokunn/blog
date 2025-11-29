@@ -79,14 +79,8 @@ Dired上で起動するの方法は =wdired-change-to-wdired-mode= を有効に�
 2. ファイル名やpermissionを変更する
 3. =C-c C-c= で保存する or =C-c C-k= でロールバックする
 
-#+begin_src fundamental
-  /Users/take/Desktop/tmp:
-  drwxr-xr-x  4 take  staff   128B Nov 29 20:47 .
-  drwx------@ 6 take  staff   192B Nov 28 20:31 ..
-  -rw-r--r--  1 take  staff     0B Nov 29 20:47 aaaa
-  -rwxrwxrwx  1 take  staff     0B Nov 29 20:47 bbbb
-  ここも編集できるがvalidじゃないと保存できない  1 take  staff     8B Nov 29 02:03 cccc-編集できるよ
-#+end_src
+[[file:../../static/images/E62300C4-243B-413C-9C25-32897789BDF6.png]]
+
 * 得られた結果・所感
 
 diredでのファイル操作が本当に楽になった。
