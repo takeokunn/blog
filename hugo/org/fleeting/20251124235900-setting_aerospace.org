@@ -4,7 +4,7 @@
 #+TITLE: 個人的Aerospace設定
 #+AUTHOR: takeokunn
 #+DESCRIPTION: description
-#+DATE: 2025-11-25T00:03:22+0900
+#+DATE: 2025-11-30T00:43:26+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting
 #+HUGO_SECTION: posts/fleeting
