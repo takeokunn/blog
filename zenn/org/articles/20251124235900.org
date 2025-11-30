@@ -1,0 +1,15 @@
+:PROPERTIES:
+:ID:       F7A1203E-F033-4656-91E7-15F598951FA9
+:END:
+#+TITLE: Software DesignでNix連載しました
+#+DESCRIPTION: description
+#+DATE: 2025-11-25T00:09:24+0900
+#+GFM_TAGS: nix
+#+GFM_CUSTOM_FRONT_MATTER: :emoji 👍
+#+GFM_CUSTOM_FRONT_MATTER: :type tech
+#+GFM_CUSTOM_FRONT_MATTER: :published false
+#+STARTUP: fold
+#+OPTIONS: toc:nil
+* aaa
+
+xxx
