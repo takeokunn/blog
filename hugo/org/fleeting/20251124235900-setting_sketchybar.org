@@ -1,39 +1,424 @@
 :PROPERTIES:
 :ID:       CB5B2DF6-6AB3-4575-B3D1-BBC840CC9C61
 :END:
-#+TITLE: sketchybar設定
+#+TITLE: 個人的sketchybar設定
 #+AUTHOR: takeokunn
 #+DESCRIPTION: description
-#+DATE: 2025-11-25T00:05:10+0900
+#+DATE: 2025-11-30T13:21:51+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting
 #+HUGO_SECTION: posts/fleeting
-#+HUGO_TAGS: fleeting sketchybar
-#+HUGO_DRAFT: true
+#+HUGO_TAGS: fleeting sketchybar nix
+#+HUGO_DRAFT: false
 #+STARTUP: fold
 * 背景・動機
 
-- どのような課題意識・ニーズがあったか
-  - e.g. ◯◯ツールでは〜ができずに困っていた
-  - e.g. ◯◯な成果物を作るため、より柔軟なyy環境が欲しかった
+[[id:3BB6D87A-A064-45A3-AC62-E75E8B61DBFB][個人的Aerospace設定]] に続き、sketchybarの設定もしたのでメモしておく。
+
+大体の対応は公式ドキュメントを元にClaude Codeに対応させた。
+
+https://felixkratz.github.io/SketchyBar/
 
 * 試したこと・やったこと
+** 1. 完成イメージと設計方針
 
-- 実施内容、設計方針、使用技術
-  - e.g. ◯◯を用いて構成を再設計
-  - e.g. 外部リソース・ライブラリの活用
-  - e.g. 自作の〜テンプレートでレイアウト制御
+世の中のsketchybarのサンプルを作成して、こんな感じで作る目論見を立てた。
 
+- Hack Nerd Font: アイコンとラベル用
+- SF Pro: Appleロゴ用（macOS標準搭載）
+
+#+begin_src console
+  ┌─────────────────────────────────────────────────────────────────────────┐
+  │ [􀣺] [1 2 3 4 5 6 7 8 9 0] Firefox  |  󰻠 5% 󰍛 42% | 󰖩 Home | 󰕾 50% | 󰁹 85% | 󰃭 01/15 Mon 󰥔 14:30 │
+  └─────────────────────────────────────────────────────────────────────────┘
+#+end_src
+
+また、すべてをdracula themeに寄せるのでカラーパレットをAIに作らせた。
+
+#+begin_src nix
+  colors = {
+    background = "0xff282a36";
+    backgroundTransparent = "0xcc282a36";
+    currentLine = "0xff44475a";
+    foreground = "0xfff8f8f2";
+    comment = "0xff6272a4";
+    cyan = "0xff8be9fd";
+    green = "0xff50fa7b";
+    orange = "0xffffb86c";
+    pink = "0xffff79c6";
+    purple = "0xffbd93f9";
+    red = "0xffff5555";
+    yellow = "0xfff1fa8c";
+    transparent = "0x00000000";
+    black = "0xff21222c";
+  };
+#+end_src
+** 2. 基本設定
+*** 2.1. home-manager設定
+
+home-manager moduleで定義されているので ~enable=true~ するだけで入る。
+
+https://github.com/nix-community/home-manager/blob/master/modules/programs/sketchybar.nix
+
+#+begin_src nix
+  programs.sketchybar = {
+    enable = pkgs.stdenv.isDarwin;
+  };
+#+end_src
+
+*** 2.2. バー設定
+
+アイランドスタイル（角丸、マージン、ぼかし効果）でMacBook Proのノッチに対応している。
+
+#+begin_src bash
+bar=(
+  height=40
+  color="$BACKGROUND_TRANSPARENT"
+  shadow=on
+  position=top
+  sticky=on
+  padding_left=8
+  padding_right=8
+  margin=8
+  corner_radius=12
+  blur_radius=30
+  notch_width=200
+  y_offset=4
+)
+sketchybar --bar "${bar[@]}"
+#+end_src
+*** 2.3. デフォルト設定
+
+全アイテムに適用されるデフォルトスタイルを設定している。
+
+#+begin_src bash
+default=(
+  icon.font="Hack Nerd Font:Bold:14.0"
+  icon.color="$FOREGROUND"
+  label.font="Hack Nerd Font:Bold:12.0"
+  label.color="$FOREGROUND"
+  background.color="$TRANSPARENT"
+  background.corner_radius=8
+  background.height=28
+)
+sketchybar --default "${default[@]}"
+#+end_src
+** 3. 左側アイテム
+*** 3.1. Appleロゴ
+
+左端にAppleロゴを配置している。クリックでsketchybar全体を更新する。
+
+#+begin_src bash
+sketchybar --add item apple_logo left \
+           --set apple_logo \
+                 icon="􀣺" \
+                 icon.font="SF Pro:Bold:16.0" \
+                 icon.color="$PURPLE" \
+                 background.color="$CURRENT_LINE" \
+                 background.corner_radius=10 \
+                 background.height=28 \
+                 padding_left=8 \
+                 padding_right=4 \
+                 click_script="sketchybar --update"
+#+end_src
+*** 3.2. ワークスペース表示
+
+AeroSpaceと連携して現在のワークスペース状態を表示している。
+
+**** 3.2.1. カスタムイベント
+
+Aerospaceからワークスペース変更通知を受け取るためのカスタムイベントを登録している。
+
+#+begin_src bash
+sketchybar --add event aerospace_workspace_change
+#+end_src
+
+Aerospace側の設定（ ~aerospace.toml~ ）では次のように連携：
+
+#+begin_src toml
+exec-on-workspace-change = [
+  '/bin/bash', '-c',
+  'sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE'
+]
+#+end_src
+
+**** 3.2.2. ワークスペースプラグイン
+
+各ワークスペースの状態に応じて表示を切り替えている。
+
+#+begin_src bash
+AEROSPACE="/run/current-system/sw/bin/aerospace"
+
+# 自分のspace ID（space.1, space.2, ... から数字を抽出）
+SID=$(echo "$NAME" | sed 's/space\.//')
+
+# フォーカス中のワークスペースを取得
+if [ -n "$FOCUSED_WORKSPACE" ]; then
+  FOCUSED="$FOCUSED_WORKSPACE"
+else
+  FOCUSED=$("$AEROSPACE" list-workspaces --focused 2>/dev/null || echo "1")
+fi
+
+if [ "$SID" = "$FOCUSED" ]; then
+  # フォーカス中: 紫背景
+  sketchybar --set "$NAME" \
+    background.color=${colors.purple} \
+    icon.color=${colors.background}
+else
+  WINDOWS=$("$AEROSPACE" list-windows --workspace "$SID" 2>/dev/null | wc -l | tr -d ' ')
+  if [ "$WINDOWS" -gt 0 ]; then
+    # ウィンドウあり: 白文字
+    sketchybar --set "$NAME" \
+      background.color=${colors.transparent} \
+      icon.color=${colors.foreground}
+  else
+    # ウィンドウなし: グレー文字
+    sketchybar --set "$NAME" \
+      background.color=${colors.transparent} \
+      icon.color=${colors.comment}
+  fi
+fi
+#+end_src
+
+**** 3.2.3. ワークスペース表示設定
+
+1-10のワークスペースをループで生成している。ワークスペース10は「0」と表示している。
+
+#+begin_src bash
+SPACE_ICONS=("1" "2" "3" "4" "5" "6" "7" "8" "9" "10")
+
+for i in "${!SPACE_ICONS[@]}"; do
+  sid="${SPACE_ICONS[$i]}"
+  if [ "$sid" = "10" ]; then
+    display_icon="0"
+  else
+    display_icon="$sid"
+  fi
+
+  sketchybar --add item space.$sid left \
+             --set space.$sid \
+                   icon="$display_icon" \
+                   icon.font="Hack Nerd Font:Bold:14.0" \
+                   icon.padding_left=8 \
+                   icon.padding_right=8 \
+                   background.corner_radius=8 \
+                   background.height=28 \
+                   click_script="aerospace workspace $sid" \
+                   script="${aerospacePlugin}" \
+                   update_freq=1 \
+             --subscribe space.$sid aerospace_workspace_change
+done
+#+end_src
+
+**** 3.2.4. ブラケット（グループ化）
+
+正規表現で ~space.1~ 〜 ~space.10~ をグループ化している。
+
+#+begin_src bash
+sketchybar --add bracket spaces_bracket '/space\..*/' \
+           --set spaces_bracket \
+                 background.color="$CURRENT_LINE" \
+                 background.corner_radius=10 \
+                 background.height=28
+#+end_src
+
+**** 3.2.5. 初期化処理
+
+sketchybar起動時に現在のワークスペースを取得して初期状態を設定している。
+
+#+begin_src bash
+AEROSPACE="/run/current-system/sw/bin/aerospace"
+FOCUSED=$("$AEROSPACE" list-workspaces --focused 2>/dev/null || echo "1")
+sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE="$FOCUSED"
+
+sketchybar --update
+#+end_src
+*** 3.3. フロントアプリ
+
+~front_app_switched~ イベントで現在のアプリケーション名を表示している。
+
+#+begin_src bash
+if [ "$SENDER" = "front_app_switched" ]; then
+  sketchybar --set "$NAME" label="$INFO"
+fi
+#+end_src
+
+#+begin_src bash
+sketchybar --add item front_app left \
+           --set front_app \
+                 icon.drawing=off \
+                 label.font="Hack Nerd Font:Bold:12.0" \
+                 label.color="$FOREGROUND" \
+                 script="${frontAppPlugin}" \
+           --subscribe front_app front_app_switched
+#+end_src
+** 4. 右側アイテム
+
+システム情報を表示する各種プラグインを実装した。
+
+*** 4.1. CPU使用率
+
+~top~ コマンドでCPU使用率を取得している。
+
+#+begin_src bash
+CPU=$(top -l 1 -n 0 | grep "CPU usage" | awk '{print $3}' | tr -d '%')
+sketchybar --set "$NAME" label="$CPU%"
+#+end_src
+
+#+begin_src bash
+sketchybar --add item cpu right \
+           --set cpu \
+                 icon="󰻠" \
+                 icon.color="$CYAN" \
+                 script="${cpuPlugin}" \
+                 update_freq=5
+#+end_src
+
+*** 4.2. メモリ使用率
+
+~memory_pressure~ コマンドでシステムメモリの使用率を取得している。
+
+#+begin_src bash
+MEMORY=$(memory_pressure | grep "System-wide memory free percentage:" | awk '{print 100-$5}' | tr -d '%')
+sketchybar --set "$NAME" label="$MEMORY%"
+#+end_src
+
+#+begin_src bash
+sketchybar --add item memory right \
+           --set memory \
+                 icon="󰍛" \
+                 icon.color="$GREEN" \
+                 script="${memoryPlugin}" \
+                 update_freq=5
+#+end_src
+
+*** 4.3. Wi-Fi
+
+~ipconfig getsummary~ で接続中のSSIDを表示している。
+macOS Sonoma以降ではセキュリティの観点からSSID情報が ~<redacted>~ としてマスクされることがある。
+
+#+begin_src bash
+SSID=$(ipconfig getsummary en0 2>/dev/null | grep "^  SSID" | awk -F ' : ' '{print $2}')
+
+if [ -z "$SSID" ]; then
+  sketchybar --set "$NAME" icon.color=${colors.red} label="Off"
+else
+  sketchybar --set "$NAME" icon.color=${colors.cyan} label="$SSID"
+fi
+#+end_src
+
+#+begin_src bash
+sketchybar --add item wifi right \
+           --set wifi \
+                 icon="󰖩" \
+                 icon.color="$CYAN" \
+                 script="${wifiPlugin}" \
+                 update_freq=30 \
+           --subscribe wifi wifi_change
+#+end_src
+
+*** 4.4. 音量
+
+AppleScriptで音量設定を取得している。
+
+#+begin_src bash
+VOLUME=$(osascript -e 'output volume of (get volume settings)')
+MUTED=$(osascript -e 'output muted of (get volume settings)')
+
+if [ "$MUTED" = "true" ]; then
+  ICON="󰖁"
+  sketchybar --set "$NAME" icon="$ICON" label="mute"
+else
+  if [ "$VOLUME" -ge 70 ]; then
+    ICON="󰕾"
+  elif [ "$VOLUME" -ge 30 ]; then
+    ICON="󰖀"
+  else
+    ICON="󰕿"
+  fi
+  sketchybar --set "$NAME" icon="$ICON" label="$VOLUME%"
+fi
+#+end_src
+
+#+begin_src bash
+sketchybar --add item volume right \
+           --set volume \
+                 icon="󰕾" \
+                 icon.color="$PINK" \
+                 script="${volumePlugin}" \
+                 update_freq=10 \
+           --subscribe volume volume_change
+#+end_src
+
+*** 4.5. バッテリー
+
+~pmset~ でバッテリー残量と充電状態を取得している。
+
+#+begin_src bash
+PERCENTAGE=$(pmset -g batt | grep -Eo "[0-9]+%" | cut -d% -f1)
+CHARGING=$(pmset -g batt | grep 'AC Power')
+
+case ${PERCENTAGE} in
+  100)        ICON="󰁹" ;;
+  9[0-9])     ICON="󰂂" ;;
+  8[0-9])     ICON="󰂁" ;;
+  7[0-9])     ICON="󰂀" ;;
+  6[0-9])     ICON="󰁿" ;;
+  5[0-9])     ICON="󰁾" ;;
+  4[0-9])     ICON="󰁽" ;;
+  3[0-9])     ICON="󰁼" ;;
+  2[0-9])     ICON="󰁻" ;;
+  1[0-9])     ICON="󰁺" ;;
+  *)          ICON="󰂎" ;;
+esac
+
+if [ -n "$CHARGING" ]; then
+  ICON="󰂄"
+  COLOR="${colors.green}"
+elif [ "$PERCENTAGE" -le 20 ]; then
+  COLOR="${colors.red}"
+else
+  COLOR="${colors.green}"
+fi
+
+sketchybar --set "$NAME" icon="$ICON" icon.color="$COLOR" label="$PERCENTAGE%"
+#+end_src
+
+#+begin_src bash
+sketchybar --add item battery right \
+           --set battery \
+                 icon="󰁹" \
+                 icon.color="$GREEN" \
+                 script="${batteryPlugin}" \
+                 update_freq=60 \
+           --subscribe battery power_source_change system_woke
+#+end_src
+
+*** 4.6. 日時表示
+
+日付と時刻を別々のアイテムとして表示している。
+
+#+begin_src bash
+sketchybar --add item date right \
+           --set date \
+                 icon="󰃭" \
+                 icon.color="$ORANGE" \
+                 script="sketchybar --set \$NAME label=\"\$(date '+%m/%d %a')\"" \
+                 update_freq=60
+
+sketchybar --add item time right \
+           --set time \
+                 icon="󰥔" \
+                 icon.color="$YELLOW" \
+                 script="sketchybar --set \$NAME label=\"\$(date '+%H:%M')\"" \
+                 update_freq=30
+#+end_src
 * 得られた結果・所感
 
-- 成果、苦労した点、気づき
-  - e.g. ◯◯の表現力が予想以上だった
-  - e.g. ◯◯の構文で詰まったが、〜で解決
-  - e.g. 複数人で共通スタイルを使えるようになった
+ほぼイメージとおりのものができた。
+
+[[file:../../static/images/4027BCF1-B920-4748-B66A-8F5FDD15CF09.png]]
 
 * 今後の展開・検討事項
 
-- 派生プロジェクト、汎用化、他分野展開
-  - e.g. OSSテンプレートとして配布予定
-  - e.g. CI/CDでの自動PDF出力＋SNSシェアを統合
-  - e.g. ◯◯領域にも応用できそうなので検討中
+部分的に少し左寄りや右寄りになってしまっている部分を調整する。
