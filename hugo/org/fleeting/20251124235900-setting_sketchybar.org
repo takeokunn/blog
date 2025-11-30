@@ -33,7 +33,7 @@ https://felixkratz.github.io/SketchyBar/
   └─────────────────────────────────────────────────────────────────────────┘
 #+end_src
 
-また、全てをdracula themeに寄せるのでカラーパレットをAIに作らせた。
+また、すべてをdracula themeに寄せるのでカラーパレットをAIに作らせた。
 
 #+begin_src nix
   colors = {
@@ -133,7 +133,7 @@ Aerospaceからワークスペース変更通知を受け取るためのカス�
 sketchybar --add event aerospace_workspace_change
 #+end_src
 
-Aerospace側の設定（ ~aerospace.toml~ ）では以下のように連携：
+Aerospace側の設定（ ~aerospace.toml~ ）では次のように連携：
 
 #+begin_src toml
 exec-on-workspace-change = [
@@ -415,7 +415,7 @@ sketchybar --add item time right \
 #+end_src
 * 得られた結果・所感
 
-ほぼイメージ通りのものができた。
+ほぼイメージとおりのものができた。
 
 [[file:../../static/images/4027BCF1-B920-4748-B66A-8F5FDD15CF09.png]]
 
