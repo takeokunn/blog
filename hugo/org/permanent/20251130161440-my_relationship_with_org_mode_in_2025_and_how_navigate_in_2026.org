@@ -1,7 +1,7 @@
 :PROPERTIES:
 :ID:       69E94F09-00D6-4626-9200-F2CE8852E977
 :END:
-#+TITLE: 2023年のorg-mode活用と今後の抱負
+#+TITLE: 2025年のorg-mode活用と今後の抱負
 #+AUTHOR: takeokunn
 #+DESCRIPTION: description
 #+DATE: 2025-11-30T16:15:00+0900
