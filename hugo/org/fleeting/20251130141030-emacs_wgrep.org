@@ -4,7 +4,7 @@
 #+TITLE: emacs wgrepが便利だった
 #+AUTHOR: takeokunn
 #+DESCRIPTION: description
-#+DATE: 2025-12-03T02:18:11+0900
+#+DATE: 2025-12-02T22:18:11+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting
 #+HUGO_SECTION: posts/fleeting
