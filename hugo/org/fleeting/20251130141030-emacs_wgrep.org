@@ -67,19 +67,19 @@ minad-wareのaffeで実験すると次のようになる。
 
 https://github.com/minad/affe
 
-1. =M-x affe-grep= を実行する
+Step1. =M-x affe-grep= を実行する
 
 [[file:../../static/images/38E7738C-FDAF-448A-9A77-F9C9F8BC5EE1.png]]
 
-2. 雑にgrepをかける
+Step2. 雑にgrepをかける
 
 [[file:../../static/images/867FC3BF-8EA3-445D-A2D6-76010F11AA9E.png]]
 
-3. =embark-act= を起動しつつ =embark-export= する
+Step3. =embark-act= を起動しつつ =embark-export= する
 
 [[file:../../static/images/AE662EFE-2D8D-4E3B-A3CB-C06C7D13513B.png]]
 
-4. =C-c C-q= でwgrep-modeに入り編集、 =C-x C-s= で保存すると変更される
+Step4. =C-c C-q= でwgrep-modeに入り編集、 =C-x C-s= で保存すると変更される
 
 [[file:../../static/images/2FB49852-E12D-4F3B-87B8-72189BB6409F.png]]
 
