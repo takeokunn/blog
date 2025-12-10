@@ -154,6 +154,10 @@ jobs:
         run: |
           nix build .#typst-presentation-practice
           cp result/typst-presentation-practice.pdf public/pdf/
+      - name: Generate publishing-nix-series-software-design
+        run: |
+          nix build .#publishing-nix-series-software-design
+          cp result/publishing-nix-series-software-design.pdf public/pdf/
 
       # for artifacts
       - name: Upload coverage report to artifacts

@@ -107,6 +107,10 @@
               name = "typst-presentation-practice";
               type = "slide";
             };
+            publishing-nix-series-software-design = buildTypstProject {
+              name = "publishing-nix-series-software-design";
+              type = "slide";
+            };
           };
         }
     );

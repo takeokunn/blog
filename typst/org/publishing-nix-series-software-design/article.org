@@ -1,0 +1,61 @@
+:PROPERTIES:
+:ID:       6B7CF41D-87C9-7DB4-4A33-715C2AE8608A
+:END:
+#+TITLE: Software DesignでNix連載をした
+#+AUTHOR: takeokunn
+#+STARTUP: fold
+#+TYPST: #import "./alucard.typ": *
+#+TYPST: #show: setup
+* Title
+#+begin_export typst
+#slide[
+    #set page(header: none, footer: none, margin: 3em)
+
+    #text(size: 1.3em)[
+        Software DesignでNix連載をした
+    ]
+
+    第182回 PHP勉強会＠東京
+
+    #divider
+
+    #set text(size: .8em, weight: "light")
+    \@takeokunn
+
+    Jun 25, 2025
+]
+#+end_export
+* Agenda
+#+begin_export typst
+#slide[
+   = Agenda
+
+    #outline
+]
+#+end_export
+* 自己紹介
+#+begin_export typst
+#new-section[自己紹介]
+
+#slide[
+    #place(
+        top + right,
+        image("./images/51d28d9e-899d-54f4-4273-91c6ef640e8a.jpeg", width: 100pt) // Path updated to local image
+    )
+
+    = 自己紹介
+
+    - たけてぃ \@takeokunn
+    - 日曜日に湘南国際フルマラソン走った
+    - テキストエディタコミュニティ所属
+    - 2025年8月に転職してPHP書いてない
+]
+#+end_export
+* ご清聴ありがとうございました
+#+begin_export typst
+#slide[
+    #show: focus
+
+    ご清聴ありがとうございました
+]
+#+end_export
