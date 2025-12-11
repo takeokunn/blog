@@ -140,12 +140,12 @@
   #place(image("./images/8810328a-423d-7ad4-2e0b-fbef8a43b0f6.png", fit: "contain", width: 100%, height: 100%))
 ]
 #+end_export
-* タイムスケジュール
+* サイクル
 #+begin_export typst
-#new-section[タイムスケジュール]
+#new-section[サイクル]
 
 #slide[
-  = タイムスケジュール
+  = サイクル
 
   - 10日頃まで: 初稿提出
   - 20日頃まで: レビュー、校正など
@@ -155,7 +155,7 @@
 ]
 
 #slide[
-  = タイムスケジュール(裏技)
+  = サイクル(裏技)
 
   - 真の締切がある
     - とにかく小まめに連絡を取れば取るほど真の締切がある
