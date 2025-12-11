@@ -46,15 +46,24 @@
     = 自己紹介
 
     - たけてぃ \@takeokunn
-    - 日曜日に湘南国際フルマラソン走った
     - テキストエディタコミュニティ所属
+    - Emacs, Org Mode, Nixあたりが好き
     - 2025年8月に転職してPHP書いてない
 ]
 
 #slide[
-  = 湘南国際フルマラソン
+  = 余談1: 湘南国際フルマラソン
 
   #place(image("./images/c716658a-5da4-82b4-6f23-29bbf462a002.png", fit: "contain", width: 100%, height: 100%))
+]
+
+#slide[
+  = 余談2: スライドは自作Typstテーマで作ってる
+
+  - Google Slideから移行して初登壇なので見にくいかもしれません
+  - Draculaテーマのライト版のAlucardを採用してる
+  - GitHub Actionsで公開してる
+    - Org Mode → Typst → PDF
 ]
 #+end_export
 * メインテーマ
