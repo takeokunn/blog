@@ -22,7 +22,7 @@
     #set text(size: .8em, weight: "light")
     \@takeokunn
 
-    Jun 25, 2025
+    Dec 11, 2025
 ]
 #+end_export
 * Agenda
@@ -50,6 +50,12 @@
     - テキストエディタコミュニティ所属
     - 2025年8月に転職してPHP書いてない
 ]
+
+#slide[
+  = 湘南国際フルマラソン
+
+  #place(image("./images/c716658a-5da4-82b4-6f23-29bbf462a002.png", fit: "contain", width: 100%, height: 100%))
+]
 #+end_export
 * メインテーマ
 #+begin_export typst
@@ -63,10 +69,16 @@
     - 連載 5ヶ月分
   - 今後雑誌に寄稿する人にどういう感じなのか紹介します
 ]
+
+#slide[
+  = 2025/12/18 最終回発売予定
+
+  #place(image("./images/0b3e0185-2723-d064-925b-7fa10544a18a.png", fit: "contain", width: 100%, height: 100%))
+]
 #+end_export
-* emacs特集執筆
+* Emacs特集執筆
 #+begin_export typst
-#new-section[emacs特集執筆]
+#new-section[Emacs特集執筆]
 
 #slide[
   = Zenn記事
@@ -142,36 +154,81 @@
     - 必ず「○日の△時ごろにxxxの作業ができるので□□□を終わらせます」って日時を明瞭にしよう
 ]
 #+end_export
-* 執筆
+* 執筆サイクル
 #+begin_export typst
-#new-section[執筆]
+#new-section[執筆サイクル]
 
 #slide[
-  = 執筆
+  = 執筆サイクル
+
+  - 著者が7〜8割くらいのクオリティで書く
+  - 友人2人にガッツリレビューしてもらう
+  - 一気に直す
+  - SD編集担当にレビューしてもらう
+  - 一気に直す
+]
+
+#slide[
+  = 執筆の流れ
+
+  - 大見出し/小見出しをGeminiと対話して詰める
+  - 小見出しに書く内容をひたすらに箇条書きする
+  - 小見出しごとの分量を見積る
+  - 文章を一気に書く
+  - Claude Codeにレビューしてもらいながら直す
+]
+
+#slide[
+  = textlint on GitHub Actions
+
+  #place(image("./images/98110504-299a-bd64-7473-b0ecd7d7ad40.png", fit: "contain", width: 100%, height: 100%))
+]
+
+#slide[
+  = レビューの流れ
+
+  - スタンス: 要望は気軽に上げて、受け入れるかは俺が決める
+  - 友人2人にはDMチャンネルで五月雨式に投げてもらう
+  - SD編集担当にIssueを作ってもらう
+  - 指摘内容を1commitずつ修正する
+  - PRで何を対応したのか明確にする
+]
+
+#slide[
+  = レビュー修正
+
+  #place(image("./images/ffdf64f2-c974-9064-a9ab-b35587543867.png", fit: "contain", width: 100%, height: 100%))
 ]
 #+end_export
-* レビュー
+* 商業誌のメリット/デメリット
 #+begin_export typst
-#new-section[レビュー]
+#new-section[商業誌のメリット/デメリット]
 
 #slide[
-  = レビュー
+  = 商業誌のメリット
+
+  - プロの編集者の指摘を貰える
+  - Nixに興味のない不特定多数の人に読んでもらえる
+  - 面白かったよーってフィードバックをもらえる
 ]
-#+end_export
-* PDF確認〜納品
-#+begin_export typst
-#new-section[PDF確認〜納品]
 
 #slide[
-  = PDF確認〜納品
+  = サイン会をした
+
+  #place(image("./images/b1ade742-2ed3-5b94-52bb-e7c58a0dd2ec.jpeg", fit: "contain", width: 100%, height: 100%))
 ]
-#+end_export
-* 商業誌執筆のメリット/デメリット
-#+begin_export typst
-#new-section[PDF確認〜納品]
 
 #slide[
-  = PDF確認〜納品
+  = 商業誌のデメリット
+
+  - 一定のプレッシャーがある
+  - 親や親戚にSNSのアカウントがバレる
+]
+
+#slide[
+    #show: focus
+
+    チャンスがあれば書いてみるのをオススメします
 ]
 #+end_export
 * ご清聴ありがとうございました
