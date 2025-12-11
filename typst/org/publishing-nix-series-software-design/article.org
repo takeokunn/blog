@@ -51,6 +51,129 @@
     - 2025年8月に転職してPHP書いてない
 ]
 #+end_export
+* メインテーマ
+#+begin_export typst
+#new-section[メインテーマ]
+
+#slide[
+  = Software DesignでNix連載をした
+
+  - 今年合計6月分Software Design寄稿しました
+    - テキストエディタ特集 1ヶ月分
+    - 連載 5ヶ月分
+  - 今後雑誌に寄稿する人にどういう感じなのか紹介します
+]
+#+end_export
+* emacs特集執筆
+#+begin_export typst
+#new-section[emacs特集執筆]
+
+#slide[
+  = Zenn記事
+
+  #place(image("./images/4dd49ca2-d22e-8cf4-64e3-f06caed5e9fe.png", fit: "contain", width: 100%, height: 100%))
+]
+
+#slide[
+  = Software Design 2025年3月号
+
+  - あなたがエディタに求めるものは？ コードエディタ大研究
+    - ［Part1］人気のエディタの魅力を深掘り
+    - ［Part2］エディタを極める理由
+]
+
+#slide[
+  = 執筆までの流れ
+
+  - テキストエディタ特集が企画される
+  - tadsanにEmacsについて書かないかと連絡が来る
+  - tadsanから一緒に書かないかと誘われる
+]
+
+#slide[
+  = 特集執筆役割分担
+
+  - [take] 7〜8割のクオリティで一気に書く
+  - [take] textlintを導入
+  - [take] スクリーンショットを用意する
+  - [tadsan] Emacsの歴史やLispについて書く
+  - [tadsan] 全体的な文章の校正をする
+]
+#+end_export
+* Nix連載の誘い
+#+begin_export typst
+#new-section[Nix連載の誘い]
+
+#slide[
+  = Nix連載の誘い
+
+  - 「Nixで連載か単著か書けないか？」とメールで打診した
+  - 「Nixで連載しませんか?」という連絡が来た
+  - 目次案を出して企画を通した
+]
+
+#slide[
+  = 目次案
+
+  #place(image("./images/8810328a-423d-7ad4-2e0b-fbef8a43b0f6.png", fit: "contain", width: 100%, height: 100%))
+]
+#+end_export
+* タイムスケジュール
+#+begin_export typst
+#new-section[タイムスケジュール]
+
+#slide[
+  = タイムスケジュール
+
+  - 10日頃まで: 初稿提出
+  - 20日頃まで: レビュー、校正など
+  - 月末まで: 紙面PDFにしてもらう
+  - 月末ぐらい: 印刷所に入稿
+  - 翌月15日くらい: 書店に並ぶ
+]
+
+#slide[
+  = タイムスケジュール(裏技)
+
+  - 真の締切がある
+    - とにかく小まめに連絡を取れば取るほど真の締切がある
+    - ちゃんと連絡を取ろう(超重要)
+    - 兎にも角にもちゃんと連絡を取ろう(超重要)
+    - 必ず「○日の△時ごろにxxxの作業ができるので□□□を終わらせます」って日時を明瞭にしよう
+]
+#+end_export
+* 執筆
+#+begin_export typst
+#new-section[執筆]
+
+#slide[
+  = 執筆
+]
+#+end_export
+* レビュー
+#+begin_export typst
+#new-section[レビュー]
+
+#slide[
+  = レビュー
+]
+#+end_export
+* PDF確認〜納品
+#+begin_export typst
+#new-section[PDF確認〜納品]
+
+#slide[
+  = PDF確認〜納品
+]
+#+end_export
+* 商業誌執筆のメリット/デメリット
+#+begin_export typst
+#new-section[PDF確認〜納品]
+
+#slide[
+  = PDF確認〜納品
+]
+#+end_export
 * ご清聴ありがとうございました
 #+begin_export typst
 #slide[
