@@ -40,7 +40,7 @@
 #slide[
     #place(
         top + right,
-        image("./images/51d28d9e-899d-54f4-4273-91c6ef640e8a.jpeg", width: 100pt) // Path updated to local image
+        image("./images/51d28d9e-899d-54f4-4273-91c6ef640e8a.jpeg", width: 100pt)
     )
 
     = 自己紹介
@@ -63,7 +63,7 @@
   - Google Slideから移行して初登壇なので見にくいかもしれません
   - Draculaテーマのライト版のAlucardを採用してる
   - GitHub Actionsで公開してる
-    - Org Mode → Typst → PDF
+    - Org Mode → Typst → PDF → Hugo
 ]
 #+end_export
 * メインテーマ
