@@ -25,6 +25,14 @@
     Dec 11, 2025
 ]
 #+end_export
+* ハッシュタグ
+#+begin_export typst
+#slide[
+    #show: focus
+
+    \#phpstudy
+]
+#+end_export
 * Agenda
 #+begin_export typst
 #slide[
