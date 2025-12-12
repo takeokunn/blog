@@ -87,7 +87,7 @@ jobs:
       - name: Build hugo
         run: nix build .?submodules=1#build-hugo
       - name: Upload coverage report to artifacts
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: build-hugo
           path: ./hugo/result
@@ -108,7 +108,7 @@ jobs:
       - name: Build build-org-roam-ui-lite
         run: nix build .#build-org-roam-ui-lite
       - name: Upload coverage report to artifacts
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: build-hugo-org-roam-ui-lite
           path: ./hugo/result
@@ -161,7 +161,7 @@ jobs:
 
       # for artifacts
       - name: Upload coverage report to artifacts
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: build-typst
           path: ./typst/public/pdf
