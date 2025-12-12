@@ -61,6 +61,7 @@
                 export TYPST_FONT_PATHS="$TYPST_FONT_PATHS:${pkgs.hackgen-font}/share/fonts/hackgen"
                 export TYPST_PACKAGE_PATH="${typstPackagesCache}/typst/packages"
 
+                cp ./themes/base.typ org/${name}/base.typ
                 cp ./themes/dracula.typ org/${name}/dracula.typ
                 cp ./themes/Dracula.tmTheme org/${name}/Dracula.tmTheme
 

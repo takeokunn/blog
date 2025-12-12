@@ -2,5 +2,6 @@ result
 *.pdf
 
 *.typ
+!themes/base.typ
 !themes/dracula.typ
 !themes/alucard.typ
