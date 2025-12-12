@@ -78,6 +78,7 @@
                 (emacsPkg.pkgs.withPackages (epkgs: (with epkgs.melpaPackages; [ ox-hugo org-roam ])))
               ];
               buildPhase = ''
+                export TZ=Asia/Tokyo
                 rm -fr org/private/
                 emacs --batch --load scripts/ox-roam.el --funcall export-org-roam-files
                 tcardgen --fontDir=tcardgen/font --output=static/ogp --config=tcardgen/ogp.yml content/posts/**/*.md
