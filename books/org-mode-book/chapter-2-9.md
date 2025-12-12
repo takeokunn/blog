@@ -1,0 +1,801 @@
+---
+title: "2.9. Org-modeのフック活用パターン"
+---
+
+
+
+# Org-mode主要フック一覧
+
+Org-modeには多数のフックが用意されており、さまざまなタイミングで処理をカスタマイズできる。
+
+
+## org-mode-hook
+
+Org-modeバッファが有効化されたときに実行される。もっとも基本的なフック。
+
+```emacs-lisp
+;; org-mode有効化時の設定
+(add-hook 'org-mode-hook
+          (lambda ()
+            (visual-line-mode 1)
+            (org-indent-mode 1)))
+```
+
+
+## org-load-hook
+
+org.elが読み込まれたときに一度だけ実行される。
+
+```emacs-lisp
+;; Org-mode読み込み時の初期設定
+(add-hook 'org-load-hook
+          (lambda ()
+            (message "Org-mode has been loaded!")
+            (setq org-directory "~/org")))
+```
+
+
+## org-agenda-mode-hook
+
+アジェンダバッファが表示されたときに実行される。
+
+```emacs-lisp
+(add-hook 'org-agenda-mode-hook
+          (lambda ()
+            (hl-line-mode 1)
+            (setq-local line-spacing 0.2)))
+```
+
+
+## org-capture-mode-hook
+
+キャプチャバッファが開かれたときに実行される。
+
+```emacs-lisp
+(add-hook 'org-capture-mode-hook
+          (lambda ()
+            (delete-other-windows)
+            (org-display-inline-images)))
+```
+
+
+## org-src-mode-hook
+
+ソースコード編集バッファ（C-c '）が開かれたときに実行される。
+
+```emacs-lisp
+(add-hook 'org-src-mode-hook
+          (lambda ()
+            (display-line-numbers-mode 1)
+            (setq-local show-trailing-whitespace t)))
+```
+
+
+# タイミング別フック
+
+
+## org-after-todo-state-change-hook
+
+TODOステータスが変更された後に実行される。
+
+```emacs-lisp
+;; 状態変更時のログ出力
+(add-hook 'org-after-todo-state-change-hook
+          (lambda ()
+            (message "TODO state changed: %s -> %s"
+                     (or org-last-state "nil")
+                     (or org-state "nil"))))
+```
+
+
+## org-after-tags-change-hook
+
+タグが変更された後に実行される。
+
+```emacs-lisp
+(add-hook 'org-after-tags-change-hook
+          (lambda ()
+            (let ((tags (org-get-tags)))
+              (message "Tags changed: %s" tags))))
+```
+
+
+## org-after-refile-insert-hook
+
+リファイル先にエントリが挿入された後に実行される。
+
+```emacs-lisp
+(add-hook 'org-after-refile-insert-hook
+          (lambda ()
+            (org-update-statistics-cookies t)
+            (save-buffer)))
+```
+
+
+## org-clock-in-hook / org-clock-out-hook
+
+クロックイン/アウト時に実行される。
+
+```emacs-lisp
+;; クロックイン時
+(add-hook 'org-clock-in-hook
+          (lambda ()
+            (message "Clocked in: %s" org-clock-heading)
+            (org-todo "DOING")))
+
+;; クロックアウト時
+(add-hook 'org-clock-out-hook
+          (lambda ()
+            (message "Clocked out: %s (Total: %s)"
+                     org-clock-heading
+                     (org-duration-from-minutes
+                      (org-clock-get-clocked-time)))))
+```
+
+
+## org-trigger-hook
+
+org-dependのトリガーが発火したときに実行される。
+
+```emacs-lisp
+;; トリガー発火時のログ
+(add-hook 'org-trigger-hook
+          (lambda (change-plist)
+            (message "Trigger fired: %s"
+                     (plist-get change-plist :type))))
+```
+
+
+## org-blocker-hook
+
+タスク完了をブロックする条件を追加するためのフック。
+
+```emacs-lisp
+;; 子タスクが未完了ならブロック
+(add-hook 'org-blocker-hook
+          (lambda (change-plist)
+            (let ((type (plist-get change-plist :type))
+                  (to (plist-get change-plist :to)))
+              (when (and (eq type 'todo-state-change)
+                         (string= to "DONE"))
+                ;; 未完了の子タスクがある場合はブロック
+                (not (org-map-entries
+                      (lambda () (org-entry-is-done-p))
+                      nil 'tree))))))
+```
+
+
+# org-babelフック
+
+
+## org-babel-after-execute-hook
+
+コードブロック実行後に実行される。
+
+```emacs-lisp
+;; 実行後に画像を自動表示
+(add-hook 'org-babel-after-execute-hook
+          (lambda ()
+            (when (org-in-src-block-p)
+              (org-display-inline-images nil t (point-min) (point-max)))))
+```
+
+
+## org-babel-pre-tangle-hook / org-babel-post-tangle-hook
+
+Tangle処理の前後に実行される。
+
+```emacs-lisp
+;; Tangle前の処理
+(add-hook 'org-babel-pre-tangle-hook
+          (lambda ()
+            (message "Starting tangle: %s" (buffer-file-name))))
+
+;; Tangle後の処理
+(add-hook 'org-babel-post-tangle-hook
+          (lambda ()
+            (message "Tangle completed: %s"
+                     (buffer-file-name))))
+```
+
+
+## 結果表示のカスタマイズ
+
+```emacs-lisp
+;; 結果を自動的にfoldする
+(add-hook 'org-babel-after-execute-hook
+          (lambda ()
+            (save-excursion
+              (when (org-babel-goto-src-block-result)
+                (org-cycle)))))
+```
+
+
+## Tangle前後の処理
+
+```emacs-lisp
+;; Tangle後にバイトコンパイル
+(add-hook 'org-babel-post-tangle-hook
+          (lambda ()
+            (when (string-suffix-p ".el" (buffer-file-name))
+              (byte-compile-file (buffer-file-name)))))
+
+;; Tangle後にフォーマット実行
+(add-hook 'org-babel-post-tangle-hook
+          (lambda ()
+            (when (and (buffer-file-name)
+                       (string-suffix-p ".py" (buffer-file-name)))
+              (shell-command
+               (format "black %s" (buffer-file-name))))))
+```
+
+
+# キャプチャ関連フック
+
+
+## org-capture-prepare-finalize-hook
+
+キャプチャの確定準備時に実行される。
+
+```emacs-lisp
+;; キャプチャ確定前のバリデーション
+(add-hook 'org-capture-prepare-finalize-hook
+          (lambda ()
+            (unless (org-entry-get nil "CREATED")
+              (org-set-property "CREATED"
+                                (format-time-string "[%Y-%m-%d %a %H:%M]")))))
+```
+
+
+## org-capture-before-finalize-hook
+
+キャプチャが確定される直前に実行される。
+
+```emacs-lisp
+(add-hook 'org-capture-before-finalize-hook
+          (lambda ()
+            ;; タイトルが空の場合はキャンセル
+            (when (string-empty-p
+                   (org-get-heading t t t t))
+              (user-error "Title cannot be empty!"))))
+```
+
+
+## org-capture-after-finalize-hook
+
+キャプチャが確定された後に実行される。
+
+```emacs-lisp
+(add-hook 'org-capture-after-finalize-hook
+          (lambda ()
+            (unless org-capture-abort
+              (message "Captured to: %s"
+                       (buffer-file-name
+                        (marker-buffer org-capture-last-stored-marker))))))
+```
+
+
+## テンプレート選択後の処理
+
+キャプチャのワークフロー全体をカスタマイズする例:
+
+```emacs-lisp
+;; キャプチャ開始時にフルスクリーン
+(add-hook 'org-capture-mode-hook
+          (lambda ()
+            (delete-other-windows)))
+
+;; キャプチャ終了後に元のウィンドウ構成を復元
+(defvar my/org-capture-window-config nil)
+
+(add-hook 'org-capture-mode-hook
+          (lambda ()
+            (setq my/org-capture-window-config
+                  (current-window-configuration))))
+
+(add-hook 'org-capture-after-finalize-hook
+          (lambda ()
+            (when my/org-capture-window-config
+              (set-window-configuration my/org-capture-window-config)
+              (setq my/org-capture-window-config nil))))
+```
+
+
+# 実践的なフック活用例
+
+
+## （1） org-mode-hook の設定例
+
+```emacs-lisp
+(defun my/org-mode-setup ()
+  "org-mode用の設定"
+  ;; 表示設定
+  (visual-line-mode 1)
+  (org-indent-mode 1)
+
+  ;; 行番号非表示（見出しと干渉するため）
+  (display-line-numbers-mode -1)
+
+  ;; prettify-symbols
+  (setq-local prettify-symbols-alist
+              '(("#+begin_src" . "")
+                ("#+end_src" . "")
+                ("#+begin_quote" . "")
+                ("#+end_quote" . "")
+                ("#+results:" . "")
+                ("#+RESULTS:" . "")))
+  (prettify-symbols-mode 1)
+
+  ;; 自動保存
+  (auto-save-mode 1)
+
+  ;; スペルチェック
+  (flyspell-mode -1)
+
+  ;; カーソル移動を論理行単位に
+  (setq-local line-move-visual t)
+
+  ;; インデント設定
+  (setq-local tab-width 2)
+  (setq-local indent-tabs-mode nil))
+
+(add-hook 'org-mode-hook #'my/org-mode-setup)
+```
+
+
+## （2） org-after-todo-state-change-hook の活用
+
+```emacs-lisp
+(defun my/org-todo-state-change-actions ()
+  "TODO状態変更時のアクション"
+  (let ((state org-state)
+        (last-state org-last-state))
+
+    ;; DONEになったらCLOSEDタイムスタンプを設定
+    (when (and state (string= state "DONE"))
+      (org-set-property "CLOSED_AT"
+                        (format-time-string "[%Y-%m-%d %a %H:%M]")))
+
+    ;; DOINGになったらSTARTEDタイムスタンプを設定
+    (when (and state (string= state "DOING")
+               (not (org-entry-get nil "STARTED_AT")))
+      (org-set-property "STARTED_AT"
+                        (format-time-string "[%Y-%m-%d %a %H:%M]")))
+
+    ;; WAITINGになったら理由をプロンプト
+    (when (and state (string= state "WAITING"))
+      (let ((reason (read-string "Waiting for: ")))
+        (org-set-property "WAITING_FOR" reason)))
+
+    ;; CANCELLEDになったら理由をログ
+    (when (and state (string= state "CANCELLED"))
+      (org-add-note))))
+
+(add-hook 'org-after-todo-state-change-hook
+          #'my/org-todo-state-change-actions)
+```
+
+
+## （3） org-clock-in-hook / org-clock-out-hook の活用
+
+```emacs-lisp
+;; Slack Status更新（要request.el）
+(defun my/slack-update-status (text emoji)
+  "SlackのステータスをAPIで更新する"
+  (when (and (boundp 'my/slack-token) my/slack-token)
+    (require 'request)
+    (request
+      "https://slack.com/api/users.profile.set"
+      :type "POST"
+      :headers `(("Authorization" . ,(concat "Bearer " my/slack-token))
+                 ("Content-Type" . "application/json"))
+      :data (json-encode
+             `((profile . ((status_text . ,text)
+                           (status_emoji . ,emoji)))))
+      :parser 'json-read
+      :error (lambda (&rest _)
+               (message "Failed to update Slack status")))))
+
+(defun my/org-clock-in-slack-status ()
+  "クロックイン時にSlackステータスを更新"
+  (my/slack-update-status
+   (format "Working on: %s" org-clock-heading)
+   ":computer:"))
+
+(defun my/org-clock-out-slack-status ()
+  "クロックアウト時にSlackステータスをクリア"
+  (my/slack-update-status "" ""))
+
+(add-hook 'org-clock-in-hook #'my/org-clock-in-slack-status)
+(add-hook 'org-clock-out-hook #'my/org-clock-out-slack-status)
+
+;; 音声通知
+(defun my/org-clock-play-sound (sound-file)
+  "指定した音声ファイルを再生"
+  (when (file-exists-p sound-file)
+    (start-process "play-sound" nil "afplay" sound-file)))
+
+(add-hook 'org-clock-in-hook
+          (lambda ()
+            (my/org-clock-play-sound "~/sounds/clock-in.wav")))
+
+(add-hook 'org-clock-out-hook
+          (lambda ()
+            (my/org-clock-play-sound "~/sounds/clock-out.wav")))
+
+;; タイムトラッキングサービス連携の例
+(defun my/org-clock-toggl-start ()
+  "Togglタイマーを開始"
+  (when (and (boundp 'my/toggl-api-key) my/toggl-api-key)
+    ;; Toggl APIを呼び出す実装
+    (message "Toggl timer started: %s" org-clock-heading)))
+
+(add-hook 'org-clock-in-hook #'my/org-clock-toggl-start)
+```
+
+
+## （4） org-babel-after-execute-hook の活用
+
+```emacs-lisp
+;; 画像結果の自動インライン表示
+(defun my/org-babel-display-images ()
+  "コードブロック実行後に画像を表示"
+  (when (member (org-element-property
+                 :language
+                 (org-element-at-point))
+                '("python" "R" "gnuplot" "plantuml" "dot"))
+    (org-display-inline-images nil t)))
+
+(add-hook 'org-babel-after-execute-hook
+          #'my/org-babel-display-images)
+
+;; 結果の自動フォーマット
+(defun my/org-babel-format-result ()
+  "実行結果を整形する"
+  (save-excursion
+    (when (org-babel-goto-src-block-result)
+      ;; JSON結果の整形
+      (when (looking-at "#\\+RESULTS:")
+        (forward-line)
+        (when (looking-at ": {")
+          (let ((json-reformat:indent-width 2)
+                (json-reformat:pretty-string? t))
+            ;; JSON整形処理
+            (message "Result formatted")))))))
+
+(add-hook 'org-babel-after-execute-hook
+          #'my/org-babel-format-result)
+
+;; 結果をクリップボードにコピー
+(defun my/org-babel-copy-result ()
+  "実行結果をクリップボードにコピー"
+  (save-excursion
+    (when-let* ((result-start (org-babel-goto-src-block-result))
+                (result-end (progn
+                              (forward-line)
+                              (while (looking-at "^[:|]")
+                                (forward-line))
+                              (point))))
+      (let ((result (buffer-substring-no-properties
+                     result-start result-end)))
+        (kill-new result)
+        (message "Result copied to clipboard")))))
+
+;; 実行時間の計測と表示
+(defvar my/org-babel-execute-start-time nil)
+
+(defun my/org-babel-before-execute ()
+  "実行前の時間を記録"
+  (setq my/org-babel-execute-start-time (current-time)))
+
+(defun my/org-babel-show-execution-time ()
+  "実行時間を表示"
+  (when my/org-babel-execute-start-time
+    (let ((elapsed (float-time
+                    (time-subtract (current-time)
+                                   my/org-babel-execute-start-time))))
+      (message "Execution time: %.3f seconds" elapsed))))
+
+(advice-add 'org-babel-execute-src-block
+            :before #'my/org-babel-before-execute)
+(add-hook 'org-babel-after-execute-hook
+          #'my/org-babel-show-execution-time)
+```
+
+
+## （5） org-agenda-finalize-hook の活用
+
+```emacs-lisp
+(defun my/org-agenda-custom-highlights ()
+  "アジェンダの見た目をカスタマイズ"
+  ;; 今日の日付行をハイライト
+  (save-excursion
+    (goto-char (point-min))
+    (while (re-search-forward
+            (format-time-string "%Y-%m-%d")
+            nil t)
+      (let ((ol (make-overlay (line-beginning-position)
+                              (line-end-position))))
+        (overlay-put ol 'face '(:background "#3c3836")))))
+
+  ;; 締切過ぎをハイライト
+  (save-excursion
+    (goto-char (point-min))
+    (while (re-search-forward "\\(Deadline\\):" nil t)
+      (when (save-excursion
+              (re-search-forward "\\([0-9]+\\)d\\. ago" (line-end-position) t))
+        (let ((ol (make-overlay (line-beginning-position)
+                                (line-end-position))))
+          (overlay-put ol 'face '(:background "#cc241d")))))))
+
+(add-hook 'org-agenda-finalize-hook
+          #'my/org-agenda-custom-highlights)
+
+;; 統計情報の表示
+(defun my/org-agenda-show-statistics ()
+  "アジェンダに統計情報を追加"
+  (let ((todo-count 0)
+        (done-count 0)
+        (scheduled-count 0))
+    (save-excursion
+      (goto-char (point-min))
+      (while (not (eobp))
+        (when (get-text-property (point) 'org-todo-regexp)
+          (cond
+           ((string-match-p "TODO" (or (get-text-property
+                                        (point) 'todo-state) ""))
+            (cl-incf todo-count))
+           ((string-match-p "DONE" (or (get-text-property
+                                        (point) 'todo-state) ""))
+            (cl-incf done-count))))
+        (forward-line 1)))
+    (goto-char (point-max))
+    (insert "\n")
+    (insert (format "━━━━━━━━━━━━━━━━━━━━\n"))
+    (insert (format " TODO: %d | DONE: %d | Total: %d\n"
+                    todo-count done-count
+                    (+ todo-count done-count)))))
+
+(add-hook 'org-agenda-finalize-hook
+          #'my/org-agenda-show-statistics)
+```
+
+
+# add-hookのパターン
+
+
+## 無名関数 vs 名前付き関数
+
+```emacs-lisp
+;; 無名関数（簡単な処理向け）
+(add-hook 'org-mode-hook
+          (lambda ()
+            (visual-line-mode 1)))
+
+;; 名前付き関数（推奨：デバッグしやすい、再利用可能）
+(defun my/org-mode-visual-setup ()
+  "Org-modeの表示設定"
+  (visual-line-mode 1)
+  (org-indent-mode 1))
+
+(add-hook 'org-mode-hook #'my/org-mode-visual-setup)
+```
+
+
+## local引数の活用
+
+```emacs-lisp
+;; グローバルにフックを追加
+(add-hook 'org-mode-hook #'my/function)
+
+;; バッファローカルにフックを追加（そのバッファでのみ有効）
+(add-hook 'org-mode-hook #'my/function nil t)
+```
+
+
+## depth引数によるフック順序制御
+
+```emacs-lisp
+;; depth引数でフックの実行順序を制御
+;; 数値が小さいほど先に実行される（デフォルトは0）
+
+;; 最初に実行したい場合
+(add-hook 'org-mode-hook #'my/first-function -50)
+
+;; 通常の実行順序
+(add-hook 'org-mode-hook #'my/normal-function 0)
+
+;; 最後に実行したい場合
+(add-hook 'org-mode-hook #'my/last-function 50)
+
+;; 実践例：他のパッケージの設定後に実行
+(add-hook 'org-mode-hook #'my/override-settings 90)
+```
+
+
+## remove-hookによる削除
+
+```emacs-lisp
+;; 特定のフック関数を削除
+(remove-hook 'org-mode-hook #'my/org-mode-setup)
+
+;; 無名関数は削除できないため、名前付き関数推奨
+
+;; バッファローカルなフックの削除
+(remove-hook 'org-mode-hook #'my/function t)
+
+;; 一時的にフックを無効化する例
+(defun my/org-without-hooks (func &rest args)
+  "フックを無効化してFUNCを実行"
+  (let ((org-mode-hook nil))
+    (apply func args)))
+```
+
+
+# advice-addとの使い分け
+
+
+## フックが使える場合はフック優先
+
+フックは公式にサポートされたカスタマイズポイントであり、安全で保守性が高い。
+
+```emacs-lisp
+;; 良い例：フックを使用
+(add-hook 'org-after-todo-state-change-hook
+          #'my/todo-changed)
+
+;; 避けるべき例：adviceで同じことをする
+;; （フックがある場合は不要）
+(advice-add 'org-todo :after #'my/todo-changed)
+```
+
+
+## adviceが必要なケース
+
+フックが提供されていない場合や、関数の動作自体を変更する必要がある場合。
+
+```emacs-lisp
+;; 関数の引数を変更する必要がある場合
+(defun my/org-refile-advice (orig-fun &rest args)
+  "リファイル時に確認を追加"
+  (if (y-or-n-p "Really refile? ")
+      (apply orig-fun args)
+    (message "Refile cancelled")))
+
+(advice-add 'org-refile :around #'my/org-refile-advice)
+```
+
+
+## :before, :after, :around の違い
+
+```emacs-lisp
+;; :before - 関数実行前に処理を追加
+(defun my/before-advice (&rest args)
+  "元関数の前に実行"
+  (message "Before called with: %s" args))
+
+(advice-add 'org-schedule :before #'my/before-advice)
+
+;; :after - 関数実行後に処理を追加
+(defun my/after-advice (result &rest args)
+  "元関数の後に実行（resultは元関数の戻り値）"
+  (message "After called, result: %s" result))
+
+(advice-add 'org-schedule :after #'my/after-advice)
+
+;; :around - 関数をラップして動作を完全制御
+(defun my/around-advice (orig-fun &rest args)
+  "元関数をラップ"
+  (message "Before original")
+  (let ((result (apply orig-fun args)))  ; 元関数を呼び出す
+    (message "After original, result: %s" result)
+    result))
+
+(advice-add 'org-schedule :around #'my/around-advice)
+
+;; adviceの削除
+(advice-remove 'org-schedule #'my/around-advice)
+```
+
+
+# パフォーマンス考慮
+
+
+## 重いフックの影響
+
+```emacs-lisp
+;; 悪い例：毎回重い処理を実行
+(add-hook 'org-mode-hook
+          (lambda ()
+            (org-map-entries #'my/heavy-function nil 'file)))
+
+;; 良い例：条件付きで実行
+(add-hook 'org-mode-hook
+          (lambda ()
+            (when (and buffer-file-name
+                       (< (buffer-size) 100000))  ; 100KB未満のみ
+              (org-map-entries #'my/heavy-function nil 'file))))
+```
+
+
+## 遅延実行（run-with-idle-timer）
+
+```emacs-lisp
+;; 即時実行が不要な処理は遅延させる
+(add-hook 'org-mode-hook
+          (lambda ()
+            (run-with-idle-timer
+             1 nil  ; 1秒アイドル後に1回だけ実行
+             (lambda ()
+               (when (derived-mode-p 'org-mode)
+                 (my/heavy-initialization))))))
+
+;; org-babel-after-execute-hookでも有効
+(add-hook 'org-babel-after-execute-hook
+          (lambda ()
+            (run-with-idle-timer
+             0.5 nil
+             #'org-display-inline-images)))
+```
+
+
+## 条件付き実行
+
+```emacs-lisp
+;; ファイルサイズに基づく条件
+(defun my/org-conditional-setup ()
+  "大きなファイルでは一部機能を無効化"
+  (let ((size (buffer-size)))
+    (cond
+     ((> size 1000000)  ; 1MB以上
+      (message "Large file: minimal setup")
+      (setq-local org-startup-folded 'content))
+     ((> size 100000)   ; 100KB以上
+      (org-indent-mode -1))
+     (t
+      (org-indent-mode 1)
+      (org-display-inline-images)))))
+
+(add-hook 'org-mode-hook #'my/org-conditional-setup)
+
+;; 特定のディレクトリでのみ実行
+(add-hook 'org-mode-hook
+          (lambda ()
+            (when (and buffer-file-name
+                       (string-prefix-p
+                        (expand-file-name "~/work/")
+                        buffer-file-name))
+              (my/work-org-setup))))
+
+;; 特定のタグを持つファイルでのみ実行
+(add-hook 'org-mode-hook
+          (lambda ()
+            (when (save-excursion
+                    (goto-char (point-min))
+                    (re-search-forward "^#\\+FILETAGS:.*:project:" nil t))
+              (my/project-file-setup))))
+```
+
+
+## フックのプロファイリング
+
+```emacs-lisp
+;; フックの実行時間を計測するマクロ
+(defmacro my/profile-hook (hook-var)
+  "HOOK-VARの各関数の実行時間を計測"
+  `(let ((original-hook ,hook-var))
+     (setq ,hook-var
+           (mapcar
+            (lambda (fn)
+              (lambda ()
+                (let ((start (current-time)))
+                  (funcall fn)
+                  (message "%s took %.3f seconds"
+                           fn
+                           (float-time
+                            (time-subtract (current-time) start))))))
+            original-hook))))
+
+;; 使用例
+;; (my/profile-hook org-mode-hook)
+```

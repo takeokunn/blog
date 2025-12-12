@@ -1,0 +1,865 @@
+---
+title: "5.8. カレンダー連携（org-caldav, icalendar）"
+---
+
+
+
+# カレンダー連携の概要
+
+
+## なぜ外部カレンダーと連携するか
+
+Org-modeは強力なスケジュール管理機能をもつが、現実には次の理由で外部カレンダーとの連携が必要になる:
+
+-   スマートフォンでの予定確認
+-   家族・同僚との予定共有
+-   会議招待への対応（Outlook, Google Calendar）
+-   複数デバイス間での同期
+
+
+## 双方向同期 vs 片方向同期
+
+```text
+双方向同期（org-caldav）:
+  Org ⟷ CalDAVサーバー ⟷ 他デバイス
+  メリット: 完全な統合
+  デメリット: コンフリクトの可能性
+
+片方向同期（icalendar）:
+  Org → ICSファイル → 外部サービス
+  メリット: シンプル、安全
+  デメリット: 外部変更の取り込み不可
+```
+
+
+## CalDAVプロトコルの基礎
+
+CalDAVはWebDAVの拡張で、HTTPベースのカレンダー同期プロトコル:
+
+-   iCalendar形式（.ics）でイベントを表現
+-   PUT/GET/DELETEでイベント操作
+-   REPORT/PROPFINDで一括取得・検索
+
+
+# org-caldavの導入
+
+
+## インストール（MELPA）
+
+```emacs-lisp
+;; package.elを使用
+(use-package org-caldav
+  :ensure t
+  :after org)
+
+;; またはstraight.elを使用
+(straight-use-package 'org-caldav)
+```
+
+
+## 依存関係
+
+```emacs-lisp
+;; 必須の組み込みパッケージ
+(require 'url)
+(require 'icalendar)
+(require 'org-id)  ; IDベースの同期に必要
+
+;; OAuth2認証を使う場合（Google Calendar等）
+(use-package oauth2
+  :ensure t)
+```
+
+
+## 基本的な設定構造
+
+```emacs-lisp
+;; 最小限の設定
+(setq org-caldav-url "https://caldav.example.com/dav"
+      org-caldav-calendar-id "your-calendar-id"
+      org-caldav-inbox "~/org/caldav-inbox.org"
+      org-caldav-files '("~/org/schedule.org"))
+
+;; タイムゾーン設定（必須）
+(setq org-icalendar-timezone "Asia/Tokyo")
+```
+
+
+# サービス別設定例
+
+
+## Google Calendar
+
+```emacs-lisp
+;; Google Calendar設定
+(setq org-caldav-url 'google  ; 特殊シンボルで指定
+      org-caldav-calendar-id "your-email@gmail.com"  ; またはカレンダーID
+      org-caldav-inbox "~/org/gcal-inbox.org"
+      org-caldav-files '("~/org/schedule.org" "~/org/todo.org"))
+
+;; OAuth2認証設定
+;; Google Cloud Consoleで取得した認証情報を設定
+(setq org-caldav-oauth2-client-id "your-client-id.apps.googleusercontent.com"
+      org-caldav-oauth2-client-secret "your-client-secret")
+
+;; OAuth2トークンの保存場所
+(setq org-caldav-oauth2-token-file
+      (expand-file-name "org-caldav-oauth2-token" user-emacs-directory))
+```
+
+Google Cloud Consoleでの設定手順:
+
+1.  Google Cloud Consoleにアクセス
+2.  新規プロジェクトを作成
+3.  Calendar APIを有効化
+4.  OAuth同意画面を設定
+5.  OAuth2クライアントIDを作成（デスクトップアプリ）
+6.  クライアントID/シークレットを取得
+
+calendar-idの取得方法:
+
+-   Googleカレンダーの設定 → カレンダーの統合
+-   「カレンダーID」に表示される値（xxx@group.calendar.google.com形式）
+
+
+## iCloud
+
+```emacs-lisp
+;; iCloud Calendar設定
+(setq org-caldav-url "https://caldav.icloud.com"
+      ;; カレンダーIDはiCloudの設定から取得
+      org-caldav-calendar-id "your-calendar-uuid"
+      org-caldav-inbox "~/org/icloud-inbox.org"
+      org-caldav-files '("~/org/schedule.org"))
+
+;; 認証情報は ~/.authinfo.gpg に記載
+;; machine caldav.icloud.com login your-apple-id password app-specific-password
+```
+
+アプリ固有パスワードの取得:
+
+1.  appleid.apple.com にログイン
+2.  セキュリティ → アプリ用パスワード
+3.  新規パスワードを生成
+
+> 日本語カレンダー名を使用している場合、URLエンコードが必要になることがある。 英語名のカレンダーを作成して使用することを推奨。
+
+
+## Nextcloud
+
+```emacs-lisp
+;; Nextcloud設定
+(setq org-caldav-url "https://your-nextcloud.com/remote.php/dav/calendars/USERNAME"
+      org-caldav-calendar-id "personal"  ; カレンダー名
+      org-caldav-inbox "~/org/nextcloud-inbox.org"
+      org-caldav-files '("~/org/schedule.org"))
+
+;; 認証情報
+;; ~/.authinfo.gpg:
+;; machine your-nextcloud.com login USERNAME password YOUR-PASSWORD
+```
+
+
+## FastMail
+
+```emacs-lisp
+;; FastMail設定
+(setq org-caldav-url "https://caldav.fastmail.com/dav/calendars/user/YOUR-EMAIL"
+      org-caldav-calendar-id "Default"
+      org-caldav-inbox "~/org/fastmail-inbox.org"
+      org-caldav-files '("~/org/schedule.org"))
+
+;; FastMailのアプリパスワードを使用
+;; ~/.authinfo.gpg:
+;; machine caldav.fastmail.com login YOUR-EMAIL password APP-PASSWORD
+```
+
+
+## 自前CalDAVサーバー
+
+```emacs-lisp
+;; Radicale設定例
+(setq org-caldav-url "http://localhost:5232/user/calendar.ics"
+      org-caldav-calendar-id ""  ; URLに含まれる場合は空
+      org-caldav-inbox "~/org/radicale-inbox.org"
+      org-caldav-files '("~/org/schedule.org"))
+
+;; Baikal設定例
+(setq org-caldav-url "https://your-baikal.com/cal.php/calendars/USER"
+      org-caldav-calendar-id "default"
+      org-caldav-inbox "~/org/baikal-inbox.org"
+      org-caldav-files '("~/org/schedule.org"))
+```
+
+
+# org-caldavの設定詳細
+
+
+## org-caldav-calendars（複数カレンダー設定）
+
+```emacs-lisp
+;; 複数カレンダーの同期設定
+(setq org-caldav-calendars
+      '(;; 仕事用カレンダー
+        (:calendar-id "work-calendar-id"
+         :url "https://caldav.company.com/dav"
+         :inbox "~/org/work-inbox.org"
+         :files ("~/org/work.org"))
+        ;; 個人用カレンダー
+        (:calendar-id "personal@gmail.com"
+         :url google
+         :inbox "~/org/personal-inbox.org"
+         :files ("~/org/personal.org" "~/org/family.org"))
+        ;; 共有カレンダー（読み取り専用）
+        (:calendar-id "shared-calendar"
+         :url "https://caldav.example.com/shared"
+         :inbox "~/org/shared-inbox.org"
+         :sync-direction 'cal->org)))
+
+;; 各カレンダーでオーバーライド可能なプロパティ
+;; :url, :calendar-id, :inbox, :files
+;; :select-tags, :exclude-tags
+;; :sync-direction ('org->cal, 'cal->org, nil)
+```
+
+
+## org-caldav-inbox（受信orgファイル）
+
+```emacs-lisp
+;; 基本設定
+(setq org-caldav-inbox "~/org/caldav-inbox.org")
+
+;; inboxファイルのヘッダー設定（推奨）
+;; ファイル先頭に以下を記述:
+;; #+FILETAGS: :caldav:
+;; #+CATEGORY: external
+
+;; inboxに追加されるエントリのデフォルト設定
+(setq org-caldav-inbox-properties
+      '(:drawer "CALDAV"
+        :add-todo nil))  ; TODOキーワードを付与しない
+```
+
+
+## org-caldav-files（送信元orgファイル）
+
+```emacs-lisp
+;; 同期対象ファイル
+(setq org-caldav-files
+      '("~/org/schedule.org"
+        "~/org/appointments.org"
+        "~/org/deadlines.org"))
+
+;; agenda-filesと同じにする場合
+(setq org-caldav-files org-agenda-files)
+
+;; 特定のファイルを除外する場合
+(setq org-caldav-files
+      (seq-remove (lambda (f)
+                    (string-match-p "archive\\|journal" f))
+                  org-agenda-files))
+```
+
+
+## org-caldav-sync-todo（TODO同期）
+
+```emacs-lisp
+;; TODO項目をVTODOとして同期
+(setq org-caldav-sync-todo t)
+
+;; icalendar側の設定も必要
+(setq org-icalendar-include-todo 'all)
+
+;; TODO同期時のカテゴリマッピング
+(setq org-caldav-todo-percent-states
+      '(("TODO" . 0)
+        ("NEXT" . 25)
+        ("DOING" . 50)
+        ("WAITING" . 75)
+        ("DONE" . 100)
+        ("CANCELLED" . 100)))
+```
+
+
+## 削除動作の制御
+
+```emacs-lisp
+;; Org側で削除されたエントリをカレンダーからも削除
+(setq org-caldav-delete-calendar-entries 'ask)  ; 'always, 'never, 'ask
+
+;; カレンダー側で削除されたエントリをOrg側でも削除
+(setq org-caldav-delete-org-entries 'ask)
+
+;; 安全な設定（削除しない）
+(setq org-caldav-delete-calendar-entries 'never
+      org-caldav-delete-org-entries 'never)
+```
+
+
+## タグによるフィルタリング
+
+```emacs-lisp
+;; 特定タグのみ同期
+(setq org-caldav-select-tags '("sync" "calendar"))
+
+;; 特定タグを除外
+(setq org-caldav-exclude-tags '("ARCHIVE" "private" "noexport"))
+
+;; 条件による除外
+(setq org-caldav-skip-conditions
+      '(;; アーカイブされたエントリは除外
+        archive
+        ;; 特定のプロパティを持つエントリを除外
+        (property "NOSYNC")
+        ;; 特定のカテゴリを除外
+        (category "journal")))
+```
+
+
+# 同期の実行
+
+
+## org-caldav-sync
+
+```emacs-lisp
+;; 同期を実行
+(org-caldav-sync)
+
+;; キーバインド設定
+(global-set-key (kbd "C-c s") 'org-caldav-sync)
+
+;; または hydra で
+(defhydra hydra-calendar (:color blue :hint nil)
+  "
+Calendar Operations
+-------------------
+_s_: Sync caldav   _r_: Reset sync   _d_: Show debug
+"
+  ("s" org-caldav-sync)
+  ("r" org-caldav-reset)
+  ("d" (lambda () (interactive)
+         (setq org-caldav-debug-level 2)
+         (message "Debug level set to 2"))))
+```
+
+
+## 初回同期の注意点
+
+```emacs-lisp
+;; 初回同期前に必ず確認
+;; 1. すべてのorgファイルがIDを持っているか
+;;    持っていない場合、自動付与される
+
+;; 2. 既存の同期状態をリセット
+(org-caldav-reset)  ; 問題発生時に使用
+
+;; 3. デバッグモードで実行（問題発生時）
+(setq org-caldav-debug-level 2)
+(org-caldav-sync)
+
+;; 4. 初回は大量のエントリが同期されるため時間がかかる
+;; 進捗は *org-caldav-debug* バッファで確認
+```
+
+
+## コンフリクト解決
+
+```emacs-lisp
+;; コンフリクト発生時の動作
+(setq org-caldav-conflict-strategy 'ask)  ; 'ask, 'org-wins, 'cal-wins
+
+;; orgファイル優先
+(setq org-caldav-conflict-strategy 'org-wins)
+
+;; カレンダー優先
+(setq org-caldav-conflict-strategy 'cal-wins)
+
+;; コンフリクト時に両方を保存
+(setq org-caldav-save-conflicting-events t
+      org-caldav-conflict-backup-directory "~/org/caldav-conflicts/")
+```
+
+
+## 同期ログの確認
+
+```emacs-lisp
+;; デバッグバッファを表示
+(switch-to-buffer "*org-caldav-debug*")
+
+;; デバッグレベルの設定
+(setq org-caldav-debug-level 0)  ; なし
+(setq org-caldav-debug-level 1)  ; 基本情報
+(setq org-caldav-debug-level 2)  ; 詳細情報
+
+;; 同期統計を表示
+(defun my/org-caldav-show-stats ()
+  "Show sync statistics."
+  (interactive)
+  (message "Synced: %d, Created: %d, Deleted: %d, Conflicts: %d"
+           (or org-caldav-sync-result-synced 0)
+           (or org-caldav-sync-result-created 0)
+           (or org-caldav-sync-result-deleted 0)
+           (or org-caldav-sync-result-conflicts 0)))
+```
+
+
+# icalendar.elによるエクスポート
+
+
+## org-icalendar-export-to-ics
+
+```emacs-lisp
+;; 単一ファイルをICS形式でエクスポート
+(org-icalendar-export-to-ics)
+
+;; 特定のファイルをエクスポート
+(org-icalendar-export-to-ics nil "~/org/schedule.org")
+
+;; icalendar設定
+(setq org-icalendar-timezone "Asia/Tokyo"
+      org-icalendar-use-deadline '(event-if-not-todo event-if-todo)
+      org-icalendar-use-scheduled '(event-if-not-todo event-if-todo)
+      org-icalendar-alarm-time 15)  ; 15分前にリマインダー
+```
+
+
+## org-icalendar-combined-agenda-file
+
+```emacs-lisp
+;; 全agendaファイルを1つのICSにまとめる
+(setq org-icalendar-combined-agenda-file "~/public_html/calendar.ics")
+
+;; 結合エクスポートを実行
+(org-icalendar-combine-agenda-files)
+
+;; エクスポートするカテゴリの設定
+(setq org-icalendar-categories '(all-tags category todo-state))
+
+;; 追加のicalendar設定
+(setq org-icalendar-include-todo 'all
+      org-icalendar-include-sexps t  ; ダイアリー形式の日付も含める
+      org-icalendar-include-bbdb-anniversaries nil
+      org-icalendar-store-UID t)  ; UIDを保存（更新時に必要）
+```
+
+
+## ICSファイルの配信
+
+```emacs-lisp
+;; 定期的にエクスポートして配信
+(defun my/export-and-publish-calendar ()
+  "Export and publish calendar."
+  (interactive)
+  ;; ICSファイルを生成
+  (org-icalendar-combine-agenda-files)
+  ;; SCPでサーバーにアップロード
+  (shell-command
+   "scp ~/public_html/calendar.ics user@server:/var/www/calendar/"))
+
+;; 保存時に自動エクスポート
+(add-hook 'after-save-hook
+          (lambda ()
+            (when (and (derived-mode-p 'org-mode)
+                       (member (buffer-file-name) org-agenda-files))
+              (org-icalendar-combine-agenda-files))))
+```
+
+
+## icalendar連携の限界
+
+-   双方向同期は不可（エクスポートのみ）
+-   カレンダー側の変更を取り込めない
+-   繰り返しイベントの一部編集に非対応
+-   タスク（VTODO）のサポートが限定的
+
+
+# org-gcalとの比較
+
+
+## org-gcal（Google Calendar専用）
+
+```emacs-lisp
+;; org-gcalのインストール
+(use-package org-gcal
+  :ensure t
+  :config
+  (setq org-gcal-client-id "your-client-id.apps.googleusercontent.com"
+        org-gcal-client-secret "your-client-secret"
+        org-gcal-fetch-file-alist
+        '(("your-email@gmail.com" . "~/org/gcal.org")
+          ("family@group.calendar.google.com" . "~/org/family.org"))))
+
+;; 同期コマンド
+;; org-gcal-sync: 双方向同期
+;; org-gcal-fetch: カレンダーから取得のみ
+;; org-gcal-post-at-point: 現在のエントリを送信
+```
+
+
+## 設定の違い
+
+| 項目   | org-caldav   | org-gcal |
+| ------ | ------------ | -------- |
+| 対応サービス | 汎用CalDAV   | Googleのみ |
+| 認証方式 | OAuth2/Basic | OAuth2   |
+| TODO同期 | 対応         | 限定的   |
+| 繰り返し | 対応         | 対応     |
+| 設定の複雑さ | やや複雑     | シンプル |
+
+
+## 機能の違い
+
+```text
+org-caldav:
+  + 複数サービス対応
+  + CalDAV標準準拠
+  + 柔軟なフィルタリング
+  - 設定が複雑
+  - サービスごとの調整が必要
+
+org-gcal:
+  + Google Calendar特化で安定
+  + シンプルな設定
+  + 活発なメンテナンス
+  - Googleのみ
+  - カスタマイズ性が低い
+```
+
+
+## 選択の指針
+
+```emacs-lisp
+;; Google Calendar のみ使用する場合
+;; → org-gcal がシンプルで推奨
+
+;; 複数サービスや自前サーバーを使用する場合
+;; → org-caldav を使用
+
+;; 両方使う場合（別々のカレンダー）
+(use-package org-gcal
+  :config
+  (setq org-gcal-fetch-file-alist
+        '(("work@gmail.com" . "~/org/work-gcal.org"))))
+
+(use-package org-caldav
+  :config
+  (setq org-caldav-url "https://nextcloud.example.com/..."
+        org-caldav-inbox "~/org/nextcloud-inbox.org"))
+```
+
+
+# 実践的なワークフロー
+
+
+## 仕事カレンダーの取り込み
+
+```emacs-lisp
+;; 会社のOutlook/Exchange連携（読み取り専用）
+(setq org-caldav-calendars
+      '((:calendar-id "work-calendar"
+         :url "https://outlook.office365.com/owa/calendar/..."
+         :inbox "~/org/work-meetings.org"
+         :files nil  ; 送信しない
+         :sync-direction 'cal->org)))
+
+;; 取り込んだ予定にタグを付与
+(defun my/tag-imported-events ()
+  "Tag imported calendar events."
+  (org-map-entries
+   (lambda ()
+     (when (org-entry-get nil "CALDAV-UID")
+       (org-toggle-tag "meeting" 'on)))
+   nil
+   '("~/org/work-meetings.org")))
+
+(add-hook 'org-caldav-sync-hook #'my/tag-imported-events)
+```
+
+
+## 家族との予定共有
+
+```emacs-lisp
+;; 家族共有カレンダー
+(add-to-list 'org-caldav-calendars
+             '(:calendar-id "family@group.calendar.google.com"
+               :url google
+               :inbox "~/org/family-inbox.org"
+               :files ("~/org/family-events.org")
+               :select-tags ("family" "shared")))
+
+;; 共有用テンプレート
+(add-to-list 'org-capture-templates
+             '("f" "Family Event" entry
+               (file "~/org/family-events.org")
+               "* %^{Event}\nSCHEDULED: %^t\n:PROPERTIES:\n:LOCATION: %^{Location}\n:END:\n%?"
+               :empty-lines 1))
+```
+
+
+## プロジェクト締め切りの同期
+
+```emacs-lisp
+;; DEADLINEをカレンダーに同期
+(setq org-icalendar-use-deadline '(event-if-todo event-if-not-todo))
+
+;; プロジェクト用の設定
+(add-to-list 'org-caldav-calendars
+             '(:calendar-id "project-deadlines"
+               :url "https://caldav.example.com/dav"
+               :inbox nil  ; 受信しない
+               :files ("~/org/projects.org")
+               :select-tags ("deadline")))
+
+;; DEADLINE設定時に自動でタグを付与
+(defun my/auto-tag-deadline ()
+  "Automatically tag entries with deadline."
+  (when (org-entry-get nil "DEADLINE")
+    (org-toggle-tag "deadline" 'on)))
+
+(add-hook 'org-after-todo-state-change-hook #'my/auto-tag-deadline)
+```
+
+
+## 自動同期の設定
+
+```emacs-lisp
+;; 定期的な自動同期
+(defvar my/caldav-sync-timer nil
+  "Timer for automatic calendar sync.")
+
+(defun my/start-caldav-auto-sync ()
+  "Start automatic calendar synchronization."
+  (interactive)
+  (when my/caldav-sync-timer
+    (cancel-timer my/caldav-sync-timer))
+  (setq my/caldav-sync-timer
+        (run-with-timer 0 (* 30 60)  ; 30分ごと
+                        #'org-caldav-sync)))
+
+(defun my/stop-caldav-auto-sync ()
+  "Stop automatic calendar synchronization."
+  (interactive)
+  (when my/caldav-sync-timer
+    (cancel-timer my/caldav-sync-timer)
+    (setq my/caldav-sync-timer nil)))
+
+;; Emacs起動時に開始
+(add-hook 'emacs-startup-hook #'my/start-caldav-auto-sync)
+
+;; アイドル時に同期
+(run-with-idle-timer 300 t #'org-caldav-sync)  ; 5分アイドル後
+
+;; ファイル保存時に同期（注意: 頻繁に発生する可能性あり）
+;; (add-hook 'org-after-save-hook #'org-caldav-sync)
+```
+
+
+# トラブルシューティング
+
+
+## 認証エラー
+
+```emacs-lisp
+;; 認証情報のリセット
+(setq url-http-real-basic-auth-storage nil)
+
+;; OAuth2トークンの削除
+(delete-file org-caldav-oauth2-token-file)
+
+;; auth-sourceのキャッシュクリア
+(auth-source-forget-all-cached)
+
+;; 認証情報の確認
+(auth-source-search :host "caldav.example.com" :port 443)
+
+;; デバッグ
+(setq auth-source-debug t)
+```
+
+
+## 同期の競合
+
+```emacs-lisp
+;; 競合解決戦略の設定
+(setq org-caldav-conflict-strategy 'ask)
+
+;; 競合が多発する場合
+;; 1. 同期頻度を上げる
+;; 2. 編集を一方に限定する
+;; 3. 競合時のバックアップを有効化
+(setq org-caldav-save-conflicting-events t)
+
+;; 同期状態のリセット（最終手段）
+(org-caldav-reset)
+```
+
+
+## タイムゾーン問題
+
+```emacs-lisp
+;; タイムゾーンの明示的設定
+(setq org-icalendar-timezone "Asia/Tokyo")
+(setq org-icalendar-date-time-format ":%Y%m%dT%H%M%S")
+
+;; UTCで保存（サーバーによっては必要）
+(setq org-icalendar-date-time-format ";TZID=%Z:%Y%m%dT%H%M%S")
+
+;; タイムスタンプの変換確認
+(format-time-string "%Y-%m-%d %H:%M" (current-time) "Asia/Tokyo")
+```
+
+
+## 日本語イベント名の文字化け
+
+```emacs-lisp
+;; UTF-8エンコーディングの確認
+(setq url-mime-charset-string "utf-8;q=1, iso-8859-1;q=0.5")
+
+;; icalendar出力のエンコーディング
+(setq org-icalendar-use-UTF8-for-quoted-printable t)
+
+;; URLエンコードの問題
+;; カレンダーIDに日本語が含まれる場合はURLエンコード
+(url-hexify-string "日本語カレンダー")
+```
+
+
+## 繰り返し予定の扱い
+
+```emacs-lisp
+;; Orgの繰り返しをRRULEに変換
+;; +1w → FREQ=WEEKLY;INTERVAL=1
+;; +1m → FREQ=MONTHLY;INTERVAL=1
+;; ++1d → FREQ=DAILY;INTERVAL=1
+
+;; 繰り返しの設定
+(setq org-icalendar-include-body t)
+
+;; 繰り返しが正しく同期されない場合
+;; 1. Orgの繰り返し形式を確認
+;; 2. サーバーのRRULEサポートを確認
+;; 3. 単発イベントとして複数作成を検討
+
+;; サポートされる繰り返し形式
+;; <2024-01-01 Mon +1w> - 毎週
+;; <2024-01-01 Mon +1m> - 毎月
+;; <2024-01-01 Mon ++1d> - 毎日（完了時にスキップなし）
+```
+
+
+# セキュリティ考慮
+
+
+## 認証情報の安全な保存
+
+```emacs-lisp
+;; 認証情報を直接設定に書かない（悪い例）
+;; (setq org-caldav-oauth2-client-secret "plain-text-secret")  ; NG!
+
+;; auth-sourceを使用（推奨）
+(setq auth-sources '("~/.authinfo.gpg"))
+
+;; 環境変数を使用
+(setq org-caldav-oauth2-client-secret
+      (getenv "ORG_CALDAV_SECRET"))
+```
+
+
+## auth-source活用
+
+```emacs-lisp
+;; auth-sourceからの認証情報取得
+(defun my/get-caldav-password ()
+  "Get CalDAV password from auth-source."
+  (let ((auth (auth-source-search :host "caldav.example.com"
+                                  :user "username"
+                                  :require '(:secret))))
+    (when auth
+      (funcall (plist-get (car auth) :secret)))))
+
+;; auth-sourceを使ったカスタム認証
+(setq url-basic-auth-storage
+      `(("caldav.example.com:443"
+         ("CalDAV" . ,(base64-encode-string
+                       (format "%s:%s"
+                               "username"
+                               (my/get-caldav-password)))))))
+```
+
+
+## .authinfo.gpg
+
+```text
+# ~/.authinfo.gpg の内容
+# GPGで暗号化して保存
+
+# 基本認証
+machine caldav.example.com port https login username password secret-password
+
+# Google Calendar（OAuth2トークン用ではなく、基本情報）
+machine googleapis.com login org-caldav password unused
+
+# Nextcloud
+machine nextcloud.example.com port https login user password app-password
+
+# iCloud（アプリ固有パスワード）
+machine caldav.icloud.com login apple-id@icloud.com password xxxx-xxxx-xxxx-xxxx
+```
+
+```emacs-lisp
+;; GPGの設定
+(setq auth-sources '("~/.authinfo.gpg"))
+(setq epa-file-select-keys nil)  ; GPGキー選択を省略
+
+;; GPGエージェントのキャッシュ時間設定（gpg-agent.conf）
+;; default-cache-ttl 3600
+;; max-cache-ttl 7200
+
+;; Emacsでのパスフレーズ入力
+(setq epa-pinentry-mode 'loopback)  ; Emacs内でパスフレーズ入力
+```
+
+
+# まとめ
+
+```emacs-lisp
+;; 完全な設定例
+(use-package org-caldav
+  :ensure t
+  :after org
+  :config
+  ;; 基本設定
+  (setq org-icalendar-timezone "Asia/Tokyo"
+        org-icalendar-include-todo 'all
+        org-icalendar-use-deadline '(event-if-todo event-if-not-todo)
+        org-icalendar-use-scheduled '(event-if-todo event-if-not-todo))
+
+  ;; 複数カレンダー設定
+  (setq org-caldav-calendars
+        '(;; Google Calendar（個人）
+          (:calendar-id "personal@gmail.com"
+           :url google
+           :inbox "~/org/gcal-inbox.org"
+           :files ("~/org/personal.org"))
+          ;; Nextcloud（仕事）
+          (:calendar-id "work"
+           :url "https://cloud.company.com/remote.php/dav/calendars/user"
+           :inbox "~/org/work-inbox.org"
+           :files ("~/org/work.org"))))
+
+  ;; OAuth2設定
+  (setq org-caldav-oauth2-client-id (getenv "GOOGLE_CLIENT_ID")
+        org-caldav-oauth2-client-secret (getenv "GOOGLE_CLIENT_SECRET"))
+
+  ;; 同期設定
+  (setq org-caldav-sync-todo t
+        org-caldav-delete-calendar-entries 'ask
+        org-caldav-delete-org-entries 'ask)
+
+  ;; デバッグ（必要時）
+  (setq org-caldav-debug-level 1)
+
+  ;; キーバインド
+  :bind
+  ("C-c C-s" . org-caldav-sync))
+```
