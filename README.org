@@ -49,24 +49,24 @@ Each subdirectory contains:
 
 *** Zenn
 
-- [[https://github.com/conao3/ox-zenn][ox-zenn]] - org-mode to Zenn markdown
+- [[https://github.com/conao3/ox-zenn.el][ox-zenn]] - org-mode to Zenn markdown
 
 *** dev.to
 
 - [[https://github.com/larstvei/ox-gfm][ox-gfm]] - org-mode to GitHub Flavored Markdown
-- [[https://github.com/Songmu/article-sync][article-sync]] - Article synchronization
+- [[https://github.com/calvinmclean/article-sync][article-sync]] - Article synchronization
 
 *** Typst
 
 - [[https://typst.app/][Typst]] - Modern typesetting system
 - [[https://github.com/jmpunkt/ox-typst][ox-typst]] - org-mode to Typst
-- [[https://github.com/andreasKroepelin/polylux][polylux]] - Presentation slides for Typst
+- [[https://github.com/polylux-typ/polylux][polylux]] - Presentation slides for Typst
 
 *** Build & Lint
 
 - [[https://nixos.org/][Nix]] flakes - Reproducible builds
 - [[https://devenv.sh/][devenv]] - Development environment
-- [[https://textlint.github.io/][textlint]] - Text linting
+- [[https://textlint.org/][textlint]] - Text linting
 - [[https://github.com/secretlint/secretlint][secretlint]] - Secret detection
 
 ** Published URLs
