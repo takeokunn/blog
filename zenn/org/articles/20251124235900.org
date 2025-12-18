@@ -193,21 +193,112 @@ natsukiumとr-aizawaからはDMグループで五月雨式に気になった所�
 
 余談ですが、natsukiumとr-aizawaはこの連載中に同僚になりました。
 
-** CI関連
+** Lint関連
 
-textlintを以下のように設定して動かしています。
-textlintはNixで管理しています。
+普段ブログを書く時に使ってる =flake.nix= をそのまま流用して使っています。
+余談ですが、今回もMarkdownではなくOrgファイルで執筆し、Orgファイルのまま納品しています。
 
+理想はtextlintに頼らず筆者の魂を込めた文章を書くべきなんだろうなと思いながらも日和ってtextlintを使ってしまっているのが現状です。
+文章力を高めたいですね。
+
+#+begin_src nix
+  {
+    inputs = {
+      nixpkgs.url = "github:NixOS/nixpkgs";
+      nur-packages.url = "github:takeokunn/nur-packages";
+    };
+
+    outputs = { self, nixpkgs, nur-packages }:
+      let
+        systems = [
+          "x86_64-linux"
+          "aarch64-darwin"
+        ];
+
+        forAllSystems = f: nixpkgs.lib.genAttrs systems (system: f system);
+      in
+        {
+          devShells = forAllSystems (
+            system:
+            let
+              pkgs = nixpkgs.legacyPackages.${system};
+              nur-pkgs = nur-packages.legacyPackages.${system};
+              textlintrc = (pkgs.formats.json { }).generate "textlintrc" {
+                plugins = {
+                  org = true;
+                };
+                rules = {
+                  preset-ja-technical-writing = {
+                    ja-no-weak-phrase = false;
+                    ja-no-mixed-period = false;
+                    no-exclamation-question-mark = false;
+                    sentence-length = false;
+                    no-doubled-joshi = false;
+                    max-kanji-continuous-len = false;
+                  };
+                  write-good = {
+                    weasel = false;
+                  };
+                  preset-japanese = {
+                    sentence-length = false;
+                    no-doubled-joshi = false;
+                  };
+                  prh = {
+                    rulePaths = [
+                      "${pkgs.textlint-rule-prh}/lib/node_modules/textlint-rule-prh/node_modules/prh/prh-rules/media/techbooster.yml"
+                    ];
+                  };
+                };
+              };
+            in
+              {
+                default = pkgs.mkShell {
+                  packages = with pkgs; [
+                    nodejs
+                    (textlint.withPackages [
+                      textlint-rule-preset-ja-technical-writing
+                      textlint-rule-prh
+                      textlint-rule-write-good
+                      textlint-plugin-org
+                      nur-pkgs.textlint-rule-preset-japanese
+                    ])
+                  ];
+
+                  shellHook = ''
+                    [ -f .textlintrc ] && unlink .textlintrc
+                    ln -s ${textlintrc} .textlintrc
+                  '';
+                };
+              }
+          );
+        };
+  }
+#+end_src
 * 良かったこと
 
-- プロの編集者の指摘を貰える
-- Nixに興味のない不特定多数の人に読んでもらえる
-- 満足感が個人ブログの比にならない
-- 面白かったよーってフィードバックをもらえる
+最も良かったことは、「面白かったよー」っていうフィードバックを沢山いただけたことでした。
+「Nixを知らない人でも読み物として面白くする」というのがテーマだったので目標通りの結果になったことが非常によかったです。
+雑誌持ってきてくれて「サインしてくれ!!」 って言われたり、ちょっとした有名人感を味わえて楽しかったです。
+やはりこの辺の満足感は個人ブログがバズった時の比じゃないくらいに嬉しいものです。
+
+チームとしても大成功しました。
+振り返るとレビューのやりとりも日々のコミュニケーションもすごく円滑に行えたなと思いました。
+進捗があろうがなかろうが小まめに報連相して状況を共有するのが重要ですね。
+プロの編集者のレビューを受けられることは福利厚生ですね。
 
 * 大変だったこと
 
-- 一定のプレッシャーがある
-- 月1はかなりエネルギーが必要
+入稿したら次、また入稿したら次、といった中距離走が5回続くのは体力が必要でした。
+全国の本屋に置かれるので適当な文章を書く訳にはいかないなとプレッシャーがかなりありました。
+終わった時の解放感や安堵感が強かったです。
+
+今回かなり自分の中でノウハウ化できたので、もし強くてニューゲームできたら多分この半分くらいの労力で書けるだろうなーという感覚があります。
+ちょうど良い負荷だったかもしれませんね。
 
 * 終わりに
+
+雑誌という形として書店に置かれてるのを見るとニヤニヤしちゃいますね。
+無事完走できてよかったです。
+
+レビューに関わってくれた吉岡さん、natsukium、r-aizawa本当にありがとうございました!!
+たけてぃ先生の次回作にご期待ください!!
