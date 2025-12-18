@@ -30,11 +30,13 @@
 
 初回の2025年9月号では表紙に載りました。
 
-[[file:images/fef78e7e-f4cc-4b14-c473-d6e5a31132dd.jpg]]
+#+attr_html: :alt image
+[[https://raw.githubusercontent.com/takeokunn/blog/refs/heads/zenn/images/fef78e7e-f4cc-4b14-c473-d6e5a31132dd.jpg]]
 
 この記事の投稿日である2025年12月17日に連載最終回が発売されるので是非皆さん書店で手に取ってみてください。
 
-[[file:images/cef5cd54-8ce8-3d44-a753-cd86031d9a8a.jpg]]
+#+attr_html: :alt image
+[[https://raw.githubusercontent.com/takeokunn/blog/refs/heads/zenn/images/cef5cd54-8ce8-3d44-a753-cd86031d9a8a.jpg]]
 
 * 連載のきっかけ
 
@@ -189,7 +191,8 @@ natsukiumとr-aizawaからはDMグループで五月雨式に気になった所�
 
 指摘してもらった箇所は1commitずつ丁寧に修正して、各個人分ごとにPRを出してmergeしました。
 
-[[file:images/6F513FEA-55A2-4413-A1AC-763AAC47D5FC.png]]
+#+attr_html: :alt image
+[[https://raw.githubusercontent.com/takeokunn/blog/refs/heads/zenn/images/87b9434c-461c-8114-8423-1b92edab410a.png]]
 
 余談ですが、natsukiumとr-aizawaはこの連載中に同僚になりました。
 
