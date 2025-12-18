@@ -188,6 +188,9 @@ natsukiumとr-aizawaからはDMグループで五月雨式に気になった所�
 レビューしてもらうなら、上級者目線、初級者目線、編集者目線の3軸用意することをオススメします。
 
 指摘してもらった箇所は1commitずつ丁寧に修正して、各個人分ごとにPRを出してmergeしました。
+
+[[file:../../static/images/6F513FEA-55A2-4413-A1AC-763AAC47D5FC.png]]
+
 余談ですが、natsukiumとr-aizawaはこの連載中に同僚になりました。
 
 ** CI関連
