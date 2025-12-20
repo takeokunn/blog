@@ -1,0 +1,15 @@
+:PROPERTIES:
+:ID:       360860F2-3F77-4989-81DF-FF43B9F96FF7
+:END:
+#+TITLE: 社内読書会でThe Rust Programming Language を読破した
+#+AUTHOR: takeokunn
+#+DESCRIPTION: description
+#+DATE: 2025-12-21T00:45:48+0900
+#+HUGO_BASE_DIR: ../../
+#+HUGO_CATEGORIES: fleeting
+#+HUGO_SECTION: posts/fleeting
+#+HUGO_TAGS: fleeting rust
+#+HUGO_DRAFT: true
+#+STARTUP: fold
+* aaa
+xxx
