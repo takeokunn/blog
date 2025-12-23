@@ -4,7 +4,7 @@
 #+TITLE: 簡易的なヒューリスティックパーサの自作方法
 #+AUTHOR: takeokunn
 #+DESCRIPTION: description
-#+DATE: 2025-12-21T00:34:48+0900
+#+DATE: 2025-12-23T20:18:08+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting
 #+HUGO_SECTION: posts/fleeting
@@ -13,24 +13,124 @@
 #+STARTUP: fold
 * 背景・動機
 
-- どのような課題意識・ニーズがあったか
-  - e.g. ◯◯ツールでは〜ができずに困っていた
-  - e.g. △△な成果物を作るため、より柔軟なxx環境が欲しかった
+クローリング結果や業務で使ってるデータベースの値など世の中にはDirtyな値が山のようにある。
+一定のルールで正規化した値を取得したい場合にヒューリスティックパーサは便利である。
+
+業務で大量に作ったので作り方についてメモしておく。
 
 * 試したこと・やったこと
 ** 0. ヒューリスティックパーサが適切か見極める
+
+目の前の問題の性質がヒューリスティックパーサが適してるか確認する。
+
+- メリット
+  - 不完全・壊れた入力への耐性が高い
+  - 実装の簡単さ
+  - パフォーマンス
+  - 依存関係の排除
+- デメリット
+  - エッジケースに対応しきれない
+  - 偽陽性や偽陰性
+  - 正当性の証明が困難
+
 ** 1. テストデータのパターンを用意する
+
+AIにテストケースをyamlで生成させる。
+例えば次のyamlは文字列から月給の下限と上限を取得するparserを実装する例。
+
+#+begin_src yaml
+  # 年収（年俸）の文字列があるパターン
+  - input: "300万円～350万円 ※この限りではありません。"
+    expected:
+      form: "年収"
+      min: 3000000
+      max: 3500000
+
+  # 年収の単純な範囲指定パターン
+  - input: "年俸400万円～500万円"
+    expected:
+      form: "年俸"
+      min: 4000000
+      max: 5000000
+
+  # 月給のパターン
+  - input: "月給20万円～25万円"
+    expected:
+      form: "月給"
+      min: 200000
+      max: 250000
+
+  - input: "月給25万3000円"
+    expected:
+      form: "月給"
+      min: 253000
+      max: 253000
+
+  # 時給のパターン
+  - input: "時給1,500円～2,000円"
+    expected:
+      form: "時給"
+      min: 1500
+      max: 2000
+
+  - input: "時給1,800円"
+    expected:
+      form: "時給"
+      min: 1800
+      max: 1800
+
+  # 日給のパターン
+  - input: "日給12,000円～15,000円"
+    expected:
+      form: "日給"
+      min: 12000
+      max: 15000
+
+  - input: "日給10,000円"
+    expected:
+      form: "日給"
+      min: 10000
+      max: 10000
+#+end_src
+
 ** 2. パーサをAIに作らせる
+
+「yamlのinputとexpectedに合うparserを自作して、vitestで実装して」とAIに命令すれば良い。
+
+#+begin_src typescript
+  import { describe, it, expect } from "vitest";
+  import fs from "node:fs";
+  import yaml from "js-yaml";
+  import path from "node:path";
+  import { parseSalary } from "./salary";
+
+  interface TestData {
+    input: string;
+    expected: {
+      form: string | null;
+      min: number | null;
+      max: number | null;
+    };
+  }
+
+  describe("parseSalary", () => {
+    const yamlPath = path.join(__dirname, "salary.yaml");
+    const yamlFile = fs.readFileSync(yamlPath, "utf8");
+    const testCases = yaml.load(yamlFile) as TestData[];
+
+    testCases.forEach(({ input, expected }) => {
+      it(`should parse "${input}" correctly`, () => {
+        const result = parseSalary(input);
+        expect(result).toEqual(expected);
+      });
+    });
+  });
+#+end_src
 * 得られた結果・所感
 
-- 成果、苦労した点、気づき
-  - e.g. ◯◯の表現力が予想以上だった
-  - e.g. △△の構文で詰まったが、〜で解決
-  - e.g. 複数人で共通スタイルを使えるようになった
+Claude Codeに大量にヒューリスティックパーサを大量に錬成できた。
+昔の人は手でパーサを書いてたと思うとAI様々。
 
 * 今後の展開・検討事項
 
-- 派生プロジェクト、汎用化、他分野展開
-  - e.g. OSSテンプレートとして配布予定
-  - e.g. CI/CDでの自動PDF出力＋SNSシェアを統合
-  - e.g. ◯◯領域にも応用できそうなので検討中
+ヒューリスティックパーサよりも厳密性が求められる時にフォーマルなパーサを実装できるようにしておきたい。
