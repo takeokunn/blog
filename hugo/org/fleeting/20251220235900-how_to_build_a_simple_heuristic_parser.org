@@ -36,7 +36,7 @@
 ** 1. テストデータのパターンを用意する
 
 AIにテストケースをyamlで生成させる。
-例えば次のyamlは文字列から月給の下限と上限を取得するparserを実装する例。
+たとえば次のyamlは文字列から月給の下限と上限を取得するparserを実装する例。
 
 #+begin_src yaml
   # 年収（年俸）の文字列があるパターン
@@ -95,7 +95,7 @@ AIにテストケースをyamlで生成させる。
 
 ** 2. パーサをAIに作らせる
 
-「yamlのinputとexpectedに合うparserを自作して、vitestで実装して」とAIに命令すれば良い。
+「yamlのinputとexpectedに合うparserを自作して、vitestで実装して」とAIに命令すればよい。
 
 #+begin_src typescript
   import { describe, it, expect } from "vitest";
@@ -129,7 +129,7 @@ AIにテストケースをyamlで生成させる。
 * 得られた結果・所感
 
 Claude Codeに大量にヒューリスティックパーサを大量に錬成できた。
-昔の人は手でパーサを書いてたと思うとAI様々。
+昔の人は手でパーサを書いてたと思うとAIさまざま。
 
 * 今後の展開・検討事項
 
