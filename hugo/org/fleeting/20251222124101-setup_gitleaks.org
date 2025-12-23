@@ -1,0 +1,75 @@
+:PROPERTIES:
+:ID:       2E655C72-E102-4646-97BD-E69AEA67CCDF
+:END:
+#+TITLE: gitleaksを導入した
+#+AUTHOR: takeokunn
+#+DESCRIPTION: description
+#+DATE: 2025-12-23T20:50:37+0900
+#+HUGO_BASE_DIR: ../../
+#+HUGO_CATEGORIES: fleeting
+#+HUGO_SECTION: posts/fleeting
+#+HUGO_TAGS: fleeting git
+#+HUGO_DRAFT: false
+#+STARTUP: fold
+* 背景・動機
+
+秘密鍵をgit commitしないようにしたいと以前から考えていた。
+大体のプロジェクトのCIにsecretlintを導入していたが、手元でもpre-commitでも設定したいと思っていた所、gitleaksなら設定不要で楽に導入できることが分かったので導入した。
+
+* 試したこと・やったこと
+** 0. ツール選定
+
+類似ツールにはgit-secrets、trufflehog、secretlintがある。
+
+次の性質があるツールがよい。
+
+- nixpkgsにある
+- デフォルト設定がしっかりしてる
+- CLIで雑に実行できる
+
+[[https://dev.classmethod.jp/articles/gitleaks-commands/][『Gitleaks』で機密情報の漏洩を防ぐ〜コマンド編〜]] を読んでいた所、自分のニーズを満たせることが確認できたので導入を決定した。
+** 1. home-manager module作成
+
+home-manager moduleを自作すると自由度が上がる。
+
+https://github.com/takeokunn/nixos-configuration/blob/6df4a5955942bff1010b80e3c1bc48af48baebd5/home-manager/modules/gitleaks/default.nix
+
+~programs.gitleaks.enable = true~ するだけで設定完了する。
+
+#+begin_src nix
+  {
+    programs.gitleaks = {
+      enable = true;
+      enableGitHook = true;
+      settings = {
+        extend.useDefault = true;
+      };
+    };
+  }
+#+end_src
+** 2. devenvのgit pre-commit導入
+
+devenvでgit hookを定義してると、system globalのgit hookを読んでくれないことがわかった。
+
+devenvでかなりhookを定義してるので、こちらでも明示的にpre-commitを定義している。
+https://devenv.sh/git-hooks/
+
+#+begin_src nix
+  { pkgs, ... }: {
+    git-hooks.hooks = {
+      check-merge-conflicts.enable = true;
+      check-case-conflicts.enable = true;
+      gitleaks = {
+        enable = true;
+        entry = "${pkgs.gitleaks}/bin/gitleaks protect --staged";
+      };
+    };
+  }
+#+end_src
+* 得られた結果・所感
+
+より安全に =git commit= できるようになった。
+
+* 今後の展開・検討事項
+
+gitleaksの設定をrecommendedのみ有効にしてるので、もう少し細かい設定をしてきたい。
