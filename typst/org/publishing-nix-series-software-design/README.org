@@ -1,0 +1,2 @@
+#+STARTUP: fold
+* Software DesignでNix連載をした

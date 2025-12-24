@@ -1,0 +1,91 @@
+:PROPERTIES:
+:ID:       0359A766-FE00-4CC8-B319-3E033DD9F77E
+:END:
+#+TITLE: emacs wdiredが便利だった
+#+AUTHOR: takeokunn
+#+DESCRIPTION: description
+#+DATE: 2025-11-29T21:06:48+0900
+#+HUGO_BASE_DIR: ../../
+#+HUGO_CATEGORIES: fleeting
+#+HUGO_SECTION: posts/fleeting
+#+HUGO_TAGS: fleeting emacs
+#+HUGO_DRAFT: false
+#+STARTUP: fold
+* 背景・動機
+
+[[https://x.com/ryoppippi][ryoppippi]] の「【外資ITエンジニアの開発環境】VimmerによるVimmer（になりたい人）のためのVim動画」という動画を見た。
+
+#+begin_export html
+<iframe width="560" height="315" src="https://www.youtube.com/embed/XsAlXYWzcv4?si=BCtjXraq6TWjCdH8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+#+end_export
+
+その中で [[https://github.com/stevearc/oil.nvim][oil.nvim]] 紹介があり、vimの通常操作でファイル操作が可能になる機能がある。
+EmacsのDiredでも同様のことがないか調査した所、標準機能に =wdired.el= というものがあったので使ってみた。
+
+* 試したこと・やったこと
+** 1. wdiredの機能調査
+
+=wdired= は =Writable Dired= の略でDired拡張。
+
+https://github.com/emacs-mirror/emacs/blob/master/lisp/wdired.el
+
+大きな特徴は3点。
+Emacs上で完結しているが故のkmacroなどの他の機能を使えるのが便利。
+
+1. テキスト処理の延長でファイル操作ができる（ディレクトリ名も変更可能）
+2. 安全性とトランザクション
+3. Emacs Lispによる拡張可能
+
+** 2. wdired設定
+
+Dired上で起動するの方法は =wdired-change-to-wdired-mode= を有効にすればよく、 =r= に割り当てている。
+
+#+begin_src emacs-lisp
+  (define-key dired-mode-map "r" #'wdired-change-to-wdired-mode)
+#+end_src
+
+=defcustom= はそこそあるが、file permissionを変更できるように =wdired-allow-to-change-permissions= は設定してもよさそう。
+
+#+begin_src emacs-lisp
+  ;;; 定義元
+
+  (defcustom wdired-allow-to-change-permissions nil
+    "If non-nil, the permissions bits of the files are editable.
+
+  If t, to change a single bit, put the cursor over it and press the
+  space bar, or left click over it.  You can also hit the letter you want
+  to set: if this value is allowed, the character in the buffer will be
+  changed.  Anyway, the point is advanced one position, so, for example,
+  you can keep the <x> key pressed to give execution permissions to
+  everybody to that file.
+
+  If `advanced', the bits are freely editable.  You can use
+  `string-rectangle', `query-replace', etc.  You can put any value (even
+  newlines), but if you want your changes to be useful, you better put a
+  intelligible value.
+
+  The real change of the permissions is done by the external
+  program \"chmod\", which must exist."
+    :type '(choice (const :tag "Not allowed" nil)
+                   (const :tag "Toggle/set bits" t)
+                   (other :tag "Bits freely editable" advanced)))
+
+  ;;; 自分の設定
+  (setotp wdired-allow-to-change-permissions 'advanced)
+#+end_src
+** 3. 挙動の確認
+
+1. 適当なディレクトリでdiredを開いて =r= を押す
+2. ファイル名やpermissionを変更する
+3. =C-c C-c= で保存する or =C-c C-k= でロールバックする
+
+[[file:../../static/images/E62300C4-243B-413C-9C25-32897789BDF6.png]]
+
+* 得られた結果・所感
+
+diredでのファイル操作が本当に楽になった。
+普段がんばってshell script書いたりしてたので無駄なことをしてしまったと反省している。
+
+* 今後の展開・検討事項
+
+wdiredの話をしたらwgrepも同様の体験ができるのでこちらも調査したい。
