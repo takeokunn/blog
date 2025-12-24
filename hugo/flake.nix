@@ -78,6 +78,7 @@
                 (emacsPkg.pkgs.withPackages (epkgs: (with epkgs.melpaPackages; [ ox-hugo org-roam ])))
               ];
               buildPhase = ''
+                export TZ=Asia/Tokyo
                 rm -fr org/private/
                 emacs --batch --load scripts/ox-roam.el --funcall export-org-roam-files
                 tcardgen --fontDir=tcardgen/font --output=static/ogp --config=tcardgen/ogp.yml content/posts/**/*.md
@@ -96,6 +97,13 @@
               ];
               buildPhase = ''
                 rm -fr org/private/
+
+                # org-roam-ui-lite が相対パス (file:../../static/images/...) を正しく解決できるよう
+                # 各 org サブディレクトリに static へのシンボリックリンクを作成
+                for dir in org/*/; do
+                  ln -s ../../static "$dir/static"
+                done
+
                 emacs --batch --load scripts/org-roam-ui.el --funcall org-roam-db-sync
                 org-roam-ui-lite-export -d org-roam.db -o ./public
               '';
