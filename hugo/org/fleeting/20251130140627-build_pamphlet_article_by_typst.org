@@ -4,12 +4,12 @@
 #+TITLE: 技術イベントのパンフレット記事をTypstでBuildする
 #+AUTHOR: takeokunn
 #+DESCRIPTION: description
-#+DATE: 2025-11-30T14:06:37+0900
+#+DATE: 2025-12-24T22:45:57+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting
 #+HUGO_SECTION: posts/fleeting
 #+HUGO_TAGS: fleeting typst
-#+HUGO_DRAFT: true
+#+HUGO_DRAFT: false
 #+STARTUP: fold
 * 背景・動機
 
