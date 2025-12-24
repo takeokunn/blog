@@ -4,7 +4,7 @@
 #+TITLE: 複数人でAirbnbを借りた時の清算方法
 #+AUTHOR: takeokunn
 #+DESCRIPTION: description
-#+DATE: 2025-12-25T06:08:22+0900
+#+DATE: 2025-12-25T06:48:50+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting
 #+HUGO_SECTION: posts/fleeting
