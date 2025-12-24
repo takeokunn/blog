@@ -1,0 +1,88 @@
+:PROPERTIES:
+:ID:       4D6415D6-B7ED-4C3C-BBDB-CA0931DC4E20
+:END:
+#+TITLE: 技術イベントのパンフレット記事をTypstでBuildする
+#+AUTHOR: takeokunn
+#+DESCRIPTION: description
+#+DATE: 2025-11-30T14:06:37+0900
+#+HUGO_BASE_DIR: ../../
+#+HUGO_CATEGORIES: fleeting
+#+HUGO_SECTION: posts/fleeting
+#+HUGO_TAGS: fleeting typst
+#+HUGO_DRAFT: true
+#+STARTUP: fold
+* 背景・動機
+
+組版が必要なあらゆるものはTypstを採用することにしている。
+
+- [[id:22C11682-3405-48C4-A720-5FF3080480DD][Typstで履歴書と職務経歴書をBuildする]]
+- [[id:A442DBE9-559A-4B75-AAF3-4A925F5BA5E4][AIを駆使してTypstスライドを生成する]]
+- [[id:0D13FCEA-F8EC-4729-B700-9A88FD1D5EB9][NixでTypstをBuildしGitHub Pagesでホスティングする]]
+
+パンフレット記事や同人誌の組版をする時にも例に漏れずTypstで作成しているのでメモしておく。
+
+内容は [[id:0D13FCEA-F8EC-4729-B700-9A88FD1D5EB9][NixでTypstをBuildしGitHub Pagesでホスティングする]] とかなり重複するが、パンフレット記事を書くという側面で纏めていく。
+
+* 試したこと・やったこと
+** 1. Build周り
+
+[[id:0D13FCEA-F8EC-4729-B700-9A88FD1D5EB9][NixでTypstをBuildしGitHub Pagesでホスティングする]] に纏まっているのでこちらを参照。
+
+** 2. テーマ選定とTypst設定
+
+この手のテーマはTypstには大量にある。
+
+- [[https://typst.app/universe/package/charged-ieee/][charged-ieee]]
+- [[https://typst.app/universe/package/ilm/][ilm]]
+- [[https://typst.app/universe/package/clean-acmart/][clean-acmart]]
+- [[https://typst.app/universe/package/clean-ensam/][clean-ensam]]
+- [[https://typst.app/universe/package/min-article/][min-article]]
+
+コードのsyntax highlightのみ [[https://typst.app/universe/package/codly/][codly]] と [[https://typst.app/universe/package/codly-languages/][codly-languages]] を使ってるが、デフォルトのTypstの機能を手で設定している。
+フォントは[[https://github.com/yuru7/HackGen][HackGen]]を入れており、日本語も英語も数値もきれいに描画してくれる。
+
+#+begin_src typst
+  #set text(lang: "ja", font: "HackGen", size: 8pt)
+
+  #set page(
+    width: 210mm,
+    height: 297mm,
+    margin: 20mm,
+    columns: 2
+  )
+  #set columns(gutter: 12pt)
+
+  #import "@preview/codly:1.2.0": *
+  #import "@preview/codly-languages:0.1.1": *
+  #show: codly-init.with()
+  #codly(languages: codly-languages)
+
+  #show raw: set text(size: 6pt)
+
+  #place(
+    top + center,
+    float: true,
+    scope: "parent",
+    clearance: 1em,
+  )[
+    #set text(size: 18pt)
+    パッケージマネージャNixで実現する \
+    宣言的でクリーンなPHP開発環境の構築
+
+    #set text(size: 12pt)
+    たけてぃ \@takeokunn
+    #v(1em)
+  ]
+#+end_src
+* 得られた結果・所感
+
+満足いくクオリティでpdfを生成できるようになったし、GitHub ActionsでBuildしてGitHub Pagesでホスティングできるようになった
+
+- https://www.takeokunn.org/pdf/phperkaigi-2026-pamphlet.pdf
+- [[https://www.takeokunn.org/pdf/phperkaigi-2025-pamphlet.pdf]]
+
+[[file:../../static/images/8862867B-8146-417E-85C5-53FEA401A5D7.png]]
+
+* 今後の展開・検討事項
+
+もっとTypstでこだわれる余地がないか模索していきたい。
