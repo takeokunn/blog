@@ -144,7 +144,7 @@ https://github.com/takeokunn/nixos-configuration/tree/main/home-manager/programs
 #+end_src
 
 NeovimやLuaや事情は分からないが、 =performance.byteCompileLua= でByte Compileしてくれるみたいなので有効にできるようだ。
-Neovimのプラグイン事情はよくわからないので一旦全てのプラグインをLua製に統一させた。
+Neovimのプラグイン事情はよくわからないのでいったんすべてのプラグインをLua製に統一させた。
 
 #+begin_src nix
   {
