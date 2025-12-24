@@ -59,6 +59,12 @@ https://github.com/takeokunn/blog/blob/main/typst/themes/Alucard.tmTheme
 
 https://www.takeokunn.org/pdf/publishing-nix-series-software-design.pdf
 
+[[file:../../static/images/2617E50F-5B65-4E93-8C84-A7383E460218.png]]
+
+[[file:../../static/images/A53EA15D-765C-4BC1-A389-93E4C5D668B1.png]]
+
+[[file:../../static/images/B9C671A0-08B7-4EFD-9160-57FA8A3323A3.png]]
+
 * 今後の展開・検討事項
 
 スライドテンプレートを作り込んでより表現力豊かなスライドを作れるようになりたい。
