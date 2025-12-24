@@ -204,7 +204,7 @@ Webデザインに特別こだわりがあったり、Webサイトを学習目�
 #+end_src
 
 #+RESULTS:
-[[file:/Users/obara/.ghq/github.com/takeokunn/blog/static/images/06C3BC2E-F1DD-4FAE-954B-CC8459ED46B7.png]]
+[[file:../../static/images/06C3BC2E-F1DD-4FAE-954B-CC8459ED46B7.png]]
 
 1. Localで記事を編集する
 2. [[https://github.com/takeokunn/blog][takeokunn/blog]] のmain branchにpushする
