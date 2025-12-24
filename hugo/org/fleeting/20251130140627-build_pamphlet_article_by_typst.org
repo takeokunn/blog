@@ -24,22 +24,65 @@
 内容は [[id:0D13FCEA-F8EC-4729-B700-9A88FD1D5EB9][NixでTypstをBuildしGitHub Pagesでホスティングする]] とかなり重複するが、パンフレット記事を書くという側面で纏めていく。
 
 * 試したこと・やったこと
-** 1. テーマ選定
-** 2. Nix Buildしてホスティングできるようにする
+** 1. Build周り
 
 [[id:0D13FCEA-F8EC-4729-B700-9A88FD1D5EB9][NixでTypstをBuildしGitHub Pagesでホスティングする]] に纏まっているのでこちらを参照。
 
-** 3. Typst設定
+** 2. テーマ選定とTypst設定
+
+この手のテーマはTypstには大量にある。
+
+- [[https://typst.app/universe/package/charged-ieee/][charged-ieee]]
+- [[https://typst.app/universe/package/ilm/][ilm]]
+- [[https://typst.app/universe/package/clean-acmart/][clean-acmart]]
+- [[https://typst.app/universe/package/clean-ensam/][clean-ensam]]
+- [[https://typst.app/universe/package/min-article/][min-article]]
+
+コードのsyntax highlightのみ [[https://typst.app/universe/package/codly/][codly]] と [[https://typst.app/universe/package/codly-languages/][codly-languages]] を使ってるが、デフォルトのTypstの機能を手で設定している。
+フォントは[[https://github.com/yuru7/HackGen][HackGen]]を入れており、日本語も英語も数値もきれいに描画してくれる。
+
+#+begin_src typst
+  #set text(lang: "ja", font: "HackGen", size: 8pt)
+
+  #set page(
+    width: 210mm,
+    height: 297mm,
+    margin: 20mm,
+    columns: 2
+  )
+  #set columns(gutter: 12pt)
+
+  #import "@preview/codly:1.2.0": *
+  #import "@preview/codly-languages:0.1.1": *
+  #show: codly-init.with()
+  #codly(languages: codly-languages)
+
+  #show raw: set text(size: 6pt)
+
+  #place(
+    top + center,
+    float: true,
+    scope: "parent",
+    clearance: 1em,
+  )[
+    #set text(size: 18pt)
+    パッケージマネージャNixで実現する \
+    宣言的でクリーンなPHP開発環境の構築
+
+    #set text(size: 12pt)
+    たけてぃ \@takeokunn
+    #v(1em)
+  ]
+#+end_src
 * 得られた結果・所感
 
-- 成果、苦労した点、気づき
-  - e.g. ◯◯の表現力が予想以上だった
-  - e.g. △△の構文で詰まったが、〜で解決
-  - e.g. 複数人で共通スタイルを使えるようになった
+満足いくクオリティでpdfを生成できるようになったし、GitHub ActionsでBuildしてGitHub Pagesでホスティングできるようになった
+
+- https://www.takeokunn.org/pdf/phperkaigi-2026-pamphlet.pdf
+- [[https://www.takeokunn.org/pdf/phperkaigi-2025-pamphlet.pdf]]
+
+[[file:../../static/images/8862867B-8146-417E-85C5-53FEA401A5D7.png]]
 
 * 今後の展開・検討事項
 
-- 派生プロジェクト、汎用化、他分野展開
-  - e.g. OSSテンプレートとして配布予定
-  - e.g. CI/CDでの自動PDF出力＋SNSシェアを統合
-  - e.g. ◯◯領域にも応用できそうなので検討中
+もっとTypstでこだわれる余地がないか模索していきたい。
