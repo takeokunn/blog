@@ -80,7 +80,7 @@ home-managerのsharedModulesで読み込む。
   }
 #+end_src
 
-** 3. 設定する
+** 3. AIに設定させる
 
 あとは好みの設定をするだけ。
 
@@ -141,6 +141,23 @@ https://github.com/takeokunn/nixos-configuration/tree/main/home-manager/programs
           `-- visual-aids.nix
 
   11 directories, 34 files
+#+end_src
+
+NeovimやLuaや事情は分からないが、 =performance.byteCompileLua= でByte Compileしてくれるみたいなので有効にできるようだ。
+Neovimのプラグイン事情はよくわからないので一旦全てのプラグインをLua製に統一させた。
+
+#+begin_src nix
+  {
+    programs.nixvim = {
+      luaLoader.enable = true;
+      performance.byteCompileLua = {
+        enable = true;
+        nvimRuntime = true;
+        configs = true;
+        plugins = true;
+      };
+    };
+  }
 #+end_src
 * 得られた結果・所感
 
