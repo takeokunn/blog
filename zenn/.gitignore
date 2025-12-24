@@ -3,6 +3,8 @@ result
 
 public/*
 
+!public/images/
+
 !public/articles/
 public/articles/*
 
