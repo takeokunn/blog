@@ -4,7 +4,7 @@
 #+TITLE: Typst SlideのDracula Light Theme作成した
 #+AUTHOR: takeokunn
 #+DESCRIPTION: description
-#+DATE: 2025-11-25T00:18:14+0900
+#+DATE: 2025-12-24T14:21:07+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting
 #+HUGO_SECTION: posts/fleeting
