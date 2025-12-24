@@ -87,7 +87,7 @@ jobs:
       - name: Build hugo
         run: nix build .?submodules=1#build-hugo
       - name: Upload coverage report to artifacts
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: build-hugo
           path: ./hugo/result
@@ -108,7 +108,7 @@ jobs:
       - name: Build build-org-roam-ui-lite
         run: nix build .#build-org-roam-ui-lite
       - name: Upload coverage report to artifacts
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: build-hugo-org-roam-ui-lite
           path: ./hugo/result
@@ -154,10 +154,14 @@ jobs:
         run: |
           nix build .#typst-presentation-practice
           cp result/typst-presentation-practice.pdf public/pdf/
+      - name: Generate publishing-nix-series-software-design
+        run: |
+          nix build .#publishing-nix-series-software-design
+          cp result/publishing-nix-series-software-design.pdf public/pdf/
 
       # for artifacts
       - name: Upload coverage report to artifacts
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: build-typst
           path: ./typst/public/pdf
@@ -174,20 +178,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download Hugo site artifacts
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           name: build-hugo
           path: ./public
           merge-multiple: true
       - name: Download PDF artifacts
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           name: build-typst
           path: ./public/pdf
           merge-multiple: true
 
       - name: Download org-roam-ui-lite artifacts
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           name: build-hugo-org-roam-ui-lite
           path: ./public/graph
