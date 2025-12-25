@@ -4,7 +4,7 @@
 #+TITLE: 社内読書会でThe Rust Programming Languageを読破した
 #+AUTHOR: takeokunn
 #+DESCRIPTION: description
-#+DATE: 2025-12-25T09:50:03+0900
+#+DATE: 2025-12-25T10:09:25+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: permanent
 #+HUGO_SECTION: posts/permanent
