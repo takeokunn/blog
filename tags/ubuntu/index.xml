@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Ubuntu on takeokunn's blog</title><link>https://www.takeokunn.org/tags/ubuntu/</link><description>Recent content in Ubuntu on takeokunn's blog</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Sat, 13 Apr 2019 09:00:00 +0900</lastBuildDate><atom:link href="https://www.takeokunn.org/tags/ubuntu/index.xml" rel="self" type="application/rss+xml"/><item><title>Ubuntu FirefoxをEmacs Keybindにする</title><link>https://www.takeokunn.org/posts/permanent/20190413091854-ubuntu_firefox_emacs_keybind/</link><pubDate>Sat, 13 Apr 2019 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/permanent/20190413091854-ubuntu_firefox_emacs_keybind/</guid><description>&lt;p&gt;普段Chromeを使っているのだが、外で作業するとき電池の消費量が異常だったのでFirefoxの環境も整備する必要が出てきた。&lt;/p&gt;
+&lt;p&gt;しかしながら、Emacs脳である自分にはネットサーフィンもEmacsでしたいという欲求が非常に強い。&lt;/p&gt;
+&lt;p&gt;Chromeには&lt;a href="https://chrome.google.com/webstore/detail/chromemacs/kfdibhbheajeacnkkakomaliggbgndcf"&gt;Chromemacs&lt;/a&gt;という拡張があるが、Firefoxにはなかったのでなんとかしてみた。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;次の記事を参考した。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://qiita.com/mooz@github/items/c5f25f27847333dd0b37"&gt;xkeysnail - もうひとつの Linux 向けキーリマッパ&lt;/a&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Firefox が Quantum になり、旧来の XUL
+ベースのアドオンは動作しなくなった。新たな拡張機能の機構である
+WebExtensions ではキーボードショートカットに関する API
+が大幅に制限され、ぼくは拙作のアドオン KeySnail のWebExtensions
+化を諦めた。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;この筆者も同じことを考えていて、同じように辛さを感じているようだ。&lt;/p&gt;
+&lt;p&gt;この &lt;code&gt;xkeysnail&lt;/code&gt; は &lt;code&gt;Firefoxのplugin&lt;/code&gt; ではなくて、 &lt;code&gt;Linuxのuinputを取得して任意のkeyに変換する&lt;/code&gt; ということをやっている。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/mooz/xkeysnail"&gt;mooz/xkeysnail&lt;/a&gt; の &lt;code&gt;README.md&lt;/code&gt; に導入方法が書いてある。&lt;/p&gt;
+&lt;p&gt;自分の &lt;code&gt;.config.py&lt;/code&gt; は以下。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-python" data-lang="python"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# -*- coding: utf-8 -*-&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;import&lt;/span&gt; re
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;from&lt;/span&gt; xkeysnail.transform &lt;span style="color:#f92672"&gt;import&lt;/span&gt; &lt;span style="color:#f92672"&gt;*&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;define_conditional_modmap(re&lt;span style="color:#f92672"&gt;.&lt;/span&gt;compile(&lt;span style="color:#e6db74"&gt;r&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#39;Firefox&amp;#39;&lt;/span&gt;), {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Key&lt;span style="color:#f92672"&gt;.&lt;/span&gt;CAPSLOCK: Key&lt;span style="color:#f92672"&gt;.&lt;/span&gt;LEFT_CTRL,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;})
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;define_keymap(re&lt;span style="color:#f92672"&gt;.&lt;/span&gt;compile(&lt;span style="color:#e6db74"&gt;&amp;#34;Firefox&amp;#34;&lt;/span&gt;), {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;# change tab&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; K(&lt;span style="color:#e6db74"&gt;&amp;#34;C-f&amp;#34;&lt;/span&gt;): K(&lt;span style="color:#e6db74"&gt;&amp;#34;C-Tab&amp;#34;&lt;/span&gt;),
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; K(&lt;span style="color:#e6db74"&gt;&amp;#34;C-b&amp;#34;&lt;/span&gt;): K(&lt;span style="color:#e6db74"&gt;&amp;#34;C-Shift-Tab&amp;#34;&lt;/span&gt;),
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;# search&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; K(&lt;span style="color:#e6db74"&gt;&amp;#34;C-s&amp;#34;&lt;/span&gt;): K(&lt;span style="color:#e6db74"&gt;&amp;#34;C-f&amp;#34;&lt;/span&gt;),
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; K(&lt;span style="color:#e6db74"&gt;&amp;#34;C-s&amp;#34;&lt;/span&gt;): K(&lt;span style="color:#e6db74"&gt;&amp;#34;C-g&amp;#34;&lt;/span&gt;),
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; K(&lt;span style="color:#e6db74"&gt;&amp;#34;C-r&amp;#34;&lt;/span&gt;): K(&lt;span style="color:#e6db74"&gt;&amp;#34;C-Shift-g&amp;#34;&lt;/span&gt;),
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;# private window&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; K(&lt;span style="color:#e6db74"&gt;&amp;#34;C-Shift-n&amp;#34;&lt;/span&gt;): K(&lt;span style="color:#e6db74"&gt;&amp;#34;C-Shift-p&amp;#34;&lt;/span&gt;),
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;# up/down&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; K(&lt;span style="color:#e6db74"&gt;&amp;#34;C-n&amp;#34;&lt;/span&gt;): K(&lt;span style="color:#e6db74"&gt;&amp;#34;DOWN&amp;#34;&lt;/span&gt;),
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; K(&lt;span style="color:#e6db74"&gt;&amp;#34;C-p&amp;#34;&lt;/span&gt;): K(&lt;span style="color:#e6db74"&gt;&amp;#34;UP&amp;#34;&lt;/span&gt;),
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; K(&lt;span style="color:#e6db74"&gt;&amp;#34;C-v&amp;#34;&lt;/span&gt;): K(&lt;span style="color:#e6db74"&gt;&amp;#34;SPACE&amp;#34;&lt;/span&gt;),
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; K(&lt;span style="color:#e6db74"&gt;&amp;#34;C-g&amp;#34;&lt;/span&gt;): {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;# change page&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; K(&lt;span style="color:#e6db74"&gt;&amp;#34;C-b&amp;#34;&lt;/span&gt;): K(&lt;span style="color:#e6db74"&gt;&amp;#34;C-LEFT_BRACE&amp;#34;&lt;/span&gt;),
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; K(&lt;span style="color:#e6db74"&gt;&amp;#34;C-f&amp;#34;&lt;/span&gt;): K(&lt;span style="color:#e6db74"&gt;&amp;#34;C-RIGHT_BRACE&amp;#34;&lt;/span&gt;),
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;# reload&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; K(&lt;span style="color:#e6db74"&gt;&amp;#34;C-r&amp;#34;&lt;/span&gt;): K(&lt;span style="color:#e6db74"&gt;&amp;#34;C-r&amp;#34;&lt;/span&gt;),
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;# paste&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; K(&lt;span style="color:#e6db74"&gt;&amp;#34;C-v&amp;#34;&lt;/span&gt;): K(&lt;span style="color:#e6db74"&gt;&amp;#34;C-v&amp;#34;&lt;/span&gt;),
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;# close&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; K(&lt;span style="color:#e6db74"&gt;&amp;#34;C-w&amp;#34;&lt;/span&gt;): K(&lt;span style="color:#e6db74"&gt;&amp;#34;C-w&amp;#34;&lt;/span&gt;),
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;# close&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; K(&lt;span style="color:#e6db74"&gt;&amp;#34;C-t&amp;#34;&lt;/span&gt;): K(&lt;span style="color:#e6db74"&gt;&amp;#34;C-Shift-t&amp;#34;&lt;/span&gt;),
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}, &lt;span style="color:#e6db74"&gt;&amp;#34;Firefox&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;Firefox&lt;/code&gt; のみ反応してほしいのでこのような設定にした。&lt;/p&gt;</description></item></channel></rss>

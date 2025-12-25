@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Permanent on takeokunn's blog</title><link>https://www.takeokunn.org/tags/permanent/</link><description>Recent content in Permanent on takeokunn's blog</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Thu, 25 Dec 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://www.takeokunn.org/tags/permanent/index.xml" rel="self" type="application/rss+xml"/><item><title>社内読書会でThe Rust Programming Languageを読破した</title><link>https://www.takeokunn.org/posts/permanent/20251220235900-read_the_rust_programming_language/</link><pubDate>Thu, 25 Dec 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/permanent/20251220235900-read_the_rust_programming_language/</guid><description>&lt;h2 id="1-dot-introduction"&gt;1. Introduction&lt;/h2&gt;
+&lt;p&gt;社内でRust本の読書会を開催したのですが、大成功で終わりました。
+過去に社内読書会に参加した経験から、読書会というのはうまくいかないものだと思っていました。
+途中で自然消滅したり、一部の人だけが話して終わったり、結局何も身につかなかったりと、苦い経験がいくつもあります。&lt;/p&gt;
+&lt;p&gt;今回は全員満足度も理解度も高く大成功に終わったという実感があるので、何が良かったのか後学の為に纏めておきます。&lt;/p&gt;
+&lt;p&gt;あくまで私個人の経験に基づく独断と偏見が多分に含まれている点をご了承ください。&lt;/p&gt;
+&lt;h2 id="2-dot-開催情報"&gt;2. 開催情報&lt;/h2&gt;
+&lt;h3 id="2-dot-1-dot-基本情報"&gt;2.1. 基本情報&lt;/h3&gt;
+&lt;p&gt;次の期間/時間に開催しました。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;2025年9月〜2025年12月&lt;/li&gt;
+&lt;li&gt;毎日平日 17:00〜17:30&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;20章と分量のある&lt;a href="https://doc.rust-jp.rs/book-ja/title-page.html#the-rust-programming-language-%E6%97%A5%E6%9C%AC%E8%AA%9E%E7%89%88"&gt;The Rust Programming Language 日本語版&lt;/a&gt;を読破しました。
+メンバーは8人程度で、2人がRust熟練者、それ以外はRust初学者という構成でした。&lt;/p&gt;
+&lt;h3 id="2-dot-2-dot-時間設定の意図"&gt;2.2. 時間設定の意図&lt;/h3&gt;
+&lt;p&gt;17:00〜17:30という時間帯は業務の終盤で集中力が切れやすい時間帯です。
+読書会にあてることでリラックスできたかなと思っています。&lt;/p&gt;
+&lt;p&gt;30分という短い時間の意図はそもそもが業務時間内というのと毎日継続するのにちょうどよい長さだからでした。
+長時間の読書会は準備も負担も大きくなりがちですが、30分であれば「今日はちょっと疲れているな」という日でも参加しやすかったです。&lt;/p&gt;
+&lt;h3 id="2-dot-3-dot-進め方"&gt;2.3. 進め方&lt;/h3&gt;
+&lt;p&gt;30分間の内訳は以下です。
+ドキュメントツールに開催日付で記事を作り、共同編集で学んだことをメモする形式にしていました。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;前半20分: 前回の続きから読書、学んだことや発見や疑問を雑にメモする&lt;/li&gt;
+&lt;li&gt;後半10分: メモを見ながら全員に共有&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="3-dot-個人的な目標"&gt;3. 個人的な目標&lt;/h2&gt;
+&lt;p&gt;「落ち着いて座学をやる」というのが年々苦手になってきていた実感があったので、「ちゃんと机に座ってひとつずつ落ち着いて理解しながら進めていく」というのを目標に掲げていました。
+プログラミング言語の勉強といえど、手を一切動かさず、頭だけで理論を理解することを徹底しました。&lt;/p&gt;
+&lt;p&gt;特に今回の題材は理論を丁寧に理解していく必要があるRustだったので、題材としてはうってつけでした。&lt;/p&gt;
+&lt;p&gt;また、「他言語で得た知識で知ったかぶりしない」という目標もありました。
+良くも悪くも普段プログラムを書いているせいで大体の言語は手なりに書けてしまっていますし、特に最近はAIのせいで深く考えなくても良くなってしまっています。
+これが成長の足枷になってしまっているなという実感があったので、今回は理解が浅い部分の理解をサボらないことにしました。&lt;/p&gt;
+&lt;h2 id="4-dot-うまくいった理由の考察"&gt;4. うまくいった理由の考察&lt;/h2&gt;
+&lt;p&gt;主に次の3パターンの取り組みをしました。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;元の文章を読む&lt;/li&gt;
+&lt;li&gt;Geminiで理解の浅い所を深堀する&lt;/li&gt;
+&lt;li&gt;自分の理解した部分を有識者に語る会を開く&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="4-dot-1-dot-geminiの活用"&gt;4.1. Geminiの活用&lt;/h3&gt;
+&lt;p&gt;普段の読書会中は、その日に読む分をGeminiに質問しまくりながら読んでいました。
+Geminiに「自分の理解ではこうだけどあってる?」のようにとにかく聞いて正確な理解に努めました。
+一般的な知識なのでハルシネーションがほぼなかったです。&lt;/p&gt;
+&lt;p&gt;具体的には次のような質問を投げていました。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;「このコードがコンパイルエラーになる理由を、ライフタイムの観点から説明して」&lt;/li&gt;
+&lt;li&gt;「自分の理解ではこうだけど合ってる？」という確認&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;疑問点をすぐに解消できたのが助かりました。&lt;/p&gt;
+&lt;h3 id="4-dot-2-dot-有識者に語る会"&gt;4.2. 有識者に語る会&lt;/h3&gt;
+&lt;p&gt;とはいえ、Rustは「所有権」や「借用」や「ライフタイム」や「スマートポインタ」など理解しにくい概念がいくつもあります。
+そこで、必要に応じて「自分の理解した部分を有識者に語る会」を30分設けてもらいました。有識者にひたすら自分の理解を喋りまくるという形式です。&lt;/p&gt;
+&lt;p&gt;「有識者に語る」というのが非常に重要でした。
+言葉を適当に濁せないし、用語を適当に使えないし、ちゃんと準備をしないといけないのが体験としてよかったです。
+Geminiに質問攻めして「何が説明できれば俺は理解してるといえると思う?」とプロンプトに投げまくってました。&lt;/p&gt;
+&lt;p&gt;有識者に説明すると新しい知識が出てきたり、自分の中でしっくりする理解ができたのが良かったです。&lt;/p&gt;
+&lt;p&gt;世間的にはファインマンテクニックと呼ばれる手法です。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://qiita.com/KanNishida/items/e2e926bb194fd280c6d9"&gt;人生を変える最強学習メソッド、ファインマン・テクニック - Qiita&lt;/a&gt;&lt;/p&gt;</description></item><item><title>Makefileを便利コマンドメモとして使うことに対する違和感</title><link>https://www.takeokunn.org/posts/permanent/20250711132607-why_not_command_memo_makefile/</link><pubDate>Fri, 11 Jul 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/permanent/20250711132607-why_not_command_memo_makefile/</guid><description>&lt;h2 id="追記"&gt;追記&lt;/h2&gt;
+&lt;p&gt;この記事に対するyasunoriの補足記事はこちら。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://blog.yasunori0418.dev/p/appendix-makefile/"&gt;https://blog.yasunori0418.dev/p/appendix-makefile/&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;yasunoriがZennに書いた「&lt;a href="https://zenn.dev/loglass/articles/0016-make-makefile"&gt;職場のプロジェクトに必ず配置しちゃうMakefileの話&lt;/a&gt;」というのがバズっています。
+「コマンドが覚え辛い」という、どのプロジェクトにもあるような問題を「Makefileをコマンドメモとして整える」ことによって解決するという記事でした。
+SNSやvim-jp slackを見ていると賛同の声が多い印象を受けています。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://b.hatena.ne.jp/entry/s/zenn.dev/loglass/articles/0016-make-makefile"&gt;https://b.hatena.ne.jp/entry/s/zenn.dev/loglass/articles/0016-make-makefile&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;私個人も過去に同様のMakefileを作ったことがあるし、現職でもMakefileが入っているプロジェクトがあるくらいにはよくある手法です。&lt;/p&gt;
+&lt;p&gt;しかし、この記事を読んだ時に自分としてはこの手法がイマイチだと感じました。
+モヤモヤをちゃんと言語化した方がいいだろうということでこの記事を書いています。&lt;/p&gt;
+&lt;p&gt;決して元記事を批判するつもりはなく、こういう視点もあるよというくらいの温度感で捉えてほしいです。&lt;/p&gt;
+&lt;blockquote class="twitter-tweet"&gt;&lt;p lang="ja" dir="ltr"&gt;Makefileをコマンドメモに使うな&lt;/p&gt;&amp;mdash; たけてぃ𓁈𓈷 (@takeokunn) &lt;a href="https://twitter.com/takeokunn/status/1247911308646699019?ref_src=twsrc%5Etfw"&gt;April 8, 2020&lt;/a&gt;&lt;/blockquote&gt; &lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8"&gt;&lt;/script&gt;
+&lt;h2 id="makefileをプロジェクトに入れたい時の前提整理"&gt;Makefileをプロジェクトに入れたい時の前提整理&lt;/h2&gt;
+&lt;p&gt;そもそも「誰のために」「どのプロジェクト規模で」「どういう問題を解決したくて」Makefileをプロジェクトに追加するものなのか整理する必要があります。&lt;/p&gt;
+&lt;p&gt;今回のユースケースでは、古き良きC言語をBuildする時の &lt;code&gt;make &amp;amp;&amp;amp; make install&lt;/code&gt; のようなタスクランナー的な使い方ではなく、元記事と同様プロジェクトのコマンドメモとしての使い方について言及しています。&lt;/p&gt;
+&lt;h3 id="makefileの想定利用者"&gt;Makefileの想定利用者&lt;/h3&gt;
+&lt;p&gt;想定利用者のペルソナ像は主に4種類います。&lt;/p&gt;
+&lt;p&gt;1つめは、デザインや文言を修正したい非エンジニア寄りのデザイナーです。&lt;/p&gt;
+&lt;p&gt;役割はUI/UXデザイナー、またはマークアップ担当者で、技術スキルは低〜中程度を想定しています。
+主な目的は、文言・デザインの軽微な修正を手元で確認し、FigmaやXDのようなデザインツール上ではなく「実際の画面」で表示を見ることです。
+行動特性としては、GUIでの操作が望ましく、ターミナル操作も最低限であれば対応可能ですが、何度も環境構築の手順を覚えるのは非効率だと感じています。
+主な課題として、環境構築に時間がかかること、依存関係が多すぎて途中で躓いてしまうこと、Node.js, Ruby, Pythonといった技術スタックの違いが分からない、といった点が挙げられます。&lt;/p&gt;
+&lt;p&gt;2つめは、そのプロジェクトに精通していないプログラマです。&lt;/p&gt;
+&lt;p&gt;役割は外部の協力会社のメンバー、派遣や業務委託のエンジニア、またはプロジェクトに参加したばかりの新人エンジニアを想定しています。技術スキルは中〜高程度です。
+主な目的は、限られた期間や担当範囲の中で、与えられたチケットの実装や修正を効率的に行うことであり、プロジェクト全体の詳細な把握は必要最低限で済ませたいと考えています。
+行動特性としては、ローカル環境の立ち上げに時間をかけたくないと感じており、覚えるべき新規のコマンドが多すぎると混乱してしまいます。
+主な課題として、「.envファイルはどこにあるのか？」「どの順番で起動すればいいのか？」「フロントエンドだけでなくバックエンドも動かす必要があるのか？」といった疑問が次々と湧いてくる点が挙げられます。&lt;/p&gt;
+&lt;p&gt;3つめは、そのプロジェクトに精通しているプログラマです。&lt;/p&gt;
+&lt;p&gt;役割はリードエンジニア、メンテナー、あるいは主要な開発者であり、技術スキルは高いレベルにあります。
+主な目的は、長期的な保守や機能の拡張や新機能の実装や大規模な構成変更など、プロジェクトの根幹に関わる作業することです。
+行動特性としては、再利用性や抽象化といった概念に関心があり、開発フローの自動化や最適化にも積極的です。
+主な課題として、コマンドが乱立して管理が煩雑になること、特定の担当者にしか分からない作業（属人化）が増えること、そしてドキュメントが古くなって陳腐化しがちである点が挙げられます。&lt;/p&gt;
+&lt;p&gt;4つめは、AI Coding Agentです。&lt;/p&gt;
+&lt;p&gt;役割はVibe Coding、その技術スキルは正確かつ高速な処理能力にあります。
+主な目的は、指定された手順を正確に実行し、ソースコードのビルド、テスト、静的チェックといった成果物の検証作業を滞りなく行うことです。
+行動特性としては、曖昧な指示に弱く、処理の中間ステップが明示的に定義されていないと失敗する傾向があります。また、コマンドの標準出力（STDOUT）が構造化されていることを期待する場合もあります。
+主な課題として、コマンドの実行に失敗した場合でも、その背景にある詳細な文脈を読み解いてリトライしたり、原因を推測ができない点が挙げられます。&lt;/p&gt;
+&lt;h3 id="想定しているプロジェクト規模"&gt;想定しているプロジェクト規模&lt;/h3&gt;
+&lt;p&gt;当記事で想定しているプロジェクトは主に3種類あります。&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;プロジェクト規模&lt;/th&gt;
+&lt;th&gt;コード行数&lt;/th&gt;
+&lt;th&gt;特徴&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;小規模プロジェクト&lt;/td&gt;
+&lt;td&gt;1万行程度&lt;/td&gt;
+&lt;td&gt;数ページ程度のちょっとしたWebアプリケーション、単一言語、依存ツールチェインが少ない&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;中規模プロジェクト&lt;/td&gt;
+&lt;td&gt;10万行程度&lt;/td&gt;
+&lt;td&gt;複数機能があるWebアプリケーション、複数言語、依存ツールチェインや開発用コマンドがそれなりに多い&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;大規模プロジェクト&lt;/td&gt;
+&lt;td&gt;100万程度&lt;/td&gt;
+&lt;td&gt;大規模なWebアプリケーション、複数言語、依存ツールチェインや開発用コマンドが多い&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id="makefileで実行するコマンド"&gt;Makefileで実行するコマンド&lt;/h3&gt;
+&lt;p&gt;今まで見てきたコマンドは主に3種類です。&lt;/p&gt;</description></item><item><title>2024年 全体振り返り</title><link>https://www.takeokunn.org/posts/permanent/20241221130328-retrospective_2024/</link><pubDate>Sun, 05 Jan 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/permanent/20241221130328-retrospective_2024/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;2024年振り返りの振り返り記事です。
+立てた目標に対してどうだったか、2025年はどうするべきかを書いておきます。&lt;/p&gt;
+&lt;h2 id="年始に立てた目標"&gt;年始に立てた目標&lt;/h2&gt;
+&lt;p&gt;プログラミングのほぼすべての問題は「Aという問題に対してBというツールを使ってCをする」の連続だということに気がつきました。
+「日報を書く時はorg-modeのテンプレートを使って記述する」や「日本語を書く時はskkを使って入力する」など、それぞれの問題は細分化をするとほぼすべてこの形式になります。&lt;/p&gt;
+&lt;p&gt;プログラマーは得てしてAという問題を解決したいだけなのに、「BよりB&amp;rsquo;の方がよいのではないか」と検証をし始めていっこうにCできないものです。
+とはいえツールの選定は生産性に直結するので重要でありそこの塩梅が非常に難しいです。&lt;/p&gt;
+&lt;p&gt;そこで2024年は5年後も使えるであろうツールの選定を十分にすることにしました。
+自分が持っているすべての「Aという問題に対してBというツールを使ってCをする」をテンプレ化し、再利用性と再現性を高くするのを目標にしました。&lt;/p&gt;
+&lt;p&gt;いろいろな話を見聞きした結果、次の3つを頑張るのが良さそうだということで目標に据えました。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;文芸的プログラミング（org-mode）&lt;/li&gt;
+&lt;li&gt;Nix&lt;/li&gt;
+&lt;li&gt;LLM/Local LLM&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="目標に対しての振り返り"&gt;目標に対しての振り返り&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;目標&lt;/th&gt;
+&lt;th&gt;自己評価&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;文芸的プログラミング&lt;/td&gt;
+&lt;td&gt;○&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Nix&lt;/td&gt;
+&lt;td&gt;◎&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;LLM/Local LLM&lt;/td&gt;
+&lt;td&gt;△&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;2024年はNix元年というくらい、Nixに大量に時間を投資したのは大成功でした。
+自分が持っているほぼすべての設定を &lt;a href="https://github.com/takeokunn/nixos-configuration"&gt;takeokunn/nixos-configuration&lt;/a&gt; とprivate repoに移植しました。
+明示的にコードに落とすことによって、自分は今何をどういう設定でどういう用途で使っているのかを明確にできました。&lt;/p&gt;
+&lt;p&gt;文芸的プログラミングは去年書いた &lt;a href="https://www.takeokunn.org/posts/permanent/20240112071806-my_relationship_with_org_mode_in_2023_and_how_navigate_in_2024/"&gt;2023年のorg-mode活用と今後の抱負&lt;/a&gt; から大きな進展はないですが、細やかな改善をたくさん行えた結果、ほぼテンプレ行動でやりたいことを実現できるようになりました。&lt;/p&gt;
+&lt;p&gt;LLM/Local LLMに関しては、どのくらいの将来性があるのか、やりこむとしたら何をやればよいのか、Local LLMなら何ができるのか等を自分の中で整理するというのが目標でした。
+一応自分の中では整理がついたのでそれは良かったのですが、Difyの活用やワークフローに落とし込む所までは間に合わなかったです。&lt;/p&gt;
+&lt;h2 id="コミュニティ活動"&gt;コミュニティ活動&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;時期&lt;/th&gt;
+&lt;th&gt;イベント名&lt;/th&gt;
+&lt;th&gt;役割&lt;/th&gt;
+&lt;th&gt;登壇スライド&lt;/th&gt;
+&lt;th&gt;関連&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;1月&lt;/td&gt;
+&lt;td&gt;&lt;a href="https://phpcon.hokkaido.jp/"&gt;PHPカンファレンス北海道&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;参加者&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href="https://www.takeokunn.org/posts/diary/20240112063123-retrospective_phpcondo_2024/"&gt;PHPカンファレンス北海道2024に参加してきました&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;3月&lt;/td&gt;
+&lt;td&gt;&lt;a href="https://phperkaigi.jp/2024/"&gt;phperkaigi 2024&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;パンフ記事執筆&lt;/td&gt;
+&lt;td&gt;&lt;a href="https://www.takeokunn.org/posts/permanent/20240107122028-how_to_syntax_highlight_in_text_editor/"&gt;テキストエディタがPHPをシンタックスハイライトする仕組みとモダンテキストエディタ事情について&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;4月&lt;/td&gt;
+&lt;td&gt;&lt;a href="https://phpcon-odawara.jp/2024/"&gt;PHPカンファレンス小田原&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;登壇&lt;/td&gt;
+&lt;td&gt;&lt;a href="https://docs.google.com/presentation/d/1436T1dx_0igdNzNCVpGIf0kVA5wOVF4kcVmH9VRJobA/edit#slide=id.p"&gt;Laravelに0からPHPStanを導入して継続的に運用する方法&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;6月&lt;/td&gt;
+&lt;td&gt;&lt;a href="https://phpcon.fukuoka.jp/2024/"&gt;PHPカンファレンス福岡&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;登壇&lt;/td&gt;
+&lt;td&gt;&lt;a href="https://docs.google.com/presentation/d/1I5yWPV_hIOaN0FfRQPwyhdQTVFv2uQEK0A08sMHPLiA/edit#slide=id.p"&gt;Nixを用いて再現可能なPHP環境を用意する&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;8月&lt;/td&gt;
+&lt;td&gt;&lt;a href="https://tokyo-emacs.connpass.com/event/321255/"&gt;東京Emacs勉強会 サマーフェスティバル2024&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;主催&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;10月&lt;/td&gt;
+&lt;td&gt;&lt;a href="https://nix-ja.connpass.com/event/330557/"&gt;Nix meetup #1&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;主催、登壇&lt;/td&gt;
+&lt;td&gt;&lt;a href="https://docs.google.com/presentation/d/1So6l6JTNlZkrQDxf99kMFIlPB34TuNdQjpNwgxIBSFo/edit#slide=id.p"&gt;nix-shell+org-modeで文芸的プログラミング&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;11月&lt;/td&gt;
+&lt;td&gt;&lt;a href="https://techbookfest.org/event/tbf17"&gt;技術書展17&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;売り子&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href="https://techbookfest.org/product/f7rPGt7NeeDuqxYdE3Teyc?productVariantID=hATFZbCg6sJxMt5dCXPn4x"&gt;めだかのclojure.core学校 conao3&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;11月&lt;/td&gt;
+&lt;td&gt;&lt;a href="https://vimconf-2024-ticket.peatix.com/"&gt;VimConf 2024&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;個人スポンサー&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href="https://www.takeokunn.org/posts/diary/20241123101757-participation_vimconf_2024/"&gt;VimConf2024 参加記&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;12月&lt;/td&gt;
+&lt;td&gt;&lt;a href="https://isucon.net/archives/58869617.html"&gt;ISUCON14&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;競技者&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;a href="https://zenn.dev/takeokunn/articles/20241217090756"&gt;ISUCON14にチームOL001として参加しました(インフラ編)&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;12月&lt;/td&gt;
+&lt;td&gt;&lt;a href="https://phpcon.php.gr.jp/2024/"&gt;PHPカンファレンス東京&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;企業スポンサー&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;今年は毎月のように何かがあった1年でした。&lt;/p&gt;</description></item><item><title>2023年のorg-mode活用と今後の抱負</title><link>https://www.takeokunn.org/posts/permanent/20240112071806-my_relationship_with_org_mode_in_2023_and_how_navigate_in_2024/</link><pubDate>Thu, 25 Jan 2024 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/permanent/20240112071806-my_relationship_with_org_mode_in_2023_and_how_navigate_in_2024/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;この記事は&lt;a href="https://vim-jp.org/ekiden/"&gt;Vim駅伝&lt;/a&gt;の2024-01-24の記事です。&lt;/p&gt;
+&lt;p&gt;前回の記事はyasunoriさんの「&lt;a href="https://zenn.dev/vim_jp/articles/0007-vim-recommend-method"&gt;Vimを勧めるときのすヽめ&lt;/a&gt;」です。&lt;/p&gt;
+&lt;p&gt;私にとっての2023年はorg-modeの年でした。
+org-modeで実現できることは何があるのかと、自分にとってのorg-modeはなんなのか、ということに腰を据えてちゃんと向き合えたので実際に取り組んだことを記事にしておきます。&lt;/p&gt;
+&lt;h2 id="emacsとの出会いと使えるようになるまで"&gt;Emacsとの出会いと使えるようになるまで&lt;/h2&gt;
+&lt;p&gt;私のEmacs歴は6年程度で、&lt;a href="https://github.com/takeokunn/.emacs.d"&gt;takeokunn/.emacs.d&lt;/a&gt; のfirst commitは &lt;code&gt;Sat Nov 3 18:15:51 2018 +0900&lt;/code&gt; です。
+もともとSublime Textを使っており、Emacsを使い始めたきっかけは&lt;a href="https://www.amazon.co.jp/%E3%83%8F%E3%83%83%E3%82%AB%E3%83%BC%E3%81%A8%E7%94%BB%E5%AE%B6-%E3%82%B3%E3%83%B3%E3%83%94%E3%83%A5%E3%83%BC%E3%82%BF%E6%99%82%E4%BB%A3%E3%81%AE%E5%89%B5%E9%80%A0%E8%80%85%E3%81%9F%E3%81%A1-%E3%83%9D%E3%83%BC%E3%83%AB-%E3%82%B0%E3%83%AC%E3%82%A2%E3%83%A0/dp/4274065979"&gt;ハッカーと画家&lt;/a&gt;でした。
+&lt;a href="https://www.amazon.co.jp/%E3%83%8F%E3%83%83%E3%82%AB%E3%83%BC%E3%81%A8%E7%94%BB%E5%AE%B6-%E3%82%B3%E3%83%B3%E3%83%94%E3%83%A5%E3%83%BC%E3%82%BF%E6%99%82%E4%BB%A3%E3%81%AE%E5%89%B5%E9%80%A0%E8%80%85%E3%81%9F%E3%81%A1-%E3%83%9D%E3%83%BC%E3%83%AB-%E3%82%B0%E3%83%AC%E3%82%A2%E3%83%A0/dp/4274065979"&gt;ハッカーと画家&lt;/a&gt;にLispのすばらしさが書いてあり、Lispを書くならEmacsだろうということで安易な気持ちで入門しました。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://blog.tomoya.dev/posts/only-those-who-want-to-be-the-wind-should-use-emacs-2020/"&gt;風になりたい奴だけがEmacsを使えば良い 2020&lt;/a&gt; などEmacsの魅力を語っている記事がたくさんあったのも理由のひとつでした。&lt;/p&gt;
+&lt;p&gt;最初の2年はEmacsを操作するのに慣れるまで必死でした。
+世の中にはEmacsを入門してすぐに有名なOSSにコントリビューションしたり、自分でキラーアプリケーションを作ったりする天才のような人達がごろごろいるが、私は要領が悪いため残念ながらそういう人間ではありませんでした。
+生まれたての小鹿みたいなおぼつかない操作、何をしたらどう動くのか分からないし何がどう動いるのか分からず、どう質問をしてよいのかすら分からない状態が続きました。&lt;/p&gt;
+&lt;p&gt;3年くらい使ってようやく概要を把握でき、Sublime Textと同じくらいの編集速度を出すことができるようになりました。
+徐々にEmacsの気持ちが分かってきて、ざっくり何ができるのか、どのくらいのポテンシャルを秘めているのかということを肌感覚でつかめてきました。
+それと同時に、Emacsで実現可能なものの輪郭を見たくなってきました。
+その為には他人のEmacsの設定を漁りまくり、少しでも便利そうだと思ったパッケージはすべて検証するという運用をしてみました。&lt;/p&gt;
+&lt;p&gt;4年目はとにかくinit.elの管理方法と起動速度にこだわった1年になりました。
+&lt;a href="https://zenn.dev/takeokunn/articles/56010618502ccc"&gt;Emacsを世界最速級で起動する方法 - Zenn&lt;/a&gt; の目的は起動時間を短縮することによって、設定の検証効率を上げることでした。
+また、起動速度チューニングすることによってどうEmacs本体がEmacs Lispを実行するのか深く理解できたので非常に有意義な取り組みだったと感じています。&lt;/p&gt;
+&lt;h2 id="課題"&gt;課題&lt;/h2&gt;
+&lt;p&gt;ソフトェアの開発は「趣味だろうと仕事だろうとプログラミングに閉じることはできない」という問題があります。
+メール確認だったりブログの執筆だったりパスワードマネージャーだったり、「ソフトウェアエンジニアなら必要なもの」というのはかなりあります。&lt;/p&gt;
+&lt;p&gt;自分がやりたかったのは「Emacs内で最高の環境」を作ることです。Emacsはそれを許容してくれます。
+カーソル移動だったり、keybindの最適化だけではなく、自分の普段のワークフローをしっかりEmacsに落としきる必要があります。&lt;/p&gt;
+&lt;p&gt;通常のプログラミングのためのチューニングとは別に、次のようなことをやりたいと考えていました。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;メールの確認やパスワード管理を自動化したい&lt;/li&gt;
+&lt;li&gt;日報や工数入力を最短で入力できるようにしたい&lt;/li&gt;
+&lt;li&gt;質の担保されたブログ記事を最短で公開したい&lt;/li&gt;
+&lt;li&gt;すべてのコンピュータ上での作業をメモしたい
+&lt;ul&gt;
+&lt;li&gt;たとえ案件が変わろうとPCが壊れようと過去に行ったことを検索可能な状態にしたい&lt;/li&gt;
+&lt;li&gt;Local LLMに食わせることによって自分専用のAIを作りたい&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;etc&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;私は特に怠惰でだらしない人間ですので、いかにワークフローを整えて自動化をしてドキュメントとして残すか、サボったツケを効率良く払うことに注力する必要がありました。&lt;/p&gt;
+&lt;h2 id="なぜorg-modeなのか"&gt;なぜorg-modeなのか&lt;/h2&gt;
+&lt;p&gt;私はプレーンテキストに対して強いこだわりがあるので、可能な限りプレーンテキストをGitで管理する運用にしたいと考えていました。&lt;/p&gt;
+&lt;p&gt;Emacsとの親和性なども考えると&lt;a href="https://orgmode.org/ja/"&gt;org-mode&lt;/a&gt;しかないだろう、という結論に至りました。
+&lt;a href="https://orgmode.org/features.html"&gt;org-mode features&lt;/a&gt; を見ているとまさしく私がやりたかったことを網羅していました。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Markup&lt;/li&gt;
+&lt;li&gt;構造的な編集&lt;/li&gt;
+&lt;li&gt;テーブル操作&lt;/li&gt;
+&lt;li&gt;コードブロック&lt;/li&gt;
+&lt;li&gt;エクスポート&lt;/li&gt;
+&lt;li&gt;タスク管理&lt;/li&gt;
+&lt;li&gt;スケジュール&lt;/li&gt;
+&lt;li&gt;時間計測&lt;/li&gt;
+&lt;li&gt;メモ&lt;/li&gt;
+&lt;li&gt;強力な拡張パッケージ&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;org-modeはコンピュータを使う時に必要なものをすべて用意してくれています。
+当然のことながら、Emacsのパッケージなので &lt;a href="https://qiita.com/takaxp/items/a5a3383d7358c58240d0"&gt;org-mode のキーバインド、その先 - Qiita&lt;/a&gt; にもあるとおりEmacsのkeybindで操作できます。&lt;/p&gt;</description></item><item><title>テキストエディタがPHPをシンタックスハイライトする仕組みとモダンテキストエディタ事情について</title><link>https://www.takeokunn.org/posts/permanent/20240107122028-how_to_syntax_highlight_in_text_editor/</link><pubDate>Thu, 18 Jan 2024 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/permanent/20240107122028-how_to_syntax_highlight_in_text_editor/</guid><description>&lt;h2 id="注意"&gt;注意&lt;/h2&gt;
+&lt;p&gt;この記事はPHPerKaigi 2024のパンフレット記事です。A4ページ4枚程度の量を書いています。
+書面での掲載につきハイパーリンクがないことをご了承ください。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://fortee.jp/phperkaigi-2024/proposal/161b2ec9-c279-4336-8e17-1aa054dacae9"&gt;https://fortee.jp/phperkaigi-2024/proposal/161b2ec9-c279-4336-8e17-1aa054dacae9&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;PDF版は&lt;a href="https://github.com/takeokunn/blog/blob/main/static/pdf/%E3%83%86%E3%82%AD%E3%82%B9%E3%83%88%E3%82%A8%E3%83%87%E3%82%A3%E3%82%BF%E3%81%8CPHP%E3%82%92%E3%82%B7%E3%83%B3%E3%82%BF%E3%83%83%E3%82%AF%E3%82%B9%E3%83%8F%E3%82%A4%E3%83%A9%E3%82%A4%E3%83%88%E3%81%99%E3%82%8B%E4%BB%95%E7%B5%84%E3%81%BF%E3%81%A8%E3%83%A2%E3%83%80%E3%83%B3%E3%83%86%E3%82%AD%E3%82%B9%E3%83%88%E3%82%A8%E3%83%87%E3%82%A3%E3%82%BF%E4%BA%8B%E6%83%85%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6.pdf"&gt;こちら&lt;/a&gt;です。&lt;/p&gt;
+&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;プログラミング言語は日進月歩で進化し続けています。
+処理系のパフォーマンス改善、既存のバグ修正、挙動の変更などさまざまな変更が入るが、ユーザーにとって一番影響があるのは「新規の構文追加」ではないでしょうか？
+PHPの場合PHP 8.0以降にmatch式やenum構文は直近5年以内に追加されたものです。
+PHPに限らずほか言語のRFCでも新規の構文が提案されている例は枚挙に暇がありません。Goのジェネリクスなどもその一例です。&lt;/p&gt;
+&lt;p&gt;言語レベルで新規の構文が追加された時、テキストエディタでも適切に色付けできることが望ましいです。
+それはオープンソースのテキストエディタだろうと商用エディタだろうと区別はありません。
+そもそもテキストエディタはどのように構文を解釈してハイライトしてくれているのか、Tree-sitterなどの最近のテキストエディタ事情も踏まえて解説していきます。&lt;/p&gt;
+&lt;p&gt;なお私は熱狂的なEmacsユーザーでありEmacsのPHP Packageであるphp-modeのオーナー権限もあるので、Emacsひいきな解説になってしまうのはご了承ください。&lt;/p&gt;
+&lt;h2 id="シンタックスハイライト概要"&gt;シンタックスハイライト概要&lt;/h2&gt;
+&lt;p&gt;シンタックスハイライトとは、 &lt;code&gt;public&lt;/code&gt; のようなキーワードや関数名や言語特有の構文に色をつけてくれるものです。
+Wikipediaによると、シンタックスカラリングや構文着色ともいうらしいです。&lt;/p&gt;
+&lt;p&gt;シンタックスハイライトには、「テキストの可読性を向上させ文脈をより明瞭にする」や「記述ミスや括弧の対応のミスなどを防ぐことができる」等、さまざまなメリットがあります。
+明確なデメリットは私は思いつきませんが、「流し読みがしやすくなるのでプログラマーはコード全体を理解しようとはしなくなる」ということを主張する人もいるようです。&lt;/p&gt;
+&lt;p&gt;配色はカラーテーマごとに違います。
+世の中には無数のカラーテーマがあり、私はDraculaやSublime Textのdefault themeのmonokaiが好きです。&lt;/p&gt;
+&lt;p&gt;構文が違うので当然言語の数だけシンタックスハイライトがあります。
+それぞれの実装によって方針はまちまちですが、似ている言語から上書きするよう実装することで実装コストを下げる対応をしています。
+PHPはCやJavaと記述が似ているので、CやJavaの実装を上書きし、部分的にPHPの構文を追加して対応できます。
+実際EmacsのPHP Packageではこのような対応をしています。&lt;/p&gt;
+&lt;h2 id="シンタックスハイライトの大まかなしくみ"&gt;シンタックスハイライトの大まかなしくみ&lt;/h2&gt;
+&lt;p&gt;世の中にはテキストエディタの実装は無数にあります。
+プログラミング言語に対応したテキストエディタの実装はおおよそ2つに大別できます。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;正規表現ベース&lt;/li&gt;
+&lt;li&gt;ASTベース&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;正規表現ベースのシンタックスハイライトはVimやEmacsのような古くからあるテキストエディタでよく使われています。
+当然それぞれのテキストエディタごとに実装は違うので移植性はありません。&lt;/p&gt;
+&lt;p&gt;ASTベースのシンタックスハイライト実装は2024年1月現在Tree-sitterが一強だと言っても過言ではありません。
+Tree-sitterはC/Rust製のツールで、特定のテキストエディタに依存しない形で実装された高速で動作するパーサジェネレータツールです。
+Tree-sitterはもともとAtomで使用するためにGitHubによって開発され、2018年にリリースされました。
+ソースコードをパースして構文木をS式を出力することにより、各テキストエディタはS式を解釈する実装をすれば各々が構文を解釈する必要がない、という作りになっています。&lt;/p&gt;
+&lt;p&gt;テキストエディタにおけるシンタックスハイライトの難しいところは以下が挙げられます。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;常にユーザーが入力し続けるので構文が確定しない&lt;/li&gt;
+&lt;li&gt;1入力ごとにハイライトする必要がある為高速で挙動させる必要がある&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;また、1言語で複数言語を表現する場合難易度が上がります。
+たとえばVue.jsはHTML/CSS/JavaScriptを1ファイル内で記述できるし、PHPももともとHyperText PreprocessorなのでHTMLを記述できます。&lt;/p&gt;
+&lt;h2 id="正規表現によるシンタックスハイライト"&gt;正規表現によるシンタックスハイライト&lt;/h2&gt;
+&lt;p&gt;正規表現によるシンタックスハイライトを採用しているVimやEmacsでは次のような実装がされています。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;キーワードは直接色を付ける&lt;/li&gt;
+&lt;li&gt;正規表現によって構文を定義する
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;$&lt;/code&gt; の後は確実に変数&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;function&lt;/code&gt; の後は確実に関数名になり、その後の括弧は関数の引数になる&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;//&lt;/code&gt; 直後はすべてコメントになる&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Emacsではシンタックステーブルというものがデフォルトで用意されており、独自の記法で記述する必要があります。&lt;/p&gt;
+&lt;p&gt;以下は実際にphp-modeで実装されているコードを抜粋したものです。
+Emacs Lispの正規表現がそもそも難しいのもあり、複雑怪奇で特殊な訓練しないと読めないことが分かるでしょう。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-emacs-lisp" data-lang="emacs-lisp"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;;; Class modifiers (abstract, final)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;\\_&amp;lt;\\(abstract\\|final\\)\\_&amp;gt;\\s-+\\_&amp;lt;class\\&amp;gt;&amp;#34;&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;php-class-modifier&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;;; Highlight variables, e.g. &amp;#39;var&amp;#39; in &amp;#39;$var&amp;#39; and &amp;#39;$obj-&amp;gt;var&amp;#39;, but&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;;; not in $obj-&amp;gt;var()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;\\(-&amp;gt;\\)\\(\\sw+\\)\\s-*(&amp;#34;&lt;/span&gt; (&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;php-object-op&lt;/span&gt;) (&lt;span style="color:#ae81ff"&gt;2&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;php-method-call&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;\\&amp;lt;\\(const\\)\\s-+\\(\\_&amp;lt;.+?\\_&amp;gt;\\)&amp;#34;&lt;/span&gt; (&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;php-keyword&lt;/span&gt;) (&lt;span style="color:#ae81ff"&gt;2&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;php-constant-assign&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;;; Logical operator (!)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;\\(!\\)[^=]&amp;#34;&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;php-logical-op&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;;; Highlight special variables&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;\\(\\$\\)\\(this\\)\\&amp;gt;&amp;#34;&lt;/span&gt; (&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;php-$this-sigil&lt;/span&gt;) (&lt;span style="color:#ae81ff"&gt;2&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;php-$this&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;\\(\\$+\\)\\(\\sw+\\)&amp;#34;&lt;/span&gt; (&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;php-variable-sigil&lt;/span&gt;) (&lt;span style="color:#ae81ff"&gt;2&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;php-variable-name&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;\\(-&amp;gt;\\)\\([a-zA-Z0-9_]+\\)&amp;#34;&lt;/span&gt; (&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;php-object-op&lt;/span&gt;) (&lt;span style="color:#ae81ff"&gt;2&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;php-property-name&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;;; Highlight function/method names&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;\\&amp;lt;function\\s-+&amp;amp;?\\(\\(?:\\sw\\|\\s_\\)+\\)\\s-*(&amp;#34;&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;php-function-name&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;;; &amp;#39;array&amp;#39; and &amp;#39;callable&amp;#39; are keywords, except in the following situations:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;;; - when used as a type hint&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;;; - when used as a return type&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;\\b\\(array\\|callable\\)\\s-+&amp;amp;?\\$&amp;#34;&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; font-lock-type-face)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;)\\s-*:\\s-*\\??\\(array\\|callable\\)\\b&amp;#34;&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; font-lock-type-face)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;;; For &amp;#39;array&amp;#39;, there is an additional situation:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;;; - when used as cast, so that (int) and (array) look the same&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;(\\(array\\))&amp;#34;&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; font-lock-type-face)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;; Support the ::class constant in PHP5.6&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;\\sw+\\(::\\)\\(class\\)\\b&amp;#34;&lt;/span&gt; (&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;php-paamayim-nekudotayim&lt;/span&gt;) (&lt;span style="color:#ae81ff"&gt;2&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;php-magical-constant&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;;; Class declaration keywords (class, trait, interface)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;\\_&amp;lt;\\(class\\|trait\\|interface\\)\\_&amp;gt;&amp;#34;&lt;/span&gt; &lt;span style="color:#f92672"&gt;.&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;php-class-declaration&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;言語内に複数言語あるVue.jsやPHPのような言語では、Emacsの場合カーソル位置によって対象の言語に切り替える処理をしています。&lt;/p&gt;</description></item></channel></rss>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Twitter on takeokunn's blog</title><link>https://www.takeokunn.org/tags/twitter/</link><description>Recent content in Twitter on takeokunn's blog</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Wed, 28 Oct 2020 09:00:00 +0900</lastBuildDate><atom:link href="https://www.takeokunn.org/tags/twitter/index.xml" rel="self" type="application/rss+xml"/><item><title>TwitterUIDの挙動とJavaScriptのBigIntについて</title><link>https://www.takeokunn.org/posts/permanent/20201028052323-twitter_uid_javascript_bigint/</link><pubDate>Wed, 28 Oct 2020 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/permanent/20201028052323-twitter_uid_javascript_bigint/</guid><description>&lt;p&gt;TwitterのUIDについて調べてたら、自分の浮動小数点の挙動についての理解度が低かったので調べたことについてまとめておく。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;ことの発端は、spreadsheet上の人力で管理されているTwitterのユーザー情報をデータベースに入れる作業をしていた時だった。&lt;/p&gt;
+&lt;p&gt;以前同じような作業をしたとき結構漏れがあったので、Twitter UIDの妥当性やscreen nameが本当に存在するかどうかを確認する必要があった。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://idtwi.com/"&gt;TwitterのIDチェッカー&lt;/a&gt;などのWebサイトを利用してもよかったが、100件を超える量のデータを手動で確認取るのは面倒だったため、次のような検証scriptを雑に書いた。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#!/bin/bash
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;while&lt;/span&gt; read row; &lt;span style="color:#66d9ef"&gt;do&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; TWITTER_ID&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;`&lt;/span&gt;echo &lt;span style="color:#e6db74"&gt;${&lt;/span&gt;row&lt;span style="color:#e6db74"&gt;}&lt;/span&gt; | cut -d , -f 1&lt;span style="color:#e6db74"&gt;`&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; TWITTER_UID&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;`&lt;/span&gt;echo &lt;span style="color:#e6db74"&gt;${&lt;/span&gt;row&lt;span style="color:#e6db74"&gt;}&lt;/span&gt; | cut -d , -f 2&lt;span style="color:#e6db74"&gt;`&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; TWITTER_REQUEST_UID&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;`&lt;/span&gt;curl -X GET -H &lt;span style="color:#e6db74"&gt;&amp;#34;Authorization: Bearer &amp;lt;TWITTER_TOKEN&amp;gt;&amp;#34;&lt;/span&gt; -s &lt;span style="color:#e6db74"&gt;&amp;#34;https://api.twitter.com/1.1/users/show.json?screen_name=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;${&lt;/span&gt;TWITTER_ID&lt;span style="color:#e6db74"&gt;}&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt; | jq &lt;span style="color:#e6db74"&gt;&amp;#34;.id&amp;#34;&lt;/span&gt;&lt;span style="color:#e6db74"&gt;`&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;if&lt;/span&gt; &lt;span style="color:#f92672"&gt;[&lt;/span&gt; &lt;span style="color:#e6db74"&gt;${&lt;/span&gt;TWITTER_REQUEST_UID&lt;span style="color:#e6db74"&gt;}&lt;/span&gt; -ne &lt;span style="color:#e6db74"&gt;${&lt;/span&gt;TWITTER_UID&lt;span style="color:#e6db74"&gt;}&lt;/span&gt; &lt;span style="color:#f92672"&gt;]&lt;/span&gt;; &lt;span style="color:#66d9ef"&gt;then&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; echo &lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;&lt;span style="color:#e6db74"&gt;${&lt;/span&gt;TWITTER_ID&lt;span style="color:#e6db74"&gt;}&lt;/span&gt;&lt;span style="color:#e6db74"&gt;: &lt;/span&gt;&lt;span style="color:#e6db74"&gt;${&lt;/span&gt;TWITTER_UID&lt;span style="color:#e6db74"&gt;}&lt;/span&gt;&lt;span style="color:#e6db74"&gt; → &lt;/span&gt;&lt;span style="color:#e6db74"&gt;${&lt;/span&gt;TWITTER_REQUEST_UID&lt;span style="color:#e6db74"&gt;}&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;fi&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;done&lt;/span&gt; &amp;lt; ~/Desktop/twitter.csv
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;そうしたら半分くらいのTwitter UIDがずれてしまった。明らかにおかしいと思ったので、きちんと調査することにした。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;Twitter Developer Documentに &lt;code&gt;Twitter IDs&lt;/code&gt; という記事がある。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://developer.twitter.com/en/docs/twitter-ids"&gt;https://developer.twitter.com/en/docs/twitter-ids&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;次のようなことが書かれていた。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;ユーザーの増加によりTwitterのUIDは64bit&lt;/li&gt;
+&lt;li&gt;unsignedでuniqueな値として管理されている&lt;/li&gt;
+&lt;li&gt;JavaScriptの整数のサイズは53bitに制限されている&lt;/li&gt;
+&lt;li&gt;api responseでは整数(&lt;code&gt;id&lt;/code&gt;)と文字列(&lt;code&gt;id_str&lt;/code&gt;)の両方を返すような実装になっている&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;ここから分かるのは、自分は↑のshell scriptで &lt;code&gt;id&lt;/code&gt; を見ていたから正しい値をとれていなかった、&lt;del&gt;id_str&lt;/del&gt; を使うべきだったことが分かる。&lt;/p&gt;
+&lt;p&gt;たしかに、次のように &lt;code&gt;toString()&lt;/code&gt; をしたらずれることについて確認がとれたがどうしてだろうか。
+また、今回はbash scriptを書いたのにJavaScriptと同じ挙動をするのはどうしてなのか調べる必要がある。&lt;/p&gt;</description></item></channel></rss>

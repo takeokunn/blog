@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Bitwarden on takeokunn's blog</title><link>https://www.takeokunn.org/tags/bitwarden/</link><description>Recent content in Bitwarden on takeokunn's blog</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Tue, 08 Apr 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://www.takeokunn.org/tags/bitwarden/index.xml" rel="self" type="application/rss+xml"/><item><title>BitwardenとAuthyのアカウントを削除した</title><link>https://www.takeokunn.org/posts/fleeting/20250408134929-archive_bitwarden_account/</link><pubDate>Tue, 08 Apr 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250408134929-archive_bitwarden_account/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20240108211345-migrate_bitwarden_to_password_store/"&gt;Bitwardenからpassword-storeに移行した&lt;/a&gt; でBitwardenから離れて1年以上経った。
+当初はBitwardenにしかない情報もあったのでを開くこともあったが、今になっては使うことがなくなったのでアカウントを完全に削除する。&lt;/p&gt;
+&lt;p&gt;また、&lt;a href="https://www.takeokunn.org/posts/fleeting/20240110123142-migrate_authy_to_password_store_otp/"&gt;Authyからpassword-store-otpに移行した&lt;/a&gt;でAuthyも使わなくなったのでついでに削除する。&lt;/p&gt;
+&lt;h2 id="作業手順"&gt;作業手順&lt;/h2&gt;
+&lt;h3 id="1-dot-bitwarden"&gt;1. Bitwarden&lt;/h3&gt;
+&lt;p&gt;公式ドキュメントを参考に削除する。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://bitwarden.com/ja-jp/help/delete-your-account/"&gt;https://bitwarden.com/ja-jp/help/delete-your-account/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;「個人のアカウントを削除します &amp;gt; アカウントを削除」で特に警告も出ずにサクっと消えた。&lt;/p&gt;
+&lt;figure&gt;&lt;img src="https://www.takeokunn.org/images/F156CC55-0D2F-4F33-9B11-DD831588D5A7.png"&gt;
+&lt;/figure&gt;
+&lt;h3 id="2-dot-authy"&gt;2. Authy&lt;/h3&gt;
+&lt;p&gt;公式の削除動線を辿って確認メールを踏んで削除する。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.authy.com/account/delete/"&gt;https://www.authy.com/account/delete/&lt;/a&gt;&lt;/p&gt;
+&lt;figure&gt;&lt;img src="https://www.takeokunn.org/images/9AE8AD89-1FE5-4218-8EF8-0F31B915EF11.png"&gt;
+&lt;/figure&gt;
+&lt;h2 id="終わりに"&gt;終わりに&lt;/h2&gt;
+&lt;p&gt;BitwardenもAuthyも駆け出しエンジニアの頃から使ってたので思い入れのあるツールだった。
+10年間ありがとう。&lt;/p&gt;</description></item></channel></rss>
