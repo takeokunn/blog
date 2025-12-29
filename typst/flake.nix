@@ -52,9 +52,14 @@
                 polylux2pdfpc
                 xits-math
                 hackgen-font
-                (emacsPkg.pkgs.withPackages (epkgs: with epkgs; [ org ox-typst ]))
+                (emacsPkg.pkgs.withPackages (epkgs: with epkgs; [ org ox-typst citeproc ]))
               ];
               buildPhase = ''
+                # references.bibが存在する場合はコピー（org-cite用）
+                if [ -f org/${name}/references.bib ]; then
+                  echo "Found references.bib, bibliography support enabled"
+                fi
+
                 ${emacsBuildPhase name}
 
                 export TYPST_FONT_PATHS="${pkgs.xits-math}/share/fonts/opentype"

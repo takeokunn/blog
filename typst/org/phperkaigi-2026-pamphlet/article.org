@@ -4,6 +4,7 @@
 #+TITLE: パッケージマネージャNixで実現する宣言的でクリーンなPHP開発環境の構築
 #+AUTHOR: takeokunn
 #+STARTUP: fold
+#+BIBLIOGRAPHY: references.bib
 #+BEGIN_EXPORT typst
 #set text(lang: "ja", font: "HackGen", size: 8pt)
 
@@ -42,7 +43,7 @@
 * はじめに
 
 PHP開発者にとって環境構築は永遠の課題です。
-PHP 8.3や8.0といったバージョンの違い、拡張モジュールの違いなど、複数プロジェクトを並行開発する際に環境の混在は避けられません。
+PHP 8.3や8.1といったバージョンの違い、拡張モジュールの違いなど、複数プロジェクトを並行開発する際に環境の混在は避けられません。
 本業とOSS・副業プロジェクトの環境が混在し、マシン買い替え時の環境再構築に苦労した経験は誰しもあるのではないでしょうか。
 
 環境構築で遭遇する典型的な問題を挙げてみます。
@@ -61,7 +62,7 @@ PHP 8.3や8.0といったバージョンの違い、拡張モジュールの違�
 * Nixについて
 ** 概要
 
-Nix[fn:1]は2003年にEelco Dolstra氏によって開発された純粋関数型パッケージマネージャです。
+Nix[cite:@nix]は2003年にEelco Dolstra氏によって開発された純粋関数型パッケージマネージャです。
 従来のパッケージマネージャと異なり、パッケージを副作用なく管理できることが特徴です。
 
 Nixの最大の特徴は「宣言的管理」です。
@@ -71,18 +72,13 @@ Nixの最大の特徴は「宣言的管理」です。
 Nixはパッケージマネージャとしてだけでなく、NixOS（Linuxディストリビューション）やnix-darwin（macOS設定管理）の基盤技術でもあります。
 本記事ではパッケージマネージャとしてのNixに焦点を当てます。
 
-[fn:1] Nix, https://nixos.org/
-
 ** nixpkgsとバイナリキャッシュ
 
-nixpkgs[fn:2]はNixの公式パッケージリポジトリで、10万以上のパッケージが含まれています。
-GitHubでもっともアクティブなリポジトリの1つで、PHPも複数バージョン（8.0〜8.4）が利用可能です。
+nixpkgs[cite:@nixpkgs]はNixの公式パッケージリポジトリで、12万以上のパッケージが含まれています。
+GitHubでもっともアクティブなリポジトリの1つで、PHPも複数バージョン（8.1〜8.4）が利用可能です。
 
-#+begin_src bash
-  # nixpkgsで利用可能なPHPバージョンを確認
-  $ nix search nixpkgs php
-  # php82, php83, php84 などが表示される
-#+end_src
+利用可能なPHPバージョンはNixOS公式サイト（[[https://search.nixos.org/packages?channel=unstable&query=php]]）で検索できます。
+php82、php83、php84などが見つかります。
 
 Nixはデフォルトでcache.nixos.orgからビルド済みバイナリをダウンロードします。
 ソースからビルドする必要がないため、 =brew install= と同等の速度でパッケージをインストールできます。
@@ -94,8 +90,6 @@ Nixはデフォルトでcache.nixos.orgからビルド済みバイナリをダ�
   # キャッシュがない場合はソースビルド（数分〜数十分）
   # → 通常のパッケージはほぼキャッシュが存在
 #+end_src
-
-[fn:2] nixpkgs, https://github.com/NixOS/nixpkgs
 
 ** Nixの仕組み
 *** Nixストアによるパッケージ分離
@@ -256,7 +250,7 @@ Nix言語は純粋関数型言語で、パッケージのビルド定義に特�
 
 #+begin_src nix
   # 関数定義
-  add = x: y: x + y;   # add(1)(2) => 3
+  add = x: y: x + y;   # add 1 2 => 3
 
   # パターンマッチ引数（devenv.nixでよく見る形）
   { pkgs, ... }: { languages.php.enable = true; }
@@ -273,9 +267,7 @@ Nix言語は純粋関数型言語で、パッケージのビルド定義に特�
   }
 #+end_src
 
-詳細は公式マニュアル[fn:3]を参照してください。
-
-[fn:3] Nix Language, https://nix.dev/manual/nix/latest/language/
+詳細は公式マニュアル[cite:@nix-language]を参照してください。
 
 * PHPを取り巻くNix環境
 
@@ -284,7 +276,7 @@ NixでPHP開発環境を構築する方法は主に3つあります。
 従来の *nix-shell* は =shell.nix= を記述して環境に入る方法ですが、依存関係のバージョン固定が弱く再現性に課題があります。
 *Nix Flakes* は =flake.nix= と =flake.lock= で厳密なバージョン管理を実現しますが、Nix言語の知識が必要でPHP向けの設定は冗長になりがちです。
 
-Nixを簡単に使うためのラッパーツールとして *devbox*[fn:4] と *devenv*[fn:5] があります。
+Nixを簡単に使うためのラッパーツールとして *devbox*[cite:@devbox] と *devenv*[cite:@devenv] があります。
 
 *devbox* はJetpack社が開発するツールで、JSONベースの設定ファイルを使用します。
 Nix言語を一切書かずに環境構築できるため、導入障壁がもっとも低いのが特徴です。
@@ -314,9 +306,6 @@ Nix言語で記述しますが、言語ごとに最適化されたオプショ�
 
 devboxは手軽さが魅力ですが、devenvはサービス統合（MySQL、Redis等）、pre-commitフック、カスタムスクリプトなど、より高度な機能を備えています。
 PHP開発では拡張モジュールの細かな設定やphp.iniのカスタマイズが必要になることが多いため、本記事ではより自由度の高いdevenvを使った環境構築を紹介します。
-
-[fn:4] devbox, https://www.jetify.com/devbox
-[fn:5] devenv, https://devenv.sh/
 
 * devenvについて
 ** 概要
@@ -448,7 +437,7 @@ pre-commitフックは =devenv shell= に入ると自動的にセットアップ
 
 ** サービス統合
 
-devenvはDockerなしでデータベースやキャッシュサーバを起動できます。[fn:6]
+devenvはDockerなしでデータベースやキャッシュサーバを起動できます。[cite:@devenv-services]
 =devenv up= でサービスを起動し、データは =.devenv/= に保存されます。
 
 #+begin_src nix
@@ -464,11 +453,9 @@ devenvはDockerなしでデータベースやキャッシュサーバを起動�
   }
 #+end_src
 
-[fn:6] Supported Services - devenv, https://devenv.sh/services/
-
 ** direnvとの連携
 
-direnv[fn:7]と連携することで、ディレクトリ移動だけで環境が自動的に切り替わります。
+direnv[cite:@direnv]と連携することで、ディレクトリ移動だけで環境が自動的に切り替わります。
 プロジェクトルートに =.envrc= ファイルを作成し、以下を記述します。
 
 #+begin_src bash
@@ -491,22 +478,20 @@ direnv[fn:7]と連携することで、ディレクトリ移動だけで環境�
 
 「このプロジェクトはPHP何だっけ？」と悩む必要がなくなります。
 
-[fn:7] direnv, https://direnv.net/
-
 * 終わりに
 
 筆者は本業・副業・OSSの全プロジェクトでdevenvを使っており、環境構築で悩む時間が大幅に減りました。
 devenvは非常に便利なツールです。
 
 Nixには学習コストがありますが、devenvを使えばその壁を大幅に下げられます。
-興味のある方はぜひNix公式サイト[fn:1]やdevenv公式ドキュメント[fn:5]を参照してみてください。
+興味のある方はぜひNix公式サイト[cite:@nix]やdevenv公式ドキュメント[cite:@devenv]を参照してみてください。
 
 Nixの適用範囲は開発環境だけではありません。
-home-manager[fn:8]を使えばgit、vim、zshなどの開発ツールや、シェルの設定ファイル（dotfiles）も宣言的に管理できます。
+home-manager[cite:@home-manager]を使えばgit、vim、zshなどの開発ツールや、シェルの設定ファイル（dotfiles）も宣言的に管理できます。
 さらにnix-darwin（macOS）やNixOS（Linux）を使えば、OS全体の設定をNixで管理することも可能です。
 「開発環境のIaC」から始めて、徐々に管理範囲を広げていくのもよいでしょう。
 
-また、Software Design 2025年9月号[fn:9]〜2026年1月号にてNixの連載記事を執筆しました。
+また、Software Design 2025年9月号[cite:@sd-2025-09]〜2026年1月号にてNixの連載記事を執筆しました。
 本記事で興味を持たれた方は、ぜひそちらもご覧ください。
 
 #+BEGIN_EXPORT typst
@@ -516,5 +501,4 @@ home-manager[fn:8]を使えばgit、vim、zshなどの開発ツールや、シ�
 )
 #+END_EXPORT
 
-[fn:8] home-manager, https://nix-community.github.io/home-manager/
-[fn:9] Software Design 2025年9月号 https://gihyo.jp/magazine/SD/archive/2025/202509
+#+print_bibliography:

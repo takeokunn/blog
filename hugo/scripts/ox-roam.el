@@ -17,11 +17,10 @@
         (dolist (backlink backlinks)
           (message (concat "backlink: " (org-roam-node-title (org-roam-backlink-source-node backlink))))
           (let* ((source-node (org-roam-backlink-source-node backlink))
-                 (node-file (org-roam-node-file source-node))
-                 (file-name (file-name-nondirectory node-file))
+                 (node-id (org-roam-node-id source-node))
                  (title (org-roam-node-title source-node)))
             (insert
-             (format "- [[./%s][%s]]\n" file-name title))))))))
+             (format "- [[id:%s][%s]]\n" node-id title))))))))
 
 (add-hook 'org-export-before-processing-functions #'collect-backlinks-string)
 
