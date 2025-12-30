@@ -1,0 +1,11 @@
+{
+  "id": "E1C13122-4090-47F6-B84E-238CCC981E72",
+  "title": "VimとNeovimの使い分けと最小構成",
+  "raw": ":PROPERTIES:\n:ID:       E1C13122-4090-47F6-B84E-238CCC981E72\n:mtime:    20231204002924\n:ctime:    20230209152709\n:END:\n#+TITLE: VimとNeovimの使い分けと最小構成\n#+AUTHOR: takeokunn\n#+DESCRIPTION: VimとNeovimの使い分けと最小構成\n#+DATE: 2023-02-09T09:00:00+09:00\n#+HUGO_BASE_DIR: ../../\n#+HUGO_SECTION: posts/fleeting\n#+HUGO_CATEGORIES: fleeting\n#+HUGO_TAGS: vim\n#+HUGO_DRAFT: false\n#+STARTUP: fold\n* VimとNeovimの運用方針\n\n[[https://mobile.twitter.com/takeokunn/status/1464971704124710915][Twitterではずっと主張してること]] だが、VimとNeovimの設定は共通化しない方がよいと考えています。\n\n次のような使い分けをしています。\n\n- Vim → サーバ用の最小設定\n- Neovim → 日常的な開発用\n\nコンテナ全盛期の現代といえど、サーバに入って作業をする必要がある人も多いんじゃないでしょうか。\n不自由な環境でちょっとしたファイルを開いて数行変更するだけに関しては、Vimほど適したテキストエディタはないでしょう。\n\nただ、設定がまったくされていない素Vimでは少々厳しい場面があります。\n~set number relativenumber~ で行番号表示するくらいは欲しいものです。\nちょっとしたサーバにも持っていけるような最低限の設定を持っておくとサーバ内で安心して作業できます。\n\n一方、通常の開発でもVimを使いたいという要望はあるでしょう。\n現にEmacsをメインで使っている自分もフォールバック先としてNeovimを使うことが多いです。\nEmacs自体は本来安定しているのですが、Emacsを毎朝 ~git pull~ してHEAD Buildしている関係であまり手元環境が安定していないです。\n\nヘビーカスタマイズをすると、VimとNeovim両方を考慮したコードを書くのはかなり厳しい印象があります。\n最新のVim事情はわかりませんが、Python製Pluginが流行っていた時かなりしんどかったです。\nカスタマイズをする方を完全にNeovim側に寄せることによって、Vimの場合の条件分岐が減るので考慮することが減ります。\n\n* 最低限のVimの設定\n\n次のcommandをたたけば入ります。\n\n#+begin_src shell\n  curl -s https://raw.githubusercontent.com/takeokunn/dotfiles/master/modules/vim/dot.vimrc > ~/.vimrc\n#+end_src\n\n自分が最低限必要な設定は次の30行です。\n\n#+begin_src vimrc\n  set encoding=utf-8\n  set fileencodings=utf-8,euc-jp,cp932\n  set clipboard+=unnamed\n  set backspace=2\n  set tabstop=2\n  set shiftwidth=2\n  set laststatus=2\n  set statusline=%y\n  set showmatch\n  set wrapscan\n  set hlsearch\n  set showcmd\n  set title\n  set number relativenumber\n  set cursorline\n  set nofoldenable\n  set noswapfile\n  set expandtab\n  set splitbelow\n  set splitright\n  set incsearch\n  set ignorecase\n  set smartcase\n\n  nnoremap / /\\v\n  nnoremap <Leader><Leader> V\n  nnoremap <Esc><Esc> :nohlsearch<CR><Esc>\n\n  syntax on\n  filetype plugin indent on\n#+end_src\n\nファイルを開いて文字列を検索することが多いので次の設定がお気に入りです。\n\n#+begin_src vimrc\n  nnoremap <Esc><Esc> :nohlsearch<CR><Esc>\n#+end_src\n",
+  "backlinks": [
+    {
+      "title": "2025年2月 Neovimセットアップ",
+      "source": "942A9F44-5827-4CAD-886E-A82D74FFD309"
+    }
+  ]
+}

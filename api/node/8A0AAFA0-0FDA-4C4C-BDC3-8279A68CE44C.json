@@ -1,0 +1,15 @@
+{
+  "id": "8A0AAFA0-0FDA-4C4C-BDC3-8279A68CE44C",
+  "title": "credential管理をorg-encryptからpassword-storeに移行した",
+  "raw": ":PROPERTIES:\n:ID:       8A0AAFA0-0FDA-4C4C-BDC3-8279A68CE44C\n:END:\n#+TITLE: credential管理をorg-encryptからpassword-storeに移行した\n#+AUTHOR: takeokunn\n#+DESCRIPTION: description\n#+DATE: 2025-04-14T00:16:38+0900\n#+HUGO_BASE_DIR: ../../\n#+HUGO_CATEGORIES: fleeting\n#+HUGO_SECTION: posts/fleeting\n#+HUGO_TAGS: fleeting org-mode password-store\n#+HUGO_DRAFT: false\n#+STARTUP: fold\n* Introduction\n\ncredential管理をorg-encryptからpassword-storeに移行したので作業内容をメモしておく。\n\n* 現状の運用と問題\n\n[[id:C5A797A4-C474-4CFE-96E8-22C12F609A80][org-crypt運用メモ]] に書いたとおり、 =~/.aws/credentials= のような秘匿情報を =secret.org= を =org-babel-tangle= して出力していた。\n\n次のように =org-decrypt-entries= と =org-encrypt-entries= をadviceして対応していたのだが、[[https://github.com/AntonHakansson/org-nix-shell][org-nix-shell]] がうまく動かなくなってしまった。\n\n#+begin_src emacs-lisp\n  (advice-add 'org-babel-tangle :before #'org-decrypt-entries)\n  (advice-add 'org-babel-tangle :after #'org-encrypt-entries)\n#+end_src\n\n[[https://github.com/astahlman/ob-async][ob-async]] を有効にした時も[[https://github.com/AntonHakansson/org-nix-shell][org-nix-shell]]が実行できなくなってしまったので、 =advice-add= をすると問題が起きるのかもしれない。（要検証）\n[[id:8D7E7EC3-12EE-49DF-9134-8BFA085CC11D][org-nix-shell入門]] にも書いたが、[[https://github.com/AntonHakansson/org-nix-shell][org-nix-shell]]はキラーアプリケーションなので消す訳にはいかない。\n\n=M-x org-encrypt-entries= を手動で実行する運用にしていたが、うっかり叩き忘れたままcommitを何度かしてしまった。\n\n[[https://github.com/newren/git-filter-repo][newren/git-filter-repo]]などを使ってcommit hisotryから消したが面倒だった。\n\nまた、[[id:653CAD86-42DF-4987-9642-D5179B90CA97][mcp-servers-nixを導入した]]時点では実装されてなかったが、[[https://github.com/natsukium/mcp-servers-nix][mcp-servers-nix]] は =passwordCommand= をサポートしてくれた。\nよい機会なのでpassword-store管理に移行にすることにした。\n\n* 作業手順\n** 1. 既存のorg-encryptしてた鍵情報をpassword-store管理下に移行\n\n次のように秘密鍵をpassコマンドで検索できるようにする。\n\n#+begin_src console\n  pass show gemini/private\n#+end_src\n** 2. org-babel templateを作成\n\npassコマンドをwrapするコマンドを用意する。\n\n#+begin_src org\n  ,#+name: pass\n  ,#+begin_src emacs-lisp :var id=\"\" :results value raw\n    (string-trim (shell-command-to-string (format \"pass show %s\" id)))\n  ,#+end_src\n#+end_src\n** 3. 各秘密鍵に埋め込み\n\n=:noweb yes= で関数を実行できるようにする。\n=M-x org-babel-tangle= を実行すると、秘密鍵の入った状態で =~/.aider.conf.yml= が出力される。\n\n#+begin_src org\n  ,** ~/.aider.conf.yml\n  ,#+begin_src yaml :tangle (expand-file-name \"~/.aider.conf.yml\") :mkdirp yes :noweb yes\n    dark-mode: true\n    model: gemini\n    api-key:\n      - gemini=<<pass(id='gemini/private')>>\n  ,#+end_src\n#+end_src\n\n* 終わりに\n外部コマンドを叩いてる関係で多少tangleに時間がかかるようになってしまったが許容できる範囲内。\n長年秘密鍵の管理方法について悩んでたけど方針が決まってよかった。\n",
+  "backlinks": [
+    {
+      "title": "2025年5月 Macの再インストール手順メモ",
+      "source": "DEFB70C3-662B-42DC-A630-78A4B4D6D24F"
+    },
+    {
+      "title": "GPG KeyのYubiKey運用をはじめた",
+      "source": "B3ECD5FA-DFCE-447B-AAB0-72BEAAA28AEF"
+    }
+  ]
+}

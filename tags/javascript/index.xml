@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Javascript on takeokunn's blog</title><link>https://www.takeokunn.org/tags/javascript/</link><description>Recent content in Javascript on takeokunn's blog</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Wed, 28 Oct 2020 09:00:00 +0900</lastBuildDate><atom:link href="https://www.takeokunn.org/tags/javascript/index.xml" rel="self" type="application/rss+xml"/><item><title>TwitterUIDの挙動とJavaScriptのBigIntについて</title><link>https://www.takeokunn.org/posts/permanent/20201028052323-twitter_uid_javascript_bigint/</link><pubDate>Wed, 28 Oct 2020 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/permanent/20201028052323-twitter_uid_javascript_bigint/</guid><description>&lt;p&gt;TwitterのUIDについて調べてたら、自分の浮動小数点の挙動についての理解度が低かったので調べたことについてまとめておく。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;ことの発端は、spreadsheet上の人力で管理されているTwitterのユーザー情報をデータベースに入れる作業をしていた時だった。&lt;/p&gt;
+&lt;p&gt;以前同じような作業をしたとき結構漏れがあったので、Twitter UIDの妥当性やscreen nameが本当に存在するかどうかを確認する必要があった。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://idtwi.com/"&gt;TwitterのIDチェッカー&lt;/a&gt;などのWebサイトを利用してもよかったが、100件を超える量のデータを手動で確認取るのは面倒だったため、次のような検証scriptを雑に書いた。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#!/bin/bash
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;while&lt;/span&gt; read row; &lt;span style="color:#66d9ef"&gt;do&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; TWITTER_ID&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;`&lt;/span&gt;echo &lt;span style="color:#e6db74"&gt;${&lt;/span&gt;row&lt;span style="color:#e6db74"&gt;}&lt;/span&gt; | cut -d , -f 1&lt;span style="color:#e6db74"&gt;`&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; TWITTER_UID&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;`&lt;/span&gt;echo &lt;span style="color:#e6db74"&gt;${&lt;/span&gt;row&lt;span style="color:#e6db74"&gt;}&lt;/span&gt; | cut -d , -f 2&lt;span style="color:#e6db74"&gt;`&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; TWITTER_REQUEST_UID&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;`&lt;/span&gt;curl -X GET -H &lt;span style="color:#e6db74"&gt;&amp;#34;Authorization: Bearer &amp;lt;TWITTER_TOKEN&amp;gt;&amp;#34;&lt;/span&gt; -s &lt;span style="color:#e6db74"&gt;&amp;#34;https://api.twitter.com/1.1/users/show.json?screen_name=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;${&lt;/span&gt;TWITTER_ID&lt;span style="color:#e6db74"&gt;}&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt; | jq &lt;span style="color:#e6db74"&gt;&amp;#34;.id&amp;#34;&lt;/span&gt;&lt;span style="color:#e6db74"&gt;`&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;if&lt;/span&gt; &lt;span style="color:#f92672"&gt;[&lt;/span&gt; &lt;span style="color:#e6db74"&gt;${&lt;/span&gt;TWITTER_REQUEST_UID&lt;span style="color:#e6db74"&gt;}&lt;/span&gt; -ne &lt;span style="color:#e6db74"&gt;${&lt;/span&gt;TWITTER_UID&lt;span style="color:#e6db74"&gt;}&lt;/span&gt; &lt;span style="color:#f92672"&gt;]&lt;/span&gt;; &lt;span style="color:#66d9ef"&gt;then&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; echo &lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;&lt;span style="color:#e6db74"&gt;${&lt;/span&gt;TWITTER_ID&lt;span style="color:#e6db74"&gt;}&lt;/span&gt;&lt;span style="color:#e6db74"&gt;: &lt;/span&gt;&lt;span style="color:#e6db74"&gt;${&lt;/span&gt;TWITTER_UID&lt;span style="color:#e6db74"&gt;}&lt;/span&gt;&lt;span style="color:#e6db74"&gt; → &lt;/span&gt;&lt;span style="color:#e6db74"&gt;${&lt;/span&gt;TWITTER_REQUEST_UID&lt;span style="color:#e6db74"&gt;}&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;fi&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;done&lt;/span&gt; &amp;lt; ~/Desktop/twitter.csv
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;そうしたら半分くらいのTwitter UIDがずれてしまった。明らかにおかしいと思ったので、きちんと調査することにした。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;Twitter Developer Documentに &lt;code&gt;Twitter IDs&lt;/code&gt; という記事がある。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://developer.twitter.com/en/docs/twitter-ids"&gt;https://developer.twitter.com/en/docs/twitter-ids&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;次のようなことが書かれていた。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;ユーザーの増加によりTwitterのUIDは64bit&lt;/li&gt;
+&lt;li&gt;unsignedでuniqueな値として管理されている&lt;/li&gt;
+&lt;li&gt;JavaScriptの整数のサイズは53bitに制限されている&lt;/li&gt;
+&lt;li&gt;api responseでは整数(&lt;code&gt;id&lt;/code&gt;)と文字列(&lt;code&gt;id_str&lt;/code&gt;)の両方を返すような実装になっている&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;ここから分かるのは、自分は↑のshell scriptで &lt;code&gt;id&lt;/code&gt; を見ていたから正しい値をとれていなかった、&lt;del&gt;id_str&lt;/del&gt; を使うべきだったことが分かる。&lt;/p&gt;
+&lt;p&gt;たしかに、次のように &lt;code&gt;toString()&lt;/code&gt; をしたらずれることについて確認がとれたがどうしてだろうか。
+また、今回はbash scriptを書いたのにJavaScriptと同じ挙動をするのはどうしてなのか調べる必要がある。&lt;/p&gt;</description></item><item><title>JavaScriptのthisについて</title><link>https://www.takeokunn.org/posts/permanent/20190701050011-javascript_this_in_depth/</link><pubDate>Mon, 01 Jul 2019 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/permanent/20190701050011-javascript_this_in_depth/</guid><description>&lt;p&gt;会社のインターン生にJavaScriptの &lt;code&gt;this&lt;/code&gt; についてドヤ顔で説明してたら、間違って理解していたことがわかってしまった。&lt;/p&gt;
+&lt;p&gt;同僚と &lt;code&gt;this&lt;/code&gt; がどのような挙動をするのかで盛り上がって楽しかった。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://qiita.com/valley/items/62c9480368f1409c90ae"&gt;【JS】ああthisよ。君は今、どのオブジェクトなのか（練習問題あり）&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;同僚の &lt;code&gt;@valley&lt;/code&gt; 氏の記事がおおよそすべてを説明してくれているが、この記事では自分の言葉で &lt;code&gt;this&lt;/code&gt; について説明する。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;元記事ではブラウザで実行していたが、この記事では &lt;code&gt;nodejs&lt;/code&gt; で実行するので &lt;code&gt;window -&amp;gt; global&lt;/code&gt; となる。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;結局そのscopeが評価された時のcontextがthisになる。
+関数やオブジェクトが評価されるタイミングはいつなの？ってことを考えればあとは自然とthisを導き出せる。
+functionが評価されるタイミングとlambdaが評価されるタイミングが違うというだけ。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;たとえば、次のようなスクリプトがある。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;func1&lt;/code&gt; の関数が評価されるのは実行時なので &lt;code&gt;{}&lt;/code&gt; だが、 &lt;code&gt;func2&lt;/code&gt; の関数が評価されるのはコンパイル時なので &lt;code&gt;global&lt;/code&gt; になる。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-js" data-lang="js"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;const&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;func1&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; () =&amp;gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;console&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;log&lt;/span&gt;(&lt;span style="color:#66d9ef"&gt;this&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;const&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;func2&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;function&lt;/span&gt; () {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;console&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;log&lt;/span&gt;(&lt;span style="color:#66d9ef"&gt;this&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;console&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;log&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;func1&lt;/span&gt;); &lt;span style="color:#75715e"&gt;// {}
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt;&lt;span style="color:#a6e22e"&gt;console&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;log&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;func2&lt;/span&gt;); &lt;span style="color:#75715e"&gt;// global
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;ファイル分割した場合はどうなるだろうか。次のようなコードを書いてみた。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;test.js&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-js" data-lang="js"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;const&lt;/span&gt; { &lt;span style="color:#a6e22e"&gt;func1&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;func2&lt;/span&gt; } &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;require&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;./test1.js&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;console&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;log&lt;/span&gt;(&lt;span style="color:#66d9ef"&gt;this&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;aaa&lt;/span&gt;); &lt;span style="color:#75715e"&gt;// undefined
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;func1&lt;/span&gt;(); &lt;span style="color:#75715e"&gt;// { aaa: &amp;#39;bbb&amp;#39; }
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt;&lt;span style="color:#a6e22e"&gt;fund2&lt;/span&gt;(); &lt;span style="color:#75715e"&gt;// global
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;test1.js&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-js" data-lang="js"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;this&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;aaa&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;bbb&amp;#39;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;const&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;func1&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; () =&amp;gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;console&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;log&lt;/span&gt;(&lt;span style="color:#66d9ef"&gt;this&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;const&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;func2&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;function&lt;/span&gt; () {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;console&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;log&lt;/span&gt;(&lt;span style="color:#66d9ef"&gt;this&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;module&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;exports&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; { &lt;span style="color:#a6e22e"&gt;func1&lt;/span&gt;, &lt;span style="color:#a6e22e"&gt;func2&lt;/span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;hr&gt;
+&lt;p&gt;教えるのも勉強なるし、こうやって深堀するとさらに詳しく慣れて楽しい。&lt;/p&gt;</description></item><item><title>AjaxとBrowser Cookie</title><link>https://www.takeokunn.org/posts/permanent/20190330064337-ajax_browser_cookie/</link><pubDate>Sat, 30 Mar 2019 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/permanent/20190330064337-ajax_browser_cookie/</guid><description>&lt;p&gt;「ブラウザからアクセスするのと、AjaxからアクセスするのってCookieってかわっちゃうの？」という質問をされたので自分なりの答えを書いていく。&lt;/p&gt;
+&lt;p&gt;Ajaxなのだが、JavaScriptで一番有名なlibraryの&lt;a href="https://github.com/axios/axios"&gt;axios/axios&lt;/a&gt;を用いて書く。&lt;/p&gt;
+&lt;p&gt;FetchAPIについては今回は含めない。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id="結論"&gt;結論&lt;/h2&gt;
+&lt;p&gt;基本的にはCookieは変わらない。&lt;/p&gt;
+&lt;p&gt;同一オリジンの場合は自動的にCookieが使われる。&lt;/p&gt;
+&lt;p&gt;別オリジンの場合にCookieを使いたいなら &lt;code&gt;{ withCredentials: true }&lt;/code&gt; をoptionに持たせればよい。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-js" data-lang="js"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;axios&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;get&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#39;https://www.uuum.jp&amp;#39;&lt;/span&gt;, { &lt;span style="color:#a6e22e"&gt;withCredentials&lt;/span&gt;&lt;span style="color:#f92672"&gt;:&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt; });
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;hr&gt;
+&lt;p&gt;そもそもAjaxとはなんだろうか？&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://developer.mozilla.org/ja/docs/Web/Guide/AJAX/Getting_Started"&gt;MDN&lt;/a&gt;にこう書いてある。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;AJAX は Asynchronous JavaScript And XML の頭文字を取ったものです。
+これは一言で言えば、 XMLHttpRequest オブジェクトを使ってサーバーと通信することです。
+AJAX は JSON, XML, HTML, テキストファイルなど、様々な形式の情報で送受信することができます。
+AJAX の最も魅力的な特徴は「非同期」であること、つまり、サーバーとの通信、データの交換、ページの更新を、ページの再読み込みなしに行うことができる点です。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;要するに、JavaScriptから通信ができるというだけ。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;XMLHttRequest&lt;/code&gt; のサンプルは以下。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-js" data-lang="js"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;const&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;xhr&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;XMLHttpRequest&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;xhr&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;open&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;GET&amp;#34;&lt;/span&gt;, &lt;span style="color:#e6db74"&gt;&amp;#34;https://www.uuum.jp&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;xhr&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;send&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;console&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;log&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;xhr&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;status&lt;/span&gt;); &lt;span style="color:#75715e"&gt;// 200
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;これで通信ができる。以上だ。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;axiosのコードを読んでみる。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/axios/axios/blob/503418718f669fcc674719fd862b355605d7b41f/lib/adapters/xhr.js"&gt;axios/lib/adapters/xhr.js&lt;/a&gt;に &lt;code&gt;XMLHttpRequest&lt;/code&gt; が書いてある。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-js" data-lang="js"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;var&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;request&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;XMLHttpRequest&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;XMLHttpRequest&lt;/code&gt; を使っているのが確認できた。&lt;/p&gt;
+&lt;p&gt;さて、Cookieの扱い方はどうなっているだろうか？　ググったら &lt;code&gt;withCredentials&lt;/code&gt; を使えって書いてある。&lt;/p&gt;
+&lt;p&gt;実際にコード読んでみるとこんな記述がある。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/axios/axios/blob/503418718f669fcc674719fd862b355605d7b41f/lib/adapters/xhr.js#L103-L105"&gt;axios/lib/adapters/xhr.js#L103-L105&lt;/a&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-js" data-lang="js"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;var&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;xsrfValue&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; (&lt;span style="color:#a6e22e"&gt;config&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;withCredentials&lt;/span&gt; &lt;span style="color:#f92672"&gt;||&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;isURLSameOrigin&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;config&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;url&lt;/span&gt;)) &lt;span style="color:#f92672"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;config&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;xsrfCookieName&lt;/span&gt; &lt;span style="color:#f92672"&gt;?&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;cookies&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;read&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;config&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;xsrfCookieName&lt;/span&gt;) &lt;span style="color:#f92672"&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;undefined&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;同一オリジンの場合や &lt;code&gt;withCredentials&lt;/code&gt; の場合に &lt;code&gt;cookies.read&lt;/code&gt; が走る。&lt;/p&gt;
+&lt;p&gt;Cookiesの定義元を読んで見る。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/axios/axios/blob/503418718f669fcc674719fd862b355605d7b41f/lib/helpers/cookies.js#L9-L43"&gt;axios/lib/helpers/cookies.js&lt;/a&gt;:&lt;/p&gt;</description></item></channel></rss>

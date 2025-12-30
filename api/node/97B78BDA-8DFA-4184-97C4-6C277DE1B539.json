@@ -1,0 +1,11 @@
+{
+  "id": "97B78BDA-8DFA-4184-97C4-6C277DE1B539",
+  "title": "開発体験向上について考えてること",
+  "raw": ":PROPERTIES:\n:ID:       97B78BDA-8DFA-4184-97C4-6C277DE1B539\n:mtime:    20231204003040\n:ctime:    20221215022143\n:END:\n#+TITLE: 開発体験向上について考えてること\n#+AUTHOR: takeokunn\n#+DESCRIPTION: 開発体験向上について考えてること\n#+DATE: 2019-09-30T09:00:00+09:00\n#+HUGO_BASE_DIR: ../../\n#+HUGO_SECTION: posts/permanent\n#+HUGO_CATEGORIES: permanent\n#+HUGO_TAGS: experience\n#+HUGO_DRAFT: false\n#+STARTUP: fold\n\n会社での仕事の大半はDX向上な気がしているので、普段やっていることについてまとめていく。\n\n--------------\n\n[[https://gfx.hatenablog.com/entry/2018/06/28/100103][DX: Developer Experience （開発体験）は重要だ]] にDX向上のメリットについて書いてあるのだが、具体的な作業は何かについて書いていないので自分なりのやり方を書いていく。\n\n最近ずっとRailsばっかだったので、Railsプロジェクトをイメージして書く。\n\n- 環境構築をなるべくDockerできるようにする\n- 再現性の高い環境構築手順を作成する\n- Editorconfigを入れる\n- インフラ構成を整理する\n- 安全にDeployできるようなしくみを作る\n- CircleCIなどCIサービスを入れる\n- GitFlowを入れる\n- 明らかに使っていないファイルを削除する\n- 使用している外部サービスを洗い出しておく\n- ソースコードに埋め込まれている鍵をenvに移す\n- [[https://sentry.io/welcome/][Sentry]] などエラーを検知できるしくみを導入する\n- Linterを入れて変更を少なく定期的に修正していく\n- RSpecのようなテストツールを入れる\n- [[https://dependabot.com/][dependabot]] を入れる\n- [[https://pullpanda.com/][pull panda]]を入れる\n- 静的解析ツール（Phanなど）を入れる\n- NewRelicなどの監視ツールを入れる\n- 事業リスクになりそうな箇所を洗い出して工数を取ってもらうべく動く\n- 時間を見つけてロジックが複雑な部分をリファクタリングをしていく\n- errorやdeployやcommit通知をslackに流す\n- [[https://github.com/motemen/git-pr-release][git-pr-release]]を入れる\n\n#+begin_quote\n安全にDeployできるような仕組みを作る\n#+end_quote\n\nAWS ECSのようにコンテナマネージドサービスの場合はCircleCIからたたけばよいだろうし、そうでなければとりあえずdeploy用のサーバを立てcapisoranoでdeployしちゃってもよいだろう。\n\n大事なのはlocalに依存しないことと再現性のあること。\n\n#+begin_quote\n使用してる外部サービスを洗い出しておく\n#+end_quote\n\n意外とこういう洗い出し大事。使っていないコードの削除も捗るし、抽象化もしやすい。\n\n#+begin_quote\n事業リスクになりそうな箇所を洗い出して工数を取ってもらうべく動く\n#+end_quote\n\n技術的負債の説明をできるのはエンジニアしかいないので、本当に対応するべきか置いといて、きちんと伝えることは大事。\n\n#+begin_quote\nエラー通知やdeploy通知をslackに流す\n#+end_quote\n\nDX向上はエンジニア以外わからないので、「きちんと作業している」ということを伝えるのは大事。\n\n--------------\n\nDX向上はエンジニアのための作業だけど、ちゃんとエンジニア以外にも「伝える」こともエンジニアとして大事なんだろうなぁ。\n",
+  "backlinks": [
+    {
+      "title": "エンジニア採用面接で考えていること",
+      "source": "EEB6FCD7-1F0A-46FB-8456-4A3DD7175313"
+    }
+  ]
+}

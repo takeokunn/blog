@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Vim on takeokunn's blog</title><link>https://www.takeokunn.org/tags/vim/</link><description>Recent content in Vim on takeokunn's blog</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Tue, 11 Feb 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://www.takeokunn.org/tags/vim/index.xml" rel="self" type="application/rss+xml"/><item><title>2025年2月 Neovimセットアップ</title><link>https://www.takeokunn.org/posts/fleeting/20250211111032-setup_neovim/</link><pubDate>Tue, 11 Feb 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250211111032-setup_neovim/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;Neovimに入門したいと思い早n年だったが、vim-jpの皆さんのおかげでようやくミニマムの設定が完了したのでブログにまとめておきます。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20230209152709-using-vim-and-neovim-for-differenct-purposes-and-minimum-settings/"&gt;VimとNeovimの使い分けと最小構成&lt;/a&gt; のとおりVimは最小構成にしているので、Neovimはヘビーカスタマイズしていく方針です。&lt;/p&gt;
+&lt;p&gt;Neovimの設定はこちら。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/takeokunn/nixos-configuration/tree/main/home-manager/programs/neovim"&gt;https://github.com/takeokunn/nixos-configuration/tree/main/home-manager/programs/neovim&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id="setup"&gt;Setup&lt;/h2&gt;
+&lt;h3 id="neovim本体"&gt;Neovim本体&lt;/h3&gt;
+&lt;p&gt;Nix経由でインストールしています。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/takeokunn/nixos-configuration/blob/main/home-manager/programs/neovim/default.nix"&gt;https://github.com/takeokunn/nixos-configuration/blob/main/home-manager/programs/neovim/default.nix&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;withNodeJs&lt;/code&gt; や &lt;code&gt;withRuby&lt;/code&gt; などはイマドキ使わない設定まらしいので &lt;code&gt;false&lt;/code&gt; にしました。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-nix" data-lang="nix"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{ pkgs&lt;span style="color:#f92672"&gt;,&lt;/span&gt; sources }:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; programs&lt;span style="color:#f92672"&gt;.&lt;/span&gt;neovim &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; enable &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; withNodeJs &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;false&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; withRuby &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;false&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; withPython3 &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;false&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; plugins &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#f92672"&gt;import&lt;/span&gt; &lt;span style="color:#e6db74"&gt;./plugins&lt;/span&gt; { &lt;span style="color:#66d9ef"&gt;inherit&lt;/span&gt; pkgs sources; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; extraLuaConfig &lt;span style="color:#f92672"&gt;=&lt;/span&gt; builtins&lt;span style="color:#f92672"&gt;.&lt;/span&gt;readFile &lt;span style="color:#e6db74"&gt;./init.lua&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="plugin-manager"&gt;Plugin Manager&lt;/h3&gt;
+&lt;p&gt;VimのPlugin Managerは乱立しているようで、デファクトスタンダードはないらしいです。
+私はNixユーザーなのでNixで管理することにしました。&lt;/p&gt;
+&lt;p&gt;また、各Pluginごとの設定もNix内に記述する方針にしました。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-nix" data-lang="nix"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# 実際の例&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{ pkgs }:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;with&lt;/span&gt; pkgs&lt;span style="color:#f92672"&gt;.&lt;/span&gt;vimPlugins;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;[
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; type &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;lua&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; plugin &lt;span style="color:#f92672"&gt;=&lt;/span&gt; dracula-nvim;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; config &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;&amp;#39;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; vim.cmd[[colorscheme dracula]]
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; &amp;#39;&amp;#39;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="terminal-emulator"&gt;Terminal Emulator&lt;/h3&gt;
+&lt;p&gt;「Terminal Emulatorにこだわらない」というこだわりを持っていたが、&lt;a href="https://timingapp.com/terminal-time-tracking"&gt;Mac標準のTerminal.app&lt;/a&gt;だとうまく描画してくれない問題があった。&lt;/p&gt;</description></item><item><title>VimとNeovimの使い分けと最小構成</title><link>https://www.takeokunn.org/posts/fleeting/20230209152709-using-vim-and-neovim-for-differenct-purposes-and-minimum-settings/</link><pubDate>Thu, 09 Feb 2023 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20230209152709-using-vim-and-neovim-for-differenct-purposes-and-minimum-settings/</guid><description>&lt;h2 id="vimとneovimの運用方針"&gt;VimとNeovimの運用方針&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://mobile.twitter.com/takeokunn/status/1464971704124710915"&gt;Twitterではずっと主張してること&lt;/a&gt; だが、VimとNeovimの設定は共通化しない方がよいと考えています。&lt;/p&gt;
+&lt;p&gt;次のような使い分けをしています。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Vim → サーバ用の最小設定&lt;/li&gt;
+&lt;li&gt;Neovim → 日常的な開発用&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;コンテナ全盛期の現代といえど、サーバに入って作業をする必要がある人も多いんじゃないでしょうか。
+不自由な環境でちょっとしたファイルを開いて数行変更するだけに関しては、Vimほど適したテキストエディタはないでしょう。&lt;/p&gt;
+&lt;p&gt;ただ、設定がまったくされていない素Vimでは少々厳しい場面があります。
+&lt;code&gt;set number relativenumber&lt;/code&gt; で行番号表示するくらいは欲しいものです。
+ちょっとしたサーバにも持っていけるような最低限の設定を持っておくとサーバ内で安心して作業できます。&lt;/p&gt;
+&lt;p&gt;一方、通常の開発でもVimを使いたいという要望はあるでしょう。
+現にEmacsをメインで使っている自分もフォールバック先としてNeovimを使うことが多いです。
+Emacs自体は本来安定しているのですが、Emacsを毎朝 &lt;code&gt;git pull&lt;/code&gt; してHEAD Buildしている関係であまり手元環境が安定していないです。&lt;/p&gt;
+&lt;p&gt;ヘビーカスタマイズをすると、VimとNeovim両方を考慮したコードを書くのはかなり厳しい印象があります。
+最新のVim事情はわかりませんが、Python製Pluginが流行っていた時かなりしんどかったです。
+カスタマイズをする方を完全にNeovim側に寄せることによって、Vimの場合の条件分岐が減るので考慮することが減ります。&lt;/p&gt;
+&lt;h2 id="最低限のvimの設定"&gt;最低限のVimの設定&lt;/h2&gt;
+&lt;p&gt;次のcommandをたたけば入ります。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;curl -s https://raw.githubusercontent.com/takeokunn/dotfiles/master/modules/vim/dot.vimrc &amp;gt; ~/.vimrc
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;自分が最低限必要な設定は次の30行です。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-vimrc" data-lang="vimrc"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;encoding&lt;/span&gt;=&lt;span style="color:#a6e22e"&gt;utf&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;-8&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;fileencodings&lt;/span&gt;=&lt;span style="color:#a6e22e"&gt;utf&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;-8&lt;/span&gt;,&lt;span style="color:#a6e22e"&gt;euc&lt;/span&gt;-&lt;span style="color:#a6e22e"&gt;jp&lt;/span&gt;,&lt;span style="color:#a6e22e"&gt;cp932&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;clipboard&lt;/span&gt;+=&lt;span style="color:#a6e22e"&gt;unnamed&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;backspace&lt;/span&gt;=&lt;span style="color:#ae81ff"&gt;2&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;tabstop&lt;/span&gt;=&lt;span style="color:#ae81ff"&gt;2&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;shiftwidth&lt;/span&gt;=&lt;span style="color:#ae81ff"&gt;2&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;laststatus&lt;/span&gt;=&lt;span style="color:#ae81ff"&gt;2&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;statusline&lt;/span&gt;=%&lt;span style="color:#a6e22e"&gt;y&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;showmatch&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;wrapscan&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;hlsearch&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;showcmd&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;title&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;number&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;relativenumber&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;cursorline&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;nofoldenable&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;noswapfile&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;expandtab&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;splitbelow&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;splitright&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;incsearch&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;ignorecase&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;smartcase&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;nnoremap&lt;/span&gt; &lt;span style="color:#e6db74"&gt;/ /&lt;/span&gt;\&lt;span style="color:#a6e22e"&gt;v&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;nnoremap&lt;/span&gt; &amp;lt;&lt;span style="color:#a6e22e"&gt;Leader&lt;/span&gt;&amp;gt;&amp;lt;&lt;span style="color:#a6e22e"&gt;Leader&lt;/span&gt;&amp;gt; &lt;span style="color:#a6e22e"&gt;V&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;nnoremap&lt;/span&gt; &amp;lt;&lt;span style="color:#a6e22e"&gt;Esc&lt;/span&gt;&amp;gt;&amp;lt;&lt;span style="color:#a6e22e"&gt;Esc&lt;/span&gt;&amp;gt; :&lt;span style="color:#a6e22e"&gt;nohlsearch&lt;/span&gt;&amp;lt;&lt;span style="color:#a6e22e"&gt;CR&lt;/span&gt;&amp;gt;&amp;lt;&lt;span style="color:#a6e22e"&gt;Esc&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;syntax&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;on&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;filetype&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;plugin&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;indent&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;on&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;ファイルを開いて文字列を検索することが多いので次の設定がお気に入りです。&lt;/p&gt;</description></item></channel></rss>

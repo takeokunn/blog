@@ -1,0 +1,6 @@
+{
+  "id": "7ACD0B88-960A-44C6-954B-C597AE60ECD1",
+  "title": "BitwardenとAuthyのアカウントを削除した",
+  "raw": ":PROPERTIES:\n:ID:       7ACD0B88-960A-44C6-954B-C597AE60ECD1\n:END:\n#+TITLE: BitwardenとAuthyのアカウントを削除した\n#+AUTHOR: takeokunn\n#+DESCRIPTION: description\n#+DATE: 2025-04-08T13:49:42+0900\n#+HUGO_BASE_DIR: ../../\n#+HUGO_CATEGORIES: fleeting\n#+HUGO_SECTION: posts/fleeting\n#+HUGO_TAGS: fleeting bitwarden authy\n#+HUGO_DRAFT: false\n#+STARTUP: fold\n* Introduction\n\n[[id:8311DF4F-44EF-4541-BB28-889161EE216A][Bitwardenからpassword-storeに移行した]] でBitwardenから離れて1年以上経った。\n当初はBitwardenにしかない情報もあったのでを開くこともあったが、今になっては使うことがなくなったのでアカウントを完全に削除する。\n\nまた、[[id:624F0A4B-0F8A-40B1-8AAD-DCC88CFC719A][Authyからpassword-store-otpに移行した]]でAuthyも使わなくなったのでついでに削除する。\n\n* 作業手順\n** 1. Bitwarden\n\n公式ドキュメントを参考に削除する。\n\n[[https://bitwarden.com/ja-jp/help/delete-your-account/][https://bitwarden.com/ja-jp/help/delete-your-account/]]\n\n「個人のアカウントを削除します > アカウントを削除」で特に警告も出ずにサクっと消えた。\n\n[[file:../../static/images/F156CC55-0D2F-4F33-9B11-DD831588D5A7.png]]\n\n** 2. Authy\n\n公式の削除動線を辿って確認メールを踏んで削除する。\n\nhttps://www.authy.com/account/delete/\n\n[[file:../../static/images/9AE8AD89-1FE5-4218-8EF8-0F31B915EF11.png]]\n\n* 終わりに\n\nBitwardenもAuthyも駆け出しエンジニアの頃から使ってたので思い入れのあるツールだった。\n10年間ありがとう。\n",
+  "backlinks": []
+}
