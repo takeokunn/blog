@@ -1,0 +1,98 @@
+---
+title: "3.2. org-babelの詳細制御"
+---
+
+
+
+# 変数（:var）の活用
+
+-   基本的な変数渡し（:var name=value）
+-   テーブルからの変数（:var data=tablename）
+-   他ブロックの結果参照（ `:var x=blockname` ）
+-   リストと配列の扱い
+
+
+# 結果（:results）の制御
+
+-   出力形式: value/output
+-   結果タイプ: table/list/scalar/file/raw/html/latex
+-   結果処理: replace/append/prepend/silent
+-   ラッパー: drawer/code/org
+
+
+# セッション（:session）管理
+
+-   セッションの概念と用途
+-   :session name での名前付けセッション
+-   変数の永続化と共有
+-   セッションのリセット
+
+
+# #+CALL: による再利用
+
+-   名前付きブロックの呼び出し
+-   引数の上書き
+-   インライン呼び出し（ `call_blockname()` ）
+-   ライブラリ的な活用
+
+
+# noWeb参照
+
+-   <a id="org23c62fc"></a> 形式の参照
+-   :noWeb yes/no/tangle
+-   コードの分割と再構成
+-   実践的なnoWeb活用例
+
+
+# 言語間のデータ受け渡し
+
+-   テーブルを介したデータ共有
+-   JSON/CSVでの受け渡し
+-   Shell→Python→Gnuplot パイプライン例
+
+
+# 対応言語と設定
+
+-   org-babel-load-languages
+-   各言語の固有設定
+-   カスタム言語の追加
+
+
+# ダイアグラム生成
+
+-   ob-mermaid
+    -   Mermaidダイアグラムの埋め込み
+    -   フローチャート、シーケンス図、ER図
+    -   インライン画像として表示
+    -   設定例
+-   ob-plantuml
+    -   PlantUMLによるUML図生成
+    -   クラス図、シーケンス図、アクティビティ図
+    -   plantuml.jar の設定
+    -   日本語フォント対応
+-   ob-ditaa
+    -   アスキーアートからダイアグラム生成
+    -   テキストベースの図の保存
+-   使い分け
+    -   Mermaid: 軽量、Web親和性
+    -   PlantUML: 多機能、Java依存
+    -   ditaa: テキストのまま見やすい
+
+
+# REST APIテストの文書化
+
+-   ob-restclient
+    -   restclient-mode のOrg統合
+    -   HTTPリクエストの実行と記録
+-   基本的な使い方
+    -   GET/POST/PUT/DELETE リクエスト
+    -   ヘッダーとボディの指定
+    -   変数による動的URL
+-   結果の活用
+    -   JSONレスポンスの整形
+    -   他ブロックでの結果参照
+    -   APIドキュメントとしての活用
+-   verb（代替）
+    -   ob-restclientの代替
+    -   Org-mode特化設計
+    -   設定の簡潔さ

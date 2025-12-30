@@ -1,0 +1,65 @@
+---
+title: "2.6. org-foldとインデント制御"
+---
+
+
+
+# org-fold: Org 9.6の新しい折りたたみ実装
+
+-   従来のoverlayベース vs text-propertiesベース
+-   パフォーマンスの大幅な改善
+-   大規模ファイルでの恩恵
+-   移行時の注意点
+
+
+# org-foldの内部動作
+
+-   org-fold-core の仕組み
+-   text-propertiesによる可視性制御
+-   isearch連携の改善
+-   font-lockとの相互作用
+
+
+# org-fold関連の設定
+
+-   org-fold-catch-invisible-edits
+    -   error / smart / show / show-and-error
+-   org-fold-show-context-detail
+    -   展開時の表示範囲制御
+-   org-fold-core-style
+    -   'text-properties / 'overlays
+
+
+# org-indent-mode vs org-startup-indented
+
+-   org-indent-mode
+    -   動的なインデント表示
+    -   実際のファイル内容は変更しない
+    -   視覚的な階層表現
+-   org-startup-indented
+    -   ファイルごとの設定
+    -   \#+STARTUP: indent
+-   使い分けの指針
+    -   グローバル設定 vs ローカル設定
+    -   パフォーマンスへの影響
+
+
+# インデント関連の詳細設定
+
+-   org-indent-indentation-per-level
+    -   レベルごとのインデント幅
+-   org-indent-mode-turns-on-hiding-stars
+    -   先頭のアスタリスク非表示
+-   org-hide-leading-stars
+    -   org-indent-mode使用時の挙動
+-   org-adapt-indentation
+    -   コンテンツの自動インデント調整
+    -   headline-data / t / nil
+
+
+# トラブルシューティング
+
+-   org-foldへの移行で発生しやすい問題
+-   overlayを前提としたパッケージとの互換性
+-   フォールバック設定
+-   デバッグ方法
