@@ -21,6 +21,8 @@ Claude Codeを本格的に使い始めました。
 
 この記事では、構築したワークフローを共有します。
 
+ちなみに、この記事も大半はClaude Codeに書いてもらいました。
+
 * 2. 背景と設計哲学
 ** 2.1. 感じていた課題
 
@@ -139,7 +141,7 @@ Claude Codeは2種類のCLAUDE.mdを認識します。
 
 [[file:../../static/images/CC3ED851-5E06-4A5C-BC6A-1DEF112BE45E.png]]
 
-#+begin_src mermaid
+#+begin_src mermaid :exports none
   graph TD
       A[CLAUDE.md<br/>Parent Orchestration] --> B[Commands]
       B --> C["/ask"]
@@ -177,7 +179,7 @@ Claude Codeは2種類のCLAUDE.mdを認識します。
 
 Claude Codeのcommandは、AIエージェントの振る舞いを定義する重要な設定です。私はカスタムコマンドを設計し（[[https://github.com/takeokunn/nixos-configuration/tree/main/home-manager/programs/claude-code/commands][commands/ディレクトリ参照]]）、「オーケストレーションパターン」と「Readonlyファースト哲学」という2つの設計思想に基づいて構築しています。
 
-*** 4.2.1. Read-Only First哲学
+*** 4.2.1. Readonlyファースト哲学
 
 「まず調べて、実行計画を立ててから、手を動かす」がReadonlyファースト哲学の核心です。
 
@@ -206,7 +208,7 @@ AIに作業を任せる際、もっとも危険なのは「調査しているつ
 
 [[file:../../static/images/2D573FE7-304B-4379-B3C5-E0542F4DA022.png]]
 
-#+begin_src mermaid
+#+begin_src mermaid :exports none
 flowchart TD
     subgraph Investigation["Investigation Phase (Read-Only)"]
         define["/define<br/>Requirements Definition"]
@@ -508,7 +510,7 @@ Claude Code自身もコードを生成できますが、複雑なリファクタ
 
 [[file:../../static/images/948E82A2-58AB-41CB-AD87-1DF1081C5C17.png]]
 
-#+begin_src mermaid
+#+begin_src mermaid :exports none
   graph LR
       subgraph "ツール優先度（低コスト → 高機能）"
           A[Basic Tools<br/>Read/Edit/Write] --> B[Serena<br/>シンボル操作/メモリ]
@@ -546,7 +548,7 @@ mcpServers =
 
 [[file:../../static/images/67C913D9-DA99-4696-994B-AAE6FD9E486A.png]]
 
-#+begin_src mermaid
+#+begin_src mermaid :exports none
   sequenceDiagram
       participant User
       participant Claude as Claude Code
