@@ -15,21 +15,20 @@
 
 Claude Codeを本格的に使い始めました。
 
-最初はGitHub Copilotと同じ感覚で、コード生成ツールの延長として使っていたのですが、あるとき気づきました。「セキュリティレビューをお願いしたら、コードスタイルの指摘ばかり返ってきた」「昨日と同じ質問をしたのに、全く違うフォーマットで回答された」「プロジェクトの規約を毎回説明するのが面倒」。これ、Claude Codeの問題じゃなくて、自分の使い方の問題でした。
+最初はGitHub Copilotと同じ感覚で、コード生成ツールの延長として使っていたのですが、あるとき気づきました。「セキュリティレビューをお願いしたら、コードスタイルの指摘ばかり返ってきた」「昨日と同じ質問をしたのに、まったく違うフォーマットで回答された」「プロジェクトの規約を毎回説明するのが面倒」。これ、Claude Codeの問題じゃなくて、自分の使い方の問題でした。
 
 試行錯誤を重ねるうちに、Claude Codeは単なるコード補完ツールではなく、適切に設定すればマルチエージェントシステムとして機能することに気づきました。
 
 この記事では、構築したワークフローを共有します。
 
 * 2. 背景と設計哲学
-
 ** 2.1. 感じていた課題
 
 Claude Codeを本格的に使い始める前、いくつかの課題を感じていました。
 
 一番大きかったのは専門性の欠如です。単一のAIエージェントでは、コード品質・セキュリティ・テスト・ドキュメントなど複数のドメインにまたがるタスクをうまく処理できませんでした。セキュリティの観点でレビューをお願いしても、コードスタイルの指摘が混在して、本当に確認したいポイントが埋もれてしまいます。
 
-出力の不安定性も悩みの種でした。構造化されたプロンプトなしでは、AIの応答品質やフォーマットが毎回異なります。昨日と同じ質問をしても、回答の形式が全く違うということが日常茶飯事でした。
+出力の不安定性も悩みの種でした。構造化されたプロンプトなしでは、AIの応答品質やフォーマットが毎回異なります。昨日と同じ質問をしても、回答の形式がまったく違うということがよくありました。
 
 繰り返しの説明にも時間を取られていました。同じパターンや好みを何度もAIに説明する必要があり、徒労感がありました。
 
@@ -56,7 +55,7 @@ Claude Codeのプロンプトは構造化されたXMLで記述しています。
 
 Markdownやプレーンテキストではなく、XMLを採用しました。これは公式のベストプラクティスではなく、個人的な経験に基づく選択です。
 
-[[https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/use-xml-tags][Anthropicの公式ドキュメント]]では、XMLタグについて次のように説明されています:
+[[https://docs.anthropic.com/en/docs/use-xml-tags][Anthropicの公式ドキュメント]]では、XMLタグについて次のように説明されています:
 
 #+begin_quote
 Claude was trained specifically to recognize XML tags as a prompt organizing mechanism.
@@ -68,7 +67,7 @@ XMLを選んだ理由は3つあります。
 
 まず構造的な表現力。ネストした階層構造、属性による修飾、明確な開始・終了タグにより、複雑な指示を表現しやすいです。
 
-次に指示の遵守率。XMLで書いた指示のほうが意図通りに解釈されることが多いという肌感覚があります。Markdownの見出しより、XMLタグのほうがセクションの境界として認識されやすい印象です。
+次に指示の遵守率。XMLで書いた指示のほうが意図とおりに解釈されることが多いという肌感覚があります。Markdownの見出しより、XMLタグのほうがセクションの境界として認識されやすい印象です。
 
 そしてスキーマによる一貫性。決まった要素名と構造を使うことで、commands/agents/skills間でプロンプトの品質を均一に保てます。
 
@@ -92,7 +91,7 @@ XMLを選んだ理由は3つあります。
 
 これが実際の私のCLAUDE.mdに書いてある5つのクリティカルルールです。 ~standard~ 優先度のルールも同様に定義できます。GitHub操作には ~gh~ コマンドを使う、Context7 MCPでドキュメントを確認する、といった推奨事項を記述しています。
 
-=<workflow>= はフェーズベースの作業フローを定義します。各フェーズは ~<step>~ 要素を含み、 ~task_analysis~, ~delegation~, ~analyze~, ~investigate~, ~execute~, ~verify~, ~document~ のように行動指向の名前で統一しています。
+=<workflow>= はフェーズベースの作業フローを定義します。各フェーズは ~<step>~ 要素を含みます。フェーズ名は ~task_analysis~ / ~delegation~ / ~analyze~ / ~investigate~ / ~execute~ / ~verify~ / ~document~ のように行動指向で統一しています。
 
 =<constraints>= は明示的な「やるべきこと」と「避けるべきこと」を =<must>= と =<avoid>= で定義します。たとえば「実装前にメモリを確認する」「perlでテキスト処理する」といった必須事項と、「ファイル全体を読み込まない」「sed/awkを使わない」といった禁止事項を明記します。
 
@@ -138,34 +137,36 @@ Claude Codeは2種類のCLAUDE.mdを認識します。
 
 ** 4.1. 階層構造の概要
 
+[[file:../../static/images/CC3ED851-5E06-4A5C-BC6A-1DEF112BE45E.png]]
+
 #+begin_src mermaid
-graph TD
-    A[CLAUDE.md<br/>Parent Orchestration] --> B[Commands]
-    B --> C["/ask"]
-    B --> D["/define"]
-    B --> E["/execute"]
-    B --> F["/feedback"]
+  graph TD
+      A[CLAUDE.md<br/>Parent Orchestration] --> B[Commands]
+      B --> C["/ask"]
+      B --> D["/define"]
+      B --> E["/execute"]
+      B --> F["/feedback"]
 
-    C --> G[Agents]
-    D --> G
-    E --> G
-    F --> G
+      C --> G[Agents]
+      D --> G
+      E --> G
+      F --> G
 
-    G --> H[design]
-    G --> I[database]
-    G --> J[security]
-    G --> K[test]
-    G --> L[...]
+      G --> H[design]
+      G --> I[database]
+      G --> J[security]
+      G --> K[test]
+      G --> L[...]
 
-    H --> M[Skills]
-    I --> M
-    J --> M
-    K --> M
+      H --> M[Skills]
+      I --> M
+      J --> M
+      K --> M
 
-    M --> N[serena-usage]
-    M --> O[context7-usage]
-    M --> P[nix-ecosystem]
-    M --> Q[...]
+      M --> N[serena-usage]
+      M --> O[context7-usage]
+      M --> P[nix-ecosystem]
+      M --> Q[...]
 #+end_src
 
 各階層の役割を整理します。CLAUDE.mdは親オーケストレーターとして方針決定と委譲を担います。Commandsはユーザーインターフェースとして特定タスクの起点となります。Agentsはdesign、security、testなど専門領域のエキスパートとして機能します。Skillsはnix-ecosystem、serena-usageなどドメイン知識ベースを提供します。
@@ -174,34 +175,36 @@ graph TD
 
 ** 4.2. コマンドによるワークフロー定義
 
-Claude Codeのcommandは、AIエージェントの振る舞いを定義する重要な設定です。私はカスタムコマンドを設計し（[[https://github.com/takeokunn/nixos-configuration/tree/main/home-manager/programs/claude-code/commands][commands/ディレクトリ参照]]）、「オーケストレーションパターン」と「Read-Only First哲学」という2つの設計思想に基づいて構築しています。
+Claude Codeのcommandは、AIエージェントの振る舞いを定義する重要な設定です。私はカスタムコマンドを設計し（[[https://github.com/takeokunn/nixos-configuration/tree/main/home-manager/programs/claude-code/commands][commands/ディレクトリ参照]]）、「オーケストレーションパターン」と「Readonlyファースト哲学」という2つの設計思想に基づいて構築しています。
 
 *** 4.2.1. Read-Only First哲学
 
-「まず調べて、実行計画を立ててから、手を動かす」がRead-Only First哲学の核心です。
+「まず調べて、実行計画を立ててから、手を動かす」がReadonlyファースト哲学の核心です。
 
-AIに作業を任せる際、最も危険なのは「調査しているつもりが、いつの間にかコードを変更していた」という事故です。この問題を根本から解決するため、私のワークフローではコマンドを「調査系」と「実行系」に完全分離しています。
+AIに作業を任せる際、もっとも危険なのは「調査しているつもりが、いつの間にかコードを変更していた」という事故です。この問題を根本から解決するため、私のワークフローではコマンドを「調査系」と「実行系」に完全分離しています。
 
-=/define= （要件定義）、 =/ask= （質問・調査）、 =/bug= （原因調査）の3つは、どれだけ深く調べても絶対にファイルを変更しません。各コマンドのプロンプトで =<rules priority="critical">= として「Never modify, create, or delete files」と明示的に禁止しているからです。調査結果をもとに実行計画を立て、その計画を =/execute= に渡すという流れになります。
+=/define= （要件定義）、 =/ask= （質問・調査）、 =/bug= （原因調査）の3つは、どれだけ深く調べても絶対にファイルを変更しません。各コマンドのプロンプトで =<rules priority="critical">= として「Never change, create, or delete files」と明示的に禁止しているからです。調査結果をもとに実行計画を立て、その計画を =/execute= に渡すという流れになります。
 
 コードを変更できるのは =/execute= だけ。この明確な境界線があるからこそ、安心して「とことん調べて」とAIに指示できるのです。
 
 *** 4.2.2. コマンド一覧
 
-| Command     | Purpose              | Mode       | Key Agents                      |
-|-------------+----------------------+------------+---------------------------------|
-| =/define=   | 要件定義             | Read-only  | explore, design, database, general-purpose |
-| =/ask=      | 質問・調査           | Read-only  | explore, design, performance    |
-| =/bug=      | 原因調査             | Read-only  | quality-assurance, explore      |
-| =/execute=  | タスク実行           | Read-write | カスタム + インライン          |
-| =/feedback= | コードレビュー       | Read-only  | モードにより動的に選択          |
-| =/markdown= | ドキュメント出力     | Write-only | なし（フォーマットのみ）        |
+| Command     | Purpose        | Mode       | Key Agents                                 |
+|-------------+----------------+------------+--------------------------------------------|
+| =/define=   | 要件定義        | Read-only  | explore, design, database, general-purpose |
+| =/ask=      | 質問・調査      | Read-only  | explore, design, performance               |
+| =/bug=      | 原因調査        | Read-only  | quality-assurance, explore                 |
+| =/execute=  | タスク実行      | Read-write | カスタム + インライン                        |
+| =/feedback= | コードレビュー   | Read-only  | モードにより動的に選択                        |
+| =/markdown= | ドキュメント出力 | Write-only | なし（フォーマットのみ）                      |
 
-=/execute= は2種類のエージェントを活用します。カスタムエージェントは =agents/= ディレクトリで定義された専門エージェントで、複雑なタスクを担当します。一方、インラインエージェントはコマンド内で定義されたタスク特化型エージェント（quality, security, test, refactor, docs, review, debug, performance, clean, error-handling, migration, database, infrastructure, ci-cd, observability, git, memory）で、より軽量な処理を担当します。
+=/execute= は2種類のエージェントを活用します。カスタムエージェントは =agents/= ディレクトリで定義された専門エージェントで、複雑なタスクを担当します。一方、インラインエージェントはコマンド内で定義されたタスク特化型です。quality / security / test / refactor / docs / review / debug / performance / clean / error-handling / migration / database / infrastructure / ci-cd / observability / git / memory といった軽量な処理を担当します。
 
 *** 4.2.3. ワークフロー
 
-ワークフローは4つのフェーズで構成されています。Investigation Phaseでは =/define=, =/ask=, =/bug= で調査を行います（Read-Only）。Execution Phaseでは =/execute= でタスクを実行します。Quality Phaseでは =/feedback= でコードレビューを行い、問題があれば =/execute= に戻ります。Output Phaseでは =/markdown= でドキュメントを出力します。このサイクルを回すことで、品質を担保しながら開発を進められます。
+ワークフローは4つのフェーズで構成されています。Investigation Phaseでは =/define= / =/ask= / =/bug= で調査します（読み取り専用）。Execution Phaseでは =/execute= でタスクを実行します。Quality Phaseでは =/feedback= でコードレビューし、問題があれば =/execute= に戻ります。Output Phaseでは =/markdown= でドキュメントを出力します。このサイクルを回すことで、品質を担保しながら開発を進められます。
+
+[[file:../../static/images/2D573FE7-304B-4379-B3C5-E0542F4DA022.png]]
 
 #+begin_src mermaid
 flowchart TD
@@ -245,7 +248,7 @@ flowchart TD
 
 *** 4.2.4. 代表的なコマンド: /define
 
-=/define= は実装前に詳細な要件定義を行うコマンドです。技術的制約、設計方針、仕様を明確化します。クリティカルルールとして「ファイルを変更しない」「コードを実装しない」「技術的に不可能な要求を明確に識別する」を設定しています。
+=/define= は実装前に詳細な要件を定義するコマンドです。技術的制約、設計方針、仕様を明確化します。クリティカルルールとして「ファイルを変更しない」「コードを実装しない」「技術的に不可能な要求を明確に識別する」を設定しています。
 
 Workflowは「Analyze → Investigate → Clarify → Verify → Document」の5フェーズで構成し、「要件ドキュメント」と「タスク分解」の2つの成果物を生成します。このコマンドを使うことで、実装を始める前に要件を整理でき、手戻りを減らせるようになりました。
 
@@ -301,7 +304,7 @@ agentsディレクトリには複数の専門エージェントを定義して�
 
 まずドメイン特化です。各エージェントは自分の専門領域のみを担当します。セキュリティエージェントはセキュリティだけ、テストエージェントはテストだけを扱います。この明確な責任分担により、専門性の高い出力が得られます。
 
-次にワークフローの統一があります。全エージェントが「analyze → (domain-specific phases) → report」という基本構造を持ちます。フェーズ数はエージェントにより4〜5で異なりますが（例: security agentは「analyze → gather → scan → remediate → report」、design agentは「analyze → investigate → synthesize → document」）、最初の分析と最後の報告という骨格は共通です。これにより振る舞いが予測可能になり、どのエージェントを使っても一貫した体験が得られます。
+次にワークフローの統一があります。全エージェントが「analyze → （domain-specific phases） → report」という基本構造を持ちます。フェーズ数はエージェントにより4〜5で異なりますが（例: security agentは「analyze → gather → scan → remediate → report」、design agentは「analyze → investigate → synthesize → document」）、最初の分析と最後の報告という骨格は共通です。これにより振る舞いが予測可能になり、どのエージェントを使っても一貫した体験が得られます。
 
 そして安全性のガードレールです。 =<rules priority="critical">= で定義した絶対ルールにより、危険な操作を防止しています。AIに任せるからこそ、明確な制約が必要なのです。
 
@@ -309,16 +312,16 @@ agentsディレクトリには複数の専門エージェントを定義して�
 
 | Agent           | Purpose                    | Key Tools                              |
 |-----------------+----------------------------+----------------------------------------|
-| code-quality    | 複雑度分析・リファクタリング | Serena (symbol analysis), Bash (lint)  |
-| database        | DB設計・クエリ最適化       | Serena, Bash (EXPLAIN)                 |
-| design          | アーキテクチャ評価・見積り | Serena (dependency), Context7          |
+| code-quality    | 複雑度分析・リファクタリング | Serena （symbol analysis）, Bash （lint）  |
+| database        | DB設計・クエリ最適化       | Serena, Bash （EXPLAIN）                 |
+| design          | アーキテクチャ評価・見積り | Serena （dependency）, Context7          |
 | devops          | CI/CD・IaC設計             | Bash, Context7                         |
 | docs            | ドキュメント生成           | Write, Serena                          |
-| git             | ブランチ戦略・リリース管理 | Bash (git), Grep                       |
-| performance     | ボトルネック分析・最適化   | Serena, Bash (profiling)               |
+| git             | ブランチ戦略・リリース管理 | Bash （git）, Grep                       |
+| performance     | ボトルネック分析・最適化   | Serena, Bash （profiling）               |
 | quality-assurance| コードレビュー・デバッグ  | Serena, Grep, Context7                 |
-| security        | 脆弱性検出・修正           | Serena, Grep, Bash (audit), Context7   |
-| test            | テスト戦略・カバレッジ     | Serena, Glob, Bash (test runner)       |
+| security        | 脆弱性検出・修正           | Serena, Grep, Bash （audit）, Context7   |
+| test            | テスト戦略・カバレッジ     | Serena, Glob, Bash （test runner）       |
 
 *** 4.3.3. 代表的なエージェント: security agent
 
@@ -393,7 +396,7 @@ Specializes in authentication, injection attacks, secret leakage, encryption, an
 
 ** 4.4. スキルによる知識ベース構築
 
-Skillsはドメイン知識ベースとして機能し、複数のAgentsから参照される共有リソースです。Agentsが「専門領域のエキスパート」なら、Skillsは「ドメイン知識の辞書」と言えます。
+Skillsはドメイン知識ベースとして機能し、複数のAgentsから参照される共有リソースです。Agentsが「専門領域のエキスパート」なら、Skillsは「ドメイン知識の辞書」といえます。
 
 *** 4.4.1. Skillの役割と位置づけ
 
@@ -487,32 +490,34 @@ Confidence levels:
 
 [[https://modelcontextprotocol.io/][MCP (Model Context Protocol)]] はAnthropicが策定したオープンプロトコルで、AIモデルと外部ツール・データソースを接続するための標準仕様です。Claude Codeは複数のMCP Serverを同時に利用でき、これにより機能を大幅に拡張できます。
 
-** 5.1. なぜ3つのMCP Serverなのか
+** 5.1. なぜ3つのMCPサーバなのか
 
-私は [[https://github.com/upstash/context7][Context7]]、[[https://github.com/openai/codex][Codex]]、[[https://github.com/oraios/serena][Serena]] という3つのMCP Serverを組み合わせています。それぞれが異なるギャップを埋めており、どれか1つが欠けても開発体験が損なわれます。
+私は [[https://github.com/upstash/context7][Context7]]、[[https://github.com/openai/codex][Codex]]、[[https://github.com/oraios/serena][Serena]] という3つのMCPサーバを組み合わせています。Context7とSerenaはMCP Server、CodexはMCPクライアントとして機能し、それぞれが異なるギャップを埋めています。どれか1つが欠けても開発体験が損なわれます。
 
-*** 5.1.1. 各サーバーが埋めるギャップ
+*** 5.1.1. 各サーバが埋めるギャップ
 
 LLMの訓練データには期限があります。最新のReact 19のAPIや、先月リリースされたライブラリのドキュメントをClaude Codeは知りません。この問題を解決するのが[[https://upstash.com/][Upstash社]]が提供する *Context7* です。npmやGitHubから最新のドキュメントをリアルタイムで取得し、常に最新の情報に基づいたコード生成を可能にします。
 
 プロジェクトには固有のパターンや規約があります。これを毎回説明するのは非効率です。[[https://github.com/oraios][Oraios社]]が開発した *Serena* は、シンボルレベルのコード操作と永続的なメモリ機能を提供します。LSPを通じて30以上の言語をサポートしており、一度覚えたプロジェクトの規約を次回以降も記憶してくれます。
 
-Claude Code自身もコードを生成できますが、複雑なリファクタリングやボイラープレート生成では専用ツールが欲しくなることがあります。[[https://openai.com][OpenAI社]]が提供する *Codex* は[[https://developers.openai.com/codex/mcp/][MCP Serverとして動作]]させることができ、コード生成に特化したエンジンとして活用できます。
+Claude Code自身もコードを生成できますが、複雑なリファクタリングやボイラープレート生成では専用ツールが欲しくなることがあります。[[https://openai.com][OpenAI社]]が提供する *Codex* は[[https://developers.openai.com/codex/mcp/][MCPクライアントとして他のMCP Serverと連携]]でき、コード生成に特化したエンジンとして活用できます。
 
 *** 5.1.2. ツール優先度の階層
 
 私のワークフローでは、ツールの使用に明確な優先度を設けています。
 
+[[file:../../static/images/948E82A2-58AB-41CB-AD87-1DF1081C5C17.png]]
+
 #+begin_src mermaid
-graph LR
-    subgraph "ツール優先度（低コスト → 高機能）"
-        A[Basic Tools<br/>Read/Edit/Write] --> B[Serena<br/>シンボル操作/メモリ]
-        B --> C[Context7<br/>外部ドキュメント]
-        C --> D[Codex<br/>コード生成]
-    end
+  graph LR
+      subgraph "ツール優先度（低コスト → 高機能）"
+          A[Basic Tools<br/>Read/Edit/Write] --> B[Serena<br/>シンボル操作/メモリ]
+          B --> C[Context7<br/>外部ドキュメント]
+          C --> D[Codex<br/>コード生成]
+      end
 #+end_src
 
-この優先度には理由があります。Priority 1のBasic Tools（Read/Edit/Write）は最も軽量で、単純なファイル操作には十分です。Priority 2のSerenaは、シンボル単位の操作でトークンを節約しながらコードを探索・編集できます。Priority 3のContext7は、外部ライブラリの最新ドキュメントが必要な場合にのみ使用します。Priority 4のCodexは、複雑なコード生成タスクに限定して使用し、調査や分析には使いません。
+この優先度には理由があります。Priority 1のBasic Tools（Read/Edit/Write）はもっとも軽量で、単純なファイル操作には十分です。Priority 2のSerenaは、シンボル単位の操作でトークンを節約しながらコードを探索・編集できます。Priority 3のContext7は、外部ライブラリの最新ドキュメントが必要な場合にのみ使用します。Priority 4のCodexは、複雑なコード生成タスクに限定して使用し、調査や分析には使いません。
 
 *** 5.1.3. Nix設定例
 
@@ -537,27 +542,29 @@ mcpServers =
 
 ** 5.2. 統合ワークフロー
 
-3つのMCP Serverは独立して動くのではなく、ワークフローの各フェーズで連携します。以下のシーケンス図は、ユーザーからの実装依頼が完了するまでの流れを示しています。
+3つのMCP Serverは独立して動くのではなく、ワークフローの各フェーズで連携します。次のシーケンス図は、ユーザーからの実装依頼が完了するまでの流れを示しています。
+
+[[file:../../static/images/67C913D9-DA99-4696-994B-AAE6FD9E486A.png]]
 
 #+begin_src mermaid
-sequenceDiagram
-    participant User
-    participant Claude as Claude Code
-    participant C7 as Context7
-    participant Codex
-    participant Serena
+  sequenceDiagram
+      participant User
+      participant Claude as Claude Code
+      participant C7 as Context7
+      participant Codex
+      participant Serena
 
-    User->>Claude: "ライブラリYを使って機能Xを実装して"
-    Claude->>C7: resolve-library-id("Y")
-    C7-->>Claude: Library ID + ドキュメント
-    Claude->>Serena: find_symbol("related_code")
-    Serena-->>Claude: 既存パターン
-    Claude->>Serena: read_memory("conventions")
-    Serena-->>Claude: プロジェクト規約
-    Claude->>Codex: 実装を生成
-    Codex-->>Claude: 生成されたコード
-    Claude->>Serena: write_memory("new_pattern")
-    Claude-->>User: 実装完了
+      User->>Claude: "ライブラリYを使って機能Xを実装して"
+      Claude->>C7: resolve-library-id("Y")
+      C7-->>Claude: Library ID + ドキュメント
+      Claude->>Serena: find_symbol("related_code")
+      Serena-->>Claude: 既存パターン
+      Claude->>Serena: read_memory("conventions")
+      Serena-->>Claude: プロジェクト規約
+      Claude->>Codex: 実装を生成
+      Codex-->>Claude: 生成されたコード
+      Claude->>Serena: write_memory("new_pattern")
+      Claude-->>User: 実装完了
 #+end_src
 
 *** 5.2.1. Phase 1: 外部知識取得（Context7）
@@ -568,7 +575,7 @@ sequenceDiagram
 
 次にSerenaでプロジェクト固有のパターンを取得します。 =find_symbol= で関連するコード要素を探索し、 =read_memory= でプロジェクトの規約やベストプラクティスを読み込みます。 =find_referencing_symbols= で影響範囲を事前確認することで、安全にコードを変更できます。
 
-Serenaのツールは4カテゴリに分かれます。シンボル検索では =get_symbols_overview=, =find_symbol=, =find_referencing_symbols= でコード要素を探索します。パターン検索では =search_for_pattern= で正規表現による横断検索を行います。コード編集では =replace_symbol_body=, =insert_before_symbol=, =insert_after_symbol=, =rename_symbol= でシンボル単位の編集を行います。メモリでは =list_memories=, =read_memory=, =write_memory=, =edit_memory=, =delete_memory= で知識を永続化します。
+Serenaのツールは4カテゴリに分かれます。シンボル検索では =get_symbols_overview= / =find_symbol= / =find_referencing_symbols= でコード要素を探索します。パターン検索では =search_for_pattern= で正規表現による横断検索をします。コード編集では =replace_symbol_body= / =insert_before_symbol= / =insert_after_symbol= / =rename_symbol= でシンボル単位を編集します。メモリでは =list_memories= / =read_memory= / =write_memory= / =edit_memory= / =delete_memory= で知識を永続化します。
 
 *** 5.2.3. Phase 3: 実装（Codex）
 
@@ -669,7 +676,7 @@ exit 0  # Allow
 
 permissionsは、Claude Codeが実行できるコマンドを制限するセーフティネットです。Defense in Depth（多層防御）の考え方で、サンドボックス（第1層）、permissions deny（第2層）、hooks validation（第3層）の3層構造で保護しています。
 
-危険なコマンドを6つのカテゴリに分類して禁止しています。ファイル破壊（ =rm -rf /= など）、システムコマンド（ =shutdown=, =reboot= ）、ディスク操作（ =dd=, =mkfs= ）、プロセス制御（ =killall=, =pkill= ）、ネットワークリスナー（ =nc -l= ）、権限昇格（ =sudo rm=, =chmod 777= ）です。
+危険なコマンドを6つのカテゴリに分類して禁止しています。ファイル破壊（ =rm -rf /= など）、システムコマンド（ =shutdown= / =reboot= ）、ディスク操作（ =dd= / =mkfs= ）です。さらにプロセス制御（ =killall= / =pkill= ）、ネットワークリスナー（ =nc -l= ）、権限昇格（ =sudo rm= / =chmod 777= ）も禁止しています。
 
 *** 6.3.2. statusline: セッション状態の可視化
 
@@ -683,11 +690,11 @@ statuslineはClaude Codeのセッション状態をリアルタイムで可視�
 
 このワークフローを使い始めて、開発体験が明らかに変わりました。
 
-一番大きいのは、Claude Codeの振る舞いが予測可能になったことです。以前は「今日はどんな形式で返ってくるかな」と毎回ドキドキしていましたが、XMLで構造化したプロンプトと専門エージェントへの委譲により、期待通りの出力が得られるようになりました。
+一番大きいのは、Claude Codeの振る舞いが予測可能になったことです。以前は「今日はどんな形式で返ってくるかな」と毎回ドキドキしていましたが、XMLで構造化したプロンプトと専門エージェントへの委譲により、期待とおりの出力が得られるようになりました。
 
 セキュリティレビューをお願いすれば、ちゃんとセキュリティの観点だけでレビューしてくれます。コードスタイルの指摘が混在することもなくなりました。これが地味に嬉しい。
 
-=/define= → =/execute= → =/feedback= というフローも気に入っています。調査と実装が明確に分離されているので、「調べてたらいつの間にかファイルが変わってた」という事故がなくなりました。安心して「とことん調べて」と言えるのは大きい。
+=/define= → =/execute= → =/feedback= というフローも気に入っています。調査と実装が明確に分離されているので、「調べてたらいつの間にかファイルが変わってた」という事故がなくなりました。安心して「とことん調べて」といえるのは大きい。
 
 一方で、Serenaが本当に必要なのかは正直まだわかりません。シンボルレベルの操作でトークン効率が上がるとは書きましたが、Claude Code標準のGlob/Grep/Readでも十分な気がしています。LSP設定やオンボーディングの手間を考えると、その複雑さに見合うリターンがあるのか。今後の運用で見極めていきたいところです。
 
