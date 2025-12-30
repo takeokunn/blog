@@ -10,7 +10,7 @@
 #+HUGO_SECTION: posts/permanent
 #+HUGO_TAGS: permanent org-mode
 #+HUGO_DRAFT: false
-#+STARTUP: nohideblocks
+#+STARTUP: fold
 * Introduction
 
 この記事は[[https://vim-jp.org/ekiden/][Vim駅伝]]の2024-01-24の記事です。

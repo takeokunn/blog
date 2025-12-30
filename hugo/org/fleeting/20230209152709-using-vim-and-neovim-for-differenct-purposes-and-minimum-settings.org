@@ -12,7 +12,7 @@
 #+HUGO_CATEGORIES: fleeting
 #+HUGO_TAGS: vim
 #+HUGO_DRAFT: false
-#+STARTUP: nohideblocks
+#+STARTUP: fold
 * VimとNeovimの運用方針
 
 [[https://mobile.twitter.com/takeokunn/status/1464971704124710915][Twitterではずっと主張してること]] だが、VimとNeovimの設定は共通化しない方がよいと考えています。

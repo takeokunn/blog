@@ -12,7 +12,7 @@
 #+HUGO_CATEGORIES: permanent
 #+HUGO_TAGS: emacs org-mode
 #+HUGO_DRAFT: false
-#+STARTUP: nohideblocks
+#+STARTUP: fold
 * Introduction
 
 最近[[https://phpstan.org/][phpstan]]を弄ることが増えたのですが、逐一[[https://phpstan.org/try][playground]]を開いてWebエディタ内で編集をするのが面倒に感じていました。

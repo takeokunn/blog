@@ -12,7 +12,7 @@
 #+HUGO_CATEGORIES: diary
 #+HUGO_TAGS: php phperkaigi
 #+HUGO_DRAFT: false
-#+STARTUP: nohideblocks
+#+STARTUP: fold
 * 始めに
 
 [[https://phperkaigi.jp/2023/][phperkaigi 2023]] に参加しました。

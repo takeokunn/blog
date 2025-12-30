@@ -12,7 +12,7 @@
 #+HUGO_CATEGORIES: permanent
 #+HUGO_TAGS: webpack
 #+HUGO_DRAFT: false
-#+STARTUP: nohideblocks
+#+STARTUP: fold
 
 「Webpackerでbuildするとめっちゃwarning出るんだけど調べてくれない？」
 

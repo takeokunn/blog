@@ -12,7 +12,7 @@
 #+HUGO_CATEGORIES: permanent
 #+HUGO_TAGS: ubuntu
 #+HUGO_DRAFT: false
-#+STARTUP: nohideblocks
+#+STARTUP: fold
 
 普段Chromeを使っているのだが、外で作業するとき電池の消費量が異常だったのでFirefoxの環境も整備する必要が出てきた。
 

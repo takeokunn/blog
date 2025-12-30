@@ -12,7 +12,7 @@
 #+HUGO_CATEGORIES: diary
 #+HUGO_TAGS: php
 #+HUGO_DRAFT: false
-#+STARTUP: nohideblocks
+#+STARTUP: fold
 * Introduction
 
 2023/07/10（Mon）に行われた「PHP Lovers Meetup vol.0 ~ 始まりは<?phpから」に参加しました。

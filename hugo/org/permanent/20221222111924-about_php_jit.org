@@ -12,7 +12,7 @@
 #+HUGO_CATEGORIES: permanent
 #+HUGO_TAGS: php
 #+HUGO_DRAFT: false
-#+STARTUP: nohideblocks
+#+STARTUP: fold
 * 始めに
 
 2023年現在、PHPは世界中の企業で使われており、もっとも成功しているプログラミング言語の1つと言っても過言ではないくらい開発者から愛されています。

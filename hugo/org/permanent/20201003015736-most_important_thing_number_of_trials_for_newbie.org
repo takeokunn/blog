@@ -12,7 +12,7 @@
 #+HUGO_CATEGORIES: permanent
 #+HUGO_TAGS: education
 #+HUGO_DRAFT: false
-#+STARTUP: nohideblocks
+#+STARTUP: fold
 
 3ヵ月~半年くらいで普通の社員と遜色ない人もいる。数年やっても向いてないんじゃないかというくらいできない人もいる。少しずつ着実に成長している人もいる。
 
