@@ -12,7 +12,7 @@
 #+HUGO_CATEGORIES: fleeting
 #+HUGO_TAGS: php
 #+HUGO_DRAFT: false
-#+STARTUP: nohideblocks
+#+STARTUP: fold
 * Introduction
 
 仕事でPHPStanの修正をしている時、 =Exception= classのconstructorでcodeを指定しているコードに出くわした。

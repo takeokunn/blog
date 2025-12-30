@@ -12,7 +12,7 @@
 #+HUGO_CATEGORIES: diary
 #+HUGO_TAGS: php phpstudy
 #+HUGO_DRAFT: false
-#+STARTUP: nohideblocks
+#+STARTUP: fold
 * 始めに
 
 2023-02-15（水）に [[https://www.gmo.jp/csr/partners/office/#gmo-yours][GMO Yours]] で行われた [[https://phpstudy.doorkeeper.jp/events/151021][第149回 PHP勉強会＠東京]] で登壇してきました。

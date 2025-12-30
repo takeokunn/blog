@@ -12,7 +12,7 @@
 #+HUGO_CATEGORIES: permanent
 #+HUGO_TAGS: emacs
 #+HUGO_DRAFT: false
-#+STARTUP: nohideblocks
+#+STARTUP: fold
 
 [[https://qiita.com/advent-calendar/2022/emacs][Emacs Advent Calendar 2022]] 19日目です。
 

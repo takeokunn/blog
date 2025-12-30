@@ -10,7 +10,7 @@
 #+HUGO_SECTION: posts/permanent
 #+HUGO_TAGS: permanent php
 #+HUGO_DRAFT: false
-#+STARTUP: nohideblocks
+#+STARTUP: fold
 * 注意
 
 この記事はPHPerKaigi 2024のパンフレット記事です。A4ページ4枚程度の量を書いています。
