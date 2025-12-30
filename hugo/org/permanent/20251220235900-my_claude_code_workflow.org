@@ -57,13 +57,13 @@ Claude Codeのプロンプトは構造化されたXMLで記述しています。
 
 Markdownやプレーンテキストではなく、XMLを採用しました。これは公式のベストプラクティスではなく、個人的な経験に基づく選択です。
 
-[[https://docs.anthropic.com/en/docs/use-xml-tags][Anthropicの公式ドキュメント]]では、XMLタグについて次のように説明されています:
+[[https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/use-xml-tags][Anthropicの公式ドキュメント]]では、XMLタグについて次のように説明されています:
 
 #+begin_quote
-Claude was trained specifically to recognize XML tags as a prompt organizing mechanism.
+There are no canonical "best" XML tags that Claude has been trained with in particular, although we recommend that your tag names make sense with the information they surround.
 #+end_quote
 
-一方で「モダンなモデルはXMLタグなしでも構造を理解できる」とも記載されていて、XMLが必須というわけではありません。
+つまり、XMLタグに特別な訓練がされているわけではなく、タグ名は内容に合った意味を持たせることが推奨されています。XMLが必須というわけではありません。
 
 XMLを選んだ理由は3つあります。
 
@@ -177,7 +177,7 @@ Claude Codeは2種類のCLAUDE.mdを認識します。
 
 ** 4.2. コマンドによるワークフロー定義
 
-Claude Codeのcommandは、AIエージェントの振る舞いを定義する重要な設定です。私はカスタムコマンドを設計し（[[https://github.com/takeokunn/nixos-configuration/tree/main/home-manager/programs/claude-code/commands][commands/ディレクトリ参照]]）、「オーケストレーションパターン」と「Readonlyファースト哲学」という2つの設計思想に基づいて構築しています。
+Claude Codeのcommandは、AIエージェントの振る舞いを定義する重要な設定です。私はカスタムコマンドを設計し（[[https://github.com/takeokunn/nixos-configuration/tree/af95701a89e8128ba000dee3062eefa33c7d2001/home-manager/programs/claude-code/commands][commands/ディレクトリ参照]]）、「オーケストレーションパターン」と「Readonlyファースト哲学」という2つの設計思想に基づいて構築しています。
 
 *** 4.2.1. Readonlyファースト哲学
 
@@ -298,7 +298,7 @@ clarifying technical constraints, design policies, and specifications.
 
 ** 4.3. 専門エージェントの設計
 
-agentsディレクトリには複数の専門エージェントを定義しています（[[https://github.com/takeokunn/nixos-configuration/tree/main/home-manager/programs/claude-code/agents][agents/ディレクトリ参照]]）。各エージェントはSingle Responsibility Principleに基づき、1つのドメインに特化したエキスパートとして振る舞います。
+agentsディレクトリには複数の専門エージェントを定義しています（[[https://github.com/takeokunn/nixos-configuration/tree/af95701a89e8128ba000dee3062eefa33c7d2001/home-manager/programs/claude-code/agents][agents/ディレクトリ参照]]）。各エージェントはSingle Responsibility Principleに基づき、1つのドメインに特化したエキスパートとして振る舞います。
 
 *** 4.3.1. 設計思想
 
@@ -408,7 +408,7 @@ Skillsはドメイン知識ベースとして機能し、複数のAgentsから�
 
 *** 4.4.2. スキルカテゴリ一覧
 
-現在複数のスキルを4カテゴリに分類して定義しています（[[https://github.com/takeokunn/nixos-configuration/tree/main/home-manager/programs/claude-code/skills][skills/ディレクトリ参照]]）。
+現在複数のスキルを4カテゴリに分類して定義しています（[[https://github.com/takeokunn/nixos-configuration/tree/af95701a89e8128ba000dee3062eefa33c7d2001/home-manager/programs/claude-code/skills][skills/ディレクトリ参照]]）。
 
 ツール連携では、serena-usageとcontext7-usageでMCPの使い方を定義しています。言語・インフラエコシステムでは、Nix、TypeScript、Go、Rust、Common Lisp、Emacs Lispの6言語に加え、aws-ecosystemでAWS CLI/Terraformのパターンもカバーしています。私が日常的に使う技術スタックを網羅しているため、どの環境で開発してもClaude Codeが適切な知識を持って対応できます。ワークフローでは、investigation-patterns、execution-workflow、requirements-definition、testing-patternsで作業パターンを定義しています。ドキュメントでは、technical-documentationとtechnical-writingで文書作成を支援しています。
 
@@ -523,7 +523,7 @@ Claude Code自身もコードを生成できますが、複雑なリファクタ
 
 *** 5.1.3. Nix設定例
 
-[[https://github.com/natsukium/mcp-servers-nix][mcp-servers-nix]]を使用した宣言的なMCP Server設定を紹介します（[[https://github.com/takeokunn/nixos-configuration/blob/main/home-manager/programs/claude-code/default.nix#L131-L142][実際の設定参照]]）。
+[[https://github.com/natsukium/mcp-servers-nix][mcp-servers-nix]]を使用した宣言的なMCP Server設定を紹介します（[[https://github.com/takeokunn/nixos-configuration/blob/af95701a89e8128ba000dee3062eefa33c7d2001/home-manager/programs/claude-code/default.nix#L131-L142][実際の設定参照]]）。
 
 #+begin_src nix
 mcpServers =
@@ -642,7 +642,7 @@ hookスクリプトの終了コード規約として、 =exit 0= は処理を許
 
 *** 6.2.2. enforce-perl hook: コマンドバリデーション
 
-CLAUDE.mdで定義した「perlでテキスト処理」ルールを強制するバリデーションhookを紹介します（[[https://github.com/takeokunn/nixos-configuration/blob/main/home-manager/programs/claude-code/hooks/enforce-perl.sh][hooks/enforce-perl.sh]]）。
+CLAUDE.mdで定義した「perlでテキスト処理」ルールを強制するバリデーションhookを紹介します（[[https://github.com/takeokunn/nixos-configuration/blob/af95701a89e8128ba000dee3062eefa33c7d2001/home-manager/programs/claude-code/hooks/enforce-perl.sh][hooks/enforce-perl.sh]]）。
 
 #+begin_src bash
 #!/bin/bash
@@ -682,7 +682,7 @@ permissionsは、Claude Codeが実行できるコマンドを制限するセー�
 
 *** 6.3.2. statusline: セッション状態の可視化
 
-statuslineはClaude Codeのセッション状態をリアルタイムで可視化する機能です（[[https://github.com/takeokunn/nixos-configuration/blob/main/home-manager/programs/claude-code/scripts/statusline.sh][scripts/statusline.sh]]）。モデル名、カレントディレクトリ、Gitブランチ、トークン使用量と割合を表示します。
+statuslineはClaude Codeのセッション状態をリアルタイムで可視化する機能です（[[https://github.com/takeokunn/nixos-configuration/blob/af95701a89e8128ba000dee3062eefa33c7d2001/home-manager/programs/claude-code/scripts/statusline.sh][scripts/statusline.sh]]）。モデル名、カレントディレクトリ、Gitブランチ、トークン使用量と割合を表示します。
 
 トークン使用率に応じて色を変えることで、コンパクション発生前に警告を出せます。70%未満は緑（十分な余裕あり）、70-89%は黄色（注意が必要）、90%以上は赤（コンパクション間近）で表示されます。
 
@@ -708,4 +708,4 @@ statuslineはClaude Codeのセッション状態をリアルタイムで可視�
 
 やりたいことはまだまだあります。プロンプト入力の英語統一、Context7とSerenaの使い分け基準の明確化、クロスプロジェクトでの知識共有など。
 
-本記事で紹介した設定は[[https://github.com/takeokunn/nixos-configuration/tree/main/home-manager/programs/claude-code][GitHubリポジトリ]]で公開しています。Nixユーザーの方はそのまま参考にできるはずです。[[https://code.claude.com/docs/en/overview][公式ドキュメント]]と合わせてどうぞ。
+本記事で紹介した設定は[[https://github.com/takeokunn/nixos-configuration/tree/af95701a89e8128ba000dee3062eefa33c7d2001/home-manager/programs/claude-code][GitHubリポジトリ]]で公開しています。Nixユーザーの方はそのまま参考にできるはずです。[[https://code.claude.com/docs/en/overview][公式ドキュメント]]と合わせてどうぞ。
