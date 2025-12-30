@@ -6,9 +6,9 @@
 #+DESCRIPTION: Claude Codeをマルチエージェントシステムとして活用するためのカスタマイズ手法
 #+DATE: 2025-12-30T10:42:44+0900
 #+HUGO_BASE_DIR: ../../
-#+HUGO_CATEGORIES: fleeting
-#+HUGO_SECTION: posts/fleeting
-#+HUGO_TAGS: fleeting ai
+#+HUGO_CATEGORIES: permanent
+#+HUGO_SECTION: posts/permanent
+#+HUGO_TAGS: permanent ai
 #+HUGO_DRAFT: false
 #+STARTUP: fold
 * 1. はじめに
