@@ -94,3 +94,4 @@ sshしてsudoできるようになった。
 * 今後の展開・検討事項
 
 deploy-rsと組み合わせてnixos-container運用を固めきりたい。
+現状だととりあえず動いただけなのでlinux-builder自体の深堀もしたい。
