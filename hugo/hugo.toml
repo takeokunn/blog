@@ -11,6 +11,54 @@ timeZone = "Asia/Tokyo"
 
 [params]
 DateForm = "2006.1.2"
+heroTitle = "takeokunn's blog"
+heroSubtitle = "poem driven development"
+featuredArticles = [
+    "/posts/fleeting/20250722020425-proposal_guide/",
+    "/posts/fleeting/20250518144557-local_git_branch_operation/",
+    "/posts/fleeting/20250514155803-yubikey_gpg_operation/",
+    "/posts/fleeting/20250619103829-build_cv_resume_with_typst/",
+    "/posts/permanent/20240112071806-my_relationship_with_org_mode_in_2023_and_how_navigate_in_2024/",
+    "/posts/permanent/20231219122351-how_to_manage_blog_by_org_roam/",
+    "/posts/permanent/20221217132815-emacs_more_faster/",
+    "/posts/permanent/20201003015736-most_important_thing_number_of_trials_for_newbie/"
+]
+featuredArticlesMoreLink = "/posts/"
+
+[params.social]
+zenn = "https://zenn.dev/takeokunn"
+twitter = "https://x.com/takeokunn/"
+github = "https://github.com/takeokunn"
+keyoxide = "https://keyoxide.org/0B10DAA7BA0236D7382287660F79C0AB03FD7A1C"
+rss = "/index.xml"
+
+[[params.pdfLinks]]
+title = "2025年5月 個人的Nixユースケース紹介"
+url = "/pdf/nix-meetup-3-my-nix-usecase.pdf"
+
+[[params.pdfLinks]]
+title = "Phpactorから学ぶLanguage Server Protocolの仕組み"
+url = "/pdf/phperkaigi-2025-pamphlet.pdf"
+
+[[params.pdfLinks]]
+title = "パッケージマネージャNixで実現する宣言的でクリーンなPHP開発環境の構築"
+url = "/pdf/phperkaigi-2026-pamphlet.pdf"
+
+[[params.pdfLinks]]
+title = "Software DesignでNix連載をした"
+url = "/pdf/publishing-nix-series-software-design.pdf"
+
+[[params.pdfLinks]]
+title = "Typstで登壇できるようになったので練習させてくれ"
+url = "/pdf/typst-presentation-practice.pdf"
+
+[[params.pdfLinks]]
+title = "Example Slide"
+url = "/pdf/example-slide.pdf"
+
+[[params.pdfLinks]]
+title = "Example Slide Light Theme"
+url = "/pdf/example-slide-light-theme.pdf"
 
 [markup]
 [markup.highlight]
