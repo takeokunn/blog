@@ -196,8 +196,6 @@ jobs:
           name: build-hugo-org-roam-ui-lite
           path: ./public/graph
           merge-multiple: true
-      - name: Move api directory
-        run: mv ./public/graph/api ./public/api
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4

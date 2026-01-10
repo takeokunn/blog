@@ -92,6 +92,7 @@
               name = "build-org-roam-ui-lite";
               src = ./.;
               nativeBuildInputs = with pkgs; [
+                perl
                 org-roam-ui-lite.packages.${system}.export
                 (emacsPkg.pkgs.withPackages (epkgs: (with epkgs.melpaPackages; [ org-roam ])))
               ];
@@ -106,6 +107,9 @@
 
                 emacs --batch --load scripts/org-roam-ui.el --funcall org-roam-db-sync
                 org-roam-ui-lite-export -d org-roam.db -o ./public
+
+                # quickhack: サブディレクトリ(/graph/)配置対応のためパスを絶対パスに変換
+                perl -pi -e 's|"/assets/|"/graph/assets/|g; s|"/api/|"/graph/api/|g' ./public/index.html
               '';
               installPhase = ''
                 cp -r ./public $out/
