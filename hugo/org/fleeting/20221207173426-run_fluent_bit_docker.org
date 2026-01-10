@@ -12,7 +12,7 @@
 #+HUGO_CATEGORIES: fleeting
 #+HUGO_TAGS: fluent-bit docker
 #+HUGO_DRAFT: false
-#+STARTUP: nohideblocks
+#+STARTUP: fold
 * プロジェクト構成
 
 次のように適当なディレクトリを作成する。

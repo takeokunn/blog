@@ -52,15 +52,21 @@
                 polylux2pdfpc
                 xits-math
                 hackgen-font
-                (emacsPkg.pkgs.withPackages (epkgs: with epkgs; [ org ox-typst ]))
+                (emacsPkg.pkgs.withPackages (epkgs: with epkgs; [ org ox-typst citeproc ]))
               ];
               buildPhase = ''
+                # references.bibが存在する場合はコピー（org-cite用）
+                if [ -f org/${name}/references.bib ]; then
+                  echo "Found references.bib, bibliography support enabled"
+                fi
+
                 ${emacsBuildPhase name}
 
                 export TYPST_FONT_PATHS="${pkgs.xits-math}/share/fonts/opentype"
                 export TYPST_FONT_PATHS="$TYPST_FONT_PATHS:${pkgs.hackgen-font}/share/fonts/hackgen"
                 export TYPST_PACKAGE_PATH="${typstPackagesCache}/typst/packages"
 
+                cp ./themes/base.typ org/${name}/base.typ
                 cp ./themes/dracula.typ org/${name}/dracula.typ
                 cp ./themes/Dracula.tmTheme org/${name}/Dracula.tmTheme
 
@@ -105,6 +111,10 @@
             };
             typst-presentation-practice = buildTypstProject {
               name = "typst-presentation-practice";
+              type = "slide";
+            };
+            publishing-nix-series-software-design = buildTypstProject {
+              name = "publishing-nix-series-software-design";
               type = "slide";
             };
           };

@@ -10,7 +10,7 @@
 #+HUGO_SECTION: posts/fleeting
 #+HUGO_TAGS: fleeting nix
 #+HUGO_DRAFT: false
-#+STARTUP: nohideblocks
+#+STARTUP: fold
 * 背景
 
 HugoからOGPを動的に吐き出すツールとして [[https://github.com/Ladicle/tcardgen][Ladicle/tcardgen]] がある。

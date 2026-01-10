@@ -12,7 +12,7 @@
 #+HUGO_CATEGORIES: fleeting
 #+HUGO_TAGS: emacs
 #+HUGO_DRAFT: false
-#+STARTUP: nohideblocks
+#+STARTUP: fold
 * Introduction
 
 自分用のメモです。

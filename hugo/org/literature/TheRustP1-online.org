@@ -1,0 +1,300 @@
+:PROPERTIES:
+:ID:       14DF55E5-A51C-426A-A8D5-C6AB7DF3E5C0
+:ROAM_REFS: @TheRustP1-online
+:END:
+#+title: 「The Rust Programming Language 日本語版」の読書記録
+#+AUTHOR: takeokunn
+#+DATE: 2025-12-25T22:20:15+0900
+#+HUGO_BASE_DIR: ../../
+#+HUGO_CATEGORIES: literature
+#+HUGO_SECTION: posts/literature
+#+HUGO_TAGS: literature rust
+#+HUGO_DRAFT: false
+#+STARTUP: fold
+* 文献情報
+
+- 出典: [[https://doc.rust-jp.rs/book-ja/title-page.html][The Rust Programming Language 日本語版]]
+- 著者: Rust日本語ドキュメント翻訳プロジェクト
+- 参照日: 2025-12-25
+- 種別: オンライン書籍
+
+* 読む目的・背景
+
+社内でRustを使っているため、業務で必要な知識として勉強する必要があった。
+他言語で得た知識で知ったかぶりせず、Rust固有の概念を正確に理解したい。
+特に所有権・借用・ライフタイム・スマートポインタといった概念の本質を理解することを目標とした。
+
+* 重要ポイントと引用
+** 所有権（Ownership）
+
+#+begin_quote
+Rustの各値は、所有者と呼ばれる変数と対応している。いかなる時も所有者は一つである。所有者がスコープから外れたら、値は破棄される。
+
+--- [[https://doc.rust-jp.rs/book-ja/ch04-01-what-is-ownership.html][第4章 所有権を理解する]]
+#+end_quote
+
+所有権はRustのもっとも特徴的な機能であり、ガベージコレクタなしでメモリ安全性を保証する仕組みになっている。
+C/C++ではプログラマが手動でメモリを管理する必要があり、解放忘れ（メモリリーク）や二重解放といったバグが発生しやすかった。
+一方、JavaやPythonなどのGC言語では実行時のオーバーヘッドが発生する。
+Rustは所有権システムによって、コンパイル時にメモリ管理の正しさを検証し、実行時コストなしで安全性を実現している。
+
+所有権には3つのルールがある。
+
+1. Rustの各値は所有者と呼ばれる変数をもつ
+2. いかなる時も所有者は1つだけ
+3. 所有者がスコープから外れると、値は破棄される（ =drop= が呼ばれる）。
+
+#+begin_src rust
+fn main() {
+    let s1 = String::from("hello");  // s1が所有者
+    let s2 = s1;                      // 所有権がs2にムーブ
+    // println!("{}", s1);            // エラー: s1は無効
+    println!("{}", s2);               // OK: s2が所有者
+}
+#+end_src
+
+ヒープに確保されるデータ（ =String= など）は代入時に所有権がムーブする。
+スタックに確保される固定サイズのデータ（整数など）は =Copy= トレイトを実装しており、コピーされる。
+
+** 借用（Borrowing）
+
+#+begin_quote
+関数の引数に参照を取ることを借用と呼びます。現実生活のように、誰かが何かを所有していたら、それを借りることができます。用が済んだら、返さなきゃいけないわけです。
+
+--- [[https://doc.rust-jp.rs/book-ja/ch04-02-references-and-borrowing.html][第4章 参照と借用]]
+#+end_quote
+
+借用は所有権をムーブせずにデータにアクセスする仕組みになっている。
+関数に値を渡すたびに所有権が移動すると、呼び出し元で値が使えなくなり不便になる。
+借用を使えば、所有権を保持したまま一時的にデータへのアクセスを許可できる。
+
+借用には2種類ある。
+不変参照（ =&T= ）は読み取り専用で、同時に複数存在できる。
+可変参照（ =&mut T= ）は書き込み可能だが、同時に1つしか存在できない。
+
+この制約により、データ競合をコンパイル時に防止する。
+
+#+begin_src rust
+fn main() {
+    let mut s = String::from("hello");
+
+    // 不変参照: 複数OK
+    let r1 = &s;
+    let r2 = &s;
+    println!("{}, {}", r1, r2);
+
+    // 可変参照: 1つだけ
+    let r3 = &mut s;
+    r3.push_str(" world");
+    println!("{}", r3);
+}
+#+end_src
+
+重要なルールとして、不変参照が存在する間は可変参照を作成できない。
+これはRustの「共有XOR可変」原則と呼ばれ、複数の読み取りか単一の書き込みのどちらかしか許可しない。
+
+** ライフタイム（Lifetime）
+
+#+begin_quote
+ライフタイムの主な目的は、ダングリング参照を回避することです
+
+--- [[https://doc.rust-jp.rs/book-ja/ch10-03-lifetime-syntax.html][第10章 ライフタイムで参照を検証する]]
+#+end_quote
+
+ライフタイムは参照が有効な期間を表すアノテーションとなっている。
+Rustコンパイラの借用チェッカーは、すべての参照がそのライフタイム内で有効であることを検証する。
+
+これによりダングリング参照（無効なメモリを指す参照）をコンパイル時に防止する。
+
+多くの場合、ライフタイムは暗黙的に推論される（ライフタイム省略規則）。
+しかし、複数の参照を受け取って参照を返す関数では、コンパイラがどの入力参照と出力参照が関連しているかを判断できないため、明示的なライフタイムアノテーションが必要になる。
+
+#+begin_src rust
+// 'a はライフタイムパラメータ
+// 戻り値の参照は、x と y のうち短い方のライフタイムを持つ
+fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
+    if x.len() > y.len() {
+        x
+    } else {
+        y
+    }
+}
+
+fn main() {
+    let s1 = String::from("long string");
+    let result;
+    {
+        let s2 = String::from("short");
+        result = longest(&s1, &s2);
+        println!("{}", result);  // OK: s2がまだ有効
+    }
+    // println!("{}", result);  // エラー: s2のライフタイムが終了
+}
+#+end_src
+
+ライフタイムアノテーション ='a= は参照の実際の生存期間を変更しない。
+複数の参照間の関係をコンパイラに伝えるためのものとなっている。
+構造体が参照を保持する場合も、ライフタイムアノテーションが必要になる。
+
+** スマートポインタ（Smart Pointer）
+
+#+begin_quote
+スマートポインタは、ポインタのように振る舞うだけでなく、追加のメタデータと能力があるデータ構造です
+
+--- [[https://doc.rust-jp.rs/book-ja/ch15-00-smart-pointers.html][第15章 スマートポインタ]]
+#+end_quote
+
+スマートポインタはポインタのように振る舞いつつ、メモリ管理などの追加機能をもつデータ構造となっている。
+通常の参照は単にデータを借用するだけだが、スマートポインタはデータを所有することが多い。
+
+代表的なスマートポインタには =Box<T>= 、 =Rc<T>= 、 =RefCell<T>= がある。
+
+=Box<T>= はヒープにデータを確保するもっともシンプルなスマートポインタとなっている。
+再帰的なデータ構造（リンクリストなど）やサイズが不明な型を扱う際に使用する。
+
+#+begin_src rust
+// 再帰的なデータ構造にはBoxが必要
+enum List {
+    Cons(i32, Box<List>),
+    Nil,
+}
+
+fn main() {
+    let list = List::Cons(1,
+        Box::new(List::Cons(2,
+            Box::new(List::Nil))));
+}
+#+end_src
+
+=Rc<T>= （Reference Counting）は複数の所有者をもつデータを扱う。
+参照カウントにより、最後の所有者がスコープを抜けた時点でデータが破棄される。
+
+ただしシングルスレッド専用であり、マルチスレッドでは =Arc<T>= を使用する。
+
+=RefCell<T>= は実行時に借用規則をチェックする「内部可変性」パターンを実現する。
+コンパイル時には不変でも、実行時に内部の値を変更できる。
+=Rc<RefCell<T>>= の組み合わせで、複数の所有者が可変データを共有できる。
+
+** 並行性（Concurrency）
+
+#+begin_quote
+所有権と型チェックを活用することで、多くの並行性エラーは、実行時エラーではなくコンパイル時エラーになります。Rustのこの方向性を恐れるな！並行性とニックネーム付けしました。
+
+--- [[https://doc.rust-jp.rs/book-ja/ch16-00-concurrency.html][第16章 恐れるな！並行性]]
+#+end_quote
+
+Rustの所有権システムは並行プログラミングにおいても強力な安全性を提供する。
+データ競合（複数のスレッドが同じメモリに同時にアクセスし、少なくとも1つが書き込みを行う状況）はコンパイル時に検出される。
+
+スレッド間でデータを共有するには =Send= トレイトと =Sync= トレイトが重要になる。
+=Send= はスレッド間で所有権を移動できることを示し、 =Sync= は複数スレッドからの参照が安全であることを示す。
+
+ほとんどの型は自動的にこれらを実装するが、 =Rc<T>= は =Send= を実装しないため、スレッド間で共有するには =Arc<T>= （Atomic Reference Counting）を使用する。
+
+#+begin_src rust
+use std::sync::{Arc, Mutex};
+use std::thread;
+
+fn main() {
+    // Arc: スレッド間で安全に共有
+    // Mutex: 排他的アクセスを保証
+    let counter = Arc::new(Mutex::new(0));
+    let mut handles = vec![];
+
+    for _ in 0..10 {
+        let counter = Arc::clone(&counter);
+        let handle = thread::spawn(move || {
+            let mut num = counter.lock().unwrap();
+            *num += 1;
+        });
+        handles.push(handle);
+    }
+
+    for handle in handles {
+        handle.join().unwrap();
+    }
+
+    println!("Result: {}", *counter.lock().unwrap());
+}
+#+end_src
+
+=Mutex<T>= は排他制御を提供し、一度に1つのスレッドのみがデータにアクセスできることを保証する。
+ロックの解放忘れはRAIIパターンにより自動的に処理される。
+
+また、メッセージパッシングによるスレッド間通信には =std::sync::mpsc= チャネルを使用する。
+
+** パターンとマッチング（Pattern Matching）
+
+#+begin_quote
+パターンは、複雑であれ、単純であれ、Rustで型の構造に一致する特別な記法です。
+
+--- [[https://doc.rust-jp.rs/book-ja/ch18-00-patterns.html][第18章 パターンとマッチング]]
+#+end_quote
+
+パターンマッチングはRustの強力な制御フロー機能となっている。
+=match= 式はすべてのケースを網羅的にチェックし、漏れがあればコンパイルエラーになる。
+
+これにより =null= や例外による実行時エラーを防ぐ。
+
+パターンは =match= 式だけでなく、さまざまな場所で使用できる。
+=if let= や =while let= 、 =for= ループ、関数引数、 =let= 文などが対象となる。
+構造体やenumの分解、参照のマッチング、ガード条件など、豊富なパターン記法がある。
+
+#+begin_src rust
+enum Message {
+    Quit,
+    Move { x: i32, y: i32 },
+    Write(String),
+    ChangeColor(i32, i32, i32),
+}
+
+fn process_message(msg: Message) {
+    match msg {
+        Message::Quit => println!("終了"),
+        Message::Move { x, y } => println!("移動: ({}, {})", x, y),
+        Message::Write(text) => println!("メッセージ: {}", text),
+        Message::ChangeColor(r, g, b) => {
+            println!("色変更: RGB({}, {}, {})", r, g, b)
+        }
+    }
+}
+
+fn main() {
+    // if let: 1つのパターンのみをマッチしたい場合
+    let some_value = Some(5);
+    if let Some(x) = some_value {
+        println!("値: {}", x);
+    }
+
+    // ガード条件
+    let num = Some(4);
+    match num {
+        Some(x) if x < 5 => println!("5未満: {}", x),
+        Some(x) => println!("5以上: {}", x),
+        None => println!("なし"),
+    }
+}
+#+end_src
+
+Rustでは =Option<T>= と =Result<T, E>= 型を多用する。
+これらのenumとパターンマッチングを組み合わせることで、null参照やエラー処理を型システムで安全に扱える。
+
+* 自分の考察・気づき
+
+他言語で「なんとなく動く」と思っていたメモリ管理が、Rustでは明示的に理解する必要がある。
+GCのある言語では意識しなかった所有権の概念が、C/C++のメモリ管理の問題を解決していることに気づいた。
+
+特にスタックとヒープの違いを意識する必要がある。
+スタックは固定サイズのデータを高速に確保・解放でき、ヒープは可変サイズのデータを扱えるが管理コストがかかる。
+
+Rustではこの違いが所有権やムーブセマンティクスに直結しており、 =Copy= トレイトを実装する型（整数など）はスタックでコピーされ、 =String= などのヒープデータはムーブされる。
+
+コンパイラが「親切に」エラーを教えてくれる設計思想が印象的だった。「ゼロコスト抽象化」という概念、つまり安全性と性能の両立を実現している点も興味深い。
+
+* 関連する知識へのリンク
+
+- [[id:360860F2-3F77-4989-81DF-FF43B9F96FF7][社内読書会でThe Rust Programming Languageを読破した]]
+
+* 今後の活用案
+
+JSONパーサを自作してみる。

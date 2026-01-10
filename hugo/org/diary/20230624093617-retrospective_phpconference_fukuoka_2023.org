@@ -12,7 +12,7 @@
 #+HUGO_CATEGORIES: diary
 #+HUGO_TAGS: php
 #+HUGO_DRAFT: false
-#+STARTUP: nohideblocks
+#+STARTUP: fold
 * Introduction
 
 2023/6/24(土）に行われたphpconference福岡に参加してきました。

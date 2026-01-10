@@ -10,7 +10,7 @@
 #+HUGO_SECTION: posts/fleeting
 #+HUGO_TAGS: fleeting emacs gpg
 #+HUGO_DRAFT: false
-#+STARTUP: nohideblocks
+#+STARTUP: fold
 * Summary
 
 [[id:DB5D710F-6168-47D4-9044-1ED3D24D61E6][Emacs内でgpg fileがsaveできなくなった時に対応したことメモ]] にもあるとおり、GnuPG 2.4.0を使うとEasyPGが正常に動かないという問題があったが、GnuPGを2.4.4に上げると解決した。

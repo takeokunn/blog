@@ -1,6 +1,22 @@
 (require 'ox-typst)
+(require 'oc)
+(require 'oc-basic)
 
 (setq org-export-with-toc nil)
+
+;; org-cite を Typst の #cite() 形式にエクスポートするプロセッサを定義
+(org-cite-register-processor 'typst-cite
+  :export-citation
+  (lambda (citation _style _ info)
+    (let* ((references (org-cite-get-references citation))
+           (keys (mapcar (lambda (ref) (org-element-property :key ref)) references)))
+      (mapconcat (lambda (key) (format "#cite(<%s>)" key)) keys " ")))
+  :export-bibliography
+  (lambda (_keys _files _style _props _backend info)
+    "#bibliography(\"references.bib\", title: [参考文献], style: \"ieee\")"))
+
+;; Typst エクスポート時に typst-cite プロセッサを使用
+(setq org-cite-export-processors '((typst typst-cite) (t basic)))
 
 (org-export-define-backend 'typst-slide
   '((export-block . org-typst-export-block)

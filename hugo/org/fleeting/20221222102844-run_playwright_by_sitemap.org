@@ -12,7 +12,7 @@
 #+HUGO_CATEGORIES: fleeting
 #+HUGO_TAGS: playwright
 #+HUGO_DRAFT: false
-#+STARTUP: nohideblocks
+#+STARTUP: fold
 * やりたいこと
 
 フレームワークや言語のバージョンを上げたり、UI周りのリファクタリングをした際に、500やデザイン崩れがないかを確認したい。

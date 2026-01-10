@@ -12,7 +12,7 @@
 #+HUGO_CATEGORIES: permanent
 #+HUGO_TAGS: javascript twitter
 #+HUGO_DRAFT: false
-#+STARTUP: nohideblocks
+#+STARTUP: fold
 
 TwitterのUIDについて調べてたら、自分の浮動小数点の挙動についての理解度が低かったので調べたことについてまとめておく。
 
