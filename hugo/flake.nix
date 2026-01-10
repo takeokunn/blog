@@ -110,7 +110,8 @@
                 org-roam-ui-lite-export -d org-roam.db -o ./public
 
                 # quickhack: サブディレクトリ(/graph/)配置対応のためパスを絶対パスに変換
-                # public配下の全ファイルでパスを置換
+                # public配下の全ファイルでパスを置換（書き込み権限を付与してから実行）
+                chmod -R u+w ./public
                 find ./public -type f \( -name "*.html" -o -name "*.js" -o -name "*.css" \) -exec \
                   perl -pi -e 's|"/assets/|"/graph/assets/|g; s|"/vite.svg"|"/graph/vite.svg"|g; s|"/api/|"/graph/api/|g' {} \;
               '';
