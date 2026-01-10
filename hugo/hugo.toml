@@ -35,30 +35,37 @@ rss = "/index.xml"
 [[params.pdfLinks]]
 title = "2025年5月 個人的Nixユースケース紹介"
 url = "/pdf/nix-meetup-3-my-nix-usecase.pdf"
+date = "2025-05-01"
 
 [[params.pdfLinks]]
 title = "Phpactorから学ぶLanguage Server Protocolの仕組み"
 url = "/pdf/phperkaigi-2025-pamphlet.pdf"
+date = "2025-03-01"
 
 [[params.pdfLinks]]
 title = "パッケージマネージャNixで実現する宣言的でクリーンなPHP開発環境の構築"
 url = "/pdf/phperkaigi-2026-pamphlet.pdf"
+date = "2026-03-01"
 
 [[params.pdfLinks]]
 title = "Software DesignでNix連載をした"
 url = "/pdf/publishing-nix-series-software-design.pdf"
+date = "2024-06-01"
 
 [[params.pdfLinks]]
 title = "Typstで登壇できるようになったので練習させてくれ"
 url = "/pdf/typst-presentation-practice.pdf"
+date = "2024-01-01"
 
 [[params.pdfLinks]]
 title = "Example Slide"
 url = "/pdf/example-slide.pdf"
+date = "2024-01-01"
 
 [[params.pdfLinks]]
 title = "Example Slide Light Theme"
 url = "/pdf/example-slide-light-theme.pdf"
+date = "2024-01-01"
 
 [markup]
 [markup.highlight]
