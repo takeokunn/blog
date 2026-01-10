@@ -93,6 +93,7 @@
               src = ./.;
               nativeBuildInputs = with pkgs; [
                 perl
+                findutils
                 org-roam-ui-lite.packages.${system}.export
                 (emacsPkg.pkgs.withPackages (epkgs: (with epkgs.melpaPackages; [ org-roam ])))
               ];
@@ -109,10 +110,9 @@
                 org-roam-ui-lite-export -d org-roam.db -o ./public
 
                 # quickhack: サブディレクトリ(/graph/)配置対応のためパスを絶対パスに変換
-                # index.html: assets, vite.svg のパスを修正
-                perl -pi -e 's|"/assets/|"/graph/assets/|g; s|"/vite.svg"|"/graph/vite.svg"|g' ./public/index.html
-                # JS: /api/ パスを /graph/api/ に修正
-                perl -pi -e 's|"/api/|"/graph/api/|g' ./public/assets/*.js
+                # public配下の全ファイルでパスを置換
+                find ./public -type f \( -name "*.html" -o -name "*.js" -o -name "*.css" \) -exec \
+                  perl -pi -e 's|"/assets/|"/graph/assets/|g; s|"/vite.svg"|"/graph/vite.svg"|g; s|"/api/|"/graph/api/|g' {} \;
               '';
               installPhase = ''
                 cp -r ./public $out/
