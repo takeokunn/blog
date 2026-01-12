@@ -193,9 +193,7 @@ Twitterで新人エンジニアの質問のし方について話題になって�
 
 ベテランちというYouTuberの勉強のコツについてすごくおもしろかった。超お勧め。
 
-#+begin_export html
-<iframe width="100%" height="400" src="https://www.youtube.com/embed/n9xm0LdduA4" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-#+end_export
+{{< youtube id="n9xm0LdduA4" title="【勉強のコツ】ベテランちの勉強法" >}}
 
 --------------
 
