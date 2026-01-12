@@ -115,5 +115,5 @@ Available Typst packages:
 Using [[https://github.com/takeokunn/hugo-take-theme][takeokunn/hugo-take-theme]].
 
 #+begin_src shell :results output none
-  $ git submodule update --remote --recursive
+  git submodule update --remote --recursive
 #+end_src
