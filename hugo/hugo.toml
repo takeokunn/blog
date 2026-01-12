@@ -107,4 +107,4 @@ rel = "alternate"
 root = true
 
 [outputs]
-home = ["HTML", "llms", "llmsfull"]
+home = ["HTML", "RSS", "llms", "llmsfull"]
