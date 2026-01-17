@@ -1,0 +1,138 @@
+<!doctype html><html lang=ja-jp dir=ltr prefix="og: https://ogp.me/ns#"><head><meta charset=utf-8><meta http-equiv=content-type content="text/html"><meta name=viewport content="width=device-width,initial-scale=1"><meta name=Hatena::Bookmark content="nocomment"><title itemprop=name>AIを駆使してTypstスライドを生成する | takeokunn's blog</title><meta property="og:title" content="AIを駆使してTypstスライドを生成する | takeokunn's blog"><meta name=twitter:title content="AIを駆使してTypstスライドを生成する | takeokunn's blog"><meta itemprop=name content="AIを駆使してTypstスライドを生成する | takeokunn's blog"><meta name=application-name content="AIを駆使してTypstスライドを生成する | takeokunn's blog"><meta property="og:site_name" content><meta name=description content="背景・動機 Typstとpdfpcでプレゼン機能を実現する のNext Actionに次のようなことを書いた。
+登壇の場数を踏んでより洗練させていきたい。 登壇周りのすべてがプレーンテキスト（Org）で管理できるようになったので、次はAIによるスライド生成にチャレンジしたい。
+実際に練習がてら登壇してみたかったので、第177回 PHP勉強会＠東京 で「Typstで登壇できるようになったので練習させてくれ」というテーマでLTをすることにした。
+そこで今回は実際にAIにスライドの目次案からTypstを生成させてホスティングする所までやってみた。
+試したこと・やったこと 1. AIでプロンプトを作る"><meta itemprop=description content="背景・動機 Typstとpdfpcでプレゼン機能を実現する のNext Actionに次のようなことを書いた。
+登壇の場数を踏んでより洗練させていきたい。 登壇周りのすべてがプレーンテキスト（Org）で管理できるようになったので、次はAIによるスライド生成にチャレンジしたい。
+実際に練習がてら登壇してみたかったので、第177回 PHP勉強会＠東京 で「Typstで登壇できるようになったので練習させてくれ」というテーマでLTをすることにした。
+そこで今回は実際にAIにスライドの目次案からTypstを生成させてホスティングする所までやってみた。
+試したこと・やったこと 1. AIでプロンプトを作る"><meta property="og:description" content="背景・動機 Typstとpdfpcでプレゼン機能を実現する のNext Actionに次のようなことを書いた。
+登壇の場数を踏んでより洗練させていきたい。 登壇周りのすべてがプレーンテキスト（Org）で管理できるようになったので、次はAIによるスライド生成にチャレンジしたい。
+実際に練習がてら登壇してみたかったので、第177回 PHP勉強会＠東京 で「Typstで登壇できるようになったので練習させてくれ」というテーマでLTをすることにした。
+そこで今回は実際にAIにスライドの目次案からTypstを生成させてホスティングする所までやってみた。
+試したこと・やったこと 1. AIでプロンプトを作る"><meta name=twitter:description content="背景・動機 Typstとpdfpcでプレゼン機能を実現する のNext Actionに次のようなことを書いた。
+登壇の場数を踏んでより洗練させていきたい。 登壇周りのすべてがプレーンテキスト（Org）で管理できるようになったので、次はAIによるスライド生成にチャレンジしたい。
+実際に練習がてら登壇してみたかったので、第177回 PHP勉強会＠東京 で「Typstで登壇できるようになったので練習させてくれ」というテーマでLTをすることにした。
+そこで今回は実際にAIにスライドの目次案からTypstを生成させてホスティングする所までやってみた。
+試したこと・やったこと 1. AIでプロンプトを作る"><meta property="og:locale" content="ja-jp"><meta name=language content="ja-jp"><link rel=alternate hreflang=ja-jp href=https://www.takeokunn.org/posts/fleeting/20250610215948-ai_powered_typst_slide_generation/ title=Japanese><meta property="og:type" content="article"><meta property="og:article:published_time" content="2025-06-10T00:00:00+00:00"><meta property="article:published_time" content="2025-06-10T00:00:00+00:00"><meta property="og:url" content="https://www.takeokunn.org/posts/fleeting/20250610215948-ai_powered_typst_slide_generation/"><meta itemprop=image content="https://www.takeokunn.org/ogp/20250610215948-ai_powered_typst_slide_generation.png"><meta property="og:image" content="https://www.takeokunn.org/ogp/20250610215948-ai_powered_typst_slide_generation.png"><meta name=twitter:image content="https://www.takeokunn.org/ogp/20250610215948-ai_powered_typst_slide_generation.png"><meta name=twitter:image:src content="https://www.takeokunn.org/ogp/20250610215948-ai_powered_typst_slide_generation.png"><meta name=twitter:card content="summary_large_image"><script defer type=application/ld+json>{"@context":"http://schema.org","@type":"Article","headline":"AIを駆使してTypstスライドを生成する","author":{"@type":"Person","name":""},"datePublished":"2025-06-10T00:00:00\u002b00:00","description":"背景・動機 Typstとpdfpcでプレゼン機能を実現する のNext Actionに次のようなことを書いた。\n登壇の場数を踏んでより洗練させていきたい。 登壇周りのすべてがプレーンテキスト（Org）で管理できるようになったので、次はAIによるスライド生成にチャレンジしたい。\n実際に練習がてら登壇してみたかったので、第177回 PHP勉強会＠東京 で「Typstで登壇できるようになったので練習させてくれ」というテーマでLTをすることにした。\nそこで今回は実際にAIにスライドの目次案からTypstを生成させてホスティングする所までやってみた。\n試したこと・やったこと 1. AIでプロンプトを作る","wordCount":273,"mainEntityOfPage":"True","dateModified":"2025-06-10T00:00:00\u002b00:00","image":{"@type":"imageObject","url":""},"publisher":{"@type":"Organization","name":"takeokunn\u0027s blog"}}</script><link rel=canonical href=https://www.takeokunn.org/posts/fleeting/20250610215948-ai_powered_typst_slide_generation/><link href=/posts/fleeting/20250610215948-ai_powered_typst_slide_generation/ rel=alternate type=application/rss+xml title="takeokunn's blog"><link href=/posts/fleeting/20250610215948-ai_powered_typst_slide_generation/ rel=feed type=application/rss+xml title="takeokunn's blog"><link href=/style.min.71c11b16c107f1031ce1f17c8e2fef21394bb486a285ca4d0a69d5c311e607d5.css rel=stylesheet><link href=/code-highlight.min.ca0d5ee203390cf1a8d6b0b0204024fa2424a020fd6554c7df0c2a572e19c583.css rel=stylesheet><link rel="shortcut icon" href=/favicon.ico></head><body class=notransition aria-live=polite><div class=navbar role=navigation><nav class=menu aria-label="Main Navigation"><a href=https://www.takeokunn.org/ class=logo aria-label=Home><svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home" aria-hidden="true" focusable="false"><title>Home</title><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+</a><input type=checkbox id=menu-trigger class=menu-trigger aria-expanded=false aria-controls=site-menu>
+<label for=menu-trigger aria-label="Toggle menu"><span class=menu-icon aria-hidden=true><svg width="25" height="25" stroke="currentColor" fill="none" viewBox="0 0 14 14" aria-hidden="true" focusable="false"><title>Menu</title><path stroke-linecap="round" stroke-linejoin="round" d="M10.595 7H3.40726"/><path stroke-linecap="round" stroke-linejoin="round" d="M10.5096 3.51488H3.49301"/><path stroke-linecap="round" stroke-linejoin="round" d="M10.5096 10.4851H3.49301"/><path stroke-linecap="round" stroke-linejoin="round" d="M.5 12.5V1.5c0-.552285.447715-1 1-1h11C13.0523.5 13.5.947715 13.5 1.5v11C13.5 13.0523 13.0523 13.5 12.5 13.5H1.5C.947715 13.5.5 13.0523.5 12.5z"/></svg></span></label><div class=trigger id=site-menu><label for=menu-trigger class=menu-close-button aria-label="Close menu">&#215;</label><ul class=trigger-container role=menu><li role=none><a class=menu-link href=/ role=menuitem>Home</a></li><li role=none><a class="menu-link active" href=/posts/ role=menuitem aria-current=page>Posts</a></li><li role=none><a class=menu-link href=/graph/ role=menuitem>Graph</a></li></ul></div></nav></div><div class="wrapper post"><main class=page-content aria-label=Content><article role=article><header class=header><h1 class=header-title>AIを駆使してTypstスライドを生成する</h1><div class=post-meta><time datetime=2025.6.10 itemprop=datePublished aria-label="Published on 2025.6.10">2025.6.10</time></div><ul class=tags aria-label="Post tags"><li><a href=/tags/fleeting aria-label="View all posts with tag: fleeting">fleeting</a></li><li><a href=/tags/typst aria-label="View all posts with tag: typst">typst</a></li></ul></header><details class=toc><summary aria-label="Toggle Table of Contents"><b>Table of Contents</b></summary><nav id=TableOfContents><ul><li><a href=#背景-動機>背景・動機</a></li><li><a href=#試したこと-やったこと>試したこと・やったこと</a><ul><li><a href=#1-dot-aiでプロンプトを作る>1. AIでプロンプトを作る</a><ul><li><a href=#プロンプト>プロンプト</a></li><li><a href=#アウトライン例>アウトライン例</a></li></ul></li><li><a href=#2-dot-gemini-2-dot-5-proに実装させる>2. Gemini 2.5 Proに実装させる</a></li><li><a href=#3-dot-スライドのクオリティを上げる>3. スライドのクオリティを上げる</a></li><li><a href=#4-dot-git-pushする>4. git pushする</a></li></ul></li><li><a href=#得られた結果-所感>得られた結果・所感</a></li><li><a href=#今後の展開-検討事項>今後の展開・検討事項</a></li><li><a href=#backlinks>Backlinks</a></li></ul></nav></details><div class=page-content><h2 id=背景-動機>背景・動機</h2><p><a href=/posts/fleeting/20250608145128-presenting_with_typst_pdfpc/>Typstとpdfpcでプレゼン機能を実現する</a> のNext Actionに次のようなことを書いた。</p><blockquote><p>登壇の場数を踏んでより洗練させていきたい。
+登壇周りのすべてがプレーンテキスト（Org）で管理できるようになったので、次はAIによるスライド生成にチャレンジしたい。</p></blockquote><p>実際に練習がてら登壇してみたかったので、<a href=https://phpstudy.connpass.com/event/357699/>第177回 PHP勉強会＠東京</a> で「Typstで登壇できるようになったので練習させてくれ」というテーマでLTをすることにした。</p><p>そこで今回は実際にAIにスライドの目次案からTypstを生成させてホスティングする所までやってみた。</p><h2 id=試したこと-やったこと>試したこと・やったこと</h2><h3 id=1-dot-aiでプロンプトを作る>1. AIでプロンプトを作る</h3><h4 id=プロンプト>プロンプト</h4><p>関連するブログをリストアップしてMarkdownで目次を生成させてみた。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-markdown data-lang=markdown><span style=display:flex><span>「typstで登壇できるようになったので練習させてくれ」というタイトルでLTしようと考えています。
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>登壇資料のアウトラインを作りたいです。
+</span></span><span style=display:flex><span>以下の記事を読んで起承転結でMarkdownで纏めてください。
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>-</span> Typstとpdfpcでプレゼン機能を実現する
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>-</span> https://www.takeokunn.org/posts/fleeting/20250608145128-presenting_with_typst_pdfpc/
+</span></span><span style=display:flex><span><span style=color:#66d9ef>-</span> Typst自作テーマで登壇スライドを作成した
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>-</span> https://www.takeokunn.org/posts/fleeting/20250601214129-create_slide_by_typst_self_theme/
+</span></span><span style=display:flex><span><span style=color:#66d9ef>-</span> Typstテーマを自作した
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>-</span> https://www.takeokunn.org/posts/fleeting/20250506220914-create_typst_slide_theme/
+</span></span><span style=display:flex><span><span style=color:#66d9ef>-</span> NixでTypstをBuildしGitHub Pagesでホスティングする
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>-</span> https://www.takeokunn.org/posts/fleeting/20250126114218-build_and_deploy_typst_using_nix/
+</span></span></code></pre></div><h4 id=アウトライン例>アウトライン例</h4><p>以下は対話しながらGeminiから生成させたものを改変した。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-markdown data-lang=markdown><span style=display:flex><span># Typstで登壇できるようになったので練習させてくれ
+</span></span><span style=display:flex><span><span style=color:#75715e>## 全体構成
+</span></span></span><span style=display:flex><span><span style=color:#75715e>### きっかけと違和感
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>-</span> かつてはGoogle Slidesは最高の相棒だった
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>-</span> 画像位置を調整するのが簡単
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>-</span> 過去に作ったスライド資産がある
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>-</span> 外部への共有も簡単
+</span></span><span style=display:flex><span><span style=color:#66d9ef>-</span> スライド作成の流れ
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>-</span> Emacsでアウトラインを書く
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>-</span> 過去スライドをコピペしてくる
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>-</span> アウトラインに沿ってスライドを作る
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>-</span> スピーカーノートを用意する
+</span></span><span style=display:flex><span><span style=color:#66d9ef>-</span> 心に刺さった&#34;小さなトゲ
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>-</span> プレーンテキストで管理できない
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>-</span> AIによる自動生成できない
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>-</span> Emacsから編集できない
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>-</span> etc...
+</span></span><span style=display:flex><span><span style=color:#66d9ef>-</span> 違和感の正体 = エンジニアとしての&#34;業&#34;（カルマ）
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>-</span> バージョン管理が恋しい
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>-</span> 再利用性が低い (No DRY!)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>-</span> 自動化できない
+</span></span><span style=display:flex><span><span style=color:#66d9ef>-</span> 僕らは、スライドという成果物も“コード”として管理したい生き物なんだ！
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>### Typstとの出会いと感動
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>-</span> そんな僕が出会ったのが&#34;Typst&#34;
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>-</span> まさに「プレゼン資料も構造化・宣言的に書ける」言語
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>-</span> 探し求めていた理想がそこにあった
+</span></span><span style=display:flex><span><span style=color:#66d9ef>-</span> 最初の感動ポイント（＝&#34;トゲ&#34;が抜けていく快感）
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>-</span> コードでスライドが書ける → Emacsから離れなくていい！
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>-</span> アウトライン作成からスライド執筆まで、すべてが愛用のエディタで完結
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>-</span> Gitで管理できる → 変更履歴はすべてお見通し！
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>-</span> テーマが自作できる → DRY原則、スライドにも！
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>-</span> コードハイライトが美しい → エンジニアとして一番見せたいものが輝く！
+</span></span><span style=display:flex><span><span style=color:#66d9ef>-</span> Typstスライドを支える技術（しくみ）
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>-</span> Polylux：Typstのためのスライドエンジン
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>-</span> codelst：コードを美しく見せるスタイリスト
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>-</span> Nix：すべてを固める魔法の環境
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>### 実用に耐えるまでの道のり
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>-</span> しかし、現実は甘くなかった
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>-</span> 理想の環境はすぐそこに見えたが、やってみると色々な壁にぶつかる
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>-</span> 「言うは易く行うは難し」を実感する日々
+</span></span><span style=display:flex><span><span style=color:#66d9ef>-</span> やってみて困ったこと（理想と現実のギャップ）
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>-</span> テーマの調整が超むずい
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>-</span> polyluxやcodelstのドキュメントとひたすらにらめっこ
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>-</span> 絵文字： Macでは出るのにCI（Linux）でビルドすると豆腐（□）になる！
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>-</span> フォント設定： この日本語フォントを使いたいだけなのに…
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>-</span> 画像の配置： ドラッグ＆ドロップの偉大さを思い知る
+</span></span><span style=display:flex><span><span style=color:#66d9ef>-</span> それでも続けた理由（Typstの魅力に立ち返る）
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>-</span> 記法が明快で、根本的な書き心地は最高だった
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>-</span> スライド構成が自分の思考にフィットした
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>-</span> 「構造から考え、中身を埋める」スタイルが気持ちよかった
+</span></span><span style=display:flex><span><span style=color:#66d9ef>-</span> 補助ツールとの統合（そして&#34;最強&#34;の環境へ）
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>-</span> Typst単体ではなく、エコシステム全体で課題を解決していく
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>-</span> pdfpc：ついに「登壇」できるようになった瞬間
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>-</span> GitHub Actions：完全なる自動化の世界へ
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>-</span> Hugo：発表資料を&#34;資産&#34;にする
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>### Typst登壇はこう変えた
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>-</span> Typstを手に入れた結果、登壇準備のすべてが変わった
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>-</span> Before/Afterで振り返る、スライド制作プロセスの変化
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>-</span> 「きっかけと違和感」で感じていた違和感がすべて解消されていく
+</span></span><span style=display:flex><span><span style=color:#66d9ef>-</span> 登壇準備がこう変わった！
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>-</span> 迷わず構成から入れる
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>-</span> Before：まずGoogle Slidesを開き、どのテーマにしようか悩む…
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>-</span> After：まずEmacsでアウトライン（構造）を書くことに集中できる
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>-</span> 見た目を気にしすぎなくていい
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>-</span> Before：テキストボックスの位置、フォントサイズ…ピクセル単位の調整地獄
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>-</span> After：自作テーマを適用すればOK。「見た目は後からついてくる」安心感
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>-</span> 再利用性・再現性が圧倒的に高い
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>-</span> Before：過去スライドからコピペ。コピペミスやうっかり編集しちゃったなどヒューマンエラーが頻発。
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>-</span> After：過去の資産はGitリポジトリに。Nixのおかげで誰でも同じPDFを生成
+</span></span><span style=display:flex><span><span style=color:#66d9ef>-</span> Typstで登壇する未来
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>-</span> 自分だけのテーマを育てる文化
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>-</span> 発表のたびにテーマを少しずつ改善していく。自分だけの&#34;刀&#34;を研ぐ感覚
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>-</span> コード × 構造 × 登壇の三位一体
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>-</span> Slide as Codeの世界へようこそ
+</span></span><span style=display:flex><span><span style=color:#66d9ef>-</span> まとめとメッセージ
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>-</span> Google Slidesへの違和感から始まり、困難を乗り越え、最強の環境を手に入れました
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>-</span> 「一度書いてみれば、この快感が分かる」
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>-</span> 発表資料も&#34;成果物&#34;にしたい、すべてのエンジニアへ
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>-</span> その場限りの資料ではなく、再利用可能な“資産”を作りたい人は、ぜひTypstへ！
+</span></span></code></pre></div><h3 id=2-dot-gemini-2-dot-5-proに実装させる>2. Gemini 2.5 Proに実装させる</h3><p>作業指示を書いて8割くらいのクオリティでAIに実装させる。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-markdown data-lang=markdown><span style=display:flex><span>作業指示
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>1.</span> 下記のMarkdownを読み込む
+</span></span><span style=display:flex><span><span style=color:#66d9ef>2.</span> typst/org/nix-meetup-3-my-nix-usecase/article.org のコードを読む
+</span></span><span style=display:flex><span><span style=color:#66d9ef>3.</span> typst/org/typst-presentation-practice/article.org にOrgベースでTypstスライドを作成する
+</span></span><span style=display:flex><span>   <span style=color:#66d9ef>-</span> typst/org/nix-meetup-3-my-nix-usecase/article.org を可能な限り参考にする
+</span></span><span style=display:flex><span><span style=color:#66d9ef>4.</span> typst/flake.nix に typst-presentation-practice を追記する
+</span></span><span style=display:flex><span><span style=color:#66d9ef>5.</span> .github/workflows/main.yml に追記する
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>----
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>&lt;&lt;アウトラインのMarkdownを貼る&gt;&gt;
+</span></span></code></pre></div><h3 id=3-dot-スライドのクオリティを上げる>3. スライドのクオリティを上げる</h3><p>次の対応をした。</p><ul><li>自己紹介やアジェンダなどテンプレ追加</li><li>画像を追加</li><li>生成されたTypstを手直し</li><li>文言やスピーカーノートを追加修正</li></ul><h3 id=4-dot-git-pushする>4. git pushする</h3><p><a href=/posts/fleeting/20250126114218-build_and_deploy_typst_using_nix/>NixでTypstをBuildしGitHub Pagesでホスティングする</a> にもあるとおり、 <code>git push</code> するだけで公開される。</p><h2 id=得られた結果-所感>得られた結果・所感</h2><p>無事スライドができてホスティングできた。</p><p><a href=https://www.takeokunn.org/pdf/typst-presentation-practice.pdf>https://www.takeokunn.org/pdf/typst-presentation-practice.pdf</a></p><figure><img src=/images/2E2BE49E-2CFB-4FC6-B25A-237B90C5D5C8.png></figure><p>実際のコードはこちら。
+<a href=https://raw.githubusercontent.com/takeokunn/blog/refs/heads/main/typst/org/typst-presentation-practice/article.org>https://raw.githubusercontent.com/takeokunn/blog/refs/heads/main/typst/org/typst-presentation-practice/article.org</a></p><p>ベースのプロンプトやTypst力が上がればLTスライドの生成まで1時間あれば終わることが分かった。</p><h2 id=今後の展開-検討事項>今後の展開・検討事項</h2><p>実際の登壇の感想は後日記述する。</p><h2 id=backlinks>Backlinks</h2><ul><li><a href=/posts/fleeting/20251130140627-build_pamphlet_article_by_typst/>技術イベントのパンフレット記事をTypstでBuildする</a></li></ul></div></article></main></div><footer class=footer role=contentinfo><div class=footer_social-icons><a href=https://zenn.dev/takeokunn target=_blank rel="noopener noreferrer me" title=Zenn aria-label="Visit Zenn profile"><svg viewBox="0 0 88 88" aria-hidden="true" focusable="false"><path d="M2.22 83.478h17.632c1.296.0 2.16-.576 2.952-1.584L67.906 17.092c.576-.864.288-1.728-.576-1.728H51.946c-1.008.0-1.656.432-2.304 1.296L3.948 81.606c-.648.936-.288 1.872.864 1.872H2.22z" fill="currentColor"/><path d="M54.106 83.478h15.336c1.152.0 1.656-.36 1.656-1.224.0-.36-.144-.792-.432-1.296l-18-28.208c-.504-.792-1.296-.792-1.944.0L42.73 65.998c-.432.72-.36 1.512.144 2.304l8.928 14.112c.504.72 1.152 1.064 2.304 1.064z" fill="currentColor"/></svg>
+</a><a href=https://x.com/takeokunn/ target=_blank rel="noopener noreferrer me" title=Twitter aria-label="Visit Twitter profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M23 3a10.9 10.9.0 01-3.14 1.53 4.48 4.48.0 00-7.86 3v1A10.66 10.66.0 013 4s-4 9 5 13a11.64 11.64.0 01-7 2c9 5 20 0 20-11.5a4.5 4.5.0 00-.08-.83A7.72 7.72.0 0023 3z"/></svg>
+</a><a href=https://github.com/takeokunn target=_blank rel="noopener noreferrer me" title=GitHub aria-label="Visit GitHub profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37.0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44.0 0020 4.77 5.07 5.07.0 0019.91 1S18.73.65 16 2.48a13.38 13.38.0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07.0 005 4.77 5.44 5.44.0 003.5 8.55c0 5.42 3.3 6.61 6.44 7A3.37 3.37.0 009 18.13V22"/></svg>
+</a><a href=https://keyoxide.org/0B10DAA7BA0236D7382287660F79C0AB03FD7A1C target=_blank rel="noopener noreferrer me" title=Keyoxide aria-label="Visit Keyoxide profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5.0 11-7.778 7.778 5.5 5.5.0 017.777-7.777zm0 0L15.5 7.5m0 0 3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
+</a><a href=/index.xml target=_blank rel="noopener noreferrer" title=RSS aria-label="Subscribe via RSS"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 11a9 9 0 019 9"/><path d="M4 4a16 16 0 0116 16"/><circle cx="5" cy="19" r="1"/></svg></a></div><small class=footer_copyright><span aria-label=Copyright>© 2026 takeokunn</span>
+<span class=footer_divider aria-hidden=true>•</span>
+<span>Powered by <a href=https://github.com/takeokunn/hugo-take-theme target=_blank rel=noopener aria-label="Hugo Take Theme on GitHub">hugo-take-theme</a></span></small></footer></body></html>

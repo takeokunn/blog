@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Neovim on takeokunn's blog</title><link>https://www.takeokunn.org/tags/neovim/</link><description>Recent content in Neovim on takeokunn's blog</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Thu, 25 Dec 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://www.takeokunn.org/tags/neovim/index.xml" rel="self" type="application/rss+xml"/><item><title>Neovimの設定をNixvimに移行した</title><link>https://www.takeokunn.org/posts/fleeting/20251124235900-migrate_nixvim/</link><pubDate>Thu, 25 Dec 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20251124235900-migrate_nixvim/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;私はEmacsユーザだが、最近同僚エンジニアが全員Neovimユーザの会社に転職してしまった。
+よい機会だしある程度Neovimを使えた方がいいなと思い、Neovimをひととおり設定したのでメモしておく。&lt;/p&gt;
+&lt;h2 id="試したこと-やったこと"&gt;試したこと・やったこと&lt;/h2&gt;
+&lt;h3 id="1-dot-管理方法選定"&gt;1. 管理方法選定&lt;/h3&gt;
+&lt;p&gt;次のニーズを満たすものを探していた。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;普段メインで触らないので塩漬ビリティの高い状態にする&lt;/li&gt;
+&lt;li&gt;lua scriptは可能なら書きたくない、期間が開くとどうせ忘れる&lt;/li&gt;
+&lt;li&gt;AIに書かせても動くことを保証しやすい状態にする&lt;/li&gt;
+&lt;li&gt;プラグイン管理と設定が近い状態にする&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Nixにないかなと調査してた所、&lt;a href="https://github.com/nix-community/nixvim"&gt;Nixvim&lt;/a&gt; を使えば上記の要件を満たせることがわかったので導入してみた。&lt;/p&gt;
+&lt;p&gt;余談だが公式ドキュメントは情報量が少ないのでソースコードを読んだ方がいい。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://nix-community.github.io/nixvim/index.html"&gt;https://nix-community.github.io/nixvim/index.html&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id="2-dot-初期構築"&gt;2. 初期構築&lt;/h3&gt;
+&lt;p&gt;インストールガイドなどを参考に導入する。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://nix-community.github.io/nixvim/user-guide/install.html"&gt;https://nix-community.github.io/nixvim/user-guide/install.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;flake.nixで設定する。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-nix" data-lang="nix"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; inputs &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; nixvim &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; url &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;github:nix-community/nixvim&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; inputs&lt;span style="color:#f92672"&gt;.&lt;/span&gt;nixpkgs&lt;span style="color:#f92672"&gt;.&lt;/span&gt;follows &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;nixpkgs&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;home-managerのsharedModulesで読み込む。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-nix" data-lang="nix"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;nix-darwin&lt;span style="color:#f92672"&gt;.&lt;/span&gt;lib&lt;span style="color:#f92672"&gt;.&lt;/span&gt;darwinSystem {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; modules &lt;span style="color:#f92672"&gt;=&lt;/span&gt; [
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; home-manager&lt;span style="color:#f92672"&gt;.&lt;/span&gt;darwinModules&lt;span style="color:#f92672"&gt;.&lt;/span&gt;home-manager
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; home-manager &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; sharedModules &lt;span style="color:#f92672"&gt;=&lt;/span&gt; [ nixvim&lt;span style="color:#f92672"&gt;.&lt;/span&gt;homeModules&lt;span style="color:#f92672"&gt;.&lt;/span&gt;nixvim ];
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ];
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;あとはNixvimを有効にするだけ。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-nix" data-lang="nix"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; programs&lt;span style="color:#f92672"&gt;.&lt;/span&gt;nixvim &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; enable &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; colorschemes&lt;span style="color:#f92672"&gt;.&lt;/span&gt;catppuccin&lt;span style="color:#f92672"&gt;.&lt;/span&gt;enable &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; plugins&lt;span style="color:#f92672"&gt;.&lt;/span&gt;lualine&lt;span style="color:#f92672"&gt;.&lt;/span&gt;enable &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="3-dot-aiに設定させる"&gt;3. AIに設定させる&lt;/h3&gt;
+&lt;p&gt;あとは好みの設定をするだけ。&lt;/p&gt;</description></item></channel></rss>

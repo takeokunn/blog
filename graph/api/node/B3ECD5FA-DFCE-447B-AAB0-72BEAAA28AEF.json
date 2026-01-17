@@ -1,0 +1,27 @@
+{
+  "id": "B3ECD5FA-DFCE-447B-AAB0-72BEAAA28AEF",
+  "title": "GPG KeyのYubiKey運用をはじめた",
+  "raw": ":PROPERTIES:\n:ID:       B3ECD5FA-DFCE-447B-AAB0-72BEAAA28AEF\n:END:\n#+TITLE: GPG KeyのYubiKey運用をはじめた\n#+AUTHOR: takeokunn\n#+DESCRIPTION: description\n#+DATE: 2025-05-11T17:02:52+0900\n#+HUGO_BASE_DIR: ../../\n#+HUGO_CATEGORIES: fleeting\n#+HUGO_SECTION: posts/fleeting\n#+HUGO_TAGS: fleeting gpg\n#+HUGO_DRAFT: false\n#+STARTUP: fold\n* 背景・動機\n\n2025年5月の自分の手元の環境はGPGに重度に依存している。\n\n- [[id:8311DF4F-44EF-4541-BB28-889161EE216A][Bitwardenからpassword-storeに移行した]]\n- [[id:624F0A4B-0F8A-40B1-8AAD-DCC88CFC719A][Authyからpassword-store-otpに移行した]]\n- [[id:8A0AAFA0-0FDA-4C4C-BDC3-8279A68CE44C][credential管理をorg-encryptからpassword-storeに移行した]]\n\nGPG Keyの運用についてかねてから悩んでいたが、YubiKey運用が一番よいという結論に至った。\nちょうどMacを初期化するタイミングがあったので完全に移行した。\n\n次の記事を参考にした。\n\n- [[https://zenn.dev/lambdalisue/articles/gpg-with-yubikey-2024][GPG 鍵と YubiKey の運用メモ - Zenn]]\n- [[https://keens.github.io/blog/2021/03/23/yubikeywotsukau_openpghen/][YubikeyでOpenPGP鍵をセキュアに使う - κeenのHappy Hacκing Blog]]\n- [[https://fuwa.dev/posts/yubikey/][YubiKey(OpenPGP card)には主鍵を入れよう - ふわわあのへや]]\n\n* 試したこと・やったこと\n** 0. 運用方針を決める\n\n[[https://zenn.dev/lambdalisue/articles/gpg-with-yubikey-2024][GPG 鍵と YubiKey の運用メモ - Zenn]] と同様、次の方針で運用してくことにした。\n\n- YubiKey には主鍵と副鍵 （Encrypt） を焼き、持ち歩く\n- YubiKey の主鍵を利用して副鍵 （Sign, Auth） をデバイス毎に作成・保存しておく\n  - コミット署名はデバイス毎の副鍵 （Sign） を利用する\n  - SSH Keyはデバイス毎の副鍵（Auth） =gpg --export-ssh-key= 経由で端末ごとに生成する\n    - keygrepを =~/.gnupg/sshcontrol= に入れる\n- 暗号化・復号機能は YubiKey の副鍵 （Encrypt） を利用する\n\n元記事に加えてSSH KeyもGPG経由で生成することにした。\n[[id:A942A0CA-829F-45C0-A9CC-F7CA8C0DE873][Terraform GitHub Providerを導入した]] でIaCの土壌が用意されているので、端末が増えるごとに毎回追加する運用にしていく。\n\nGPGの仕組みについてはChatGPTにひたすら質問して不安な部分を潰した。\n\n** 1. YubiKeyを購入する\n\nAmazonで [[https://www.amazon.co.jp/dp/B08DHL1YDL?ref=ppx_yo2ov_dt_b_fed_asin_title][Yubico セキュリティキー YubiKey 5C NFC USB-C/FIDO2/WebAuthn/U2F/2段階認証/高耐久性/耐衝撃性/防水]] を購入した。\n\n古いファームウェアには脆弱性があるようで、最新の5.7が届くことを祈りながら注文したら問題なく届いてくれた。（サポートには問合せ済み）\n\nhttps://news.mynavi.jp/techplus/article/20240906-3019439/\n\n[[file:../../static/images/DAA52C19-34D9-4119-A071-7FE95005EAC3.png]]\n\n代理店が完売状態が続いていて辛い。\n\nhttps://ykey.yubion.com/collections/yubikey-5/products/yubikey-5c-nfc\n\n** 2. 主鍵と副鍵をYubiKeyに焼く\n\nありすえさんの記事を参考に焼いた。\n特に詰まる所なく対応できた。\n\n- [[https://zenn.dev/lambdalisue/articles/gpg-with-yubikey-2024#%E4%B8%BB%E9%8D%B5%E3%81%AE%E7%B7%A8%E9%9B%86][https://zenn.dev/lambdalisue/articles/gpg-with-yubikey-2024#主鍵の編集]]\n- [[https://zenn.dev/lambdalisue/articles/gpg-with-yubikey-2024#yubikey-%E3%81%B8%E3%81%AE%E7%84%BC%E3%81%8D%E4%BB%98%E3%81%91][https://zenn.dev/lambdalisue/articles/gpg-with-yubikey-2024#yubikey-への焼き付け]]\n\n** 3. 新規端末で副鍵（Sign, Auth）を入れる\n\nこちらもありすえさんの記事を元に =addkey= をして副鍵を生成した。\n元記事に加えて =Auth= も付与して生成した。\n\n- [[https://zenn.dev/lambdalisue/articles/gpg-with-yubikey-2024#%E5%90%84%E3%83%87%E3%83%90%E3%82%A4%E3%82%B9%E3%81%A7%E3%81%AE%E5%88%A9%E7%94%A8%E6%B3%95][https://zenn.dev/lambdalisue/articles/gpg-with-yubikey-2024#各デバイスでの利用法]]\n\nAuthを付与するには =--expert= のオプションが必要なので注意。\n\n#+begin_src console\n  # bad\n  $ gpg --edit-key <KEY_ID>\n\n  # good\n  $ gpg --expert --edit-key <KEY_ID>\n#+end_src\n** 4. ssh keyを生成する\n\ngpg-agentを有効にして =~/.gnupg/gpg-agent.conf= に次のような設定をした。\n\nhttps://github.com/takeokunn/nixos-configuration/blob/main/home-manager/services/gpg-agent/default.nix\n\n#+begin_src conf\n  enable-ssh-support\n  grab\n  default-cache-ttl 86400\n  default-cache-ttl-ssh 86400\n  max-cache-ttl 86400\n  max-cache-ttl-ssh 86400\n#+end_src\n\nkeygrepを取得して =~/.gnupg/sshcontrol= にkeygripを書き込む。\n\n#+begin_src console\n  $ gpg -K --with-keygrip\n#+end_src\n** 5. githubにssh keyを登録する\n\n[[id:A942A0CA-829F-45C0-A9CC-F7CA8C0DE873][Terraform GitHub Providerを導入した]] のとおり、terraform経由でssh keyを登録する。\n\n#+begin_src console\n  $ gpg --export-ssh-key <KEY_ID>\n  ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOev0KNrycAZEyKdVRBehEKH0l1c8FL9fON4PiguGVOl openpgp:xxxx\n#+end_src\n\nここから確認ができる。\n\nhttps://github.com/takeokunn.keys\n\nGPG keyのpublic keyは変化ないので初回登録しておけばよい。\n\nhttps://github.com/takeokunn.gpg\n\n* 得られた結果・所感\n\n想像以上にスムーズにYubiKeyに移行できた。\n\nなんだかんだ以前生成した =~/.ssh/id_ed25519= を使っていたので、SSH Keyから解放されたのが個人的には一番嬉しいポイントかもしれない。\n\n* 今後の展開・検討事項\n\n冗長性を高めるために自宅に厳重に保管する用のYubikeyも買って主鍵を焼く。\nまた、管理課の端末を増やして主鍵副鍵運用をもっと洗練させていく。\n\nこの記事を書いている間に [[https://www.atalie.net/ja/blog/11:gpg-agent-bestpractice/][【令和最新版】sshcontrolは使わないで！最近のGPGによるSSH認証のベストプラクティス]] という記事を見つけたので別途調査する。\n",
+  "backlinks": [
+    {
+      "title": "2025年5月 Macの再インストール手順メモ",
+      "source": "DEFB70C3-662B-42DC-A630-78A4B4D6D24F"
+    },
+    {
+      "title": "2025年5月 Macの再インストール手順メモ",
+      "source": "DEFB70C3-662B-42DC-A630-78A4B4D6D24F"
+    },
+    {
+      "title": "keyoxideセットアップ",
+      "source": "CAB486B2-21D7-4DF0-AC10-CF21F0B8F537"
+    },
+    {
+      "title": "keyoxideセットアップ",
+      "source": "CAB486B2-21D7-4DF0-AC10-CF21F0B8F537"
+    },
+    {
+      "title": "GitHub Actions内で署名付きCommitをする",
+      "source": "4492D4DB-0A17-459A-96E6-5663121602E1"
+    }
+  ]
+}

@@ -1,0 +1,254 @@
+# takeokunn's blog
+
+たけてぃ(@takeokunn)の個人的なメモです。
+
+## URL Structure
+
+Zettelkasten
+
+- fleeting
+    - 小さい技術的なメモ
+- permanent
+    - 纏まった技術的メモ
+- poem
+    - 個人的なポエム
+- diary
+    - 個人的な日記
+
+## Content
+
+
+- [nix-darwinのlinux-builderでNixOSを動かす](https://www.takeokunn.org/posts/fleeting/20251130151735-run_nixos_apple_linux_builder/)
+
+- [2025年12月 個人的claude codeワークフロー](https://www.takeokunn.org/posts/permanent/20251220235900-my_claude_code_workflow/)
+
+- [「The Rust Programming Language 日本語版」の読書記録](https://www.takeokunn.org/posts/literature/therustp1-online/)
+
+- [blogをdev.toサポートした](https://www.takeokunn.org/posts/fleeting/20251124235900-support_dev_to/)
+
+- [Neovimの設定をNixvimに移行した](https://www.takeokunn.org/posts/fleeting/20251124235900-migrate_nixvim/)
+
+- [社内読書会でThe Rust Programming Languageを読破した](https://www.takeokunn.org/posts/permanent/20251220235900-read_the_rust_programming_language/)
+
+- [複数人でAirbnbを借りた時の清算方法](https://www.takeokunn.org/posts/fleeting/20251130154336-airbnb_warikan/)
+
+- [digツールはdoggoが便利](https://www.takeokunn.org/posts/fleeting/20251220235900-dig_tool_doggo/)
+
+- [Typst SlideのDracula Light Theme作成した](https://www.takeokunn.org/posts/fleeting/20251124235900-typst_slide_light_theme/)
+
+- [技術イベントのパンフレット記事をTypstでBuildする](https://www.takeokunn.org/posts/fleeting/20251130140627-build_pamphlet_article_by_typst/)
+
+- [gitleaksを導入した](https://www.takeokunn.org/posts/fleeting/20251222124101-setup_gitleaks/)
+
+- [簡易的なヒューリスティックパーサの自作方法](https://www.takeokunn.org/posts/fleeting/20251220235900-how_to_build_a_simple_heuristic_parser/)
+
+- [emacs wgrepが便利だった](https://www.takeokunn.org/posts/fleeting/20251130141030-emacs_wgrep/)
+
+- [個人的sketchybar設定](https://www.takeokunn.org/posts/fleeting/20251124235900-setting_sketchybar/)
+
+- [emacs wdiredが便利だった](https://www.takeokunn.org/posts/fleeting/20251128124639-emacs_wdired_mode/)
+
+- [k9sをDracula Theme対応した](https://www.takeokunn.org/posts/fleeting/20251124235900-k9s_dracula_theme/)
+
+- [個人的Aerospace設定](https://www.takeokunn.org/posts/fleeting/20251124235900-setting_aerospace/)
+
+- [Geminiで専門家カスタムGemを作る](https://www.takeokunn.org/posts/fleeting/20250727134126-build_your_gemini_expert/)
+
+- [プロポーザルの出し方・心構え](https://www.takeokunn.org/posts/fleeting/20250722020425-proposal_guide/)
+
+- [Hugoで生成したブログにllms.txtとllms-full.txtを導入した](https://www.takeokunn.org/posts/fleeting/20250718160938-add_llms_txt/)
+
+- [Makefileを便利コマンドメモとして使うことに対する違和感](https://www.takeokunn.org/posts/permanent/20250711132607-why_not_command_memo_makefile/)
+
+- [はてなブックマークコメント非表示にした](https://www.takeokunn.org/posts/fleeting/20250709113618-disable_hatena_bookmark_comment/)
+
+- [GitHub Actions上でtblsを使ってスキーマ情報を取得してAIでSQLを生成する](https://www.takeokunn.org/posts/fleeting/20250628165348-github_actions_tbls_ai_sql_generation/)
+
+- [php-srcとyieldについて調査メモ](https://www.takeokunn.org/posts/fleeting/20250625115611-yield_in_php_src/)
+
+- [node2nixの使い方](https://www.takeokunn.org/posts/fleeting/20250622133346-how_to_use_node2nix/)
+
+- [Typstで履歴書と職務経歴書をBuildする](https://www.takeokunn.org/posts/fleeting/20250619103829-build_cv_resume_with_typst/)
+
+- [React Router v7周辺キャッチアップメモ](https://www.takeokunn.org/posts/fleeting/20250616132230-catch_up_react_router_v7/)
+
+- [home-managerで自作moduleを作る](https://www.takeokunn.org/posts/fleeting/20250613195154-home_manager_custom_module/)
+
+- [AIを駆使してTypstスライドを生成する](https://www.takeokunn.org/posts/fleeting/20250610215948-ai_powered_typst_slide_generation/)
+
+- [About Me](https://www.takeokunn.org/about/)
+
+- [EventBridge Ruleデバッグ方法メモ](https://www.takeokunn.org/posts/fleeting/20250608160858-how_to_debug_eventbridge_rule/)
+
+- [Typstとpdfpcでプレゼン機能を実現する](https://www.takeokunn.org/posts/fleeting/20250608145128-presenting_with_typst_pdfpc/)
+
+- [Typst自作テーマで登壇スライドを作成した](https://www.takeokunn.org/posts/fleeting/20250601214129-create_slide_by_typst_self_theme/)
+
+- [keyoxideセットアップ](https://www.takeokunn.org/posts/fleeting/20250528112340-setup_keyoxide/)
+
+- [Excelファイルをtxtファイルに変換してNotebookLMに食わせる](https://www.takeokunn.org/posts/fleeting/20250523220142-migrate_excel_to_csv_and_import_notebooklm/)
+
+- [DeepWiki調査メモ](https://www.takeokunn.org/posts/fleeting/20250518171454-deepwiki_memo/)
+
+- [Emacs lsp-modeに新しいClientを追加する方法](https://www.takeokunn.org/posts/fleeting/20250518160750-how_to_contribute_emacs_lsp_mode/)
+
+- [GitHub Actions内で署名付きCommitをする](https://www.takeokunn.org/posts/fleeting/20250518201409-signed_commit_in_github_actions/)
+
+- [個人的Local環境のGit Branch運用について](https://www.takeokunn.org/posts/fleeting/20250518144557-local_git_branch_operation/)
+
+- [2025年5月 Macの再インストール手順メモ](https://www.takeokunn.org/posts/fleeting/20250514222418-reinstall_mac_with_nix/)
+
+- [巨大なLaravelレポジトリでphpactorを使うTips](https://www.takeokunn.org/posts/fleeting/20250515004832-phpactor_performance_huge_projects/)
+
+- [GPG KeyのYubiKey運用をはじめた](https://www.takeokunn.org/posts/fleeting/20250514155803-yubikey_gpg_operation/)
+
+- [GitHub ActionsでCachixを導入する](https://www.takeokunn.org/posts/fleeting/20250510192642-use_cachix_in_github_actions/)
+
+- [markdown-preview-modeとxwidgetsでリアルタイムプレビューする](https://www.takeokunn.org/posts/fleeting/20250510184016-preview_markdown_with_xwidgets/)
+
+- [org-roam-ui-liteでblogの関係性を可視化する](https://www.takeokunn.org/posts/fleeting/20250511015532-host_org_roam_ui_lite/)
+
+- [private-terraformをHCP Terraformに移行した](https://www.takeokunn.org/posts/fleeting/20250507230034-use_private_terraform_cloud/)
+
+- [Typstテーマを自作した](https://www.takeokunn.org/posts/fleeting/20250506220914-create_typst_slide_theme/)
+
+- [nixpkgsのunstableでEmacs Nativecomp Buildができない問題とワークアラウンド](https://www.takeokunn.org/posts/fleeting/20250417001805-emacs_nativecomp_bulid_error_nixpkgs_and_workaround/)
+
+- [credential管理をorg-encryptからpassword-storeに移行した](https://www.takeokunn.org/posts/fleeting/20250414001634-migrate_credential_manager_to_password_store/)
+
+- [emacsでuniversal-ctagsを使う](https://www.takeokunn.org/posts/fleeting/20250410002747-use_universal_ctags_with_emacs/)
+
+- [mcp-servers-nixを導入した](https://www.takeokunn.org/posts/fleeting/20250409210655-introduction_mcp_servers_nix/)
+
+- [BitwardenとAuthyのアカウントを削除した](https://www.takeokunn.org/posts/fleeting/20250408134929-archive_bitwarden_account/)
+
+- [Denoで簡易的なCLIツールを作る](https://www.takeokunn.org/posts/fleeting/20250403212205-deno_cli_sandbox/)
+
+- [flake.nixでポータブルな最小構成のEmacsを作成する](https://www.takeokunn.org/posts/fleeting/20250403230709-portable_minimal_emacs_with_flake_nix/)
+
+- [お名前comからCloudflareにドメイン移管してTerraformで管理する](https://www.takeokunn.org/posts/fleeting/20250403220528-migrate_onamae_to_cloudflare_and_managed_by_terraform/)
+
+- [NextDNSを導入した](https://www.takeokunn.org/posts/fleeting/20250402012730-setup_nextdns/)
+
+- [Terraform GitHub Providerを導入した](https://www.takeokunn.org/posts/fleeting/20250402001222-setup_private_terraform_github_provider/)
+
+- [@github/copilot-language-serverをNixで扱う時のメモ](https://www.takeokunn.org/posts/fleeting/20250327190937-usage_github_copilot_language_server/)
+
+- [2025年2月名古屋旅行](https://www.takeokunn.org/posts/diary/20250224140741-retrospective_nagoya_2025/)
+
+- [2025年2月 Neovimセットアップ](https://www.takeokunn.org/posts/fleeting/20250211111032-setup_neovim/)
+
+- [org-nix-shell入門](https://www.takeokunn.org/posts/fleeting/20250126140928-introduction_org_nix_shell/)
+
+- [Laravel LazyCollection in depth](https://www.takeokunn.org/posts/fleeting/20250204175231-laravel_lazy_collection_in_depth/)
+
+- [Nixでdap-modeがエラーになった時のメモ](https://www.takeokunn.org/posts/fleeting/20250203131440-workaround_nix_dap_mode/)
+
+- [「Lispが安定してることがアピールポイントか」に対しての考察](https://www.takeokunn.org/posts/fleeting/20250129141559-why_lisp_is_stable/)
+
+- [org-crypt運用メモ](https://www.takeokunn.org/posts/fleeting/20250127144907-my_usage_org_crypt/)
+
+- [個人的devenv運用](https://www.takeokunn.org/posts/fleeting/20250126135045-personal_devenv_tips/)
+
+- [NixでTypstをBuildしGitHub Pagesでホスティングする](https://www.takeokunn.org/posts/fleeting/20250126114218-build_and_deploy_typst_using_nix/)
+
+- [2024年 全体振り返り](https://www.takeokunn.org/posts/permanent/20241221130328-retrospective_2024/)
+
+- [VimConf2024 参加記](https://www.takeokunn.org/posts/diary/20241123101757-participation_vimconf_2024/)
+
+- [tcardgenをnixでパッケージ化する方法](https://www.takeokunn.org/posts/fleeting/20241122091116-how_to_package_tcardgen_with_nix/)
+
+- [2024年版private-isu構築メモ](https://www.takeokunn.org/posts/fleeting/20241117172034-how_to_launch_private_isu_2024/)
+
+- [GnuPG 2.4.4でEmacsで発生していたバグ修正された](https://www.takeokunn.org/posts/fleeting/20240127163627-fix_emacs_gpg_bug/)
+
+- [2023年のorg-mode活用と今後の抱負](https://www.takeokunn.org/posts/permanent/20240112071806-my_relationship_with_org_mode_in_2023_and_how_navigate_in_2024/)
+
+- [Zedファーストインプレッション](https://www.takeokunn.org/posts/fleeting/20240125232318-first_research_about_zed/)
+
+- [Emacsユーザーから見たvim-jp](https://www.takeokunn.org/posts/poem/20240117104306-perspective_of_vim_jp_from_emacser/)
+
+- [テキストエディタがPHPをシンタックスハイライトする仕組みとモダンテキストエディタ事情について](https://www.takeokunn.org/posts/permanent/20240107122028-how_to_syntax_highlight_in_text_editor/)
+
+- [AquaSKKをDvorak仕様にする方法](https://www.takeokunn.org/posts/fleeting/20240115131839-how_to_use_dvorak_in_aquaskk/)
+
+- [PHPカンファレンス北海道2024に参加してきました](https://www.takeokunn.org/posts/diary/20240112063123-retrospective_phpcondo_2024/)
+
+- [Authyからpassword-store-otpに移行した](https://www.takeokunn.org/posts/fleeting/20240110123142-migrate_authy_to_password_store_otp/)
+
+- [Bitwardenからpassword-storeに移行した](https://www.takeokunn.org/posts/fleeting/20240108211345-migrate_bitwarden_to_password_store/)
+
+- [org-roamで記事を管理しGitHub Actionsで適切に公開する](https://www.takeokunn.org/posts/permanent/20231219122351-how_to_manage_blog_by_org_roam/)
+
+- [2023年小田原旅行記](https://www.takeokunn.org/posts/diary/20231030071757-2023_bokunatu_travel/)
+
+- [PHP Exceptionのpropertyにあるcodeはuser-defined error code](https://www.takeokunn.org/posts/fleeting/20230801135235-what_is_php_exception_code/)
+
+- [「PHP Lovers Meetup vol.0 ~ はじまりは<?phpから」に参加しました](https://www.takeokunn.org/posts/diary/20230710082646-retrospective_php_lovers_meetup_vol_0/)
+
+- [Emacs内でgpg fileがsaveできなくなった時に対応したことメモ](https://www.takeokunn.org/posts/fleeting/20230624130858-how_to_escape_emacs_gpg_bug/)
+
+- [phpカンファレンス福岡2023に参加してきました](https://www.takeokunn.org/posts/diary/20230624093617-retrospective_phpconference_fukuoka_2023/)
+
+- [ob-phpstanを作った](https://www.takeokunn.org/posts/permanent/20230416154043-create_ob_phpstan/)
+
+- [phperkaigi 2023でパンフレット記事寄稿&登壇してきました](https://www.takeokunn.org/posts/diary/20230327015058-phperkaigi_2023_report/)
+
+- [「第149回 PHP勉強会＠東京」で登壇してきました](https://www.takeokunn.org/posts/diary/20230220161138-phpstudy_149_report/)
+
+- [Docker VolumeをCopy/Renameする方法](https://www.takeokunn.org/posts/fleeting/20230209111810-how_to_copy_and_rename_docker_volume/)
+
+- [VimとNeovimの使い分けと最小構成](https://www.takeokunn.org/posts/fleeting/20230209152709-using-vim-and-neovim-for-differenct-purposes-and-minimum-settings/)
+
+- [aws-cliとecs-cliのconfigをorgで管理してdefault値を一切設定しない運用をする](https://www.takeokunn.org/posts/permanent/20230119162342-aws_cli_ecs_cli_configure_without_default_value_by_org/)
+
+- [PHP8から追加されたJITについて学ぼう!](https://www.takeokunn.org/posts/permanent/20221222111924-about_php_jit/)
+
+- [sitemap.xmlからURLを良い感じに抽出してPlaywrightでUIを目視確認する](https://www.takeokunn.org/posts/fleeting/20221222102844-run_playwright_by_sitemap/)
+
+- [Emacsを世界最速級で起動する方法](https://www.takeokunn.org/posts/permanent/20221217132815-emacs_more_faster/)
+
+- [aws-sdk-php v3.245.0でBC breakをおこす](https://www.takeokunn.org/posts/fleeting/20221214165044-bc_break_aws_sdk_php_v3/)
+
+- [fluent-bitに入門する](https://www.takeokunn.org/posts/permanent/20221207214034-about_fluent_bit/)
+
+- [fluent-bitをDockerで動かす](https://www.takeokunn.org/posts/fleeting/20221207173426-run_fluent_bit_docker/)
+
+- [2021年に自分がemacs.dのカスタイマイズしたことについて](https://www.takeokunn.org/posts/permanent/20211203151122-configure_emacs_in_2021/)
+
+- [TwitterUIDの挙動とJavaScriptのBigIntについて](https://www.takeokunn.org/posts/permanent/20201028052323-twitter_uid_javascript_bigint/)
+
+- [MacBookProの生前整理をする](https://www.takeokunn.org/posts/permanent/20201003000022-pc_cleaninng_before_out_of_order/)
+
+- [新人教育をしていて一番大事なのは「試行回数」だと思った](https://www.takeokunn.org/posts/permanent/20201003015736-most_important_thing_number_of_trials_for_newbie/)
+
+- [半年間毎週dependabotをmergeしたので知見を纏める](https://www.takeokunn.org/posts/permanent/20200909061755-knowledge_dependabot_merge/)
+
+- [RedashのQuery一覧を保存する方法](https://www.takeokunn.org/posts/permanent/20200511164322-redash_save_query_list/)
+
+- [エンジニア採用面接で考えていること](https://www.takeokunn.org/posts/permanent/20200202015651-thinking_about_recruit_interview/)
+
+- [開発体験向上について考えてること](https://www.takeokunn.org/posts/permanent/20190930175912-thinking_about_developer_experience/)
+
+- [JavaScriptのthisについて](https://www.takeokunn.org/posts/permanent/20190701050011-javascript_this_in_depth/)
+
+- [EsLintでGlobの挙動で詰まった時のメモ](https://www.takeokunn.org/posts/permanent/20190531143338-eslint_glob_shell/)
+
+- [オフィスにアクセスポイントを導入した時やったこと](https://www.takeokunn.org/posts/permanent/20190529144603-office_access_point/)
+
+- [SVGにグラデーションのアニメーションをかける](https://www.takeokunn.org/posts/permanent/20190414045600-svg_gradation_animation/)
+
+- [Ubuntu FirefoxをEmacs Keybindにする](https://www.takeokunn.org/posts/permanent/20190413091854-ubuntu_firefox_emacs_keybind/)
+
+- [WebpackerでBulmaをbuildするとwarningが出るものの調査と対応](https://www.takeokunn.org/posts/permanent/20190411111745-webpacker_bulma_build_warning/)
+
+- [AjaxとBrowser Cookie](https://www.takeokunn.org/posts/permanent/20190330064337-ajax_browser_cookie/)
+
+- [npm libraryのbuild formatについて](https://www.takeokunn.org/posts/permanent/20190317001306-publish_npm_library_build_format/)
+
+- [Common Lispのquoteについて](https://www.takeokunn.org/posts/permanent/20190316220021-common_lispdata_command_mode/)
+
+- [MySQLのmax_allowed_packetについて](https://www.takeokunn.org/posts/permanent/20190309201924-mysql_max_allowed_packet/)
+
+- [docker-compose.ymlのportsについてのメモ](https://www.takeokunn.org/posts/permanent/20190226214952-docker_compose_yml_ports/)
+

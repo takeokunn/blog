@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Ai on takeokunn's blog</title><link>https://www.takeokunn.org/tags/ai/</link><description>Recent content in Ai on takeokunn's blog</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Tue, 30 Dec 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://www.takeokunn.org/tags/ai/index.xml" rel="self" type="application/rss+xml"/><item><title>2025年12月 個人的claude codeワークフロー</title><link>https://www.takeokunn.org/posts/permanent/20251220235900-my_claude_code_workflow/</link><pubDate>Tue, 30 Dec 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/permanent/20251220235900-my_claude_code_workflow/</guid><description>&lt;h2 id="1-dot-はじめに"&gt;1. はじめに&lt;/h2&gt;
+&lt;p&gt;Claude Codeを本格的に使い始めました。&lt;/p&gt;
+&lt;p&gt;最初はGitHub Copilotと同じ感覚で、コード生成ツールの延長として使っていたのですが、あるとき気づきました。「セキュリティレビューをお願いしたら、コードスタイルの指摘ばかり返ってきた」「昨日と同じ質問をしたのに、まったく違うフォーマットで回答された」「プロジェクトの規約を毎回説明するのが面倒」。これ、Claude Codeの問題じゃなくて、自分の使い方の問題でした。&lt;/p&gt;
+&lt;p&gt;試行錯誤を重ねるうちに、Claude Codeは単なるコード補完ツールではなく、適切に設定すればマルチエージェントシステムとして機能することに気づきました。&lt;/p&gt;
+&lt;p&gt;この記事では、構築したワークフローを共有します。&lt;/p&gt;
+&lt;p&gt;ちなみに、この記事も大半はClaude Codeに書いてもらいました。&lt;/p&gt;
+&lt;h2 id="2-dot-背景と設計哲学"&gt;2. 背景と設計哲学&lt;/h2&gt;
+&lt;h3 id="2-dot-1-dot-感じていた課題"&gt;2.1. 感じていた課題&lt;/h3&gt;
+&lt;p&gt;Claude Codeを本格的に使い始める前、いくつかの課題を感じていました。&lt;/p&gt;
+&lt;p&gt;一番大きかったのは専門性の欠如です。単一のAIエージェントでは、コード品質・セキュリティ・テスト・ドキュメントなど複数のドメインにまたがるタスクをうまく処理できませんでした。セキュリティの観点でレビューをお願いしても、コードスタイルの指摘が混在して、本当に確認したいポイントが埋もれてしまいます。&lt;/p&gt;
+&lt;p&gt;出力の不安定性も悩みの種でした。構造化されたプロンプトなしでは、AIの応答品質やフォーマットが毎回異なります。昨日と同じ質問をしても、回答の形式がまったく違うということがよくありました。&lt;/p&gt;
+&lt;p&gt;繰り返しの説明にも時間を取られていました。同じパターンや好みを何度もAIに説明する必要があり、徒労感がありました。&lt;/p&gt;
+&lt;h3 id="2-dot-2-dot-5つのルール"&gt;2.2. 5つのルール&lt;/h3&gt;
+&lt;p&gt;CLAUDE.mdには5つの &lt;code&gt;critical&lt;/code&gt; ルールを定義しています。この5つが私のワークフローの根幹になっています。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;サブエージェントへの委譲 : 親エージェントは方針決定とオーケストレーションに集中し、詳細な作業は専門エージェントに任せる&lt;/li&gt;
+&lt;li&gt;Serenaメモリの事前確認 : 実装前に必ず &lt;code&gt;list_memories&lt;/code&gt; と &lt;code&gt;read_memory&lt;/code&gt; でプロジェクトの規約やパターンを確認する&lt;/li&gt;
+&lt;li&gt;シンボルレベルの操作 : ファイル全体を読み込むのではなく、Serenaの &lt;code&gt;find_symbol&lt;/code&gt; などでシンボル単位で操作する&lt;/li&gt;
+&lt;li&gt;perlでテキスト処理 : sed/awkは使わない。 &lt;code&gt;perl -pe 's/foo/bar/g'&lt;/code&gt; で統一&lt;/li&gt;
+&lt;li&gt;英語で出力 : 出力は常に英語に統一&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;なぜこの5つなのか。1と2はマルチエージェント構成の核心、3はトークン効率の改善、4と5は出力の一貫性を担保するためです。&lt;/p&gt;
+&lt;h2 id="3-dot-プロンプト設計の基盤"&gt;3. プロンプト設計の基盤&lt;/h2&gt;
+&lt;p&gt;ここで紹介するプロンプトの多くは、Claude Code自身に生成させました。「こういう形式で書いて」と伝えて、その出力を調整しながら現在の形に至りました。&lt;/p&gt;
+&lt;p&gt;Claude Codeのプロンプトは構造化されたXMLで記述しています。&lt;/p&gt;
+&lt;h3 id="3-dot-1-dot-xmlによる構造化プロンプト"&gt;3.1. XMLによる構造化プロンプト&lt;/h3&gt;
+&lt;h4 id="3-dot-1-dot-1-dot-なぜxmlなのか"&gt;3.1.1. なぜXMLなのか&lt;/h4&gt;
+&lt;p&gt;Markdownやプレーンテキストではなく、XMLを採用しました。これは公式のベストプラクティスではなく、個人的な経験に基づく選択です。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/use-xml-tags"&gt;Anthropicの公式ドキュメント&lt;/a&gt;では、XMLタグについて次のように説明されています:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;There are no canonical &amp;ldquo;best&amp;rdquo; XML tags that Claude has been trained with in particular, although we recommend that your tag names make sense with the information they surround.&lt;/p&gt;</description></item><item><title>DeepWiki調査メモ</title><link>https://www.takeokunn.org/posts/fleeting/20250518171454-deepwiki_memo/</link><pubDate>Sun, 18 May 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250518171454-deepwiki_memo/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;Devin社が開発したDeepWikiが世間を賑わせていた。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://deepwiki.com/"&gt;https://deepwiki.com/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://huggingface.co/blog/lynn-mikami/deepwiki-ja"&gt;DeepWiki: あらゆるGitHubリポジトリに対応する最高のAIドキュメントジェネレーター&lt;/a&gt; にもあるとおり、DeepWikiは次のような機能を提供してくれている。
+DeepWikiが生成するドキュメントは圧倒的に質が高く、まさしく顧客が求めていたものを提供してくれているなという感想。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;レポジトリ内のドキュメントを自動生成&lt;/li&gt;
+&lt;li&gt;対話型AIアシスタント&lt;/li&gt;
+&lt;li&gt;フローチャート生成&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;DeepWikiはDevinに契約していればPrivate Repoにも使えるが、個人がDevinを契約するのは流石にハードルが高い。&lt;/p&gt;
+&lt;p&gt;DeepWikiが自分にとってどれくらい使いものになるのか、またOSS版の &lt;a href="https://github.com/AsyncFuncAI/deepwiki-open"&gt;AsyncFuncAI/deepwiki-open&lt;/a&gt; を使ってみて、どのくらいの精度で出力されるのか調査をした。&lt;/p&gt;
+&lt;h2 id="試したこと-やったこと"&gt;試したこと・やったこと&lt;/h2&gt;
+&lt;h3 id="1-dot-普段よく使うossにdeepwikiを使う"&gt;1. 普段よく使うOSSにDeepWikiを使う&lt;/h3&gt;
+&lt;p&gt;普段よく使っていて、内部的にどう動いているのかある程度把握してるレポジトリをコード規模ごとに選定した。
+書いてあることに嘘はないか、網羅性はどうか、実用に耐えうるかを確認した。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;大規模（100万行）
+&lt;ul&gt;
+&lt;li&gt;e.g. &lt;a href="https://deepwiki.com/emacs-mirror/emacs"&gt;https://deepwiki.com/emacs-mirror/emacs&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;中規模（10万行）
+&lt;ul&gt;
+&lt;li&gt;e.g. &lt;a href="https://deepwiki.com/emacs-lsp/lsp-mode"&gt;https://deepwiki.com/emacs-lsp/lsp-mode&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;小規模（1万行以内）
+&lt;ul&gt;
+&lt;li&gt;e.g. &lt;a href="https://deepwiki.com/x-motemen/ghq"&gt;https://deepwiki.com/x-motemen/ghq&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Chatで普段使ってる人しか知らなさそうなことを質問しまくって精度を確認した。
+その結果、ドキュメントの質も網羅性も自分の用途では申し分がないことが確認できた。&lt;/p&gt;
+&lt;h3 id="2-dot-deepwikiに自分のpublic-repoを食わせてみる"&gt;2. DeepWikiに自分のPublic Repoを食わせてみる&lt;/h3&gt;
+&lt;p&gt;それなりのコード量のある自分のPublic RepoをDeepWiki食わせてみた。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://deepwiki.com/takeokunn/nixos-configuration"&gt;https://deepwiki.com/takeokunn/nixos-configuration&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://deepwiki.com/takeokunn/blog"&gt;https://deepwiki.com/takeokunn/blog&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;解説記事を書く手間が省けたし、自分しか知らないことをChatで対話しても明瞭に回答してくれた。&lt;/p&gt;
+&lt;h3 id="3-dot-oss版のasyncfuncai-deepwiki-openを試す"&gt;3. OSS版のAsyncFuncAI/deepwiki-openを試す&lt;/h3&gt;
+&lt;p&gt;&lt;a href="https://github.com/AsyncFuncAI/deepwiki-open/"&gt;AsyncFuncAI/deepwiki-open&lt;/a&gt; をLocal立ち上げて動かしてみる。&lt;/p&gt;
+&lt;figure&gt;&lt;img src="https://www.takeokunn.org/images/912E7F43-2598-4390-B7CA-9D560EFF82F9.png"&gt;
+&lt;/figure&gt;
+&lt;p&gt;記事公開日現在、DeepWikiで生成されたものとdeepwiki-openが生成したものを見比べてみた。
+DeepWikiには多少劣るが、かなりのクオリティで出力されるようになった。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://deepwiki.com/asyncfuncai/deepwiki-open"&gt;https://deepwiki.com/asyncfuncai/deepwiki-open&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://gist.github.com/takeokunn/4579d4e3390ddfd862f1fbbc3eb1a940"&gt;https://gist.github.com/takeokunn/4579d4e3390ddfd862f1fbbc3eb1a940&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure&gt;&lt;img src="https://www.takeokunn.org/images/6432A8D0-34A8-487A-AD44-D08D18ECEC93.png"&gt;
+&lt;/figure&gt;
+&lt;p&gt;deepwiki-openにもチャット機能があるが、こちらも十分に機能してくれていることを確認した。&lt;/p&gt;
+&lt;h2 id="得られた結果-所感"&gt;得られた結果・所感&lt;/h2&gt;
+&lt;p&gt;DeepWikiのクオリティが圧倒的に高いことがわかったので、今後OSSコードリーディングにDeepWikiを利用していくことにした。&lt;/p&gt;
+&lt;p&gt;deepwiki-openは当初触った時、あまり網羅性がなく質の悪いアウトプットだったが、2週間くらい経って一気にクオリティが上がった。
+AI関連ツールの進化は尋常じゃないくらい早いので2週間前に使ってイマイチだったからといって使えないと判断するのは早計だなと改めて感じた。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://x.com/ryoppippi"&gt;@ryoppippi&lt;/a&gt; がDeepWikiのbadgeを作れるOSSを作っていたので流行に乗って &lt;a href="https://github.com/takeokunn/blog"&gt;takeokunn/blog&lt;/a&gt; と &lt;a href="https://github.com/takeokunn/nixos-configuration"&gt;takeokunn/nixos-configuration&lt;/a&gt; に配置した。（Thanks ryopi）&lt;/p&gt;
+&lt;blockquote class="twitter-tweet"&gt;&lt;p lang="ja" dir="ltr"&gt;&lt;a href="https://t.co/GBM768y5Ev"&gt;https://t.co/GBM768y5Ev&lt;/a&gt;&lt;a href="https://t.co/4OzgVqloK9"&gt;https://t.co/4OzgVqloK9&lt;/a&gt;&lt;br&gt;GitHubのREADME用にDeepWikiのバッジを簡単に生成できるサイトを作りました！ぜひ使ってみてください&lt;/p&gt;&amp;mdash; ryoppippi (@ryoppippi) &lt;a href="https://twitter.com/ryoppippi/status/1916248906523906227?ref_src=twsrc%5Etfw"&gt;April 26, 2025&lt;/a&gt;&lt;/blockquote&gt; &lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8"&gt;&lt;/script&gt;
+&lt;h2 id="今後の展開-検討事項"&gt;今後の展開・検討事項&lt;/h2&gt;
+&lt;p&gt;Aiderに食わせる為のコーディング特化のDeepWikiを作りたいのでMastraで自作する。&lt;/p&gt;
+&lt;h2 id="backlinks"&gt;Backlinks&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20250625115611-yield_in_php_src/"&gt;php-srcとyieldについて調査メモ&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</description></item></channel></rss>

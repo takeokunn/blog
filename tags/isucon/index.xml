@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Isucon on takeokunn's blog</title><link>https://www.takeokunn.org/tags/isucon/</link><description>Recent content in Isucon on takeokunn's blog</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Sun, 17 Nov 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://www.takeokunn.org/tags/isucon/index.xml" rel="self" type="application/rss+xml"/><item><title>2024年版private-isu構築メモ</title><link>https://www.takeokunn.org/posts/fleeting/20241117172034-how_to_launch_private_isu_2024/</link><pubDate>Sun, 17 Nov 2024 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20241117172034-how_to_launch_private_isu_2024/</guid><description>&lt;h2 id="背景"&gt;背景&lt;/h2&gt;
+&lt;p&gt;ISUCON14の練習の為&lt;a href="https://github.com/catatsuy/private-isu"&gt;catatsuy/private-isu&lt;/a&gt;を自分のAWSに構築しようとしたが、 &lt;a href="https://gist.github.com/tohutohu/024551682a9004da286b0abd6366fa55"&gt;tohutohu/private-isu.yaml - gist&lt;/a&gt;が構築できなかったのでメモ。&lt;/p&gt;
+&lt;h2 id="問題点"&gt;問題点&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://gist.github.com/tohutohu/024551682a9004da286b0abd6366fa55"&gt;tohutohu/private-isu.yaml - gist&lt;/a&gt; のCloudFormationをそのまま起動しようとするとAMIがないと怒られる。&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Name&lt;/th&gt;
+&lt;th&gt;ImageId&lt;/th&gt;
+&lt;th&gt;InstanceType&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;server&lt;/td&gt;
+&lt;td&gt;ami-0d92a4724cae6f07b&lt;/td&gt;
+&lt;td&gt;c6i.large&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;bench&lt;/td&gt;
+&lt;td&gt;ami-0582a2a7fbe79a30d&lt;/td&gt;
+&lt;td&gt;c6i.xlarge&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;AMIの検索は以下から行う。
+&lt;a href="https://docs.aws.amazon.com/ja_jp/AWSEC2/latest/UserGuide/finding-an-ami.html"&gt;https://docs.aws.amazon.com/ja_jp/AWSEC2/latest/UserGuide/finding-an-ami.html&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id="修正方法"&gt;修正方法&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://github.com/catatsuy/private-isu?tab=readme-ov-file#ami"&gt;catatsuy/private-isu#ami&lt;/a&gt; に動くAMIが記述されているのでそちらに修正し、費用面を考慮して &lt;code&gt;InstanceType&lt;/code&gt; を次のように修正した。&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Name&lt;/th&gt;
+&lt;th&gt;ImageId&lt;/th&gt;
+&lt;th&gt;InstanceType&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;server&lt;/td&gt;
+&lt;td&gt;ami-047fdc2b851e73cad&lt;/td&gt;
+&lt;td&gt;t2.medium&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;bench&lt;/td&gt;
+&lt;td&gt;ami-037be39355baf1f2e&lt;/td&gt;
+&lt;td&gt;t2.medium&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;また、 &lt;code&gt;KeyPairName&lt;/code&gt; は不要なので削除した。&lt;/p&gt;
+&lt;p&gt;実際のCloudFormationは以下。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;AWSTemplateFormatVersion&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#39;2010-09-09&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;Description&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;private-isu template&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;Parameters&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;GitHubUsername&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;Description&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;GitHub Username for SSH public key&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;Type&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;String&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;Resources&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;VPC&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;Type&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;AWS::EC2::VPC&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;Properties&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;CidrBlock&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#39;192.168.0.0/16&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;MySubnet&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;Type&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;AWS::EC2::Subnet&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;Properties&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;VpcId&lt;/span&gt;: !&lt;span style="color:#ae81ff"&gt;Ref VPC&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;CidrBlock&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#39;192.168.1.0/24&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;AvailabilityZone&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;ap-northeast-1a&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;MyInternetGateway&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;Type&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;AWS::EC2::InternetGateway&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;AttachGateway&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;Type&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;AWS::EC2::VPCGatewayAttachment&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;Properties&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;VpcId&lt;/span&gt;: !&lt;span style="color:#ae81ff"&gt;Ref VPC&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;InternetGatewayId&lt;/span&gt;: !&lt;span style="color:#ae81ff"&gt;Ref MyInternetGateway&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;MyRouteTable&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;Type&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;AWS::EC2::RouteTable&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;Properties&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;VpcId&lt;/span&gt;: !&lt;span style="color:#ae81ff"&gt;Ref VPC&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;PublicRoute&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;Type&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;AWS::EC2::Route&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;DependsOn&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;AttachGateway&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;Properties&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;RouteTableId&lt;/span&gt;: !&lt;span style="color:#ae81ff"&gt;Ref MyRouteTable&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;DestinationCidrBlock&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;0.0.0.0&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;/0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;GatewayId&lt;/span&gt;: !&lt;span style="color:#ae81ff"&gt;Ref MyInternetGateway&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;SubnetRouteTableAssociation&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;Type&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;AWS::EC2::SubnetRouteTableAssociation&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;Properties&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;SubnetId&lt;/span&gt;: !&lt;span style="color:#ae81ff"&gt;Ref MySubnet&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;RouteTableId&lt;/span&gt;: !&lt;span style="color:#ae81ff"&gt;Ref MyRouteTable&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;MySecurityGroup&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;Type&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;AWS::EC2::SecurityGroup&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;Properties&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;GroupDescription&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;Enable SSH, HTTP, HTTPS access&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;VpcId&lt;/span&gt;: !&lt;span style="color:#ae81ff"&gt;Ref VPC&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;SecurityGroupIngress&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#f92672"&gt;IpProtocol&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;tcp&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;FromPort&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;22&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;ToPort&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;22&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;CidrIp&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;0.0.0.0&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;/0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#f92672"&gt;IpProtocol&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;tcp&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;FromPort&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;80&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;ToPort&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;80&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;CidrIp&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;0.0.0.0&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;/0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#f92672"&gt;IpProtocol&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;tcp&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;FromPort&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;443&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;ToPort&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;443&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;CidrIp&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;0.0.0.0&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;/0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#f92672"&gt;IpProtocol&lt;/span&gt;: -&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;CidrIp&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;192.168.0.0&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;/16&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;ServerInstance&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;Type&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;AWS::EC2::Instance&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;Properties&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;InstanceType&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;t2.medium&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;ImageId&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;ami-047fdc2b851e73cad&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;SubnetId&lt;/span&gt;: !&lt;span style="color:#ae81ff"&gt;Ref MySubnet&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;PrivateIpAddress&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#39;192.168.1.10&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;SecurityGroupIds&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - !&lt;span style="color:#ae81ff"&gt;Ref MySecurityGroup&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;UserData&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;Fn::Base64&lt;/span&gt;: !&lt;span style="color:#ae81ff"&gt;Sub |&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;#!/bin/bash&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ae81ff"&gt;GITHUB_USER=${GitHubUsername}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ae81ff"&gt;mkdir -p /home/isucon/.ssh&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ae81ff"&gt;curl -s https://github.com/$GITHUB_USER.keys &amp;gt;&amp;gt; /home/isucon/.ssh/authorized_keys&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ae81ff"&gt;chown -R isucon:isucon /home/isucon/.ssh&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ae81ff"&gt;chmod 600 /home/isucon/.ssh/authorized_keys&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;BenchmarkerInstance&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;Type&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;AWS::EC2::Instance&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;Properties&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;InstanceType&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;t2.medium&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;ImageId&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;ami-037be39355baf1f2e&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;SubnetId&lt;/span&gt;: !&lt;span style="color:#ae81ff"&gt;Ref MySubnet&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;PrivateIpAddress&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#39;192.168.1.20&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;SecurityGroupIds&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - !&lt;span style="color:#ae81ff"&gt;Ref MySecurityGroup&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;UserData&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;Fn::Base64&lt;/span&gt;: !&lt;span style="color:#ae81ff"&gt;Sub |&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;#!/bin/bash&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ae81ff"&gt;GITHUB_USER=${GitHubUsername}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ae81ff"&gt;mkdir -p /home/isucon/.ssh&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ae81ff"&gt;curl -s https://github.com/$GITHUB_USER.keys &amp;gt;&amp;gt; /home/isucon/.ssh/authorized_keys&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ae81ff"&gt;chown -R isucon:isucon /home/isucon/.ssh&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ae81ff"&gt;chmod 600 /home/isucon/.ssh/authorized_keys&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;ServerEIP&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;Type&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;AWS::EC2::EIP&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;BenchmarkerEIP&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;Type&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;AWS::EC2::EIP&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;ServerEIPAssociation&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;Type&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;AWS::EC2::EIPAssociation&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;Properties&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;InstanceId&lt;/span&gt;: !&lt;span style="color:#ae81ff"&gt;Ref ServerInstance&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;EIP&lt;/span&gt;: !&lt;span style="color:#ae81ff"&gt;Ref ServerEIP&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;BenchmarkerEIPAssociation&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;Type&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;AWS::EC2::EIPAssociation&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;Properties&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;InstanceId&lt;/span&gt;: !&lt;span style="color:#ae81ff"&gt;Ref BenchmarkerInstance&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;EIP&lt;/span&gt;: !&lt;span style="color:#ae81ff"&gt;Ref BenchmarkerEIP&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="終わりに"&gt;終わりに&lt;/h2&gt;
+&lt;p&gt;実際に練習するなら指定された環境のまま起動した方がよいだろうが、あくまで練習として &lt;code&gt;private-isu&lt;/code&gt; を立ち上げたいだけという今回の用途ではこれで十分。&lt;/p&gt;</description></item></channel></rss>

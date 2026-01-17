@@ -1,0 +1,256 @@
+<!doctype html><html lang=ja-jp dir=ltr prefix="og: https://ogp.me/ns#"><head><meta charset=utf-8><meta http-equiv=content-type content="text/html"><meta name=viewport content="width=device-width,initial-scale=1"><meta name=Hatena::Bookmark content="nocomment"><title itemprop=name>php-srcとyieldについて調査メモ | takeokunn's blog</title><meta property="og:title" content="php-srcとyieldについて調査メモ | takeokunn's blog"><meta name=twitter:title content="php-srcとyieldについて調査メモ | takeokunn's blog"><meta itemprop=name content="php-srcとyieldについて調査メモ | takeokunn's blog"><meta name=application-name content="php-srcとyieldについて調査メモ | takeokunn's blog"><meta property="og:site_name" content><meta name=description content="背景・動機 php/php-src でyieldはどう扱われているのか調査したのでメモしておく。
+試したこと・やったこと RFCを読む 2012/06/05にNikita Popov氏が「Request for Comments: Generators」というRFCを出している。 yield構文はPHP 5.5で導入されたようだ。
+https://wiki.php.net/rfc/generators
+yieldは次の点で優れているという主張をしている。
+パフォーマンスとメモリ効率 可読性・保守性 イテレーション処理の標準化 GeneratorのInterfaceは以下。 Iteratorを継"><meta itemprop=description content="背景・動機 php/php-src でyieldはどう扱われているのか調査したのでメモしておく。
+試したこと・やったこと RFCを読む 2012/06/05にNikita Popov氏が「Request for Comments: Generators」というRFCを出している。 yield構文はPHP 5.5で導入されたようだ。
+https://wiki.php.net/rfc/generators
+yieldは次の点で優れているという主張をしている。
+パフォーマンスとメモリ効率 可読性・保守性 イテレーション処理の標準化 GeneratorのInterfaceは以下。 Iteratorを継"><meta property="og:description" content="背景・動機 php/php-src でyieldはどう扱われているのか調査したのでメモしておく。
+試したこと・やったこと RFCを読む 2012/06/05にNikita Popov氏が「Request for Comments: Generators」というRFCを出している。 yield構文はPHP 5.5で導入されたようだ。
+https://wiki.php.net/rfc/generators
+yieldは次の点で優れているという主張をしている。
+パフォーマンスとメモリ効率 可読性・保守性 イテレーション処理の標準化 GeneratorのInterfaceは以下。 Iteratorを継"><meta name=twitter:description content="背景・動機 php/php-src でyieldはどう扱われているのか調査したのでメモしておく。
+試したこと・やったこと RFCを読む 2012/06/05にNikita Popov氏が「Request for Comments: Generators」というRFCを出している。 yield構文はPHP 5.5で導入されたようだ。
+https://wiki.php.net/rfc/generators
+yieldは次の点で優れているという主張をしている。
+パフォーマンスとメモリ効率 可読性・保守性 イテレーション処理の標準化 GeneratorのInterfaceは以下。 Iteratorを継"><meta property="og:locale" content="ja-jp"><meta name=language content="ja-jp"><link rel=alternate hreflang=ja-jp href=https://www.takeokunn.org/posts/fleeting/20250625115611-yield_in_php_src/ title=Japanese><meta property="og:type" content="article"><meta property="og:article:published_time" content="2025-06-25T00:00:00+00:00"><meta property="article:published_time" content="2025-06-25T00:00:00+00:00"><meta property="og:url" content="https://www.takeokunn.org/posts/fleeting/20250625115611-yield_in_php_src/"><meta itemprop=image content="https://www.takeokunn.org/ogp/20250625115611-yield_in_php_src.png"><meta property="og:image" content="https://www.takeokunn.org/ogp/20250625115611-yield_in_php_src.png"><meta name=twitter:image content="https://www.takeokunn.org/ogp/20250625115611-yield_in_php_src.png"><meta name=twitter:image:src content="https://www.takeokunn.org/ogp/20250625115611-yield_in_php_src.png"><meta name=twitter:card content="summary_large_image"><script defer type=application/ld+json>{"@context":"http://schema.org","@type":"Article","headline":"php-srcとyieldについて調査メモ","author":{"@type":"Person","name":""},"datePublished":"2025-06-25T00:00:00\u002b00:00","description":"背景・動機 php/php-src でyieldはどう扱われているのか調査したのでメモしておく。\n試したこと・やったこと RFCを読む 2012/06/05にNikita Popov氏が「Request for Comments: Generators」というRFCを出している。 yield構文はPHP 5.5で導入されたようだ。\nhttps://wiki.php.net/rfc/generators\nyieldは次の点で優れているという主張をしている。\nパフォーマンスとメモリ効率 可読性・保守性 イテレーション処理の標準化 GeneratorのInterfaceは以下。 Iteratorを継","wordCount":781,"mainEntityOfPage":"True","dateModified":"2025-06-25T00:00:00\u002b00:00","image":{"@type":"imageObject","url":""},"publisher":{"@type":"Organization","name":"takeokunn\u0027s blog"}}</script><link rel=canonical href=https://www.takeokunn.org/posts/fleeting/20250625115611-yield_in_php_src/><link href=/posts/fleeting/20250625115611-yield_in_php_src/ rel=alternate type=application/rss+xml title="takeokunn's blog"><link href=/posts/fleeting/20250625115611-yield_in_php_src/ rel=feed type=application/rss+xml title="takeokunn's blog"><link href=/style.min.71c11b16c107f1031ce1f17c8e2fef21394bb486a285ca4d0a69d5c311e607d5.css rel=stylesheet><link href=/code-highlight.min.ca0d5ee203390cf1a8d6b0b0204024fa2424a020fd6554c7df0c2a572e19c583.css rel=stylesheet><link rel="shortcut icon" href=/favicon.ico></head><body class=notransition aria-live=polite><div class=navbar role=navigation><nav class=menu aria-label="Main Navigation"><a href=https://www.takeokunn.org/ class=logo aria-label=Home><svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home" aria-hidden="true" focusable="false"><title>Home</title><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+</a><input type=checkbox id=menu-trigger class=menu-trigger aria-expanded=false aria-controls=site-menu>
+<label for=menu-trigger aria-label="Toggle menu"><span class=menu-icon aria-hidden=true><svg width="25" height="25" stroke="currentColor" fill="none" viewBox="0 0 14 14" aria-hidden="true" focusable="false"><title>Menu</title><path stroke-linecap="round" stroke-linejoin="round" d="M10.595 7H3.40726"/><path stroke-linecap="round" stroke-linejoin="round" d="M10.5096 3.51488H3.49301"/><path stroke-linecap="round" stroke-linejoin="round" d="M10.5096 10.4851H3.49301"/><path stroke-linecap="round" stroke-linejoin="round" d="M.5 12.5V1.5c0-.552285.447715-1 1-1h11C13.0523.5 13.5.947715 13.5 1.5v11C13.5 13.0523 13.0523 13.5 12.5 13.5H1.5C.947715 13.5.5 13.0523.5 12.5z"/></svg></span></label><div class=trigger id=site-menu><label for=menu-trigger class=menu-close-button aria-label="Close menu">&#215;</label><ul class=trigger-container role=menu><li role=none><a class=menu-link href=/ role=menuitem>Home</a></li><li role=none><a class="menu-link active" href=/posts/ role=menuitem aria-current=page>Posts</a></li><li role=none><a class=menu-link href=/graph/ role=menuitem>Graph</a></li></ul></div></nav></div><div class="wrapper post"><main class=page-content aria-label=Content><article role=article><header class=header><h1 class=header-title>php-srcとyieldについて調査メモ</h1><div class=post-meta><time datetime=2025.6.25 itemprop=datePublished aria-label="Published on 2025.6.25">2025.6.25</time></div><ul class=tags aria-label="Post tags"><li><a href=/tags/fleeting aria-label="View all posts with tag: fleeting">fleeting</a></li><li><a href=/tags/php aria-label="View all posts with tag: php">php</a></li></ul></header><details class=toc><summary aria-label="Toggle Table of Contents"><b>Table of Contents</b></summary><nav id=TableOfContents><ul><li><a href=#背景-動機>背景・動機</a></li><li><a href=#試したこと-やったこと>試したこと・やったこと</a><ul><li><a href=#rfcを読む>RFCを読む</a></li><li><a href=#サンプルコード>サンプルコード</a><ul><li><a href=#最小サンプル>最小サンプル</a></li><li><a href=#foreach>foreach</a></li><li><a href=#yield-from>yield from</a></li><li><a href=#cliアプリ例>CLIアプリ例</a></li><li><a href=#throw例>throw例</a></li><li><a href=#戻り値付き>戻り値付き</a></li></ul></li><li><a href=#php-srcコードリーディング>php-srcコードリーディング</a><ul><li><a href=#コンパイラ>コンパイラ</a></li><li><a href=#interface>Interface</a></li></ul></li></ul></li><li><a href=#得られた結果-所感>得られた結果・所感</a></li><li><a href=#今後の展開-検討事項>今後の展開・検討事項</a></li></ul></nav></details><div class=page-content><h2 id=背景-動機>背景・動機</h2><p><a href=https://github.com/php/php-src>php/php-src</a> でyieldはどう扱われているのか調査したのでメモしておく。</p><h2 id=試したこと-やったこと>試したこと・やったこと</h2><h3 id=rfcを読む>RFCを読む</h3><p>2012/06/05にNikita Popov氏が「Request for Comments: Generators」というRFCを出している。
+yield構文はPHP 5.5で導入されたようだ。</p><p><a href=https://wiki.php.net/rfc/generators>https://wiki.php.net/rfc/generators</a></p><p>yieldは次の点で優れているという主張をしている。</p><ul><li>パフォーマンスとメモリ効率</li><li>可読性・保守性</li><li>イテレーション処理の標準化</li></ul><p>GeneratorのInterfaceは以下。
+Iteratorを継承しているのでforeachでloopを回せる。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-php data-lang=php><span style=display:flex><span><span style=color:#66d9ef>final</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Generator</span> <span style=color:#66d9ef>implements</span> <span style=color:#a6e22e>Iterator</span> {
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>void</span>  <span style=color:#a6e22e>rewind</span>();
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>bool</span>  <span style=color:#a6e22e>valid</span>();
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>mixed</span> <span style=color:#a6e22e>current</span>();
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>mixed</span> <span style=color:#a6e22e>key</span>();
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>void</span>  <span style=color:#a6e22e>next</span>();
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>mixed</span> <span style=color:#a6e22e>send</span>(<span style=color:#a6e22e>mixed</span> $value);
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>mixed</span> <span style=color:#66d9ef>throw</span>(<span style=color:#a6e22e>Exception</span> $exception);
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>他言語の実装は以下。</p><ul><li>Python<ul><li><a href=https://wiki.python.org/moin/Generators>https://wiki.python.org/moin/Generators</a></li></ul></li><li>ECMAScript<ul><li><a href=https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_generators#Generators:_a_better_way_to_build_Iterators>https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_generators#Generators:_a_better_way_to_build_Iterators</a></li></ul></li><li>C#<ul><li><a href=https://csharpindepth.com/Articles/IteratorBlockImplementation>https://csharpindepth.com/Articles/IteratorBlockImplementation</a></li></ul></li></ul><h3 id=サンプルコード>サンプルコード</h3><h4 id=最小サンプル>最小サンプル</h4><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-php data-lang=php><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>gen</span>() {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>yield</span> <span style=color:#ae81ff>1</span>;
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>yield</span> <span style=color:#ae81ff>2</span>;
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>yield</span> <span style=color:#ae81ff>3</span>;
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>$g <span style=color:#f92672>=</span> <span style=color:#a6e22e>gen</span>();
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>echo</span> $g<span style=color:#f92672>-&gt;</span><span style=color:#a6e22e>current</span>(); <span style=color:#75715e>// 1
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>$g<span style=color:#f92672>-&gt;</span><span style=color:#a6e22e>next</span>();
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>echo</span> $g<span style=color:#f92672>-&gt;</span><span style=color:#a6e22e>current</span>(); <span style=color:#75715e>// 2
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>$g<span style=color:#f92672>-&gt;</span><span style=color:#a6e22e>next</span>();
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>echo</span> $g<span style=color:#f92672>-&gt;</span><span style=color:#a6e22e>current</span>(); <span style=color:#75715e>// 3
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>$g<span style=color:#f92672>-&gt;</span><span style=color:#a6e22e>next</span>();
+</span></span></code></pre></div><h4 id=foreach>foreach</h4><p>Iteratorなのでforeachで回せる。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-php data-lang=php><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>keyedGen</span>() {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>yield</span> <span style=color:#e6db74>&#39;first&#39;</span>  <span style=color:#f92672>=&gt;</span> <span style=color:#e6db74>&#39;A&#39;</span>;
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>yield</span> <span style=color:#e6db74>&#39;second&#39;</span> <span style=color:#f92672>=&gt;</span> <span style=color:#e6db74>&#39;B&#39;</span>;
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>yield</span> <span style=color:#e6db74>&#39;third&#39;</span> <span style=color:#f92672>=&gt;</span> <span style=color:#e6db74>&#39;C&#39;</span>;
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>foreach</span> (<span style=color:#a6e22e>keyedGen</span>() <span style=color:#66d9ef>as</span> $key <span style=color:#f92672>=&gt;</span> $val) {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>echo</span> <span style=color:#e6db74>&#34;</span><span style=color:#e6db74>$key</span><span style=color:#e6db74> =&gt; </span><span style=color:#e6db74>$val\n</span><span style=color:#e6db74>&#34;</span>;   <span style=color:#75715e>// first =&gt; A / second =&gt; B / third =&gt; C
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>}
+</span></span></code></pre></div><h4 id=yield-from>yield from</h4><p>yieldの合成可能。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-php data-lang=php><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>sub</span>()
+</span></span><span style=display:flex><span>{
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>yield</span> <span style=color:#ae81ff>1</span>;
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>yield</span> <span style=color:#ae81ff>2</span>;
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>main</span>()
+</span></span><span style=display:flex><span>{
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>yield</span> <span style=color:#ae81ff>0</span>;
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>yield</span> <span style=color:#a6e22e>from</span> <span style=color:#a6e22e>sub</span>();
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>yield</span> <span style=color:#ae81ff>3</span>;
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>foreach</span> (<span style=color:#a6e22e>main</span>() <span style=color:#66d9ef>as</span> $v) <span style=color:#66d9ef>echo</span> $v; <span style=color:#75715e>// 0 1 2 3
+</span></span></span></code></pre></div><h4 id=cliアプリ例>CLIアプリ例</h4><p>yieldを使えば対話式のアプリケーションを簡単に作成できる。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-php data-lang=php><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>interactiveForm</span>() {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>echo</span> <span style=color:#e6db74>&#34;フォーム開始</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    $name <span style=color:#f92672>=</span> <span style=color:#66d9ef>yield</span> <span style=color:#e6db74>&#34;お名前を入力してください:&#34;</span>;
+</span></span><span style=display:flex><span>    $age  <span style=color:#f92672>=</span> <span style=color:#66d9ef>yield</span> <span style=color:#e6db74>&#34;年齢を入力してください:&#34;</span>;
+</span></span><span style=display:flex><span>    $lang <span style=color:#f92672>=</span> <span style=color:#66d9ef>yield</span> <span style=color:#e6db74>&#34;好きな言語を入力してください:&#34;</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>yield</span> <span style=color:#e6db74>&#34;確認: </span><span style=color:#e6db74>{</span>$name<span style=color:#e6db74>}</span><span style=color:#e6db74>さん (</span><span style=color:#e6db74>{</span>$age<span style=color:#e6db74>}</span><span style=color:#e6db74>歳)、</span><span style=color:#e6db74>{</span>$lang<span style=color:#e6db74>}</span><span style=color:#e6db74>が好きなんですね。&#34;</span>;
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>$gen <span style=color:#f92672>=</span> <span style=color:#a6e22e>interactiveForm</span>();
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>while</span> ($gen<span style=color:#f92672>-&gt;</span><span style=color:#a6e22e>valid</span>()) {
+</span></span><span style=display:flex><span>    $prompt <span style=color:#f92672>=</span> $gen<span style=color:#f92672>-&gt;</span><span style=color:#a6e22e>current</span>();
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>echo</span> $prompt <span style=color:#f92672>.</span> <span style=color:#e6db74>&#34;</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    $input <span style=color:#f92672>=</span> <span style=color:#a6e22e>readline</span>(<span style=color:#e6db74>&#34;&gt; &#34;</span>);
+</span></span><span style=display:flex><span>    $gen<span style=color:#f92672>-&gt;</span><span style=color:#a6e22e>send</span>($input);
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-console data-lang=console><span style=display:flex><span>$ nix run nixpkgs#php test.php
+</span></span><span style=display:flex><span>フォーム開始
+</span></span><span style=display:flex><span>お名前を入力してください:
+</span></span><span style=display:flex><span>@&gt; take
+</span></span><span style=display:flex><span>年齢を入力してください:
+</span></span><span style=display:flex><span>@&gt; 29
+</span></span><span style=display:flex><span>好きな言語を入力してください:
+</span></span><span style=display:flex><span>@&gt; php
+</span></span><span style=display:flex><span>確認: takeさん (29歳)、phpが好きなんですね。
+</span></span><span style=display:flex><span>@&gt; yes
+</span></span></code></pre></div><h4 id=throw例>throw例</h4><p>throwを投げることもできる。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-php data-lang=php><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>worker</span>() {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>try</span> {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>while</span> (<span style=color:#66d9ef>true</span>) {
+</span></span><span style=display:flex><span>            $task <span style=color:#f92672>=</span> <span style=color:#66d9ef>yield</span>;
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>echo</span> <span style=color:#e6db74>&#34;work on </span><span style=color:#e6db74>$task\n</span><span style=color:#e6db74>&#34;</span>;
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>    } <span style=color:#66d9ef>catch</span> (<span style=color:#a6e22e>Exception</span> $e) {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>echo</span> <span style=color:#e6db74>&#34;stop: </span><span style=color:#e6db74>{</span>$e<span style=color:#f92672>-&gt;</span><span style=color:#a6e22e>getMessage</span>()<span style=color:#e6db74>}</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>$g <span style=color:#f92672>=</span> <span style=color:#a6e22e>worker</span>();  $g<span style=color:#f92672>-&gt;</span><span style=color:#a6e22e>rewind</span>();
+</span></span><span style=display:flex><span>$g<span style=color:#f92672>-&gt;</span><span style=color:#a6e22e>send</span>(<span style=color:#e6db74>&#39;task-1&#39;</span>);
+</span></span><span style=display:flex><span>$g<span style=color:#f92672>-&gt;</span><span style=color:#a6e22e>throw</span>(<span style=color:#66d9ef>new</span> <span style=color:#a6e22e>Exception</span>(<span style=color:#e6db74>&#39;interrupt&#39;</span>));
+</span></span></code></pre></div><h4 id=戻り値付き>戻り値付き</h4><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-php data-lang=php><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>sum</span>($a, $b) {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>yield</span> $a;
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> $a <span style=color:#f92672>+</span> $b;
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>$g <span style=color:#f92672>=</span> <span style=color:#a6e22e>sum</span>(<span style=color:#ae81ff>2</span>, <span style=color:#ae81ff>3</span>);
+</span></span><span style=display:flex><span>$g<span style=color:#f92672>-&gt;</span><span style=color:#a6e22e>next</span>();
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>echo</span> $g<span style=color:#f92672>-&gt;</span><span style=color:#a6e22e>getReturn</span>();
+</span></span></code></pre></div><h3 id=php-srcコードリーディング>php-srcコードリーディング</h3><h4 id=コンパイラ>コンパイラ</h4><p><a href=https://github.com/php/php-src/blob/8b61c49987750b74bee19838c7f7c9fbbf53aace/Zend/zend_language_parser.y>Zend/zend_language_parser.y</a> に予約語として登録されている。</p><pre tabindex=0><code class=language-bison data-lang=bison>%precedence T_YIELD
+%precedence T_YIELD_FROM
+</code></pre><p>次の3つの構文をサポートしている。</p><ul><li>単純なyield: T_YIELD のみ</li><li>値付きyield: T_YIELD expr</li><li>キー・値付きyield: T_YIELD expr T_DOUBLE_ARROW expr</li></ul><pre tabindex=0><code class=language-bison data-lang=bison>|	T_YIELD { $$ = zend_ast_create(ZEND_AST_YIELD, NULL, NULL); CG(extra_fn_flags) |= ZEND_ACC_GENERATOR; }
+|	T_YIELD expr { $$ = zend_ast_create(ZEND_AST_YIELD, $2, NULL); CG(extra_fn_flags) |= ZEND_ACC_GENERATOR; }
+|	T_YIELD expr T_DOUBLE_ARROW expr { $$ = zend_ast_create(ZEND_AST_YIELD, $4, $2); CG(extra_fn_flags) |= ZEND_ACC_GENERATOR; }
+|	T_YIELD_FROM expr { $$ = zend_ast_create(ZEND_AST_YIELD_FROM, $2); CG(extra_fn_flags) |= ZEND_ACC_GENERATOR; }
+</code></pre><p><a href=https://github.com/php/php-src/blob/8b61c49987750b74bee19838c7f7c9fbbf53aace/Zend/zend_compile.c#L1530-L1560>Zend/zend_compile.c</a> でgenerator関数かどうかを判定している。 <code>ZEND_ACC_GENERATOR</code> としてマークする。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:#66d9ef>static</span> <span style=color:#66d9ef>bool</span> <span style=color:#a6e22e>is_generator_compatible_class_type</span>(<span style=color:#66d9ef>const</span> zend_string <span style=color:#f92672>*</span>name) {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> <span style=color:#a6e22e>zend_string_equals_ci</span>(name, <span style=color:#a6e22e>ZSTR_KNOWN</span>(ZEND_STR_TRAVERSABLE))
+</span></span><span style=display:flex><span>                <span style=color:#f92672>||</span> <span style=color:#a6e22e>zend_string_equals_literal_ci</span>(name, <span style=color:#e6db74>&#34;Iterator&#34;</span>)
+</span></span><span style=display:flex><span>                <span style=color:#f92672>||</span> <span style=color:#a6e22e>zend_string_equals_literal_ci</span>(name, <span style=color:#e6db74>&#34;Generator&#34;</span>);
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>/* 中略 */</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>static</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>zend_mark_function_as_generator</span>(<span style=color:#66d9ef>void</span>) <span style=color:#75715e>/* </span>{{{ <span style=color:#960050;background-color:#1e0010>*/</span>
+</span></span><span style=display:flex><span>{
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> (<span style=color:#f92672>!</span><span style=color:#a6e22e>CG</span>(active_op_array)<span style=color:#f92672>-&gt;</span>function_name) {
+</span></span><span style=display:flex><span>                <span style=color:#a6e22e>zend_error_noreturn</span>(E_COMPILE_ERROR,
+</span></span><span style=display:flex><span>                        <span style=color:#e6db74>&#34;The </span><span style=color:#ae81ff>\&#34;</span><span style=color:#e6db74>yield</span><span style=color:#ae81ff>\&#34;</span><span style=color:#e6db74> expression can only be used inside a function&#34;</span>);
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> (<span style=color:#a6e22e>CG</span>(active_op_array)<span style=color:#f92672>-&gt;</span>fn_flags <span style=color:#f92672>&amp;</span> ZEND_ACC_HAS_RETURN_TYPE) {
+</span></span><span style=display:flex><span>                <span style=color:#66d9ef>const</span> zend_type return_type <span style=color:#f92672>=</span> <span style=color:#a6e22e>CG</span>(active_op_array)<span style=color:#f92672>-&gt;</span>arg_info[<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>].type;
+</span></span><span style=display:flex><span>                <span style=color:#66d9ef>bool</span> valid_type <span style=color:#f92672>=</span> (<span style=color:#a6e22e>ZEND_TYPE_FULL_MASK</span>(return_type) <span style=color:#f92672>&amp;</span> MAY_BE_OBJECT) <span style=color:#f92672>!=</span> <span style=color:#ae81ff>0</span>;
+</span></span><span style=display:flex><span>                <span style=color:#66d9ef>if</span> (<span style=color:#f92672>!</span>valid_type) {
+</span></span><span style=display:flex><span>                        <span style=color:#66d9ef>const</span> zend_type <span style=color:#f92672>*</span>single_type;
+</span></span><span style=display:flex><span>                        <span style=color:#a6e22e>ZEND_TYPE_FOREACH</span>(return_type, single_type) {
+</span></span><span style=display:flex><span>                                <span style=color:#66d9ef>if</span> (<span style=color:#a6e22e>ZEND_TYPE_HAS_NAME</span>(<span style=color:#f92672>*</span>single_type)
+</span></span><span style=display:flex><span>                                                <span style=color:#f92672>&amp;&amp;</span> <span style=color:#a6e22e>is_generator_compatible_class_type</span>(<span style=color:#a6e22e>ZEND_TYPE_NAME</span>(<span style=color:#f92672>*</span>single_type))) {
+</span></span><span style=display:flex><span>                                        valid_type <span style=color:#f92672>=</span> <span style=color:#ae81ff>1</span>;
+</span></span><span style=display:flex><span>                                        <span style=color:#66d9ef>break</span>;
+</span></span><span style=display:flex><span>                                }
+</span></span><span style=display:flex><span>                        } <span style=color:#a6e22e>ZEND_TYPE_FOREACH_END</span>();
+</span></span><span style=display:flex><span>                }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>                <span style=color:#66d9ef>if</span> (<span style=color:#f92672>!</span>valid_type) {
+</span></span><span style=display:flex><span>                        zend_string <span style=color:#f92672>*</span>str <span style=color:#f92672>=</span> <span style=color:#a6e22e>zend_type_to_string</span>(return_type);
+</span></span><span style=display:flex><span>                        <span style=color:#a6e22e>zend_error_noreturn</span>(E_COMPILE_ERROR,
+</span></span><span style=display:flex><span>                                <span style=color:#e6db74>&#34;Generator return type must be a supertype of Generator, %s given&#34;</span>,
+</span></span><span style=display:flex><span>                                <span style=color:#a6e22e>ZSTR_VAL</span>(str));
+</span></span><span style=display:flex><span>                }
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#a6e22e>CG</span>(active_op_array)<span style=color:#f92672>-&gt;</span>fn_flags <span style=color:#f92672>|=</span> ZEND_ACC_GENERATOR;
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>yieldはTracing JITではサポートされていない。
+JITに関しては <a href=/posts/permanent/20221222111924-about_php_jit/>PHP8から追加されたJITについて学ぼう!</a> に書いている。</p><p><a href=https://github.com/php/php-src/blob/8b61c49987750b74bee19838c7f7c9fbbf53aace/ext/opcache/jit/zend_jit.c#L2752-L2754>https://github.com/php/php-src/blob/8b61c49987750b74bee19838c7f7c9fbbf53aace/ext/opcache/jit/zend_jit.c#L2752-L2754</a></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:#75715e>/* switch through trampoline */</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>case</span> ZEND_YIELD:
+</span></span><span style=display:flex><span><span style=color:#66d9ef>case</span> ZEND_YIELD_FROM:
+</span></span></code></pre></div><p><code>ZEND_ACC_GENERATOR</code> flagが立っているものは <code>ZEND_GENERATOR_CREATE</code> というOPCODEに割り当てられて処理される。</p><p><a href=https://github.com/php/php-src/blob/8b61c49987750b74bee19838c7f7c9fbbf53aace/Zend/zend_vm_def.h#L4644-L4720>https://github.com/php/php-src/blob/8b61c49987750b74bee19838c7f7c9fbbf53aace/Zend/zend_vm_def.h#L4644-L4720</a></p><ol><li>ジェネレーターオブジェクト作成: ジェネレータークラスのオブジェクトを初期化し、通常のVMスタックではなくヒープ上に実行コンテキスト（execute_data）を割り当てて、実行の中断・再開に備える</li><li>実行コンテキスト保存: 現在の実行状態をヒープ上の新しい領域にコピーし、ジェネレーターオブジェクト内に保存して、ZEND_CALL_GENERATORフラグを設定する</li><li>呼び出しフレーム管理: 現在の実行コンテキストを前の実行データに戻し、呼び出し情報に応じて適切なクリーンアップ処理を行ってVMから離脱する</li></ol><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:#a6e22e>ZEND_VM_HANDLER</span>(<span style=color:#ae81ff>139</span>, ZEND_GENERATOR_CREATE, ANY, ANY)
+</span></span><span style=display:flex><span>{
+</span></span><span style=display:flex><span>        zval <span style=color:#f92672>*</span>return_value <span style=color:#f92672>=</span> <span style=color:#a6e22e>EX</span>(return_value);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> (<span style=color:#a6e22e>EXPECTED</span>(return_value)) {
+</span></span><span style=display:flex><span>                USE_OPLINE
+</span></span><span style=display:flex><span>                zend_generator <span style=color:#f92672>*</span>generator;
+</span></span><span style=display:flex><span>                zend_execute_data <span style=color:#f92672>*</span>gen_execute_data;
+</span></span><span style=display:flex><span>                <span style=color:#66d9ef>uint32_t</span> num_args, used_stack, call_info;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>                <span style=color:#a6e22e>SAVE_OPLINE</span>();
+</span></span><span style=display:flex><span>                <span style=color:#a6e22e>object_init_ex</span>(return_value, zend_ce_generator);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>                <span style=color:#75715e>/*
+</span></span></span><span style=display:flex><span><span style=color:#75715e>                 * Normally the execute_data is allocated on the VM stack (because it does
+</span></span></span><span style=display:flex><span><span style=color:#75715e>                 * not actually do any allocation and thus is faster). For generators
+</span></span></span><span style=display:flex><span><span style=color:#75715e>                 * though this behavior would be suboptimal, because the (rather large)
+</span></span></span><span style=display:flex><span><span style=color:#75715e>                 * structure would have to be copied back and forth every time execution is
+</span></span></span><span style=display:flex><span><span style=color:#75715e>                 * suspended or resumed. That&#39;s why for generators the execution context
+</span></span></span><span style=display:flex><span><span style=color:#75715e>                 * is allocated on heap.
+</span></span></span><span style=display:flex><span><span style=color:#75715e>                 */</span>
+</span></span><span style=display:flex><span>                num_args <span style=color:#f92672>=</span> <span style=color:#a6e22e>EX_NUM_ARGS</span>();
+</span></span><span style=display:flex><span>                <span style=color:#66d9ef>if</span> (<span style=color:#a6e22e>EXPECTED</span>(num_args <span style=color:#f92672>&lt;=</span> <span style=color:#a6e22e>EX</span>(func)<span style=color:#f92672>-&gt;</span>op_array.num_args)) {
+</span></span><span style=display:flex><span>                        used_stack <span style=color:#f92672>=</span> (ZEND_CALL_FRAME_SLOT <span style=color:#f92672>+</span> <span style=color:#a6e22e>EX</span>(func)<span style=color:#f92672>-&gt;</span>op_array.last_var <span style=color:#f92672>+</span> <span style=color:#a6e22e>EX</span>(func)<span style=color:#f92672>-&gt;</span>op_array.T) <span style=color:#f92672>*</span> <span style=color:#66d9ef>sizeof</span>(zval);
+</span></span><span style=display:flex><span>                        gen_execute_data <span style=color:#f92672>=</span> (zend_execute_data<span style=color:#f92672>*</span>)<span style=color:#a6e22e>emalloc</span>(used_stack);
+</span></span><span style=display:flex><span>                        used_stack <span style=color:#f92672>=</span> (ZEND_CALL_FRAME_SLOT <span style=color:#f92672>+</span> <span style=color:#a6e22e>EX</span>(func)<span style=color:#f92672>-&gt;</span>op_array.last_var) <span style=color:#f92672>*</span> <span style=color:#66d9ef>sizeof</span>(zval);
+</span></span><span style=display:flex><span>                } <span style=color:#66d9ef>else</span> {
+</span></span><span style=display:flex><span>                        used_stack <span style=color:#f92672>=</span> (ZEND_CALL_FRAME_SLOT <span style=color:#f92672>+</span> num_args <span style=color:#f92672>+</span> <span style=color:#a6e22e>EX</span>(func)<span style=color:#f92672>-&gt;</span>op_array.last_var <span style=color:#f92672>+</span> <span style=color:#a6e22e>EX</span>(func)<span style=color:#f92672>-&gt;</span>op_array.T <span style=color:#f92672>-</span> <span style=color:#a6e22e>EX</span>(func)<span style=color:#f92672>-&gt;</span>op_array.num_args) <span style=color:#f92672>*</span> <span style=color:#66d9ef>sizeof</span>(zval);
+</span></span><span style=display:flex><span>                        gen_execute_data <span style=color:#f92672>=</span> (zend_execute_data<span style=color:#f92672>*</span>)<span style=color:#a6e22e>emalloc</span>(used_stack);
+</span></span><span style=display:flex><span>                }
+</span></span><span style=display:flex><span>                <span style=color:#a6e22e>memcpy</span>(gen_execute_data, execute_data, used_stack);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>                <span style=color:#75715e>/* Save execution context in generator object. */</span>
+</span></span><span style=display:flex><span>                generator <span style=color:#f92672>=</span> (zend_generator <span style=color:#f92672>*</span>) <span style=color:#a6e22e>Z_OBJ_P</span>(<span style=color:#a6e22e>EX</span>(return_value));
+</span></span><span style=display:flex><span>                generator<span style=color:#f92672>-&gt;</span>func <span style=color:#f92672>=</span> gen_execute_data<span style=color:#f92672>-&gt;</span>func;
+</span></span><span style=display:flex><span>                generator<span style=color:#f92672>-&gt;</span>execute_data <span style=color:#f92672>=</span> gen_execute_data;
+</span></span><span style=display:flex><span>                generator<span style=color:#f92672>-&gt;</span>frozen_call_stack <span style=color:#f92672>=</span> NULL;
+</span></span><span style=display:flex><span>                generator<span style=color:#f92672>-&gt;</span>execute_fake.opline <span style=color:#f92672>=</span> NULL;
+</span></span><span style=display:flex><span>                generator<span style=color:#f92672>-&gt;</span>execute_fake.func <span style=color:#f92672>=</span> NULL;
+</span></span><span style=display:flex><span>                generator<span style=color:#f92672>-&gt;</span>execute_fake.prev_execute_data <span style=color:#f92672>=</span> NULL;
+</span></span><span style=display:flex><span>                <span style=color:#a6e22e>ZVAL_OBJ</span>(<span style=color:#f92672>&amp;</span>generator<span style=color:#f92672>-&gt;</span>execute_fake.This, (zend_object <span style=color:#f92672>*</span>) generator);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>                gen_execute_data<span style=color:#f92672>-&gt;</span>opline <span style=color:#f92672>=</span> opline;
+</span></span><span style=display:flex><span>                <span style=color:#75715e>/* EX(return_value) keeps pointer to zend_object (not a real zval) */</span>
+</span></span><span style=display:flex><span>                gen_execute_data<span style=color:#f92672>-&gt;</span>return_value <span style=color:#f92672>=</span> (zval<span style=color:#f92672>*</span>)generator;
+</span></span><span style=display:flex><span>                call_info <span style=color:#f92672>=</span> <span style=color:#a6e22e>Z_TYPE_INFO</span>(<span style=color:#a6e22e>EX</span>(This));
+</span></span><span style=display:flex><span>                <span style=color:#66d9ef>if</span> ((call_info <span style=color:#f92672>&amp;</span> Z_TYPE_MASK) <span style=color:#f92672>==</span> IS_OBJECT
+</span></span><span style=display:flex><span>                 <span style=color:#f92672>&amp;&amp;</span> (<span style=color:#f92672>!</span>(call_info <span style=color:#f92672>&amp;</span> (ZEND_CALL_CLOSURE<span style=color:#f92672>|</span>ZEND_CALL_RELEASE_THIS))
+</span></span><span style=display:flex><span>                         <span style=color:#75715e>/* Bug #72523 */</span>
+</span></span><span style=display:flex><span>                        <span style=color:#f92672>||</span> <span style=color:#a6e22e>UNEXPECTED</span>(zend_execute_ex <span style=color:#f92672>!=</span> execute_ex))) {
+</span></span><span style=display:flex><span>                        <span style=color:#a6e22e>ZEND_ADD_CALL_FLAG_EX</span>(call_info, ZEND_CALL_RELEASE_THIS);
+</span></span><span style=display:flex><span>                        <span style=color:#a6e22e>Z_ADDREF</span>(gen_execute_data<span style=color:#f92672>-&gt;</span>This);
+</span></span><span style=display:flex><span>                }
+</span></span><span style=display:flex><span>                <span style=color:#a6e22e>ZEND_ADD_CALL_FLAG_EX</span>(call_info, (ZEND_CALL_TOP_FUNCTION <span style=color:#f92672>|</span> ZEND_CALL_ALLOCATED <span style=color:#f92672>|</span> ZEND_CALL_GENERATOR));
+</span></span><span style=display:flex><span>                <span style=color:#a6e22e>Z_TYPE_INFO</span>(gen_execute_data<span style=color:#f92672>-&gt;</span>This) <span style=color:#f92672>=</span> call_info;
+</span></span><span style=display:flex><span>                gen_execute_data<span style=color:#f92672>-&gt;</span>prev_execute_data <span style=color:#f92672>=</span> NULL;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>                call_info <span style=color:#f92672>=</span> <span style=color:#a6e22e>EX_CALL_INFO</span>();
+</span></span><span style=display:flex><span>                <span style=color:#a6e22e>EG</span>(current_execute_data) <span style=color:#f92672>=</span> <span style=color:#a6e22e>EX</span>(prev_execute_data);
+</span></span><span style=display:flex><span>                <span style=color:#66d9ef>if</span> (<span style=color:#a6e22e>EXPECTED</span>(<span style=color:#f92672>!</span>(call_info <span style=color:#f92672>&amp;</span> (ZEND_CALL_TOP<span style=color:#f92672>|</span>ZEND_CALL_ALLOCATED)))) {
+</span></span><span style=display:flex><span>                        <span style=color:#a6e22e>EG</span>(vm_stack_top) <span style=color:#f92672>=</span> (zval<span style=color:#f92672>*</span>)execute_data;
+</span></span><span style=display:flex><span>                        execute_data <span style=color:#f92672>=</span> <span style=color:#a6e22e>EX</span>(prev_execute_data);
+</span></span><span style=display:flex><span>                        <span style=color:#a6e22e>LOAD_NEXT_OPLINE</span>();
+</span></span><span style=display:flex><span>                        <span style=color:#a6e22e>ZEND_VM_LEAVE</span>();
+</span></span><span style=display:flex><span>                } <span style=color:#66d9ef>else</span> <span style=color:#66d9ef>if</span> (<span style=color:#a6e22e>EXPECTED</span>(<span style=color:#f92672>!</span>(call_info <span style=color:#f92672>&amp;</span> ZEND_CALL_TOP))) {
+</span></span><span style=display:flex><span>                        zend_execute_data <span style=color:#f92672>*</span>old_execute_data <span style=color:#f92672>=</span> execute_data;
+</span></span><span style=display:flex><span>                        execute_data <span style=color:#f92672>=</span> <span style=color:#a6e22e>EX</span>(prev_execute_data);
+</span></span><span style=display:flex><span>                        <span style=color:#a6e22e>zend_vm_stack_free_call_frame_ex</span>(call_info, old_execute_data);
+</span></span><span style=display:flex><span>                        <span style=color:#a6e22e>LOAD_NEXT_OPLINE</span>();
+</span></span><span style=display:flex><span>                        <span style=color:#a6e22e>ZEND_VM_LEAVE</span>();
+</span></span><span style=display:flex><span>                } <span style=color:#66d9ef>else</span> {
+</span></span><span style=display:flex><span>                        <span style=color:#a6e22e>ZEND_VM_RETURN</span>();
+</span></span><span style=display:flex><span>                }
+</span></span><span style=display:flex><span>        } <span style=color:#66d9ef>else</span> {
+</span></span><span style=display:flex><span>                <span style=color:#a6e22e>ZEND_VM_DISPATCH_TO_HELPER</span>(zend_leave_helper);
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h4 id=interface>Interface</h4><p>php docに記述されている。</p><ul><li>generator: <a href=https://www.php.net/manual/ja/class.generator.php>https://www.php.net/manual/ja/class.generator.php</a></li><li>iterator: <a href=https://www.php.net/manual/ja/class.iterator.php>https://www.php.net/manual/ja/class.iterator.php</a></li></ul><h2 id=得られた結果-所感>得られた結果・所感</h2><p>yieldの知らなかった使い方や実際にphp-srcがどういう実装になっているのか深堀できてよかった。
+<a href=/posts/fleeting/20250204175231-laravel_lazy_collection_in_depth/>Laravel LazyCollection in depth</a> の理解がより深まった。</p><p>DeepWikiで質問をしながら実際のコードを読むというのは体験が良かった。
+<a href=/posts/fleeting/20250518171454-deepwiki_memo/>DeepWiki調査メモ</a> にも書いたとおり、deepwiki-openを使えばprivate repoでも実現できるので積極的に活用していきたい。</p><p><a href=https://deepwiki.com/php/php-src>https://deepwiki.com/php/php-src</a></p><h2 id=今後の展開-検討事項>今後の展開・検討事項</h2><p>他にもphp-srcの気になる機能のコードリーディングを気軽にやっていきたい。</p></div></article></main></div><footer class=footer role=contentinfo><div class=footer_social-icons><a href=https://zenn.dev/takeokunn target=_blank rel="noopener noreferrer me" title=Zenn aria-label="Visit Zenn profile"><svg viewBox="0 0 88 88" aria-hidden="true" focusable="false"><path d="M2.22 83.478h17.632c1.296.0 2.16-.576 2.952-1.584L67.906 17.092c.576-.864.288-1.728-.576-1.728H51.946c-1.008.0-1.656.432-2.304 1.296L3.948 81.606c-.648.936-.288 1.872.864 1.872H2.22z" fill="currentColor"/><path d="M54.106 83.478h15.336c1.152.0 1.656-.36 1.656-1.224.0-.36-.144-.792-.432-1.296l-18-28.208c-.504-.792-1.296-.792-1.944.0L42.73 65.998c-.432.72-.36 1.512.144 2.304l8.928 14.112c.504.72 1.152 1.064 2.304 1.064z" fill="currentColor"/></svg>
+</a><a href=https://x.com/takeokunn/ target=_blank rel="noopener noreferrer me" title=Twitter aria-label="Visit Twitter profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M23 3a10.9 10.9.0 01-3.14 1.53 4.48 4.48.0 00-7.86 3v1A10.66 10.66.0 013 4s-4 9 5 13a11.64 11.64.0 01-7 2c9 5 20 0 20-11.5a4.5 4.5.0 00-.08-.83A7.72 7.72.0 0023 3z"/></svg>
+</a><a href=https://github.com/takeokunn target=_blank rel="noopener noreferrer me" title=GitHub aria-label="Visit GitHub profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37.0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44.0 0020 4.77 5.07 5.07.0 0019.91 1S18.73.65 16 2.48a13.38 13.38.0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07.0 005 4.77 5.44 5.44.0 003.5 8.55c0 5.42 3.3 6.61 6.44 7A3.37 3.37.0 009 18.13V22"/></svg>
+</a><a href=https://keyoxide.org/0B10DAA7BA0236D7382287660F79C0AB03FD7A1C target=_blank rel="noopener noreferrer me" title=Keyoxide aria-label="Visit Keyoxide profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5.0 11-7.778 7.778 5.5 5.5.0 017.777-7.777zm0 0L15.5 7.5m0 0 3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
+</a><a href=/index.xml target=_blank rel="noopener noreferrer" title=RSS aria-label="Subscribe via RSS"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 11a9 9 0 019 9"/><path d="M4 4a16 16 0 0116 16"/><circle cx="5" cy="19" r="1"/></svg></a></div><small class=footer_copyright><span aria-label=Copyright>© 2026 takeokunn</span>
+<span class=footer_divider aria-hidden=true>•</span>
+<span>Powered by <a href=https://github.com/takeokunn/hugo-take-theme target=_blank rel=noopener aria-label="Hugo Take Theme on GitHub">hugo-take-theme</a></span></small></footer></body></html>

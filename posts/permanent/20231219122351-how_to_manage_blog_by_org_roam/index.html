@@ -1,0 +1,320 @@
+<!doctype html><html lang=ja-jp dir=ltr prefix="og: https://ogp.me/ns#"><head><meta charset=utf-8><meta http-equiv=content-type content="text/html"><meta name=viewport content="width=device-width,initial-scale=1"><meta name=Hatena::Bookmark content="nocomment"><title itemprop=name>org-roamで記事を管理しGitHub Actionsで適切に公開する | takeokunn's blog</title><meta property="og:title" content="org-roamで記事を管理しGitHub Actionsで適切に公開する | takeokunn's blog"><meta name=twitter:title content="org-roamで記事を管理しGitHub Actionsで適切に公開する | takeokunn's blog"><meta itemprop=name content="org-roamで記事を管理しGitHub Actionsで適切に公開する | takeokunn's blog"><meta name=application-name content="org-roamで記事を管理しGitHub Actionsで適切に公開する | takeokunn's blog"><meta property="og:site_name" content><meta name=description content="Introduction 2023年度Emacsアドベントカレンダー2日目の記事です。
+当記事ではorg-roamを用いたブログ記事のコンテンツ管理方法と、ZennやHugoへ公開する方法の一連の流れについて解説しています。
+個々の技術への深堀は必要に応じて別途記事に認めますのでご了承ください。
+考え方 ブログサービスについて Zenn や Qiita などブログサービスを提供している会社は世の中に無数にありますが、「ブログ記事という形式で世の中に公開する」ということには大きく分けて次の2つの要素があります。
+コンテンツ管理 記事公開 2000年代初期と2023年現在求められているブログサービ"><meta itemprop=description content="Introduction 2023年度Emacsアドベントカレンダー2日目の記事です。
+当記事ではorg-roamを用いたブログ記事のコンテンツ管理方法と、ZennやHugoへ公開する方法の一連の流れについて解説しています。
+個々の技術への深堀は必要に応じて別途記事に認めますのでご了承ください。
+考え方 ブログサービスについて Zenn や Qiita などブログサービスを提供している会社は世の中に無数にありますが、「ブログ記事という形式で世の中に公開する」ということには大きく分けて次の2つの要素があります。
+コンテンツ管理 記事公開 2000年代初期と2023年現在求められているブログサービ"><meta property="og:description" content="Introduction 2023年度Emacsアドベントカレンダー2日目の記事です。
+当記事ではorg-roamを用いたブログ記事のコンテンツ管理方法と、ZennやHugoへ公開する方法の一連の流れについて解説しています。
+個々の技術への深堀は必要に応じて別途記事に認めますのでご了承ください。
+考え方 ブログサービスについて Zenn や Qiita などブログサービスを提供している会社は世の中に無数にありますが、「ブログ記事という形式で世の中に公開する」ということには大きく分けて次の2つの要素があります。
+コンテンツ管理 記事公開 2000年代初期と2023年現在求められているブログサービ"><meta name=twitter:description content="Introduction 2023年度Emacsアドベントカレンダー2日目の記事です。
+当記事ではorg-roamを用いたブログ記事のコンテンツ管理方法と、ZennやHugoへ公開する方法の一連の流れについて解説しています。
+個々の技術への深堀は必要に応じて別途記事に認めますのでご了承ください。
+考え方 ブログサービスについて Zenn や Qiita などブログサービスを提供している会社は世の中に無数にありますが、「ブログ記事という形式で世の中に公開する」ということには大きく分けて次の2つの要素があります。
+コンテンツ管理 記事公開 2000年代初期と2023年現在求められているブログサービ"><meta property="og:locale" content="ja-jp"><meta name=language content="ja-jp"><link rel=alternate hreflang=ja-jp href=https://www.takeokunn.org/posts/permanent/20231219122351-how_to_manage_blog_by_org_roam/ title=Japanese><meta property="og:type" content="article"><meta property="og:article:published_time" content="2023-12-19T00:00:00+00:00"><meta property="article:published_time" content="2023-12-19T00:00:00+00:00"><meta property="og:url" content="https://www.takeokunn.org/posts/permanent/20231219122351-how_to_manage_blog_by_org_roam/"><meta itemprop=image content="https://www.takeokunn.org/ogp/20231219122351-how_to_manage_blog_by_org_roam.png"><meta property="og:image" content="https://www.takeokunn.org/ogp/20231219122351-how_to_manage_blog_by_org_roam.png"><meta name=twitter:image content="https://www.takeokunn.org/ogp/20231219122351-how_to_manage_blog_by_org_roam.png"><meta name=twitter:image:src content="https://www.takeokunn.org/ogp/20231219122351-how_to_manage_blog_by_org_roam.png"><meta name=twitter:card content="summary_large_image"><script defer type=application/ld+json>{"@context":"http://schema.org","@type":"Article","headline":"org-roamで記事を管理しGitHub Actionsで適切に公開する","author":{"@type":"Person","name":""},"datePublished":"2023-12-19T00:00:00\u002b00:00","description":"Introduction 2023年度Emacsアドベントカレンダー2日目の記事です。\n当記事ではorg-roamを用いたブログ記事のコンテンツ管理方法と、ZennやHugoへ公開する方法の一連の流れについて解説しています。\n個々の技術への深堀は必要に応じて別途記事に認めますのでご了承ください。\n考え方 ブログサービスについて Zenn や Qiita などブログサービスを提供している会社は世の中に無数にありますが、「ブログ記事という形式で世の中に公開する」ということには大きく分けて次の2つの要素があります。\nコンテンツ管理 記事公開 2000年代初期と2023年現在求められているブログサービ","wordCount":1164,"mainEntityOfPage":"True","dateModified":"2023-12-19T00:00:00\u002b00:00","image":{"@type":"imageObject","url":""},"publisher":{"@type":"Organization","name":"takeokunn\u0027s blog"}}</script><link rel=canonical href=https://www.takeokunn.org/posts/permanent/20231219122351-how_to_manage_blog_by_org_roam/><link href=/posts/permanent/20231219122351-how_to_manage_blog_by_org_roam/ rel=alternate type=application/rss+xml title="takeokunn's blog"><link href=/posts/permanent/20231219122351-how_to_manage_blog_by_org_roam/ rel=feed type=application/rss+xml title="takeokunn's blog"><link href=/style.min.71c11b16c107f1031ce1f17c8e2fef21394bb486a285ca4d0a69d5c311e607d5.css rel=stylesheet><link href=/code-highlight.min.ca0d5ee203390cf1a8d6b0b0204024fa2424a020fd6554c7df0c2a572e19c583.css rel=stylesheet><link rel="shortcut icon" href=/favicon.ico></head><body class=notransition aria-live=polite><div class=navbar role=navigation><nav class=menu aria-label="Main Navigation"><a href=https://www.takeokunn.org/ class=logo aria-label=Home><svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home" aria-hidden="true" focusable="false"><title>Home</title><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+</a><input type=checkbox id=menu-trigger class=menu-trigger aria-expanded=false aria-controls=site-menu>
+<label for=menu-trigger aria-label="Toggle menu"><span class=menu-icon aria-hidden=true><svg width="25" height="25" stroke="currentColor" fill="none" viewBox="0 0 14 14" aria-hidden="true" focusable="false"><title>Menu</title><path stroke-linecap="round" stroke-linejoin="round" d="M10.595 7H3.40726"/><path stroke-linecap="round" stroke-linejoin="round" d="M10.5096 3.51488H3.49301"/><path stroke-linecap="round" stroke-linejoin="round" d="M10.5096 10.4851H3.49301"/><path stroke-linecap="round" stroke-linejoin="round" d="M.5 12.5V1.5c0-.552285.447715-1 1-1h11C13.0523.5 13.5.947715 13.5 1.5v11C13.5 13.0523 13.0523 13.5 12.5 13.5H1.5C.947715 13.5.5 13.0523.5 12.5z"/></svg></span></label><div class=trigger id=site-menu><label for=menu-trigger class=menu-close-button aria-label="Close menu">&#215;</label><ul class=trigger-container role=menu><li role=none><a class=menu-link href=/ role=menuitem>Home</a></li><li role=none><a class="menu-link active" href=/posts/ role=menuitem aria-current=page>Posts</a></li><li role=none><a class=menu-link href=/graph/ role=menuitem>Graph</a></li></ul></div></nav></div><div class="wrapper post"><main class=page-content aria-label=Content><article role=article><header class=header><h1 class=header-title>org-roamで記事を管理しGitHub Actionsで適切に公開する</h1><div class=post-meta><time datetime=2023.12.19 itemprop=datePublished aria-label="Published on 2023.12.19">2023.12.19</time></div><ul class=tags aria-label="Post tags"><li><a href=/tags/emacs aria-label="View all posts with tag: emacs">emacs</a></li><li><a href=/tags/org-roam aria-label="View all posts with tag: org-roam">org-roam</a></li><li><a href=/tags/zettelkasten aria-label="View all posts with tag: zettelkasten">zettelkasten</a></li></ul></header><details class=toc><summary aria-label="Toggle Table of Contents"><b>Table of Contents</b></summary><nav id=TableOfContents><ul><li><a href=#introduction>Introduction</a></li><li><a href=#考え方>考え方</a><ul><li><a href=#ブログサービスについて>ブログサービスについて</a></li><li><a href=#ソフトウェアエンジニアとして>ソフトウェアエンジニアとして</a></li><li><a href=#すべてをemacs-org-modeに最適化する>すべてをEmacs org-modeに最適化する</a></li></ul></li><li><a href=#要件>要件</a><ul><li><a href=#必要条件>必要条件</a><ul><li><a href=#コンテンツ管理>コンテンツ管理</a></li><li><a href=#記事公開>記事公開</a></li></ul></li><li><a href=#十分条件>十分条件</a><ul><li><a href=#コンテンツ管理>コンテンツ管理</a></li><li><a href=#記事公開>記事公開</a></li></ul></li></ul></li><li><a href=#記事公開先>記事公開先</a><ul><li><a href=#記事の属性>記事の属性</a></li><li><a href=#ブログサービスとセルフホスティング>ブログサービスとセルフホスティング</a></li></ul></li><li><a href=#全体の流れ>全体の流れ</a><ul><li><a href=#ワークフロー>ワークフロー</a></li><li><a href=#zettelkasten>Zettelkasten</a></li></ul></li><li><a href=#コンテンツ管理>コンテンツ管理</a><ul><li><a href=#org-roam>org-roam</a><ul><li><a href=#basic>Basic</a></li><li><a href=#ディレクトリ構成>ディレクトリ構成</a></li><li><a href=#設定方法>設定方法</a></li><li><a href=#yasnippet>yasnippet</a></li><li><a href=#gpg暗号化>gpg暗号化</a></li></ul></li><li><a href=#textlint>textlint</a></li><li><a href=#secretlint>secretlint</a></li></ul></li><li><a href=#publish>Publish</a><ul><li><a href=#hugo>Hugo</a><ul><li><a href=#target>Target</a></li><li><a href=#basic>Basic</a></li><li><a href=#org-to-markdown>Org to Markdown</a></li><li><a href=#hosting>Hosting</a></li><li><a href=#theme>Theme</a></li><li><a href=#ogp>OGP</a></li></ul></li><li><a href=#zenn>Zenn</a><ul><li><a href=#target>Target</a></li><li><a href=#basic>Basic</a></li><li><a href=#org-to-markdown>Org to Markdown</a></li></ul></li></ul></li><li><a href=#github-actions>GitHub Actions</a><ul><li><a href=#actionlint>Actionlint</a></li><li><a href=#dependabot>dependabot</a></li></ul></li><li><a href=#今後の展望>今後の展望</a></li><li><a href=#backlinks>Backlinks</a></li></ul></nav></details><div class=page-content><h2 id=introduction>Introduction</h2><p><a href=https://qiita.com/advent-calendar/2023/emacs>2023年度Emacsアドベントカレンダー</a>2日目の記事です。</p><p>当記事ではorg-roamを用いたブログ記事のコンテンツ管理方法と、ZennやHugoへ公開する方法の一連の流れについて解説しています。</p><p>個々の技術への深堀は必要に応じて別途記事に認めますのでご了承ください。</p><h2 id=考え方>考え方</h2><h3 id=ブログサービスについて>ブログサービスについて</h3><p><a href=https://zenn.dev/>Zenn</a> や <a href=https://qiita.com/>Qiita</a> などブログサービスを提供している会社は世の中に無数にありますが、「ブログ記事という形式で世の中に公開する」ということには大きく分けて次の2つの要素があります。</p><ul><li>コンテンツ管理</li><li>記事公開</li></ul><p>2000年代初期と2023年現在求められているブログサービスの必要条件は異なるように、年々求められる必要条件は増えています。
+2023年においてSNSに投稿したものを埋め込むことができないブログサービスというのはほぼ存在しないように、有名なブログサービスに乗っかっておけばモダンな環境を常に享受し続けることができます。</p><p>しかしながら、ブログサービスにも当然栄枯盛衰があり自分が使っているサービスの行く末など個人には分かりようがありません。
+現に私がプログラミングを初めた2014年ごろはQiitaが技術系ブログサービス一強でしたが、2023年現在ではZennが主流になっています。
+常によりよいブログサービスが出たら移動することも念頭に置く必要があります。</p><p>私が勤めている会社では多少技術的な記事だったとしても広報目的に<a href=https://note.com/>note</a>に書くという運用がされていたり、以前所属していた会社では、<a href=https://hatenablog.com/>はてなブログ</a>で技術ブログを運用していました。
+ソフトウェアエンジニアとして働く以上「どこに対して記事公開するか」というのは自分ではコントロール効かないという前提があります。</p><p>上記で述べたように「記事公開」に関しては自分でどうしようもない部分が多々ありますが、「コンテンツ管理」に関しては完全に自分でコントロールを効かせることができます。
+適切なフォーマットで公開すればよいだけですので、どのように記事を管理されようとブログサービスからしたらDBのレコードの1つなだけなでどうでもよいことなのです。</p><h3 id=ソフトウェアエンジニアとして>ソフトウェアエンジニアとして</h3><p>ソフトウェアエンジニアにとって「技術的な文書を書く」という作業は避けられません。
+「ドキュメントを書く」「チケットに証跡を書く」「同僚と技術的やりとりをする」等さまざまありますが、「ブログ記事を書く」という行為もそのひとつです。
+特定の技術は廃れようと、20年後30年後も「技術的な文書を書く」という行為がなくなることはないでしょう。</p><p>私は残念ながらソフトウェアエンジニア以外の仕事が絶望的にできないので、10年後も20年後もソフトウェアエンジニアとして働いているだろうという実感があります。
+あまり文章を書くのが得意ではないので、いかに低負荷で一定の品質の文書を書く環境を用意するか、というのが自分のソフトウェアエンジニアとしての人生にとって重要なことだと考えてます。</p><h3 id=すべてをemacs-org-modeに最適化する>すべてをEmacs org-modeに最適化する</h3><p>私は今までさまざまなテキストエディタを使い込んできました。
+その中で一番時間をつぎ込んだ時に高みを目指せるのはEmacsだということを確信しました。</p><p>「simpleがよいか、easyがよいか」という議論はエンジニア界隈ではよく話題にされます。
+私としては簡単さもシンプルさも本当にどうでもよく、たとえ難しかろうと複雑だろうと時間がかかろうと到達点が一番高いものがよいが一番よいと考えています。</p><p>今回の記事はorg-modeが主体になりますが、はっきり言ってorg-modeはsimpleでもeasyでもありません。
+巷にある「爆速で構築する」系の記事とは正反対です。
+初速は一切出ないですし、理解するまで時間がかかるし、運用が軌道に乗るまで本当に時間がかかります。
+ただし、org-modeにはプログラマー人生すべてを寄せることができるくらいのポテンシャルがあり、運用に乗った時のパフォーマンスは計りしれません。</p><p>少なくとも直近10年は一切Emacsへの投資を惜しまないという覚悟をしているので執筆環境もEmacs org-modeに最適化をしていきます。</p><h2 id=要件>要件</h2><p>自分はブログに対して何を求めているのか、ブログとはどうあるべきなのか、をあらためて整理してみました。
+以下は個人ブログに対しての考え方ですので、複数人での運用に関しては特に考慮していません。</p><h3 id=必要条件>必要条件</h3><p><a href=https://www.gnu.org/software/emacs/manual/html_node/emacs/index.html>The Emacs Editor Manual</a> や <a href=https://www.lispworks.com/documentation/HyperSpec/Front/>Common Lisp Hyperspec</a> のような数十年前のWebサイト程度の要件を最低限満たしていれば最低限ブログサイトとして名乗ってもよいでしょう。</p><h4 id=コンテンツ管理>コンテンツ管理</h4><ul><li>何がしかの方法で永続的に保存できる</li><li>MarkdownやOrgのような人間が解釈しやすい形式で記述できる</li></ul><p>コンテンツ管理の必要条件は最低限で、データベースやプレーンテキストで保存できれば要件を満たしていると考えています。
+またHTMLをベタ書きするのは大ですので、MarkdownやOrgのような人間向きのフォーマットで最低限記述できるようにしたいと考えています。</p><h4 id=記事公開>記事公開</h4><ul><li>意図したHyperTextを継続的に配信できる</li><li>画像やCSSも配信でき、最低限文章を読めるデザインで配信する</li></ul><p>最低限Webサイトとしての体を成していればよいと考えています。</p><h3 id=十分条件>十分条件</h3><p>必要条件はあまりにも最低限すぎるので、2023年現在このくらいは最低限満たしたい条件を書いています。
+一応十分条件と書いてはいるものの2023年においての必要条件に含まれる要素もありそうです。</p><h4 id=コンテンツ管理>コンテンツ管理</h4><ul><li>MUST<ul><li>秘密鍵やパスワードが入っていないことを網羅的に検査できる</li><li>校正ツールで継続的かつ網羅的に文章を検査できる</li><li>エディタの標準的な機能を使うことができる</li></ul></li><li>SHOULD<ul><li>執筆から公開フローが整っている</li><li>バージョン管理ができる</li><li>下書きができる</li><li>過去記事の検索性が優れている</li></ul></li><li>MAY<ul><li>複数のブログサービスにまたがって管理できる</li></ul></li></ul><p>個人でブログを書いているのもあり、誰かが校正してくれることがないので、うっかり不用意な記述やパスワードを公開しないようなしくみ作りが重要だと考えています。</p><h4 id=記事公開>記事公開</h4><ul><li>MUST<ul><li>文章を読みやすいWebデザインで提供する</li><li>Twitter埋め込みやYouTube動画埋め込みができる</li><li>メジャーなプログラミング言語のコードブロックをシンタックスハイライトできる</li></ul></li><li>SHOULD<ul><li>記事の公開/非公開を切り替えることができる</li><li>SEO対策</li><li>関連記事を表示できる</li><li>OGPが表示できる</li><li>マイナーなプログラミング言語のコードブロックをシンタックスハイライトできる</li></ul></li><li>MAY<ul><li>任意のドメインで配信する</li><li>バックリンクを貼ることができる</li><li>SNSシェアボタンがある</li><li>ブログ内検索できる</li><li>予約投稿できる</li></ul></li></ul><p>ブログ記事の公開先が不特定多数向けなのか特定少数向けなのかで要件は変わってきます。</p><h2 id=記事公開先>記事公開先</h2><h3 id=記事の属性>記事の属性</h3><p>私の場合、ブログ記事の属性として次の4つを想定する必要があります。</p><ul><li>所属会社の広報用記事<ul><li>e.g. <a href="https://note.openlogi.com/n/nde050fa4ff2a?magazine_key=m9f98ae49ed2f">PHPConference 2023に登壇してきました - note</a></li></ul></li><li>所属会社の技術記事<ul><li>e.g. <a href=https://zenn.dev/openlogi/articles/bba928c9e07af3>PHPConf2023「保守性の高いアプリケーションを作り続けるための基盤整備について」というテーマで登壇します</a></li></ul></li><li>個人の技術記事<ul><li>e.g. <a href=https://www.takeokunn.org/posts/permanent/20221222111924-about_php_jit/>PHP8から追加されたJITについて学ぼう!</a></li></ul></li><li>個人の日記メモ<ul><li>e.g. <a href=https://www.takeokunn.org/posts/diary/20230710082646-retrospective_php_lovers_meetup_vol_0/>「PHP Lovers Meetup vol.0 ~ はじまりは&lt;?phpから」に参加しました</a></li></ul></li></ul><p>上記の記事公開の十分要件を踏まえたざっくりとしたマトリックスは以下。</p><ul><li>○ &mldr; 必要</li><li>△ &mldr; どちらでもよい</li><li>× &mldr; 不要</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>|                     | 所属会社 広報用記事 | 所属会社 技術記事 | 個人 技術記事 | 個人 日記メモ |
+</span></span><span style=display:flex><span>|---------------------+-------------------+-----------------+--------------+--------------|
+</span></span><span style=display:flex><span>| Webデザイン          | ○                 | ○               | △            | △            |
+</span></span><span style=display:flex><span>| SNS埋め込み          | ○                 | ○               | △            | ○            |
+</span></span><span style=display:flex><span>| シンタックスハイライト | △                 | ○               | ○            | △            |
+</span></span><span style=display:flex><span>| 記事の公開/非公開設定 | ○                 | ○               | △            | △            |
+</span></span><span style=display:flex><span>| SEO対策             | ○                 | ○               | △            | ×            |
+</span></span><span style=display:flex><span>| 関連記事             | ○                 | ○               | △            | ×            |
+</span></span><span style=display:flex><span>| OGP表示             | ○                 | ○               | △            | ×            |
+</span></span><span style=display:flex><span>| カスタムドメイン      | △                 | △               | △            | ×            |
+</span></span><span style=display:flex><span>| バックリンク         | △                 | △               | △            | △            |
+</span></span><span style=display:flex><span>| SNSシェア           | ○                 | ○               | △            | ×            |
+</span></span><span style=display:flex><span>| ブログ内検索         | △                 | △               | △            | ×            |
+</span></span><span style=display:flex><span>| 予約投稿             | ○                 | ○               | ×            | ×            |
+</span></span></code></pre></div><p>所属企業のブログ記事は広報的な意味も兼ねており、業務時間を使って仕事として書いている側面もあるので、高い要件を満たす必要があります。
+モダンはブログサービスを使えばこのあたりの要件をすべてフルマネージドで満たしてくれているので、個人として特に何も対応する必要はありません。</p><p>個人としてのブログ記事は求められる要件は非常に少なく好き勝手作ることができます。
+好きなデザインテーマを使い、好きなライブラリを選定し、自分好みにブログサービスを作成しても問題がないのです。</p><p>所属企業のブログ記事はどちらかというと一枚絵のようなものであまり気軽に文章を変更してはいけないが、個人のブログ記事は気軽に文章を変更することが可能という視点もあります。</p><h3 id=ブログサービスとセルフホスティング>ブログサービスとセルフホスティング</h3><p>基本的には既存のブログサービスの品質は非常に高いのでセルフホスティングするメリットはほぼありません。
+はっきり言ってセルフホスティングは何か目的がない限りは時間の無駄であり、あまりお勧めできるようなものではありません。</p><p>Webデザインに特別こだわりがあったり、Webサイトを学習目的で作成したり、既存のブログサービスでは実現できないことをやりたい等がない限り、一切やる必要がないです。
+私の場合、Webエンジニアとしてのスキルアップの為に作成している面が非常に大きく、既存のブログサービスにどこまで近付けるのか、静的サイトジェネレータのポテンシャルを検証する目的で作成しています。</p><p>ブログサービスとセルフホスティングの差はいろいろありますが、一番の差はSEO対策です。
+サイト内のコンテンツ数はブログサービスに勝つことは個人ではほぼ不可能です。
+不特定多数に見てもらいたいものはブログサービス、特定少数に見てもらいたいものはセルフホスティング先に公開するという運用をしています。</p><h2 id=全体の流れ>全体の流れ</h2><h3 id=ワークフロー>ワークフロー</h3><figure><img src=/images/06C3BC2E-F1DD-4FAE-954B-CC8459ED46B7.png></figure><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>graph LR
+</span></span><span style=display:flex><span>    A[Emacs] --&gt; |push| B[Repo]
+</span></span><span style=display:flex><span>    B --&gt; |run CI| C[Linter]
+</span></span><span style=display:flex><span>    subgraph GitHub Actions
+</span></span><span style=display:flex><span>    C --&gt; D[Export]
+</span></span><span style=display:flex><span>    end
+</span></span><span style=display:flex><span>    D --&gt; |publish| E[Hugo]
+</span></span><span style=display:flex><span>    D --&gt; |publish| F[Zenn]
+</span></span></code></pre></div><ol><li>Localで記事を編集する</li><li><a href=https://github.com/takeokunn/blog>takeokunn/blog</a> のmain branchにpushする</li><li>GitHub Actions上で<a href=https://github.com/textlint/textlint>textlint</a>と<a href=https://github.com/secretlint/secretlint>secretlint</a>を実行する</li><li>各公開先用に<a href=https://orgmode.org/guide/Exporting.html>org-export</a>して指定の処理をする</li></ol><p>個別の配信方法や設定方法は後述しますが、巷によくあるCI/CDの流れを踏襲しています。
+分量の多い記事に関しては適宜Pull Requestに切り出して執筆していく運用にしています。</p><h3 id=zettelkasten>Zettelkasten</h3><p>ソフトウェア開発は業界が未成熟な面と日進月歩で進化して続けているという二面があり、知識が陳腐化しやすいという性質を持っています。
+長期的にコンテンツ管理をするという前提で、継続的に知見をアップデートをするにあたってどう管理運用をしていけばよいのかを考慮する必要があります。</p><p>いろいろ検討した結果Zettelkastenを採用することにしました。</p><p><a href=https://gigazine.net/news/20200604-zettelkasten-note/>効率的なノートを作成できるドイツの社会学者が生み出した方法「Zettelkasten」とは？ - gigazine</a> にもあるとおり、小さな知識を相互にリンクさせることによって巨大な知識体系を作ることができます。</p><p>Zettelkastenについて日本語で解説した記事はあまりなくどう運用すればよいのか非常に悩みました。</p><p>jMatsuzaki氏のZettelkasten関連が一番参考になったのでメモしておきます。</p><p><a href=https://jmatsuzaki.com/archives/category/lifestyle/zettelkasten>https://jmatsuzaki.com/archives/category/lifestyle/zettelkasten</a></p><p>またorg-roamのドキュメントにも簡単に書いてあるので目を通すことをお勧めします。</p><p><a href=https://www.orgroam.com/manual.html#A-Brief-Introduction-to-the-Zettelkasten-Method>https://www.orgroam.com/manual.html#A-Brief-Introduction-to-the-Zettelkasten-Method</a></p><h2 id=コンテンツ管理>コンテンツ管理</h2><h3 id=org-roam>org-roam</h3><h4 id=basic>Basic</h4><p><a href=https://www.orgroam.com/>org-roam</a> はorg-modeのキラーアプリケーションの1つです。
+org-modeで記述でき、org file間の移動や参照やリンクをスムーズに行うことができるパッケージです。
+org file間の関係性をSQLiteで管理していて、<a href=https://github.com/org-roam/org-roam-ui>org-roam-ui</a>を使えばグラフィカルに表示できます。</p><p>「org-roamを使ってみた」といった入門記事は複数あるが、実際に長期的に運用してみた記事が全然ないのでどう運用するのかかなり悩みました。</p><p><a href=https://futurismo.biz/using-org-roam-one-year-2022/>🖊知的生産のキラーアプリOrg-roamを１年使い倒し学ぶとはなにか考えたポエム(2022)</a> が日本語の記事の中では一番しっかりと書かれており、非常に参考にさせてもらいました。</p><p>なお私の運用は完全にZettelkastenに寄せている訳ではありませんので注意してください。</p><h4 id=ディレクトリ構成>ディレクトリ構成</h4><p><a href=https://jmatsuzaki.com/archives/28172>Zettelkasten（ツェッテルカステン）で使うノートの種類と構成まとめ - jMatsuzaki</a> によると、次のようなディレクトリ構成にすることが推奨されているようです。</p><ul><li>一時メモ<ul><li>Fleeting Notes</li></ul></li><li>文献ノート<ul><li>Literature Notes</li></ul></li><li>Zettelkasten本体<ul><li>Permanent Notes</li><li>Structure Notes</li><li>Index Notes</li></ul></li><li>プロジェクト管理<ul><li>Project Notes</li></ul></li></ul><p>私は次のようなディレクトリ構成で運用しています。</p><ul><li>org/<ul><li>fleeting/ &mldr; 技術的なメモ</li><li>permanent/ &mldr; 体裁を整えた技術記事</li><li>diary/ &mldr; イベント参加記</li><li>private/ &mldr; gpgで暗号化した下書き記事</li><li>zenn/ &mldr; Zennに出力する記事</li></ul></li></ul><p>なるべく普段からfleetingにメモを取り、形になったタイミングでpermanenteやzennに記事を書くという運用を目指しています。</p><h4 id=設定方法>設定方法</h4><p>この記事を読むような奇特な人は自分でorg-roamのインストールをできるはずなので詳細には書きません。<a href="https://github.com/org-roam/org-roam?tab=readme-ov-file#installation">README</a>を参考に導入してください。</p><p>私はどちらかというとEmacsの設定に関して几帳面なので各Elisp fileごとにsetqをする運用をしています。</p><p>次の設定は <a href=https://github.com/org-roam/org-roam>org-roam/org-roam</a> 内の設定のみですが、<a href=https://github.com/org-roam/org-roam-ui>org-roam/org-roam-ui</a>や<a href=https://github.com/tefkah/org-roam-timestamps>tefkah/org-roam-timestamps</a>も導入することをお勧めします。</p><ul><li><p>org-roam</p><p>org-roamは <a href=https://github.com/takeokunn/blog>takeokunn/blog</a> のみで使っているので、次のように設定しています。</p><p>個人的にはリポジトリ管理は <a href=https://github.com/x-motemen/ghq>x-motemen/ghq</a> を使うことを推奨しています。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-emacs-lisp data-lang=emacs-lisp><span style=display:flex><span>(with-eval-after-load <span style=color:#e6db74>&#39;org-roam</span>
+</span></span><span style=display:flex><span>  (setq org-roam-directory <span style=color:#f92672>`,</span>(<span style=color:#a6e22e>concat</span> (s-trim-right (shell-command-to-string <span style=color:#e6db74>&#34;ghq root&#34;</span>))
+</span></span><span style=display:flex><span>                                     <span style=color:#e6db74>&#34;/github.com/takeokunn/blog&#34;</span>)))
+</span></span></code></pre></div></li></ul><ul><li><p>org-roam-node</p><p><code>org-roam-node-find</code> と <code>org-roam-node-insert</code> はorg-roamを使うにあたって一番使うコマンドと言っても過言ではありません。</p><p><code>org-roam-completion-everywhere</code> を有効にすると補完が効いてくれるようになるが、 <code>org-roam-node-insert</code> で明示的にリンクを入力すればよいだけなので好みで有効にしてください。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-emacs-lisp data-lang=emacs-lisp><span style=display:flex><span>(autoload-if-found <span style=color:#f92672>&#39;</span>(org-roam-node-find org-roam-node-insert) <span style=color:#e6db74>&#34;org-roam-node&#34;</span> <span style=color:#66d9ef>nil</span> <span style=color:#66d9ef>t</span>)
+</span></span><span style=display:flex><span>(global-set-key (kbd <span style=color:#e6db74>&#34;C-c n f&#34;</span>) <span style=color:#a6e22e>#&#39;</span>org-roam-node-find)
+</span></span><span style=display:flex><span>(global-set-key (kbd <span style=color:#e6db74>&#34;C-c n i&#34;</span>) <span style=color:#a6e22e>#&#39;</span>org-roam-node-insert)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>(with-eval-after-load <span style=color:#e6db74>&#39;org-roam-node</span>
+</span></span><span style=display:flex><span>  (setq org-roam-completion-everywhere <span style=color:#66d9ef>t</span>))
+</span></span></code></pre></div></li></ul><ul><li><p>org-roam-db</p><p><code>org-roam-db-autosync-enable</code> を有効にすることによって、非同期で <code>org-roam.db</code> を更新してくれるようです。</p><p><code>org-roam-db-gc-threshold</code> はドキュメントを読んでいると多めに設定しておいてもよいだろうということで多めに設定してます。</p><p><a href=https://www.orgroam.com/manual.html#Garbage-Collection>https://www.orgroam.com/manual.html#Garbage-Collection</a></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-emacs-lisp data-lang=emacs-lisp><span style=display:flex><span>(autoload-if-found <span style=color:#f92672>&#39;</span>(org-roam-db-autosync-enable) <span style=color:#e6db74>&#34;org-roam-db&#34;</span> <span style=color:#66d9ef>nil</span> <span style=color:#66d9ef>t</span>)
+</span></span><span style=display:flex><span>(org-roam-db-autosync-enable)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>(with-eval-after-load <span style=color:#e6db74>&#39;org-roam-db</span>
+</span></span><span style=display:flex><span>  (setq org-roam-database-connector <span style=color:#e6db74>&#39;sqlite</span>)
+</span></span><span style=display:flex><span>  (setq org-roam-db-gc-threshold (<span style=color:#a6e22e>*</span> <span style=color:#ae81ff>4</span> gc-cons-threshold)))
+</span></span></code></pre></div></li></ul><ul><li><p>org-roam-capture</p><p>新規に記事を作成する時は <code>org-roam-capture</code> 経由で作成しています。</p><p>それぞれのディレクトリごとにファイル名を自動生成して作成できるように設定しています。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-emacs-lisp data-lang=emacs-lisp><span style=display:flex><span>(autoload-if-found <span style=color:#f92672>&#39;</span>(org-roam-capture) <span style=color:#e6db74>&#34;org-roam-capture&#34;</span> <span style=color:#66d9ef>nil</span> <span style=color:#66d9ef>t</span>)
+</span></span><span style=display:flex><span>(global-set-key (kbd <span style=color:#e6db74>&#34;C-c n c&#34;</span>) <span style=color:#a6e22e>#&#39;</span>org-roam-capture)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>(with-eval-after-load <span style=color:#e6db74>&#39;org-roam-capture</span>
+</span></span><span style=display:flex><span>  (setq org-roam-capture-templates <span style=color:#f92672>&#39;</span>((<span style=color:#e6db74>&#34;f&#34;</span> <span style=color:#e6db74>&#34;Fleeting(一時メモ)&#34;</span> plain <span style=color:#e6db74>&#34;%?&#34;</span>
+</span></span><span style=display:flex><span>                                      :target (file+head <span style=color:#e6db74>&#34;org/fleeting/%&lt;%Y%m%d%H%M%S&gt;-${slug}.org&#34;</span> <span style=color:#e6db74>&#34;#+TITLE: ${title}\n&#34;</span>)
+</span></span><span style=display:flex><span>                                      :unnarrowed <span style=color:#66d9ef>t</span>)
+</span></span><span style=display:flex><span>                                     (<span style=color:#e6db74>&#34;l&#34;</span> <span style=color:#e6db74>&#34;Literature(文献)&#34;</span> plain <span style=color:#e6db74>&#34;%?&#34;</span>
+</span></span><span style=display:flex><span>                                      :target (file+head <span style=color:#e6db74>&#34;org/literature/%&lt;%Y%m%d%H%M%S&gt;-${slug}.org&#34;</span> <span style=color:#e6db74>&#34;#+TITLE: ${title}\n&#34;</span>)
+</span></span><span style=display:flex><span>                                      :unnarrowed <span style=color:#66d9ef>t</span>)
+</span></span><span style=display:flex><span>                                     (<span style=color:#e6db74>&#34;p&#34;</span> <span style=color:#e6db74>&#34;Permanent(記事)&#34;</span> plain <span style=color:#e6db74>&#34;%?&#34;</span>
+</span></span><span style=display:flex><span>                                      :target (file+head <span style=color:#e6db74>&#34;org/permanent/%&lt;%Y%m%d%H%M%S&gt;-${slug}.org&#34;</span> <span style=color:#e6db74>&#34;#+TITLE: ${title}\n&#34;</span>)
+</span></span><span style=display:flex><span>                                      :unnarrowed <span style=color:#66d9ef>t</span>)
+</span></span><span style=display:flex><span>                                     (<span style=color:#e6db74>&#34;d&#34;</span> <span style=color:#e6db74>&#34;Diary(日記)&#34;</span> plain <span style=color:#e6db74>&#34;%?&#34;</span>
+</span></span><span style=display:flex><span>                                      :target (file+head <span style=color:#e6db74>&#34;org/diary/%&lt;%Y%m%d%H%M%S&gt;-${slug}.org&#34;</span> <span style=color:#e6db74>&#34;#+TITLE: ${title}\n&#34;</span>)
+</span></span><span style=display:flex><span>                                      :unnarrowed <span style=color:#66d9ef>t</span>)
+</span></span><span style=display:flex><span>                                     (<span style=color:#e6db74>&#34;z&#34;</span> <span style=color:#e6db74>&#34;Zenn&#34;</span> plain <span style=color:#e6db74>&#34;%?&#34;</span>
+</span></span><span style=display:flex><span>                                      :target (file+head <span style=color:#e6db74>&#34;org/zenn/%&lt;%Y%m%d%H%M%S&gt;.org&#34;</span> <span style=color:#e6db74>&#34;#+TITLE: ${title}\n&#34;</span>)
+</span></span><span style=display:flex><span>                                      :unnarrowed <span style=color:#66d9ef>t</span>)
+</span></span><span style=display:flex><span>                                     (<span style=color:#e6db74>&#34;m&#34;</span> <span style=color:#e6db74>&#34;Private&#34;</span> plain <span style=color:#e6db74>&#34;%?&#34;</span>
+</span></span><span style=display:flex><span>                                      :target (file+head <span style=color:#e6db74>&#34;org/private/%&lt;%Y%m%d%H%M%S&gt;.org.gpg&#34;</span> <span style=color:#e6db74>&#34;#+TITLE: ${title}\n&#34;</span>)
+</span></span><span style=display:flex><span>                                      :unnarrowed <span style=color:#66d9ef>t</span>))))
+</span></span></code></pre></div></li></ul><h4 id=yasnippet>yasnippet</h4><p><code>org-roam-capture</code> でブログを生成した後、タグの設定など公開するにあたって必要な情報を設定しなければなりません。
+出力先に応じて微妙に設定が違う為、<a href=https://github.com/joaotavora/yasnippet>yasnippet</a>でテンプレートを管理するようにしています。</p><p>for Hugo:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span># -*- mode: snippet -*-
+</span></span><span style=display:flex><span># name: blog-hugo
+</span></span><span style=display:flex><span># key: blog-hugo
+</span></span><span style=display:flex><span># --
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>#+AUTHOR: takeokunn
+</span></span><span style=display:flex><span>#+DESCRIPTION: ${1:description}
+</span></span><span style=display:flex><span>#+DATE: ${2:`(format-time-string &#34;%Y-%m-%dT%T%z&#34;)`}
+</span></span><span style=display:flex><span>#+HUGO_BASE_DIR: ../../
+</span></span><span style=display:flex><span>#+HUGO_CATEGORIES: ${3:fleeting}
+</span></span><span style=display:flex><span>#+HUGO_SECTION: posts/$3
+</span></span><span style=display:flex><span>#+HUGO_TAGS: $3 $4
+</span></span><span style=display:flex><span>#+HUGO_DRAFT: true
+</span></span><span style=display:flex><span>#+STARTUP: content
+</span></span><span style=display:flex><span>#+STARTUP: nohideblocks
+</span></span></code></pre></div><p>for Zenn:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span># -*- mode: snippet -*-
+</span></span><span style=display:flex><span># name: blog-zenn
+</span></span><span style=display:flex><span># key: blog-zenn
+</span></span><span style=display:flex><span># --
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>#+DESCRIPTION: ${1:description}
+</span></span><span style=display:flex><span>#+DATE: ${2:`(format-time-string &#34;%Y-%m-%dT%T%z&#34;)`}
+</span></span><span style=display:flex><span>#+GFM_TAGS: emacs
+</span></span><span style=display:flex><span>#+GFM_CUSTOM_FRONT_MATTER: :emoji 👍
+</span></span><span style=display:flex><span>#+GFM_CUSTOM_FRONT_MATTER: :type tech
+</span></span><span style=display:flex><span>#+GFM_CUSTOM_FRONT_MATTER: :published false
+</span></span><span style=display:flex><span>#+STARTUP: content
+</span></span><span style=display:flex><span>#+STARTUP: nohideblocks
+</span></span><span style=display:flex><span>#+OPTIONS: toc:nil
+</span></span></code></pre></div><h4 id=gpg暗号化>gpg暗号化</h4><p>org-roamはgpgで暗号化したファイルも管理下に置くことができます。
+<a href=https://www.orgroam.com/manual.html#Encryption>https://www.orgroam.com/manual.html#Encryption</a></p><p>前述した <code>org-roam-capture</code> で <code>foo.org.gpg</code> のように拡張子にgpgを付けたファイルを生成するだけで暗号化できます。
+なお <a href=https://www.takeokunn.org/posts/fleeting/20230624130858-how_to_escape_emacs_gpg_bug/>Emacs内でgpg fileがsaveできなくなった時に対応したことメモ</a> にもあるとおり、gpgのversionを下げないとEmacsがHang upしてしまうので注意が必要です。</p><h3 id=textlint>textlint</h3><p>日本語の文章の校正を自動化するにあたって<a href=https://github.com/textlint/textlint>textlint/textlint</a>を導入しました。
+textlintは日本語に特化したルールセットを提供してくれており、日本語のOSS校正ツールとしては一番普及しています。
+textlint自体の詳細な解説は省きますが、この記事を執筆するにあたってtextlintのルールセットを新調して次のルールを有効にしました。</p><ul><li><a href=https://www.npmjs.com/package/textlint>textlint</a></li><li><a href=https://www.npmjs.com/package/textlint-plugin-org>textlint-plugin-org</a></li><li><a href=https://www.npmjs.com/package/textlint-rule-preset-ja-spacing>textlint-rule-preset-ja-spacing</a></li><li><a href=https://www.npmjs.com/package/textlint-rule-preset-ja-technical-writing>textlint-rule-preset-ja-technical-writing</a></li><li><a href=https://www.npmjs.com/package/textlint-rule-preset-japanese>textlint-rule-preset-japanese</a></li><li><a href=https://www.npmjs.com/package/textlint-rule-preset-jtf-style>textlint-rule-preset-jtf-style</a></li><li><a href=https://www.npmjs.com/package/textlint-rule-prh>textlint-rule-prh</a></li><li><a href=https://www.npmjs.com/package/textlint-rule-spellchecker>textlint-rule-spellchecker</a></li><li><a href=https://www.npmjs.com/package/textlint-rule-write-good>textlint-rule-write-good</a></li></ul><p>.textlintrc:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;rules&#34;</span>: {
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;preset-ja-technical-writing&#34;</span>: {
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;sentence-length&#34;</span>: <span style=color:#66d9ef>false</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;no-doubled-joshi&#34;</span>: <span style=color:#66d9ef>false</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;no-exclamation-question-mark&#34;</span>: <span style=color:#66d9ef>false</span>
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;preset-japanese&#34;</span>: {
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;sentence-length&#34;</span>: <span style=color:#66d9ef>false</span>,
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;no-doubled-joshi&#34;</span>: <span style=color:#66d9ef>false</span>
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;preset-ja-spacing&#34;</span>: <span style=color:#66d9ef>true</span>,
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;preset-jtf-style&#34;</span>: <span style=color:#66d9ef>true</span>,
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;write-good&#34;</span>: {
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;weasel&#34;</span>: <span style=color:#66d9ef>false</span>
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;prh&#34;</span>: {
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;rulePaths&#34;</span>: [
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;./prh.yml&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;node_modules/prh/prh-rules/media/WEB+DB_PRESS.yml&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;node_modules/prh/prh-rules/media/techbooster.yml&#34;</span>
+</span></span><span style=display:flex><span>      ]
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>  },
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;plugins&#34;</span>: [<span style=color:#e6db74>&#34;org&#34;</span>]
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>prh.yml:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#f92672>version</span>: <span style=color:#ae81ff>1</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>rules</span>:
+</span></span><span style=display:flex><span>  - <span style=color:#f92672>expected</span>: <span style=color:#ae81ff>Zettelkasten</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>pattern</span>: <span style=color:#ae81ff>zettelkasten</span>
+</span></span></code></pre></div><p>またflycheckでもtextlintを有効にすることによってリアルタイムでエラーを出力できるようにしています。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-emacs-lisp data-lang=emacs-lisp><span style=display:flex><span>(flycheck-define-checker textlint
+</span></span><span style=display:flex><span>  <span style=color:#e6db74>&#34;A linter for prose.&#34;</span>
+</span></span><span style=display:flex><span>  :command (<span style=color:#e6db74>&#34;npx&#34;</span> <span style=color:#e6db74>&#34;textlint&#34;</span> <span style=color:#e6db74>&#34;--format&#34;</span> <span style=color:#e6db74>&#34;unix&#34;</span> source-inplace)
+</span></span><span style=display:flex><span>  :error-patterns
+</span></span><span style=display:flex><span>  ((warning line-start (file-name) <span style=color:#e6db74>&#34;:&#34;</span> line <span style=color:#e6db74>&#34;:&#34;</span> column <span style=color:#e6db74>&#34;: &#34;</span>
+</span></span><span style=display:flex><span>            (id (one-or-more (not (any <span style=color:#e6db74>&#34; &#34;</span>))))
+</span></span><span style=display:flex><span>            (<span style=color:#a6e22e>message</span> (one-or-more not-newline)
+</span></span><span style=display:flex><span>                     (zero-or-more <span style=color:#e6db74>&#34;\n&#34;</span> (any <span style=color:#e6db74>&#34; &#34;</span>) (one-or-more not-newline)))
+</span></span><span style=display:flex><span>            line-end))
+</span></span><span style=display:flex><span>  :modes (org-mode))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>(with-eval-after-load <span style=color:#e6db74>&#39;flycheck</span>
+</span></span><span style=display:flex><span>  (add-to-list <span style=color:#e6db74>&#39;flycheck-checkers</span> <span style=color:#e6db74>&#39;textlint</span>))
+</span></span></code></pre></div><h3 id=secretlint>secretlint</h3><p><a href=https://github.com/secretlint/secretlint>secretlint/secretlint</a> はAPIトークンや秘密鍵などのコミットを検知するツールです。
+<code>AWS_SECRET_ACCESS_KEY</code> などを誤ってGitHubにPushして全世界に公開してしまうと大問題です。</p><p>今年取引先の方がAWS CredentialやほかサービスのSecret Tokenを公開して問題になったことがあり、明日は我が身ということで、なるべくすべてのリポジトリでsecretlintを導入しようという方針になりました。</p><p>設定自体は非常にシンプルしており、 <a href=https://www.npmjs.com/package/@secretlint/secretlint-rule-preset-recommend>@secretlint/secretlint-rule-preset-recommend</a> のみ有効にしています。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;rules&#34;</span>: [{
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;id&#34;</span>: <span style=color:#e6db74>&#34;@secretlint/secretlint-rule-preset-recommend&#34;</span>
+</span></span><span style=display:flex><span>    }]
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h2 id=publish>Publish</h2><h3 id=hugo>Hugo</h3><h4 id=target>Target</h4><p>「個人の技術記事」と「個人の日記メモ」を対象にホスティングしています。
+その為Experimentalな機能を気軽に追加したり、途中アクセスできなくなったりしてもあまり気にしないという運用にしています。</p><h4 id=basic>Basic</h4><p><a href=https://gohugo.io/>Hugo</a> はGo製の静的サイトジェネレータです。
+静的サイトジェネレータとは、指定のディレクトリにあるMarkdownや画像ファイルを参照して本番用の静的コンテンツを生成するツールのことです。</p><p>類似サービスに<a href=https://jekyllrb-ja.github.io/>jekyll</a>や<a href=https://astro.build/>Astro</a>や<a href=https://www.gatsbyjs.com/docs/glossary/static-site-generator/>Gatsby</a> があります。</p><p>機能の豊富さやドキュメント、記事や事例の豊富さ、CIへの組込やすさでHugoを選定しました。</p><ul><li><a href=https://knowledge.sakura.ad.jp/22908/>静的サイトジェネレータ「Hugo」と技術文書公開向けテーマ「Docsy」でOSSサイトを作る - さくらのナレッジ</a></li><li><a href=https://qiita.com/peaceiris/items/ef38cc2a4b5565d0dd7c>Hugo で静的なサイト・ブログを構築しよう - Qiita</a></li></ul><p>現状特に不満はありませんが、特にHugoにこだわりがある訳ではないので、よりよい静的サイトジェネレータがあれば乗り換える可能性は十分にあります。</p><h4 id=org-to-markdown>Org to Markdown</h4><p><code>export-org-roam-files</code> を実行してorg-roam管理下のHugoに出力したいディレクトリを指定して<a href=https://ox-hugo.scripter.co/> ox-hugo</a> でMarkdownに変換しています。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-emacs-lisp data-lang=emacs-lisp><span style=display:flex><span>(require <span style=color:#e6db74>&#39;package</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>(add-to-list <span style=color:#e6db74>&#39;package-archives</span> <span style=color:#f92672>&#39;</span>(<span style=color:#e6db74>&#34;melpa&#34;</span> <span style=color:#f92672>.</span> <span style=color:#e6db74>&#34;https://melpa.org/packages/&#34;</span>) <span style=color:#66d9ef>t</span>)
+</span></span><span style=display:flex><span>(package-refresh-contents)
+</span></span><span style=display:flex><span>(package-initialize)
+</span></span><span style=display:flex><span>(package-install <span style=color:#e6db74>&#39;ox-hugo</span>)
+</span></span><span style=display:flex><span>(package-install <span style=color:#e6db74>&#39;org-roam</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>(require <span style=color:#e6db74>&#39;ox-hugo</span>)
+</span></span><span style=display:flex><span>(require <span style=color:#e6db74>&#39;org-roam</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>(setq org-roam-directory default-directory)
+</span></span><span style=display:flex><span>(org-roam-db-sync)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>(defun export-org-roam-files ()
+</span></span><span style=display:flex><span>  <span style=color:#e6db74>&#34;Exports Org-Roam files to Hugo markdown.&#34;</span>
+</span></span><span style=display:flex><span>  (interactive)
+</span></span><span style=display:flex><span>  (let ((org-id-extra-files (directory-files-recursively default-directory <span style=color:#e6db74>&#34;org&#34;</span>)))
+</span></span><span style=display:flex><span>    (dolist (f (<span style=color:#a6e22e>append</span> (file-expand-wildcards <span style=color:#e6db74>&#34;org/about.org&#34;</span>)
+</span></span><span style=display:flex><span>                       (file-expand-wildcards <span style=color:#e6db74>&#34;org/diary/*.org&#34;</span>)
+</span></span><span style=display:flex><span>                       (file-expand-wildcards <span style=color:#e6db74>&#34;org/fleeting/*.org&#34;</span>)
+</span></span><span style=display:flex><span>                       (file-expand-wildcards <span style=color:#e6db74>&#34;org/index/*.org&#34;</span>)
+</span></span><span style=display:flex><span>                       (file-expand-wildcards <span style=color:#e6db74>&#34;org/literature/*.org&#34;</span>)
+</span></span><span style=display:flex><span>                       (file-expand-wildcards <span style=color:#e6db74>&#34;org/permanent/*.org&#34;</span>)
+</span></span><span style=display:flex><span>                       (file-expand-wildcards <span style=color:#e6db74>&#34;org/structure/*.org&#34;</span>)))
+</span></span><span style=display:flex><span>      (with-current-buffer (find-file f)
+</span></span><span style=display:flex><span>        (org-hugo-export-wim-to-md)))))
+</span></span></code></pre></div><p><a href=https://futurismo.biz/using-org-roam-one-year-2022/#0c2bfe>org-exportでバックリンクをexport前に挿入 - 🖊知的生産のキラーアプリOrg-roamを１年使い倒し学ぶとはなにか考えたポエム(2022)</a> を参考にバックリンクをMarkdownの最後に出力するようにしています。
+GitHub Actions上で動かす関係で、 <code>org-roam-db-sync</code> を明示的に実行してCI上で <code>org-roam.db</code> を作成する必要があることに注意してください。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-emacs-lisp data-lang=emacs-lisp><span style=display:flex><span>(org-roam-db-sync)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>(defun collect-backlinks-string (backend)
+</span></span><span style=display:flex><span>  (when (org-roam-node-at-point)
+</span></span><span style=display:flex><span>    (<span style=color:#a6e22e>goto-char</span> (<span style=color:#a6e22e>point-max</span>))
+</span></span><span style=display:flex><span>    <span style=color:#75715e>;; Add a new header for the references</span>
+</span></span><span style=display:flex><span>    (let* ((backlinks (org-roam-backlinks-get (org-roam-node-at-point))))
+</span></span><span style=display:flex><span>      (when (<span style=color:#a6e22e>&gt;</span> (<span style=color:#a6e22e>length</span> backlinks) <span style=color:#ae81ff>0</span>)
+</span></span><span style=display:flex><span>        (<span style=color:#a6e22e>insert</span> <span style=color:#e6db74>&#34;\n\n* Backlinks\n&#34;</span>)
+</span></span><span style=display:flex><span>        (dolist (backlink backlinks)
+</span></span><span style=display:flex><span>          (<span style=color:#a6e22e>message</span> (<span style=color:#a6e22e>concat</span> <span style=color:#e6db74>&#34;backlink: &#34;</span> (org-roam-node-title (org-roam-backlink-source-node backlink))))
+</span></span><span style=display:flex><span>          (let* ((source-node (org-roam-backlink-source-node backlink))
+</span></span><span style=display:flex><span>                 (node-file (org-roam-node-file source-node))
+</span></span><span style=display:flex><span>                 (file-name (<span style=color:#a6e22e>file-name-nondirectory</span> node-file))
+</span></span><span style=display:flex><span>                 (title (org-roam-node-title source-node)))
+</span></span><span style=display:flex><span>            (<span style=color:#a6e22e>insert</span>
+</span></span><span style=display:flex><span>             (<span style=color:#a6e22e>format</span> <span style=color:#e6db74>&#34;- [[./%s][%s]]\n&#34;</span> file-name title))))))))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>(add-hook <span style=color:#e6db74>&#39;org-export-before-processing-functions</span> <span style=color:#a6e22e>#&#39;</span>collect-backlinks-string)
+</span></span></code></pre></div><h4 id=hosting>Hosting</h4><p><a href=https://takeokunn.org/>takeokunn.org</a> はHugoで生成した静的コンテンツを<a href=https://docs.github.com/ja/pages/getting-started-with-github-pages/about-github-pages>GitHub Pages</a>で配信しています。</p><p><a href=https://github.com/takeokunn/blog/blob/82439967dcbd0cc522d253c93fcb1457b0a7a5ee/.github/workflows/main.yml#L71>.github/workflows/main.yml</a> に一連の流れが記述されています。</p><ol><li>Linterを実行する</li><li>OrgをMarkdownに変換</li><li><a href=https://github.com/Ladicle/tcardgen>tcardgen</a>経由ですべてのOGPを生成</li><li>HugoをセットアップしてProduction Build</li><li><a href=https://github.com/actions/deploy-pages>actions/deploy-pages</a> でGitHub Pagesに出力</li></ol><p>カスタムドメインの設定は <a href=https://docs.github.com/ja/pages/configuring-a-custom-domain-for-your-github-pages-site/about-custom-domains-and-github-pages>カスタムドメインとGitHub Pagesについて - GitHub Docs</a> を参照してください。</p><h4 id=theme>Theme</h4><p>Hugoは人気静的サイトジェネレータなだけあり、さまざまなテーマを提供してくれています。
+<a href=https://themes.gohugo.io/>https://themes.gohugo.io/</a></p><p>私はWebデザインは上手ではないですがCSSはかなり得意なので自作でテーマを作成しました。
+<a href=https://github.com/takeokunn/hugo-take-theme>https://github.com/takeokunn/hugo-take-theme</a></p><p><a href=https://medium.com/>Medium</a> のようなごちゃごちゃしていないシンプルなデザインが好みだったので、デザインのテイストを寄せて自分でゼロから作りました。</p><p>デザインに変更があり次第、<a href=https://github.com/takeokunn/blog/blob/main/README.org>README.org</a> に <code>git submodule</code> を更新するcode blockを用意しているのでOrg Babelで実行しています。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-org data-lang=org><span style=display:flex><span><span style=color:#75715e>#+begin_src </span><span style=color:#75715e>shell</span><span style=color:#75715e> :results output none
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>   git submodule update --remote --recursive
+</span></span><span style=display:flex><span><span style=color:#75715e>#+end_src</span>
+</span></span></code></pre></div><h4 id=ogp>OGP</h4><p>HugoでOGPを自動生成できないかなと調べていたら <a href=https://github.com/Ladicle/tcardgen>Ladicle/tcardgen</a> というツールがあったので導入しました。</p><p>ベースの素材は適当に<a href=https://www.canva.com/ja_jp/>canva</a>で作成し、shell scriptを実行したらよい感じに出力されるように調整しました。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell><span style=display:flex><span>tcardgen --fontDir<span style=color:#f92672>=</span>tcardgen/font --output<span style=color:#f92672>=</span>static/ogp --config<span style=color:#f92672>=</span>tcardgen/ogp.yml content/posts/**/*.md
+</span></span></code></pre></div><p>tcardgen/ogp.yml:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#f92672>template</span>: <span style=color:#ae81ff>tcardgen/ogp.png</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>title</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>start</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>px</span>: <span style=color:#ae81ff>100</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>py</span>: <span style=color:#ae81ff>150</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>fgHexColor</span>: <span style=color:#e6db74>&#34;#333333&#34;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>fontSize</span>: <span style=color:#ae81ff>60</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>fontStyle</span>: <span style=color:#ae81ff>Bold</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>maxWidth</span>: <span style=color:#ae81ff>1000</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>lineSpacing</span>: <span style=color:#ae81ff>10</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>category</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>start</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>px</span>: <span style=color:#ae81ff>100</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>py</span>: <span style=color:#ae81ff>100</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>fgHexColor</span>: <span style=color:#e6db74>&#34;#E5B52A&#34;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>fontSize</span>: <span style=color:#ae81ff>42</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>fontStyle</span>: <span style=color:#ae81ff>Bold</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>info</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>start</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>px</span>: <span style=color:#ae81ff>270</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>py</span>: <span style=color:#ae81ff>390</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>fgHexColor</span>: <span style=color:#e6db74>&#34;#333333&#34;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>fontSize</span>: <span style=color:#ae81ff>38</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>fontStyle</span>: <span style=color:#ae81ff>Regular</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>separator</span>: <span style=color:#e6db74>&#34; - &#34;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>tags</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>start</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>px</span>: <span style=color:#ae81ff>270</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>py</span>: <span style=color:#ae81ff>460</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>fgHexColor</span>: <span style=color:#e6db74>&#34;#FFFFFF&#34;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>bgHexColor</span>: <span style=color:#e6db74>&#34;#333333&#34;</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>fontSize</span>: <span style=color:#ae81ff>22</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>fontStyle</span>: <span style=color:#ae81ff>Medium</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>boxAlign</span>: <span style=color:#ae81ff>Left</span>
+</span></span></code></pre></div><figure><img src=/images/7393CC74-ED44-4DEF-8374-550864B07D49.png></figure><p>生成したOGPを反映するには自作テーマ側の変更の必要だったので次のように対応しました。
+<a href=https://github.com/takeokunn/hugo-take-theme/blob/88ed46b61d65aabf0bde514a6d6432ea34854b27/layouts/partials/head.html#L32-L53>https://github.com/takeokunn/hugo-take-theme/blob/88ed46b61d65aabf0bde514a6d6432ea34854b27/layouts/partials/head.html#L32-L53</a></p><h3 id=zenn>Zenn</h3><h4 id=target>Target</h4><p>「所属会社の広報用記事」「所属会社の技術記事」を対象にしています。
+一度公開したものはあまり変更しないようにする必要がある為慎重にリリースする必要があります。</p><h4 id=basic>Basic</h4><p><a href=https://zenn.dev/zenn/articles/connect-to-github>GitHubリポジトリでZennのコンテンツを管理する - Zenn</a> にもあるとおり、ZennはGitHub連携を提供しています。
+リポジトリとブランチを指定してpushにhookして記事が反映されるしくみのようです。</p><p>zenn branchを作成して連携するように設定しました。
+<a href=https://github.com/takeokunn/blog/tree/zenn>https://github.com/takeokunn/blog/tree/zenn</a></p><p>GitHubで管理する前に書いていた記事がいくつかあった為、Zenn上で記事をExportをして、GitHubにMarkdownのまま管理をしてCI上でよしなに出力できるように調整しました。
+<a href=https://zenn.dev/settings/export>https://zenn.dev/settings/export</a></p><h4 id=org-to-markdown>Org to Markdown</h4><p><code>export-org-zenn-files</code> を実行して <code>zenn/articles</code> に出力するようにしました。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-emacs-lisp data-lang=emacs-lisp><span style=display:flex><span>(require <span style=color:#e6db74>&#39;package</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>(add-to-list <span style=color:#e6db74>&#39;package-archives</span> <span style=color:#f92672>&#39;</span>(<span style=color:#e6db74>&#34;melpa&#34;</span> <span style=color:#f92672>.</span> <span style=color:#e6db74>&#34;https://melpa.org/packages/&#34;</span>) <span style=color:#66d9ef>t</span>)
+</span></span><span style=display:flex><span>(package-refresh-contents)
+</span></span><span style=display:flex><span>(package-initialize)
+</span></span><span style=display:flex><span>(package-install <span style=color:#e6db74>&#39;ox-zenn</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>(require <span style=color:#e6db74>&#39;ox-zenn</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>(defun export-org-zenn-files ()
+</span></span><span style=display:flex><span>  <span style=color:#e6db74>&#34;Exports Org files to Zenn markdown.&#34;</span>
+</span></span><span style=display:flex><span>  (interactive)
+</span></span><span style=display:flex><span>  (let ((org-publish-project-alist <span style=color:#f92672>`</span>((<span style=color:#e6db74>&#34;zenn&#34;</span>
+</span></span><span style=display:flex><span>                                      :base-directory <span style=color:#e6db74>&#34;org/zenn/&#34;</span>
+</span></span><span style=display:flex><span>                                      :base-extension <span style=color:#e6db74>&#34;org&#34;</span>
+</span></span><span style=display:flex><span>                                      :publishing-directory <span style=color:#e6db74>&#34;zenn/articles&#34;</span>
+</span></span><span style=display:flex><span>                                      :publishing-function org-zenn-publish-to-markdown))))
+</span></span><span style=display:flex><span>    (org-publish-all <span style=color:#66d9ef>t</span>)))
+</span></span></code></pre></div><h2 id=github-actions>GitHub Actions</h2><h3 id=actionlint>Actionlint</h3><p><a href=https://github.com/rhysd/actionlint>rhysd/actionlint</a> はGitHub Actions yamlのLinterです。
+導入自体は非常にシンプルで <a href=https://github.com/takeokunn/blog/blob/82439967dcbd0cc522d253c93fcb1457b0a7a5ee/.github/workflows/ci.yml#L11-L19>.github/workflows/ci.yml#L11-L19</a> の8行程度でCIを設定できます。</p><h3 id=dependabot>dependabot</h3><p><a href=https://docs.github.com/ja/code-security/dependabot/working-with-dependabot>dependabot</a> はプロジェクト内の依存関係のバージョンを上げるPull Requestを自動で作成してくれるサービスです。
+<a href=https://github.com/takeokunn/blog>takeokunn/blog</a> ではnpmとGitHub Actionsのみ依存パッケージを管理しているので次のように設定しました。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#f92672>version</span>: <span style=color:#ae81ff>2</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>updates</span>:
+</span></span><span style=display:flex><span>  - <span style=color:#f92672>package-ecosystem</span>: <span style=color:#ae81ff>npm</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>directory</span>: <span style=color:#ae81ff>/</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>schedule</span>:
+</span></span><span style=display:flex><span>      <span style=color:#f92672>interval</span>: <span style=color:#ae81ff>weekly</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>target-branch</span>: <span style=color:#ae81ff>main</span>
+</span></span><span style=display:flex><span>  - <span style=color:#f92672>package-ecosystem</span>: <span style=color:#ae81ff>github-actions</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>directory</span>: <span style=color:#ae81ff>/</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>schedule</span>:
+</span></span><span style=display:flex><span>      <span style=color:#f92672>interval</span>: <span style=color:#ae81ff>weekly</span>
+</span></span></code></pre></div><p>基本的に開発用ツールのみ管理していて本番への影響がない為、mainに直接mergeして配信するようにしています。
+逐一Pull Requestをmergeするのが面倒な為 <a href=https://github.com/takeokunn/blog/blob/main/.github/workflows/auto_merge.yml>.github/workflows/auto_merge.yml</a> を作成して、CIが通ったら自動でmergeするしくみも作っています。</p><h2 id=今後の展望>今後の展望</h2><p>記事を執筆する時に必要な機能と公開までのワークフローを整えられました。
+さらに自動化できるところがないか模索しつつ技術記事を継続的に執筆していきたいです。</p><h2 id=backlinks>Backlinks</h2><ul><li><a href=/posts/permanent/20240112071806-my_relationship_with_org_mode_in_2023_and_how_navigate_in_2024/>2023年のorg-mode活用と今後の抱負</a></li><li><a href=/posts/fleeting/20250511015532-host_org_roam_ui_lite/>org-roam-ui-liteでblogの関係性を可視化する</a></li><li><a href=/posts/fleeting/20250722020425-proposal_guide/>プロポーザルの出し方・心構え</a></li><li><a href=/posts/fleeting/20250709113618-disable_hatena_bookmark_comment/>はてなブックマークコメント非表示にした</a></li></ul></div></article></main></div><footer class=footer role=contentinfo><div class=footer_social-icons><a href=https://zenn.dev/takeokunn target=_blank rel="noopener noreferrer me" title=Zenn aria-label="Visit Zenn profile"><svg viewBox="0 0 88 88" aria-hidden="true" focusable="false"><path d="M2.22 83.478h17.632c1.296.0 2.16-.576 2.952-1.584L67.906 17.092c.576-.864.288-1.728-.576-1.728H51.946c-1.008.0-1.656.432-2.304 1.296L3.948 81.606c-.648.936-.288 1.872.864 1.872H2.22z" fill="currentColor"/><path d="M54.106 83.478h15.336c1.152.0 1.656-.36 1.656-1.224.0-.36-.144-.792-.432-1.296l-18-28.208c-.504-.792-1.296-.792-1.944.0L42.73 65.998c-.432.72-.36 1.512.144 2.304l8.928 14.112c.504.72 1.152 1.064 2.304 1.064z" fill="currentColor"/></svg>
+</a><a href=https://x.com/takeokunn/ target=_blank rel="noopener noreferrer me" title=Twitter aria-label="Visit Twitter profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M23 3a10.9 10.9.0 01-3.14 1.53 4.48 4.48.0 00-7.86 3v1A10.66 10.66.0 013 4s-4 9 5 13a11.64 11.64.0 01-7 2c9 5 20 0 20-11.5a4.5 4.5.0 00-.08-.83A7.72 7.72.0 0023 3z"/></svg>
+</a><a href=https://github.com/takeokunn target=_blank rel="noopener noreferrer me" title=GitHub aria-label="Visit GitHub profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37.0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44.0 0020 4.77 5.07 5.07.0 0019.91 1S18.73.65 16 2.48a13.38 13.38.0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07.0 005 4.77 5.44 5.44.0 003.5 8.55c0 5.42 3.3 6.61 6.44 7A3.37 3.37.0 009 18.13V22"/></svg>
+</a><a href=https://keyoxide.org/0B10DAA7BA0236D7382287660F79C0AB03FD7A1C target=_blank rel="noopener noreferrer me" title=Keyoxide aria-label="Visit Keyoxide profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5.0 11-7.778 7.778 5.5 5.5.0 017.777-7.777zm0 0L15.5 7.5m0 0 3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
+</a><a href=/index.xml target=_blank rel="noopener noreferrer" title=RSS aria-label="Subscribe via RSS"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 11a9 9 0 019 9"/><path d="M4 4a16 16 0 0116 16"/><circle cx="5" cy="19" r="1"/></svg></a></div><small class=footer_copyright><span aria-label=Copyright>© 2026 takeokunn</span>
+<span class=footer_divider aria-hidden=true>•</span>
+<span>Powered by <a href=https://github.com/takeokunn/hugo-take-theme target=_blank rel=noopener aria-label="Hugo Take Theme on GitHub">hugo-take-theme</a></span></small></footer></body></html>

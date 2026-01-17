@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Zettelkasten on takeokunn's blog</title><link>https://www.takeokunn.org/tags/zettelkasten/</link><description>Recent content in Zettelkasten on takeokunn's blog</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Tue, 19 Dec 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://www.takeokunn.org/tags/zettelkasten/index.xml" rel="self" type="application/rss+xml"/><item><title>org-roamで記事を管理しGitHub Actionsで適切に公開する</title><link>https://www.takeokunn.org/posts/permanent/20231219122351-how_to_manage_blog_by_org_roam/</link><pubDate>Tue, 19 Dec 2023 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/permanent/20231219122351-how_to_manage_blog_by_org_roam/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://qiita.com/advent-calendar/2023/emacs"&gt;2023年度Emacsアドベントカレンダー&lt;/a&gt;2日目の記事です。&lt;/p&gt;
+&lt;p&gt;当記事ではorg-roamを用いたブログ記事のコンテンツ管理方法と、ZennやHugoへ公開する方法の一連の流れについて解説しています。&lt;/p&gt;
+&lt;p&gt;個々の技術への深堀は必要に応じて別途記事に認めますのでご了承ください。&lt;/p&gt;
+&lt;h2 id="考え方"&gt;考え方&lt;/h2&gt;
+&lt;h3 id="ブログサービスについて"&gt;ブログサービスについて&lt;/h3&gt;
+&lt;p&gt;&lt;a href="https://zenn.dev/"&gt;Zenn&lt;/a&gt; や &lt;a href="https://qiita.com/"&gt;Qiita&lt;/a&gt; などブログサービスを提供している会社は世の中に無数にありますが、「ブログ記事という形式で世の中に公開する」ということには大きく分けて次の2つの要素があります。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;コンテンツ管理&lt;/li&gt;
+&lt;li&gt;記事公開&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;2000年代初期と2023年現在求められているブログサービスの必要条件は異なるように、年々求められる必要条件は増えています。
+2023年においてSNSに投稿したものを埋め込むことができないブログサービスというのはほぼ存在しないように、有名なブログサービスに乗っかっておけばモダンな環境を常に享受し続けることができます。&lt;/p&gt;
+&lt;p&gt;しかしながら、ブログサービスにも当然栄枯盛衰があり自分が使っているサービスの行く末など個人には分かりようがありません。
+現に私がプログラミングを初めた2014年ごろはQiitaが技術系ブログサービス一強でしたが、2023年現在ではZennが主流になっています。
+常によりよいブログサービスが出たら移動することも念頭に置く必要があります。&lt;/p&gt;
+&lt;p&gt;私が勤めている会社では多少技術的な記事だったとしても広報目的に&lt;a href="https://note.com/"&gt;note&lt;/a&gt;に書くという運用がされていたり、以前所属していた会社では、&lt;a href="https://hatenablog.com/"&gt;はてなブログ&lt;/a&gt;で技術ブログを運用していました。
+ソフトウェアエンジニアとして働く以上「どこに対して記事公開するか」というのは自分ではコントロール効かないという前提があります。&lt;/p&gt;
+&lt;p&gt;上記で述べたように「記事公開」に関しては自分でどうしようもない部分が多々ありますが、「コンテンツ管理」に関しては完全に自分でコントロールを効かせることができます。
+適切なフォーマットで公開すればよいだけですので、どのように記事を管理されようとブログサービスからしたらDBのレコードの1つなだけなでどうでもよいことなのです。&lt;/p&gt;
+&lt;h3 id="ソフトウェアエンジニアとして"&gt;ソフトウェアエンジニアとして&lt;/h3&gt;
+&lt;p&gt;ソフトウェアエンジニアにとって「技術的な文書を書く」という作業は避けられません。
+「ドキュメントを書く」「チケットに証跡を書く」「同僚と技術的やりとりをする」等さまざまありますが、「ブログ記事を書く」という行為もそのひとつです。
+特定の技術は廃れようと、20年後30年後も「技術的な文書を書く」という行為がなくなることはないでしょう。&lt;/p&gt;
+&lt;p&gt;私は残念ながらソフトウェアエンジニア以外の仕事が絶望的にできないので、10年後も20年後もソフトウェアエンジニアとして働いているだろうという実感があります。
+あまり文章を書くのが得意ではないので、いかに低負荷で一定の品質の文書を書く環境を用意するか、というのが自分のソフトウェアエンジニアとしての人生にとって重要なことだと考えてます。&lt;/p&gt;
+&lt;h3 id="すべてをemacs-org-modeに最適化する"&gt;すべてをEmacs org-modeに最適化する&lt;/h3&gt;
+&lt;p&gt;私は今までさまざまなテキストエディタを使い込んできました。
+その中で一番時間をつぎ込んだ時に高みを目指せるのはEmacsだということを確信しました。&lt;/p&gt;
+&lt;p&gt;「simpleがよいか、easyがよいか」という議論はエンジニア界隈ではよく話題にされます。
+私としては簡単さもシンプルさも本当にどうでもよく、たとえ難しかろうと複雑だろうと時間がかかろうと到達点が一番高いものがよいが一番よいと考えています。&lt;/p&gt;
+&lt;p&gt;今回の記事はorg-modeが主体になりますが、はっきり言ってorg-modeはsimpleでもeasyでもありません。
+巷にある「爆速で構築する」系の記事とは正反対です。
+初速は一切出ないですし、理解するまで時間がかかるし、運用が軌道に乗るまで本当に時間がかかります。
+ただし、org-modeにはプログラマー人生すべてを寄せることができるくらいのポテンシャルがあり、運用に乗った時のパフォーマンスは計りしれません。&lt;/p&gt;
+&lt;p&gt;少なくとも直近10年は一切Emacsへの投資を惜しまないという覚悟をしているので執筆環境もEmacs org-modeに最適化をしていきます。&lt;/p&gt;
+&lt;h2 id="要件"&gt;要件&lt;/h2&gt;
+&lt;p&gt;自分はブログに対して何を求めているのか、ブログとはどうあるべきなのか、をあらためて整理してみました。
+以下は個人ブログに対しての考え方ですので、複数人での運用に関しては特に考慮していません。&lt;/p&gt;
+&lt;h3 id="必要条件"&gt;必要条件&lt;/h3&gt;
+&lt;p&gt;&lt;a href="https://www.gnu.org/software/emacs/manual/html_node/emacs/index.html"&gt;The Emacs Editor Manual&lt;/a&gt; や &lt;a href="https://www.lispworks.com/documentation/HyperSpec/Front/"&gt;Common Lisp Hyperspec&lt;/a&gt; のような数十年前のWebサイト程度の要件を最低限満たしていれば最低限ブログサイトとして名乗ってもよいでしょう。&lt;/p&gt;
+&lt;h4 id="コンテンツ管理"&gt;コンテンツ管理&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;何がしかの方法で永続的に保存できる&lt;/li&gt;
+&lt;li&gt;MarkdownやOrgのような人間が解釈しやすい形式で記述できる&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;コンテンツ管理の必要条件は最低限で、データベースやプレーンテキストで保存できれば要件を満たしていると考えています。
+またHTMLをベタ書きするのは大ですので、MarkdownやOrgのような人間向きのフォーマットで最低限記述できるようにしたいと考えています。&lt;/p&gt;
+&lt;h4 id="記事公開"&gt;記事公開&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;意図したHyperTextを継続的に配信できる&lt;/li&gt;
+&lt;li&gt;画像やCSSも配信でき、最低限文章を読めるデザインで配信する&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;最低限Webサイトとしての体を成していればよいと考えています。&lt;/p&gt;
+&lt;h3 id="十分条件"&gt;十分条件&lt;/h3&gt;
+&lt;p&gt;必要条件はあまりにも最低限すぎるので、2023年現在このくらいは最低限満たしたい条件を書いています。
+一応十分条件と書いてはいるものの2023年においての必要条件に含まれる要素もありそうです。&lt;/p&gt;
+&lt;h4 id="コンテンツ管理"&gt;コンテンツ管理&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;MUST
+&lt;ul&gt;
+&lt;li&gt;秘密鍵やパスワードが入っていないことを網羅的に検査できる&lt;/li&gt;
+&lt;li&gt;校正ツールで継続的かつ網羅的に文章を検査できる&lt;/li&gt;
+&lt;li&gt;エディタの標準的な機能を使うことができる&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;SHOULD
+&lt;ul&gt;
+&lt;li&gt;執筆から公開フローが整っている&lt;/li&gt;
+&lt;li&gt;バージョン管理ができる&lt;/li&gt;
+&lt;li&gt;下書きができる&lt;/li&gt;
+&lt;li&gt;過去記事の検索性が優れている&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;MAY
+&lt;ul&gt;
+&lt;li&gt;複数のブログサービスにまたがって管理できる&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;個人でブログを書いているのもあり、誰かが校正してくれることがないので、うっかり不用意な記述やパスワードを公開しないようなしくみ作りが重要だと考えています。&lt;/p&gt;</description></item></channel></rss>

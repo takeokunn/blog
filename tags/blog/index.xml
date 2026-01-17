@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Blog on takeokunn's blog</title><link>https://www.takeokunn.org/tags/blog/</link><description>Recent content in Blog on takeokunn's blog</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Wed, 09 Jul 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://www.takeokunn.org/tags/blog/index.xml" rel="self" type="application/rss+xml"/><item><title>はてなブックマークコメント非表示にした</title><link>https://www.takeokunn.org/posts/fleeting/20250709113618-disable_hatena_bookmark_comment/</link><pubDate>Wed, 09 Jul 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250709113618-disable_hatena_bookmark_comment/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;バズった記事のはてなブックマークのコメントを見る度に、嫉妬や見苦しいコメントが際立つなという感想を長年持っていた。&lt;/p&gt;
+&lt;p&gt;自分のブログがはてなブックマークで書かれたことはないが、変な火種を生んでもしょうがないので非表示にすることにした。&lt;/p&gt;
+&lt;h2 id="試したこと-やったこと"&gt;試したこと・やったこと&lt;/h2&gt;
+&lt;h3 id="1-dot-方針決め"&gt;1. 方針決め&lt;/h3&gt;
+&lt;p&gt;&lt;a href="https://www.takeokunn.org/posts/permanent/20231219122351-how_to_manage_blog_by_org_roam/"&gt;org-roamで記事を管理しGitHub Actionsで適切に公開する&lt;/a&gt; にも書いたとおり、2025年7月現在、私は次の2つのブログを運用している。&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;th&gt;URL&lt;/th&gt;
+&lt;th&gt;想定読者&lt;/th&gt;
+&lt;th&gt;用途&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;自作ブログ&lt;/td&gt;
+&lt;td&gt;&lt;a href="https://www.takeokunn.org/"&gt;www.takeokunn.org&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;特定少数（2hop以内）&lt;/td&gt;
+&lt;td&gt;個人的な調査メモや作業ログ&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Zenn&lt;/td&gt;
+&lt;td&gt;&lt;a href="https://zenn.dev/takeokunn/"&gt;zenn.dev/takeokunn&lt;/a&gt;&lt;/td&gt;
+&lt;td&gt;不特定多数&lt;/td&gt;
+&lt;td&gt;対外的な活動報告 + 広報目的&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Zennに関して、仕事に紐付く活動なので基本的しっかり腰を据えて書いている。
+所属企業のAdventCalendarもZennに書くことにしている。&lt;/p&gt;
+&lt;p&gt;一方自作ブログの方は、この記事もそうだが自分の作業メモとして書いている。
+なので、校正も甘かったり誤字脱字もあったり検証が甘かったり、基本的にツメが甘いことが多い。
+そもそも不特定多数を意識したブログではないので不特定多数からのフィードバックを期待していない。&lt;/p&gt;
+&lt;p&gt;ブックマーク自体はされてもよいので、今回は自作ブログの方のみ、はてなブックマークコメント非表示にすることにした。&lt;/p&gt;
+&lt;h3 id="2-dot-コメント非表示対応"&gt;2. コメント非表示対応&lt;/h3&gt;
+&lt;p&gt;はてなブックマークヘルプに「コメント一覧非表示機能について」の記述がある。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://b.hatena.ne.jp/help/entry/nocomment"&gt;https://b.hatena.ne.jp/help/entry/nocomment&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;今回は自作ブログなのでmetaタグを追加すれば解決するようだ。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-html" data-lang="html"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&amp;lt;&lt;span style="color:#f92672"&gt;meta&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;name&lt;/span&gt;&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;Hatena::Bookmark&amp;#34;&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;content&lt;/span&gt;&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;nocomment&amp;#34;&lt;/span&gt; /&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;テーマは &lt;a href="https://github.com/takeokunn/hugo-take-theme"&gt;takeokunn/hugo-take-theme&lt;/a&gt; で管理しているのでタグ追加する対応をした。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/takeokunn/hugo-take-theme/commit/618ddf7990affdbf0b72c705fc4e945d9d9224ec"&gt;https://github.com/takeokunn/hugo-take-theme/commit/618ddf7990affdbf0b72c705fc4e945d9d9224ec&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;あとはcurlを叩いて反映されてることを確認した。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ curl -s https://www.takeokunn.org/ | grep &lt;span style="color:#e6db74"&gt;&amp;#39;Hatena::Bookmark&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&amp;lt;!doctype html&amp;gt;&amp;lt;html lang&lt;span style="color:#f92672"&gt;=&lt;/span&gt;ja-jp dir&lt;span style="color:#f92672"&gt;=&lt;/span&gt;ltr prefix&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;og: https://ogp.me/ns#&amp;#34;&lt;/span&gt;&amp;gt;&amp;lt;head&amp;gt;&amp;lt;meta name&lt;span style="color:#f92672"&gt;=&lt;/span&gt;generator content&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;Hugo 0.146.4&amp;#34;&lt;/span&gt;&amp;gt;&amp;lt;meta charset&lt;span style="color:#f92672"&gt;=&lt;/span&gt;utf-8&amp;gt;&amp;lt;meta http-equiv&lt;span style="color:#f92672"&gt;=&lt;/span&gt;content-type content&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;text/html&amp;#34;&lt;/span&gt;&amp;gt;&amp;lt;meta name&lt;span style="color:#f92672"&gt;=&lt;/span&gt;viewport content&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;width=device-width,initial-scale=1&amp;#34;&lt;/span&gt;&amp;gt;&amp;lt;meta name&lt;span style="color:#f92672"&gt;=&lt;/span&gt;Hatena::Bookmark content&lt;span style="color:#f92672"&gt;=&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;nocomment&amp;#34;&lt;/span&gt;&amp;gt;&amp;lt;title itemprop&lt;span style="color:#f92672"&gt;=&lt;/span&gt;name&amp;gt;takeokunn&lt;span style="color:#960050;background-color:#1e0010"&gt;&amp;#39;&lt;/span&gt;s blog&amp;lt;/title&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="3-dot-動作検証"&gt;3. 動作検証&lt;/h3&gt;
+&lt;p&gt;無事動作してくれることが確認できた。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;ログイン状態で適当な記事をはてなブックマークで登録&lt;/li&gt;
+&lt;li&gt;コメントを書く&lt;/li&gt;
+&lt;li&gt;シークレットブラウザで非表示になっていることを確認&lt;/li&gt;
+&lt;/ol&gt;
+&lt;figure&gt;&lt;img src="https://www.takeokunn.org/images/09E03652-CE70-484B-86B0-BC64CBD5D956.png"&gt;
+&lt;/figure&gt;
+&lt;h2 id="得られた結果-所感"&gt;得られた結果・所感&lt;/h2&gt;
+&lt;p&gt;無用な争いを避けられそうなので良かった。&lt;/p&gt;</description></item></channel></rss>

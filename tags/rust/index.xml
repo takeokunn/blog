@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Rust on takeokunn's blog</title><link>https://www.takeokunn.org/tags/rust/</link><description>Recent content in Rust on takeokunn's blog</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Thu, 25 Dec 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://www.takeokunn.org/tags/rust/index.xml" rel="self" type="application/rss+xml"/><item><title>「The Rust Programming Language 日本語版」の読書記録</title><link>https://www.takeokunn.org/posts/literature/therustp1-online/</link><pubDate>Thu, 25 Dec 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/literature/therustp1-online/</guid><description>&lt;h2 id="文献情報"&gt;文献情報&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;出典: &lt;a href="https://doc.rust-jp.rs/book-ja/title-page.html"&gt;The Rust Programming Language 日本語版&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;著者: Rust日本語ドキュメント翻訳プロジェクト&lt;/li&gt;
+&lt;li&gt;参照日: 2025-12-25&lt;/li&gt;
+&lt;li&gt;種別: オンライン書籍&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="読む目的-背景"&gt;読む目的・背景&lt;/h2&gt;
+&lt;p&gt;社内でRustを使っているため、業務で必要な知識として勉強する必要があった。
+他言語で得た知識で知ったかぶりせず、Rust固有の概念を正確に理解したい。
+特に所有権・借用・ライフタイム・スマートポインタといった概念の本質を理解することを目標とした。&lt;/p&gt;
+&lt;h2 id="重要ポイントと引用"&gt;重要ポイントと引用&lt;/h2&gt;
+&lt;h3 id="所有権-ownership"&gt;所有権（Ownership）&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Rustの各値は、所有者と呼ばれる変数と対応している。いかなる時も所有者は一つである。所有者がスコープから外れたら、値は破棄される。&lt;/p&gt;
+&lt;p&gt;&amp;mdash; &lt;a href="https://doc.rust-jp.rs/book-ja/ch04-01-what-is-ownership.html"&gt;第4章 所有権を理解する&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;所有権はRustのもっとも特徴的な機能であり、ガベージコレクタなしでメモリ安全性を保証する仕組みになっている。
+C/C++ではプログラマが手動でメモリを管理する必要があり、解放忘れ（メモリリーク）や二重解放といったバグが発生しやすかった。
+一方、JavaやPythonなどのGC言語では実行時のオーバーヘッドが発生する。
+Rustは所有権システムによって、コンパイル時にメモリ管理の正しさを検証し、実行時コストなしで安全性を実現している。&lt;/p&gt;
+&lt;p&gt;所有権には3つのルールがある。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Rustの各値は所有者と呼ばれる変数をもつ&lt;/li&gt;
+&lt;li&gt;いかなる時も所有者は1つだけ&lt;/li&gt;
+&lt;li&gt;所有者がスコープから外れると、値は破棄される（ &lt;code&gt;drop&lt;/code&gt; が呼ばれる）。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;!--listend--&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-rust" data-lang="rust"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;fn&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;main&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;let&lt;/span&gt; s1 &lt;span style="color:#f92672"&gt;=&lt;/span&gt; String::from(&lt;span style="color:#e6db74"&gt;&amp;#34;hello&amp;#34;&lt;/span&gt;); &lt;span style="color:#75715e"&gt;// s1が所有者
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;let&lt;/span&gt; s2 &lt;span style="color:#f92672"&gt;=&lt;/span&gt; s1; &lt;span style="color:#75715e"&gt;// 所有権がs2にムーブ
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt; &lt;span style="color:#75715e"&gt;// println!(&amp;#34;{}&amp;#34;, s1); // エラー: s1は無効
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;println!&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;&lt;span style="color:#e6db74"&gt;{}&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;, s2); &lt;span style="color:#75715e"&gt;// OK: s2が所有者
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;ヒープに確保されるデータ（ &lt;code&gt;String&lt;/code&gt; など）は代入時に所有権がムーブする。
+スタックに確保される固定サイズのデータ（整数など）は &lt;code&gt;Copy&lt;/code&gt; トレイトを実装しており、コピーされる。&lt;/p&gt;
+&lt;h3 id="借用-borrowing"&gt;借用（Borrowing）&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;関数の引数に参照を取ることを借用と呼びます。現実生活のように、誰かが何かを所有していたら、それを借りることができます。用が済んだら、返さなきゃいけないわけです。&lt;/p&gt;
+&lt;p&gt;&amp;mdash; &lt;a href="https://doc.rust-jp.rs/book-ja/ch04-02-references-and-borrowing.html"&gt;第4章 参照と借用&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;借用は所有権をムーブせずにデータにアクセスする仕組みになっている。
+関数に値を渡すたびに所有権が移動すると、呼び出し元で値が使えなくなり不便になる。
+借用を使えば、所有権を保持したまま一時的にデータへのアクセスを許可できる。&lt;/p&gt;
+&lt;p&gt;借用には2種類ある。
+不変参照（ &lt;code&gt;&amp;amp;T&lt;/code&gt; ）は読み取り専用で、同時に複数存在できる。
+可変参照（ &lt;code&gt;&amp;amp;mut T&lt;/code&gt; ）は書き込み可能だが、同時に1つしか存在できない。&lt;/p&gt;</description></item><item><title>社内読書会でThe Rust Programming Languageを読破した</title><link>https://www.takeokunn.org/posts/permanent/20251220235900-read_the_rust_programming_language/</link><pubDate>Thu, 25 Dec 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/permanent/20251220235900-read_the_rust_programming_language/</guid><description>&lt;h2 id="1-dot-introduction"&gt;1. Introduction&lt;/h2&gt;
+&lt;p&gt;社内でRust本の読書会を開催したのですが、大成功で終わりました。
+過去に社内読書会に参加した経験から、読書会というのはうまくいかないものだと思っていました。
+途中で自然消滅したり、一部の人だけが話して終わったり、結局何も身につかなかったりと、苦い経験がいくつもあります。&lt;/p&gt;
+&lt;p&gt;今回は全員満足度も理解度も高く大成功に終わったという実感があるので、何が良かったのか後学の為に纏めておきます。&lt;/p&gt;
+&lt;p&gt;あくまで私個人の経験に基づく独断と偏見が多分に含まれている点をご了承ください。&lt;/p&gt;
+&lt;h2 id="2-dot-開催情報"&gt;2. 開催情報&lt;/h2&gt;
+&lt;h3 id="2-dot-1-dot-基本情報"&gt;2.1. 基本情報&lt;/h3&gt;
+&lt;p&gt;次の期間/時間に開催しました。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;2025年9月〜2025年12月&lt;/li&gt;
+&lt;li&gt;毎日平日 17:00〜17:30&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;20章と分量のある&lt;a href="https://doc.rust-jp.rs/book-ja/title-page.html#the-rust-programming-language-%E6%97%A5%E6%9C%AC%E8%AA%9E%E7%89%88"&gt;The Rust Programming Language 日本語版&lt;/a&gt;を読破しました。
+メンバーは8人程度で、2人がRust熟練者、それ以外はRust初学者という構成でした。&lt;/p&gt;
+&lt;h3 id="2-dot-2-dot-時間設定の意図"&gt;2.2. 時間設定の意図&lt;/h3&gt;
+&lt;p&gt;17:00〜17:30という時間帯は業務の終盤で集中力が切れやすい時間帯です。
+読書会にあてることでリラックスできたかなと思っています。&lt;/p&gt;
+&lt;p&gt;30分という短い時間の意図はそもそもが業務時間内というのと毎日継続するのにちょうどよい長さだからでした。
+長時間の読書会は準備も負担も大きくなりがちですが、30分であれば「今日はちょっと疲れているな」という日でも参加しやすかったです。&lt;/p&gt;
+&lt;h3 id="2-dot-3-dot-進め方"&gt;2.3. 進め方&lt;/h3&gt;
+&lt;p&gt;30分間の内訳は以下です。
+ドキュメントツールに開催日付で記事を作り、共同編集で学んだことをメモする形式にしていました。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;前半20分: 前回の続きから読書、学んだことや発見や疑問を雑にメモする&lt;/li&gt;
+&lt;li&gt;後半10分: メモを見ながら全員に共有&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="3-dot-個人的な目標"&gt;3. 個人的な目標&lt;/h2&gt;
+&lt;p&gt;「落ち着いて座学をやる」というのが年々苦手になってきていた実感があったので、「ちゃんと机に座ってひとつずつ落ち着いて理解しながら進めていく」というのを目標に掲げていました。
+プログラミング言語の勉強といえど、手を一切動かさず、頭だけで理論を理解することを徹底しました。&lt;/p&gt;
+&lt;p&gt;特に今回の題材は理論を丁寧に理解していく必要があるRustだったので、題材としてはうってつけでした。&lt;/p&gt;
+&lt;p&gt;また、「他言語で得た知識で知ったかぶりしない」という目標もありました。
+良くも悪くも普段プログラムを書いているせいで大体の言語は手なりに書けてしまっていますし、特に最近はAIのせいで深く考えなくても良くなってしまっています。
+これが成長の足枷になってしまっているなという実感があったので、今回は理解が浅い部分の理解をサボらないことにしました。&lt;/p&gt;
+&lt;h2 id="4-dot-うまくいった理由の考察"&gt;4. うまくいった理由の考察&lt;/h2&gt;
+&lt;p&gt;主に次の3パターンの取り組みをしました。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;元の文章を読む&lt;/li&gt;
+&lt;li&gt;Geminiで理解の浅い所を深堀する&lt;/li&gt;
+&lt;li&gt;自分の理解した部分を有識者に語る会を開く&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="4-dot-1-dot-geminiの活用"&gt;4.1. Geminiの活用&lt;/h3&gt;
+&lt;p&gt;普段の読書会中は、その日に読む分をGeminiに質問しまくりながら読んでいました。
+Geminiに「自分の理解ではこうだけどあってる?」のようにとにかく聞いて正確な理解に努めました。
+一般的な知識なのでハルシネーションがほぼなかったです。&lt;/p&gt;
+&lt;p&gt;具体的には次のような質問を投げていました。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;「このコードがコンパイルエラーになる理由を、ライフタイムの観点から説明して」&lt;/li&gt;
+&lt;li&gt;「自分の理解ではこうだけど合ってる？」という確認&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;疑問点をすぐに解消できたのが助かりました。&lt;/p&gt;
+&lt;h3 id="4-dot-2-dot-有識者に語る会"&gt;4.2. 有識者に語る会&lt;/h3&gt;
+&lt;p&gt;とはいえ、Rustは「所有権」や「借用」や「ライフタイム」や「スマートポインタ」など理解しにくい概念がいくつもあります。
+そこで、必要に応じて「自分の理解した部分を有識者に語る会」を30分設けてもらいました。有識者にひたすら自分の理解を喋りまくるという形式です。&lt;/p&gt;
+&lt;p&gt;「有識者に語る」というのが非常に重要でした。
+言葉を適当に濁せないし、用語を適当に使えないし、ちゃんと準備をしないといけないのが体験としてよかったです。
+Geminiに質問攻めして「何が説明できれば俺は理解してるといえると思う?」とプロンプトに投げまくってました。&lt;/p&gt;
+&lt;p&gt;有識者に説明すると新しい知識が出てきたり、自分の中でしっくりする理解ができたのが良かったです。&lt;/p&gt;
+&lt;p&gt;世間的にはファインマンテクニックと呼ばれる手法です。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://qiita.com/KanNishida/items/e2e926bb194fd280c6d9"&gt;人生を変える最強学習メソッド、ファインマン・テクニック - Qiita&lt;/a&gt;&lt;/p&gt;</description></item></channel></rss>

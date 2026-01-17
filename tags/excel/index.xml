@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Excel on takeokunn's blog</title><link>https://www.takeokunn.org/tags/excel/</link><description>Recent content in Excel on takeokunn's blog</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Fri, 23 May 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://www.takeokunn.org/tags/excel/index.xml" rel="self" type="application/rss+xml"/><item><title>Excelファイルをtxtファイルに変換してNotebookLMに食わせる</title><link>https://www.takeokunn.org/posts/fleeting/20250523220142-migrate_excel_to_csv_and_import_notebooklm/</link><pubDate>Fri, 23 May 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250523220142-migrate_excel_to_csv_and_import_notebooklm/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;利用規約の関係で明確に言及できないが、某ECプラットフォーム（以下 A社）とのAPI連携を実装していた。&lt;/p&gt;
+&lt;p&gt;A社のAPI含む全体的なドキュメントの管理方法は次のようになっている。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;APIの情報がWeb上に公開されていない
+&lt;ul&gt;
+&lt;li&gt;技術ブログに書いている人がいない&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;管理画面を使うには申請が必要&lt;/li&gt;
+&lt;li&gt;管理画面の奥の方にAPIドキュメントがある&lt;/li&gt;
+&lt;li&gt;APIドキュメントをzipでダウンロードする方式
+&lt;ul&gt;
+&lt;li&gt;EndpointごとにExcelファイルが入っている&lt;/li&gt;
+&lt;li&gt;セルの結合などを駆使して見易いように書かれている&lt;/li&gt;
+&lt;li&gt;Excelのシートが複数枚ある&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;エラーメッセージなどは別のダウンロードリンクに纏まっている&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;開発する上で次のような問題を抱えていた。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;今回の対応で必要なEndpointの取捨選択を効率的にしたい&lt;/li&gt;
+&lt;li&gt;ひとつずつExcelファイルを開いて確認するのが面倒&lt;/li&gt;
+&lt;li&gt;横断した情報の整合性を確認するのが大変&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;今回のようにExcelファイルが与えられた時にどう対応するべきなのか後学の為にメモしておく。&lt;/p&gt;
+&lt;h2 id="試したこと-やったこと"&gt;試したこと・やったこと&lt;/h2&gt;
+&lt;h3 id="1-dot-excelファイルをgoogle-driveにアップロードする"&gt;1. ExcelファイルをGoogle Driveにアップロードする&lt;/h3&gt;
+&lt;p&gt;ExcelファイルをGoogle DriveにアップロードするとSpreadSheetから閲覧できる。
+こうすることで、ExcelファイルにURL Linkからアクセスすることが可能になるのがよい。&lt;/p&gt;
+&lt;h3 id="2-dot-excelファイルを文字列に起こす"&gt;2. Excelファイルを文字列に起こす&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;xlsx2csv&lt;/code&gt; を使ってcsvファイルに変換する。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-console" data-lang="console"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ xlsx2csv -s &lt;span style="color:#ae81ff"&gt;2&lt;/span&gt; tmp.xlsx &amp;gt; tmp.csv
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;-s&lt;/code&gt; オプションでシート番号を指定できる。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-console" data-lang="console"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;usage: xlsx2csv [-h] [-v] [-a] [-c OUTPUTENCODING] [-d DELIMITER] [--hyperlinks] [-e] [--no-line-breaks] [-E EXCLUDE_SHEET_PATTERN [EXCLUDE_SHEET_PATTERN ...]] [-f DATEFORMAT] [-t TIMEFORMAT]
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; [--floatformat FLOATFORMAT] [--sci-float] [-I INCLUDE_SHEET_PATTERN [INCLUDE_SHEET_PATTERN ...]] [--exclude_hidden_sheets] [--ignore-formats IGNORE_FORMATS [IGNORE_FORMATS ...]]
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; [-l LINETERMINATOR] [-m] [-n SHEETNAME] [-i] [--skipemptycolumns] [-p SHEETDELIMITER] [-q QUOTING] [-s SHEETID] [--include-hidden-rows]
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; xlsxfile [outfile]
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;&lt;/span&gt;xlsx to csv converter
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;&lt;/span&gt;positional arguments:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; xlsxfile xlsx file path, use &amp;#39;-&amp;#39; to read from STDIN
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; outfile output csv file path
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;&lt;/span&gt;options:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; -h, --help show this help message and exit
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; -v, --version show program&amp;#39;s version number and exit
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; -a, --all export all sheets
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; -c OUTPUTENCODING, --outputencoding OUTPUTENCODING
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; encoding of output csv ** Python 3 only ** (default: utf-8)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; -d DELIMITER, --delimiter DELIMITER
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; delimiter - columns delimiter in csv, &amp;#39;tab&amp;#39; or &amp;#39;x09&amp;#39; for a tab (default: comma &amp;#39;,&amp;#39;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; --hyperlinks, --hyperlinks
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; include hyperlinks
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; -e, --escape Escape \r\n\t characters
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; --no-line-breaks, --no-line-breaks
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Replace \r\n\t with space
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; -E EXCLUDE_SHEET_PATTERN [EXCLUDE_SHEET_PATTERN ...], --exclude_sheet_pattern EXCLUDE_SHEET_PATTERN [EXCLUDE_SHEET_PATTERN ...]
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; exclude sheets named matching given pattern, only effects when -a option is enabled.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; -f DATEFORMAT, --dateformat DATEFORMAT
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; override date/time format (ex. %Y/%m/%d)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; -t TIMEFORMAT, --timeformat TIMEFORMAT
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; override time format (ex. %H/%M/%S)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; --floatformat FLOATFORMAT
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; override float format (ex. %.15f)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; --sci-float force scientific notation to float
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; -I INCLUDE_SHEET_PATTERN [INCLUDE_SHEET_PATTERN ...], --include_sheet_pattern INCLUDE_SHEET_PATTERN [INCLUDE_SHEET_PATTERN ...]
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; only include sheets named matching given pattern, only effects when -a option is enabled.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; --exclude_hidden_sheets
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Exclude hidden sheets from the output, only effects when -a option is enabled.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; --ignore-formats IGNORE_FORMATS [IGNORE_FORMATS ...]
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Ignores format for specific data types.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; -l LINETERMINATOR, --lineterminator LINETERMINATOR
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; line terminator - lines terminator in csv, &amp;#39;\n&amp;#39; &amp;#39;\r\n&amp;#39; or &amp;#39;\r&amp;#39; (default: \n)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; -m, --merge-cells merge cells
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; -n SHEETNAME, --sheetname SHEETNAME
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; sheet name to convert
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; -i, --ignoreempty skip empty lines
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; --skipemptycolumns skip trailing empty columns
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; -p SHEETDELIMITER, --sheetdelimiter SHEETDELIMITER
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; sheet delimiter used to separate sheets, pass &amp;#39;&amp;#39; if you do not need delimiter, or &amp;#39;x07&amp;#39; or &amp;#39;\f&amp;#39; for form feed (default: &amp;#39;--------&amp;#39;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; -q QUOTING, --quoting QUOTING
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; quoting - fields quoting in csv, &amp;#39;none&amp;#39; &amp;#39;minimal&amp;#39; &amp;#39;nonnumeric&amp;#39; or &amp;#39;all&amp;#39; (default: minimal)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; -s SHEETID, --sheet SHEETID
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; sheet number to convert
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; --include-hidden-rows
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; include hidden rows
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;次のように再帰的に実行するのでもよい。&lt;/p&gt;</description></item></channel></rss>

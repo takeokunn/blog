@@ -1,0 +1,554 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Typst on takeokunn's blog</title><link>https://www.takeokunn.org/tags/typst/</link><description>Recent content in Typst on takeokunn's blog</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Wed, 24 Dec 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://www.takeokunn.org/tags/typst/index.xml" rel="self" type="application/rss+xml"/><item><title>Typst SlideのDracula Light Theme作成した</title><link>https://www.takeokunn.org/posts/fleeting/20251124235900-typst_slide_light_theme/</link><pubDate>Wed, 24 Dec 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20251124235900-typst_slide_light_theme/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20250506220914-create_typst_slide_theme/"&gt;Typstテーマを自作した&lt;/a&gt; でDrauclaテーマのスライドを自作したのだが、実際登壇してみるとダークテーマは登壇会場によっては見にくくなってしまうことがわかった。
+Draculaテーマだけでなくライトテーマでも生成できるようにしなくちゃいけなくなったので自作してみた。&lt;/p&gt;
+&lt;h2 id="試したこと-やったこと"&gt;試したこと・やったこと&lt;/h2&gt;
+&lt;h3 id="1-dot-テーマ選定"&gt;1. テーマ選定&lt;/h3&gt;
+&lt;p&gt;ライトテーマは世の中に沢山あるものの、好みのテーマを見つける必要がある。
+Draculaテーマが好きな理由は、エコシステムが充実していてあまり努力せず統一感を出せるからであり、対応しているすべてのアプリケーションのカラーテーマをDraculaに設定している。&lt;/p&gt;
+&lt;p&gt;Draculaテーマにもライトテーマないのかなと調べた所、Draculaを逆から読んだAlucardというテーマがあった。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://draculatheme.com/blog/dracula-pro-2.0-our-first-light-theme"&gt;https://draculatheme.com/blog/dracula-pro-2.0-our-first-light-theme&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;これなら既存のカラーテーマとの統一感を出せるだろう、ということでAlucardを選定することにした。&lt;/p&gt;
+&lt;h3 id="2-dot-テーマ作成"&gt;2. テーマ作成&lt;/h3&gt;
+&lt;p&gt;AIに適当にカラーテーマを作成させた。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/takeokunn/blog/blob/main/typst/themes/alucard.typ"&gt;https://github.com/takeokunn/blog/blob/main/typst/themes/alucard.typ&lt;/a&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-typst" data-lang="typst"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;#let&lt;/span&gt; colors &lt;span style="color:#f92672"&gt;=&lt;/span&gt; (
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; background: &lt;span style="color:#a6e22e"&gt;rgb&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;#FFFBEB&amp;#34;&lt;/span&gt;),
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; foreground: &lt;span style="color:#a6e22e"&gt;rgb&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;#1F1F1F&amp;#34;&lt;/span&gt;),
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; pink: &lt;span style="color:#a6e22e"&gt;rgb&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;#A3144D&amp;#34;&lt;/span&gt;),
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; purple: &lt;span style="color:#a6e22e"&gt;rgb&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;#644AC9&amp;#34;&lt;/span&gt;),
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; orange: &lt;span style="color:#a6e22e"&gt;rgb&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;#A34D14&amp;#34;&lt;/span&gt;),
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; green: &lt;span style="color:#a6e22e"&gt;rgb&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;#14710A&amp;#34;&lt;/span&gt;),
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; cyan: &lt;span style="color:#a6e22e"&gt;rgb&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;#036A96&amp;#34;&lt;/span&gt;),
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; red: &lt;span style="color:#a6e22e"&gt;rgb&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;#CB3A2A&amp;#34;&lt;/span&gt;),
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; yellow: &lt;span style="color:#a6e22e"&gt;rgb&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;#846E15&amp;#34;&lt;/span&gt;),
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; comment: &lt;span style="color:#a6e22e"&gt;rgb&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;#6C664B&amp;#34;&lt;/span&gt;),
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;TextMate Themeも作成した。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/takeokunn/blog/blob/main/typst/themes/Alucard.tmTheme"&gt;https://github.com/takeokunn/blog/blob/main/typst/themes/Alucard.tmTheme&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id="得られた結果-所感"&gt;得られた結果・所感&lt;/h2&gt;
+&lt;p&gt;「Software DesignでNix連載しました」というスライドを作って登壇してみた。
+特に問題なく登壇できたので今後も積極的に使っていきたい。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.takeokunn.org/pdf/publishing-nix-series-software-design.pdf"&gt;https://www.takeokunn.org/pdf/publishing-nix-series-software-design.pdf&lt;/a&gt;&lt;/p&gt;
+&lt;figure&gt;&lt;img src="https://www.takeokunn.org/images/2617E50F-5B65-4E93-8C84-A7383E460218.png"&gt;
+&lt;/figure&gt;
+&lt;figure&gt;&lt;img src="https://www.takeokunn.org/images/A53EA15D-765C-4BC1-A389-93E4C5D668B1.png"&gt;
+&lt;/figure&gt;
+&lt;figure&gt;&lt;img src="https://www.takeokunn.org/images/B9C671A0-08B7-4EFD-9160-57FA8A3323A3.png"&gt;
+&lt;/figure&gt;
+&lt;h2 id="今後の展開-検討事項"&gt;今後の展開・検討事項&lt;/h2&gt;
+&lt;p&gt;スライドテンプレートを作り込んでより表現力豊かなスライドを作れるようになりたい。&lt;/p&gt;</description></item><item><title>技術イベントのパンフレット記事をTypstでBuildする</title><link>https://www.takeokunn.org/posts/fleeting/20251130140627-build_pamphlet_article_by_typst/</link><pubDate>Wed, 24 Dec 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20251130140627-build_pamphlet_article_by_typst/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;組版が必要なあらゆるものはTypstを採用することにしている。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20250619103829-build_cv_resume_with_typst/"&gt;Typstで履歴書と職務経歴書をBuildする&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20250610215948-ai_powered_typst_slide_generation/"&gt;AIを駆使してTypstスライドを生成する&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20250126114218-build_and_deploy_typst_using_nix/"&gt;NixでTypstをBuildしGitHub Pagesでホスティングする&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;パンフレット記事や同人誌の組版をする時にも例に漏れずTypstで作成しているのでメモしておく。&lt;/p&gt;
+&lt;p&gt;内容は &lt;a href="https://www.takeokunn.org/posts/fleeting/20250126114218-build_and_deploy_typst_using_nix/"&gt;NixでTypstをBuildしGitHub Pagesでホスティングする&lt;/a&gt; とかなり重複するが、パンフレット記事を書くという側面で纏めていく。&lt;/p&gt;
+&lt;h2 id="試したこと-やったこと"&gt;試したこと・やったこと&lt;/h2&gt;
+&lt;h3 id="1-dot-build周り"&gt;1. Build周り&lt;/h3&gt;
+&lt;p&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20250126114218-build_and_deploy_typst_using_nix/"&gt;NixでTypstをBuildしGitHub Pagesでホスティングする&lt;/a&gt; に纏まっているのでこちらを参照。&lt;/p&gt;
+&lt;h3 id="2-dot-テーマ選定とtypst設定"&gt;2. テーマ選定とTypst設定&lt;/h3&gt;
+&lt;p&gt;この手のテーマはTypstには大量にある。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://typst.app/universe/package/charged-ieee/"&gt;charged-ieee&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://typst.app/universe/package/ilm/"&gt;ilm&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://typst.app/universe/package/clean-acmart/"&gt;clean-acmart&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://typst.app/universe/package/clean-ensam/"&gt;clean-ensam&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://typst.app/universe/package/min-article/"&gt;min-article&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;コードのsyntax highlightのみ &lt;a href="https://typst.app/universe/package/codly/"&gt;codly&lt;/a&gt; と &lt;a href="https://typst.app/universe/package/codly-languages/"&gt;codly-languages&lt;/a&gt; を使ってるが、デフォルトのTypstの機能を手で設定している。
+フォントは&lt;a href="https://github.com/yuru7/HackGen"&gt;HackGen&lt;/a&gt;を入れており、日本語も英語も数値もきれいに描画してくれる。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-typst" data-lang="typst"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;#set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;text&lt;/span&gt;(lang: &lt;span style="color:#e6db74"&gt;&amp;#34;ja&amp;#34;&lt;/span&gt;, font: &lt;span style="color:#e6db74"&gt;&amp;#34;HackGen&amp;#34;&lt;/span&gt;, size: &lt;span style="color:#ae81ff"&gt;8&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;pt&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;#set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;page&lt;/span&gt;(
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; width: &lt;span style="color:#ae81ff"&gt;210&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;mm&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; height: &lt;span style="color:#ae81ff"&gt;297&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;mm&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; margin: &lt;span style="color:#ae81ff"&gt;20&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;mm&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; columns: &lt;span style="color:#ae81ff"&gt;2&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;#set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;columns&lt;/span&gt;(gutter: &lt;span style="color:#ae81ff"&gt;12&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;pt&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;#import&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;@preview/codly:1.2.0&amp;#34;&lt;/span&gt;: &lt;span style="color:#f92672"&gt;*&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;#import&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;@preview/codly-languages:0.1.1&amp;#34;&lt;/span&gt;: &lt;span style="color:#f92672"&gt;*&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;#show&lt;/span&gt;: codly-init.&lt;span style="color:#a6e22e"&gt;with&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;#codly&lt;/span&gt;(languages: codly-languages)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;#show&lt;/span&gt; raw: &lt;span style="color:#66d9ef"&gt;set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;text&lt;/span&gt;(size: &lt;span style="color:#ae81ff"&gt;6&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;pt&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;#place&lt;/span&gt;(
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; top &lt;span style="color:#f92672"&gt;+&lt;/span&gt; center,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; float: &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; scope: &lt;span style="color:#e6db74"&gt;&amp;#34;parent&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; clearance: &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;em&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;)[
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;#set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;text&lt;/span&gt;(size: &lt;span style="color:#ae81ff"&gt;18&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;pt&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; パッケージマネージャNixで実現する \
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; 宣言的でクリーンなPHP開発環境の構築
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;#set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;text&lt;/span&gt;(size: &lt;span style="color:#ae81ff"&gt;12&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;pt&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; たけてぃ \@takeokunn
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;#v&lt;/span&gt;(&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;em&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="得られた結果-所感"&gt;得られた結果・所感&lt;/h2&gt;
+&lt;p&gt;満足いくクオリティでpdfを生成できるようになったし、GitHub ActionsでBuildしてGitHub Pagesでホスティングできるようになった&lt;/p&gt;</description></item><item><title>Typstで履歴書と職務経歴書をBuildする</title><link>https://www.takeokunn.org/posts/fleeting/20250619103829-build_cv_resume_with_typst/</link><pubDate>Thu, 19 Jun 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250619103829-build_cv_resume_with_typst/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;直近履歴書と職務経歴書を書く必要があった。&lt;/p&gt;
+&lt;p&gt;以前はGoogle Docsやpagesを使って適当に書いていたのだが、これからのAI時代はコードベースで管理できた方がよいだろうということで移行を決意した。
+最近Typst推しなのでTypstからPDFをNix Buildで生成できるようにしてみた。&lt;/p&gt;
+&lt;h2 id="試したこと-やったこと"&gt;試したこと・やったこと&lt;/h2&gt;
+&lt;h3 id="0-dot-アプローチのやり方を考える"&gt;0. アプローチのやり方を考える&lt;/h3&gt;
+&lt;p&gt;世間一般的には履歴書や職務経歴書の絶対的な規格というものはなく、業界や各事業者によってさまざまな運用がされているらしい。
+履歴書にはJIS規格があるが、必ずしも準拠する必要はないらしい。&lt;/p&gt;
+&lt;p&gt;必要な情報というのはある程度決まっており、それに倣っておくと汎用性の高い履歴書と職務経歴書になるということで世の中転がってるものをひととおり確認した。&lt;/p&gt;
+&lt;p&gt;今回は次のようにコンテンツとテンプレートを分けて、より管理をしやすいように設計した。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;YAML: コンテンツをKey/Valueで表現する&lt;/li&gt;
+&lt;li&gt;Typst: YAMLを読み込んでテンプレートからPDFを作成する&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="1-dot-レポジトリ作成"&gt;1. レポジトリ作成&lt;/h3&gt;
+&lt;p&gt;現状GitHubのレポジトリや設定をTerraform上で管理しているので、Terraform経由でPrivateレポジトリを作成した。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20250402001222-setup_private_terraform_github_provider/"&gt;Terraform GitHub Providerを導入した&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20250507230034-use_private_terraform_cloud/"&gt;private-terraformをHCP Terraformに移行した&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;また、他の人が使えるようにOSS版も作った。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/takeokunn/typst-resume-template"&gt;https://github.com/takeokunn/typst-resume-template&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id="2-dot-nix-build周り整備"&gt;2. Nix Build周り整備&lt;/h3&gt;
+&lt;p&gt;fontは日本語を正しく描画してくれるHackgenを選んだ。
+fontもNix経由でインストールできるの非常に体験がよい。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/takeokunn/typst-resume-template/blob/main/cv/flake.nix"&gt;https://github.com/takeokunn/typst-resume-template/blob/main/cv/flake.nix&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;flake.nix:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-nix" data-lang="nix"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; inputs &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; nixpkgs&lt;span style="color:#f92672"&gt;.&lt;/span&gt;url &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;github:NixOS/nixpkgs&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; flake-utils&lt;span style="color:#f92672"&gt;.&lt;/span&gt;url &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;github:numtide/flake-utils&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; outputs &lt;span style="color:#f92672"&gt;=&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; self&lt;span style="color:#f92672"&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; nixpkgs&lt;span style="color:#f92672"&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; flake-utils
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; flake-utils&lt;span style="color:#f92672"&gt;.&lt;/span&gt;lib&lt;span style="color:#f92672"&gt;.&lt;/span&gt;eachDefaultSystem (
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; system:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;let&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; pkgs &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#f92672"&gt;import&lt;/span&gt; nixpkgs { &lt;span style="color:#66d9ef"&gt;inherit&lt;/span&gt; system; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;in&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; devShells&lt;span style="color:#f92672"&gt;.&lt;/span&gt;default &lt;span style="color:#f92672"&gt;=&lt;/span&gt; pkgs&lt;span style="color:#f92672"&gt;.&lt;/span&gt;mkShell {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; packages &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;with&lt;/span&gt; pkgs; [ typst ];
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; packages&lt;span style="color:#f92672"&gt;.&lt;/span&gt;default &lt;span style="color:#f92672"&gt;=&lt;/span&gt; pkgs&lt;span style="color:#f92672"&gt;.&lt;/span&gt;stdenv&lt;span style="color:#f92672"&gt;.&lt;/span&gt;mkDerivation {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; name &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;private-career-cv&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; src &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;./.&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; nativeBuildInputs &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;with&lt;/span&gt; pkgs; [ typst hackgen-font ];
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; buildPhase &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;&amp;#39;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; typst compile main.typ --font-path &lt;/span&gt;&lt;span style="color:#e6db74"&gt;${&lt;/span&gt;pkgs&lt;span style="color:#f92672"&gt;.&lt;/span&gt;hackgen-font&lt;span style="color:#e6db74"&gt;}&lt;/span&gt;&lt;span style="color:#e6db74"&gt;/share/fonts/hackgen-nf
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; &amp;#39;&amp;#39;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; installPhase &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;&amp;#39;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; mkdir -p $out
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; cp main.pdf $out/cv.pdf
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; &amp;#39;&amp;#39;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; );
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="3-dot-履歴書テンプレート作成"&gt;3. 履歴書テンプレート作成&lt;/h3&gt;
+&lt;p&gt;次の記事を参考に履歴書を書くTypstを作った。&lt;/p&gt;</description></item><item><title>AIを駆使してTypstスライドを生成する</title><link>https://www.takeokunn.org/posts/fleeting/20250610215948-ai_powered_typst_slide_generation/</link><pubDate>Tue, 10 Jun 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250610215948-ai_powered_typst_slide_generation/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20250608145128-presenting_with_typst_pdfpc/"&gt;Typstとpdfpcでプレゼン機能を実現する&lt;/a&gt; のNext Actionに次のようなことを書いた。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;登壇の場数を踏んでより洗練させていきたい。
+登壇周りのすべてがプレーンテキスト（Org）で管理できるようになったので、次はAIによるスライド生成にチャレンジしたい。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;実際に練習がてら登壇してみたかったので、&lt;a href="https://phpstudy.connpass.com/event/357699/"&gt;第177回 PHP勉強会＠東京&lt;/a&gt; で「Typstで登壇できるようになったので練習させてくれ」というテーマでLTをすることにした。&lt;/p&gt;
+&lt;p&gt;そこで今回は実際にAIにスライドの目次案からTypstを生成させてホスティングする所までやってみた。&lt;/p&gt;
+&lt;h2 id="試したこと-やったこと"&gt;試したこと・やったこと&lt;/h2&gt;
+&lt;h3 id="1-dot-aiでプロンプトを作る"&gt;1. AIでプロンプトを作る&lt;/h3&gt;
+&lt;h4 id="プロンプト"&gt;プロンプト&lt;/h4&gt;
+&lt;p&gt;関連するブログをリストアップしてMarkdownで目次を生成させてみた。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-markdown" data-lang="markdown"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;「typstで登壇できるようになったので練習させてくれ」というタイトルでLTしようと考えています。
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;登壇資料のアウトラインを作りたいです。
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;以下の記事を読んで起承転結でMarkdownで纏めてください。
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; Typstとpdfpcでプレゼン機能を実現する
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; https://www.takeokunn.org/posts/fleeting/20250608145128-presenting_with_typst_pdfpc/
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; Typst自作テーマで登壇スライドを作成した
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; https://www.takeokunn.org/posts/fleeting/20250601214129-create_slide_by_typst_self_theme/
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; Typstテーマを自作した
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; https://www.takeokunn.org/posts/fleeting/20250506220914-create_typst_slide_theme/
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; NixでTypstをBuildしGitHub Pagesでホスティングする
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; https://www.takeokunn.org/posts/fleeting/20250126114218-build_and_deploy_typst_using_nix/
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id="アウトライン例"&gt;アウトライン例&lt;/h4&gt;
+&lt;p&gt;以下は対話しながらGeminiから生成させたものを改変した。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-markdown" data-lang="markdown"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;# Typstで登壇できるようになったので練習させてくれ
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;## 全体構成
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;### きっかけと違和感
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; かつてはGoogle Slidesは最高の相棒だった
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; 画像位置を調整するのが簡単
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; 過去に作ったスライド資産がある
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; 外部への共有も簡単
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; スライド作成の流れ
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; Emacsでアウトラインを書く
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; 過去スライドをコピペしてくる
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; アウトラインに沿ってスライドを作る
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; スピーカーノートを用意する
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; 心に刺さった&amp;#34;小さなトゲ
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; プレーンテキストで管理できない
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; AIによる自動生成できない
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; Emacsから編集できない
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; etc...
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; 違和感の正体 = エンジニアとしての&amp;#34;業&amp;#34;（カルマ）
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; バージョン管理が恋しい
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; 再利用性が低い (No DRY!)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; 自動化できない
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; 僕らは、スライドという成果物も“コード”として管理したい生き物なんだ！
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;### Typstとの出会いと感動
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; そんな僕が出会ったのが&amp;#34;Typst&amp;#34;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; まさに「プレゼン資料も構造化・宣言的に書ける」言語
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; 探し求めていた理想がそこにあった
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; 最初の感動ポイント（＝&amp;#34;トゲ&amp;#34;が抜けていく快感）
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; コードでスライドが書ける → Emacsから離れなくていい！
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; アウトライン作成からスライド執筆まで、すべてが愛用のエディタで完結
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; Gitで管理できる → 変更履歴はすべてお見通し！
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; テーマが自作できる → DRY原則、スライドにも！
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; コードハイライトが美しい → エンジニアとして一番見せたいものが輝く！
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; Typstスライドを支える技術（しくみ）
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; Polylux：Typstのためのスライドエンジン
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; codelst：コードを美しく見せるスタイリスト
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; Nix：すべてを固める魔法の環境
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;### 実用に耐えるまでの道のり
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; しかし、現実は甘くなかった
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; 理想の環境はすぐそこに見えたが、やってみると色々な壁にぶつかる
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; 「言うは易く行うは難し」を実感する日々
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; やってみて困ったこと（理想と現実のギャップ）
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; テーマの調整が超むずい
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; polyluxやcodelstのドキュメントとひたすらにらめっこ
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; 絵文字： Macでは出るのにCI（Linux）でビルドすると豆腐（□）になる！
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; フォント設定： この日本語フォントを使いたいだけなのに…
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; 画像の配置： ドラッグ＆ドロップの偉大さを思い知る
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; それでも続けた理由（Typstの魅力に立ち返る）
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; 記法が明快で、根本的な書き心地は最高だった
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; スライド構成が自分の思考にフィットした
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; 「構造から考え、中身を埋める」スタイルが気持ちよかった
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; 補助ツールとの統合（そして&amp;#34;最強&amp;#34;の環境へ）
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; Typst単体ではなく、エコシステム全体で課題を解決していく
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; pdfpc：ついに「登壇」できるようになった瞬間
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; GitHub Actions：完全なる自動化の世界へ
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; Hugo：発表資料を&amp;#34;資産&amp;#34;にする
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;### Typst登壇はこう変えた
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; Typstを手に入れた結果、登壇準備のすべてが変わった
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; Before/Afterで振り返る、スライド制作プロセスの変化
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; 「きっかけと違和感」で感じていた違和感がすべて解消されていく
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; 登壇準備がこう変わった！
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; 迷わず構成から入れる
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; Before：まずGoogle Slidesを開き、どのテーマにしようか悩む…
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; After：まずEmacsでアウトライン（構造）を書くことに集中できる
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; 見た目を気にしすぎなくていい
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; Before：テキストボックスの位置、フォントサイズ…ピクセル単位の調整地獄
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; After：自作テーマを適用すればOK。「見た目は後からついてくる」安心感
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; 再利用性・再現性が圧倒的に高い
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; Before：過去スライドからコピペ。コピペミスやうっかり編集しちゃったなどヒューマンエラーが頻発。
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; After：過去の資産はGitリポジトリに。Nixのおかげで誰でも同じPDFを生成
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; Typstで登壇する未来
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; 自分だけのテーマを育てる文化
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; 発表のたびにテーマを少しずつ改善していく。自分だけの&amp;#34;刀&amp;#34;を研ぐ感覚
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; コード × 構造 × 登壇の三位一体
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; Slide as Codeの世界へようこそ
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; まとめとメッセージ
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; Google Slidesへの違和感から始まり、困難を乗り越え、最強の環境を手に入れました
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; 「一度書いてみれば、この快感が分かる」
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; 発表資料も&amp;#34;成果物&amp;#34;にしたい、すべてのエンジニアへ
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; その場限りの資料ではなく、再利用可能な“資産”を作りたい人は、ぜひTypstへ！
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="2-dot-gemini-2-dot-5-proに実装させる"&gt;2. Gemini 2.5 Proに実装させる&lt;/h3&gt;
+&lt;p&gt;作業指示を書いて8割くらいのクオリティでAIに実装させる。&lt;/p&gt;</description></item><item><title>Typstとpdfpcでプレゼン機能を実現する</title><link>https://www.takeokunn.org/posts/fleeting/20250608145128-presenting_with_typst_pdfpc/</link><pubDate>Sun, 08 Jun 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250608145128-presenting_with_typst_pdfpc/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;Typstでスライドを作るフローがだいぶ固まってきた。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20250126114218-build_and_deploy_typst_using_nix/"&gt;NixでTypstをBuildしGitHub Pagesでホスティングする&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20250506220914-create_typst_slide_theme/"&gt;Typstテーマを自作した&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20250601214129-create_slide_by_typst_self_theme/"&gt;Typst自作テーマで登壇スライドを作成した&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;過去に普段資料はGoogle Slideで作成していたのだが、次の理由でGoogle Slideを使っていた。&lt;/p&gt;
+&lt;p&gt;例: &lt;a href="https://docs.google.com/presentation/d/1_vOdQO0SY671SRQpnpEz1xvVyUy-Vzl_Dk4Ph6ujy84/edit?slide=id.p#slide=id.p"&gt;AWS SQSとLaravelで大規模トラフィックを捌く - phpcon新潟&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Google Driveで管理できる&lt;/li&gt;
+&lt;li&gt;自己紹介部分など過去のスライドを流用できる&lt;/li&gt;
+&lt;li&gt;文字や画像の配置に自由度がある&lt;/li&gt;
+&lt;li&gt;プレゼンター表示ができる
+&lt;ul&gt;
+&lt;li&gt;スピーカーノートを別画面で確認できる&lt;/li&gt;
+&lt;li&gt;経過時間の計測ができる&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;管理方法やスライドに関するものはTypst力が上がればカバーできるが、プレゼンター表示に関しては何か対策を講じなければ代替できない。&lt;/p&gt;
+&lt;p&gt;今回は実際に登壇に耐えうるツールの選定と運用の検討をしたのでメモしておく。&lt;/p&gt;
+&lt;h2 id="試したこと-やったこと"&gt;試したこと・やったこと&lt;/h2&gt;
+&lt;h3 id="0-dot-ツールの選定"&gt;0. ツールの選定&lt;/h3&gt;
+&lt;p&gt;自分がプレゼンテーションモードに求めている機能をリストアップすると以下。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;MUST
+&lt;ul&gt;
+&lt;li&gt;登壇スライドとは別にスピーカーノートを別画面で確認できる&lt;/li&gt;
+&lt;li&gt;経過時間の計測ができる&lt;/li&gt;
+&lt;li&gt;Typst内 or Orgファイル内でスピーカーノートを管理できる&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;SHOULD
+&lt;ul&gt;
+&lt;li&gt;次スライドの表示&lt;/li&gt;
+&lt;li&gt;全体のスライド表示&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;MAY
+&lt;ul&gt;
+&lt;li&gt;ホワイトボード／ペンツール機能&lt;/li&gt;
+&lt;li&gt;オフラインで機能する&lt;/li&gt;
+&lt;li&gt;動画やスライドアニメーションなどの制御&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Typstから生成したPDFをそのままプレゼン資料として表示できるツールは無数にある。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.apple.com/jp/keynote/"&gt;Keynote&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.microsoft.com/ja-jp/microsoft-365/powerpoint"&gt;PowerPoint&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/Cimbali/pympress"&gt;Pympress&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;etc..&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20250506220914-create_typst_slide_theme/"&gt;Typstテーマを自作した&lt;/a&gt; にも書いたとおり、Typstのベーステーマに &lt;a href="https://polylux.dev/book/polylux.html"&gt;polylux&lt;/a&gt; を利用している。&lt;/p&gt;
+&lt;p&gt;polyluxのドキュメントを読んでいるとpdfpcと繋ぎ込む記述があり、これを用いるとスピーカーノートを実現できることが分かる。
+可能な限り公式がサポートしているものを使う方が筋がよい、また要件を十分に満たしていることが確認が取れたので今回は&lt;a href="https://pdfpc.github.io/"&gt;pdfpc&lt;/a&gt;を選択した。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://polylux.dev/book/external/pdfpc.html#pdfpc"&gt;https://polylux.dev/book/external/pdfpc.html#pdfpc&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id="1-dot-typstとpdfpcとの繋ぎ込み"&gt;1. Typstとpdfpcとの繋ぎ込み&lt;/h3&gt;
+&lt;p&gt;pdfpc integrationは &lt;a href="https://github.com/polylux-typ/polylux"&gt;polylux-typ/polylux&lt;/a&gt; の &lt;a href="https://github.com/polylux-typ/polylux/blob/c58e89c890c397eb300e1a144e6c88b5b2851399/src/toolbox/pdfpc.typ"&gt;src/toolbox/pdfpc.typ&lt;/a&gt; にある。
+使い方は簡単で、次のように記述するだけでよい。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-typst" data-lang="typst"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;#import&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;@preview/polylux:0.4.0&amp;#34;&lt;/span&gt;: &lt;span style="color:#f92672"&gt;*&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;#slide&lt;/span&gt;[
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; #toolbox.pdfpc.speaker-note(&amp;#34;This is a note that only the speaker will see.&amp;#34;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;a href="https://search.nixos.org/packages?channel=25.05&amp;amp;show=polylux2pdfpc&amp;amp;from=0&amp;amp;size=50&amp;amp;sort=relevance&amp;amp;type=packages&amp;amp;query=polylux2pdfpc"&gt;polylux2pdfpc&lt;/a&gt;を使ってpdfpcファイルを生成する。&lt;/p&gt;</description></item><item><title>Typst自作テーマで登壇スライドを作成した</title><link>https://www.takeokunn.org/posts/fleeting/20250601214129-create_slide_by_typst_self_theme/</link><pubDate>Sun, 01 Jun 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250601214129-create_slide_by_typst_self_theme/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://nix-ja.connpass.com/event/353532/"&gt;Nix meetup #3 大阪&lt;/a&gt; で大阪への新幹線の中で登壇スライドを作成した。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.takeokunn.org/pdf/nix-meetup-3-my-nix-usecase.pdf"&gt;https://www.takeokunn.org/pdf/nix-meetup-3-my-nix-usecase.pdf&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;今まではGoogle Slideでスライドを作成していたが、今回は &lt;a href="https://www.takeokunn.org/posts/fleeting/20250506220914-create_typst_slide_theme/"&gt;Typstテーマを自作した&lt;/a&gt; にもあるとおり自作テーマで初の登壇仕様を作成してみた。&lt;/p&gt;
+&lt;p&gt;スライドは作ったものの、時間の関係で登壇できなかったので別の機会で流用する。&lt;/p&gt;
+&lt;h2 id="試したこと-やったこと"&gt;試したこと・やったこと&lt;/h2&gt;
+&lt;h3 id="オープニングスライド-の場合"&gt;「オープニングスライド」の場合&lt;/h3&gt;
+&lt;figure&gt;&lt;img src="https://www.takeokunn.org/images/D81466CB-B613-45D1-8A75-4D4FFD3F9DB1.png"&gt;
+&lt;/figure&gt;
+&lt;h3 id="agenda-の場合"&gt;「Agenda」の場合&lt;/h3&gt;
+&lt;figure&gt;&lt;img src="https://www.takeokunn.org/images/56A9F6DF-679D-4299-AD9A-5FA68F7B16E5.png"&gt;
+&lt;/figure&gt;
+&lt;p&gt;&lt;code&gt;#outline&lt;/code&gt; で自動で取得できる。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-typst" data-lang="typst"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;#slide&lt;/span&gt;[
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; = Agenda
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; #outline
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;figure&gt;&lt;img src="https://www.takeokunn.org/images/27AD5F73-C5C0-46FA-BD3B-69DB46F770EA.png"&gt;
+&lt;/figure&gt;
+&lt;p&gt;&lt;code&gt;#new-section&lt;/code&gt; が対象。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-typst" data-lang="typst"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;#new-section&lt;/span&gt;[自己紹介]
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;#new-section&lt;/span&gt;[今回話したいこと]
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;#new-section&lt;/span&gt;[事例紹介]
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;#new-section&lt;/span&gt;[今後やりたいこと]
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="自己紹介スライド-の場合"&gt;「自己紹介スライド」の場合&lt;/h3&gt;
+&lt;p&gt;画像は &lt;code&gt;#place&lt;/code&gt; で右上に表示。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-typst" data-lang="typst"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;#slide&lt;/span&gt;[
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;#place&lt;/span&gt;(
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; top &lt;span style="color:#f92672"&gt;+&lt;/span&gt; right,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;image&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;./images/icon.jpeg&amp;#34;&lt;/span&gt;, width: &lt;span style="color:#ae81ff"&gt;100&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;pt&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; )
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; = 自己紹介
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - たけてぃ \@takeokunn
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - Nix Meetup 共同主催
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - Nix歴ようやく1年経った
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - 仕事ではPHPコミュニティ所属
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - 個人ではテキストエディタコミュニティ所属
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="ソースコード-の場合"&gt;「ソースコード」の場合&lt;/h3&gt;
+&lt;figure&gt;&lt;img src="https://www.takeokunn.org/images/5C591DBD-F3EF-46EA-B922-D9E04D18B4EE.png"&gt;
+&lt;/figure&gt;
+&lt;p&gt;コードは &lt;code&gt;#sourcecode&lt;/code&gt; でシンタックスハイライトされる。&lt;/p&gt;</description></item><item><title>Typstテーマを自作した</title><link>https://www.takeokunn.org/posts/fleeting/20250506220914-create_typst_slide_theme/</link><pubDate>Tue, 06 May 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250506220914-create_typst_slide_theme/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20250126114218-build_and_deploy_typst_using_nix/"&gt;NixでTypstをBuildしGitHub Pagesでホスティングする&lt;/a&gt; でTypstから生成したPDFスライドを配信する仕組みを作った。
+今後の登壇は可能な限りTypstから生成するつもりなのでテーマを自作した。&lt;/p&gt;
+&lt;p&gt;次の要件を満たす必要があった。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;ライトテーマ/ダークテーマなどテーマを簡単に切り替えられるようにする&lt;/li&gt;
+&lt;li&gt;ソースコードのシンタックスハイライトサポート&lt;/li&gt;
+&lt;li&gt;数式サポート&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;個人的にDracula Themeが好きなのでDracula Theme風に作る。&lt;/p&gt;
+&lt;h2 id="試したこと-やったこと"&gt;試したこと・やったこと&lt;/h2&gt;
+&lt;h3 id="1-dot-theme自作"&gt;1. theme自作&lt;/h3&gt;
+&lt;p&gt;&lt;a href="https://typst.app/universe/package/polylux/"&gt;polylux&lt;/a&gt; をベースに自作した。&lt;a href="https://typst.app/universe/package/basic-polylux/"&gt;basic-polylux&lt;/a&gt; あたりを参考に改造した。&lt;/p&gt;
+&lt;p&gt;シンタックスハイライトは &lt;a href="https://typst.app/universe/package/codly/"&gt;codelst&lt;/a&gt; に &lt;a href="https://github.com/dracula/textmate/blob/master/Dracula.tmTheme"&gt;Dracula.tmTheme&lt;/a&gt; を読ませてハイライトしている。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-typst" data-lang="typst"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;#import&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;@preview/codelst:2.0.2&amp;#34;&lt;/span&gt;: sourcecode
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;#import&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;@preview/polylux:0.4.0&amp;#34;&lt;/span&gt;: &lt;span style="color:#f92672"&gt;*&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;#let&lt;/span&gt; blue &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;rgb&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;#282a36&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;#let&lt;/span&gt; white &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;rgb&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;#f8f8f2&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;#let&lt;/span&gt; pink &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;rgb&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;#ff79c6&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;#let&lt;/span&gt; purple &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;rgb&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;#bd93f9&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;#let&lt;/span&gt; orange &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;rgb&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;#ffb86c&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;#let&lt;/span&gt; green &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;rgb&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;#50fa7b&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;#let&lt;/span&gt; gray &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;rgb&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;#6272a4&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;#let&lt;/span&gt; slide-title-header &lt;span style="color:#f92672"&gt;=&lt;/span&gt; toolbox.&lt;span style="color:#a6e22e"&gt;next-heading&lt;/span&gt;(h &lt;span style="color:#f92672"&gt;=&amp;gt;&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; show: toolbox.full-width-block.&lt;span style="color:#a6e22e"&gt;with&lt;/span&gt;(fill: blue, inset: &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;em&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;text&lt;/span&gt;(fill: purple, size: &lt;span style="color:#ae81ff"&gt;1.2&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;em&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;strong&lt;/span&gt;(h)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;})
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;#let&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;the-footer&lt;/span&gt;(content) &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;text&lt;/span&gt;(size: &lt;span style="color:#ae81ff"&gt;0.8&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;em&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; show: pad.&lt;span style="color:#a6e22e"&gt;with&lt;/span&gt;(.&lt;span style="color:#ae81ff"&gt;5&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;em&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;align&lt;/span&gt;(bottom)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; context &lt;span style="color:#a6e22e"&gt;text&lt;/span&gt;(fill: white.&lt;span style="color:#a6e22e"&gt;lighten&lt;/span&gt;(&lt;span style="color:#ae81ff"&gt;40&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;%&lt;/span&gt;), content)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;h&lt;/span&gt;(&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;fr&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;#let&lt;/span&gt; outline &lt;span style="color:#f92672"&gt;=&lt;/span&gt; toolbox.&lt;span style="color:#a6e22e"&gt;all-sections&lt;/span&gt;((sections, _current) &lt;span style="color:#f92672"&gt;=&amp;gt;&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;enum&lt;/span&gt;(tight: &lt;span style="color:#66d9ef"&gt;false&lt;/span&gt;, ..sections)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;})
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;#let&lt;/span&gt; progress-bar &lt;span style="color:#f92672"&gt;=&lt;/span&gt; toolbox.&lt;span style="color:#a6e22e"&gt;progress-ratio&lt;/span&gt;(ratio &lt;span style="color:#f92672"&gt;=&amp;gt;&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;set&lt;/span&gt; grid.&lt;span style="color:#a6e22e"&gt;cell&lt;/span&gt;(inset: (y: .&lt;span style="color:#ae81ff"&gt;03&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;em&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;grid&lt;/span&gt;(
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; columns: (ratio &lt;span style="color:#f92672"&gt;*&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;100&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;%&lt;/span&gt;, &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;fr&lt;/span&gt;),
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; grid.&lt;span style="color:#a6e22e"&gt;cell&lt;/span&gt;(fill: pink)[],
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; grid.&lt;span style="color:#a6e22e"&gt;cell&lt;/span&gt;(fill: purple)[],
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; )
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;})
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;#let&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;new-section&lt;/span&gt;(name) &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;slide&lt;/span&gt;({
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;page&lt;/span&gt;(header: &lt;span style="color:#66d9ef"&gt;none&lt;/span&gt;, footer: &lt;span style="color:#66d9ef"&gt;none&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; show: pad.&lt;span style="color:#a6e22e"&gt;with&lt;/span&gt;(&lt;span style="color:#ae81ff"&gt;20&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;%&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;text&lt;/span&gt;(size: &lt;span style="color:#ae81ff"&gt;1.5&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;em&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; name
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; toolbox.&lt;span style="color:#a6e22e"&gt;register-section&lt;/span&gt;(name)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; progress-bar
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;})
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;#let&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;focus&lt;/span&gt;(body) &lt;span style="color:#f92672"&gt;=&lt;/span&gt; context {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;page&lt;/span&gt;(header: &lt;span style="color:#66d9ef"&gt;none&lt;/span&gt;, footer: &lt;span style="color:#66d9ef"&gt;none&lt;/span&gt;, fill: blue, margin: &lt;span style="color:#ae81ff"&gt;2&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;em&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;text&lt;/span&gt;(fill: orange, size: &lt;span style="color:#ae81ff"&gt;1.5&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;em&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;align&lt;/span&gt;(center)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; body
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;#let&lt;/span&gt; divider &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;line&lt;/span&gt;(length: &lt;span style="color:#ae81ff"&gt;100&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;%&lt;/span&gt;, stroke: .&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;em&lt;/span&gt; &lt;span style="color:#f92672"&gt;+&lt;/span&gt; pink)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;#let&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;setup&lt;/span&gt;(
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; footer: &lt;span style="color:#66d9ef"&gt;none&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; text-font: &lt;span style="color:#e6db74"&gt;&amp;#34;Migu&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; math-font: &lt;span style="color:#e6db74"&gt;&amp;#34;Fira Math&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; code-font: &lt;span style="color:#e6db74"&gt;&amp;#34;Fira Code&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; text-size: &lt;span style="color:#ae81ff"&gt;23&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;pt&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; body,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;) &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;raw&lt;/span&gt;(theme: &lt;span style="color:#e6db74"&gt;&amp;#34;./Dracula.tmTheme&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;page&lt;/span&gt;(
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; paper: &lt;span style="color:#e6db74"&gt;&amp;#34;presentation-16-9&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; fill: blue,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; margin: (rest: &lt;span style="color:#ae81ff"&gt;4&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;em&lt;/span&gt;),
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; footer: &lt;span style="color:#a6e22e"&gt;the-footer&lt;/span&gt;(footer),
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; header: slide-title-header,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; )
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;text&lt;/span&gt;(
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; font: text-font,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; size: text-size,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; fill: white,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; )
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;strong&lt;/span&gt;(delta: &lt;span style="color:#ae81ff"&gt;100&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;show&lt;/span&gt; math.equation: &lt;span style="color:#66d9ef"&gt;set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;text&lt;/span&gt;(font: math-font)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;show&lt;/span&gt; raw: &lt;span style="color:#66d9ef"&gt;set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;text&lt;/span&gt;(font: code-font)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;align&lt;/span&gt;(horizon)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;show&lt;/span&gt; emph: it &lt;span style="color:#f92672"&gt;=&amp;gt;&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;text&lt;/span&gt;(fill: pink, it.body)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;show&lt;/span&gt; heading.&lt;span style="color:#a6e22e"&gt;where&lt;/span&gt;(level: &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;): _ &lt;span style="color:#f92672"&gt;=&amp;gt;&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;none&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; body
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="2-dot-flake-dot-nixでbuildする"&gt;2. flake.nixでBuildする&lt;/h3&gt;
+&lt;p&gt;以下抜粋。
+&lt;a href="https://github.com/takeokunn/blog/blob/d7501711936b11d3f53c312c2775e20faab35602/typst/flake.nix"&gt;https://github.com/takeokunn/blog/blob/d7501711936b11d3f53c312c2775e20faab35602/typst/flake.nix&lt;/a&gt;&lt;/p&gt;</description></item><item><title>NixでTypstをBuildしGitHub Pagesでホスティングする</title><link>https://www.takeokunn.org/posts/fleeting/20250126114218-build_and_deploy_typst_using_nix/</link><pubDate>Sun, 26 Jan 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250126114218-build_and_deploy_typst_using_nix/</guid><description>&lt;h2 id="背景"&gt;背景&lt;/h2&gt;
+&lt;p&gt;スライドや組版記事を生成する為にTypstを採用することにした。
+工数を最小限に安定的に量産できるようなしくみを整える必要が迫られていたので、今回対応したことをメモしておく。&lt;/p&gt;
+&lt;p&gt;ソースコードは&lt;a href="https://github.com/takeokunn/blog/tree/11609d8503ffd9b9eb8a3e2a5d19f3f51ee5b579/typst"&gt;takeokunn/blogのtypstディレクトリ下&lt;/a&gt;に置いている。&lt;/p&gt;
+&lt;h2 id="条件"&gt;条件&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;MUST
+&lt;ul&gt;
+&lt;li&gt;Localに一切依存しない再現性の高いBuild環境構築&lt;/li&gt;
+&lt;li&gt;org-modeで記述できる&lt;/li&gt;
+&lt;li&gt;Typstのエコシステムを使う&lt;/li&gt;
+&lt;li&gt;スライド生成と組版記事両方に対応する&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;SHOULD
+&lt;ul&gt;
+&lt;li&gt;takeokunn.orgから配信できる&lt;/li&gt;
+&lt;li&gt;リリースまでのリードタイムが短い&lt;/li&gt;
+&lt;li&gt;org-roamなど周辺のエコシステムとの親和性を高める&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="方針"&gt;方針&lt;/h2&gt;
+&lt;p&gt;次の3ステップで実現した。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;org-modeで記述したファイルをTypstに変換&lt;/li&gt;
+&lt;li&gt;NixでTypstをBuildできるようにする&lt;/li&gt;
+&lt;li&gt;GitHub ActionsでBuildしてGitHub Pagesで配信できる&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure&gt;&lt;img src="https://www.takeokunn.org/images/D91F417B-0FFC-4C67-A814-A267565ADE63.png"&gt;
+&lt;/figure&gt;
+&lt;h2 id="作業ステップ"&gt;作業ステップ&lt;/h2&gt;
+&lt;h3 id="0-dot-どこに置くか検討"&gt;0. どこに置くか検討&lt;/h3&gt;
+&lt;p&gt;以下を理由に &lt;a href="https://github.com/takeokunn/blog"&gt;takeokunn/blog&lt;/a&gt; 上に構築することにした。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.takeokunn.org/"&gt;takeokunn.org&lt;/a&gt; から配信できる&lt;/li&gt;
+&lt;li&gt;既存のorg-roam上に相乗りできる&lt;/li&gt;
+&lt;li&gt;新しいリポジトリを作ると関心ことが増える&lt;/li&gt;
+&lt;li&gt;すでにあるGitHub Actions上に構築することによって実装コストとメンテナンスコストを抑えられる&lt;/li&gt;
+&lt;li&gt;今回の用途だと作業途中でもパブリックにして問題がない&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;商業誌のような公開制限をかける必要のあるものは都度プライベートリポジトリを作って対応することにした。&lt;/p&gt;
+&lt;h3 id="1-dot-org-modeで記述したファイルをtypstに変換"&gt;1. org-modeで記述したファイルをTypstに変換&lt;/h3&gt;
+&lt;p&gt;組版記事の場合、&lt;a href="https://github.com/jmpunkt/ox-typst"&gt;jmpunkt/ox-typst&lt;/a&gt; を用いて通常とおりOrgファイルをTypstに変換する。(&lt;code&gt;M-x org-typst-export-to-typst&lt;/code&gt; を実行)&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/takeokunn/blog/blob/11609d8503ffd9b9eb8a3e2a5d19f3f51ee5b579/typst/phperkaigi-2025-pamphlet/article.org"&gt;PHPerKaigi2025のパンフ記事&lt;/a&gt;の場合、次のようにTypstの設定をExportしている。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-org" data-lang="org"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#+BEGIN_EXPORT &lt;/span&gt;&lt;span style="color:#75715e"&gt;typst&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;#set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;text&lt;/span&gt;(lang: &lt;span style="color:#e6db74"&gt;&amp;#34;ja&amp;#34;&lt;/span&gt;, font: &lt;span style="color:#e6db74"&gt;&amp;#34;Migu&amp;#34;&lt;/span&gt;, size: &lt;span style="color:#ae81ff"&gt;8&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;pt&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;#set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;page&lt;/span&gt;(
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; width: &lt;span style="color:#ae81ff"&gt;210&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;mm&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; height: &lt;span style="color:#ae81ff"&gt;297&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;mm&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; margin: &lt;span style="color:#ae81ff"&gt;20&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;mm&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; columns: &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;#import&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;@preview/codly:1.2.0&amp;#34;&lt;/span&gt;: &lt;span style="color:#f92672"&gt;*&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;#import&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;@preview/codly-languages:0.1.1&amp;#34;&lt;/span&gt;: &lt;span style="color:#f92672"&gt;*&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;#show&lt;/span&gt;: codly-init.&lt;span style="color:#a6e22e"&gt;with&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;#codly&lt;/span&gt;(languages: codly-languages)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;#align&lt;/span&gt;(center)[
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;#set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;text&lt;/span&gt;(size: &lt;span style="color:#ae81ff"&gt;18&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;pt&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Phpactorから学ぶLanguage Server Protocolの仕組み
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;#set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;text&lt;/span&gt;(size: &lt;span style="color:#ae81ff"&gt;12&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;pt&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; たけてぃ \@takeokunn
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#+END_EXPORT&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;スライドの場合、 Orgファイルには登壇メモをしつつ、 &lt;code&gt;#+BEGIN_EXPORT typst&lt;/code&gt; のみ出力してほしかったので次のようなElispを書いた。&lt;/p&gt;</description></item></channel></rss>

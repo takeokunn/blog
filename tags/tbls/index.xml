@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Tbls on takeokunn's blog</title><link>https://www.takeokunn.org/tags/tbls/</link><description>Recent content in Tbls on takeokunn's blog</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Sat, 28 Jun 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://www.takeokunn.org/tags/tbls/index.xml" rel="self" type="application/rss+xml"/><item><title>GitHub Actions上でtblsを使ってスキーマ情報を取得してAIでSQLを生成する</title><link>https://www.takeokunn.org/posts/fleeting/20250628165348-github_actions_tbls_ai_sql_generation/</link><pubDate>Sat, 28 Jun 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250628165348-github_actions_tbls_ai_sql_generation/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;日頃から &lt;a href="https://github.com/k1LoW/tbls"&gt;k1LoW/tbls&lt;/a&gt; を 利用しているが、個人的に気に入ってる運用をメモしておく。&lt;/p&gt;
+&lt;h2 id="試したこと-やったこと"&gt;試したこと・やったこと&lt;/h2&gt;
+&lt;h3 id="1-dot-github-actionsでdbに入れつつtblsを実行する"&gt;1. GitHub ActionsでDBに入れつつtblsを実行する&lt;/h3&gt;
+&lt;p&gt;&lt;a href="https://k1low.hatenablog.com/entry/2023/02/16/093315"&gt;tblsをセットアップするGitHub Actionとしてsetup-tbls（を作るツールとしてgh-setup）を作った&lt;/a&gt; にもあるとおり、&lt;a href="https://github.com/k1low/setup-tbls"&gt;k1low/setup-tbls&lt;/a&gt; を利用すればGitHub Actions上でtblsを簡単に利用できる。&lt;/p&gt;
+&lt;p&gt;以下はISUCONで使っているGitHub Actionsだが、Laravelでも同じように &lt;code&gt;php artisan migrate&lt;/code&gt; すればよい。
+&lt;code&gt;main&lt;/code&gt; branchにpushされたら更新される。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;MySQLのセットアップ&lt;/li&gt;
+&lt;li&gt;tblsをインストール&lt;/li&gt;
+&lt;li&gt;DBにスキーマ情報を反映&lt;/li&gt;
+&lt;li&gt;tbls docを実行する&lt;/li&gt;
+&lt;li&gt;dbdoc branchに &lt;code&gt;./dbdoc&lt;/code&gt; を反映してpushする&lt;/li&gt;
+&lt;/ol&gt;
+&lt;!--listend--&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;name&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;Run db_tbls&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;on&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;workflow_dispatch&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;push&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;branches&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;main&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;permissions&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;contents&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;write&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;jobs&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;db-tbls&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;runs-on&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;ubuntu-latest&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;timeout-minutes&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;300&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;services&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;mysql&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;image&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;mysql:8&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;options&lt;/span&gt;: --&lt;span style="color:#ae81ff"&gt;health-cmd &amp;#34;mysqladmin ping -h localhost&amp;#34; --health-interval 20s --health-timeout 10s --health-retries 10&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;ports&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#ae81ff"&gt;3306&lt;/span&gt;:&lt;span style="color:#ae81ff"&gt;3306&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;env&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;MYSQL_DATABASE&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;isuride&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;MYSQL_ROOT_PASSWORD&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;isucon&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;MYSQL_ROOT_HOST&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#39;%&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;steps&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#f92672"&gt;uses&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;actions/checkout@v4&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#f92672"&gt;uses&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;k1low/setup-tbls@v1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#f92672"&gt;name&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;Run schema.sql&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;run&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;mysql --host=&amp;#34;127.0.0.1&amp;#34; --port=3306 --user=&amp;#34;root&amp;#34; --password=&amp;#34;isucon&amp;#34; isuride &amp;lt; webapp/sql/1-schema.sql&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#f92672"&gt;name&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;Run tbls for generate database document&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;run&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;tbls doc --dsn &amp;#34;mysql://root:isucon@127.0.0.1:3306/isuride&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#f92672"&gt;name&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;Deploy dbdob&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;uses&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;peaceiris/actions-gh-pages@v4&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;with&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;github_token&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;${{ secrets.GITHUB_TOKEN }}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;publish_dir&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;./dbdoc&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;publish_branch&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;dbdoc&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="2-dot-dbdoc-repoを用意する"&gt;2. dbdoc repoを用意する&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;&amp;lt;repo-name&amp;gt;-dbdoc&amp;gt;&lt;/code&gt; を用意する。&lt;/p&gt;</description></item></channel></rss>

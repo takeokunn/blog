@@ -1,0 +1,752 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Emacs on takeokunn's blog</title><link>https://www.takeokunn.org/tags/emacs/</link><description>Recent content in Emacs on takeokunn's blog</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Tue, 02 Dec 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://www.takeokunn.org/tags/emacs/index.xml" rel="self" type="application/rss+xml"/><item><title>emacs wgrepが便利だった</title><link>https://www.takeokunn.org/posts/fleeting/20251130141030-emacs_wgrep/</link><pubDate>Tue, 02 Dec 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20251130141030-emacs_wgrep/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;本記事は &lt;a href="https://qiita.com/advent-calendar/2025/emacs"&gt;Emacs Advent Calendar 2025&lt;/a&gt; の2日目の記事です。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20251128124639-emacs_wdired_mode/"&gt;emacs wdiredが便利だった&lt;/a&gt; でwgrepも便利だということが判明したのでこちらも調査してみる。&lt;/p&gt;
+&lt;h2 id="試したこと-やったこと"&gt;試したこと・やったこと&lt;/h2&gt;
+&lt;h3 id="1-dot-wgrepの機能調査"&gt;1. wgrepの機能調査&lt;/h3&gt;
+&lt;p&gt;&lt;a href="https://github.com/mhayashi1120/Emacs-wgrep"&gt;mhayashi1120/Emacs-wgrep&lt;/a&gt; のサードパーティpackageでMelpaから落とすことができる。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://melpa.org/#/?q=wgrep"&gt;https://melpa.org/#/?q=wgrep&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;*grep*&lt;/code&gt; bufferの &lt;code&gt;grep-mode&lt;/code&gt; にhookして &lt;code&gt;wgrep-setup&lt;/code&gt; を実行し、 &lt;code&gt;wgrep-mode&lt;/code&gt; というminor modeを起動する。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-emacs-lisp" data-lang="emacs-lisp"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(add-hook &lt;span style="color:#e6db74"&gt;&amp;#39;grep-setup-hook&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;wgrep-setup&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;類似機能に標準機能の &lt;code&gt;moccur-edit&lt;/code&gt; があり、migemoとの連携も取れるようだ。
+自分はmigemoユーザではないが将来的に試してみたい。&lt;/p&gt;
+&lt;h3 id="2-dot-wgrep設定"&gt;2. wgrep設定&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;defcustom&lt;/code&gt; としては以下だが、自分は特に設定していない。&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;変数名 （Variable）&lt;/th&gt;
+&lt;th&gt;機能概要&lt;/th&gt;
+&lt;th&gt;戦略的利用法&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;wgrep-auto-save-buffer&lt;/td&gt;
+&lt;td&gt;変更適用完了時（wgrep-finish-edit）にバッファを自動保存するか 。&lt;/td&gt;
+&lt;td&gt;大規模リファクタリング時、安全のため &lt;code&gt;nil&lt;/code&gt; （手動保存）を維持するか、迅速な処理のために &lt;code&gt;t&lt;/code&gt; に設定。&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;wgrep-enable-key&lt;/td&gt;
+&lt;td&gt;wgrepモードを有効にするためのキーバインド 。&lt;/td&gt;
+&lt;td&gt;ワークフローの摩擦を減らすため、単一キー（例: &amp;ldquo;r&amp;quot;や&amp;quot;e&amp;rdquo;）に設定することを推奨。&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;wgrep-change-readonly-file&lt;/td&gt;
+&lt;td&gt;バッファが読み取り専用であるかどうかにかかわらず、変更を強制的に適用するか 。&lt;/td&gt;
+&lt;td&gt;VCSによって保護されたファイルを編集する場合に有効化。&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;デフォルトのkeybindは次のようになっている。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-emacs-lisp" data-lang="emacs-lisp"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(unless wgrep-mode-map
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; (let ((map (&lt;span style="color:#a6e22e"&gt;make-sparse-keymap&lt;/span&gt;)))
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; (&lt;span style="color:#a6e22e"&gt;define-key&lt;/span&gt; map &lt;span style="color:#e6db74"&gt;&amp;#34;\C-c\C-c&amp;#34;&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;wgrep-finish-edit&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; (&lt;span style="color:#a6e22e"&gt;define-key&lt;/span&gt; map &lt;span style="color:#e6db74"&gt;&amp;#34;\C-c\C-d&amp;#34;&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;wgrep-mark-deletion&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; (&lt;span style="color:#a6e22e"&gt;define-key&lt;/span&gt; map &lt;span style="color:#e6db74"&gt;&amp;#34;\C-c\C-e&amp;#34;&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;wgrep-finish-edit&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; (&lt;span style="color:#a6e22e"&gt;define-key&lt;/span&gt; map &lt;span style="color:#e6db74"&gt;&amp;#34;\C-c\C-p&amp;#34;&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;wgrep-toggle-readonly-area&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; (&lt;span style="color:#a6e22e"&gt;define-key&lt;/span&gt; map &lt;span style="color:#e6db74"&gt;&amp;#34;\C-c\C-r&amp;#34;&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;wgrep-remove-change&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; (&lt;span style="color:#a6e22e"&gt;define-key&lt;/span&gt; map &lt;span style="color:#e6db74"&gt;&amp;#34;\C-x\C-s&amp;#34;&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;wgrep-finish-edit&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; (&lt;span style="color:#a6e22e"&gt;define-key&lt;/span&gt; map &lt;span style="color:#e6db74"&gt;&amp;#34;\C-c\C-u&amp;#34;&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;wgrep-remove-all-change&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; (&lt;span style="color:#a6e22e"&gt;define-key&lt;/span&gt; map &lt;span style="color:#e6db74"&gt;&amp;#34;\C-c\C-k&amp;#34;&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;wgrep-abort-changes&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; (&lt;span style="color:#a6e22e"&gt;define-key&lt;/span&gt; map &lt;span style="color:#e6db74"&gt;&amp;#34;\C-x\C-q&amp;#34;&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;wgrep-exit&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; (setq wgrep-mode-map map)))
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="3-dot-挙動の確認"&gt;3. 挙動の確認&lt;/h3&gt;
+&lt;p&gt;minad-wareのaffeで実験すると次のようになる。&lt;/p&gt;</description></item><item><title>emacs wdiredが便利だった</title><link>https://www.takeokunn.org/posts/fleeting/20251128124639-emacs_wdired_mode/</link><pubDate>Sat, 29 Nov 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20251128124639-emacs_wdired_mode/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://x.com/ryoppippi"&gt;ryoppippi&lt;/a&gt; の「【外資ITエンジニアの開発環境】VimmerによるVimmer（になりたい人）のためのVim動画」という動画を見た。&lt;/p&gt;
+&lt;p&gt;{{&amp;lt; youtube id=&amp;ldquo;XsAlXYWzcv4&amp;rdquo; title=&amp;quot;【外資ITエンジニアの開発環境】VimmerによるVimmer（になりたい人）のためのVim動画&amp;quot; &amp;gt;}}&lt;/p&gt;
+&lt;p&gt;その中で &lt;a href="https://github.com/stevearc/oil.nvim"&gt;oil.nvim&lt;/a&gt; 紹介があり、vimの通常操作でファイル操作が可能になる機能がある。
+EmacsのDiredでも同様のことがないか調査した所、標準機能に &lt;code&gt;wdired.el&lt;/code&gt; というものがあったので使ってみた。&lt;/p&gt;
+&lt;h2 id="試したこと-やったこと"&gt;試したこと・やったこと&lt;/h2&gt;
+&lt;h3 id="1-dot-wdiredの機能調査"&gt;1. wdiredの機能調査&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;wdired&lt;/code&gt; は &lt;code&gt;Writable Dired&lt;/code&gt; の略でDired拡張。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/emacs-mirror/emacs/blob/master/lisp/wdired.el"&gt;https://github.com/emacs-mirror/emacs/blob/master/lisp/wdired.el&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;大きな特徴は3点。
+Emacs上で完結しているが故のkmacroなどの他の機能を使えるのが便利。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;テキスト処理の延長でファイル操作ができる（ディレクトリ名も変更可能）&lt;/li&gt;
+&lt;li&gt;安全性とトランザクション&lt;/li&gt;
+&lt;li&gt;Emacs Lispによる拡張可能&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id="2-dot-wdired設定"&gt;2. wdired設定&lt;/h3&gt;
+&lt;p&gt;Dired上で起動するの方法は &lt;code&gt;wdired-change-to-wdired-mode&lt;/code&gt; を有効にすればよく、 &lt;code&gt;r&lt;/code&gt; に割り当てている。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-emacs-lisp" data-lang="emacs-lisp"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(&lt;span style="color:#a6e22e"&gt;define-key&lt;/span&gt; dired-mode-map &lt;span style="color:#e6db74"&gt;&amp;#34;r&amp;#34;&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;#&amp;#39;&lt;/span&gt;wdired-change-to-wdired-mode)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;defcustom&lt;/code&gt; はそこそあるが、file permissionを変更できるように &lt;code&gt;wdired-allow-to-change-permissions&lt;/code&gt; は設定してもよさそう。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-emacs-lisp" data-lang="emacs-lisp"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;;;; 定義元&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(defcustom wdired-allow-to-change-permissions &lt;span style="color:#66d9ef"&gt;nil&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;If non-nil, the permissions bits of the files are editable.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;If t, to change a single bit, put the cursor over it and press the
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;space bar, or left click over it. You can also hit the letter you want
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;to set: if this value is allowed, the character in the buffer will be
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;changed. Anyway, the point is advanced one position, so, for example,
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;you can keep the &amp;lt;x&amp;gt; key pressed to give execution permissions to
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;everybody to that file.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;If &lt;/span&gt;&lt;span style="color:#e6db74"&gt;`advanced&amp;#39;&lt;/span&gt;&lt;span style="color:#e6db74"&gt;, the bits are freely editable. You can use
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;&lt;/span&gt;&lt;span style="color:#e6db74"&gt;`string-rectangle&amp;#39;&lt;/span&gt;&lt;span style="color:#e6db74"&gt;, &lt;/span&gt;&lt;span style="color:#e6db74"&gt;`query-replace&amp;#39;&lt;/span&gt;&lt;span style="color:#e6db74"&gt;, etc. You can put any value (even
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;newlines), but if you want your changes to be useful, you better put a
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;intelligible value.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;The real change of the permissions is done by the external
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;program \&amp;#34;chmod\&amp;#34;, which must exist.&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; :type &lt;span style="color:#f92672"&gt;&amp;#39;&lt;/span&gt;(choice (const :tag &lt;span style="color:#e6db74"&gt;&amp;#34;Not allowed&amp;#34;&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;nil&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; (const :tag &lt;span style="color:#e6db74"&gt;&amp;#34;Toggle/set bits&amp;#34;&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;t&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; (other :tag &lt;span style="color:#e6db74"&gt;&amp;#34;Bits freely editable&amp;#34;&lt;/span&gt; advanced)))
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;;;; 自分の設定&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(setotp wdired-allow-to-change-permissions &lt;span style="color:#e6db74"&gt;&amp;#39;advanced&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="3-dot-挙動の確認"&gt;3. 挙動の確認&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;適当なディレクトリでdiredを開いて &lt;code&gt;r&lt;/code&gt; を押す&lt;/li&gt;
+&lt;li&gt;ファイル名やpermissionを変更する&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;C-c C-c&lt;/code&gt; で保存する or &lt;code&gt;C-c C-k&lt;/code&gt; でロールバックする&lt;/li&gt;
+&lt;/ol&gt;
+&lt;figure&gt;&lt;img src="https://www.takeokunn.org/images/E62300C4-243B-413C-9C25-32897789BDF6.png"&gt;
+&lt;/figure&gt;
+&lt;h2 id="得られた結果-所感"&gt;得られた結果・所感&lt;/h2&gt;
+&lt;p&gt;diredでのファイル操作が本当に楽になった。
+普段がんばってshell script書いたりしてたので無駄なことをしてしまったと反省している。&lt;/p&gt;</description></item><item><title>Emacs lsp-modeに新しいClientを追加する方法</title><link>https://www.takeokunn.org/posts/fleeting/20250518160750-how_to_contribute_emacs_lsp_mode/</link><pubDate>Sun, 18 May 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250518160750-how_to_contribute_emacs_lsp_mode/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;メジャーなEmacsのLSP Clientは3種類ある。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/joaotavora/eglot"&gt;eglot&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/emacs-lsp/lsp-mode"&gt;lsp-mode&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/manateelazycat/lsp-bridge"&gt;lsp-bridge&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;それぞれメリットデメリットがあるが、自分としてはlsp-modeを推していて今後も使い続けるつもりでいる。
+lsp-mode最大のメリットはClientサポート数の多さにあり、メジャーなLSP Clientなら必ず収録されていると言っても過言ではない。&lt;/p&gt;
+&lt;p&gt;過去に次の2つのClientを追加するPRを出したことがあるので、後学の為にも追加方法を纏めておく。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/emacs-lsp/lsp-mode/pull/4785"&gt;Add support for Python(ty) #4785&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;追加で修正してくれた &lt;a href="https://github.com/emacs-lsp/lsp-mode/pull/4786"&gt;lsp-python-py: make it add-on and activated on python #4786&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/emacs-lsp/lsp-mode/pull/4283"&gt;Add support for Jsonnet #4283&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="試したこと-やったこと"&gt;試したこと・やったこと&lt;/h2&gt;
+&lt;h3 id="0-dot-language-server選定"&gt;0. Language Server選定&lt;/h3&gt;
+&lt;p&gt;追加したいLSP Serverをみつける。
+流石に個人が趣味で開発した中途半端なものは避けるべきだと思うが、そこは取り込む人が判断するのでとりあえず出してみるのがよいかもしれない。&lt;/p&gt;
+&lt;p&gt;CONTRIBUTINGを熟読して、Pull Requestにすでにあるかどうかを確認する。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/emacs-lsp/lsp-mode/blob/master/CONTRIBUTING.md"&gt;https://github.com/emacs-lsp/lsp-mode/blob/master/CONTRIBUTING.md&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id="1-dot-repoをforkして手元に落とす"&gt;1. Repoをforkして手元に落とす&lt;/h3&gt;
+&lt;p&gt;&lt;a href="https://github.com/emacs-lsp/lsp-mode"&gt;emacs-lsp/lsp-mode&lt;/a&gt; からforkボタンを押して、自分の手元にGit Cloneする。&lt;/p&gt;
+&lt;p&gt;EmacsからPATHを通して &lt;code&gt;(require 'lsp-mode)&lt;/code&gt; を実行する。&lt;/p&gt;
+&lt;h3 id="2-dot-lsp-modeの設定をする"&gt;2. lsp-modeの設定をする&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;clients/lsp-python-ty.el&lt;/code&gt; のように &lt;code&gt;clients/&lt;/code&gt; に空気を読んでファイルを作成する。&lt;/p&gt;
+&lt;p&gt;Jsonnetの場合は以下。&lt;/p&gt;
+&lt;p&gt;最低限次の2つを定義すればよい。
+完成度の高いLanguage Serverはオプションがあるので &lt;code&gt;defcustom&lt;/code&gt; で都度定義する。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;server-executable&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;lsp-register-client&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;a href="https://github.com/emacs-lsp/lsp-mode/blob/master/clients/lsp-jsonnet.el"&gt;https://github.com/emacs-lsp/lsp-mode/blob/master/clients/lsp-jsonnet.el&lt;/a&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-emacs-lisp" data-lang="emacs-lisp"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(require &lt;span style="color:#e6db74"&gt;&amp;#39;lsp-mode&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(defgroup lsp-jsonnet &lt;span style="color:#66d9ef"&gt;nil&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;LSP support for jsonnet.&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; :group &lt;span style="color:#e6db74"&gt;&amp;#39;lsp-mode&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; :link &lt;span style="color:#f92672"&gt;&amp;#39;&lt;/span&gt;(url-link &lt;span style="color:#e6db74"&gt;&amp;#34;https://github.com/grafana/jsonnet-language-server&amp;#34;&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(defcustom lsp-clients-jsonnet-server-executable &lt;span style="color:#f92672"&gt;&amp;#39;&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;jsonnet-language-server&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;The jsonnet language server executable to use.&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; :group &lt;span style="color:#e6db74"&gt;&amp;#39;lsp-jsonnet&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; :risky &lt;span style="color:#66d9ef"&gt;t&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; :type &lt;span style="color:#f92672"&gt;&amp;#39;&lt;/span&gt;(repeat &lt;span style="color:#a6e22e"&gt;string&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(lsp-register-client
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; (make-lsp-client
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; :new-connection (lsp-stdio-connection (lambda () lsp-clients-jsonnet-server-executable))
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; :activation-fn (lsp-activate-on &lt;span style="color:#e6db74"&gt;&amp;#34;jsonnet&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; :priority &lt;span style="color:#ae81ff"&gt;-1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; :major-modes &lt;span style="color:#f92672"&gt;&amp;#39;&lt;/span&gt;(jsonnet-mode)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; :server-id &lt;span style="color:#e6db74"&gt;&amp;#39;jsonnet-lsp&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(lsp-consistency-check lsp-jsonnet)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(provide &lt;span style="color:#e6db74"&gt;&amp;#39;lsp-jsonnet&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="3-dot-手元で動作確認する"&gt;3. 手元で動作確認する&lt;/h3&gt;
+&lt;p&gt;ちょうどよいサイズのプロジェクトを手元に用意して実際に動かしてみる。
+基本的なLSP機能が正常に動くか確認する。&lt;/p&gt;</description></item><item><title>個人的Local環境のGit Branch運用について</title><link>https://www.takeokunn.org/posts/fleeting/20250518144557-local_git_branch_operation/</link><pubDate>Sun, 18 May 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250518144557-local_git_branch_operation/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;複数人で触っているRepoをLocalでGit操作する時、次のような問題が発生していた。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;直pushしてしまった&lt;/li&gt;
+&lt;li&gt;意図しない作業ブランチで作業してしまった&lt;/li&gt;
+&lt;li&gt;コンフリクト解消ミスで本来必要なコードを消してしまう&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;GitHubのBranch RuleやCIなどでミスを防ぐべきだが、そういうのが整っていない環境というのは多々ある。
+自衛のために個人的に行っているGit Branch運用について纏めておく。&lt;/p&gt;
+&lt;p&gt;当記事の前提は以下。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Git ClientはMagit&lt;/li&gt;
+&lt;li&gt;Default Branchは &lt;code&gt;main&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;GitHubを利用している&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="試したこと-やったこと"&gt;試したこと・やったこと&lt;/h2&gt;
+&lt;h3 id="0-dot-方針を決める"&gt;0. 方針を決める&lt;/h3&gt;
+&lt;p&gt;基本方針は以下。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;最新のRemote Branchを常に取得する&lt;/li&gt;
+&lt;li&gt;デフォルトがLocal Branchが一切ない状態にする
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;main&lt;/code&gt; Branchすら用意しない&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;作業するタイミング &lt;strong&gt;&lt;strong&gt;のみ&lt;/strong&gt;&lt;/strong&gt; Local Branchを作成する
+&lt;ul&gt;
+&lt;li&gt;作業が終わったら必ずGit Pushする（Remote管理）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="1-dot-手元から一切のlocal-branchを消す"&gt;1. 手元から一切のLocal Branchを消す&lt;/h3&gt;
+&lt;p&gt;次のようなLocal Branchがあったとする。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-console" data-lang="console"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ git branch
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; feature/xxx
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; feature/yyy
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; feature/zzz
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;* main
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;origin/main&lt;/code&gt; に移動して、 &lt;code&gt;main&lt;/code&gt; Branch含めすべてのLocal Branchを削除する。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-console" data-lang="console"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ git checkout origin/main
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;&lt;/span&gt;$ git branch -D main
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ git branch -D feature/xxx
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ git branch -D feature/yyy
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ git branch -D feature/zzz
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;次のような状態になるとよい。&lt;/p&gt;</description></item><item><title>markdown-preview-modeとxwidgetsでリアルタイムプレビューする</title><link>https://www.takeokunn.org/posts/fleeting/20250510184016-preview_markdown_with_xwidgets/</link><pubDate>Sat, 10 May 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250510184016-preview_markdown_with_xwidgets/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;最近AIが生成したMarkdownを読む機会が増えた。
+Emacs Buffer上で読むのもよいのだが、ブラウザ上でCSSを当てた方が読みやすいので今回対応した。&lt;/p&gt;
+&lt;h2 id="試したこと-やったこと"&gt;試したこと・やったこと&lt;/h2&gt;
+&lt;h3 id="1-dot-markdown-preview-modeを用意する"&gt;1. markdown-preview-modeを用意する&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/ancane/markdown-preview-mode"&gt;ancane/markdown-preview-mode&lt;/a&gt; をインストールする
+&lt;ul&gt;
+&lt;li&gt;Melpa経由で入る&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Markdownをコンパイルする為に &lt;a href="https://pandoc.org/"&gt;pandoc&lt;/a&gt; を用意する&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="2-dot-markdown-preview-modeの設定をする"&gt;2. markdown-preview-modeの設定をする&lt;/h3&gt;
+&lt;p&gt;solarized-lightのテーマを選んだ。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-emacs-lisp" data-lang="emacs-lisp"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(setq markdown-preview-stylesheets (&lt;span style="color:#a6e22e"&gt;list&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;http://thomasf.github.io/solarized-css/solarized-light.min.css&amp;#34;&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;既存のテーマで画像を表示すると表示ずれ発生するのでスタイルを上書きした。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-emacs-lisp" data-lang="emacs-lisp"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(defun my/markdown-preview-css-filter (orig-return)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; (&lt;span style="color:#a6e22e"&gt;concat&lt;/span&gt; orig-return &lt;span style="color:#e6db74"&gt;&amp;#34;&amp;lt;style&amp;gt;img { max-width: 100%; }&amp;lt;/style&amp;gt;&amp;#34;&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(advice-add &lt;span style="color:#e6db74"&gt;&amp;#39;markdown-preview--css&lt;/span&gt; :filter-return &lt;span style="color:#a6e22e"&gt;#&amp;#39;&lt;/span&gt;my/markdown-preview-css-filter)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;previewを起動する時にxwidget経由で開くようにした。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-emacs-lisp" data-lang="emacs-lisp"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(defun my/markdown-preview--start-with-xwidget (orig-fun &lt;span style="color:#66d9ef"&gt;&amp;amp;rest&lt;/span&gt; args)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; (let ((browse-url-browser-function &lt;span style="color:#a6e22e"&gt;#&amp;#39;&lt;/span&gt;xwidget-webkit-browse-url))
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; (&lt;span style="color:#a6e22e"&gt;apply&lt;/span&gt; orig-fun args)))
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(advice-add &lt;span style="color:#e6db74"&gt;&amp;#39;markdown-preview--start&lt;/span&gt; :around &lt;span style="color:#a6e22e"&gt;#&amp;#39;&lt;/span&gt;my/markdown-preview--start-with-xwidget)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="得られた結果-所感"&gt;得られた結果・所感&lt;/h2&gt;
+&lt;p&gt;他エディタに遜色ないくらい体験が良くなった。
+WebSocket Serverも立ててくれるのでリアルタイムプレビューも可能になった。&lt;/p&gt;
+&lt;figure&gt;&lt;img src="https://www.takeokunn.org/images/294497E0-19F6-44FD-8664-826BF09039CF.png"&gt;
+&lt;/figure&gt;
+&lt;h2 id="今後の展開-検討事項"&gt;今後の展開・検討事項&lt;/h2&gt;
+&lt;p&gt;org-modeの場合は &lt;a href="https://github.com/jakebox/org-preview-html"&gt;org-preview-html&lt;/a&gt; で実現できるのでxwidget対応をする。&lt;/p&gt;</description></item><item><title>nixpkgsのunstableでEmacs Nativecomp Buildができない問題とワークアラウンド</title><link>https://www.takeokunn.org/posts/fleeting/20250417001805-emacs_nativecomp_bulid_error_nixpkgs_and_workaround/</link><pubDate>Thu, 17 Apr 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250417001805-emacs_nativecomp_bulid_error_nixpkgs_and_workaround/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;2025年4月16日現在、 &lt;code&gt;aarch64-darwin&lt;/code&gt; 環境でnixpkgs unstableのemacs（nativecomp）をビルドできない問題が発生している。&lt;/p&gt;
+&lt;h2 id="ワークアラウンド方法"&gt;ワークアラウンド方法&lt;/h2&gt;
+&lt;p&gt;packageに &lt;code&gt;withNativeCompilation = false;&lt;/code&gt; を書く。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/NixOS/nixpkgs/blob/e51f02babf0ecf7d66e081917e609ae2c3d43ef2/pkgs/applications/editors/emacs/make-emacs.nix#L69"&gt;https://github.com/NixOS/nixpkgs/blob/e51f02babf0ecf7d66e081917e609ae2c3d43ef2/pkgs/applications/editors/emacs/make-emacs.nix#L69&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;home-managerをoverlayする場合:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-nix" data-lang="nix"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{ emacs-overlay }:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;[
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; (&lt;span style="color:#f92672"&gt;import&lt;/span&gt; emacs-overlay)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;# bug: https://github.com/NixOS/nixpkgs/issues/395169&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; (final: prev: {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; emacs &lt;span style="color:#f92672"&gt;=&lt;/span&gt; prev&lt;span style="color:#f92672"&gt;.&lt;/span&gt;emacs&lt;span style="color:#f92672"&gt;.&lt;/span&gt;override {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; withNativeCompilation &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;false&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; emacs-unstable &lt;span style="color:#f92672"&gt;=&lt;/span&gt; prev&lt;span style="color:#f92672"&gt;.&lt;/span&gt;emacs-unstable&lt;span style="color:#f92672"&gt;.&lt;/span&gt;override {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; withNativeCompilation &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;false&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; emacs-git &lt;span style="color:#f92672"&gt;=&lt;/span&gt; prev&lt;span style="color:#f92672"&gt;.&lt;/span&gt;emacs-git&lt;span style="color:#f92672"&gt;.&lt;/span&gt;override {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; withNativeCompilation &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;false&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; })
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;pkgsをoverrideする場合:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-nix" data-lang="nix"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{ pkgs }:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;pkgs&lt;span style="color:#f92672"&gt;.&lt;/span&gt;emacs&lt;span style="color:#f92672"&gt;.&lt;/span&gt;override {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; withNativeCompilation &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;false&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="原因"&gt;原因&lt;/h2&gt;
+&lt;p&gt;「emacs: fails to launch on macOS Sequoia 15.4 #395169」に纏まってる。
+&lt;a href="https://github.com/NixOS/nixpkgs/issues/395169"&gt;https://github.com/NixOS/nixpkgs/issues/395169&lt;/a&gt;&lt;/p&gt;</description></item><item><title>emacsでuniversal-ctagsを使う</title><link>https://www.takeokunn.org/posts/fleeting/20250410002747-use_universal_ctags_with_emacs/</link><pubDate>Wed, 09 Apr 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250410002747-use_universal_ctags_with_emacs/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://github.com/universal-ctags/ctags"&gt;universal-ctags/ctags&lt;/a&gt; の検証をしたのでメモしておく。&lt;/p&gt;
+&lt;h2 id="概要"&gt;概要&lt;/h2&gt;
+&lt;p&gt;Wikipedia的には以下。
+&lt;a href="https://ja.wikipedia.org/wiki/Ctags"&gt;https://ja.wikipedia.org/wiki/Ctags&lt;/a&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Ctags（英: Ctags）はソース及びヘッダ内にある名前のインデックス（又はタグ）ファイルを生成するプログラム。様々なプログラミング言語に対応している。言語に依存するが、サブルーチン(関数)、変数、クラスのメンバ、マクロ等がインデックス化される。これらのタグによりテキストエディタなどのツールで高速かつ容易に定義を参照できる。相互参照ファイルを出力でき、また名前についての情報を人が読みやすい形で列挙した言語ファイルを生成することもできる。&lt;/p&gt;
+&lt;p&gt;Ctagsはケン・アーノルドがBSD Unix用に開発した。後にJim KlecknerによりFortranがサポートされ、ビル・ジョイによりPascalがサポートされた。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;universal-ctagsは「A maintained ctags implementation」と自称しているとおり、2025年4月現在も活発にメンテナンスされている。
+&lt;a href="https://github.com/universal-ctags/ctags"&gt;https://github.com/universal-ctags/ctags&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id="universal-ctags使い方"&gt;universal-ctags使い方&lt;/h2&gt;
+&lt;p&gt;Nix経由なら簡単に実行できる。
+&lt;a href="https://search.nixos.org/packages?channel=24.11&amp;amp;show=universal-ctags&amp;amp;from=0&amp;amp;size=50&amp;amp;sort=relevance&amp;amp;type=packages&amp;amp;query=universal-ctags"&gt;https://search.nixos.org/packages?channel=24.11&amp;show=universal-ctags&amp;from=0&amp;size=50&amp;sort=relevance&amp;type=packages&amp;query=universal-ctags&lt;/a&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-console" data-lang="console"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ nix run nixpkgs#universal-ctags -- --version
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;&lt;/span&gt;Universal Ctags 6.1.0, Copyright (C) 2015-2023 Universal Ctags Team
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Universal Ctags is derived from Exuberant Ctags.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Exuberant Ctags 5.8, Copyright (C) 1996-2009 Darren Hiebert
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; URL: https://ctags.io/
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Output version: 0.0
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Optional compiled features: +wildcards, +regex, +gnulib_fnmatch, +gnulib_regex, +iconv, +option-directory, +xpath, +json, +interactive, +yaml, +case-insensitive-filenames, +packcc, +optscript, +pcre2
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;PHPプロジェクトである &lt;a href="https://github.com/bobthecow/psysh"&gt;bobthecow/psysh&lt;/a&gt; を例に &lt;code&gt;TAGS&lt;/code&gt; を生成する。&lt;/p&gt;</description></item><item><title>flake.nixでポータブルな最小構成のEmacsを作成する</title><link>https://www.takeokunn.org/posts/fleeting/20250403230709-portable_minimal_emacs_with_flake_nix/</link><pubDate>Thu, 03 Apr 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250403230709-portable_minimal_emacs_with_flake_nix/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;「任意のEmacs Packageが動かない」がおま環かバグかというのを切り分けることは非常に重要。
+誰でも同じ環境を整えられるようにすると問題解決が捗るので構築方法をメモしておく。&lt;/p&gt;
+&lt;h2 id="作業手順"&gt;作業手順&lt;/h2&gt;
+&lt;h3 id="1-dot-init-dot-el作成"&gt;1. init.el作成&lt;/h3&gt;
+&lt;p&gt;今回のサンプルは&lt;a href="https://melpa.org/#/rainbow-delimiters"&gt;rainbow-delimiters&lt;/a&gt;が動作するか確認するものにする。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-emacs-lisp" data-lang="emacs-lisp"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(use-package rainbow-delimiters
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; :ensure &lt;span style="color:#66d9ef"&gt;t&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; :hook
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; (prog-mode-hook &lt;span style="color:#f92672"&gt;.&lt;/span&gt; rainbow-delimiters-mode))
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="2-dot-flake-dot-nix作成"&gt;2. flake.nix作成&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;alwaysEnsure = true;&lt;/code&gt; にすると &lt;code&gt;init.el&lt;/code&gt; 内の &lt;code&gt;:ensure t&lt;/code&gt; を読んでNix Build時によしなにインストールしてくれる。&lt;/p&gt;
+&lt;p&gt;また、&lt;a href="https://github.com/nix-community/emacs-overlay"&gt;emacs-overlay&lt;/a&gt; を使うと &lt;code&gt;unstable/stable/head&lt;/code&gt; など複数バージョンで実行できるので検証の幅を簡単に広げられる。
+&lt;a href="https://github.com/nix-community/emacs-overlay/blob/master/overlays/emacs.nix"&gt;https://github.com/nix-community/emacs-overlay/blob/master/overlays/emacs.nix&lt;/a&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-nix" data-lang="nix"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; inputs &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; nixpkgs&lt;span style="color:#f92672"&gt;.&lt;/span&gt;url &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;github:NixOS/nixpkgs/nixpkgs-unstable&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; emacs-overlay &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; url &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;github:nix-community/emacs-overlay&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; inputs&lt;span style="color:#f92672"&gt;.&lt;/span&gt;nixpkgs&lt;span style="color:#f92672"&gt;.&lt;/span&gt;follows &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;nixpkgs&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; outputs &lt;span style="color:#f92672"&gt;=&lt;/span&gt; { self&lt;span style="color:#f92672"&gt;,&lt;/span&gt; nixpkgs&lt;span style="color:#f92672"&gt;,&lt;/span&gt; emacs-overlay }:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;let&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; system &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;aarch64-darwin&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; pkgs &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#f92672"&gt;import&lt;/span&gt; nixpkgs {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;inherit&lt;/span&gt; system;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; overlays &lt;span style="color:#f92672"&gt;=&lt;/span&gt; [ emacs-overlay&lt;span style="color:#f92672"&gt;.&lt;/span&gt;overlay ];
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; emacs &lt;span style="color:#f92672"&gt;=&lt;/span&gt; pkgs&lt;span style="color:#f92672"&gt;.&lt;/span&gt;emacsWithPackagesFromUsePackage {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; config &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;./init.el&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; package &lt;span style="color:#f92672"&gt;=&lt;/span&gt; pkgs&lt;span style="color:#f92672"&gt;.&lt;/span&gt;emacs-unstable;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; alwaysEnsure &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;in&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; packages&lt;span style="color:#f92672"&gt;.&lt;/span&gt;&lt;span style="color:#e6db74"&gt;${&lt;/span&gt;system&lt;span style="color:#e6db74"&gt;}&lt;/span&gt;&lt;span style="color:#f92672"&gt;.&lt;/span&gt;default &lt;span style="color:#f92672"&gt;=&lt;/span&gt; emacs;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="3-dot-nix-buildして実行"&gt;3. Nix Buildして実行&lt;/h3&gt;
+&lt;p&gt;Localに一切依存しない形でEmacsをBuildできる。&lt;/p&gt;</description></item><item><title>@github/copilot-language-serverをNixで扱う時のメモ</title><link>https://www.takeokunn.org/posts/fleeting/20250327190937-usage_github_copilot_language_server/</link><pubDate>Thu, 27 Feb 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250327190937-usage_github_copilot_language_server/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://github.com/orgs/github/packages/npm/package/copilot-language-server"&gt;@github/copilot-language-server&lt;/a&gt; を &lt;a href="https://github.com/takeokunn/nixos-configuration"&gt;takeokunn/nixos-configuration&lt;/a&gt; 上で扱えるようにしたのでメモしておく。&lt;/p&gt;
+&lt;h2 id="background"&gt;Background&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/copilot-emacs/copilot.el"&gt;copilot.el&lt;/a&gt; のバージョンが上がった&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/orgs/github/packages/npm/package/copilot-language-server"&gt;@github/copilot-language-server&lt;/a&gt; をnpmでインストールして使う必要があった&lt;/li&gt;
+&lt;li&gt;次の要件を満たしたい
+&lt;ul&gt;
+&lt;li&gt;Nixでパッケージングしたい&lt;/li&gt;
+&lt;li&gt;Neovimなどのエディタでも汎用的に使えるようにしたい&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="対応手順"&gt;対応手順&lt;/h2&gt;
+&lt;h3 id="1-dot-node2nixでパッケージングする"&gt;1. node2nixでパッケージングする&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;node2nix/node-packages.json&lt;/code&gt; に次のような記述をした。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-json" data-lang="json"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;[&lt;span style="color:#e6db74"&gt;&amp;#34;@github/copilot-language-server&amp;#34;&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;次のshell scriptを実行するとファイルが生成された。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;node2nix/default.nix&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;node2nix/node-env.nix&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;node2nix/node-packages.nix&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;!--listend--&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-console" data-lang="console"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ nix-shell -p nodePackages.node2nix --command &lt;span style="color:#e6db74"&gt;&amp;#34;node2nix -i ./node-packages.json -o node-packages.nix&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="2-dot-実行ファイルを取得する"&gt;2. 実行ファイルを取得する&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;node2nix/default.nix&lt;/code&gt; をimportするとpackageが読み込めるようになった。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-nix" data-lang="nix"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;nodePkgs &lt;span style="color:#f92672"&gt;=&lt;/span&gt; pkgs&lt;span style="color:#f92672"&gt;.&lt;/span&gt;callPackage &lt;span style="color:#e6db74"&gt;../node2nix&lt;/span&gt; { &lt;span style="color:#66d9ef"&gt;inherit&lt;/span&gt; pkgs; };
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;copilot-language-server は次のようなディレクトリ構造になっている。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-console" data-lang="console"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ dust native/
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;&lt;/span&gt; 65M ├─┬ native/darwin-x64
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; 65M │ └── native/darwin-x64/copilot-language-server
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; 60M ├─┬ native/darwin-arm64
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; 60M │ └── native/darwin-arm64/copilot-language-server
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; 59M ├─┬ native/linux-x64
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; 59M │ └── native/linux-x64/copilot-language-server
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; 50M └─┬ native/win32-x64
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; 50M └── native/win32-x64/copilot-language-server.exe
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;そこで、platformごとに対応表を作って &lt;code&gt;COPILOT_LANGUAGE_SERVER_PATH&lt;/code&gt; にPATHを通してあげた。&lt;/p&gt;</description></item><item><title>GnuPG 2.4.4でEmacsで発生していたバグ修正された</title><link>https://www.takeokunn.org/posts/fleeting/20240127163627-fix_emacs_gpg_bug/</link><pubDate>Sat, 27 Jan 2024 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20240127163627-fix_emacs_gpg_bug/</guid><description>&lt;h2 id="summary"&gt;Summary&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20230624130858-how_to_escape_emacs_gpg_bug/"&gt;Emacs内でgpg fileがsaveできなくなった時に対応したことメモ&lt;/a&gt; にもあるとおり、GnuPG 2.4.0を使うとEasyPGが正常に動かないという問題があったが、GnuPGを2.4.4に上げると解決した。&lt;/p&gt;
+&lt;h2 id="一連の流れ"&gt;一連の流れ&lt;/h2&gt;
+&lt;blockquote class="twitter-tweet"&gt;&lt;p lang="ja" dir="ltr"&gt;以前も見て、私の環境ではならんなと思ってたけど、たんに gpgtools の gpg2 を読んでいたからだった。 &lt;a href="https://t.co/UdI5QtmC4N"&gt;https://t.co/UdI5QtmC4N&lt;/a&gt; &lt;a href="https://t.co/SNSj5Jd2DT"&gt;pic.twitter.com/SNSj5Jd2DT&lt;/a&gt;&lt;/p&gt;&amp;mdash; . (@takaxp) &lt;a href="https://twitter.com/takaxp/status/1751131754465996931?ref_src=twsrc%5Etfw"&gt;January 27, 2024&lt;/a&gt;&lt;/blockquote&gt; &lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8"&gt;&lt;/script&gt;
+&lt;blockquote class="twitter-tweet"&gt;&lt;p lang="ja" dir="ltr"&gt;2.4.4 が降ってくれば直る説。&lt;a href="https://t.co/zG6kkrQg4s"&gt;https://t.co/zG6kkrQg4s&lt;/a&gt; &lt;a href="https://t.co/YqDEmiDJit"&gt;pic.twitter.com/YqDEmiDJit&lt;/a&gt;&lt;/p&gt;&amp;mdash; . (@takaxp) &lt;a href="https://twitter.com/takaxp/status/1751134178488512668?ref_src=twsrc%5Etfw"&gt;January 27, 2024&lt;/a&gt;&lt;/blockquote&gt; &lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8"&gt;&lt;/script&gt;
+&lt;p&gt;&lt;a href="https://www.mail-archive.com/gnupg-users@gnupg.org/msg41435.html"&gt;Re: epg-encrypt-string in Emacs seems to be incompatible with GnuPG 2.4.1 on macOS, 2.4.0 works&lt;/a&gt; を見ていると、 &lt;code&gt;2.4.4&lt;/code&gt; で直るっぽいとの記述がある。&lt;/p&gt;
+&lt;p&gt;GnuPG側の変更は&lt;a href="https://git.gnupg.org/cgi-bin/gitweb.cgi?p=gnupg.git;a=commit;h=2f872fa68c6576724b9dabee9fb0844266f55d0d"&gt;こちら&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;Homebrewではすでに&lt;a href="https://github.com/Homebrew/homebrew-core/commit/efdeda1c8613c9eda4b75ec6603e876fab593cd9"&gt;こちらのcommit&lt;/a&gt;で対応済みなので &lt;code&gt;brew update&lt;/code&gt; で更新される。&lt;/p&gt;
+&lt;p&gt;Nixユーザーは&lt;a href="https://github.com/NixOS/nixpkgs/blob/nixos-23.11/pkgs/tools/security/gnupg/24.nix"&gt;nixpkgs&lt;/a&gt;が対応するまでは次のようにoverlayを定義して対応すればよい。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-nix" data-lang="nix"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; nixpkgs&lt;span style="color:#f92672"&gt;.&lt;/span&gt;overlays &lt;span style="color:#f92672"&gt;=&lt;/span&gt; [
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; (final: prev: {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; gnupg &lt;span style="color:#f92672"&gt;=&lt;/span&gt; prev&lt;span style="color:#f92672"&gt;.&lt;/span&gt;gnupg&lt;span style="color:#f92672"&gt;.&lt;/span&gt;overrideAttrs (old: {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; src &lt;span style="color:#f92672"&gt;=&lt;/span&gt; prev&lt;span style="color:#f92672"&gt;.&lt;/span&gt;fetchurl {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; url &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;mirror://gnupg/gnupg/gnupg-2.4.4.tar.bz2&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; hash &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;sha256-Z+vgFsqQ+naIzmejh+vYLGJh6ViX23sj3yT/M1voW8Y=&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; });
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; })
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ];
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;実際に自分Emacs環境で実験した所正常に動作することが確認取れた。&lt;/p&gt;</description></item><item><title>org-roamで記事を管理しGitHub Actionsで適切に公開する</title><link>https://www.takeokunn.org/posts/permanent/20231219122351-how_to_manage_blog_by_org_roam/</link><pubDate>Tue, 19 Dec 2023 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/permanent/20231219122351-how_to_manage_blog_by_org_roam/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://qiita.com/advent-calendar/2023/emacs"&gt;2023年度Emacsアドベントカレンダー&lt;/a&gt;2日目の記事です。&lt;/p&gt;
+&lt;p&gt;当記事ではorg-roamを用いたブログ記事のコンテンツ管理方法と、ZennやHugoへ公開する方法の一連の流れについて解説しています。&lt;/p&gt;
+&lt;p&gt;個々の技術への深堀は必要に応じて別途記事に認めますのでご了承ください。&lt;/p&gt;
+&lt;h2 id="考え方"&gt;考え方&lt;/h2&gt;
+&lt;h3 id="ブログサービスについて"&gt;ブログサービスについて&lt;/h3&gt;
+&lt;p&gt;&lt;a href="https://zenn.dev/"&gt;Zenn&lt;/a&gt; や &lt;a href="https://qiita.com/"&gt;Qiita&lt;/a&gt; などブログサービスを提供している会社は世の中に無数にありますが、「ブログ記事という形式で世の中に公開する」ということには大きく分けて次の2つの要素があります。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;コンテンツ管理&lt;/li&gt;
+&lt;li&gt;記事公開&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;2000年代初期と2023年現在求められているブログサービスの必要条件は異なるように、年々求められる必要条件は増えています。
+2023年においてSNSに投稿したものを埋め込むことができないブログサービスというのはほぼ存在しないように、有名なブログサービスに乗っかっておけばモダンな環境を常に享受し続けることができます。&lt;/p&gt;
+&lt;p&gt;しかしながら、ブログサービスにも当然栄枯盛衰があり自分が使っているサービスの行く末など個人には分かりようがありません。
+現に私がプログラミングを初めた2014年ごろはQiitaが技術系ブログサービス一強でしたが、2023年現在ではZennが主流になっています。
+常によりよいブログサービスが出たら移動することも念頭に置く必要があります。&lt;/p&gt;
+&lt;p&gt;私が勤めている会社では多少技術的な記事だったとしても広報目的に&lt;a href="https://note.com/"&gt;note&lt;/a&gt;に書くという運用がされていたり、以前所属していた会社では、&lt;a href="https://hatenablog.com/"&gt;はてなブログ&lt;/a&gt;で技術ブログを運用していました。
+ソフトウェアエンジニアとして働く以上「どこに対して記事公開するか」というのは自分ではコントロール効かないという前提があります。&lt;/p&gt;
+&lt;p&gt;上記で述べたように「記事公開」に関しては自分でどうしようもない部分が多々ありますが、「コンテンツ管理」に関しては完全に自分でコントロールを効かせることができます。
+適切なフォーマットで公開すればよいだけですので、どのように記事を管理されようとブログサービスからしたらDBのレコードの1つなだけなでどうでもよいことなのです。&lt;/p&gt;
+&lt;h3 id="ソフトウェアエンジニアとして"&gt;ソフトウェアエンジニアとして&lt;/h3&gt;
+&lt;p&gt;ソフトウェアエンジニアにとって「技術的な文書を書く」という作業は避けられません。
+「ドキュメントを書く」「チケットに証跡を書く」「同僚と技術的やりとりをする」等さまざまありますが、「ブログ記事を書く」という行為もそのひとつです。
+特定の技術は廃れようと、20年後30年後も「技術的な文書を書く」という行為がなくなることはないでしょう。&lt;/p&gt;
+&lt;p&gt;私は残念ながらソフトウェアエンジニア以外の仕事が絶望的にできないので、10年後も20年後もソフトウェアエンジニアとして働いているだろうという実感があります。
+あまり文章を書くのが得意ではないので、いかに低負荷で一定の品質の文書を書く環境を用意するか、というのが自分のソフトウェアエンジニアとしての人生にとって重要なことだと考えてます。&lt;/p&gt;
+&lt;h3 id="すべてをemacs-org-modeに最適化する"&gt;すべてをEmacs org-modeに最適化する&lt;/h3&gt;
+&lt;p&gt;私は今までさまざまなテキストエディタを使い込んできました。
+その中で一番時間をつぎ込んだ時に高みを目指せるのはEmacsだということを確信しました。&lt;/p&gt;
+&lt;p&gt;「simpleがよいか、easyがよいか」という議論はエンジニア界隈ではよく話題にされます。
+私としては簡単さもシンプルさも本当にどうでもよく、たとえ難しかろうと複雑だろうと時間がかかろうと到達点が一番高いものがよいが一番よいと考えています。&lt;/p&gt;
+&lt;p&gt;今回の記事はorg-modeが主体になりますが、はっきり言ってorg-modeはsimpleでもeasyでもありません。
+巷にある「爆速で構築する」系の記事とは正反対です。
+初速は一切出ないですし、理解するまで時間がかかるし、運用が軌道に乗るまで本当に時間がかかります。
+ただし、org-modeにはプログラマー人生すべてを寄せることができるくらいのポテンシャルがあり、運用に乗った時のパフォーマンスは計りしれません。&lt;/p&gt;
+&lt;p&gt;少なくとも直近10年は一切Emacsへの投資を惜しまないという覚悟をしているので執筆環境もEmacs org-modeに最適化をしていきます。&lt;/p&gt;
+&lt;h2 id="要件"&gt;要件&lt;/h2&gt;
+&lt;p&gt;自分はブログに対して何を求めているのか、ブログとはどうあるべきなのか、をあらためて整理してみました。
+以下は個人ブログに対しての考え方ですので、複数人での運用に関しては特に考慮していません。&lt;/p&gt;
+&lt;h3 id="必要条件"&gt;必要条件&lt;/h3&gt;
+&lt;p&gt;&lt;a href="https://www.gnu.org/software/emacs/manual/html_node/emacs/index.html"&gt;The Emacs Editor Manual&lt;/a&gt; や &lt;a href="https://www.lispworks.com/documentation/HyperSpec/Front/"&gt;Common Lisp Hyperspec&lt;/a&gt; のような数十年前のWebサイト程度の要件を最低限満たしていれば最低限ブログサイトとして名乗ってもよいでしょう。&lt;/p&gt;
+&lt;h4 id="コンテンツ管理"&gt;コンテンツ管理&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;何がしかの方法で永続的に保存できる&lt;/li&gt;
+&lt;li&gt;MarkdownやOrgのような人間が解釈しやすい形式で記述できる&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;コンテンツ管理の必要条件は最低限で、データベースやプレーンテキストで保存できれば要件を満たしていると考えています。
+またHTMLをベタ書きするのは大ですので、MarkdownやOrgのような人間向きのフォーマットで最低限記述できるようにしたいと考えています。&lt;/p&gt;
+&lt;h4 id="記事公開"&gt;記事公開&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;意図したHyperTextを継続的に配信できる&lt;/li&gt;
+&lt;li&gt;画像やCSSも配信でき、最低限文章を読めるデザインで配信する&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;最低限Webサイトとしての体を成していればよいと考えています。&lt;/p&gt;
+&lt;h3 id="十分条件"&gt;十分条件&lt;/h3&gt;
+&lt;p&gt;必要条件はあまりにも最低限すぎるので、2023年現在このくらいは最低限満たしたい条件を書いています。
+一応十分条件と書いてはいるものの2023年においての必要条件に含まれる要素もありそうです。&lt;/p&gt;
+&lt;h4 id="コンテンツ管理"&gt;コンテンツ管理&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;MUST
+&lt;ul&gt;
+&lt;li&gt;秘密鍵やパスワードが入っていないことを網羅的に検査できる&lt;/li&gt;
+&lt;li&gt;校正ツールで継続的かつ網羅的に文章を検査できる&lt;/li&gt;
+&lt;li&gt;エディタの標準的な機能を使うことができる&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;SHOULD
+&lt;ul&gt;
+&lt;li&gt;執筆から公開フローが整っている&lt;/li&gt;
+&lt;li&gt;バージョン管理ができる&lt;/li&gt;
+&lt;li&gt;下書きができる&lt;/li&gt;
+&lt;li&gt;過去記事の検索性が優れている&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;MAY
+&lt;ul&gt;
+&lt;li&gt;複数のブログサービスにまたがって管理できる&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;個人でブログを書いているのもあり、誰かが校正してくれることがないので、うっかり不用意な記述やパスワードを公開しないようなしくみ作りが重要だと考えています。&lt;/p&gt;</description></item><item><title>Emacs内でgpg fileがsaveできなくなった時に対応したことメモ</title><link>https://www.takeokunn.org/posts/fleeting/20230624130858-how_to_escape_emacs_gpg_bug/</link><pubDate>Sat, 24 Jun 2023 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20230624130858-how_to_escape_emacs_gpg_bug/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;自分用のメモです。
+何もしていないのに急にgpg fileがEmacsでsaveできなくなったので調査した。&lt;/p&gt;
+&lt;h2 id="再現手順"&gt;再現手順&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;MacでEmacsを起動する&lt;/li&gt;
+&lt;li&gt;Emacsでgpg fileを開く&lt;/li&gt;
+&lt;li&gt;適当に編集する&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;C-x C-s&lt;/code&gt; で &lt;code&gt;save-buffer&lt;/code&gt; を実行するとsaveできずにhangする&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id="原因について"&gt;原因について&lt;/h2&gt;
+&lt;p&gt;「&lt;a href="https://stackoverflow.com/questions/76388376/emacs-org-encrypt-entry-hangs-when-file-is-modified"&gt;emacs org-encrypt-entry hangs when file is modified - stackoverflow&lt;/a&gt;」に同様の問題が投稿されていました。&lt;/p&gt;
+&lt;p&gt;Emacsのcommitに次のような記述が追加されていました。
+&lt;a href="https://git.savannah.gnu.org/cgit/emacs.git/commit/?h=emacs-29&amp;amp;id=1b9812af80b6ceec8418636dbf84c0fbcd3ab694"&gt;https://git.savannah.gnu.org/cgit/emacs.git/commit/?h=emacs-29&amp;amp;id=1b9812af80b6ceec8418636dbf84c0fbcd3ab694&lt;/a&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;diff --git a/etc/PROBLEMS b/etc/PROBLEMS
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;index c0cb5b0..82ab48f 100644
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;--- a/etc/PROBLEMS
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;+++ b/etc/PROBLEMS
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;@@ -516,6 +516,13 @@ directory copy is ineffective.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; This is due to an arbitrary limit in certain versions of awk.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; The solution is to use gawk (GNU awk).
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;+*** Saving, via EasyPG, a file encrypted with GnuPG hangs
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;+
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;+This is known to happen with GnuPG v2.4.1. The only known workaround
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;+is to downgrade to a version of GnuPG older than 2.4.1 (or, in the
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;+future, upgrade to a newer version which solves the problem, when such
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;+a fixed version becomes available)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;+
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ** Problems with hostname resolution
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; *** Emacs does not know your host&amp;#39;s fully-qualified domain name.
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;これによると、GnuPGのversionを下げることによってsave時にhangすることを防げるようです。
+自分の手元では &lt;code&gt;2.4.0&lt;/code&gt; を使っていますが、同様の問題が起きました。&lt;/p&gt;</description></item><item><title>ob-phpstanを作った</title><link>https://www.takeokunn.org/posts/permanent/20230416154043-create_ob_phpstan/</link><pubDate>Sun, 16 Apr 2023 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/permanent/20230416154043-create_ob_phpstan/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;最近&lt;a href="https://phpstan.org/"&gt;phpstan&lt;/a&gt;を弄ることが増えたのですが、逐一&lt;a href="https://phpstan.org/try"&gt;playground&lt;/a&gt;を開いてWebエディタ内で編集をするのが面倒に感じていました。
+org-mode内で完結をするようにしたいと考えるのはEmacsユーザーなら当然の発想です。
+そこで今回は &lt;code&gt;org-babel&lt;/code&gt; 経由でphpstanの実行結果をorg内で管理できるようにしました。&lt;/p&gt;
+&lt;h2 id="使い方"&gt;使い方&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://github.com/emacs-php/ob-phpstan"&gt;https://github.com/emacs-php/ob-phpstan&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;2023/04/16現在、melpaにはまだ登録をしていないので各自で落してきてパスを通してください。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-emacs-lisp" data-lang="emacs-lisp"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(add-to-list &lt;span style="color:#e6db74"&gt;&amp;#39;load-path&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;/path/to/ob-phpstan.el&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(require &lt;span style="color:#e6db74"&gt;&amp;#39;ob-phpstan&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;次に &lt;code&gt;php-mode&lt;/code&gt; を派生させた &lt;code&gt;phpstan-mode&lt;/code&gt; を作成してください。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-emacs-lisp" data-lang="emacs-lisp"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(eval-after-load &lt;span style="color:#e6db74"&gt;&amp;#34;org&amp;#34;&lt;/span&gt; &lt;span style="color:#f92672"&gt;&amp;#39;&lt;/span&gt;(add-to-list &lt;span style="color:#e6db74"&gt;&amp;#39;org-src-lang-modes&lt;/span&gt; &lt;span style="color:#f92672"&gt;&amp;#39;&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;phpstan&amp;#34;&lt;/span&gt; &lt;span style="color:#f92672"&gt;.&lt;/span&gt; phpstan)))
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;org-babel-phpstan-command&lt;/code&gt; に各自で &lt;code&gt;phpstan&lt;/code&gt; へのパスを設定してください。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-emacs-lisp" data-lang="emacs-lisp"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(with-eval-after-load &lt;span style="color:#e6db74"&gt;&amp;#39;ob-phpstan&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; (setq org-babel-phpstan-command &lt;span style="color:#e6db74"&gt;&amp;#34;/path/to/dir/phpstan&amp;#34;&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;あとは適宜orgファイル内でコードブロック作成し、 &lt;code&gt;org-babel&lt;/code&gt; を実行してください。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-org" data-lang="org"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#+begin_src &lt;/span&gt;&lt;span style="color:#75715e"&gt;phpstan&lt;/span&gt;&lt;span style="color:#75715e"&gt; :level 0
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt; class HelloWorld
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; public function sayHello(DateTimeImutable $date): void
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; echo &amp;#39;Hello, &amp;#39; . $date-&amp;gt;format(&amp;#39;j. n. Y&amp;#39;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#+end_src&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#+RESULTS&lt;/span&gt;&lt;span style="color:#75715e"&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#+begin_example&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ------ ----------------------------------------------------------------------------------
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Line /var/folders/z5/sk1q5qj96xg4g87vkcp4hq9h0000gn/T/babel-TGYZJB/phpstan-ulqeYI.php
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ------ ----------------------------------------------------------------------------------
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; 4 Parameter $date of method HelloWorld::sayHello() has invalid type
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; DateTimeImutable.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ------ ----------------------------------------------------------------------------------
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; [ERROR] Found 1 error
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#+end_example&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="実装方法について"&gt;実装方法について&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;ob-phpstan&lt;/code&gt; は100行にも満たない小さなコードで実装されています。
+&lt;a href="https://github.com/emacs-php/ob-phpstan/blob/main/ob-phpstan.el"&gt;https://github.com/emacs-php/ob-phpstan/blob/main/ob-phpstan.el&lt;/a&gt;&lt;/p&gt;</description></item><item><title>aws-cliとecs-cliのconfigをorgで管理してdefault値を一切設定しない運用をする</title><link>https://www.takeokunn.org/posts/permanent/20230119162342-aws_cli_ecs_cli_configure_without_default_value_by_org/</link><pubDate>Thu, 19 Jan 2023 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/permanent/20230119162342-aws_cli_ecs_cli_configure_without_default_value_by_org/</guid><description>&lt;h2 id="前提"&gt;前提&lt;/h2&gt;
+&lt;p&gt;私は普段次のような条件でAWSを触っています。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;AWSアカウントを複数社分扱っている&lt;/li&gt;
+&lt;li&gt;SwitchRoleで複数扱っている&lt;/li&gt;
+&lt;li&gt;手元から頻繁にコマンドをたたく&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;さまざまな環境で作業をしていると、「想定と違う環境に対してAPIを投げてしまう」「意図したリソースが取得できない」等さまざまなトラブルに直面します。
+全部CI/CDで管理をして、localからは一切なにもしないというのは1つの理想ではあるものの、そうはいかないのが現実というものです。&lt;/p&gt;
+&lt;p&gt;あらためて自分の手元の環境を見直したところ、そもそもデフォルト値を指定せずにちゃんと指定すれば事故が起きないのではという結論に至ったのでまとめておきます。&lt;/p&gt;
+&lt;h2 id="運用方法"&gt;運用方法&lt;/h2&gt;
+&lt;h3 id="org-fileですべてを管理する"&gt;org fileですべてを管理する&lt;/h3&gt;
+&lt;p&gt;そもそも設定がゴチャゴチャしたり、ミスをしたり、間違ったコマンドを流してしまうのはどうしてでしょうか？
+答えは簡単で、明示的にコマンドや設定ファイルを用意していないからです。&lt;/p&gt;
+&lt;p&gt;普段使う設定やコマンドをドキュメントとして管理をし、明示的に変更を加える運用にすれば事故ることが格段に減ります。&lt;/p&gt;
+&lt;p&gt;その為のツールとしてEmacsの&lt;a href="https://orgmode.org/ja/"&gt;org-mode&lt;/a&gt;はおあつらえ向きです。
+Markdown同様手軽に文章を書け、分割した設定も管理でき、ファイルに出力でき、 &lt;code&gt;org-babel&lt;/code&gt; を使えばコマンドを実行できます。&lt;/p&gt;
+&lt;p&gt;たとえば次のようにコードブロックを作って &lt;code&gt;org-babel&lt;/code&gt; すると &lt;code&gt;RESULTS&lt;/code&gt; に結果が出力されます。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-org" data-lang="org"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#+begin_src &lt;/span&gt;&lt;span style="color:#75715e"&gt;shell&lt;/span&gt;&lt;span style="color:#75715e"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt;echo &lt;span style="color:#e6db74"&gt;&amp;#34;hello world&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#+end_src&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#+RESULTS&lt;/span&gt;&lt;span style="color:#75715e"&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;: hello world
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;また、秘匿情報を扱う場合は &lt;code&gt;sandbox.org.gpg&lt;/code&gt; のように接尾辞に &lt;code&gt;.gpg&lt;/code&gt; をつけるとEmacsが勝手にEncryptしてくれるのでセキュアに管理できます。
+私はprivate repoでこのような秘匿情報をorg fileで管理しています。&lt;/p&gt;
+&lt;h3 id="aws-cli周り"&gt;aws-cli周り&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;~/.aws/config&lt;/code&gt; は次のように &lt;code&gt;org-mode&lt;/code&gt; で管理をしています。
+&lt;code&gt;:noweb-ref&lt;/code&gt; でimportできるようにして、 &lt;code&gt;:tangle&lt;/code&gt; で出力先を設定し、 &lt;code&gt;M-x org-babel-tangle&lt;/code&gt; でファイルを出力するようにしています。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;~/.aws/config&lt;/code&gt; と同様 &lt;code&gt;~/.aws/credential&lt;/code&gt; も &lt;code&gt;org-mode&lt;/code&gt; で管理をしています。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;strong&gt;デフォルト値を一切設定しない&lt;/strong&gt;&lt;/strong&gt; 運用にしています。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-org" data-lang="org"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;*&lt;span style="font-weight:bold"&gt; aws&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;**&lt;/span&gt; config
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;***&lt;/span&gt; alice
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#+begin_src &lt;/span&gt;&lt;span style="color:#75715e"&gt;conf&lt;/span&gt;&lt;span style="color:#75715e"&gt; :noweb-ref aws-config-alice
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt; [profile alice]
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; source_profile = alice-dev
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; role_arn = arn:aws:iam::xxx
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; region = ap-northeast-1
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; output = json
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#+end_src&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;***&lt;/span&gt; bob
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#+begin_src &lt;/span&gt;&lt;span style="color:#75715e"&gt;conf&lt;/span&gt;&lt;span style="color:#75715e"&gt; :noweb-ref aws-config-bob
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt; [profile bob]
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; region = ap-northeast-1
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; output = json
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#+end_src&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;***&lt;/span&gt; all
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#+begin_src &lt;/span&gt;&lt;span style="color:#75715e"&gt;conf&lt;/span&gt;&lt;span style="color:#75715e"&gt; :noweb yes :tangle (expand-file-name &amp;#34;~/.aws/config&amp;#34;) :mkdirp yes
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt; # alice
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &amp;lt;&amp;lt;aws-config-alice&amp;gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; # bob
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &amp;lt;&amp;lt;aws-config-bob&amp;gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#+end_src&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;コマンドを流す時は次のようにいったんorgファイルに記述したうえで &lt;code&gt;org-babel&lt;/code&gt; なりterminalなりで実行するようにしています。
+&lt;code&gt;aws&lt;/code&gt; コマンドは &lt;code&gt;--profile&lt;/code&gt; オプションがあり、 &lt;strong&gt;&lt;strong&gt;必ず指定&lt;/strong&gt;&lt;/strong&gt; するようにしています。&lt;/p&gt;</description></item><item><title>Emacsを世界最速級で起動する方法</title><link>https://www.takeokunn.org/posts/permanent/20221217132815-emacs_more_faster/</link><pubDate>Sat, 17 Dec 2022 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/permanent/20221217132815-emacs_more_faster/</guid><description>&lt;p&gt;&lt;a href="https://qiita.com/advent-calendar/2022/emacs"&gt;Emacs Advent Calendar 2022&lt;/a&gt; 19日目です。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://qiita.com/advent-calendar/2022/vim"&gt;Vim Advent Calendar 2022&lt;/a&gt; 3日目の &lt;a href="https://qiita.com/delphinus/items/fb905e452b2de72f1a0f"&gt;爆速で起動する Neovim を作る&lt;/a&gt; に触発されて、「自分もEmacs版を書くぞ！」ということで書いていきます。&lt;/p&gt;
+&lt;p&gt;なお、VimとEmacsの比較をし易くするためになるべく文章の構成を寄せて書くことをご了承ください。&lt;/p&gt;
+&lt;h2 id="始めに"&gt;始めに&lt;/h2&gt;
+&lt;p&gt;「Emacsを高速に起動する」ということに対して、多くのEmacsユーザーは興味がありません。
+本来Emacsというのは常に起動し続けるものであり、必要に応じてEmacs Lispを適用し、テキストエディタをカスタマイズしていくものです。
+現に「Emacs, 起動、 高速化」と検索すると、「4000msを1000msにした」のような秒単位での高速化の記事ばかりみつかります。&lt;/p&gt;
+&lt;p&gt;もしあなたが設定を変えずに手軽に高速に起動したい場合は &lt;code&gt;emacs --daemon&lt;/code&gt; でdaemonを立ち上げ、 &lt;code&gt;emacsclient&lt;/code&gt; でつなぐようにすればよいでしょう。
+私は他人のdotfilesを読むのが趣味なのですが、多くのEmacsユーザーは &lt;code&gt;EDITOR=emacsclient&lt;/code&gt; と設定しています。&lt;/p&gt;
+&lt;p&gt;また、起動時間のみを考慮するなら &lt;code&gt;~/.emacs.d/init.el&lt;/code&gt; を削除して素で起動すればよいでしょう。
+そうなると純粋にマシンスペックの勝負になります。
+Emacsは素の状態でも十分魅力的な機能を多数盛り込まれているが、カスタマイズしてこそ真価を発揮するエディタなのでアプローチとしてはイマイチでしょう。&lt;/p&gt;
+&lt;p&gt;この記事を読む前に &lt;a href="https://zenn.dev/zk_phi/books/cba129aacd4c1418ade4"&gt;Emacs の起動時間を&amp;quot;&amp;ldquo;詰める&amp;rdquo;&amp;quot;&lt;/a&gt; を熟読することを推奨しています。
+特に次のChapterは非常に有益なテクニックが詰め込まれており、大幅な速度改善を見込めます。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://zenn.dev/zk_phi/books/cba129aacd4c1418ade4/viewer/abb04ff2351b3564a1a0"&gt;autoload と with-eval-after-load&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://zenn.dev/zk_phi/books/cba129aacd4c1418ade4/viewer/c47f8eb7cd547b95ba91"&gt;擬似非同期ロードによる&amp;quot;待たされ感&amp;quot;改善&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://zenn.dev/zk_phi/books/cba129aacd4c1418ade4/viewer/dcebc13578d42055f8a4"&gt;その他のテクニック：不要な処理を省くハックたち&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;本のあらすじにも書いてあるとおり、Emacs自体にすでに大量のファイルがある状態で高速に起動する時点で自分の設定を見直さなければならないことは明白でしょう。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;しかし、考えてみれば Emacs には 1000 以上の Emacs Lisp ファイルが初めから同梱されているわけで、そこに数十のプラグインを足しただけで爆裂に遅くなるのは、なにか設定にも問題がある気がします。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;詳細は後述しますが、現在の私のEmacsは15〜25ms程度で起動をします。
+一切設定を読まずに素で起動するコマンド &lt;code&gt;emacs -Q&lt;/code&gt; で起動させると2ms程度です。
+まだまだ高速に起動させる余地はありますが、「高速に起動させることができている」と自負しても問題ないでしょう。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Emacs booting time: 20 [msec] = ‘emacs-init-time’.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Loading init files: 10 [msec], of which 1 [msec] for ‘after-init-hook’.
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="前提"&gt;前提&lt;/h2&gt;
+&lt;h3 id="環境"&gt;環境&lt;/h3&gt;
+&lt;p&gt;2022年12月現在、 &lt;code&gt;Macbook Pro 16-inch, 2019&lt;/code&gt; の標準モデルを使っています。&lt;/p&gt;</description></item><item><title>2021年に自分がemacs.dのカスタイマイズしたことについて</title><link>https://www.takeokunn.org/posts/permanent/20211203151122-configure_emacs_in_2021/</link><pubDate>Fri, 03 Dec 2021 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/permanent/20211203151122-configure_emacs_in_2021/</guid><description>&lt;p&gt;&lt;a href="https://qiita.com/advent-calendar/2021/emacs"&gt;Emacs Advent Calendar 2021&lt;/a&gt; 5日目の記事。&lt;/p&gt;
+&lt;p&gt;今年も&lt;a href="https://github.com/takeokunn/.emacs.d"&gt;takeokunn/.emacs.d&lt;/a&gt; をかなり改造した。 &lt;code&gt;git log --reverse&lt;/code&gt; してみるとfirst commitが &lt;code&gt;Sat Nov 3 18:15:51 2018 +0900&lt;/code&gt; のようなので3年使っているようだ。&lt;/p&gt;
+&lt;p&gt;最初と比べて圧倒的に快適になってはいるものの、分からないことが増えていく一方だ。
+とはいえ使っていくうちに理解が深まっていくのも事実。
+ざっくりやったことについてまとめていく（去年やったことも含まれているが御愛嬌）&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;emacs28にしてlibgccjitを動かした
+&lt;ul&gt;
+&lt;li&gt;defaultのcompilerをllvmからgccに変えるとスマートフォンアプリケーション開発やら別の開発に影響が出るので動かしただけ&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;use-packageからleafへの移行した
+&lt;ul&gt;
+&lt;li&gt;caskを消した&lt;/li&gt;
+&lt;li&gt;遅延ロードになったおかげで起動が高速になった&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;orgでinit.elを生成するようにした
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/takeokunn/.emacs.d/blob/master/Makefile"&gt;Makefile&lt;/a&gt; 参照&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;GitHub Pagesで見られるようにした
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://takeokunn.github.io/.emacs.d/"&gt;https://takeokunn.github.io/.emacs.d/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;byte-compileをできる限りでするようにした
+&lt;ul&gt;
+&lt;li&gt;多少のwarningは無視している&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;ddskkを実用レベルでちゃんと使えるようにした
+&lt;ul&gt;
+&lt;li&gt;ddskkの設定は&lt;a href="https://github.com/takeokunn/dotfiles/blob/master/modules/skk/dot.skk"&gt;dotfiles&lt;/a&gt;で管理している&lt;/li&gt;
+&lt;li&gt;AZIKを完全に理解した&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;company周りの設定が増えた&lt;/li&gt;
+&lt;li&gt;wanderlustで自分のGmailを操作できるようにした
+&lt;ul&gt;
+&lt;li&gt;しただけでちゃんと運用できているわけではない&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;elfeedを充実させた
+&lt;ul&gt;
+&lt;li&gt;しただけでちゃんと運用できているわけではない&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;magitを使いこなせるようになった
+&lt;ul&gt;
+&lt;li&gt;magit-forgeでGitHubにPull Requestを投げられるようにした&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;dap-modeを使えるようになった
+&lt;ul&gt;
+&lt;li&gt;なっただけ&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;yasnippetの設定が増えた
+&lt;ul&gt;
+&lt;li&gt;snippetをorgで管理するようにした
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/takeokunn/.emacs.d/blob/master/yasnippets.org"&gt;https://github.com/takeokunn/.emacs.d/blob/master/yasnippets.org&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;snippet自体も増えた&lt;/li&gt;
+&lt;li&gt;ivy-yasnippetで検索できるようにしている&lt;/li&gt;
+&lt;li&gt;ついでに&lt;a href="https://github.com/AndreaCrotti/yasnippet-snippets"&gt;AndreaCrotti/yasnippet-snippets&lt;/a&gt;にPull Requestを投げたが音沙汰がない
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/AndreaCrotti/yasnippet-snippets/pull/434"&gt;https://github.com/AndreaCrotti/yasnippet-snippets/pull/434&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/AndreaCrotti/yasnippet-snippets/pull/433"&gt;https://github.com/AndreaCrotti/yasnippet-snippets/pull/433&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;tab-modeを使えるようになった
+&lt;ul&gt;
+&lt;li&gt;が、実用性あるのか&amp;hellip;.?っていなっている&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;fish scriptの開発環境が整った
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/takeokunn/fish-repl.el"&gt;takeokunn/fish-repl.el&lt;/a&gt;を作った&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/takeokunn/ob-fish"&gt;takeokunn/ob-fish&lt;/a&gt; を作った&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;org-modeの設定が増えた
+&lt;ul&gt;
+&lt;li&gt;日常的なメモはorgで書くようになった&lt;/li&gt;
+&lt;li&gt;org-Babelを使いこなせるようになった&lt;/li&gt;
+&lt;li&gt;工数管理とか細かい使い方がいまだに分らない&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;英語の執筆環境が整った
+&lt;ul&gt;
+&lt;li&gt;flycheckとtextlintをちゃんと設定した&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;言語ごとの開発環境を整えた
+&lt;ul&gt;
+&lt;li&gt;php, golang, solidity etc&amp;hellip;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;TypeScript reactはtreesitterとlspでなんとかするのが最適だと分かった&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;M-x&lt;/code&gt; の候補だがsmexからamxに変えたら欲しい候補が出るようになった&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;ざくっと思い出せるのはこれくらいなのでまた何かあれば追記をしていくつもり。
+来年はorg-modeを使いこなせるようになりたいなぁ。&lt;/p&gt;</description></item></channel></rss>

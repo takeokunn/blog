@@ -1,0 +1,514 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Php on takeokunn's blog</title><link>https://www.takeokunn.org/tags/php/</link><description>Recent content in Php on takeokunn's blog</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Wed, 25 Jun 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://www.takeokunn.org/tags/php/index.xml" rel="self" type="application/rss+xml"/><item><title>php-srcとyieldについて調査メモ</title><link>https://www.takeokunn.org/posts/fleeting/20250625115611-yield_in_php_src/</link><pubDate>Wed, 25 Jun 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250625115611-yield_in_php_src/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://github.com/php/php-src"&gt;php/php-src&lt;/a&gt; でyieldはどう扱われているのか調査したのでメモしておく。&lt;/p&gt;
+&lt;h2 id="試したこと-やったこと"&gt;試したこと・やったこと&lt;/h2&gt;
+&lt;h3 id="rfcを読む"&gt;RFCを読む&lt;/h3&gt;
+&lt;p&gt;2012/06/05にNikita Popov氏が「Request for Comments: Generators」というRFCを出している。
+yield構文はPHP 5.5で導入されたようだ。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://wiki.php.net/rfc/generators"&gt;https://wiki.php.net/rfc/generators&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;yieldは次の点で優れているという主張をしている。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;パフォーマンスとメモリ効率&lt;/li&gt;
+&lt;li&gt;可読性・保守性&lt;/li&gt;
+&lt;li&gt;イテレーション処理の標準化&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;GeneratorのInterfaceは以下。
+Iteratorを継承しているのでforeachでloopを回せる。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-php" data-lang="php"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;final&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;class&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;Generator&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;implements&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;Iterator&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;void&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;rewind&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;bool&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;valid&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;mixed&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;current&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;mixed&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;key&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;void&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;next&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;mixed&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;send&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;mixed&lt;/span&gt; $value);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;mixed&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;throw&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;Exception&lt;/span&gt; $exception);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;他言語の実装は以下。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Python
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://wiki.python.org/moin/Generators"&gt;https://wiki.python.org/moin/Generators&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;ECMAScript
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_generators#Generators:_a_better_way_to_build_Iterators"&gt;https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_generators#Generators:_a_better_way_to_build_Iterators&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;C#
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://csharpindepth.com/Articles/IteratorBlockImplementation"&gt;https://csharpindepth.com/Articles/IteratorBlockImplementation&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="サンプルコード"&gt;サンプルコード&lt;/h3&gt;
+&lt;h4 id="最小サンプル"&gt;最小サンプル&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-php" data-lang="php"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;function&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;gen&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;yield&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;yield&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;2&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;yield&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;3&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$g &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;gen&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;echo&lt;/span&gt; $g&lt;span style="color:#f92672"&gt;-&amp;gt;&lt;/span&gt;&lt;span style="color:#a6e22e"&gt;current&lt;/span&gt;(); &lt;span style="color:#75715e"&gt;// 1
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt;$g&lt;span style="color:#f92672"&gt;-&amp;gt;&lt;/span&gt;&lt;span style="color:#a6e22e"&gt;next&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;echo&lt;/span&gt; $g&lt;span style="color:#f92672"&gt;-&amp;gt;&lt;/span&gt;&lt;span style="color:#a6e22e"&gt;current&lt;/span&gt;(); &lt;span style="color:#75715e"&gt;// 2
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt;$g&lt;span style="color:#f92672"&gt;-&amp;gt;&lt;/span&gt;&lt;span style="color:#a6e22e"&gt;next&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;echo&lt;/span&gt; $g&lt;span style="color:#f92672"&gt;-&amp;gt;&lt;/span&gt;&lt;span style="color:#a6e22e"&gt;current&lt;/span&gt;(); &lt;span style="color:#75715e"&gt;// 3
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt;$g&lt;span style="color:#f92672"&gt;-&amp;gt;&lt;/span&gt;&lt;span style="color:#a6e22e"&gt;next&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id="foreach"&gt;foreach&lt;/h4&gt;
+&lt;p&gt;Iteratorなのでforeachで回せる。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-php" data-lang="php"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;function&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;keyedGen&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;yield&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;first&amp;#39;&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&amp;gt;&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;A&amp;#39;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;yield&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;second&amp;#39;&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&amp;gt;&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;B&amp;#39;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;yield&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;third&amp;#39;&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&amp;gt;&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;C&amp;#39;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;foreach&lt;/span&gt; (&lt;span style="color:#a6e22e"&gt;keyedGen&lt;/span&gt;() &lt;span style="color:#66d9ef"&gt;as&lt;/span&gt; $key &lt;span style="color:#f92672"&gt;=&amp;gt;&lt;/span&gt; $val) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;echo&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;&lt;span style="color:#e6db74"&gt;$key&lt;/span&gt;&lt;span style="color:#e6db74"&gt; =&amp;gt; &lt;/span&gt;&lt;span style="color:#e6db74"&gt;$val\n&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;; &lt;span style="color:#75715e"&gt;// first =&amp;gt; A / second =&amp;gt; B / third =&amp;gt; C
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id="yield-from"&gt;yield from&lt;/h4&gt;
+&lt;p&gt;yieldの合成可能。&lt;/p&gt;</description></item><item><title>巨大なLaravelレポジトリでphpactorを使うTips</title><link>https://www.takeokunn.org/posts/fleeting/20250515004832-phpactor_performance_huge_projects/</link><pubDate>Wed, 14 May 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250515004832-phpactor_performance_huge_projects/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;手元で &lt;a href="https://intelephense.com/"&gt;intelephense&lt;/a&gt; が最近調子が悪く、定義ジャンプや補完が全然効かなくなってしまった。&lt;/p&gt;
+&lt;p&gt;phpactorの方がintelephenseよりもちゃんと機能してくれる肌感があったが、いかんせん大きいプロジェクトでは重く使いものにならない印象を持っていた。
+しかし、phpactor周辺の設定を徹底したら快適に動くようになってくれたので対応項目をメモしておく。&lt;/p&gt;
+&lt;p&gt;巨大なLaravelレポジトリの情報は以下。&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;プロジェクト&lt;/th&gt;
+&lt;th&gt;version&lt;/th&gt;
+&lt;th&gt;コード行数&lt;/th&gt;
+&lt;th&gt;phpstan level&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;A&lt;/td&gt;
+&lt;td&gt;7.4&lt;/td&gt;
+&lt;td&gt;140万行超&lt;/td&gt;
+&lt;td&gt;5&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;B&lt;/td&gt;
+&lt;td&gt;8.2&lt;/td&gt;
+&lt;td&gt;40万行&lt;/td&gt;
+&lt;td&gt;max/strict-rule&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;マシンスペックは以下。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-console" data-lang="console"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ nix run nixpkgs#fastfetch
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;&lt;/span&gt; ..&amp;#39; obara@OPL2212-001
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ,xNMM. -----------------
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; .OMMMMo OS: macOS Sequoia 15.5 arm64
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; lMM&amp;#34; Host: MacBook Pro (14-inch, 2021)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; .;loddo:. .olloddol;. Kernel: Darwin 24.5.0
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; cKMMMMMMMMMMNWMMMMMMMMMM0: Uptime: 1 day, 6 hours, 50 mins
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; .KMMMMMMMMMMMMMMMMMMMMMMMWd. Packages: 1375 (nix-system), 52 (nix-default), 6 (brew), 14 (brew-cask)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; XMMMMMMMMMMMMMMMMMMMMMMMX. Shell: fish 4.0.2
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;;MMMMMMMMMMMMMMMMMMMMMMMM: Display (Color LCD): 3600x2338 @ 120 Hz (as 1800x1169) in 14&amp;#34; [Built-in]
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;:MMMMMMMMMMMMMMMMMMMMMMMM: DE: Aqua
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;.MMMMMMMMMMMMMMMMMMMMMMMMX. WM: Quartz Compositor 278.4.7
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; kMMMMMMMMMMMMMMMMMMMMMMMMWd. WM Theme: Multicolor (Dark)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &amp;#39;XMMMMMMMMMMMMMMMMMMMMMMMMMMk Font: .AppleSystemUIFont [System], Helvetica [User]
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &amp;#39;XMMMMMMMMMMMMMMMMMMMMMMMMK. Cursor: Fill - Black, Outline - White (32px)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; kMMMMMMMMMMMMMMMMMMMMMMd Terminal: tmux 3.5a
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ;KMMMMMMMWXXWMMMMMMMk. CPU: Apple M1 Pro (8) @ 3.23 GHz
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &amp;#34;cooc*&amp;#34; &amp;#34;*coo&amp;#39;&amp;#34; GPU: Apple M1 Pro (14) @ 1.30 GHz [Integrated]
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Memory: 20.76 GiB / 32.00 GiB (65%)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Swap: Disabled
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Disk (/): 153.68 GiB / 460.43 GiB (33%) - apfs [Read-only]
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Local IP (en0): 172.16.80.163/18
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Battery (bq40z651): 100% [AC connected, Charging]
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Power Adapter: 39W
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Locale: en_US.UTF-8
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;なお、phpactorについてはPHPerKaigi2025パンフレット記事の &lt;a href="https://www.takeokunn.org/pdf/phperkaigi-2025-pamphlet.pdf"&gt;Phpactorから学ぶLanguage Server Protocolの仕組み&lt;/a&gt; に纏めた。&lt;/p&gt;</description></item><item><title>Laravel LazyCollection in depth</title><link>https://www.takeokunn.org/posts/fleeting/20250204175231-laravel_lazy_collection_in_depth/</link><pubDate>Tue, 04 Feb 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250204175231-laravel_lazy_collection_in_depth/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;LaravelのLazyCollectionは巨大なデータを扱う時に便利であるという話は巷で良く聞くが、実際の所どういうときに便利なのか、内部的にはどうなっているのかという情報はあまり聞かない。
+LazyCollection自体のソースコードを読んでかなり理解できたのでメモしておく。&lt;/p&gt;
+&lt;p&gt;なお、そもそもの使い方については &lt;a href="https://qiita.com/yhosok/items/a95ae800970124fb503a"&gt;LazyCollection備忘録 - Qiita&lt;/a&gt; を読んでいる前提で話を進める。&lt;/p&gt;
+&lt;h2 id="前提"&gt;前提&lt;/h2&gt;
+&lt;p&gt;次のバージョンを想定しています。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;laravel: 10.0&lt;/li&gt;
+&lt;li&gt;php: 8.2&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;LazyCollectionのコードはこちら。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/laravel/framework/blob/10.x/src/Illuminate/Collections/LazyCollection.php"&gt;https://github.com/laravel/framework/blob/10.x/src/Illuminate/Collections/LazyCollection.php&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id="lazycollectionについて"&gt;LazyCollectionについて&lt;/h2&gt;
+&lt;h3 id="basic"&gt;Basic&lt;/h3&gt;
+&lt;h4 id="lazycollection-sourceについて"&gt;LazyCollection#sourceについて&lt;/h4&gt;
+&lt;p&gt;基本的には &lt;a href="https://github.com/laravel/framework/blob/10.x/src/Illuminate/Collections/LazyCollection.php#L31-L36"&gt;LazyCollection#source&lt;/a&gt; にClosureを入れてどう引き回すか、どのタイミングでClosureを発行するのかということを制御している。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-php" data-lang="php"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;/**
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; * The source from which to generate items.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; *
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; * @var (Closure(): \Generator&amp;lt;TKey, TValue, mixed, void&amp;gt;)|static|array&amp;lt;TKey, TValue&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; */&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; $source;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;LazyCollectionのコンストラクタの引数(or &lt;code&gt;LazyCollection#make&lt;/code&gt;)には &lt;code&gt;Array|null&lt;/code&gt; か &lt;code&gt;Closure(Generator)&lt;/code&gt; を渡すことが可能で、 &lt;code&gt;LazyCollection#source&lt;/code&gt; に代入する。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-php" data-lang="php"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;&amp;gt;&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;\Illuminate\Support\LazyCollection&lt;/span&gt;&lt;span style="color:#f92672"&gt;::&lt;/span&gt;&lt;span style="color:#a6e22e"&gt;make&lt;/span&gt;(&lt;span style="color:#66d9ef"&gt;function&lt;/span&gt; () { &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; ($i &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;; $i &lt;span style="color:#f92672"&gt;&amp;lt;=&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;10000000&lt;/span&gt;; $i&lt;span style="color:#f92672"&gt;++&lt;/span&gt;) &lt;span style="color:#66d9ef"&gt;yield&lt;/span&gt; $i; })&lt;span style="color:#f92672"&gt;-&amp;gt;&lt;/span&gt;&lt;span style="color:#a6e22e"&gt;source&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;Closure&lt;/span&gt;() {&lt;span style="color:#75715e"&gt;#5542 &amp;lt;E2&amp;gt;&amp;lt;80&amp;gt;&amp;lt;A6&amp;gt;2}
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;&amp;gt;&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;\Illuminate\Support\LazyCollection&lt;/span&gt;&lt;span style="color:#f92672"&gt;::&lt;/span&gt;&lt;span style="color:#a6e22e"&gt;make&lt;/span&gt;([&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;, &lt;span style="color:#ae81ff"&gt;2&lt;/span&gt; ,&lt;span style="color:#ae81ff"&gt;3&lt;/span&gt;])&lt;span style="color:#f92672"&gt;-&amp;gt;&lt;/span&gt;&lt;span style="color:#a6e22e"&gt;source&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;=&lt;/span&gt; [&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;, &lt;span style="color:#ae81ff"&gt;2&lt;/span&gt;, &lt;span style="color:#ae81ff"&gt;3&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;&amp;gt;&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;\Illuminate\Support\LazyCollection&lt;/span&gt;&lt;span style="color:#f92672"&gt;::&lt;/span&gt;&lt;span style="color:#a6e22e"&gt;make&lt;/span&gt;()&lt;span style="color:#f92672"&gt;-&amp;gt;&lt;/span&gt;&lt;span style="color:#a6e22e"&gt;source&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;=&lt;/span&gt; []
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;// arrayにcastされる
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt;&lt;span style="color:#f92672"&gt;&amp;gt;&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;\Illuminate\Support\LazyCollection&lt;/span&gt;&lt;span style="color:#f92672"&gt;::&lt;/span&gt;&lt;span style="color:#a6e22e"&gt;make&lt;/span&gt;(&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;)&lt;span style="color:#f92672"&gt;-&amp;gt;&lt;/span&gt;&lt;span style="color:#a6e22e"&gt;source&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;=&lt;/span&gt; [ &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; ]
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id="基本的な関数"&gt;基本的な関数&lt;/h4&gt;
+&lt;p&gt;ここではmapを例に上げる。&lt;/p&gt;</description></item><item><title>テキストエディタがPHPをシンタックスハイライトする仕組みとモダンテキストエディタ事情について</title><link>https://www.takeokunn.org/posts/permanent/20240107122028-how_to_syntax_highlight_in_text_editor/</link><pubDate>Thu, 18 Jan 2024 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/permanent/20240107122028-how_to_syntax_highlight_in_text_editor/</guid><description>&lt;h2 id="注意"&gt;注意&lt;/h2&gt;
+&lt;p&gt;この記事はPHPerKaigi 2024のパンフレット記事です。A4ページ4枚程度の量を書いています。
+書面での掲載につきハイパーリンクがないことをご了承ください。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://fortee.jp/phperkaigi-2024/proposal/161b2ec9-c279-4336-8e17-1aa054dacae9"&gt;https://fortee.jp/phperkaigi-2024/proposal/161b2ec9-c279-4336-8e17-1aa054dacae9&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;PDF版は&lt;a href="https://github.com/takeokunn/blog/blob/main/static/pdf/%E3%83%86%E3%82%AD%E3%82%B9%E3%83%88%E3%82%A8%E3%83%87%E3%82%A3%E3%82%BF%E3%81%8CPHP%E3%82%92%E3%82%B7%E3%83%B3%E3%82%BF%E3%83%83%E3%82%AF%E3%82%B9%E3%83%8F%E3%82%A4%E3%83%A9%E3%82%A4%E3%83%88%E3%81%99%E3%82%8B%E4%BB%95%E7%B5%84%E3%81%BF%E3%81%A8%E3%83%A2%E3%83%80%E3%83%B3%E3%83%86%E3%82%AD%E3%82%B9%E3%83%88%E3%82%A8%E3%83%87%E3%82%A3%E3%82%BF%E4%BA%8B%E6%83%85%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6.pdf"&gt;こちら&lt;/a&gt;です。&lt;/p&gt;
+&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;プログラミング言語は日進月歩で進化し続けています。
+処理系のパフォーマンス改善、既存のバグ修正、挙動の変更などさまざまな変更が入るが、ユーザーにとって一番影響があるのは「新規の構文追加」ではないでしょうか？
+PHPの場合PHP 8.0以降にmatch式やenum構文は直近5年以内に追加されたものです。
+PHPに限らずほか言語のRFCでも新規の構文が提案されている例は枚挙に暇がありません。Goのジェネリクスなどもその一例です。&lt;/p&gt;
+&lt;p&gt;言語レベルで新規の構文が追加された時、テキストエディタでも適切に色付けできることが望ましいです。
+それはオープンソースのテキストエディタだろうと商用エディタだろうと区別はありません。
+そもそもテキストエディタはどのように構文を解釈してハイライトしてくれているのか、Tree-sitterなどの最近のテキストエディタ事情も踏まえて解説していきます。&lt;/p&gt;
+&lt;p&gt;なお私は熱狂的なEmacsユーザーでありEmacsのPHP Packageであるphp-modeのオーナー権限もあるので、Emacsひいきな解説になってしまうのはご了承ください。&lt;/p&gt;
+&lt;h2 id="シンタックスハイライト概要"&gt;シンタックスハイライト概要&lt;/h2&gt;
+&lt;p&gt;シンタックスハイライトとは、 &lt;code&gt;public&lt;/code&gt; のようなキーワードや関数名や言語特有の構文に色をつけてくれるものです。
+Wikipediaによると、シンタックスカラリングや構文着色ともいうらしいです。&lt;/p&gt;
+&lt;p&gt;シンタックスハイライトには、「テキストの可読性を向上させ文脈をより明瞭にする」や「記述ミスや括弧の対応のミスなどを防ぐことができる」等、さまざまなメリットがあります。
+明確なデメリットは私は思いつきませんが、「流し読みがしやすくなるのでプログラマーはコード全体を理解しようとはしなくなる」ということを主張する人もいるようです。&lt;/p&gt;
+&lt;p&gt;配色はカラーテーマごとに違います。
+世の中には無数のカラーテーマがあり、私はDraculaやSublime Textのdefault themeのmonokaiが好きです。&lt;/p&gt;
+&lt;p&gt;構文が違うので当然言語の数だけシンタックスハイライトがあります。
+それぞれの実装によって方針はまちまちですが、似ている言語から上書きするよう実装することで実装コストを下げる対応をしています。
+PHPはCやJavaと記述が似ているので、CやJavaの実装を上書きし、部分的にPHPの構文を追加して対応できます。
+実際EmacsのPHP Packageではこのような対応をしています。&lt;/p&gt;
+&lt;h2 id="シンタックスハイライトの大まかなしくみ"&gt;シンタックスハイライトの大まかなしくみ&lt;/h2&gt;
+&lt;p&gt;世の中にはテキストエディタの実装は無数にあります。
+プログラミング言語に対応したテキストエディタの実装はおおよそ2つに大別できます。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;正規表現ベース&lt;/li&gt;
+&lt;li&gt;ASTベース&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;正規表現ベースのシンタックスハイライトはVimやEmacsのような古くからあるテキストエディタでよく使われています。
+当然それぞれのテキストエディタごとに実装は違うので移植性はありません。&lt;/p&gt;
+&lt;p&gt;ASTベースのシンタックスハイライト実装は2024年1月現在Tree-sitterが一強だと言っても過言ではありません。
+Tree-sitterはC/Rust製のツールで、特定のテキストエディタに依存しない形で実装された高速で動作するパーサジェネレータツールです。
+Tree-sitterはもともとAtomで使用するためにGitHubによって開発され、2018年にリリースされました。
+ソースコードをパースして構文木をS式を出力することにより、各テキストエディタはS式を解釈する実装をすれば各々が構文を解釈する必要がない、という作りになっています。&lt;/p&gt;
+&lt;p&gt;テキストエディタにおけるシンタックスハイライトの難しいところは以下が挙げられます。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;常にユーザーが入力し続けるので構文が確定しない&lt;/li&gt;
+&lt;li&gt;1入力ごとにハイライトする必要がある為高速で挙動させる必要がある&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;また、1言語で複数言語を表現する場合難易度が上がります。
+たとえばVue.jsはHTML/CSS/JavaScriptを1ファイル内で記述できるし、PHPももともとHyperText PreprocessorなのでHTMLを記述できます。&lt;/p&gt;
+&lt;h2 id="正規表現によるシンタックスハイライト"&gt;正規表現によるシンタックスハイライト&lt;/h2&gt;
+&lt;p&gt;正規表現によるシンタックスハイライトを採用しているVimやEmacsでは次のような実装がされています。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;キーワードは直接色を付ける&lt;/li&gt;
+&lt;li&gt;正規表現によって構文を定義する
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;$&lt;/code&gt; の後は確実に変数&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;function&lt;/code&gt; の後は確実に関数名になり、その後の括弧は関数の引数になる&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;//&lt;/code&gt; 直後はすべてコメントになる&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Emacsではシンタックステーブルというものがデフォルトで用意されており、独自の記法で記述する必要があります。&lt;/p&gt;
+&lt;p&gt;以下は実際にphp-modeで実装されているコードを抜粋したものです。
+Emacs Lispの正規表現がそもそも難しいのもあり、複雑怪奇で特殊な訓練しないと読めないことが分かるでしょう。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-emacs-lisp" data-lang="emacs-lisp"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;;; Class modifiers (abstract, final)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;\\_&amp;lt;\\(abstract\\|final\\)\\_&amp;gt;\\s-+\\_&amp;lt;class\\&amp;gt;&amp;#34;&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;php-class-modifier&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;;; Highlight variables, e.g. &amp;#39;var&amp;#39; in &amp;#39;$var&amp;#39; and &amp;#39;$obj-&amp;gt;var&amp;#39;, but&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;;; not in $obj-&amp;gt;var()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;\\(-&amp;gt;\\)\\(\\sw+\\)\\s-*(&amp;#34;&lt;/span&gt; (&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;php-object-op&lt;/span&gt;) (&lt;span style="color:#ae81ff"&gt;2&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;php-method-call&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;\\&amp;lt;\\(const\\)\\s-+\\(\\_&amp;lt;.+?\\_&amp;gt;\\)&amp;#34;&lt;/span&gt; (&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;php-keyword&lt;/span&gt;) (&lt;span style="color:#ae81ff"&gt;2&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;php-constant-assign&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;;; Logical operator (!)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;\\(!\\)[^=]&amp;#34;&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;php-logical-op&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;;; Highlight special variables&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;\\(\\$\\)\\(this\\)\\&amp;gt;&amp;#34;&lt;/span&gt; (&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;php-$this-sigil&lt;/span&gt;) (&lt;span style="color:#ae81ff"&gt;2&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;php-$this&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;\\(\\$+\\)\\(\\sw+\\)&amp;#34;&lt;/span&gt; (&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;php-variable-sigil&lt;/span&gt;) (&lt;span style="color:#ae81ff"&gt;2&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;php-variable-name&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;\\(-&amp;gt;\\)\\([a-zA-Z0-9_]+\\)&amp;#34;&lt;/span&gt; (&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;php-object-op&lt;/span&gt;) (&lt;span style="color:#ae81ff"&gt;2&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;php-property-name&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;;; Highlight function/method names&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;\\&amp;lt;function\\s-+&amp;amp;?\\(\\(?:\\sw\\|\\s_\\)+\\)\\s-*(&amp;#34;&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;php-function-name&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;;; &amp;#39;array&amp;#39; and &amp;#39;callable&amp;#39; are keywords, except in the following situations:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;;; - when used as a type hint&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;;; - when used as a return type&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;\\b\\(array\\|callable\\)\\s-+&amp;amp;?\\$&amp;#34;&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; font-lock-type-face)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;)\\s-*:\\s-*\\??\\(array\\|callable\\)\\b&amp;#34;&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; font-lock-type-face)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;;; For &amp;#39;array&amp;#39;, there is an additional situation:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;;; - when used as cast, so that (int) and (array) look the same&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;(\\(array\\))&amp;#34;&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; font-lock-type-face)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;; Support the ::class constant in PHP5.6&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;\\sw+\\(::\\)\\(class\\)\\b&amp;#34;&lt;/span&gt; (&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;php-paamayim-nekudotayim&lt;/span&gt;) (&lt;span style="color:#ae81ff"&gt;2&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;php-magical-constant&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;;; Class declaration keywords (class, trait, interface)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;\\_&amp;lt;\\(class\\|trait\\|interface\\)\\_&amp;gt;&amp;#34;&lt;/span&gt; &lt;span style="color:#f92672"&gt;.&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;php-class-declaration&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;言語内に複数言語あるVue.jsやPHPのような言語では、Emacsの場合カーソル位置によって対象の言語に切り替える処理をしています。&lt;/p&gt;</description></item><item><title>2023年小田原旅行記</title><link>https://www.takeokunn.org/posts/diary/20231030071757-2023_bokunatu_travel/</link><pubDate>Mon, 30 Oct 2023 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/diary/20231030071757-2023_bokunatu_travel/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;2023年10月27日から1泊2日で小田原に夏休みを利用して旅行しました。
+ノープラン要素、適当要素、他人に迷惑をかける要素が存分に含まれているので、迷惑をかけた方本当にすみませんでした。
+写真や情報は適宜追加していきます。&lt;/p&gt;
+&lt;h2 id="旅行の流れ"&gt;旅行の流れ&lt;/h2&gt;
+&lt;h3 id="経緯"&gt;経緯&lt;/h3&gt;
+&lt;p&gt;きっかけは &lt;a href="https://zenn.dev/neinc_tech/articles/event-with-linkage"&gt;他社と合同勉強会をやっている事例&lt;/a&gt; を見ていた自分が「俺もやりてー」ってツイートしたことでした。(元ツイは&lt;a href="https://twitter.com/takeokunn/status/1683479288106872838"&gt;こちら&lt;/a&gt;)&lt;/p&gt;
+&lt;figure&gt;&lt;img src="https://www.takeokunn.org/images/CBB820AE-94C9-49B3-B0BD-73F4A59223D8.png"&gt;
+&lt;/figure&gt;
+&lt;blockquote class="twitter-tweet"&gt;&lt;p lang="ja" dir="ltr"&gt;やりゃすか‼️&lt;/p&gt;&amp;mdash; あすみ (@asumikam) &lt;a href="https://twitter.com/asumikam/status/1683482937608617985?ref_src=twsrc%5Etfw"&gt;July 24, 2023&lt;/a&gt;&lt;/blockquote&gt; &lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8"&gt;&lt;/script&gt;
+&lt;p&gt;合同勉強会の詳細は対外的な記事にまとめるつもりなのでそちら参照してほしいですが、あすみさんと自分の会社はお互い物流関係のシステムを作っているいわば提携先で、絶対おもしろくなるんじゃないかということで開催することにしました。
+ちなみに自分はあまりにもこういう「調整作業」が苦手すぎて下準備をほぼすべてをあすみさんにやってもらいました。
+「ちゃんと御社側の名簿を作ってありがとう」と褒められる程度の仕事と、居酒屋の予約を取る時に「頑張れ！!!!君なら絶対やりとげられる！!!」とgoogle meets越しに応援する程度の仕事はしました。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://connpass.com/event/296001/"&gt;蒲田温泉で前夜祭（PHPカンファレンス非公式）&lt;/a&gt;の小田原魅力LTを聞いてしまってからは、勉強会というよりも小田原旅行に行くのが目的になっていたかもしれません。&lt;/p&gt;
+&lt;iframe class="speakerdeck-iframe" frameborder="0" src="https://speakerdeck.com/player/974a6ef2b91d4e8e8f06f757e9725018" title="温泉紹介します〜小田原からきました〜" allowfullscreen="true" style="border: 0px; background: padding-box padding-box rgba(0, 0, 0, 0.1); margin: 0px; padding: 0px; border-radius: 6px; box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 40px; width: 100%; height: auto; aspect-ratio: 560 / 315;" data-ratio="1.7777777777777777"&gt;&lt;/iframe&gt;
+&lt;h3 id="初日-昼"&gt;初日（昼）&lt;/h3&gt;
+&lt;p&gt;「わからんけど多分朝から行くわ」と伝えておきながら前日朝3時まで飲んでいたので当然起きられる訳もなく、11時半くらいの新宿発ロマンスカーに乗って小田原にいきました。&lt;/p&gt;
+&lt;blockquote class="twitter-tweet"&gt;&lt;p lang="ja" dir="ltr"&gt;いざ &lt;a href="https://t.co/zpHl3KqqnB"&gt;pic.twitter.com/zpHl3KqqnB&lt;/a&gt;&lt;/p&gt;&amp;mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) &lt;a href="https://twitter.com/takeokunn/status/1717727956158885929?ref_src=twsrc%5Etfw"&gt;October 27, 2023&lt;/a&gt;&lt;/blockquote&gt; &lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8"&gt;&lt;/script&gt;
+&lt;p&gt;気分はこれから温泉旅館で缶詰になって執筆をする文豪のそれでした。ロマンスカーは座れるし充電もできるし車窓も良いので楽しいですね。&lt;/p&gt;
+&lt;blockquote class="twitter-tweet"&gt;&lt;p lang="ja" dir="ltr"&gt;かつて明治大正時代の文豪もロマンスカーで浪漫を感じながら箱根湯本に行ってたんだろうなーと思うと胸が熱くなる&lt;/p&gt;&amp;mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) &lt;a href="https://twitter.com/takeokunn/status/1717736579324903680?ref_src=twsrc%5Etfw"&gt;October 27, 2023&lt;/a&gt;&lt;/blockquote&gt; &lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8"&gt;&lt;/script&gt;
+&lt;blockquote class="twitter-tweet"&gt;&lt;p lang="ja" dir="ltr"&gt;たのしい &lt;a href="https://t.co/fWIFtplAck"&gt;pic.twitter.com/fWIFtplAck&lt;/a&gt;&lt;/p&gt;&amp;mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) &lt;a href="https://twitter.com/takeokunn/status/1717745279041204347?ref_src=twsrc%5Etfw"&gt;October 27, 2023&lt;/a&gt;&lt;/blockquote&gt; &lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8"&gt;&lt;/script&gt;
+&lt;blockquote class="twitter-tweet"&gt;&lt;p lang="ja" dir="ltr"&gt;ついたー &lt;a href="https://t.co/dBbsZmuYF6"&gt;pic.twitter.com/dBbsZmuYF6&lt;/a&gt;&lt;/p&gt;</description></item><item><title>PHP Exceptionのpropertyにあるcodeはuser-defined error code</title><link>https://www.takeokunn.org/posts/fleeting/20230801135235-what_is_php_exception_code/</link><pubDate>Tue, 01 Aug 2023 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20230801135235-what_is_php_exception_code/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;仕事でPHPStanの修正をしている時、 &lt;code&gt;Exception&lt;/code&gt; classのconstructorでcodeを指定しているコードに出くわした。
+&lt;code&gt;Exception&lt;/code&gt; におけるcodeの扱いについて記述している記事がなかったので &lt;a href="https://github.com/php/php-src"&gt;php/php-src&lt;/a&gt; のコードにあたってみた。&lt;/p&gt;
+&lt;h2 id="簡易的な調査"&gt;簡易的な調査&lt;/h2&gt;
+&lt;h3 id="interface定義"&gt;Interface定義&lt;/h3&gt;
+&lt;p&gt;php.netのUser Contributed Notesに次のような記述がある。
+&lt;a href="https://www.php.net/manual/en/language.exceptions.php#91159"&gt;https://www.php.net/manual/en/language.exceptions.php#91159&lt;/a&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-php" data-lang="php"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;&amp;lt;?&lt;/span&gt;&lt;span style="color:#a6e22e"&gt;php&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;interface&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;IException&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;/* Protected methods inherited from Exception class */&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;function&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;getMessage&lt;/span&gt;(); &lt;span style="color:#75715e"&gt;// Exception message
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;function&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;getCode&lt;/span&gt;(); &lt;span style="color:#75715e"&gt;// User-defined Exception code
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;function&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;getFile&lt;/span&gt;(); &lt;span style="color:#75715e"&gt;// Source filename
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;function&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;getLine&lt;/span&gt;(); &lt;span style="color:#75715e"&gt;// Source line
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;function&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;getTrace&lt;/span&gt;(); &lt;span style="color:#75715e"&gt;// An array of the backtrace()
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;function&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;getTraceAsString&lt;/span&gt;(); &lt;span style="color:#75715e"&gt;// Formated string of trace
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;/* Overrideable methods inherited from Exception class */&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;function&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;__toString&lt;/span&gt;(); &lt;span style="color:#75715e"&gt;// formated string for display
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;function&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;__construct&lt;/span&gt;($message &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;null&lt;/span&gt;, $code &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;code&lt;/code&gt; とは &lt;code&gt;User-defined Exception code&lt;/code&gt; と書いてあるとおり、ユーザー側が任意の数値を入れられる。&lt;/p&gt;</description></item><item><title>「PHP Lovers Meetup vol.0 ~ はじまりは&lt;?phpから」に参加しました</title><link>https://www.takeokunn.org/posts/diary/20230710082646-retrospective_php_lovers_meetup_vol_0/</link><pubDate>Mon, 10 Jul 2023 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/diary/20230710082646-retrospective_php_lovers_meetup_vol_0/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;2023/07/10（Mon）に行われた「PHP Lovers Meetup vol.0 ~ 始まりは&amp;lt;?phpから」に参加しました。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;connpass
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://php-lovers-meetup.connpass.com/event/280822/"&gt;https://php-lovers-meetup.connpass.com/event/280822/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;togetter
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://togetter.com/li/2184479"&gt;https://togetter.com/li/2184479&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;repo
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/brefphp/bref"&gt;https://github.com/brefphp/bref&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;PHP-DIやBrefの作者として有名な &lt;a href="https://twitter.com/matthieunapoli"&gt;@matthieunapoli&lt;/a&gt; 氏が来日するということで &lt;a href="https://twitter.com/seike460"&gt;@seike460&lt;/a&gt; 氏も福岡から招き、サーバレスフレームワークについて語っていただきました。
+自分はBrefを使ったことがないのでBref本体のコードをダラダラ読みながら登壇を聞いていました。&lt;/p&gt;
+&lt;h2 id="会場の雰囲気"&gt;会場の雰囲気&lt;/h2&gt;
+&lt;blockquote class="twitter-tweet"&gt;&lt;p lang="ja" dir="ltr"&gt;来た &lt;a href="https://twitter.com/hashtag/phplovers?src=hash&amp;amp;ref_src=twsrc%5Etfw"&gt;#phplovers&lt;/a&gt; &lt;a href="https://t.co/XU6jAZqOiw"&gt;pic.twitter.com/XU6jAZqOiw&lt;/a&gt;&lt;/p&gt;&amp;mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) &lt;a href="https://twitter.com/takeokunn/status/1678341916965113861?ref_src=twsrc%5Etfw"&gt;July 10, 2023&lt;/a&gt;&lt;/blockquote&gt; &lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8"&gt;&lt;/script&gt;
+&lt;p&gt;会場は40〜50人程度いて、phpカンファレンスで見慣れた方だらけでした。&lt;/p&gt;
+&lt;blockquote class="twitter-tweet"&gt;&lt;p lang="en" dir="ltr"&gt;The PHP meetup in Tokyo was an absolute blast!&lt;br&gt;We went from zero code to 1000 requests/second with Laravel in minutes.&lt;br&gt;In the 2nd talk I discovered how Bref is used at a Japanese company.&lt;br&gt;Incredibly friendly vibes, thanks for the warm welcome! And thanks &lt;a href="https://twitter.com/chatii?ref_src=twsrc%5Etfw"&gt;@chatii&lt;/a&gt; for inviting me! &lt;a href="https://t.co/ghDixRZi5q"&gt;pic.twitter.com/ghDixRZi5q&lt;/a&gt;&lt;/p&gt;&amp;mdash; Matthieu Napoli (@matthieunapoli) &lt;a href="https://twitter.com/matthieunapoli/status/1678565763995807744?ref_src=twsrc%5Etfw"&gt;July 11, 2023&lt;/a&gt;&lt;/blockquote&gt; &lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8"&gt;&lt;/script&gt;
+&lt;p&gt;直近&lt;a href="https://gorillavim.connpass.com/event/283937/"&gt;ゴリラvim&lt;/a&gt;でも来たのでpixiv社にはお世話になりっぱなしですね。&lt;/p&gt;</description></item><item><title>phpカンファレンス福岡2023に参加してきました</title><link>https://www.takeokunn.org/posts/diary/20230624093617-retrospective_phpconference_fukuoka_2023/</link><pubDate>Sat, 24 Jun 2023 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/diary/20230624093617-retrospective_phpconference_fukuoka_2023/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;2023/6/24(土）に行われたphpconference福岡に参加してきました。
+&lt;a href="https://phpcon.fukuoka.jp/2023/"&gt;https://phpcon.fukuoka.jp/2023/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;今回は2023/6/23(金）〜2023/6/26(月）の3泊4日の旅行でした。&lt;/p&gt;
+&lt;h2 id="tl-dr"&gt;TL;DR&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;福岡旅行超楽しかった&lt;/li&gt;
+&lt;li&gt;普段Twitterでしか会えないPHPerと会えた&lt;/li&gt;
+&lt;li&gt;イベント運営、登壇者、スポンサーに圧倒的感謝&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="1日目-移動-前夜祭"&gt;1日目 移動〜前夜祭&lt;/h2&gt;
+&lt;h3 id="飛行機-宿"&gt;飛行機〜宿&lt;/h3&gt;
+&lt;p&gt;普段一切旅行しないので同僚に相談したところ、新幹線よりもLCCの方が圧倒的に安いという話をされました。
+池袋〜成田までは高速バスに乗って向かいました。&lt;/p&gt;
+&lt;blockquote class="twitter-tweet"&gt;&lt;p lang="ja" dir="ltr"&gt;早速成田第3ターミナルで降りなくちゃいけないところを第1ターミナルで降りてしまった &lt;a href="https://t.co/MJsNzHtfVh"&gt;pic.twitter.com/MJsNzHtfVh&lt;/a&gt;&lt;/p&gt;&amp;mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) &lt;a href="https://twitter.com/takeokunn/status/1672062327317991425?ref_src=twsrc%5Etfw"&gt;June 23, 2023&lt;/a&gt;&lt;/blockquote&gt; &lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8"&gt;&lt;/script&gt;
+&lt;blockquote class="twitter-tweet"&gt;&lt;p lang="ja" dir="ltr"&gt;福岡行くぞー &lt;a href="https://t.co/p5VdoNpOqC"&gt;pic.twitter.com/p5VdoNpOqC&lt;/a&gt;&lt;/p&gt;&amp;mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) &lt;a href="https://twitter.com/takeokunn/status/1672076389707829252?ref_src=twsrc%5Etfw"&gt;June 23, 2023&lt;/a&gt;&lt;/blockquote&gt; &lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8"&gt;&lt;/script&gt;
+&lt;p&gt;福岡着後、ららぽーとに向かうバスに乗ろうとしたら当然乗るものを間違えて博多駅行きに乗ってしまっていました。
+&lt;a href="https://fukuoka-leapup.jp/common/202005.70"&gt;移動手段は電車よりもバス！福岡の交通あるある３選&lt;/a&gt; にもある通り、福岡のバスは複雑怪奇で苦労しました。&lt;/p&gt;
+&lt;blockquote class="twitter-tweet"&gt;&lt;p lang="ja" dir="ltr"&gt;福岡νガンダム！！！！！ &lt;a href="https://t.co/ht2VfDhGSG"&gt;pic.twitter.com/ht2VfDhGSG&lt;/a&gt;&lt;/p&gt;&amp;mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) &lt;a href="https://twitter.com/takeokunn/status/1672131507232866305?ref_src=twsrc%5Etfw"&gt;June 23, 2023&lt;/a&gt;&lt;/blockquote&gt; &lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8"&gt;&lt;/script&gt;
+&lt;blockquote class="twitter-tweet"&gt;&lt;p lang="ja" dir="ltr"&gt;νガンダムを見れたし福岡旅行完！！&lt;br&gt;お疲れ様でした！！&lt;/p&gt;&amp;mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) &lt;a href="https://twitter.com/takeokunn/status/1672132809006419969?ref_src=twsrc%5Etfw"&gt;June 23, 2023&lt;/a&gt;&lt;/blockquote&gt; &lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8"&gt;&lt;/script&gt;
+&lt;p&gt;ららぽーとから宿に向かう途中、知らない不動産勧誘の人からあおられるなどのランダムイベントがありました。&lt;/p&gt;
+&lt;blockquote class="twitter-tweet"&gt;&lt;p lang="ja" dir="ltr"&gt;不動産勧誘「おにいさんちょっといいですか?」&lt;br&gt;俺「なんすか?」&lt;br&gt;不「正社員で年収300万以上だったりします?」&lt;br&gt;俺「俺フリーターすけど...(嘘」&lt;br&gt;不「あーーーやっぱりかーーーーすんません大丈夫っす」&lt;br&gt;&lt;br&gt;何が「やっぱり」だよふざけんなって福岡初日キレてた&lt;/p&gt;&amp;mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) &lt;a href="https://twitter.com/takeokunn/status/1673665483114004484?ref_src=twsrc%5Etfw"&gt;June 27, 2023&lt;/a&gt;&lt;/blockquote&gt; &lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8"&gt;&lt;/script&gt;
+&lt;p&gt;宿は一泊3900円のカプセルホテルで人権がないところでした。&lt;/p&gt;
+&lt;blockquote class="twitter-tweet"&gt;&lt;p lang="ja" dir="ltr"&gt;今晩の宿です&lt;br&gt;対戦よろしくお願いします &lt;a href="https://t.co/uDQfvJA8sw"&gt;pic.twitter.com/uDQfvJA8sw&lt;/a&gt;&lt;/p&gt;&amp;mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) &lt;a href="https://twitter.com/takeokunn/status/1672173040078290944?ref_src=twsrc%5Etfw"&gt;June 23, 2023&lt;/a&gt;&lt;/blockquote&gt; &lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8"&gt;&lt;/script&gt;
+&lt;p&gt;大浴場に脱衣場がなく、宿内は半裸で歩いているおじさんだらけで「これが安宿か。..!」と思わされました。&lt;/p&gt;
+&lt;blockquote class="twitter-tweet"&gt;&lt;p lang="ja" dir="ltr"&gt;脱衣場がない脱衣所がない言ってるけどまじでこんな感じの間取り &lt;a href="https://t.co/B9ArYX5VcH"&gt;pic.twitter.com/B9ArYX5VcH&lt;/a&gt;&lt;/p&gt;&amp;mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) &lt;a href="https://twitter.com/takeokunn/status/1672776891496022017?ref_src=twsrc%5Etfw"&gt;June 25, 2023&lt;/a&gt;&lt;/blockquote&gt; &lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8"&gt;&lt;/script&gt;
+&lt;p&gt;知らない街の散歩は楽しいですね。&lt;/p&gt;
+&lt;blockquote class="twitter-tweet"&gt;&lt;p lang="ja" dir="ltr"&gt;昨日撮った博多の自販機 &lt;a href="https://t.co/kJJlWwol8u"&gt;pic.twitter.com/kJJlWwol8u&lt;/a&gt;&lt;/p&gt;&amp;mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) &lt;a href="https://twitter.com/takeokunn/status/1672548570745167872?ref_src=twsrc%5Etfw"&gt;June 24, 2023&lt;/a&gt;&lt;/blockquote&gt; &lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8"&gt;&lt;/script&gt;
+&lt;p&gt;ちなみに会社で「人権がない宿泊まっている」ということを言ったら、以下のような話をされて「お前の泊まった宿は十分に人権がある」ということをつきつけられました。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;ロドス島からアテネ行きの船に乗った時に、甲板の上で12時間過ごす。船の上で一晩過ごす必要があり、ラウンジで寝てようと思ったら、そのチケットでは入れないといわれて、追い出された。夜の気温が10度以下で、めっちゃつらかった。&lt;/li&gt;
+&lt;li&gt;福岡空港最寄りのドミトリー、普通の二段ベッドとカーテンで仕切られているだけの刑務所仕様。そして夜は爆音いびきのハーモニー。&lt;/li&gt;
+&lt;li&gt;中国の安宿は、経験の少ない若者が経営していることがあって、風呂の設計が悪くて排水がうまくいかず、脱衣場まで水浸し。ということがありましたね。&lt;/li&gt;
+&lt;li&gt;僕はダニ耐性が非常に高いらしく、南京虫の卵だらけのベッドで寝てたとかですかね。一回もさされてないので。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="前夜祭"&gt;前夜祭&lt;/h3&gt;
+&lt;p&gt;「(非公式）PHPカンファレンス福岡前夜祭」に主催者側として参加しました。
+&lt;a href="https://connpass.com/event/282285/"&gt;https://connpass.com/event/282285/&lt;/a&gt;&lt;/p&gt;</description></item><item><title>phperkaigi 2023でパンフレット記事寄稿&amp;登壇してきました</title><link>https://www.takeokunn.org/posts/diary/20230327015058-phperkaigi_2023_report/</link><pubDate>Mon, 27 Mar 2023 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/diary/20230327015058-phperkaigi_2023_report/</guid><description>&lt;h2 id="始めに"&gt;始めに&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://phperkaigi.jp/2023/"&gt;phperkaigi 2023&lt;/a&gt; に参加しました。&lt;/p&gt;
+&lt;p&gt;phperkaigiとは、年1回大都会練馬のココネリホールで開催されるphperのためのイベントです。
+よくphpカンファレンスとごっちゃにされがちなので一応書いておくと、phpカンファレンスは秋に蒲田で、phperkaigiは春に大都会練馬で開かれる別のイベントです。&lt;/p&gt;
+&lt;p&gt;去年一昨年は3日間当日スタッフをやっていましたが、今年はDay1の夜終わり際とDay2全日参加をしました。&lt;/p&gt;
+&lt;h2 id="活動報告"&gt;活動報告&lt;/h2&gt;
+&lt;h3 id="パンフレット記事寄稿しました"&gt;パンフレット記事寄稿しました&lt;/h3&gt;
+&lt;p&gt;&lt;a href="https://fortee.jp/phperkaigi-2023/speaker/proposal/view/cb553650-e1be-41ca-b6d4-669dc1d7698a"&gt;「PHP 8から追加されたJITについて学ぼう!」&lt;/a&gt;というテーマで書きました。&lt;/p&gt;
+&lt;p&gt;パンフレットにもありますが、&lt;a href="https://www.takeokunn.org/posts/permanent/20221222111924-about_php_jit/"&gt;こちら&lt;/a&gt;にもありますので興味のある方はぜひ読んでください。&lt;/p&gt;
+&lt;p&gt;自分の人生でパンフレット記事の寄稿のような、自分のブログ以外に自分の文章が載ったのは初でした。
+正直自分自身JITについての理解度が低かったり、長文を書くことに慣れていなかったり、そもそも製本して提出する必要があったり、苦労する点は多かったです。&lt;/p&gt;
+&lt;p&gt;しかし、将来的に &lt;code&gt;WEB+DB PRESS&lt;/code&gt; のような有名な技術誌に寄稿してみたいと思っていたのでとても良い機会に恵まれたなぁという気持ちでいっぱいです。
+また、実際にパンフレットを手に取って自分の記事が載っていることに対しての達成感は何ものにも代えがたいものだなと感じました。&lt;/p&gt;
+&lt;p&gt;非常に良い経験になったので次回も寄稿できるようにプロポーザルを出します。&lt;/p&gt;
+&lt;h3 id="スポンサーセッションで登壇をしました"&gt;スポンサーセッションで登壇をしました&lt;/h3&gt;
+&lt;p&gt;&lt;a href="https://fortee.jp/phperkaigi-2023/proposal/e2cfa96e-46d3-46e5-8269-8ee72c658582"&gt;約10年もののPHPアプリケーションとの付き合い方と、今後10年改善し続けるための取り組みについて&lt;/a&gt; というテーマで登壇をしました。&lt;/p&gt;
+&lt;iframe src="https://docs.google.com/presentation/d/e/2PACX-1vQU-ac8NFjJbWIP9a1vbt1nrXa7_I898CkrRNNUN0aYa8hA3tnzUF2PUw5cPqKe4hTnB8A_o0kigQq2/embed?start=false&amp;loop=false&amp;delayms=3000" frameborder="0" width="960" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"&gt;&lt;/iframe&gt;
+&lt;p&gt;最近入社したにもかかわらず、phperkaigiのスポンサーになってほしいと伝えたところ、一切嫌な顔せずゴールドスポンサーになってくれました。
+普段は個人で登壇をしていたのでこういう機会は初でしたが、登壇準備と登壇当日を業務時間として扱ってくれたのが非常にうれしかったです。&lt;/p&gt;
+&lt;p&gt;ちなみに、当日スタッフをやっていた同僚の &lt;code&gt;のりぃさん&lt;/code&gt; も業務扱いとして参加していました。&lt;/p&gt;
+&lt;blockquote class="twitter-tweet"&gt;&lt;p lang="ja" dir="ltr"&gt;&lt;a href="https://twitter.com/hashtag/phperkaigi?src=hash&amp;amp;ref_src=twsrc%5Etfw"&gt;#phperkaigi&lt;/a&gt; 当日スタッフ業務完了！！&lt;br&gt;やり切った！！&lt;br&gt;疲れた！！&lt;br&gt;参加者の皆様、スポンサーの皆様、スタッフの皆様、本当にありがとうございました！&lt;br&gt;久しぶりのオフラインイベント、めちゃくちゃ楽しい。刺戟的な3日間でした！😀✨&lt;/p&gt;&amp;mdash; のりぃ (@m_norii) &lt;a href="https://twitter.com/m_norii/status/1639610187727409152?ref_src=twsrc%5Etfw"&gt;March 25, 2023&lt;/a&gt;&lt;/blockquote&gt; &lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8"&gt;&lt;/script&gt;
+&lt;p&gt;OPENLOGIでは積極的にphperとemacser採用しています。僕とphpを書きたい人はぜひ応募してください。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://corp.openlogi.com/recruit/"&gt;https://corp.openlogi.com/recruit/&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id="イベントで楽しかったこと"&gt;イベントで楽しかったこと&lt;/h3&gt;
+&lt;p&gt;楽しかったことを適当にピックアップしてざっくばらんに書いていきます。&lt;/p&gt;
+&lt;h4 id="day-0-きんじょうさんの発表よかった"&gt;[Day 0] きんじょうさんの発表よかった&lt;/h4&gt;
+&lt;p&gt;2023年版「パーフェクトphp」の書籍化、まってます。&lt;/p&gt;
+&lt;iframe class="speakerdeck-iframe" frameborder="0" src="https://speakerdeck.com/player/c63c9a6f457f4609917543e6d73ac1a9" title="#phperkaigi 名著「パーフェクトPHP」のPart3に出てきたフレームワークを令和5年に書き直したらどんな感じですかね？" allowfullscreen="true" style="border: 0px; background: padding-box padding-box rgba(0, 0, 0, 0.1); margin: 0px; padding: 0px; border-radius: 6px; box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 40px; width: 100%; height: auto; aspect-ratio: 560 / 314;" data-ratio="1.78343949044586"&gt;&lt;/iframe&gt;
+&lt;h4 id="day-1-てきめんさんいつもありがとう"&gt;[Day 1] てきめんさんいつもありがとう&lt;/h4&gt;
+&lt;p&gt;ファンです。いつも応援してます。&lt;/p&gt;</description></item><item><title>「第149回 PHP勉強会＠東京」で登壇してきました</title><link>https://www.takeokunn.org/posts/diary/20230220161138-phpstudy_149_report/</link><pubDate>Mon, 20 Feb 2023 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/diary/20230220161138-phpstudy_149_report/</guid><description>&lt;h2 id="始めに"&gt;始めに&lt;/h2&gt;
+&lt;p&gt;2023-02-15（水）に &lt;a href="https://www.gmo.jp/csr/partners/office/#gmo-yours"&gt;GMO Yours&lt;/a&gt; で行われた &lt;a href="https://phpstudy.doorkeeper.jp/events/151021"&gt;第149回 PHP勉強会＠東京&lt;/a&gt; で登壇してきました。
+現地には30人、オンラインの視聴者は20人くらいで非常に和気藹々とした勉強会でした。&lt;/p&gt;
+&lt;blockquote class="twitter-tweet"&gt;&lt;p lang="ja" dir="ltr"&gt;GMO Yours に来てます! &lt;a href="https://twitter.com/hashtag/phpstudy?src=hash&amp;amp;ref_src=twsrc%5Etfw"&gt;#phpstudy&lt;/a&gt;&lt;/p&gt;&amp;mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) &lt;a href="https://twitter.com/takeokunn/status/1625810497215029248?ref_src=twsrc%5Etfw"&gt;February 15, 2023&lt;/a&gt;&lt;/blockquote&gt; &lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8"&gt;&lt;/script&gt;
+&lt;h2 id="登壇"&gt;登壇&lt;/h2&gt;
+&lt;h3 id="内容について"&gt;内容について&lt;/h3&gt;
+&lt;p&gt;&lt;a href="https://docs.google.com/presentation/d/1WXgJP9oqydr-5Vn1oXDti9Gdfaxc_OhvVg6tgIi5LEs/edit#slide=id.p"&gt;phpstan-strict-rulesでよりbetterなphpを手に入れよう&lt;/a&gt; というタイトルで話しました。&lt;/p&gt;
+&lt;iframe
+src="https://docs.google.com/presentation/d/e/2PACX-1vR2CYaDCANUaSo4Aq2RJ82Z0Bh2rxMKTWljxzg9OO-V7fi_7yi0AgaEMCvCdHizHUxFTuVD2HwB9HAi/embed?start=false&amp;loop=false&amp;delayms=3000"
+frameborder="0"
+width="960"
+height="569"
+allowfullscreen="true"
+mozallowfullscreen="true"
+webkitallowfullscreen="true"&gt;
+&lt;/iframe&gt;
+&lt;p&gt;関連するツイートはこのあたりです。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://togetter.com/li/2082268?page=9"&gt;https://togetter.com/li/2082268?page=9&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://togetter.com/li/2082268?page=10"&gt;https://togetter.com/li/2082268?page=10&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://togetter.com/li/2082268?page=11"&gt;https://togetter.com/li/2082268?page=11&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://togetter.com/li/2082268?page=12"&gt;https://togetter.com/li/2082268?page=12&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://togetter.com/li/2082268?page=13"&gt;https://togetter.com/li/2082268?page=13&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;YouTubeのアーカイブも残っているので気になる人はこちらから見てください。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.youtube.com/live/k0GkmSYhtrQ?feature=share&amp;amp;t=7526"&gt;https://www.youtube.com/live/k0GkmSYhtrQ?feature=share&amp;amp;t=7526&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id="補足など"&gt;補足など&lt;/h3&gt;
+&lt;h4 id="emacsと申します"&gt;Emacsと申します&lt;/h4&gt;
+&lt;p&gt;&lt;a href="https://dic.pixiv.net/a/%E4%BF%BA%E3%81%8C%E3%82%AC%E3%83%B3%E3%83%80%E3%83%A0%E3%81%A0"&gt;&lt;code&gt;俺がEmacsだ&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;h4 id="phpstan-tシャツについて"&gt;PHPStan Tシャツについて&lt;/h4&gt;
+&lt;p&gt;いつぞやのイベントでたっどさんから託されたTシャツ。
+日本で数人しか持っていない実はレアなやつ。&lt;/p&gt;
+&lt;blockquote class="twitter-tweet"&gt;&lt;p lang="ja" dir="ltr"&gt;日本で数人のPHPStanを着こなしている男 &lt;a href="https://twitter.com/hashtag/phpstudy?src=hash&amp;amp;ref_src=twsrc%5Etfw"&gt;#phpstudy&lt;/a&gt; &lt;a href="https://t.co/XOW4FRp535"&gt;pic.twitter.com/XOW4FRp535&lt;/a&gt;&lt;/p&gt;&amp;mdash; にゃんだーすわん (@tadsan) &lt;a href="https://twitter.com/tadsan/status/1625828730173284353?ref_src=twsrc%5Etfw"&gt;February 15, 2023&lt;/a&gt;&lt;/blockquote&gt; &lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8"&gt;&lt;/script&gt;
+&lt;h4 id="php-src-を毎朝-git-pull-していることについて"&gt;&lt;code&gt;php-src&lt;/code&gt; を毎朝 &lt;code&gt;git pull&lt;/code&gt; していることについて&lt;/h4&gt;
+&lt;p&gt;自分の好きなプロジェクトを毎朝 &lt;code&gt;git pull&lt;/code&gt; して変更を見る行為は季節の移ろいを感じられてお勧めです。&lt;/p&gt;
+&lt;h4 id="hanhanさんの-今週の-php-を毎週かかさずチェックしよう"&gt;hanhanさんの「今週の PHP」を毎週かかさずチェックしよう&lt;/h4&gt;
+&lt;p&gt;&lt;code&gt;hanhan&lt;/code&gt; さんいつもありがとう。&lt;/p&gt;
+&lt;blockquote class="twitter-tweet"&gt;&lt;p lang="ja" dir="ltr"&gt;&lt;a href="https://t.co/fGEjRAZuUN"&gt;https://t.co/fGEjRAZuUN&lt;/a&gt; &lt;a href="https://twitter.com/hashtag/%E4%BB%8A%E9%80%B1%E3%81%AEPHP?src=hash&amp;amp;ref_src=twsrc%5Etfw"&gt;#今週のPHP&lt;/a&gt; はこちらです。 &lt;a href="https://twitter.com/hashtag/phpstudy?src=hash&amp;amp;ref_src=twsrc%5Etfw"&gt;#phpstudy&lt;/a&gt;&lt;/p&gt;&amp;mdash; Ryo Tomidokoro (@hanhan1978) &lt;a href="https://twitter.com/hanhan1978/status/1625827379645153286?ref_src=twsrc%5Etfw"&gt;February 15, 2023&lt;/a&gt;&lt;/blockquote&gt; &lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8"&gt;&lt;/script&gt;
+&lt;h4 id="皆さんは会社や個人のプロジェクトでphpstanを入れていますか"&gt;皆さんは会社や個人のプロジェクトでPHPStanを入れていますか?&lt;/h4&gt;
+&lt;p&gt;会場は半分くらいの方が手を上げていました。&lt;/p&gt;
+&lt;h4 id="phpstanのlevelは5より上か下か"&gt;PHPStanのlevelは5より上か下か&lt;/h4&gt;
+&lt;p&gt;会場はさらに半分くらいの方がlevel5よりも上と手を上げていました。&lt;/p&gt;
+&lt;h4 id="phpstanを入れて良かったかどうか"&gt;PHPStanを入れて良かったかどうか&lt;/h4&gt;
+&lt;p&gt;おおむねみなさん手を上げていました。&lt;/p&gt;
+&lt;h4 id="初期開発でphpstan-level-maxを選択"&gt;初期開発でPHPStan Level Maxを選択&lt;/h4&gt;
+&lt;p&gt;既存のコードがない場合ほど制約を厳しくできて良いですね、という声がちらほらありました。
+TypeScriptでも &lt;code&gt;noImplicitAny&lt;/code&gt; を有効にするには初期じゃないとできない等、既存のコードベースがあるかどうかはかなり大きいです。&lt;/p&gt;</description></item><item><title>PHP8から追加されたJITについて学ぼう!</title><link>https://www.takeokunn.org/posts/permanent/20221222111924-about_php_jit/</link><pubDate>Thu, 22 Dec 2022 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/permanent/20221222111924-about_php_jit/</guid><description>&lt;h2 id="始めに"&gt;始めに&lt;/h2&gt;
+&lt;p&gt;2023年現在、PHPは世界中の企業で使われており、もっとも成功しているプログラミング言語の1つと言っても過言ではないくらい開発者から愛されています。
+WikipediaやWordPressもPHP製のプロダクトですので、開発者でなくてもPHPの恩恵を受けている人は多いでしょう。&lt;/p&gt;
+&lt;p&gt;私も5年以上PHPを用いて開発していますが、日進月歩で進化し続けるPHPにワクワクさせられています。&lt;/p&gt;
+&lt;p&gt;PHP 8.0が2020年11月にリリースされ、さまざまな便利な新機能が追加されました。
+特に &lt;code&gt;Match式&lt;/code&gt; は複雑な条件分岐を「式」で書くことができ、より柔軟な記述が可能になります。&lt;/p&gt;
+&lt;p&gt;高く評価されている新機能の1つに &lt;code&gt;JIT (ジャストインタイム) コンパイラ&lt;/code&gt; があります。
+JITを正しく使うと、条件によってはアプリケーションの1.5倍以上高速化できるということを公式のリリースページに書いてあります。&lt;/p&gt;
+&lt;p&gt;そもそもJITとは何か、PHP上でどのようにJITが動作しているのかを知れば、アプリケーションの記述を変えずに高速化できるでしょう。&lt;/p&gt;
+&lt;h2 id="jitについての概要"&gt;JITについての概要&lt;/h2&gt;
+&lt;p&gt;JIT自体の歴史は長く、さまざまな言語の処理系で実装されています。
+JavaScriptの処理系であるV8 EngineもJITを導入することによって大幅な高速化を実現しました。&lt;/p&gt;
+&lt;p&gt;Ruby 3.1ではYJITが導入されました。
+YJITはShopify社製のJIT Compilerで、同社はRailsアプリケーションが &lt;code&gt;20%~40%&lt;/code&gt; 程度高速化できたという報告をしています。&lt;/p&gt;
+&lt;p&gt;私の普段使っているEmacsでもJIT Compilerがサポートされて、体感速度として感じられるくらい動作がサクサクになったという実感があります。&lt;/p&gt;
+&lt;p&gt;PHP、Ruby、JavaScriptのような動的型付き言語は、CやRustのような静的型付き言語よりも実行速度が遅いです。
+遅い理由は様ありますが、実行時に字句解析、構文解析、コンパイルをして中間コードを吐き出し、VM上で実行をしているのが原因です。
+変数や関数の型情報の多くは実行時に決まり、実行時にVM上で最適化が走るので、どうしても遲くなってしまいます。&lt;/p&gt;
+&lt;p&gt;高速に実行するアプローチの1つにJIT Compileがあります。
+JIT Compileは実行時にマシンコードを吐き出し、キャッシュ上に乗せ、再度実行する時にキャッシュ上のマシンコードを実行するというアプローチです。
+マシンコードにすることによって、中間コードにわざわざ変換をしてVM上で変換をする必要がないので高速に動かすことができます。&lt;/p&gt;
+&lt;p&gt;ちなみに、JITの対比として、C言語のような事前にコンパイルする通常の手法はAOT（Ahead-Of-Time）コンパイルと呼びます。&lt;/p&gt;
+&lt;p&gt;JIT Compilerの実装挟まざまありますが、PHPではDynASMを使っています。
+DynASMはLuaでも使われており、すでに実績を残しています。&lt;/p&gt;
+&lt;h2 id="phpのjitの基本的なしくみ"&gt;PHPのJITの基本的なしくみ&lt;/h2&gt;
+&lt;p&gt;2023年1月現在、JITはOPCacheのサブセットとして提供されています。
+OPCacheとJITの立ち位置について解説していきます。&lt;/p&gt;
+&lt;h3 id="phpのみの場合"&gt;PHPのみの場合&lt;/h3&gt;
+&lt;figure&gt;&lt;img src="https://www.takeokunn.org/images/E629D887-07A8-4018-9F8A-D2F8EDA7F579.png"&gt;
+&lt;/figure&gt;
+&lt;p&gt;PHPは通常、図のような処理が行われます。&lt;/p&gt;
+&lt;p&gt;字句解析で文字列をトークン化、構文解析で &lt;code&gt;opcode&lt;/code&gt; を含む構文木（AST）を作り、VM上で実行をする、というフローをたどります。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;opcode&lt;/code&gt; は中間コードのことであり、VMで解釈できるような命令セットのことです。
+VMの仕事は中間コードを読み込み、最適化したうえで処理を実行をすることです。&lt;/p&gt;
+&lt;p&gt;PHPのVMは &lt;code&gt;ZendEngine&lt;/code&gt; と呼ばれており、ZendEngineがCPUアーキテクチャ間の際を吸収しています。
+私達が普段 &lt;code&gt;M1 Mac&lt;/code&gt; でも &lt;code&gt;Intel x86&lt;/code&gt; でも同じコードから同じ実行結果を得られるのは &lt;code&gt;ZendEngine&lt;/code&gt; があるからこそです。&lt;/p&gt;
+&lt;p&gt;通常PHPは実行時にこれら一連の処理を毎回行っています。
+PHPサーバのプロセスを再起動せずにコードが反映されるというメリットがあります。
+しかし、毎回一連の処理をするのは非効率です。&lt;/p&gt;
+&lt;p&gt;適切にcacheを効かせて実行時の処理を減らす機構こそがOPCacheです。&lt;/p&gt;
+&lt;h3 id="opcacheの場合"&gt;OPCacheの場合&lt;/h3&gt;
+&lt;figure&gt;&lt;img src="https://www.takeokunn.org/images/9187F38B-4144-4714-ACCE-A2B61E58AFBC.png"&gt;
+&lt;/figure&gt;
+&lt;p&gt;OPCacheを有効にすると、図のような処理が行われます。&lt;/p&gt;</description></item><item><title>aws-sdk-php v3.245.0でBC breakをおこす</title><link>https://www.takeokunn.org/posts/fleeting/20221214165044-bc_break_aws_sdk_php_v3/</link><pubDate>Wed, 14 Dec 2022 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20221214165044-bc_break_aws_sdk_php_v3/</guid><description>&lt;h2 id="結論"&gt;結論&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;aws-sdk-php&lt;/code&gt; の &lt;code&gt;v3.245.0&lt;/code&gt; で &lt;code&gt;AwcClient&lt;/code&gt; のconstructorの引数が変わった&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;SqsClient&lt;/code&gt; などの継承しているclassにも影響が出る&lt;/li&gt;
+&lt;li&gt;Composer.jsonで &lt;code&gt;&amp;quot;aws/aws-sdk-php&amp;quot;: &amp;quot;^3.0&amp;quot;&lt;/code&gt; のように指定しているとversionが上がって事故る&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="現象"&gt;現象&lt;/h2&gt;
+&lt;p&gt;2022年11月に &lt;code&gt;aws-sdk-php&lt;/code&gt; の &lt;code&gt;v3.245.0&lt;/code&gt; がリリースされた。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/aws/aws-sdk-php/releases/tag/3.245.0"&gt;https://github.com/aws/aws-sdk-php/releases/tag/3.245.0&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;リリース内容の中に&lt;a href="https://github.com/aws/aws-sdk-php/pull/2517"&gt;Feature bearer token #2517&lt;/a&gt;という変更があり、これによって &lt;code&gt;AwsClient&lt;/code&gt; の記述のし方が次のように変わる。&lt;/p&gt;
+&lt;p&gt;before:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-php" data-lang="php"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$client &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;AwsClient&lt;/span&gt;([
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;version&amp;#39;&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&amp;gt;&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;latest&amp;#39;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;region&amp;#39;&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&amp;gt;&lt;/span&gt; $_ENV[&lt;span style="color:#e6db74"&gt;&amp;#39;AWS_REGION&amp;#39;&lt;/span&gt;],
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;credientials&amp;#39;&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&amp;gt;&lt;/span&gt; [
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;key&amp;#39;&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&amp;gt;&lt;/span&gt; $_ENV[&lt;span style="color:#e6db74"&gt;&amp;#39;AWS_ACCESS_KEY_ID&amp;#39;&lt;/span&gt;],
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;secret&amp;#39;&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&amp;gt;&lt;/span&gt; $_ENV[&lt;span style="color:#e6db74"&gt;&amp;#39;AWS_SECRET_ACCESS_KEY&amp;#39;&lt;/span&gt;],
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;token&amp;#39;&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&amp;gt;&lt;/span&gt; $_ENV[&lt;span style="color:#e6db74"&gt;&amp;#39;AWS_SESSION_TOKEN&amp;#39;&lt;/span&gt;],
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ]
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;]);
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;after:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-php" data-lang="php"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$client &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;new&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;AwsClient&lt;/span&gt;([
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;version&amp;#39;&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&amp;gt;&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;latest&amp;#39;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;region&amp;#39;&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&amp;gt;&lt;/span&gt; $_ENV[&lt;span style="color:#e6db74"&gt;&amp;#39;AWS_REGION&amp;#39;&lt;/span&gt;],
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;token&amp;#39;&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&amp;gt;&lt;/span&gt; $_ENV[&lt;span style="color:#e6db74"&gt;&amp;#39;AWS_SESSION_TOKEN&amp;#39;&lt;/span&gt;],
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;credientials&amp;#39;&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&amp;gt;&lt;/span&gt; [
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;key&amp;#39;&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&amp;gt;&lt;/span&gt; $_ENV[&lt;span style="color:#e6db74"&gt;&amp;#39;AWS_ACCESS_KEY_ID&amp;#39;&lt;/span&gt;],
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;secret&amp;#39;&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&amp;gt;&lt;/span&gt; $_ENV[&lt;span style="color:#e6db74"&gt;&amp;#39;AWS_SECRET_ACCESS_KEY&amp;#39;&lt;/span&gt;],
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ],
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;]);
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;AwsClient&lt;/code&gt; はいろいろなbase classとなっているので呼び出し方に注意が必要になってくる。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/aws/aws-sdk-php/search?q=%22extends&amp;#43;AwsClient%22"&gt;https://github.com/aws/aws-sdk-php/search?q=%22extends+AwsClient%22&lt;/a&gt;&lt;/p&gt;</description></item></channel></rss>

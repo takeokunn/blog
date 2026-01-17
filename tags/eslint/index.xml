@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Eslint on takeokunn's blog</title><link>https://www.takeokunn.org/tags/eslint/</link><description>Recent content in Eslint on takeokunn's blog</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Fri, 31 May 2019 09:00:00 +0900</lastBuildDate><atom:link href="https://www.takeokunn.org/tags/eslint/index.xml" rel="self" type="application/rss+xml"/><item><title>EsLintでGlobの挙動で詰まった時のメモ</title><link>https://www.takeokunn.org/posts/permanent/20190531143338-eslint_glob_shell/</link><pubDate>Fri, 31 May 2019 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/permanent/20190531143338-eslint_glob_shell/</guid><description>&lt;p&gt;詰まった内容は以下だ。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;同じコマンドを実行しているはずなのに出力される結果が違うので困っています。
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;開発環境では通って、circleci上ではエラーが出ている状態です。
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;A: npm run test:lint
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;B: ./node_module/.bin/eslint --debug app/javascript/**/*.{vue,ts}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&amp;#34;scripts&amp;#34;: {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&amp;#34;test:lint&amp;#34;: &amp;#34;eslint --debug app/javascript/**/*.{vue,ts}&amp;#34;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;A&lt;/code&gt; と &lt;code&gt;B&lt;/code&gt; で同じコードを実行しているはずなのでなぜか違う結果を吐き出すのだ。 &lt;code&gt;local&lt;/code&gt; では &lt;code&gt;eslint&lt;/code&gt; が通るけど &lt;code&gt;circleci&lt;/code&gt; ではコケる、といった問題が起きていて困っていた。&lt;/p&gt;
+&lt;p&gt;ちなみに、 &lt;code&gt;eslint --debug&lt;/code&gt; で実行ログをみることができる。&lt;/p&gt;
+&lt;p&gt;ESLint開発者の方と弊社CTOのBTOさんに教えてもらうことによって原因を突きとめることができた。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;原因は、「globの解釈の問題」だ。&lt;/p&gt;
+&lt;p&gt;そもそもglobとは&lt;a href="https://ja.wikipedia.org/wiki/%E3%82%B0%E3%83%AD%E3%83%96"&gt;Wiki&lt;/a&gt;によるとこんな感じ。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;グロブ（英:
+glob）とは主にUnix系環境において、ワイルドカードでファイル名のセットを指定するパターンのことである。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;今回の場合だと、2種類の解釈のし方がある。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;shellでglobが解釈される&lt;/li&gt;
+&lt;li&gt;npmのglobで解釈される&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;macの標準のshellは &lt;code&gt;bash&lt;/code&gt; なのだが、これだとうまくglobを評価してくれないのだ。一方、circleciのコンテナのshellは &lt;code&gt;busybox&lt;/code&gt; だったのでうまくglobを評価してくれた。&lt;/p&gt;
+&lt;p&gt;つまり、macではちゃんと動いていなかっただけだったのだ。&lt;/p&gt;
+&lt;p&gt;そこで次のようにglob部分を &lt;code&gt;'&lt;/code&gt; で囲った。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-json" data-lang="json"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;scripts&amp;#34;&lt;/span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;:&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;test:lint&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;eslint --debug &amp;#39;app/javascript/**/*.{vue,ts}&amp;#39;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;そうすることにより、 &lt;code&gt;npmのglobで解釈される&lt;/code&gt; ようになり、正常に動くようになった。&lt;/p&gt;
+&lt;p&gt;内部的にはこれを使っているみたいだ。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.npmjs.com/package/glob"&gt;https://www.npmjs.com/package/glob&lt;/a&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;この世界にはたくさんのshellがあるようだ。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;dash（debian ash）&lt;/li&gt;
+&lt;li&gt;ash&lt;/li&gt;
+&lt;li&gt;busybox&lt;/li&gt;
+&lt;li&gt;fish shell&lt;/li&gt;
+&lt;li&gt;xonsh shell&lt;/li&gt;
+&lt;li&gt;z shell&lt;/li&gt;
+&lt;li&gt;bash&lt;/li&gt;
+&lt;li&gt;etc&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Ubuntu標準は &lt;code&gt;dash&lt;/code&gt; みたいだ。&lt;/p&gt;</description></item></channel></rss>

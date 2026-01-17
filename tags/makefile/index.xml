@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Makefile on takeokunn's blog</title><link>https://www.takeokunn.org/tags/makefile/</link><description>Recent content in Makefile on takeokunn's blog</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Fri, 11 Jul 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://www.takeokunn.org/tags/makefile/index.xml" rel="self" type="application/rss+xml"/><item><title>Makefileを便利コマンドメモとして使うことに対する違和感</title><link>https://www.takeokunn.org/posts/permanent/20250711132607-why_not_command_memo_makefile/</link><pubDate>Fri, 11 Jul 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/permanent/20250711132607-why_not_command_memo_makefile/</guid><description>&lt;h2 id="追記"&gt;追記&lt;/h2&gt;
+&lt;p&gt;この記事に対するyasunoriの補足記事はこちら。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://blog.yasunori0418.dev/p/appendix-makefile/"&gt;https://blog.yasunori0418.dev/p/appendix-makefile/&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;yasunoriがZennに書いた「&lt;a href="https://zenn.dev/loglass/articles/0016-make-makefile"&gt;職場のプロジェクトに必ず配置しちゃうMakefileの話&lt;/a&gt;」というのがバズっています。
+「コマンドが覚え辛い」という、どのプロジェクトにもあるような問題を「Makefileをコマンドメモとして整える」ことによって解決するという記事でした。
+SNSやvim-jp slackを見ていると賛同の声が多い印象を受けています。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://b.hatena.ne.jp/entry/s/zenn.dev/loglass/articles/0016-make-makefile"&gt;https://b.hatena.ne.jp/entry/s/zenn.dev/loglass/articles/0016-make-makefile&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;私個人も過去に同様のMakefileを作ったことがあるし、現職でもMakefileが入っているプロジェクトがあるくらいにはよくある手法です。&lt;/p&gt;
+&lt;p&gt;しかし、この記事を読んだ時に自分としてはこの手法がイマイチだと感じました。
+モヤモヤをちゃんと言語化した方がいいだろうということでこの記事を書いています。&lt;/p&gt;
+&lt;p&gt;決して元記事を批判するつもりはなく、こういう視点もあるよというくらいの温度感で捉えてほしいです。&lt;/p&gt;
+&lt;blockquote class="twitter-tweet"&gt;&lt;p lang="ja" dir="ltr"&gt;Makefileをコマンドメモに使うな&lt;/p&gt;&amp;mdash; たけてぃ𓁈𓈷 (@takeokunn) &lt;a href="https://twitter.com/takeokunn/status/1247911308646699019?ref_src=twsrc%5Etfw"&gt;April 8, 2020&lt;/a&gt;&lt;/blockquote&gt; &lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8"&gt;&lt;/script&gt;
+&lt;h2 id="makefileをプロジェクトに入れたい時の前提整理"&gt;Makefileをプロジェクトに入れたい時の前提整理&lt;/h2&gt;
+&lt;p&gt;そもそも「誰のために」「どのプロジェクト規模で」「どういう問題を解決したくて」Makefileをプロジェクトに追加するものなのか整理する必要があります。&lt;/p&gt;
+&lt;p&gt;今回のユースケースでは、古き良きC言語をBuildする時の &lt;code&gt;make &amp;amp;&amp;amp; make install&lt;/code&gt; のようなタスクランナー的な使い方ではなく、元記事と同様プロジェクトのコマンドメモとしての使い方について言及しています。&lt;/p&gt;
+&lt;h3 id="makefileの想定利用者"&gt;Makefileの想定利用者&lt;/h3&gt;
+&lt;p&gt;想定利用者のペルソナ像は主に4種類います。&lt;/p&gt;
+&lt;p&gt;1つめは、デザインや文言を修正したい非エンジニア寄りのデザイナーです。&lt;/p&gt;
+&lt;p&gt;役割はUI/UXデザイナー、またはマークアップ担当者で、技術スキルは低〜中程度を想定しています。
+主な目的は、文言・デザインの軽微な修正を手元で確認し、FigmaやXDのようなデザインツール上ではなく「実際の画面」で表示を見ることです。
+行動特性としては、GUIでの操作が望ましく、ターミナル操作も最低限であれば対応可能ですが、何度も環境構築の手順を覚えるのは非効率だと感じています。
+主な課題として、環境構築に時間がかかること、依存関係が多すぎて途中で躓いてしまうこと、Node.js, Ruby, Pythonといった技術スタックの違いが分からない、といった点が挙げられます。&lt;/p&gt;
+&lt;p&gt;2つめは、そのプロジェクトに精通していないプログラマです。&lt;/p&gt;
+&lt;p&gt;役割は外部の協力会社のメンバー、派遣や業務委託のエンジニア、またはプロジェクトに参加したばかりの新人エンジニアを想定しています。技術スキルは中〜高程度です。
+主な目的は、限られた期間や担当範囲の中で、与えられたチケットの実装や修正を効率的に行うことであり、プロジェクト全体の詳細な把握は必要最低限で済ませたいと考えています。
+行動特性としては、ローカル環境の立ち上げに時間をかけたくないと感じており、覚えるべき新規のコマンドが多すぎると混乱してしまいます。
+主な課題として、「.envファイルはどこにあるのか？」「どの順番で起動すればいいのか？」「フロントエンドだけでなくバックエンドも動かす必要があるのか？」といった疑問が次々と湧いてくる点が挙げられます。&lt;/p&gt;
+&lt;p&gt;3つめは、そのプロジェクトに精通しているプログラマです。&lt;/p&gt;
+&lt;p&gt;役割はリードエンジニア、メンテナー、あるいは主要な開発者であり、技術スキルは高いレベルにあります。
+主な目的は、長期的な保守や機能の拡張や新機能の実装や大規模な構成変更など、プロジェクトの根幹に関わる作業することです。
+行動特性としては、再利用性や抽象化といった概念に関心があり、開発フローの自動化や最適化にも積極的です。
+主な課題として、コマンドが乱立して管理が煩雑になること、特定の担当者にしか分からない作業（属人化）が増えること、そしてドキュメントが古くなって陳腐化しがちである点が挙げられます。&lt;/p&gt;
+&lt;p&gt;4つめは、AI Coding Agentです。&lt;/p&gt;
+&lt;p&gt;役割はVibe Coding、その技術スキルは正確かつ高速な処理能力にあります。
+主な目的は、指定された手順を正確に実行し、ソースコードのビルド、テスト、静的チェックといった成果物の検証作業を滞りなく行うことです。
+行動特性としては、曖昧な指示に弱く、処理の中間ステップが明示的に定義されていないと失敗する傾向があります。また、コマンドの標準出力（STDOUT）が構造化されていることを期待する場合もあります。
+主な課題として、コマンドの実行に失敗した場合でも、その背景にある詳細な文脈を読み解いてリトライしたり、原因を推測ができない点が挙げられます。&lt;/p&gt;
+&lt;h3 id="想定しているプロジェクト規模"&gt;想定しているプロジェクト規模&lt;/h3&gt;
+&lt;p&gt;当記事で想定しているプロジェクトは主に3種類あります。&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;プロジェクト規模&lt;/th&gt;
+&lt;th&gt;コード行数&lt;/th&gt;
+&lt;th&gt;特徴&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;小規模プロジェクト&lt;/td&gt;
+&lt;td&gt;1万行程度&lt;/td&gt;
+&lt;td&gt;数ページ程度のちょっとしたWebアプリケーション、単一言語、依存ツールチェインが少ない&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;中規模プロジェクト&lt;/td&gt;
+&lt;td&gt;10万行程度&lt;/td&gt;
+&lt;td&gt;複数機能があるWebアプリケーション、複数言語、依存ツールチェインや開発用コマンドがそれなりに多い&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;大規模プロジェクト&lt;/td&gt;
+&lt;td&gt;100万程度&lt;/td&gt;
+&lt;td&gt;大規模なWebアプリケーション、複数言語、依存ツールチェインや開発用コマンドが多い&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id="makefileで実行するコマンド"&gt;Makefileで実行するコマンド&lt;/h3&gt;
+&lt;p&gt;今まで見てきたコマンドは主に3種類です。&lt;/p&gt;</description></item></channel></rss>

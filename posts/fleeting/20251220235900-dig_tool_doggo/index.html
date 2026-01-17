@@ -1,0 +1,237 @@
+<!doctype html><html lang=ja-jp dir=ltr prefix="og: https://ogp.me/ns#"><head><meta charset=utf-8><meta http-equiv=content-type content="text/html"><meta name=viewport content="width=device-width,initial-scale=1"><meta name=Hatena::Bookmark content="nocomment"><title itemprop=name>digツールはdoggoが便利 | takeokunn's blog</title><meta property="og:title" content="digツールはdoggoが便利 | takeokunn's blog"><meta name=twitter:title content="digツールはdoggoが便利 | takeokunn's blog"><meta itemprop=name content="digツールはdoggoが便利 | takeokunn's blog"><meta name=application-name content="digツールはdoggoが便利 | takeokunn's blog"><meta property="og:site_name" content><meta name=description content="背景・動機 インフラ構築する時にdigを叩くことは必須なのだが、2025年にdigコマンドをそのまま使うのは流石に辛い。 もう少しリッチなものがないか調べた所、doggoが良さそうだったので導入してみた。
+試したこと・やったこと 0. ツール選定 Rust製のツールに dog というものがあるが、最終更新が2021年前と期間が空いてる。
+後継にあたるツールがないかなと思って調査した所、Golang製の doggo というツールがあった。
+It&amp;rsquo;s totally inspired by dog which is written in Rust. I wanted to add so"><meta itemprop=description content="背景・動機 インフラ構築する時にdigを叩くことは必須なのだが、2025年にdigコマンドをそのまま使うのは流石に辛い。 もう少しリッチなものがないか調べた所、doggoが良さそうだったので導入してみた。
+試したこと・やったこと 0. ツール選定 Rust製のツールに dog というものがあるが、最終更新が2021年前と期間が空いてる。
+後継にあたるツールがないかなと思って調査した所、Golang製の doggo というツールがあった。
+It&amp;rsquo;s totally inspired by dog which is written in Rust. I wanted to add so"><meta property="og:description" content="背景・動機 インフラ構築する時にdigを叩くことは必須なのだが、2025年にdigコマンドをそのまま使うのは流石に辛い。 もう少しリッチなものがないか調べた所、doggoが良さそうだったので導入してみた。
+試したこと・やったこと 0. ツール選定 Rust製のツールに dog というものがあるが、最終更新が2021年前と期間が空いてる。
+後継にあたるツールがないかなと思って調査した所、Golang製の doggo というツールがあった。
+It&amp;rsquo;s totally inspired by dog which is written in Rust. I wanted to add so"><meta name=twitter:description content="背景・動機 インフラ構築する時にdigを叩くことは必須なのだが、2025年にdigコマンドをそのまま使うのは流石に辛い。 もう少しリッチなものがないか調べた所、doggoが良さそうだったので導入してみた。
+試したこと・やったこと 0. ツール選定 Rust製のツールに dog というものがあるが、最終更新が2021年前と期間が空いてる。
+後継にあたるツールがないかなと思って調査した所、Golang製の doggo というツールがあった。
+It&amp;rsquo;s totally inspired by dog which is written in Rust. I wanted to add so"><meta property="og:locale" content="ja-jp"><meta name=language content="ja-jp"><link rel=alternate hreflang=ja-jp href=https://www.takeokunn.org/posts/fleeting/20251220235900-dig_tool_doggo/ title=Japanese><meta property="og:type" content="article"><meta property="og:article:published_time" content="2025-12-24T00:00:00+00:00"><meta property="article:published_time" content="2025-12-24T00:00:00+00:00"><meta property="og:url" content="https://www.takeokunn.org/posts/fleeting/20251220235900-dig_tool_doggo/"><meta itemprop=image content="https://www.takeokunn.org/ogp/20251220235900-dig_tool_doggo.png"><meta property="og:image" content="https://www.takeokunn.org/ogp/20251220235900-dig_tool_doggo.png"><meta name=twitter:image content="https://www.takeokunn.org/ogp/20251220235900-dig_tool_doggo.png"><meta name=twitter:image:src content="https://www.takeokunn.org/ogp/20251220235900-dig_tool_doggo.png"><meta name=twitter:card content="summary_large_image"><script defer type=application/ld+json>{"@context":"http://schema.org","@type":"Article","headline":"digツールはdoggoが便利","author":{"@type":"Person","name":""},"datePublished":"2025-12-24T00:00:00\u002b00:00","description":"背景・動機 インフラ構築する時にdigを叩くことは必須なのだが、2025年にdigコマンドをそのまま使うのは流石に辛い。 もう少しリッチなものがないか調べた所、doggoが良さそうだったので導入してみた。\n試したこと・やったこと 0. ツール選定 Rust製のツールに dog というものがあるが、最終更新が2021年前と期間が空いてる。\n後継にあたるツールがないかなと思って調査した所、Golang製の doggo というツールがあった。\nIt\u0026rsquo;s totally inspired by dog which is written in Rust. I wanted to add so","wordCount":1098,"mainEntityOfPage":"True","dateModified":"2025-12-24T00:00:00\u002b00:00","image":{"@type":"imageObject","url":""},"publisher":{"@type":"Organization","name":"takeokunn\u0027s blog"}}</script><link rel=canonical href=https://www.takeokunn.org/posts/fleeting/20251220235900-dig_tool_doggo/><link href=/posts/fleeting/20251220235900-dig_tool_doggo/ rel=alternate type=application/rss+xml title="takeokunn's blog"><link href=/posts/fleeting/20251220235900-dig_tool_doggo/ rel=feed type=application/rss+xml title="takeokunn's blog"><link href=/style.min.71c11b16c107f1031ce1f17c8e2fef21394bb486a285ca4d0a69d5c311e607d5.css rel=stylesheet><link href=/code-highlight.min.ca0d5ee203390cf1a8d6b0b0204024fa2424a020fd6554c7df0c2a572e19c583.css rel=stylesheet><link rel="shortcut icon" href=/favicon.ico></head><body class=notransition aria-live=polite><div class=navbar role=navigation><nav class=menu aria-label="Main Navigation"><a href=https://www.takeokunn.org/ class=logo aria-label=Home><svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home" aria-hidden="true" focusable="false"><title>Home</title><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+</a><input type=checkbox id=menu-trigger class=menu-trigger aria-expanded=false aria-controls=site-menu>
+<label for=menu-trigger aria-label="Toggle menu"><span class=menu-icon aria-hidden=true><svg width="25" height="25" stroke="currentColor" fill="none" viewBox="0 0 14 14" aria-hidden="true" focusable="false"><title>Menu</title><path stroke-linecap="round" stroke-linejoin="round" d="M10.595 7H3.40726"/><path stroke-linecap="round" stroke-linejoin="round" d="M10.5096 3.51488H3.49301"/><path stroke-linecap="round" stroke-linejoin="round" d="M10.5096 10.4851H3.49301"/><path stroke-linecap="round" stroke-linejoin="round" d="M.5 12.5V1.5c0-.552285.447715-1 1-1h11C13.0523.5 13.5.947715 13.5 1.5v11C13.5 13.0523 13.0523 13.5 12.5 13.5H1.5C.947715 13.5.5 13.0523.5 12.5z"/></svg></span></label><div class=trigger id=site-menu><label for=menu-trigger class=menu-close-button aria-label="Close menu">&#215;</label><ul class=trigger-container role=menu><li role=none><a class=menu-link href=/ role=menuitem>Home</a></li><li role=none><a class="menu-link active" href=/posts/ role=menuitem aria-current=page>Posts</a></li><li role=none><a class=menu-link href=/graph/ role=menuitem>Graph</a></li></ul></div></nav></div><div class="wrapper post"><main class=page-content aria-label=Content><article role=article><header class=header><h1 class=header-title>digツールはdoggoが便利</h1><div class=post-meta><time datetime=2025.12.24 itemprop=datePublished aria-label="Published on 2025.12.24">2025.12.24</time></div><ul class=tags aria-label="Post tags"><li><a href=/tags/fleeting aria-label="View all posts with tag: fleeting">fleeting</a></li><li><a href=/tags/network aria-label="View all posts with tag: network">network</a></li></ul></header><details class=toc><summary aria-label="Toggle Table of Contents"><b>Table of Contents</b></summary><nav id=TableOfContents><ul><li><a href=#背景-動機>背景・動機</a></li><li><a href=#試したこと-やったこと>試したこと・やったこと</a><ul><li><a href=#0-dot-ツール選定>0. ツール選定</a></li><li><a href=#1-dot-home-manager-module用意>1. home-manager module用意</a></li><li><a href=#2-dot-実際に使ってみる>2. 実際に使ってみる</a></li></ul></li><li><a href=#得られた結果-所感>得られた結果・所感</a></li><li><a href=#今後の展開-検討事項>今後の展開・検討事項</a></li></ul></nav></details><div class=page-content><h2 id=背景-動機>背景・動機</h2><p>インフラ構築する時にdigを叩くことは必須なのだが、2025年にdigコマンドをそのまま使うのは流石に辛い。
+もう少しリッチなものがないか調べた所、doggoが良さそうだったので導入してみた。</p><h2 id=試したこと-やったこと>試したこと・やったこと</h2><h3 id=0-dot-ツール選定>0. ツール選定</h3><p>Rust製のツールに <a href=https://github.com/ogham/dog>dog</a> というものがあるが、最終更新が2021年前と期間が空いてる。</p><p>後継にあたるツールがないかなと思って調査した所、Golang製の <a href=https://github.com/mr-karan/doggo>doggo</a> というツールがあった。</p><blockquote><p>It&rsquo;s totally inspired by dog which is written in Rust. I wanted to add some features to it but since I don&rsquo;t know Rust, I found it as a nice opportunity to experiment with writing a DNS Client from scratch in Go myself. Hence the name dog + go => doggo.</p></blockquote><p>Nixでパッケージングされているし、CLIとしての完成度も高く、アクティブなプロジェクトだったので導入した。</p><h3 id=1-dot-home-manager-module用意>1. home-manager module用意</h3><p>特に設定項目がないのでshell completionだけ有効にしている。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-nix data-lang=nix><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  pkgs<span style=color:#f92672>,</span>
+</span></span><span style=display:flex><span>  lib<span style=color:#f92672>,</span>
+</span></span><span style=display:flex><span>  config<span style=color:#f92672>,</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>...</span>
+</span></span><span style=display:flex><span>}:
+</span></span><span style=display:flex><span><span style=color:#66d9ef>let</span>
+</span></span><span style=display:flex><span>  cfg <span style=color:#f92672>=</span> config<span style=color:#f92672>.</span>programs<span style=color:#f92672>.</span>doggo;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>in</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>with</span> lib;
+</span></span><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  options<span style=color:#f92672>.</span>programs<span style=color:#f92672>.</span>doggo <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>    enable <span style=color:#f92672>=</span> mkEnableOption <span style=color:#e6db74>&#34;Command-line DNS Client for Humans. Written in Golang&#34;</span>;
+</span></span><span style=display:flex><span>    package <span style=color:#f92672>=</span> mkPackageOption pkgs <span style=color:#e6db74>&#34;doggo&#34;</span> { };
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    enableBashIntegration <span style=color:#f92672>=</span> lib<span style=color:#f92672>.</span>hm<span style=color:#f92672>.</span>shell<span style=color:#f92672>.</span>mkBashIntegrationOption { <span style=color:#66d9ef>inherit</span> config; };
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    enableZshIntegration <span style=color:#f92672>=</span> lib<span style=color:#f92672>.</span>hm<span style=color:#f92672>.</span>shell<span style=color:#f92672>.</span>mkZshIntegrationOption { <span style=color:#66d9ef>inherit</span> config; };
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    enableFishIntegration <span style=color:#f92672>=</span> lib<span style=color:#f92672>.</span>hm<span style=color:#f92672>.</span>shell<span style=color:#f92672>.</span>mkFishIntegrationOption { <span style=color:#66d9ef>inherit</span> config; };
+</span></span><span style=display:flex><span>  };
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  config <span style=color:#f92672>=</span> mkIf cfg<span style=color:#f92672>.</span>enable {
+</span></span><span style=display:flex><span>    home<span style=color:#f92672>.</span>packages <span style=color:#f92672>=</span> [ cfg<span style=color:#f92672>.</span>package ];
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    programs <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>      bash<span style=color:#f92672>.</span>initExtra <span style=color:#f92672>=</span> mkIf (cfg<span style=color:#f92672>.</span>enableBashIntegration <span style=color:#f92672>&amp;&amp;</span> cfg<span style=color:#f92672>.</span>package <span style=color:#f92672>!=</span> <span style=color:#66d9ef>null</span>) <span style=color:#e6db74>&#39;&#39;
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        eval &#34;$(</span><span style=color:#e6db74>${</span>getExe cfg<span style=color:#f92672>.</span>package<span style=color:#e6db74>}</span><span style=color:#e6db74> completions bash)&#34;
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>      &#39;&#39;</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>      zsh<span style=color:#f92672>.</span>initContent <span style=color:#f92672>=</span> mkIf (cfg<span style=color:#f92672>.</span>enableZshIntegration <span style=color:#f92672>&amp;&amp;</span> cfg<span style=color:#f92672>.</span>package <span style=color:#f92672>!=</span> <span style=color:#66d9ef>null</span>) <span style=color:#e6db74>&#39;&#39;
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        eval &#34;$(</span><span style=color:#e6db74>${</span>getExe cfg<span style=color:#f92672>.</span>package<span style=color:#e6db74>}</span><span style=color:#e6db74> completions zsh)&#34;
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>      &#39;&#39;</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>      fish<span style=color:#f92672>.</span>interactiveShellInit <span style=color:#f92672>=</span> mkIf (cfg<span style=color:#f92672>.</span>enableFishIntegration <span style=color:#f92672>&amp;&amp;</span> cfg<span style=color:#f92672>.</span>package <span style=color:#f92672>!=</span> <span style=color:#66d9ef>null</span>) <span style=color:#e6db74>&#39;&#39;
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        </span><span style=color:#e6db74>${</span>getExe cfg<span style=color:#f92672>.</span>package<span style=color:#e6db74>}</span><span style=color:#e6db74> completions fish | source
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>      &#39;&#39;</span>;
+</span></span><span style=display:flex><span>    };
+</span></span><span style=display:flex><span>  };
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>あとは <code>programs.doggo.enable = true;</code> で有効にするだけで使えるようになる。</p><h3 id=2-dot-実際に使ってみる>2. 実際に使ってみる</h3><p>helpを引くとquicやtlsにも対応してることが分かる。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-console data-lang=console><span style=display:flex><span>NAME:
+</span></span><span style=display:flex><span>  doggo üê∂ DNS Client for Humans
+</span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010>
+</span></span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010></span>USAGE:
+</span></span><span style=display:flex><span>  doggo [--] [query options] [arguments...]
+</span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010>
+</span></span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010></span>VERSION:
+</span></span><span style=display:flex><span>  v1.1.2 - unknown
+</span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010>
+</span></span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010></span>EXAMPLES:
+</span></span><span style=display:flex><span>  doggo mrkaran.dev                             Query a domain using defaults.
+</span></span><span style=display:flex><span>  doggo mrkaran.dev CNAME                       Query for a CNAME record.
+</span></span><span style=display:flex><span>  doggo mrkaran.dev MX @9.9.9.9                 Uses a custom DNS resolver.
+</span></span><span style=display:flex><span>  doggo -q mrkaran.dev -t MX -n 1.1.1.1         Using named arguments.
+</span></span><span style=display:flex><span>  doggo mrkaran.dev --aa --ad                   Query with Authoritative Answer and Authenticated Data flags set.
+</span></span><span style=display:flex><span>  doggo mrkaran.dev --cd --do                   Query with Checking Disabled and DNSSEC OK flags set.
+</span></span><span style=display:flex><span>  doggo mrkaran.dev --gp-from Germany           Query using Globalping API from a specific location.
+</span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010>
+</span></span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010></span>FREE FORM ARGUMENTS:
+</span></span><span style=display:flex><span>  Supply hostnames, query types, and classes without flags. Example:
+</span></span><span style=display:flex><span>  doggo mrkaran.dev A @1.1.1.1
+</span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010>
+</span></span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010></span>TRANSPORT OPTIONS:
+</span></span><span style=display:flex><span>  Specify the protocol with a URL-type scheme.
+</span></span><span style=display:flex><span>  UDP is used if no scheme is specified.
+</span></span><span style=display:flex><span>  @udp://     eg: @1.1.1.1                                                        initiates a UDP query to 1.1.1.1:53.
+</span></span><span style=display:flex><span>  @tcp://     eg: @tcp://1.1.1.1                                                  initiates a TCP query to 1.1.1.1:53.
+</span></span><span style=display:flex><span>  @https://   eg: @https://cloudflare-dns.com/dns-query                           initiates a DOH query to Cloudflare via DoH.
+</span></span><span style=display:flex><span>  @tls://     eg: @tls://1.1.1.1                                                  initiates a DoT query to 1.1.1.1:853.
+</span></span><span style=display:flex><span>  @sdns://    initiates a DNSCrypt or DoH query using a DNS stamp.
+</span></span><span style=display:flex><span>  @quic://    initiates a DOQ query.
+</span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010>
+</span></span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010></span>SUBCOMMANDS:
+</span></span><span style=display:flex><span>  completions [bash|zsh|fish]   Generate the shell completion script for the specified shell.
+</span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010>
+</span></span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010></span>QUERY OPTIONS:
+</span></span><span style=display:flex><span>  -q, --query=HOSTNAME          Hostname to query the DNS records for (eg mrkaran.dev).
+</span></span><span style=display:flex><span>  -t, --type=TYPE               Type of the DNS Record (A, MX, NS etc).
+</span></span><span style=display:flex><span>  -n, --nameserver=ADDR         Address of a specific nameserver to send queries to (9.9.9.9, 8.8.8.8 etc).
+</span></span><span style=display:flex><span>  -c, --class=CLASS             Network class of the DNS record (IN, CH, HS etc).
+</span></span><span style=display:flex><span>  -x, --reverse                 Performs a DNS Lookup for an IPv4 or IPv6 address. Sets the query type and class to PTR and IN respectively.
+</span></span><span style=display:flex><span>  --any                         Query all supported DNS record types (A, AAAA, CNAME, MX, NS, PTR, SOA, SRV, TXT, CAA).
+</span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010>
+</span></span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010></span>RESOLVER OPTIONS:
+</span></span><span style=display:flex><span>  --strategy=STRATEGY           Specify strategy to query nameserver listed in etc/resolv.conf. (all, random, first).
+</span></span><span style=display:flex><span>  --ndots=INT                   Specify ndots parameter. Takes value from /etc/resolv.conf if using the system namesever or 1 otherwise.
+</span></span><span style=display:flex><span>  --search                      Use the search list defined in resolv.conf. Defaults to true. Set --search=false to disable search list.
+</span></span><span style=display:flex><span>  --timeout=DURATION            Specify timeout for the resolver to return a response (e.g., 5s, 400ms, 1m).
+</span></span><span style=display:flex><span>  -4, --ipv4                    Use IPv4 only.
+</span></span><span style=display:flex><span>  -6, --ipv6                    Use IPv6 only.
+</span></span><span style=display:flex><span>  --tls-hostname=HOSTNAME       Provide a hostname for verification of the certificate if the provided DoT nameserver is an IP.
+</span></span><span style=display:flex><span>  --skip-hostname-verification  Skip TLS Hostname Verification in case of DOT Lookups.
+</span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010>
+</span></span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010></span>QUERY FLAGS:
+</span></span><span style=display:flex><span>  --aa                          Set Authoritative Answer flag.
+</span></span><span style=display:flex><span>  --ad                          Set Authenticated Data flag.
+</span></span><span style=display:flex><span>  --cd                          Set Checking Disabled flag.
+</span></span><span style=display:flex><span>  --rd                          Set Recursion Desired flag (default: true).
+</span></span><span style=display:flex><span>  --z                           Set Z flag (reserved for future use).
+</span></span><span style=display:flex><span>  --do                          Set DNSSEC OK flag.
+</span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010>
+</span></span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010></span>EDNS OPTIONS:
+</span></span><span style=display:flex><span>  --nsid                        Request Name Server Identifier (NSID) to identify the nameserver.
+</span></span><span style=display:flex><span>  --cookie                      Request DNS Cookie for enhanced security and protection against spoofing.
+</span></span><span style=display:flex><span>  --padding                     Request EDNS padding for privacy. Helps mitigate traffic analysis attacks.
+</span></span><span style=display:flex><span>  --ede                         Request Extended DNS Errors for detailed error information.
+</span></span><span style=display:flex><span>  --ecs=SUBNET                  EDNS Client Subnet (e.g., &#39;192.0.2.0/24&#39; or &#39;2001:db8::/32&#39;). Send client subnet for geo-aware responses.
+</span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010>
+</span></span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010></span>OUTPUT OPTIONS:
+</span></span><span style=display:flex><span>  -J, --json                    Format the output as JSON.
+</span></span><span style=display:flex><span>  --short                       Short output format. Shows only the response section.
+</span></span><span style=display:flex><span>  --color                       Defaults to true. Set --color=false to disable colored output.
+</span></span><span style=display:flex><span>  --debug                       Enable debug logging.
+</span></span><span style=display:flex><span>  --time                        Shows how long the response took from the server.
+</span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010>
+</span></span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010></span>GLOBALPING OPTIONS:
+</span></span><span style=display:flex><span>  --gp-from=Germany             Query using Globalping API from a specific location.
+</span></span><span style=display:flex><span>  --gp-limit=INT                Limit the number of probes to use from Globalping.
+</span></span></code></pre></div><p>雑に <code>takeokunn.org</code> のNSを引くとこんな感じで出力される。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-console data-lang=console><span style=display:flex><span>$ doggo takeokunn.org NS
+</span></span><span style=display:flex><span>NAME                     TYPE  CLASS  TTL    ADDRESS                  NAMESERVER
+</span></span><span style=display:flex><span>takeokunn.org.           NS    IN     3600s  bob.ns.cloudflare.com.   192.168.2.1:53
+</span></span><span style=display:flex><span>takeokunn.org.           NS    IN     3600s  mina.ns.cloudflare.com.  192.168.2.1:53
+</span></span><span style=display:flex><span>bob.ns.cloudflare.com.   A     IN     3041s  108.162.193.104          192.168.2.1:53
+</span></span><span style=display:flex><span>bob.ns.cloudflare.com.   A     IN     3041s  172.64.33.104            192.168.2.1:53
+</span></span><span style=display:flex><span>bob.ns.cloudflare.com.   A     IN     3041s  173.245.59.104           192.168.2.1:53
+</span></span><span style=display:flex><span>mina.ns.cloudflare.com.  A     IN     3366s  108.162.194.251          192.168.2.1:53
+</span></span><span style=display:flex><span>mina.ns.cloudflare.com.  A     IN     3366s  162.159.38.251           192.168.2.1:53
+</span></span><span style=display:flex><span>mina.ns.cloudflare.com.  A     IN     3366s  172.64.34.251            192.168.2.1:53
+</span></span><span style=display:flex><span>bob.ns.cloudflare.com.   AAAA  IN     3041s  2606:4700:58::adf5:3b68  192.168.2.1:53
+</span></span><span style=display:flex><span>bob.ns.cloudflare.com.   AAAA  IN     3041s  2803:f800:50::6ca2:c168  192.168.2.1:53
+</span></span><span style=display:flex><span>bob.ns.cloudflare.com.   AAAA  IN     3041s  2a06:98c1:50::ac40:2168  192.168.2.1:53
+</span></span><span style=display:flex><span>mina.ns.cloudflare.com.  AAAA  IN     3366s  2606:4700:50::a29f:26fb  192.168.2.1:53
+</span></span><span style=display:flex><span>mina.ns.cloudflare.com.  AAAA  IN     3366s  2803:f800:50::6ca2:c2fb  192.168.2.1:53
+</span></span><span style=display:flex><span>mina.ns.cloudflare.com.  AAAA  IN     3366s  2a06:98c1:50::ac40:22fb  192.168.2.1:53
+</span></span><span style=display:flex><span>takeokunn.org.           NS    IN     3600s  bob.ns.cloudflare.com.   192.168.2.1:53
+</span></span><span style=display:flex><span>takeokunn.org.           NS    IN     3600s  mina.ns.cloudflare.com.  192.168.2.1:53
+</span></span><span style=display:flex><span>bob.ns.cloudflare.com.   A     IN     3041s  108.162.193.104          192.168.2.1:53
+</span></span><span style=display:flex><span>bob.ns.cloudflare.com.   A     IN     3041s  172.64.33.104            192.168.2.1:53
+</span></span><span style=display:flex><span>bob.ns.cloudflare.com.   A     IN     3041s  173.245.59.104           192.168.2.1:53
+</span></span><span style=display:flex><span>mina.ns.cloudflare.com.  A     IN     3366s  108.162.194.251          192.168.2.1:53
+</span></span><span style=display:flex><span>mina.ns.cloudflare.com.  A     IN     3366s  162.159.38.251           192.168.2.1:53
+</span></span><span style=display:flex><span>mina.ns.cloudflare.com.  A     IN     3366s  172.64.34.251            192.168.2.1:53
+</span></span><span style=display:flex><span>bob.ns.cloudflare.com.   AAAA  IN     3041s  2606:4700:58::adf5:3b68  192.168.2.1:53
+</span></span><span style=display:flex><span>bob.ns.cloudflare.com.   AAAA  IN     3041s  2803:f800:50::6ca2:c168  192.168.2.1:53
+</span></span><span style=display:flex><span>bob.ns.cloudflare.com.   AAAA  IN     3041s  2a06:98c1:50::ac40:2168  192.168.2.1:53
+</span></span><span style=display:flex><span>mina.ns.cloudflare.com.  AAAA  IN     3366s  2606:4700:50::a29f:26fb  192.168.2.1:53
+</span></span><span style=display:flex><span>mina.ns.cloudflare.com.  AAAA  IN     3366s  2803:f800:50::6ca2:c2fb  192.168.2.1:53
+</span></span><span style=display:flex><span>mina.ns.cloudflare.com.  AAAA  IN     3366s  2a06:98c1:50::ac40:22fb  192.168.2.1:53
+</span></span><span style=display:flex><span>takeokunn.org.           NS    IN     3600s  mina.ns.cloudflare.com.  [2408:210:102:4b00:32be:3bff:fe16:7102]:53
+</span></span><span style=display:flex><span>takeokunn.org.           NS    IN     3600s  bob.ns.cloudflare.com.   [2408:210:102:4b00:32be:3bff:fe16:7102]:53
+</span></span><span style=display:flex><span>bob.ns.cloudflare.com.   A     IN     3041s  108.162.193.104          [2408:210:102:4b00:32be:3bff:fe16:7102]:53
+</span></span><span style=display:flex><span>bob.ns.cloudflare.com.   A     IN     3041s  172.64.33.104            [2408:210:102:4b00:32be:3bff:fe16:7102]:53
+</span></span><span style=display:flex><span>bob.ns.cloudflare.com.   A     IN     3041s  173.245.59.104           [2408:210:102:4b00:32be:3bff:fe16:7102]:53
+</span></span><span style=display:flex><span>mina.ns.cloudflare.com.  A     IN     3366s  108.162.194.251          [2408:210:102:4b00:32be:3bff:fe16:7102]:53
+</span></span><span style=display:flex><span>mina.ns.cloudflare.com.  A     IN     3366s  162.159.38.251           [2408:210:102:4b00:32be:3bff:fe16:7102]:53
+</span></span><span style=display:flex><span>mina.ns.cloudflare.com.  A     IN     3366s  172.64.34.251            [2408:210:102:4b00:32be:3bff:fe16:7102]:53
+</span></span><span style=display:flex><span>bob.ns.cloudflare.com.   AAAA  IN     3041s  2606:4700:58::adf5:3b68  [2408:210:102:4b00:32be:3bff:fe16:7102]:53
+</span></span><span style=display:flex><span>bob.ns.cloudflare.com.   AAAA  IN     3041s  2803:f800:50::6ca2:c168  [2408:210:102:4b00:32be:3bff:fe16:7102]:53
+</span></span><span style=display:flex><span>bob.ns.cloudflare.com.   AAAA  IN     3041s  2a06:98c1:50::ac40:2168  [2408:210:102:4b00:32be:3bff:fe16:7102]:53
+</span></span><span style=display:flex><span>mina.ns.cloudflare.com.  AAAA  IN     3366s  2606:4700:50::a29f:26fb  [2408:210:102:4b00:32be:3bff:fe16:7102]:53
+</span></span><span style=display:flex><span>mina.ns.cloudflare.com.  AAAA  IN     3366s  2803:f800:50::6ca2:c2fb  [2408:210:102:4b00:32be:3bff:fe16:7102]:53
+</span></span><span style=display:flex><span>mina.ns.cloudflare.com.  AAAA  IN     3366s  2a06:98c1:50::ac40:22fb  [2408:210:102:4b00:32be:3bff:fe16:7102]:53
+</span></span></code></pre></div><p>json出力も可能。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-console data-lang=console><span style=display:flex><span>$ doggo --json takeokunn.org A | jq .responses.<span style=color:#f92672>[</span>0<span style=color:#f92672>]</span>
+</span></span><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  &#34;answers&#34;: [
+</span></span><span style=display:flex><span>    {
+</span></span><span style=display:flex><span>      &#34;name&#34;: &#34;takeokunn.org.&#34;,
+</span></span><span style=display:flex><span>      &#34;type&#34;: &#34;A&#34;,
+</span></span><span style=display:flex><span>      &#34;class&#34;: &#34;IN&#34;,
+</span></span><span style=display:flex><span>      &#34;ttl&#34;: &#34;261s&#34;,
+</span></span><span style=display:flex><span>      &#34;address&#34;: &#34;185.199.111.153&#34;,
+</span></span><span style=display:flex><span>      &#34;status&#34;: &#34;&#34;,
+</span></span><span style=display:flex><span>      &#34;rtt&#34;: &#34;9ms&#34;,
+</span></span><span style=display:flex><span>      &#34;nameserver&#34;: &#34;192.168.2.1:53&#34;
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    {
+</span></span><span style=display:flex><span>      &#34;name&#34;: &#34;takeokunn.org.&#34;,
+</span></span><span style=display:flex><span>      &#34;type&#34;: &#34;A&#34;,
+</span></span><span style=display:flex><span>      &#34;class&#34;: &#34;IN&#34;,
+</span></span><span style=display:flex><span>      &#34;ttl&#34;: &#34;261s&#34;,
+</span></span><span style=display:flex><span>      &#34;address&#34;: &#34;185.199.110.153&#34;,
+</span></span><span style=display:flex><span>      &#34;status&#34;: &#34;&#34;,
+</span></span><span style=display:flex><span>      &#34;rtt&#34;: &#34;9ms&#34;,
+</span></span><span style=display:flex><span>      &#34;nameserver&#34;: &#34;192.168.2.1:53&#34;
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    {
+</span></span><span style=display:flex><span>      &#34;name&#34;: &#34;takeokunn.org.&#34;,
+</span></span><span style=display:flex><span>      &#34;type&#34;: &#34;A&#34;,
+</span></span><span style=display:flex><span>      &#34;class&#34;: &#34;IN&#34;,
+</span></span><span style=display:flex><span>      &#34;ttl&#34;: &#34;261s&#34;,
+</span></span><span style=display:flex><span>      &#34;address&#34;: &#34;185.199.108.153&#34;,
+</span></span><span style=display:flex><span>      &#34;status&#34;: &#34;&#34;,
+</span></span><span style=display:flex><span>      &#34;rtt&#34;: &#34;9ms&#34;,
+</span></span><span style=display:flex><span>      &#34;nameserver&#34;: &#34;192.168.2.1:53&#34;
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    {
+</span></span><span style=display:flex><span>      &#34;name&#34;: &#34;takeokunn.org.&#34;,
+</span></span><span style=display:flex><span>      &#34;type&#34;: &#34;A&#34;,
+</span></span><span style=display:flex><span>      &#34;class&#34;: &#34;IN&#34;,
+</span></span><span style=display:flex><span>      &#34;ttl&#34;: &#34;261s&#34;,
+</span></span><span style=display:flex><span>      &#34;address&#34;: &#34;185.199.109.153&#34;,
+</span></span><span style=display:flex><span>      &#34;status&#34;: &#34;&#34;,
+</span></span><span style=display:flex><span>      &#34;rtt&#34;: &#34;9ms&#34;,
+</span></span><span style=display:flex><span>      &#34;nameserver&#34;: &#34;192.168.2.1:53&#34;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>  ],
+</span></span><span style=display:flex><span>  &#34;authorities&#34;: null,
+</span></span><span style=display:flex><span>  &#34;questions&#34;: [
+</span></span><span style=display:flex><span>    {
+</span></span><span style=display:flex><span>      &#34;name&#34;: &#34;takeokunn.org.&#34;,
+</span></span><span style=display:flex><span>      &#34;type&#34;: &#34;A&#34;,
+</span></span><span style=display:flex><span>      &#34;class&#34;: &#34;IN&#34;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>  ]
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h2 id=得られた結果-所感>得られた結果・所感</h2><p>digよりも圧倒的に読み易くなったし、tlsやquicにも対応してるのはありがたい。</p><h2 id=今後の展開-検討事項>今後の展開・検討事項</h2><p>digツールは自分でも自作できるのでいつかやってみたい。</p></div></article></main></div><footer class=footer role=contentinfo><div class=footer_social-icons><a href=https://zenn.dev/takeokunn target=_blank rel="noopener noreferrer me" title=Zenn aria-label="Visit Zenn profile"><svg viewBox="0 0 88 88" aria-hidden="true" focusable="false"><path d="M2.22 83.478h17.632c1.296.0 2.16-.576 2.952-1.584L67.906 17.092c.576-.864.288-1.728-.576-1.728H51.946c-1.008.0-1.656.432-2.304 1.296L3.948 81.606c-.648.936-.288 1.872.864 1.872H2.22z" fill="currentColor"/><path d="M54.106 83.478h15.336c1.152.0 1.656-.36 1.656-1.224.0-.36-.144-.792-.432-1.296l-18-28.208c-.504-.792-1.296-.792-1.944.0L42.73 65.998c-.432.72-.36 1.512.144 2.304l8.928 14.112c.504.72 1.152 1.064 2.304 1.064z" fill="currentColor"/></svg>
+</a><a href=https://x.com/takeokunn/ target=_blank rel="noopener noreferrer me" title=Twitter aria-label="Visit Twitter profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M23 3a10.9 10.9.0 01-3.14 1.53 4.48 4.48.0 00-7.86 3v1A10.66 10.66.0 013 4s-4 9 5 13a11.64 11.64.0 01-7 2c9 5 20 0 20-11.5a4.5 4.5.0 00-.08-.83A7.72 7.72.0 0023 3z"/></svg>
+</a><a href=https://github.com/takeokunn target=_blank rel="noopener noreferrer me" title=GitHub aria-label="Visit GitHub profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37.0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44.0 0020 4.77 5.07 5.07.0 0019.91 1S18.73.65 16 2.48a13.38 13.38.0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07.0 005 4.77 5.44 5.44.0 003.5 8.55c0 5.42 3.3 6.61 6.44 7A3.37 3.37.0 009 18.13V22"/></svg>
+</a><a href=https://keyoxide.org/0B10DAA7BA0236D7382287660F79C0AB03FD7A1C target=_blank rel="noopener noreferrer me" title=Keyoxide aria-label="Visit Keyoxide profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5.0 11-7.778 7.778 5.5 5.5.0 017.777-7.777zm0 0L15.5 7.5m0 0 3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
+</a><a href=/index.xml target=_blank rel="noopener noreferrer" title=RSS aria-label="Subscribe via RSS"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 11a9 9 0 019 9"/><path d="M4 4a16 16 0 0116 16"/><circle cx="5" cy="19" r="1"/></svg></a></div><small class=footer_copyright><span aria-label=Copyright>© 2026 takeokunn</span>
+<span class=footer_divider aria-hidden=true>•</span>
+<span>Powered by <a href=https://github.com/takeokunn/hugo-take-theme target=_blank rel=noopener aria-label="Hugo Take Theme on GitHub">hugo-take-theme</a></span></small></footer></body></html>

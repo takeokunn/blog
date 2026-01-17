@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Laravel on takeokunn's blog</title><link>https://www.takeokunn.org/tags/laravel/</link><description>Recent content in Laravel on takeokunn's blog</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Tue, 04 Feb 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://www.takeokunn.org/tags/laravel/index.xml" rel="self" type="application/rss+xml"/><item><title>Laravel LazyCollection in depth</title><link>https://www.takeokunn.org/posts/fleeting/20250204175231-laravel_lazy_collection_in_depth/</link><pubDate>Tue, 04 Feb 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250204175231-laravel_lazy_collection_in_depth/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;LaravelのLazyCollectionは巨大なデータを扱う時に便利であるという話は巷で良く聞くが、実際の所どういうときに便利なのか、内部的にはどうなっているのかという情報はあまり聞かない。
+LazyCollection自体のソースコードを読んでかなり理解できたのでメモしておく。&lt;/p&gt;
+&lt;p&gt;なお、そもそもの使い方については &lt;a href="https://qiita.com/yhosok/items/a95ae800970124fb503a"&gt;LazyCollection備忘録 - Qiita&lt;/a&gt; を読んでいる前提で話を進める。&lt;/p&gt;
+&lt;h2 id="前提"&gt;前提&lt;/h2&gt;
+&lt;p&gt;次のバージョンを想定しています。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;laravel: 10.0&lt;/li&gt;
+&lt;li&gt;php: 8.2&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;LazyCollectionのコードはこちら。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/laravel/framework/blob/10.x/src/Illuminate/Collections/LazyCollection.php"&gt;https://github.com/laravel/framework/blob/10.x/src/Illuminate/Collections/LazyCollection.php&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id="lazycollectionについて"&gt;LazyCollectionについて&lt;/h2&gt;
+&lt;h3 id="basic"&gt;Basic&lt;/h3&gt;
+&lt;h4 id="lazycollection-sourceについて"&gt;LazyCollection#sourceについて&lt;/h4&gt;
+&lt;p&gt;基本的には &lt;a href="https://github.com/laravel/framework/blob/10.x/src/Illuminate/Collections/LazyCollection.php#L31-L36"&gt;LazyCollection#source&lt;/a&gt; にClosureを入れてどう引き回すか、どのタイミングでClosureを発行するのかということを制御している。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-php" data-lang="php"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt;/**
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; * The source from which to generate items.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; *
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; * @var (Closure(): \Generator&amp;lt;TKey, TValue, mixed, void&amp;gt;)|static|array&amp;lt;TKey, TValue&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; */&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;public&lt;/span&gt; $source;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;LazyCollectionのコンストラクタの引数(or &lt;code&gt;LazyCollection#make&lt;/code&gt;)には &lt;code&gt;Array|null&lt;/code&gt; か &lt;code&gt;Closure(Generator)&lt;/code&gt; を渡すことが可能で、 &lt;code&gt;LazyCollection#source&lt;/code&gt; に代入する。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-php" data-lang="php"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;&amp;gt;&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;\Illuminate\Support\LazyCollection&lt;/span&gt;&lt;span style="color:#f92672"&gt;::&lt;/span&gt;&lt;span style="color:#a6e22e"&gt;make&lt;/span&gt;(&lt;span style="color:#66d9ef"&gt;function&lt;/span&gt; () { &lt;span style="color:#66d9ef"&gt;for&lt;/span&gt; ($i &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;; $i &lt;span style="color:#f92672"&gt;&amp;lt;=&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;10000000&lt;/span&gt;; $i&lt;span style="color:#f92672"&gt;++&lt;/span&gt;) &lt;span style="color:#66d9ef"&gt;yield&lt;/span&gt; $i; })&lt;span style="color:#f92672"&gt;-&amp;gt;&lt;/span&gt;&lt;span style="color:#a6e22e"&gt;source&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;Closure&lt;/span&gt;() {&lt;span style="color:#75715e"&gt;#5542 &amp;lt;E2&amp;gt;&amp;lt;80&amp;gt;&amp;lt;A6&amp;gt;2}
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;&amp;gt;&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;\Illuminate\Support\LazyCollection&lt;/span&gt;&lt;span style="color:#f92672"&gt;::&lt;/span&gt;&lt;span style="color:#a6e22e"&gt;make&lt;/span&gt;([&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;, &lt;span style="color:#ae81ff"&gt;2&lt;/span&gt; ,&lt;span style="color:#ae81ff"&gt;3&lt;/span&gt;])&lt;span style="color:#f92672"&gt;-&amp;gt;&lt;/span&gt;&lt;span style="color:#a6e22e"&gt;source&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;=&lt;/span&gt; [&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;, &lt;span style="color:#ae81ff"&gt;2&lt;/span&gt;, &lt;span style="color:#ae81ff"&gt;3&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;&amp;gt;&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;\Illuminate\Support\LazyCollection&lt;/span&gt;&lt;span style="color:#f92672"&gt;::&lt;/span&gt;&lt;span style="color:#a6e22e"&gt;make&lt;/span&gt;()&lt;span style="color:#f92672"&gt;-&amp;gt;&lt;/span&gt;&lt;span style="color:#a6e22e"&gt;source&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;=&lt;/span&gt; []
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;// arrayにcastされる
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt;&lt;span style="color:#f92672"&gt;&amp;gt;&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;\Illuminate\Support\LazyCollection&lt;/span&gt;&lt;span style="color:#f92672"&gt;::&lt;/span&gt;&lt;span style="color:#a6e22e"&gt;make&lt;/span&gt;(&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;)&lt;span style="color:#f92672"&gt;-&amp;gt;&lt;/span&gt;&lt;span style="color:#a6e22e"&gt;source&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;=&lt;/span&gt; [ &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; ]
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id="基本的な関数"&gt;基本的な関数&lt;/h4&gt;
+&lt;p&gt;ここではmapを例に上げる。&lt;/p&gt;</description></item></channel></rss>

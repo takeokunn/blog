@@ -1,0 +1,218 @@
+<!doctype html><html lang=ja-jp dir=ltr prefix="og: https://ogp.me/ns#"><head><meta charset=utf-8><meta http-equiv=content-type content="text/html"><meta name=viewport content="width=device-width,initial-scale=1"><meta name=Hatena::Bookmark content="nocomment"><title itemprop=name>個人的Aerospace設定 | takeokunn's blog</title><meta property="og:title" content="個人的Aerospace設定 | takeokunn's blog"><meta name=twitter:title content="個人的Aerospace設定 | takeokunn's blog"><meta itemprop=name content="個人的Aerospace設定 | takeokunn's blog"><meta name=application-name content="個人的Aerospace設定 | takeokunn's blog"><meta property="og:site_name" content><meta name=description content="背景・動機 タイル型Window Managerは割と好きで、Linux Desktopではswayを使っているのだが、macOSでも使いたいと思っていた。 macOSでは昔ながらのyabaiと後発のAeroSpaceがあるが、AeroSpaceで自分のユースケースをすべて満たせていたので採用した。
+1年使ってほぼ運用が固まったので後学の為にブログに書いておく。
+設定の全文はこちら。
+https://github.com/takeokunn/nixos-configuration/blob/main/nix-darwin/config/services/aerospace/default.ni"><meta itemprop=description content="背景・動機 タイル型Window Managerは割と好きで、Linux Desktopではswayを使っているのだが、macOSでも使いたいと思っていた。 macOSでは昔ながらのyabaiと後発のAeroSpaceがあるが、AeroSpaceで自分のユースケースをすべて満たせていたので採用した。
+1年使ってほぼ運用が固まったので後学の為にブログに書いておく。
+設定の全文はこちら。
+https://github.com/takeokunn/nixos-configuration/blob/main/nix-darwin/config/services/aerospace/default.ni"><meta property="og:description" content="背景・動機 タイル型Window Managerは割と好きで、Linux Desktopではswayを使っているのだが、macOSでも使いたいと思っていた。 macOSでは昔ながらのyabaiと後発のAeroSpaceがあるが、AeroSpaceで自分のユースケースをすべて満たせていたので採用した。
+1年使ってほぼ運用が固まったので後学の為にブログに書いておく。
+設定の全文はこちら。
+https://github.com/takeokunn/nixos-configuration/blob/main/nix-darwin/config/services/aerospace/default.ni"><meta name=twitter:description content="背景・動機 タイル型Window Managerは割と好きで、Linux Desktopではswayを使っているのだが、macOSでも使いたいと思っていた。 macOSでは昔ながらのyabaiと後発のAeroSpaceがあるが、AeroSpaceで自分のユースケースをすべて満たせていたので採用した。
+1年使ってほぼ運用が固まったので後学の為にブログに書いておく。
+設定の全文はこちら。
+https://github.com/takeokunn/nixos-configuration/blob/main/nix-darwin/config/services/aerospace/default.ni"><meta property="og:locale" content="ja-jp"><meta name=language content="ja-jp"><link rel=alternate hreflang=ja-jp href=https://www.takeokunn.org/posts/fleeting/20251124235900-setting_aerospace/ title=Japanese><meta property="og:type" content="article"><meta property="og:article:published_time" content="2025-11-29T00:00:00+00:00"><meta property="article:published_time" content="2025-11-29T00:00:00+00:00"><meta property="og:url" content="https://www.takeokunn.org/posts/fleeting/20251124235900-setting_aerospace/"><meta itemprop=image content="https://www.takeokunn.org/ogp/20251124235900-setting_aerospace.png"><meta property="og:image" content="https://www.takeokunn.org/ogp/20251124235900-setting_aerospace.png"><meta name=twitter:image content="https://www.takeokunn.org/ogp/20251124235900-setting_aerospace.png"><meta name=twitter:image:src content="https://www.takeokunn.org/ogp/20251124235900-setting_aerospace.png"><meta name=twitter:card content="summary_large_image"><script defer type=application/ld+json>{"@context":"http://schema.org","@type":"Article","headline":"個人的Aerospace設定","author":{"@type":"Person","name":""},"datePublished":"2025-11-29T00:00:00\u002b00:00","description":"背景・動機 タイル型Window Managerは割と好きで、Linux Desktopではswayを使っているのだが、macOSでも使いたいと思っていた。 macOSでは昔ながらのyabaiと後発のAeroSpaceがあるが、AeroSpaceで自分のユースケースをすべて満たせていたので採用した。\n1年使ってほぼ運用が固まったので後学の為にブログに書いておく。\n設定の全文はこちら。\nhttps://github.com/takeokunn/nixos-configuration/blob/main/nix-darwin/config/services/aerospace/default.ni","wordCount":607,"mainEntityOfPage":"True","dateModified":"2025-11-29T00:00:00\u002b00:00","image":{"@type":"imageObject","url":""},"publisher":{"@type":"Organization","name":"takeokunn\u0027s blog"}}</script><link rel=canonical href=https://www.takeokunn.org/posts/fleeting/20251124235900-setting_aerospace/><link href=/posts/fleeting/20251124235900-setting_aerospace/ rel=alternate type=application/rss+xml title="takeokunn's blog"><link href=/posts/fleeting/20251124235900-setting_aerospace/ rel=feed type=application/rss+xml title="takeokunn's blog"><link href=/style.min.71c11b16c107f1031ce1f17c8e2fef21394bb486a285ca4d0a69d5c311e607d5.css rel=stylesheet><link href=/code-highlight.min.ca0d5ee203390cf1a8d6b0b0204024fa2424a020fd6554c7df0c2a572e19c583.css rel=stylesheet><link rel="shortcut icon" href=/favicon.ico></head><body class=notransition aria-live=polite><div class=navbar role=navigation><nav class=menu aria-label="Main Navigation"><a href=https://www.takeokunn.org/ class=logo aria-label=Home><svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home" aria-hidden="true" focusable="false"><title>Home</title><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+</a><input type=checkbox id=menu-trigger class=menu-trigger aria-expanded=false aria-controls=site-menu>
+<label for=menu-trigger aria-label="Toggle menu"><span class=menu-icon aria-hidden=true><svg width="25" height="25" stroke="currentColor" fill="none" viewBox="0 0 14 14" aria-hidden="true" focusable="false"><title>Menu</title><path stroke-linecap="round" stroke-linejoin="round" d="M10.595 7H3.40726"/><path stroke-linecap="round" stroke-linejoin="round" d="M10.5096 3.51488H3.49301"/><path stroke-linecap="round" stroke-linejoin="round" d="M10.5096 10.4851H3.49301"/><path stroke-linecap="round" stroke-linejoin="round" d="M.5 12.5V1.5c0-.552285.447715-1 1-1h11C13.0523.5 13.5.947715 13.5 1.5v11C13.5 13.0523 13.0523 13.5 12.5 13.5H1.5C.947715 13.5.5 13.0523.5 12.5z"/></svg></span></label><div class=trigger id=site-menu><label for=menu-trigger class=menu-close-button aria-label="Close menu">&#215;</label><ul class=trigger-container role=menu><li role=none><a class=menu-link href=/ role=menuitem>Home</a></li><li role=none><a class="menu-link active" href=/posts/ role=menuitem aria-current=page>Posts</a></li><li role=none><a class=menu-link href=/graph/ role=menuitem>Graph</a></li></ul></div></nav></div><div class="wrapper post"><main class=page-content aria-label=Content><article role=article><header class=header><h1 class=header-title>個人的Aerospace設定</h1><div class=post-meta><time datetime=2025.11.29 itemprop=datePublished aria-label="Published on 2025.11.29">2025.11.29</time></div><ul class=tags aria-label="Post tags"><li><a href=/tags/fleeting aria-label="View all posts with tag: fleeting">fleeting</a></li><li><a href=/tags/aerospace aria-label="View all posts with tag: aerospace">aerospace</a></li><li><a href=/tags/nix aria-label="View all posts with tag: nix">nix</a></li></ul></header><details class=toc><summary aria-label="Toggle Table of Contents"><b>Table of Contents</b></summary><nav id=TableOfContents><ul><li><a href=#背景-動機>背景・動機</a></li><li><a href=#試したこと-やったこと>試したこと・やったこと</a><ul><li><a href=#1-dot-nix-darwinでaerospaceを有効にする>1. nix-darwinでAeroSpaceを有効にする</a></li><li><a href=#2-dot-基本設定>2. 基本設定</a></li><li><a href=#3-dot-keybind周りの設定>3. keybind周りの設定</a></li><li><a href=#4-dot-アプリケーション配置>4. アプリケーション配置</a></li><li><a href=#5-dot-外部ディスプレイ表示>5. 外部ディスプレイ表示</a></li></ul></li><li><a href=#得られた結果-所感>得られた結果・所感</a></li><li><a href=#今後の展開-検討事項>今後の展開・検討事項</a></li><li><a href=#backlinks>Backlinks</a></li></ul></nav></details><div class=page-content><h2 id=背景-動機>背景・動機</h2><p>タイル型Window Managerは割と好きで、Linux Desktopではswayを使っているのだが、macOSでも使いたいと思っていた。
+macOSでは昔ながらの<a href=https://github.com/koekeishiya/yabai>yabai</a>と後発の<a href=https://github.com/nikitabobko/AeroSpace>AeroSpace</a>があるが、AeroSpaceで自分のユースケースをすべて満たせていたので採用した。</p><p>1年使ってほぼ運用が固まったので後学の為にブログに書いておく。</p><p>設定の全文はこちら。</p><p><a href=https://github.com/takeokunn/nixos-configuration/blob/main/nix-darwin/config/services/aerospace/default.nix>https://github.com/takeokunn/nixos-configuration/blob/main/nix-darwin/config/services/aerospace/default.nix</a></p><h2 id=試したこと-やったこと>試したこと・やったこと</h2><h3 id=1-dot-nix-darwinでaerospaceを有効にする>1. nix-darwinでAeroSpaceを有効にする</h3><p>nix-darwinでservices moduleが提供されている。
+enableにするだけでlaunchd agentの設定が有効になり、 <code>Quit AeroSpace</code> しても再起動されるようになる。</p><p><a href=https://github.com/nix-darwin/nix-darwin/blob/master/modules/services/aerospace/default.nix>https://github.com/nix-darwin/nix-darwin/blob/master/modules/services/aerospace/default.nix</a></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-nix data-lang=nix><span style=display:flex><span><span style=color:#75715e># 自分の設定</span>
+</span></span><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  services<span style=color:#f92672>.</span>aerospace <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>    enable <span style=color:#f92672>=</span> <span style=color:#66d9ef>true</span>;
+</span></span><span style=display:flex><span>  };
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-nix data-lang=nix><span style=display:flex><span><span style=color:#75715e># nix-darwin記述抜粋</span>
+</span></span><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  launchd<span style=color:#f92672>.</span>user<span style=color:#f92672>.</span>agents<span style=color:#f92672>.</span>aerospace <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>    command <span style=color:#f92672>=</span>
+</span></span><span style=display:flex><span>      <span style=color:#e6db74>&#34;</span><span style=color:#e6db74>${</span>cfg<span style=color:#f92672>.</span>package<span style=color:#e6db74>}</span><span style=color:#e6db74>/Applications/AeroSpace.app/Contents/MacOS/AeroSpace&#34;</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>+</span> (lib<span style=color:#f92672>.</span>optionalString (cfg<span style=color:#f92672>.</span>settings <span style=color:#f92672>!=</span> { }) <span style=color:#e6db74>&#34; --config-path </span><span style=color:#e6db74>${</span>configFile<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>);
+</span></span><span style=display:flex><span>    serviceConfig <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>      KeepAlive <span style=color:#f92672>=</span> <span style=color:#66d9ef>true</span>;
+</span></span><span style=display:flex><span>      RunAtLoad <span style=color:#f92672>=</span> <span style=color:#66d9ef>true</span>;
+</span></span><span style=display:flex><span>    };
+</span></span><span style=display:flex><span>    managedBy <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;services.aerospace.enable&#34;</span>;
+</span></span><span style=display:flex><span>  };
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h3 id=2-dot-基本設定>2. 基本設定</h3><p>適当に便利そうな設定を入れている。
+<a href=https://github.com/FelixKratz/SketchyBar>sketchybar</a> の関係で <code>gaps.outer.top=10</code> を入れて調整している。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-nix data-lang=nix><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  settings <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>    enable-normalization-flatten-containers <span style=color:#f92672>=</span> <span style=color:#66d9ef>true</span>;
+</span></span><span style=display:flex><span>    enable-normalization-opposite-orientation-for-nested-containers <span style=color:#f92672>=</span> <span style=color:#66d9ef>true</span>;
+</span></span><span style=display:flex><span>    accordion-padding <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>;
+</span></span><span style=display:flex><span>    on-focused-monitor-changed <span style=color:#f92672>=</span> [ <span style=color:#e6db74>&#34;move-mouse monitor-lazy-center&#34;</span> ];
+</span></span><span style=display:flex><span>    exec-on-workspace-change <span style=color:#f92672>=</span> [
+</span></span><span style=display:flex><span>      <span style=color:#e6db74>&#34;/bin/bash&#34;</span>
+</span></span><span style=display:flex><span>      <span style=color:#e6db74>&#34;-c&#34;</span>
+</span></span><span style=display:flex><span>      <span style=color:#e6db74>&#34;sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$(/run/current-system/sw/bin/aerospace list-workspaces --focused)&#34;</span>
+</span></span><span style=display:flex><span>    ];
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    gaps <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>      inner <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>        horizontal <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>;
+</span></span><span style=display:flex><span>        vertical <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>;
+</span></span><span style=display:flex><span>      };
+</span></span><span style=display:flex><span>      outer <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>        left <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>;
+</span></span><span style=display:flex><span>        bottom <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>;
+</span></span><span style=display:flex><span>        top <span style=color:#f92672>=</span> <span style=color:#ae81ff>10</span>;
+</span></span><span style=display:flex><span>        right <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>;
+</span></span><span style=display:flex><span>      };
+</span></span><span style=display:flex><span>    };
+</span></span><span style=display:flex><span>  };
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h3 id=3-dot-keybind周りの設定>3. keybind周りの設定</h3><p><code>alt</code> で操作する割と一般的な設定をしている。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-nix data-lang=nix><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  main <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>    binding <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>      alt-h <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;focus left&#34;</span>;
+</span></span><span style=display:flex><span>      alt-l <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;focus right&#34;</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>      alt-shift-h <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;move left&#34;</span>;
+</span></span><span style=display:flex><span>      alt-shift-l <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;move right&#34;</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>      alt-shift-space <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;layout floating tiling&#34;</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>      alt-1 <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;workspace 1&#34;</span>;
+</span></span><span style=display:flex><span>      alt-2 <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;workspace 2&#34;</span>;
+</span></span><span style=display:flex><span>      alt-3 <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;workspace 3&#34;</span>;
+</span></span><span style=display:flex><span>      alt-4 <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;workspace 4&#34;</span>;
+</span></span><span style=display:flex><span>      alt-5 <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;workspace 5&#34;</span>;
+</span></span><span style=display:flex><span>      alt-6 <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;workspace 6&#34;</span>;
+</span></span><span style=display:flex><span>      alt-7 <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;workspace 7&#34;</span>;
+</span></span><span style=display:flex><span>      alt-8 <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;workspace 8&#34;</span>;
+</span></span><span style=display:flex><span>      alt-9 <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;workspace 9&#34;</span>;
+</span></span><span style=display:flex><span>      alt-0 <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;workspace 10&#34;</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>      alt-shift-1 <span style=color:#f92672>=</span> [
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;move-node-to-workspace 1&#34;</span>
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;workspace 1&#34;</span>
+</span></span><span style=display:flex><span>      ];
+</span></span><span style=display:flex><span>      alt-shift-2 <span style=color:#f92672>=</span> [
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;move-node-to-workspace 2&#34;</span>
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;workspace 2&#34;</span>
+</span></span><span style=display:flex><span>      ];
+</span></span><span style=display:flex><span>      alt-shift-3 <span style=color:#f92672>=</span> [
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;move-node-to-workspace 3&#34;</span>
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;workspace 3&#34;</span>
+</span></span><span style=display:flex><span>      ];
+</span></span><span style=display:flex><span>      alt-shift-4 <span style=color:#f92672>=</span> [
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;move-node-to-workspace 4&#34;</span>
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;workspace 4&#34;</span>
+</span></span><span style=display:flex><span>      ];
+</span></span><span style=display:flex><span>      alt-shift-5 <span style=color:#f92672>=</span> [
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;move-node-to-workspace 5&#34;</span>
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;workspace 5&#34;</span>
+</span></span><span style=display:flex><span>      ];
+</span></span><span style=display:flex><span>      alt-shift-6 <span style=color:#f92672>=</span> [
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;move-node-to-workspace 6&#34;</span>
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;workspace 6&#34;</span>
+</span></span><span style=display:flex><span>      ];
+</span></span><span style=display:flex><span>      alt-shift-7 <span style=color:#f92672>=</span> [
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;move-node-to-workspace 7&#34;</span>
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;workspace 7&#34;</span>
+</span></span><span style=display:flex><span>      ];
+</span></span><span style=display:flex><span>      alt-shift-8 <span style=color:#f92672>=</span> [
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;move-node-to-workspace 8&#34;</span>
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;workspace 8&#34;</span>
+</span></span><span style=display:flex><span>      ];
+</span></span><span style=display:flex><span>      alt-shift-9 <span style=color:#f92672>=</span> [
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;move-node-to-workspace 9&#34;</span>
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;workspace 9&#34;</span>
+</span></span><span style=display:flex><span>      ];
+</span></span><span style=display:flex><span>      alt-shift-0 <span style=color:#f92672>=</span> [
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;move-node-to-workspace 10&#34;</span>
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;workspace 10&#34;</span>
+</span></span><span style=display:flex><span>      ];
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>      alt-r <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;mode resize&#34;</span>;
+</span></span><span style=display:flex><span>    };
+</span></span><span style=display:flex><span>  };
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  resize <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>    binding <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>      h <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;resize width -50&#34;</span>;
+</span></span><span style=display:flex><span>      j <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;resize height +50&#34;</span>;
+</span></span><span style=display:flex><span>      k <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;resize height -50&#34;</span>;
+</span></span><span style=display:flex><span>      l <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;resize width +50&#34;</span>;
+</span></span><span style=display:flex><span>      enter <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;mode main&#34;</span>;
+</span></span><span style=display:flex><span>      esc <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;mode main&#34;</span>;
+</span></span><span style=display:flex><span>    };
+</span></span><span style=display:flex><span>  };
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h3 id=4-dot-アプリケーション配置>4. アプリケーション配置</h3><p>タイル型Window Managerを効率良く使う為には、「workspaceに開くapplicationは固定化する」「1 workspace 1 application、全画面表示」というのを個人的にオススメしている。</p><p>自分の場合はswayでも次のように固定化している。</p><ol><li>ブラウザ関連（e.g. Chrome）</li><li>Terminal関連（e.g. Kitty）</li><li>Emacs</li><li>雑多なアプリケーション（e.g. Draw.io）</li><li>別ディスプレイに写したいもの</li><li>（特になし）</li><li>（特になし）</li><li>Discord（ほぼ使わない）</li><li>AI関連</li><li>Slack</li></ol><p>次のように <code>on-window-detected</code> を設定している。</p><p><a href=https://nikitabobko.github.io/AeroSpace/guide#on-window-detected-callback>https://nikitabobko.github.io/AeroSpace/guide#on-window-detected-callback</a></p><p>Chromeは複数プロファイルを使う前提なので <code>layout floating</code> で起動するようにしている。
+この設定で勝手に指定した位置にアプリケーションが立ち上がってくれるので一々考える必要がなくなった。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-nix data-lang=nix><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  mode<span style=color:#f92672>.</span>on-window-detected <span style=color:#f92672>=</span> [
+</span></span><span style=display:flex><span>    {
+</span></span><span style=display:flex><span>      <span style=color:#e6db74>&#34;if&#34;</span><span style=color:#f92672>.</span>app-id <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;com.google.Chrome&#34;</span>;
+</span></span><span style=display:flex><span>      run <span style=color:#f92672>=</span> [
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;layout floating&#34;</span>
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;move-node-to-workspace 1&#34;</span>
+</span></span><span style=display:flex><span>      ];
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>    {
+</span></span><span style=display:flex><span>      <span style=color:#e6db74>&#34;if&#34;</span><span style=color:#f92672>.</span>app-id <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;com.apple.Terminal&#34;</span>;
+</span></span><span style=display:flex><span>      run <span style=color:#f92672>=</span> [ <span style=color:#e6db74>&#34;move-node-to-workspace 2&#34;</span> ];
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>    {
+</span></span><span style=display:flex><span>      <span style=color:#e6db74>&#34;if&#34;</span><span style=color:#f92672>.</span>app-id <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;net.kovidgoyal.kitty&#34;</span>;
+</span></span><span style=display:flex><span>      run <span style=color:#f92672>=</span> [ <span style=color:#e6db74>&#34;move-node-to-workspace 2&#34;</span> ];
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>    {
+</span></span><span style=display:flex><span>      <span style=color:#e6db74>&#34;if&#34;</span><span style=color:#f92672>.</span>app-id <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;org.gnu.Emacs&#34;</span>;
+</span></span><span style=display:flex><span>      run <span style=color:#f92672>=</span> [ <span style=color:#e6db74>&#34;move-node-to-workspace 3&#34;</span> ];
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>    {
+</span></span><span style=display:flex><span>      <span style=color:#e6db74>&#34;if&#34;</span><span style=color:#f92672>.</span>app-id <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;com.jgraph.drawio.desktop&#34;</span>;
+</span></span><span style=display:flex><span>      run <span style=color:#f92672>=</span> [ <span style=color:#e6db74>&#34;move-node-to-workspace 4&#34;</span> ];
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>    {
+</span></span><span style=display:flex><span>      <span style=color:#e6db74>&#34;if&#34;</span><span style=color:#f92672>.</span>app-id <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;com.lambdalisue.Arto&#34;</span>;
+</span></span><span style=display:flex><span>      run <span style=color:#f92672>=</span> [ <span style=color:#e6db74>&#34;move-node-to-workspace 4&#34;</span> ];
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>    {
+</span></span><span style=display:flex><span>      <span style=color:#e6db74>&#34;if&#34;</span><span style=color:#f92672>.</span>app-id <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;com.sequel-ace.sequel-ace&#34;</span>;
+</span></span><span style=display:flex><span>      run <span style=color:#f92672>=</span> [ <span style=color:#e6db74>&#34;move-node-to-workspace 4&#34;</span> ];
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>    {
+</span></span><span style=display:flex><span>      <span style=color:#e6db74>&#34;if&#34;</span><span style=color:#f92672>.</span>app-id <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;com.hnc.Discord&#34;</span>;
+</span></span><span style=display:flex><span>      run <span style=color:#f92672>=</span> [ <span style=color:#e6db74>&#34;move-node-to-workspace 8&#34;</span> ];
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>    {
+</span></span><span style=display:flex><span>      <span style=color:#e6db74>&#34;if&#34;</span><span style=color:#f92672>.</span>app-id <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;com.anthropic.claudefordesktop&#34;</span>;
+</span></span><span style=display:flex><span>      run <span style=color:#f92672>=</span> [ <span style=color:#e6db74>&#34;move-node-to-workspace 9&#34;</span> ];
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>    {
+</span></span><span style=display:flex><span>      <span style=color:#e6db74>&#34;if&#34;</span><span style=color:#f92672>.</span>app-id <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;com.openai.chat&#34;</span>;
+</span></span><span style=display:flex><span>      run <span style=color:#f92672>=</span> [ <span style=color:#e6db74>&#34;move-node-to-workspace 9&#34;</span> ];
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>    {
+</span></span><span style=display:flex><span>      <span style=color:#e6db74>&#34;if&#34;</span><span style=color:#f92672>.</span>app-id <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;com.clickup.desktop-app&#34;</span>;
+</span></span><span style=display:flex><span>      run <span style=color:#f92672>=</span> [ <span style=color:#e6db74>&#34;move-node-to-workspace 9&#34;</span> ];
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>    {
+</span></span><span style=display:flex><span>      <span style=color:#e6db74>&#34;if&#34;</span><span style=color:#f92672>.</span>app-id <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;com.tinyspeck.slackmacgap&#34;</span>;
+</span></span><span style=display:flex><span>      run <span style=color:#f92672>=</span> [ <span style=color:#e6db74>&#34;move-node-to-workspace 10&#34;</span> ];
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>  ];
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h3 id=5-dot-外部ディスプレイ表示>5. 外部ディスプレイ表示</h3><p><code>assign-workspaces-to-monitors</code> でどこのモニターに出力するか制御できる。</p><p><a href=https://nikitabobko.github.io/AeroSpace/guide#assign-workspaces-to-monitors>https://nikitabobko.github.io/AeroSpace/guide#assign-workspaces-to-monitors</a></p><ul><li>main - &ldquo;Main&rdquo; monitor （&ldquo;main&rdquo; as in System Settings → Displays → Use as）</li><li>secondary - Non-main monitor in case when there are only two monitors</li><li>&lt;number> （e.g. 1, 2） - Sequence number of the monitor from left to right. 1-based indexing</li><li>&lt;regex-pattern> （e.g. dell.*, built-in.*） - Case insensitive regex substring pattern</li></ul><p>前述したとおり、workspaceの5番をサブディスプレイに出力する運用にしている。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-nix data-lang=nix><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  workspace-to-monitor-force-assignment <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;1&#34;</span> <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;main&#34;</span>;
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;2&#34;</span> <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;main&#34;</span>;
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;3&#34;</span> <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;main&#34;</span>;
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;4&#34;</span> <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;main&#34;</span>;
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;5&#34;</span> <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;secondary&#34;</span>;
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;6&#34;</span> <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;main&#34;</span>;
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;7&#34;</span> <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;main&#34;</span>;
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;8&#34;</span> <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;main&#34;</span>;
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;9&#34;</span> <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;main&#34;</span>;
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;10&#34;</span> <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;main&#34;</span>;
+</span></span><span style=display:flex><span>  };
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h2 id=得られた結果-所感>得られた結果・所感</h2><p>集中時はAeroSpace、そうじゃない場合はDisabledにして無効にする、という運用になってからWindow切り替えの効率が段違いに上がったという実感がある。
+AeroSpaceはちょくちょくレンダリングがバグるのだが、 <code>Quit AeroSpace</code> で消して、launchdに勝手に再起動させるだけでいいのも利点。</p><p><code>alt</code> key起点のkeybindなので、地味にEmacsの <code>M-l</code> と被ってしまうのだけが辛い。</p><h2 id=今後の展開-検討事項>今後の展開・検討事項</h2><p><a href=https://github.com/FelixKratz/SketchyBar>sketchybar</a> との組み合わせについての知見も溜ったのでこちらも記事に纏めていきたい。</p><h2 id=backlinks>Backlinks</h2><ul><li><a href=/posts/fleeting/20251124235900-setting_sketchybar/>個人的sketchybar設定</a></li></ul></div></article></main></div><footer class=footer role=contentinfo><div class=footer_social-icons><a href=https://zenn.dev/takeokunn target=_blank rel="noopener noreferrer me" title=Zenn aria-label="Visit Zenn profile"><svg viewBox="0 0 88 88" aria-hidden="true" focusable="false"><path d="M2.22 83.478h17.632c1.296.0 2.16-.576 2.952-1.584L67.906 17.092c.576-.864.288-1.728-.576-1.728H51.946c-1.008.0-1.656.432-2.304 1.296L3.948 81.606c-.648.936-.288 1.872.864 1.872H2.22z" fill="currentColor"/><path d="M54.106 83.478h15.336c1.152.0 1.656-.36 1.656-1.224.0-.36-.144-.792-.432-1.296l-18-28.208c-.504-.792-1.296-.792-1.944.0L42.73 65.998c-.432.72-.36 1.512.144 2.304l8.928 14.112c.504.72 1.152 1.064 2.304 1.064z" fill="currentColor"/></svg>
+</a><a href=https://x.com/takeokunn/ target=_blank rel="noopener noreferrer me" title=Twitter aria-label="Visit Twitter profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M23 3a10.9 10.9.0 01-3.14 1.53 4.48 4.48.0 00-7.86 3v1A10.66 10.66.0 013 4s-4 9 5 13a11.64 11.64.0 01-7 2c9 5 20 0 20-11.5a4.5 4.5.0 00-.08-.83A7.72 7.72.0 0023 3z"/></svg>
+</a><a href=https://github.com/takeokunn target=_blank rel="noopener noreferrer me" title=GitHub aria-label="Visit GitHub profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37.0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44.0 0020 4.77 5.07 5.07.0 0019.91 1S18.73.65 16 2.48a13.38 13.38.0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07.0 005 4.77 5.44 5.44.0 003.5 8.55c0 5.42 3.3 6.61 6.44 7A3.37 3.37.0 009 18.13V22"/></svg>
+</a><a href=https://keyoxide.org/0B10DAA7BA0236D7382287660F79C0AB03FD7A1C target=_blank rel="noopener noreferrer me" title=Keyoxide aria-label="Visit Keyoxide profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5.0 11-7.778 7.778 5.5 5.5.0 017.777-7.777zm0 0L15.5 7.5m0 0 3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
+</a><a href=/index.xml target=_blank rel="noopener noreferrer" title=RSS aria-label="Subscribe via RSS"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 11a9 9 0 019 9"/><path d="M4 4a16 16 0 0116 16"/><circle cx="5" cy="19" r="1"/></svg></a></div><small class=footer_copyright><span aria-label=Copyright>© 2026 takeokunn</span>
+<span class=footer_divider aria-hidden=true>•</span>
+<span>Powered by <a href=https://github.com/takeokunn/hugo-take-theme target=_blank rel=noopener aria-label="Hugo Take Theme on GitHub">hugo-take-theme</a></span></small></footer></body></html>
