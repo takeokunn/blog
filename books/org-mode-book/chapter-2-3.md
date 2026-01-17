@@ -1,0 +1,101 @@
+---
+title: "2.3. 個別タスクの操作と時間管理"
+---
+
+
+
+# TODOキーワード
+
+-   デフォルト（TODO, DONE）
+-   カスタムキーワードの設定（org-todo-keywords）
+-   ワークフロー例（TODO→DOING→DONE, TODO→WAITING→DONE）
+-   キーワードごとの色設定
+
+
+# 状態遷移
+
+-   C-c C-t: 状態変更
+-   S-LEFT / S-RIGHT: 状態サイクル
+-   ログ記録（org-log-done, org-log-into-drawer）
+
+
+# スケジューリング
+
+-   SCHEDULED: 着手予定日
+-   DEADLINE: 締切日
+-   C-c C-s / C-c C-d でのデート入力
+-   繰り返し（+1w, ++1w, .+1w の違い）
+
+
+# 優先度
+
+-   [#A], [#B], [#C] の設定
+-   S-UP / S-DOWN での変更
+-   org-priority-faces でのカスタマイズ
+
+
+# タグ
+
+-   見出し末尾の :tag1:tag2: 形式
+-   C-c C-c でのタグ設定
+-   タグの継承
+-   org-tag-alist での定義
+
+
+# 習慣（Habit）
+
+-   STYLE プロパティ
+-   習慣トラッキングの表示
+-   org-habit-graph-column
+
+
+# 時間計測（Clocking）
+
+-   C-c C-x C-i / C-c C-x C-o: クロックイン/アウト
+-   クロックレポートの生成
+-   org-clock-report のカスタマイズ
+
+
+# org-pomodoroによるポモドーロ・テクニック
+
+-   ポモドーロ・テクニックとは
+    -   25分作業 + 5分休憩のサイクル
+    -   集中力の持続と疲労防止
+-   org-pomodoroの導入
+    -   インストールと基本設定
+    -   クロッキングとの統合
+-   使い方
+    -   M-x org-pomodoro でタイマー開始
+    -   タスク見出し上で実行
+    -   完了時の通知設定
+-   カスタマイズ
+    -   org-pomodoro-length（作業時間）
+    -   org-pomodoro-short-break-length（短い休憩）
+    -   org-pomodoro-long-break-length（長い休憩）
+    -   org-pomodoro-audio-player（通知音）
+-   org-clockとの連携
+    -   ポモドーロ中は自動でクロックイン
+    -   クロックレポートへの反映
+    -   統計情報の活用
+
+
+# org-dependによるタスク依存関係
+
+-   タスク依存関係の必要性
+    -   「AはBの完了後に着手」
+    -   プロジェクト管理での活用
+-   org-dependの基本
+    -   BLOCKER プロパティ
+    -   TRIGGER プロパティ
+-   BLOCKERの使い方
+    -   :BLOCKER: task-id
+    -   ブロック中のタスクはTODO変更が制限される
+    -   前提タスクの完了で解除
+-   TRIGGERの使い方
+    -   :TRIGGER: chain-siblings（NEXT）
+    -   完了時に次のタスクを自動で（NEXT）状態に
+    -   chain-find-next の活用
+-   実践的なワークフロー
+    -   プロジェクトの順次実行
+    -   並列タスクの管理
+    -   依存関係の可視化

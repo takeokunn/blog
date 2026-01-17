@@ -1,0 +1,1069 @@
+---
+title: "3.7. エクスポートバックエンド（ox-*）のカスタマイズと拡張"
+---
+
+
+
+# org-exportのアーキテクチャ概要
+
+
+## ox.elの役割
+
+`ox.el` はOrg-modeのエクスポートフレームワークの中核を担うモジュールです。
+
+```emacs-lisp
+;; ox.elの主要な責務
+;; 1. パースツリーの構築
+;; 2. トランスコーダーの呼び出し
+;; 3. フィルターの適用
+;; 4. 出力の生成
+
+;; エクスポート処理の基本フロー
+(org-export-as 'html)      ; バッファ全体をHTMLとしてエクスポート
+(org-export-to-buffer 'latex "*LaTeX Export*")  ; バッファへ出力
+(org-export-to-file 'md "output.md")            ; ファイルへ出力
+(org-export-string-as "* Heading" 'html t)      ; 文字列をエクスポート
+```
+
+
+## トランスコード（Transcoder）の概念
+
+トランスコーダーはOrg要素を出力形式に変換する関数です。
+
+```emacs-lisp
+;; トランスコーダーは3つの引数を受け取る:
+;; 1. element/object - Org要素
+;; 2. contents - 子要素のトランスコード済み文字列（再帰要素の場合）
+;; 3. info - 通信チャネル（plist）
+
+(defun my-html-bold (bold contents info)
+  "BOLDをHTMLの<strong>タグに変換する。"
+  (format "<strong class=\"emphasis\">%s</strong>" contents))
+
+;; org-export-dataによるデータ変換
+(defun my-template (contents info)
+  "ドキュメントテンプレートを生成する。"
+  (let ((title (org-export-data (plist-get info :title) info)))
+    (format "<!DOCTYPE html>
+<html>
+<head><title>%s</title></head>
+<body>%s</body>
+</html>" title contents)))
+```
+
+
+## バックエンドの階層構造
+
+```emacs-lisp
+;; バックエンドは org-export-registered-backends に登録される
+;; 各バックエンドは以下の情報を持つ:
+;; - :translate-alist - トランスコーダーのマッピング
+;; - :options-alist   - バックエンド固有オプション
+;; - :filters-alist   - フィルター関数
+;; - :menu-entry      - エクスポートメニューのエントリ
+
+;; バックエンド情報の取得
+(org-export-backend-translate-table 'html)  ; 変換テーブル
+(org-export-backend-options 'html)          ; オプション
+(org-export-backend-filters 'html)          ; フィルター
+(org-export-backend-parent 'md)             ; 親バックエンド（派生の場合）
+```
+
+
+## 派生バックエンドの仕組み
+
+```emacs-lisp
+;; 派生バックエンドは既存バックエンドを継承して拡張する
+(org-export-derived-backend-p 'beamer 'latex)  ; => t
+(org-export-derived-backend-p 'md 'html)       ; => t
+
+;; 派生関係の確認
+(org-export-backend-parent 'beamer)  ; => latex
+```
+
+
+# 標準バックエンド一覧
+
+
+## ox-html - HTML出力
+
+```emacs-lisp
+(require 'ox-html)
+
+;; 主要なカスタマイズ変数
+(setq org-html-doctype "html5")
+(setq org-html-html5-fancy t)
+(setq org-html-head-include-default-style nil)
+(setq org-html-head-include-scripts nil)
+
+;; カスタムCSSの追加
+(setq org-html-head
+      "<link rel=\"stylesheet\" href=\"style.css\" type=\"text/css\"/>")
+
+;; コードブロックのハイライト
+(setq org-html-htmlize-output-type 'css)
+
+;; インライン画像のルール
+;; .avif も標準でサポート
+(setq org-html-inline-image-rules
+      '(("file" . "\\.\\(jpeg\\|jpg\\|png\\|gif\\|svg\\|avif\\|webp\\)\\'")
+        ("http" . "\\.\\(jpeg\\|jpg\\|png\\|gif\\|svg\\|avif\\|webp\\)\\'")))
+```
+
+
+## ox-latex - LaTeX/PDF出力
+
+```emacs-lisp
+(require 'ox-latex)
+
+;; LaTeXクラスの定義
+(add-to-list 'org-latex-classes
+             '("jlreq"
+               "\\documentclass{jlreq}
+[NO-DEFAULT-PACKAGES]
+[PACKAGES]
+[EXTRA]"
+               ("\\section{%s}" . "\\section*{%s}")
+               ("\\subsection{%s}" . "\\subsection*{%s}")
+               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+               ("\\paragraph{%s}" . "\\paragraph*{%s}")))
+
+;; listingsパッケージでコードハイライト
+(setq org-latex-listings t)
+(add-to-list 'org-latex-packages-alist '("" "listings"))
+(add-to-list 'org-latex-packages-alist '("" "color"))
+
+;; mintedパッケージを使う場合
+(setq org-latex-listings 'minted)
+(add-to-list 'org-latex-packages-alist '("" "minted"))
+(setq org-latex-minted-options
+      '(("frame" "lines") ("linenos" "true")))
+
+;; PDF生成コマンド（LuaLaTeX）
+(setq org-latex-pdf-process
+      '("lualatex -shell-escape -interaction nonstopmode %f"
+        "lualatex -shell-escape -interaction nonstopmode %f"))
+```
+
+
+## ox-md - Markdown出力
+
+```emacs-lisp
+(require 'ox-md)
+
+;; ox-mdはHTMLバックエンドから派生
+;; GFM（GitHub Flavored Markdown）ではないので注意
+
+;; エクスポート
+(org-md-export-to-markdown)       ; ファイルへ
+(org-md-export-as-markdown)       ; バッファへ
+```
+
+
+## ox-ascii - プレーンテキスト
+
+```emacs-lisp
+(require 'ox-ascii)
+
+;; 文字幅の設定
+(setq org-ascii-text-width 80)
+
+;; UTF-8での出力
+(setq org-ascii-charset 'utf-8)
+
+;; 見出しの下線文字
+(setq org-ascii-underline '((ascii ?= ?- ?~) (utf-8 ?= ?- ?~)))
+```
+
+
+## ox-odt - OpenDocument
+
+```emacs-lisp
+(require 'ox-odt)
+
+;; スタイルファイルの指定
+(setq org-odt-styles-file "~/.emacs.d/org-odt-styles.xml")
+
+;; 画像の自動変換
+(setq org-odt-preferred-output-format "docx")  ; LibreOfficeで変換
+```
+
+
+## ox-texinfo - Texinfo
+
+```emacs-lisp
+(require 'ox-texinfo)
+
+;; Infoファイル生成用
+;; Emacs/GNUプロジェクトのドキュメント向け
+```
+
+
+## ox-beamer - プレゼンテーション
+
+```emacs-lisp
+(require 'ox-beamer)
+
+;; Beamerテーマの設定
+;; #+BEAMER_THEME: metropolis
+;; #+BEAMER_COLOR_THEME: default
+
+;; フレームの区切り（見出しレベル）
+(setq org-beamer-frame-level 2)
+
+;; カラム環境のサポート
+;; #+ATTR_BEAMER: :overlay <+->
+```
+
+
+# バックエンドオプションのカスタマイズ
+
+
+## org-export-options-alist の構造
+
+```emacs-lisp
+;; オプション定義の形式
+;; (PROPERTY KEYWORD OPTION DEFAULT BEHAVIOR)
+
+;; PROPERTY  - info plistのキー
+;; KEYWORD   - #+KEYWORD の名前（nilなら使用不可）
+;; OPTION    - #+OPTIONS: のショートオプション
+;; DEFAULT   - デフォルト値
+;; BEHAVIOR  - t/nil/newline/split/parse
+
+;; 例: LaTeXバックエンドのオプション
+'((:latex-class "LATEX_CLASS" nil org-latex-default-class t)
+  (:latex-class-options "LATEX_CLASS_OPTIONS" nil nil t)
+  (:latex-header-extra "LATEX_HEADER" nil nil newline))
+```
+
+
+## #+OPTIONS: での設定
+
+```org
+#+OPTIONS: toc:2 num:t H:4 ^:nil
+#+OPTIONS: author:t email:nil creator:nil
+#+OPTIONS: tex:t pri:nil tags:not-in-toc
+#+OPTIONS: broken-links:mark
+
+,# バックエンド固有オプション（HTMLの例）
+#+OPTIONS: html-postamble:nil html-preamble:t
+#+OPTIONS: html5-fancy:t
+```
+
+
+## バックエンド固有設定
+
+```emacs-lisp
+;; HTML固有
+(setq org-html-validation-link nil)
+(setq org-html-postamble t)
+(setq org-html-postamble-format
+      '(("en" "<p class=\"author\">Author: %a</p>
+<p class=\"date\">Date: %d</p>")))
+
+;; LaTeX固有
+(setq org-latex-default-class "article")
+(setq org-latex-hyperref-template
+      "\\hypersetup{
+ pdfauthor={%a},
+ pdftitle={%t},
+ pdfkeywords={%k},
+ pdfsubject={%d},
+ colorlinks=true,
+ linkcolor=blue
+}\n")
+```
+
+
+# フィルター（Filter）システム
+
+
+## org-export-filter-\*-functions
+
+フィルターは各要素タイプに対して適用される関数のリストです。
+
+```emacs-lisp
+;; フィルター関数のシグネチャ
+;; (TRANSCODED-DATA BACKEND INFO) -> STRING or NIL
+
+;; 利用可能なフィルター変数（抜粋）
+org-export-filter-paragraph-functions
+org-export-filter-headline-functions
+org-export-filter-src-block-functions
+org-export-filter-table-functions
+org-export-filter-link-functions
+org-export-filter-bold-functions
+org-export-filter-code-functions
+org-export-filter-quote-block-functions
+```
+
+
+## parse-tree フィルター（全体処理）
+
+```emacs-lisp
+;; parse-treeフィルターはパース後、トランスコード前に適用
+(defun my-parse-tree-filter (tree backend info)
+  "パースツリー全体を処理するフィルター。"
+  ;; ツリー全体の構造変更が可能
+  tree)
+
+(add-to-list 'org-export-filter-parse-tree-functions
+             #'my-parse-tree-filter)
+```
+
+
+## final-output フィルター
+
+```emacs-lisp
+;; final-outputフィルターは最終出力文字列に適用
+(defun my-final-output-filter (output backend info)
+  "最終出力を加工するフィルター。"
+  ;; 例: 著作権表示を追加
+  (concat output "\n<!-- Generated by Org-mode -->\n"))
+
+(add-to-list 'org-export-filter-final-output-functions
+             #'my-final-output-filter)
+```
+
+
+## 実用例: 特定文字列の置換
+
+```emacs-lisp
+;; 段落内のテキスト置換
+(defun my-paragraph-filter (text backend info)
+  "段落テキストを加工する。"
+  (when (org-export-derived-backend-p backend 'html)
+    ;; 「注:」を強調表示に変換
+    (replace-regexp-in-string
+     "注:"
+     "<span class=\"note\">注:</span>"
+     text)))
+
+(add-to-list 'org-export-filter-paragraph-functions
+             #'my-paragraph-filter)
+
+;; ソースブロックへのカスタムクラス追加
+(defun my-src-block-filter (text backend info)
+  "ソースブロックにカスタムクラスを追加。"
+  (when (org-export-derived-backend-p backend 'html)
+    (replace-regexp-in-string
+     "<pre class=\"src"
+     "<pre class=\"src highlight"
+     text)))
+
+(add-to-list 'org-export-filter-src-block-functions
+             #'my-src-block-filter)
+```
+
+
+## 実用例: カスタム装飾
+
+```emacs-lisp
+;; 見出しへのアンカーリンク追加
+(defun my-headline-filter (text backend info)
+  "見出しにパーマリンクアイコンを追加。"
+  (when (org-export-derived-backend-p backend 'html)
+    (replace-regexp-in-string
+     "</h\\([1-6]\\)>"
+     " <a class=\"permalink\" href=\"#\">#</a></h\\1>"
+     text)))
+
+(add-to-list 'org-export-filter-headline-functions
+             #'my-headline-filter)
+```
+
+
+# トランスコーダーの定義
+
+
+## org-export-define-backend
+
+```emacs-lisp
+;; 新規バックエンドの定義
+(org-export-define-backend 'my-format
+  ;; トランスレータリスト
+  '((bold . my-format-bold)
+    (code . my-format-code)
+    (headline . my-format-headline)
+    (paragraph . my-format-paragraph)
+    (plain-text . my-format-plain-text)
+    (section . my-format-section)
+    (template . my-format-template))
+  ;; オプション
+  :menu-entry
+  '(?m "Export to My Format"
+       ((?f "To file" my-format-export-to-file)
+        (?b "To buffer" my-format-export-as-buffer)))
+  :options-alist
+  '((:my-format-option "MY_FORMAT_OPTION" nil "default" t))
+  :filters-alist
+  '((:filter-final-output . my-format-final-filter)))
+```
+
+
+## org-export-define-derived-backend
+
+```emacs-lisp
+;; 派生バックエンドの定義（親の機能を継承）
+(org-export-define-derived-backend 'my-latex 'latex
+  :translate-alist
+  '((headline . my-latex-headline)
+    (template . my-latex-template))
+  :options-alist
+  '((:my-latex-special-option nil nil nil t))
+  :menu-entry
+  '(?l 1
+       ((?M "As My LaTeX" my-latex-export-as-latex)
+        (?m "To My LaTeX file" my-latex-export-to-latex))))
+
+;; 使用例
+(org-export-to-buffer 'my-latex "*My LaTeX Export*")
+```
+
+
+## 各要素タイプのハンドラ定義
+
+```emacs-lisp
+;; headline ハンドラ
+(defun my-format-headline (headline contents info)
+  "見出しをカスタム形式に変換。"
+  (let* ((level (org-element-property :level headline))
+         (title (org-export-data
+                 (org-element-property :title headline) info))
+         (todo (org-element-property :todo-keyword headline))
+         (tags (org-export-get-tags headline info)))
+    (format "== %s%s ==\n%s"
+            (if todo (format "[%s] " todo) "")
+            title
+            (or contents ""))))
+
+;; paragraph ハンドラ
+(defun my-format-paragraph (paragraph contents info)
+  "段落をカスタム形式に変換。"
+  (format "%s\n" (string-trim contents)))
+
+;; template ハンドラ（ドキュメント全体のラッパー）
+(defun my-format-template (contents info)
+  "ドキュメント全体のテンプレート。"
+  (let ((title (org-export-data (plist-get info :title) info))
+        (author (org-export-data (plist-get info :author) info)))
+    (format "TITLE: %s\nAUTHOR: %s\n\n%s" title author contents)))
+
+;; plain-text ハンドラ（エスケープ処理等）
+(defun my-format-plain-text (text info)
+  "プレーンテキストの処理（特殊文字エスケープ等）。"
+  ;; 特殊文字のエスケープ
+  (replace-regexp-in-string "\\([<>&]\\)"
+                            (lambda (m)
+                              (pcase m
+                                ("<" "&lt;")
+                                (">" "&gt;")
+                                ("&" "&amp;")))
+                            text))
+```
+
+
+## :translate-alist
+
+```emacs-lisp
+;; translate-alistで対応する主な要素タイプ
+'(
+  ;; ブロック要素
+  (center-block . handler)
+  (quote-block . handler)
+  (special-block . handler)
+  (src-block . handler)
+  (example-block . handler)
+  (verse-block . handler)
+
+  ;; インライン要素
+  (bold . handler)
+  (italic . handler)
+  (underline . handler)
+  (strike-through . handler)
+  (code . handler)
+  (verbatim . handler)
+
+  ;; 構造要素
+  (headline . handler)
+  (section . handler)
+  (paragraph . handler)
+  (plain-list . handler)
+  (item . handler)
+
+  ;; リンク・参照
+  (link . handler)
+  (footnote-reference . handler)
+  (footnote-definition . handler)
+
+  ;; テーブル
+  (table . handler)
+  (table-row . handler)
+  (table-cell . handler)
+
+  ;; 特殊
+  (template . handler)        ; ドキュメント全体
+  (inner-template . handler)  ; body-only=tでも適用
+  (plain-text . handler)      ; テキストノード
+  )
+```
+
+
+# カスタムバックエンド作成例
+
+
+## 最小限のバックエンド実装
+
+```emacs-lisp
+;;; ox-simple-text.el --- 最小限のテキストバックエンド
+
+(require 'ox)
+
+(org-export-define-backend 'simple-text
+  '((headline . org-simple-text-headline)
+    (section . org-simple-text-section)
+    (paragraph . org-simple-text-paragraph)
+    (plain-text . org-simple-text-plain-text)
+    (template . org-simple-text-template))
+  :menu-entry
+  '(?T "Export to Simple Text"
+       ((?t "To buffer" org-simple-text-export-as-text))))
+
+(defun org-simple-text-headline (headline contents info)
+  (let ((level (org-element-property :level headline))
+        (title (org-export-data
+                (org-element-property :title headline) info)))
+    (concat (make-string level ?#) " " title "\n\n" contents)))
+
+(defun org-simple-text-section (_section contents _info)
+  contents)
+
+(defun org-simple-text-paragraph (_paragraph contents _info)
+  (concat (string-trim contents) "\n\n"))
+
+(defun org-simple-text-plain-text (text _info)
+  text)
+
+(defun org-simple-text-template (contents info)
+  (let ((title (org-export-data (plist-get info :title) info)))
+    (concat "=== " title " ===\n\n" contents)))
+
+;;;###autoload
+(defun org-simple-text-export-as-text
+    (&optional async subtreep visible-only body-only ext-plist)
+  (interactive)
+  (org-export-to-buffer 'simple-text "*Org Simple Text*"
+    async subtreep visible-only body-only ext-plist))
+
+(provide 'ox-simple-text)
+;;; ox-simple-text.el ends here
+```
+
+
+## ox-md を派生させたカスタムMarkdown
+
+```emacs-lisp
+;;; ox-custom-md.el --- GitHub Flavored Markdown風拡張
+
+(require 'ox-md)
+
+(org-export-define-derived-backend 'custom-md 'md
+  :translate-alist
+  '((src-block . org-custom-md-src-block)
+    (table . org-custom-md-table)
+    (strike-through . org-custom-md-strike-through))
+  :options-alist
+  '((:custom-md-syntax-highlight nil nil t t)))
+
+;; GFMスタイルのコードブロック
+(defun org-custom-md-src-block (src-block _contents info)
+  (let ((lang (org-element-property :language src-block))
+        (code (org-element-property :value src-block)))
+    (format "```%s\n%s```\n"
+            (or lang "")
+            code)))
+
+;; GFMスタイルの取り消し線
+(defun org-custom-md-strike-through (_strike contents _info)
+  (format "~~%s~~" contents))
+
+;; テーブルをGFM形式で出力
+(defun org-custom-md-table (table contents info)
+  ;; 親のmd-tableを呼び出してからセパレータを追加
+  (let* ((rows (org-element-contents table))
+         (header-row (car rows)))
+    ;; カスタムテーブル処理
+    contents))
+
+;;;###autoload
+(defun org-custom-md-export-to-markdown
+    (&optional async subtreep visible-only body-only ext-plist)
+  (interactive)
+  (let ((outfile (org-export-output-file-name ".md" subtreep)))
+    (org-export-to-file 'custom-md outfile
+      async subtreep visible-only body-only ext-plist)))
+
+(provide 'ox-custom-md)
+;;; ox-custom-md.el ends here
+```
+
+
+## ox-html を派生させたカスタムHTML
+
+```emacs-lisp
+;;; ox-blog-html.el --- ブログ用HTML出力
+
+(require 'ox-html)
+
+(org-export-define-derived-backend 'blog-html 'html
+  :translate-alist
+  '((template . org-blog-html-template)
+    (src-block . org-blog-html-src-block))
+  :options-alist
+  '((:blog-title "BLOG_TITLE" nil "My Blog" t)
+    (:blog-author "BLOG_AUTHOR" nil nil t)
+    (:blog-category "BLOG_CATEGORY" nil nil t))
+  :filters-alist
+  '((:filter-final-output . org-blog-html-add-syntax-highlight)))
+
+(defun org-blog-html-template (contents info)
+  "ブログ用のHTMLテンプレート。"
+  (let ((title (org-export-data (plist-get info :title) info))
+        (blog-title (plist-get info :blog-title))
+        (author (plist-get info :blog-author))
+        (category (plist-get info :blog-category)))
+    (format "<!DOCTYPE html>
+<html lang=\"ja\">
+<head>
+  <meta charset=\"utf-8\">
+  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">
+  <title>%s - %s</title>
+  <link rel=\"stylesheet\" href=\"/css/blog.css\">
+</head>
+<body>
+  <header>
+    <nav><a href=\"/\">%s</a></nav>
+  </header>
+  <main>
+    <article>
+      <header>
+        <h1>%s</h1>
+        %s
+        %s
+      </header>
+      %s
+    </article>
+  </main>
+  <footer>
+    <p>&copy; %s</p>
+  </footer>
+</body>
+</html>"
+            title blog-title blog-title title
+            (if author (format "<p class=\"author\">%s</p>" author) "")
+            (if category (format "<p class=\"category\">%s</p>" category) "")
+            contents
+            (or author "Anonymous"))))
+
+(defun org-blog-html-src-block (src-block contents info)
+  "Prism.js用のクラスを付与したソースブロック。"
+  (let ((lang (org-element-property :language src-block))
+        (code (org-html-format-code src-block info)))
+    (format "<pre><code class=\"language-%s\">%s</code></pre>"
+            (or lang "text")
+            code)))
+
+(defun org-blog-html-add-syntax-highlight (output backend info)
+  "シンタックスハイライト用のスクリプトを追加。"
+  (replace-regexp-in-string
+   "</body>"
+   "<script src=\"/js/prism.js\"></script>\n</body>"
+   output))
+
+(provide 'ox-blog-html)
+;;; ox-blog-html.el ends here
+```
+
+
+# ox-hugoの仕組み解析
+
+ox-hugoはOrg-modeからHugo（静的サイトジェネレータ）向けMarkdownを生成する派生バックエンドです。 詳細なワークフローについては第9章を参照。
+
+
+## ox-blackfriday を派生
+
+```emacs-lisp
+;; ox-hugoはox-blackfriday（GFM対応Markdown）から派生
+;; ox-blackfriday自体はox-mdから派生
+
+;; 派生チェーン:
+;; ox-md -> ox-blackfriday -> ox-hugo
+
+;; 継承関係の確認
+(org-export-derived-backend-p 'hugo 'blackfriday)  ; => t
+(org-export-derived-backend-p 'hugo 'md)           ; => t
+```
+
+
+## Hugo Front Matter の生成
+
+```emacs-lisp
+;; ox-hugoはOrg-modeプロパティをHugo Front Matterに変換
+;; EXPORT_キーワードやプロパティから自動生成
+
+;; Orgファイル例:
+;; #+HUGO_BASE_DIR: ~/blog
+;; #+HUGO_SECTION: posts
+;;
+;; * My Post
+;; :PROPERTIES:
+;; :EXPORT_FILE_NAME: my-first-post
+;; :EXPORT_DATE: 2024-01-15
+;; :EXPORT_HUGO_TAGS: emacs org-mode
+;; :EXPORT_HUGO_CATEGORIES: tech
+;; :END:
+
+;; 生成されるFront Matter（TOML形式）:
+;; +++
+;; title = "My Post"
+;; date = 2024-01-15
+;; tags = ["emacs", "org-mode"]
+;; categories = ["tech"]
+;; draft = false
+;; +++
+
+;; カスタムFront Matter項目の追加
+(setq org-hugo-front-matter-format "toml")  ; yaml/tomlを選択可能
+```
+
+
+## shortcode対応
+
+```emacs-lisp
+;; ox-hugoはHugo shortcodeをサポート
+
+;; Orgでの記法（special block）:
+;; #+begin_figure
+;; #+ATTR_HTML: :src "/images/photo.jpg" :alt "写真"
+;; #+end_figure
+
+;; 変換されるshortcode:
+;; {{< figure src="/images/photo.jpg" alt="写真" >}}
+
+;; カスタムshortcodeのサポート
+;; #+begin_shortcode name
+;; 内容
+;; #+end_shortcode
+```
+
+
+## 参考になる実装パターン
+
+```emacs-lisp
+;; ox-hugoから学べるパターン:
+
+;; 1. サブツリーベースのエクスポート
+;;    1つのOrgファイルから複数の記事を生成
+
+;; 2. プロパティ継承の活用
+;;    HUGO_BUNDLEなどのプロパティ継承
+
+;; 3. リンク変換
+;;    Orgの内部リンクをHugo用相対パスに変換
+
+;; 4. 画像処理
+;;    ox-hugo-link-org-files-as-md によるリンク変換
+
+;; インストールと基本使用
+(use-package ox-hugo
+  :ensure t
+  :after ox)
+
+;; エクスポート
+;; C-c C-e H H : サブツリーをエクスポート
+;; C-c C-e H A : 全サブツリーをエクスポート
+```
+
+
+# ox-twbs, ox-reveal等の拡張例
+
+
+## ox-twbs: Bootstrapテーマ適用
+
+```emacs-lisp
+;; ox-twbsはTwitter Bootstrap CSSを適用したHTML出力
+(use-package ox-twbs
+  :ensure t
+  :after ox)
+
+;; カスタマイズ
+(setq org-twbs-head-include-default-style t)
+(setq org-twbs-htmlize-output-type 'css)
+
+;; エクスポート
+;; C-c C-e w h : TWBSでHTML出力
+```
+
+
+## ox-reveal: reveal.js プレゼンテーション
+
+```emacs-lisp
+;; ox-revealはreveal.jsベースのプレゼンテーション生成
+(use-package ox-reveal
+  :ensure t
+  :after ox
+  :config
+  ;; reveal.jsのパス設定
+  (setq org-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js")
+  ;; または
+  (setq org-reveal-root "file:///path/to/reveal.js"))
+
+;; Orgファイル設定例:
+;; #+REVEAL_ROOT: https://cdn.jsdelivr.net/npm/reveal.js
+;; #+REVEAL_THEME: black
+;; #+REVEAL_TRANS: slide
+;; #+REVEAL_PLUGINS: (highlight notes zoom)
+;; #+OPTIONS: reveal_single_file:t
+
+;; スライド区切り
+;; * で水平スライド（新しいセクション）
+;; ** で垂直スライド（サブスライド）
+
+;; エクスポート
+;; C-c C-e R R : Reveal.jsプレゼンテーション生成
+```
+
+
+## カスタムテーマの作り方
+
+```emacs-lisp
+;; ox-html派生でカスタムテーマバックエンドを作成
+
+(org-export-define-derived-backend 'my-theme 'html
+  :translate-alist '((template . my-theme-template))
+  :options-alist
+  '((:theme-color "THEME_COLOR" nil "blue" t)
+    (:theme-font "THEME_FONT" nil "sans-serif" t))
+  :menu-entry
+  '(?h 1
+       ((?T "My Theme HTML" my-theme-export-to-html))))
+
+(defun my-theme-template (contents info)
+  (let ((color (plist-get info :theme-color))
+        (font (plist-get info :theme-font))
+        (title (org-export-data (plist-get info :title) info)))
+    (format "<!DOCTYPE html>
+<html>
+<head>
+  <title>%s</title>
+  <style>
+    :root {
+      --primary-color: %s;
+      --font-family: %s;
+    }
+    body { font-family: var(--font-family); }
+    h1, h2, h3 { color: var(--primary-color); }
+  </style>
+</head>
+<body>%s</body>
+</html>" title color font contents)))
+
+(defun my-theme-export-to-html (&optional async subtreep visible-only body-only ext-plist)
+  (interactive)
+  (org-export-to-file 'my-theme
+      (org-export-output-file-name ".html" subtreep)
+    async subtreep visible-only body-only ext-plist))
+```
+
+
+# エクスポート時のフック
+
+
+## org-export-before-processing-hook
+
+```emacs-lisp
+;; パース前、バッファ処理前に実行
+;; バッファ内容の前処理に使用
+
+(defun my-before-processing (backend)
+  "エクスポート前のバッファ前処理。"
+  ;; 例: 特定のマクロを展開
+  (when (org-export-derived-backend-p backend 'html)
+    (goto-char (point-min))
+    (while (re-search-forward "{{{version}}}" nil t)
+      (replace-match "1.0.0" t t))))
+
+(add-hook 'org-export-before-processing-hook
+          #'my-before-processing)
+```
+
+
+## org-export-before-parsing-hook
+
+```emacs-lisp
+;; パース直前に実行
+;; 展開・インクルード後、パース前の状態で処理
+
+(defun my-before-parsing (backend)
+  "パース前の追加処理。"
+  ;; 例: TODOキーワードの一括変更
+  (when (org-export-derived-backend-p backend 'latex)
+    (goto-char (point-min))
+    (while (re-search-forward "^\\* TODO" nil t)
+      (replace-match "* DONE" t t))))
+
+(add-hook 'org-export-before-parsing-hook
+          #'my-before-parsing)
+```
+
+
+## 使い分けと実践例
+
+```emacs-lisp
+;; before-processing-hook:
+;; - ファイルインクルード前
+;; - マクロ展開前
+;; - Babel実行前
+;; → 生のOrgテキストを操作したい場合
+
+;; before-parsing-hook:
+;; - インクルード・展開後
+;; - パース直前
+;; → 完全に展開されたOrgを操作したい場合
+
+;; 実践例: 出力先によってコンテンツを切り替え
+(defun my-conditional-content (backend)
+  "バックエンドに応じてコンテンツを調整。"
+  (cond
+   ((org-export-derived-backend-p backend 'html)
+    ;; HTML用: インタラクティブ要素を追加
+    (goto-char (point-max))
+    (insert "\n* 追加情報\n[[https://example.com][詳細はこちら]]"))
+   ((org-export-derived-backend-p backend 'latex)
+    ;; LaTeX用: 参考文献セクションを追加
+    (goto-char (point-max))
+    (insert "\n* 参考文献\nbibliography:references.bib"))))
+
+(add-hook 'org-export-before-processing-hook
+          #'my-conditional-content)
+
+;; 複数の処理を順番に適用
+(defun my-normalize-headings (backend)
+  "見出しレベルを正規化。"
+  (org-map-entries
+   (lambda ()
+     (let ((level (org-current-level)))
+       (when (> level 3)
+         ;; 4レベル以上はリストに変換
+         (org-toggle-heading))))))
+
+(add-hook 'org-export-before-parsing-hook
+          #'my-normalize-headings)
+```
+
+
+# トラブルシューティング
+
+
+## エクスポートエラーの診断
+
+```emacs-lisp
+;; デバッグ情報の有効化
+(setq org-export-show-temporary-export-buffer t)
+
+;; エラー時のスタックトレース表示
+(setq debug-on-error t)
+
+;; エクスポート処理のログ
+(setq org-export-async-debug t)  ; 非同期エクスポート時
+
+;; 部分的なエクスポートテスト
+;; 問題箇所を特定するため、セクション単位でエクスポート試行
+;; M-x org-export-dispatch でサブツリーオプションを使用
+```
+
+
+## **Org Export Process** バッファ
+
+```emacs-lisp
+;; 非同期エクスポート時のプロセスバッファを確認
+
+;; エクスポートプロセスの監視
+(setq org-export-in-background nil)  ; 同期モードで実行して確認
+
+;; プロセスバッファを表示したまま維持
+(setq org-export-show-temporary-export-buffer t)
+
+;; 中間出力の確認
+;; M-x org-export-dispatch
+;; C-b でボディのみ出力（テンプレート問題の切り分け）
+;; C-s でサブツリーのみ（問題箇所の特定）
+```
+
+
+## デバッグ方法
+
+```emacs-lisp
+;; 1. 問題のある要素を特定
+(defun my-debug-element-at-point ()
+  "カーソル位置の要素情報を表示。"
+  (interactive)
+  (let ((elem (org-element-at-point)))
+    (message "%S" elem)))
+
+;; 2. トランスコード結果の確認
+(defun my-debug-transcode ()
+  "選択範囲のトランスコード結果を確認。"
+  (interactive)
+  (let* ((beg (region-beginning))
+         (end (region-end))
+         (content (buffer-substring-no-properties beg end)))
+    (message "%s"
+             (org-export-string-as content 'html t))))
+
+;; 3. バックエンドの設定確認
+(defun my-debug-backend-info (backend)
+  "バックエンドの設定情報を表示。"
+  (interactive
+   (list (intern (completing-read
+                  "Backend: "
+                  (mapcar #'car org-export-registered-backends)))))
+  (let ((info (org-export-get-environment backend)))
+    (pp info)))
+
+;; 4. フィルターの動作確認
+(defun my-debug-filter (text backend info)
+  "フィルター通過時にログ出力。"
+  (message "Filter: backend=%s, text-length=%d" backend (length text))
+  text)
+
+;; 一時的にデバッグフィルターを追加
+;; (add-to-list 'org-export-filter-paragraph-functions #'my-debug-filter)
+```
+
+```emacs-lisp
+;; よくあるエラーと対処
+
+;; 1. "Unknown element type" エラー
+;; → translate-alistに対応するハンドラがない
+;; → 親バックエンドにフォールバックするか、ハンドラを追加
+
+;; 2. "Wrong type argument" エラー
+;; → トランスコーダーの引数型が不正
+;; → org-element-propertyの戻り値を確認
+
+;; 3. 無限ループ/ハング
+;; → 再帰的なorg-export-dataの呼び出しを確認
+;; → フィルターでの無限置換を確認
+
+;; 4. 文字化け
+;; → coding-system-for-writeを確認
+(setq org-export-coding-system 'utf-8)
+
+;; 5. リンク切れ
+;; → org-export-resolve-id-linkの動作を確認
+;; → #+OPTIONS: broken-links:mark で可視化
+```
+
+詳細なワークフローの構築については、第9章「ドキュメント作成と出版ワークフロー」を参照。

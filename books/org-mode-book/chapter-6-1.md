@@ -1,0 +1,64 @@
+---
+title: "6.1. 入力と編集速度の最大化"
+---
+
+
+
+# Yasnippet
+
+-   スニペットの概念
+-   Org-mode用スニペット
+-   ミラー、変換、Elisp埋め込み
+-   実用的なスニペット例
+
+
+# Tempel
+
+-   Yasnippetの軽量代替
+-   テンプレート構文
+-   Org-modeでの活用
+
+
+# org-cliplink
+
+-   URLからタイトル取得
+-   クリップボードの自動処理
+-   カスタマイズ
+
+
+# Evil-org
+
+-   Vimキーバインド
+-   テキストオブジェクト
+-   モーション
+-   設定例
+
+
+# キーバインドの最適化
+
+-   頻繁に使う操作のショートカット化
+-   which-key による発見可能性
+-   hydra による操作グループ化
+
+
+# org-download
+
+-   画像の効率的な取り込み
+    -   ドラッグ&ドロップ対応
+    -   クリップボードからの貼り付け
+    -   スクリーンショットの直接挿入
+-   基本設定
+    -   org-download-method（directory / attach）
+    -   org-download-image-dir
+    -   org-download-heading-lvl
+-   使い方
+    -   org-download-clipboard
+    -   org-download-screenshot
+    -   org-download-yank
+-   ファイル名の制御
+    -   org-download-timestamp
+    -   org-download-abbreviate-filename-function
+-   実践的な活用
+    -   ブログ執筆での画像管理
+    -   ノートへのスクリーンショット添付
+    -   org-attachとの使い分け
