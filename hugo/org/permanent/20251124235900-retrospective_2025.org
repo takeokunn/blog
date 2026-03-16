@@ -1,0 +1,15 @@
+:PROPERTIES:
+:ID:       7892F4ED-7D94-43AB-AD4E-4D0285DCA5FB
+:END:
+#+TITLE: 2025年 全体振り返り
+#+AUTHOR: takeokunn
+#+DESCRIPTION: description
+#+DATE: 2025-11-25T00:52:43+0900
+#+HUGO_BASE_DIR: ../../
+#+HUGO_CATEGORIES: permanent
+#+HUGO_SECTION: posts/permanent
+#+HUGO_TAGS: permanent
+#+HUGO_DRAFT: true
+#+STARTUP: fold
+* aaa
+bbb
