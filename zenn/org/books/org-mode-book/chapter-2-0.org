@@ -9,6 +9,7 @@
 
 - Emacsに統合されたOrg-modeの強力な機能を学ぶ
 - 基本操作からHackingまで
+- dfsafas
 
 * Emacs + Org-modeの相乗効果
 
