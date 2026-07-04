@@ -13,6 +13,7 @@ timeZone = "Asia/Tokyo"
 DateForm = "2006.1.2"
 heroTitle = "takeokunn's blog"
 heroSubtitle = "poem driven development"
+author = { name = "takeokunn" }
 featuredArticles = [
     "/posts/fleeting/20250722020425-proposal_guide/",
     "/posts/fleeting/20250518144557-local_git_branch_operation/",
@@ -112,7 +113,7 @@ priority = 0.5
 filename = "sitemap.xml"
 
 [outputs]
-home = ["HTML", "Sitemap", "RSS", "llms", "llmsfull"]
+home = ["HTML", "RSS", "llms", "llmsfull"]
 section = ["HTML", "RSS"]
 taxonomy = ["HTML"]
 term = ["HTML", "RSS"]
