@@ -117,3 +117,25 @@ Using [[https://github.com/takeokunn/hugo-take-theme][takeokunn/hugo-take-theme]
 #+begin_src shell :results output none
   git submodule update --remote --recursive
 #+end_src
+
+* テーマ自動更新
+
+テーマ =hugo-take-theme= はサブモジュールとして =hugo/themes/hugo-take-theme= に組み込まれている。従来は手動で =git submodule update --remote= を実行してコミットする必要があったが、[[file:.github/workflows/update-theme.yml][=.github/workflows/update-theme.yml=]] により自動化している。
+
+** 仕組み
+
+- 毎日 06:00 JST (=cron: "0 21 * * *"= / UTC 21:00) に =schedule= トリガーで起動する。
+- テーマ側リポジトリから =repository_dispatch= イベント (=event_type: theme-updated=) を送ることで、更新直後に即時同期もできる。
+- =workflow_dispatch= により手動実行も可能。
+
+ジョブは以下を行う。
+
+1. =submodules: true= でチェックアウトし、=git submodule update --remote hugo/themes/hugo-take-theme= でサブモジュールを最新化する。
+2. 差分がある場合のみ =github-actions[bot]= 名義で =build(theme): bump hugo-take-theme to <short-sha>= というメッセージでコミットし、=GITHUB_TOKEN= で =main= に push する。
+3. push 後に =gh workflow run main.yml --ref main= で Deploy ワークフローを明示的に起動する。
+
+3 が必要なのは、=GITHUB_TOKEN= による push は =on: push= ワークフローを起動しないという GitHub の再帰トリガー防止仕様のためである。=GITHUB_TOKEN= 経由の =workflow_dispatch= はこの制限の例外となるため、これで Deploy を確実に走らせられる。
+
+** 即時同期用の PAT (テーマ側リポジトリで設定)
+
+=repository_dispatch= による即時同期を使う場合、テーマ側リポジトリ ([[https://github.com/takeokunn/hugo-take-theme][takeokunn/hugo-take-theme]]) から本リポジトリへディスパッチを送るために =repo= スコープを持つ PAT (Personal Access Token) が必要になる。PAT はテーマ側リポジトリのシークレットとして保存し、その用途と設定方法はテーマ側リポジトリのドキュメントに記載する。=schedule= による毎日同期のみで十分な場合は PAT は不要。
