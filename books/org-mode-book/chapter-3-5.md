@@ -1,0 +1,75 @@
+---
+title: "3.5. 高度なBabel活用"
+---
+
+
+
+# ob-async: 非同期実行
+
+-   ob-asyncの概要
+    -   長時間実行コードの非同期化
+    -   Emacsのブロッキング回避
+-   インストールと設定
+    -   （require 'ob-async）
+    -   :async ヘッダー引数
+-   使用例
+    -   時間のかかるデータ処理
+    -   API呼び出し
+    -   並列実行の活用
+-   注意点と制限
+    -   セッションとの併用制限
+    -   変数受け渡しの考慮
+    -   エラーハンドリング
+
+
+# emacs-jupyter: Jupyter連携
+
+-   emacs-jupyterとは
+    -   Jupyterカーネルとの直接連携
+    -   REPLとOrg-modeの統合
+-   セットアップ
+    -   Jupyterのインストール
+    -   emacs-jupyterの設定
+    -   カーネルの登録
+-   Org-modeでの使用
+    -   \#+begin<sub>src</sub> jupyter-python
+    -   :kernel ヘッダー引数
+    -   画像・グラフの表示
+-   ob-ipythonとの比較
+    -   emacs-jupyterの優位点
+    -   移行の考慮事項
+-   実践的なワークフロー
+    -   データサイエンス作業
+    -   インタラクティブな探索
+    -   結果のドキュメント化
+
+
+# org-babel-detangle: 逆方向のタングル
+
+-   detangleとは
+    -   tangleの逆操作
+    -   生成コードからOrgへの反映
+-   使用シナリオ
+    -   IDEで直接コード編集後の同期
+    -   チーム開発での併用
+    -   レビュー修正の取り込み
+-   設定と使い方
+    -   org-babel-detangle 関数
+    -   :comments link の重要性
+    -   コメント形式の設定
+-   実践例
+    -   Emacs設定ファイルの管理
+    -   tangleしたコードの修正フロー
+-   注意点
+    -   コメントの保持が必須
+    -   構造変更時の制限
+    -   ベストプラクティス
+
+
+# 複合的な活用パターン
+
+-   async + jupyter の組み合わせ
+-   tangleワークフローの設計
+-   CI/CDとの連携
+    -   tangle → テスト → detangle
+-   チーム開発での運用

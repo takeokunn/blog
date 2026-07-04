@@ -1,0 +1,62 @@
+---
+title: "7.4. org-modeとLSP/Tree-sitter"
+---
+
+
+
+# LSP概要
+
+-   Language Server Protocol
+-   eglot（標準）vs lsp-mode
+-   Org-modeとの関係
+
+
+# コードブロック内でのLSP
+
+-   org-src-mode での編集
+-   言語サーバーの起動
+-   補完と診断
+
+
+# Tree-sitter
+
+-   増分パーサー
+-   Emacs 29以降の組み込み
+-   シンタックスハイライト
+
+
+# Org-modeでの活用
+
+-   コードブロックのハイライト
+-   treesit-auto
+-   パフォーマンス比較
+
+
+# Flycheck/Flymake統合
+
+-   Flymake（標準）とFlycheck
+    -   Emacs組み込み vs 拡張パッケージ
+    -   チェッカーの豊富さ
+-   Org-modeでの構文チェック
+    -   org-src-mode内での動作
+    -   言語ごとのリンター設定
+-   Flycheck設定
+    -   flycheck-mode-hook
+    -   チェッカーの選択（eslint, pylint, etc.）
+    -   エラー表示のカスタマイズ
+-   Flymake設定
+    -   flymake-mode の有効化
+    -   eglot との自動連携
+    -   診断バックエンド
+-   コードブロック編集時の注意
+    -   バッファ切り替え時の挙動
+    -   一時ファイルとの関係
+    -   パフォーマンス考慮
+
+
+# 設定例
+
+-   Python + pyright
+-   TypeScript + typescript-language-server
+-   org-src-lang-modes
+-   Flycheck + org-src-mode の設定例

@@ -1,0 +1,55 @@
+---
+title: "4.3. org-super-agendaによる高度なグルーピング"
+---
+
+
+
+# org-super-agendaとは
+
+-   アジェンダ項目のグルーピング
+-   視覚的な整理
+-   デフォルトアジェンダの強化
+
+
+# インストールと有効化
+
+-   package.el / straight.el での導入
+-   org-super-agenda-mode の有効化
+
+
+# グループ定義のパターン
+
+-   :name - グループ名
+-   :time-grid - 時間グリッド項目
+-   :scheduled today/past/future
+-   :deadline today/past/future
+-   :habit - 習慣
+-   :priority "A"*"B"*"C"
+-   :tag "tag"
+-   :category "category"
+-   :todo "TODO"/"DONE"
+-   :property （name value）
+-   :order - 表示順序
+
+
+# 実践的な設定例
+
+-   重要度別グルーピング
+-   プロジェクト別グルーピング
+-   コンテキスト別（場所、状況）
+-   時間軸での整理
+
+
+# 高度なセレクタ
+
+-   :and, :or, :not の組み合わせ
+-   :auto-\* による自動グルーピング
+-   :auto-category, :auto-tags
+-   :transformer による変換
+
+
+# パフォーマンス考慮
+
+-   グループ数の適正化
+-   複雑なセレクタの影響
+-   キャッシュの活用
