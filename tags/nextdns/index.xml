@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Nextdns on takeokunn's blog</title><link>https://www.takeokunn.org/tags/nextdns/</link><description>Recent content in Nextdns on takeokunn's blog</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Wed, 02 Apr 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://www.takeokunn.org/tags/nextdns/index.xml" rel="self" type="application/rss+xml"/><item><title>NextDNSを導入した</title><link>https://www.takeokunn.org/posts/fleeting/20250402012730-setup_nextdns/</link><pubDate>Wed, 02 Apr 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250402012730-setup_nextdns/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;かねてから興味があった &lt;a href="https://nextdns.io/"&gt;NextDNS&lt;/a&gt; が Terraform Provider と nix-darwin/nixos で設定できることを知り、せっかくなので導入してみた。&lt;/p&gt;
+&lt;h2 id="what-is-nextdns"&gt;What is NextDNS?&lt;/h2&gt;
+&lt;p&gt;流行のDeep Reasearchの結果は以下Gist。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://gist.github.com/takeokunn/aa9bc9ef2c7d670b71bfd962c8a1a80e"&gt;https://gist.github.com/takeokunn/aa9bc9ef2c7d670b71bfd962c8a1a80e&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;日本人でも使っている人がちらほらいる。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://vpn-taizen.com/what_is_nextdns/"&gt;ほぼ無料で全てまとめて広告ブロックできるNextDNSとは&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://mkusaka.com/2023/06/18/nextdns/"&gt;NextDNSを使ってみて広告ブロックが捗ったので紹介&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.qam-web.com/?p=21061#google_vignette"&gt;NextDNSで安全で快適なブラウジング&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="作業手順"&gt;作業手順&lt;/h2&gt;
+&lt;h3 id="1-dot-アカウント作成してapi-key発行"&gt;1. アカウント作成してAPI Key発行&lt;/h3&gt;
+&lt;p&gt;公式サイトからメールアドレスとパスワードで登録する。
+&lt;a href="https://nextdns.io/"&gt;https://nextdns.io/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;管理画面からMFAを設定してAPI keyを発行する。
+&lt;a href="https://my.nextdns.io/account"&gt;https://my.nextdns.io/account&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id="2-dot-terraform設定"&gt;2. Terraform設定&lt;/h3&gt;
+&lt;p&gt;ドキュメントを参考に画面上で設定できるものを宣言的に設定する。
+&lt;a href="https://registry.terraform.io/providers/carbans/nextdns/latest/docs"&gt;https://registry.terraform.io/providers/carbans/nextdns/latest/docs&lt;/a&gt;&lt;/p&gt;
+&lt;h4 id="2-dot-1-providerを設定"&gt;2.1 providerを設定&lt;/h4&gt;
+&lt;p&gt;&lt;a href="https://github.com/getsops/sops"&gt;sops&lt;/a&gt; にAPI Tokenを保存して &lt;a href="https://github.com/carlpett/terraform-provider-sops"&gt;terraform-provider-sops&lt;/a&gt; 経由で入れる。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-terraform" data-lang="terraform"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;terraform&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;required_providers&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;sops&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;source&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;carlpett/sops&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;version&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;~&amp;gt; 0.5&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;nextdns&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;source&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;carbans/nextdns&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;version&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;~&amp;gt; 0.2&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;provider&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;sops&amp;#34;&lt;/span&gt; {}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;data&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;sops_file&amp;#34;&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;secret&amp;#34;&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;source_file&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;./secrets.yaml&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;provider&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;nextdns&amp;#34;&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;api_key&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; data.&lt;span style="color:#a6e22e"&gt;sops_file&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;secret&lt;/span&gt;.data.&lt;span style="color:#a6e22e"&gt;nextdns&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id="2-dot-2-各種設定"&gt;2.2 各種設定&lt;/h4&gt;
+&lt;p&gt;とりあえず有効にできるものは有効にした。&lt;/p&gt;</description></item></channel></rss>

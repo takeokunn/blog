@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Devto on takeokunn's blog</title><link>https://www.takeokunn.org/tags/devto/</link><description>Recent content in Devto on takeokunn's blog</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Thu, 25 Dec 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://www.takeokunn.org/tags/devto/index.xml" rel="self" type="application/rss+xml"/><item><title>blogをdev.toサポートした</title><link>https://www.takeokunn.org/posts/fleeting/20251124235900-support_dev_to/</link><pubDate>Thu, 25 Dec 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20251124235900-support_dev_to/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://github.com/takeokunn/blog"&gt;takeokunn/blog&lt;/a&gt; でdev.toの記事を管理できるようにしたのでメモしておく。&lt;/p&gt;
+&lt;h2 id="試したこと-やったこと"&gt;試したこと・やったこと&lt;/h2&gt;
+&lt;h3 id="1-dot-対応理由整理"&gt;1. 対応理由整理&lt;/h3&gt;
+&lt;p&gt;&lt;a href="https://github.com/takeokunn/blog"&gt;takeokunn/blog&lt;/a&gt; は次の3つのターゲットに対してorg-roamでコンテンツ管理をしている。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Hugo
+&lt;ul&gt;
+&lt;li&gt;Repo: &lt;a href="https://github.com/takeokunn/blog/tree/main/hugo"&gt;https://github.com/takeokunn/blog/tree/main/hugo&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Url: &lt;a href="https://www.takeokunn.org/"&gt;https://www.takeokunn.org/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Zenn
+&lt;ul&gt;
+&lt;li&gt;Repo: &lt;a href="https://github.com/takeokunn/blog/tree/main/zenn"&gt;https://github.com/takeokunn/blog/tree/main/zenn&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Url: &lt;a href="https://zenn.dev/takeokunn"&gt;https://zenn.dev/takeokunn&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;PDF（Typst）
+&lt;ul&gt;
+&lt;li&gt;Repo: &lt;a href="https://github.com/takeokunn/blog/tree/main/typst"&gt;https://github.com/takeokunn/blog/tree/main/typst&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Url: &lt;a href="https://www.takeokunn.org/pdf/phperkaigi-2026-pamphlet.pdf"&gt;https://www.takeokunn.org/pdf/phperkaigi-2026-pamphlet.pdf&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;以前から英語でもブログを書きたいという欲求があった。
+ホスティング先はどこがよいのか検討した所、&lt;a href="https://dev.to/"&gt;dev.to&lt;/a&gt; がなんだかんだ安牌であることがわかったので対応することにした。&lt;/p&gt;
+&lt;h3 id="2-dot-nixでbuildできるようにする"&gt;2. NixでBuildできるようにする&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;flake.nix&lt;/code&gt; は以下。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/takeokunn/blog/blob/main/devto/flake.nix"&gt;https://github.com/takeokunn/blog/blob/main/devto/flake.nix&lt;/a&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-nix" data-lang="nix"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; packages &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; build-devto &lt;span style="color:#f92672"&gt;=&lt;/span&gt; pkgs&lt;span style="color:#f92672"&gt;.&lt;/span&gt;stdenv&lt;span style="color:#f92672"&gt;.&lt;/span&gt;mkDerivation {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; name &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;build-devto&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; src &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;./.&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; nativeBuildInputs &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;with&lt;/span&gt; pkgs; [
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; (emacsPkg&lt;span style="color:#f92672"&gt;.&lt;/span&gt;pkgs&lt;span style="color:#f92672"&gt;.&lt;/span&gt;withPackages (epkgs: (&lt;span style="color:#66d9ef"&gt;with&lt;/span&gt; epkgs&lt;span style="color:#f92672"&gt;.&lt;/span&gt;melpaPackages; [ ox-gfm ])))
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ];
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; buildPhase &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;&amp;#39;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; mkdir -p ./articles
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; emacs --batch --load scripts/ox-devto.el --funcall export-org-devto-files
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; &amp;#39;&amp;#39;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; installPhase &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;&amp;#39;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; mkdir -p $out
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; # Article Sync Format: articles/{slug}/article.json + article.md
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; for dir in ./articles/*/; do
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; if [ -f &amp;#34;$dir/article.json&amp;#34; ]; then
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; cp -r &amp;#34;$dir&amp;#34; $out/
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; fi
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; done
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; &amp;#39;&amp;#39;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;ox-devto.el&lt;/code&gt; を適当に作り、 &lt;code&gt;ox-gfm&lt;/code&gt; をdev.to用にwrapした。&lt;/p&gt;</description></item></channel></rss>

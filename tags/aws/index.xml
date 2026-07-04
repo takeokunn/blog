@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Aws on takeokunn's blog</title><link>https://www.takeokunn.org/tags/aws/</link><description>Recent content in Aws on takeokunn's blog</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Sun, 08 Jun 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://www.takeokunn.org/tags/aws/index.xml" rel="self" type="application/rss+xml"/><item><title>EventBridge Ruleデバッグ方法メモ</title><link>https://www.takeokunn.org/posts/fleeting/20250608160858-how_to_debug_eventbridge_rule/</link><pubDate>Sun, 08 Jun 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250608160858-how_to_debug_eventbridge_rule/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;業務をしていると、「EventBridgeでメタ情報を付与してSQSに流す」といった要件に出くわす機会がある。&lt;/p&gt;
+&lt;p&gt;e.g. &lt;a href="https://docs.google.com/presentation/d/1_vOdQO0SY671SRQpnpEz1xvVyUy-Vzl_Dk4Ph6ujy84/edit?slide=id.p#slide=id.p"&gt;AWS SQSとLaravelで大規模トラフィックを捌く - phpcon新潟&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Event Busが一次受けをして複数のEventBridge Ruleでマッチしたものに情報を付与して次に流す、といった挙動になっている。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://docs.aws.amazon.com/ja_jp/eventbridge/latest/userguide/eb-what-is.html"&gt;EventBridge - AWS公式ドキュメント&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://docs.aws.amazon.com/ja_jp/eventbridge/latest/userguide/eb-rules.html"&gt;Amazon EventBridge ルール&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://docs.aws.amazon.com/ja_jp/eventbridge/latest/userguide/eb-event-patterns.html"&gt;Amazon EventBridge イベントパターン&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;EventBridge Ruleのデバッグをするには&lt;a href="https://docs.aws.amazon.com/ja_jp/eventbridge/latest/userguide/eb-create-rule.html"&gt;Amazon EventBridge でイベントに応答するルールの作成&lt;/a&gt; に書いてあるとおりにやればいいのだが、AWSのドキュメントは初学者から見たら分かりにくく混乱した。
+今回は後学の為に画像付きでメモしておく。&lt;/p&gt;
+&lt;h2 id="試したこと-やったこと"&gt;試したこと・やったこと&lt;/h2&gt;
+&lt;h3 id="1-dot-aws-consoleから対象のeventbridge-rulesを開く"&gt;1. AWS consoleから対象のEventBridge Rulesを開く&lt;/h3&gt;
+&lt;p&gt;対象のEventBusを選択して &lt;code&gt;Create Rule&lt;/code&gt; を押す。&lt;/p&gt;
+&lt;figure&gt;&lt;img src="https://www.takeokunn.org/images/448BDAE9-E4D3-45BF-84EA-8C954508FED8.png"&gt;
+&lt;/figure&gt;
+&lt;h3 id="2-dot-build-event-pattern-を開く"&gt;2. 「Build event pattern」を開く&lt;/h3&gt;
+&lt;p&gt;Define rule detailのnameは適当に入れる。&lt;/p&gt;
+&lt;h3 id="3-dot-sample-eventでjsonを入れる"&gt;3. Sample eventでJsonを入れる&lt;/h3&gt;
+&lt;p&gt;「Enter my own」を選択して「Misc &amp;gt; Webhook Sample」にあるようなテスト用のJsonを入れる。&lt;/p&gt;
+&lt;figure&gt;&lt;img src="https://www.takeokunn.org/images/8CDED877-B8C3-4432-BA86-F867C5914C31.png"&gt;
+&lt;/figure&gt;
+&lt;p&gt;以下はShopifyの &lt;code&gt;inventory_items/create&lt;/code&gt; の実データをマスクしたもの。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-json" data-lang="json"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;version&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;0&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;id&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;xxx-xxx-xx-xxx&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;detail-type&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;shopifyWebhook&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;source&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;aws.partner/shopify.com/000000/test&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;account&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;000000000000&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;time&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;2025-03-01T06:29:19Z&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;region&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;ap-northeast-1&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;resources&amp;#34;&lt;/span&gt;: [],
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;detail&amp;#34;&lt;/span&gt;: {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;payload&amp;#34;&lt;/span&gt;: {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;id&amp;#34;&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;100000000000&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;sku&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;created_at&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;2025-03-01T01:29:17-05:00&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;updated_at&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;2025-03-01T01:29:17-05:00&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;requires_shipping&amp;#34;&lt;/span&gt;: &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;cost&amp;#34;&lt;/span&gt;: &lt;span style="color:#66d9ef"&gt;null&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;country_code_of_origin&amp;#34;&lt;/span&gt;: &lt;span style="color:#66d9ef"&gt;null&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;province_code_of_origin&amp;#34;&lt;/span&gt;: &lt;span style="color:#66d9ef"&gt;null&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;harmonized_system_code&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;111111&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;tracked&amp;#34;&lt;/span&gt;: &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;country_harmonized_system_codes&amp;#34;&lt;/span&gt;: [],
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;admin_graphql_api_id&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;gid://shopify/InventoryItem/0000001&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; },
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;metadata&amp;#34;&lt;/span&gt;: {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;Content-Type&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;application/json&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;X-Shopify-Topic&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;inventory_items/create&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;X-Shopify-Shop-Domain&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;test.myshopify.com&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;X-Shopify-Hmac-SHA256&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;xxxx&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;X-Shopify-Webhook-Id&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;xxx-xxx-xxx-xxx-xxxx&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;X-Shopify-API-Version&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;2024-10&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;X-Shopify-Triggered-At&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;2025-03-01T06:29:17.989779121Z&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="4-dot-event-patternを入力してテストをする"&gt;4. Event patternを入力してテストをする&lt;/h3&gt;
+&lt;p&gt;検証したいEventBridge Ruleを貼り付けて 「Test pattern」 をすると検証できる。&lt;/p&gt;</description></item><item><title>aws-cliとecs-cliのconfigをorgで管理してdefault値を一切設定しない運用をする</title><link>https://www.takeokunn.org/posts/permanent/20230119162342-aws_cli_ecs_cli_configure_without_default_value_by_org/</link><pubDate>Thu, 19 Jan 2023 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/permanent/20230119162342-aws_cli_ecs_cli_configure_without_default_value_by_org/</guid><description>&lt;h2 id="前提"&gt;前提&lt;/h2&gt;
+&lt;p&gt;私は普段次のような条件でAWSを触っています。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;AWSアカウントを複数社分扱っている&lt;/li&gt;
+&lt;li&gt;SwitchRoleで複数扱っている&lt;/li&gt;
+&lt;li&gt;手元から頻繁にコマンドをたたく&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;さまざまな環境で作業をしていると、「想定と違う環境に対してAPIを投げてしまう」「意図したリソースが取得できない」等さまざまなトラブルに直面します。
+全部CI/CDで管理をして、localからは一切なにもしないというのは1つの理想ではあるものの、そうはいかないのが現実というものです。&lt;/p&gt;
+&lt;p&gt;あらためて自分の手元の環境を見直したところ、そもそもデフォルト値を指定せずにちゃんと指定すれば事故が起きないのではという結論に至ったのでまとめておきます。&lt;/p&gt;
+&lt;h2 id="運用方法"&gt;運用方法&lt;/h2&gt;
+&lt;h3 id="org-fileですべてを管理する"&gt;org fileですべてを管理する&lt;/h3&gt;
+&lt;p&gt;そもそも設定がゴチャゴチャしたり、ミスをしたり、間違ったコマンドを流してしまうのはどうしてでしょうか？
+答えは簡単で、明示的にコマンドや設定ファイルを用意していないからです。&lt;/p&gt;
+&lt;p&gt;普段使う設定やコマンドをドキュメントとして管理をし、明示的に変更を加える運用にすれば事故ることが格段に減ります。&lt;/p&gt;
+&lt;p&gt;その為のツールとしてEmacsの&lt;a href="https://orgmode.org/ja/"&gt;org-mode&lt;/a&gt;はおあつらえ向きです。
+Markdown同様手軽に文章を書け、分割した設定も管理でき、ファイルに出力でき、 &lt;code&gt;org-babel&lt;/code&gt; を使えばコマンドを実行できます。&lt;/p&gt;
+&lt;p&gt;たとえば次のようにコードブロックを作って &lt;code&gt;org-babel&lt;/code&gt; すると &lt;code&gt;RESULTS&lt;/code&gt; に結果が出力されます。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-org" data-lang="org"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#+begin_src &lt;/span&gt;&lt;span style="color:#75715e"&gt;shell&lt;/span&gt;&lt;span style="color:#75715e"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt;echo &lt;span style="color:#e6db74"&gt;&amp;#34;hello world&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#+end_src&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#+RESULTS&lt;/span&gt;&lt;span style="color:#75715e"&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;: hello world
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;また、秘匿情報を扱う場合は &lt;code&gt;sandbox.org.gpg&lt;/code&gt; のように接尾辞に &lt;code&gt;.gpg&lt;/code&gt; をつけるとEmacsが勝手にEncryptしてくれるのでセキュアに管理できます。
+私はprivate repoでこのような秘匿情報をorg fileで管理しています。&lt;/p&gt;
+&lt;h3 id="aws-cli周り"&gt;aws-cli周り&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;~/.aws/config&lt;/code&gt; は次のように &lt;code&gt;org-mode&lt;/code&gt; で管理をしています。
+&lt;code&gt;:noweb-ref&lt;/code&gt; でimportできるようにして、 &lt;code&gt;:tangle&lt;/code&gt; で出力先を設定し、 &lt;code&gt;M-x org-babel-tangle&lt;/code&gt; でファイルを出力するようにしています。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;~/.aws/config&lt;/code&gt; と同様 &lt;code&gt;~/.aws/credential&lt;/code&gt; も &lt;code&gt;org-mode&lt;/code&gt; で管理をしています。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;strong&gt;デフォルト値を一切設定しない&lt;/strong&gt;&lt;/strong&gt; 運用にしています。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-org" data-lang="org"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;*&lt;span style="font-weight:bold"&gt; aws&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;**&lt;/span&gt; config
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;***&lt;/span&gt; alice
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#+begin_src &lt;/span&gt;&lt;span style="color:#75715e"&gt;conf&lt;/span&gt;&lt;span style="color:#75715e"&gt; :noweb-ref aws-config-alice
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt; [profile alice]
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; source_profile = alice-dev
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; role_arn = arn:aws:iam::xxx
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; region = ap-northeast-1
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; output = json
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#+end_src&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;***&lt;/span&gt; bob
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#+begin_src &lt;/span&gt;&lt;span style="color:#75715e"&gt;conf&lt;/span&gt;&lt;span style="color:#75715e"&gt; :noweb-ref aws-config-bob
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt; [profile bob]
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; region = ap-northeast-1
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; output = json
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#+end_src&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;***&lt;/span&gt; all
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#+begin_src &lt;/span&gt;&lt;span style="color:#75715e"&gt;conf&lt;/span&gt;&lt;span style="color:#75715e"&gt; :noweb yes :tangle (expand-file-name &amp;#34;~/.aws/config&amp;#34;) :mkdirp yes
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt; # alice
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &amp;lt;&amp;lt;aws-config-alice&amp;gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; # bob
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &amp;lt;&amp;lt;aws-config-bob&amp;gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#+end_src&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;コマンドを流す時は次のようにいったんorgファイルに記述したうえで &lt;code&gt;org-babel&lt;/code&gt; なりterminalなりで実行するようにしています。
+&lt;code&gt;aws&lt;/code&gt; コマンドは &lt;code&gt;--profile&lt;/code&gt; オプションがあり、 &lt;strong&gt;&lt;strong&gt;必ず指定&lt;/strong&gt;&lt;/strong&gt; するようにしています。&lt;/p&gt;</description></item></channel></rss>

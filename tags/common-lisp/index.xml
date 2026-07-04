@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Common-Lisp on takeokunn's blog</title><link>https://www.takeokunn.org/tags/common-lisp/</link><description>Recent content in Common-Lisp on takeokunn's blog</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Sat, 16 Mar 2019 09:00:00 +0900</lastBuildDate><atom:link href="https://www.takeokunn.org/tags/common-lisp/index.xml" rel="self" type="application/rss+xml"/><item><title>Common Lispのquoteについて</title><link>https://www.takeokunn.org/posts/permanent/20190316220021-common_lispdata_command_mode/</link><pubDate>Sat, 16 Mar 2019 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/permanent/20190316220021-common_lispdata_command_mode/</guid><description>&lt;p&gt;stack overflowに次の2つの質問をした。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://stackoverflow.com/questions/54868796/cannot-post-slack-webhook-url-in-common-lisp"&gt;Cannot post slack webhook url in common lisp&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://stackoverflow.com/questions/55066131/getenv-xxx-is-not-a-lisp-string-or-pointer"&gt;(GETENV XXX) is not a Lisp string or pointer Ask Question&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;両方とも &lt;code&gt;sds&lt;/code&gt; という方が答えてくれたのですが、 どうも自分は &lt;code&gt;quote&lt;/code&gt; について理解をしていないことがわかりました。&lt;/p&gt;
+&lt;p&gt;調べたところ、stack overflowに良さそうな記事があったので翻訳をしてみる。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://stackoverflow.com/questions/134887/when-to-use-or-quote-in-lisp"&gt;When to use &amp;rsquo; (or quote) in Lisp?&lt;/a&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;code&gt;Question&lt;/code&gt;: quoteっていつ使うの？&lt;/p&gt;
+&lt;p&gt;Lispの入門書を読んだのですが、 &lt;code&gt;quote&lt;/code&gt; や &lt;code&gt;'&lt;/code&gt; 特殊な演算子がどんな挙動をするのか理解できませんでしたし、まだ見たことがありません。&lt;/p&gt;
+&lt;p&gt;どうでしょうか？&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Short Answer&lt;/code&gt;:&lt;/p&gt;
+&lt;p&gt;デフォルトの評価ルールを使わず、 &lt;code&gt;symbol&lt;/code&gt; か &lt;code&gt;s式&lt;/code&gt; を評価せずに入力された型どおりに関数を渡す。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Long Answer&lt;/code&gt;: &lt;em&gt;デフォルトの評価ルール&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;通常の関数（後述）が呼び出された時、引数はすべて評価される。
+コードは以下。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-lisp" data-lang="lisp"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(&lt;span style="color:#a6e22e"&gt;*&lt;/span&gt; (&lt;span style="color:#a6e22e"&gt;+&lt;/span&gt; a &lt;span style="color:#ae81ff"&gt;2&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#ae81ff"&gt;3&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;a&lt;/code&gt; と &lt;code&gt;2&lt;/code&gt; を順に評価することによって &lt;code&gt;(+ a 2)&lt;/code&gt; を評価する。 シンボル &lt;code&gt;a&lt;/code&gt; の現在束縛されている値を調べ、置き換える。 &lt;code&gt;a&lt;/code&gt; は現在&lt;del&gt;3&lt;/del&gt;という値が束縛されています。&lt;/p&gt;</description></item></channel></rss>

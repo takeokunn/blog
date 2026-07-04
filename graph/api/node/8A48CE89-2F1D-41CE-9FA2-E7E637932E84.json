@@ -1,0 +1,6 @@
+{
+  "id": "8A48CE89-2F1D-41CE-9FA2-E7E637932E84",
+  "title": "2024年 Emacs振り返り",
+  "raw": ":PROPERTIES:\n:ID:       8A48CE89-2F1D-41CE-9FA2-E7E637932E84\n:END:\n#+TITLE: 2024年 Emacs振り返り\n#+AUTHOR: takeokunn\n#+DESCRIPTION: description\n#+DATE: 2024-12-21T14:21:21+0900\n#+HUGO_BASE_DIR: ../../\n#+HUGO_CATEGORIES: permanent\n#+HUGO_SECTION: posts/permanent\n#+HUGO_TAGS: permanent emacs\n#+HUGO_DRAFT: true\n#+STARTUP: fold\n* Introduction\n\n運用面とNixに力を注いだ\n\n* 取り組んだこと\n** org-mode関連\n*** org-nix-shellは革命\n\n- wandboxを実現\n\n*** タスク管理を洗練させた\n*** ISUCON手順書\n*** secret.org運用について\n\n- .dir-locals-2.el\n** Emacs関連\n*** init.elをNixに移行\n*** setopt移行\n*** keymap-global-set移行\n*** 結局だったpackageの削除\n*** 毎日HEAD Build\n*** embarkがあつい\n*** ellamaがあつい\n*** completion style検討\n\n- https://qiita.com/keita44_f4/items/12a4a7081b0092eaca94\n*** .neotree運用\n** その他\n*** password-storeとpassword-store-otpに移行\n*** mu4eとかofflineimap\n* コミュニティ活動\n** Emacs 夏フェス\n\nhttps://tokyo-Emacs.connpass.com/event/321255/\n\n** Emacs 盆の大掃除大会2024\n\nhttps://tokyo-Emacs.connpass.com/event/327712/\n\n** Emacs 秋フェス\n\nhttps://tokyo-Emacs.connpass.com/event/330572/\n\n** vim-jpラジオ出演\n* Next Action\n\n- EmacsConf 2025\n- Emacs勉強会\n- 雑誌寄稿など\n- 本執筆\n- org-modeの運用をさらに洗練させる\n- ddskk再実装\n\n* 終わりに\n\nhttps://tadsan.fanbox.cc/posts/8295358\n\n- org-modeに力を入れまくった\n",
+  "backlinks": []
+}

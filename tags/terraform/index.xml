@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Terraform on takeokunn's blog</title><link>https://www.takeokunn.org/tags/terraform/</link><description>Recent content in Terraform on takeokunn's blog</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Wed, 07 May 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://www.takeokunn.org/tags/terraform/index.xml" rel="self" type="application/rss+xml"/><item><title>private-terraformをHCP Terraformに移行した</title><link>https://www.takeokunn.org/posts/fleeting/20250507230034-use_private_terraform_cloud/</link><pubDate>Wed, 07 May 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250507230034-use_private_terraform_cloud/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;個人用のTerraformプロジェクトを用意して、GitHubとCloudflareとNextDNSの管理をしている。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20250402001222-setup_private_terraform_github_provider/"&gt;Terraform GitHub Providerを導入した&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20250403220528-migrate_onamae_to_cloudflare_and_managed_by_terraform/"&gt;お名前comからCloudflareにドメイン移管してTerraformで管理する&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20250402012730-setup_nextdns/"&gt;NextDNSを導入した&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;tfstateのファイルをLocalマシンで雑に管理をしていたのだが、PCの引越し作業が発生したので管理方法を検討する必要があったので対応したことを纏めておく。&lt;/p&gt;
+&lt;h2 id="試したこと-やったこと"&gt;試したこと・やったこと&lt;/h2&gt;
+&lt;h3 id="1-dot-tfstate管理方法を検討"&gt;1. tfstate管理方法を検討&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;MUST
+&lt;ul&gt;
+&lt;li&gt;料金が無料&lt;/li&gt;
+&lt;li&gt;セキュリティリスクが低い&lt;/li&gt;
+&lt;li&gt;安全なterraform実行環境の保証&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;SHOULD
+&lt;ul&gt;
+&lt;li&gt;バージョン管理&lt;/li&gt;
+&lt;li&gt;実行結果の可視性&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;OPTIONAL
+&lt;ul&gt;
+&lt;li&gt;CI統合&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;HCP Terraform（旧terraform cloud）はHashiCorp謹製のCloudサービス。
+&lt;a href="https://www.hashicorp.com/ja/cloud"&gt;https://www.hashicorp.com/ja/cloud&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;500 resourcesまでは無料なので個人利用なら無料で完結する。
+&lt;a href="https://www.hashicorp.com/en/pricing"&gt;https://www.hashicorp.com/en/pricing&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;候補としてはさくらインターネットやCloudflareのストレージに上げることも検討していたが、そもそも各サービスを利用しなくなることも考えられるので却下した。&lt;/p&gt;
+&lt;h3 id="2-dot-hcp-terraform自体のterraformを書く"&gt;2. HCP Terraform自体のTerraformを書く&lt;/h3&gt;
+&lt;p&gt;以下を参考にterraformを書いた。
+&lt;a href="https://registry.terraform.io/providers/hashicorp/tfe/latest/docs"&gt;https://registry.terraform.io/providers/hashicorp/tfe/latest/docs&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;TF_API_TOKEN&lt;/code&gt; は管理画面から手ぽちで入力している。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-terraform" data-lang="terraform"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;terraform&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;required_version&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;1.11.4&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;cloud&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;organization&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;takeokunn-private&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;workspaces&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;name&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;tfe&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;required_providers&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;tfe&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;source&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;hashicorp/tfe&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;version&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;0.65.2&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;variable&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;TF_API_TOKEN&amp;#34;&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;type&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;string&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;provider&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;tfe&amp;#34;&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;token&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; var.&lt;span style="color:#a6e22e"&gt;TF_API_TOKEN&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;resource&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;tfe_organization&amp;#34;&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;private&amp;#34;&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;name&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;takeokunn-private&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;email&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;bararararatty@gmail.com&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;collaborator_auth_policy&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;two_factor_mandatory&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;resource&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;tfe_project&amp;#34;&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;default&amp;#34;&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;organization&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;tfe_organization&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;private&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;name&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;name&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;private&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;resource&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;tfe_workspace&amp;#34;&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;tfe&amp;#34;&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;name&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;tfe&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;organization&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;tfe_organization&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;private&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;name&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;project_id&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;tfe_project&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;default&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;id&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;resource&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;tfe_workspace&amp;#34;&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;nextdns&amp;#34;&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;name&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;nextdns&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;organization&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;tfe_organization&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;private&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;name&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;project_id&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;tfe_project&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;default&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;id&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;resource&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;tfe_workspace&amp;#34;&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;cloudflare&amp;#34;&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;name&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;cloudflare&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;organization&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;tfe_organization&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;private&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;name&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;project_id&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;tfe_project&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;default&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;id&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;resource&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;tfe_workspace&amp;#34;&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;github&amp;#34;&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;name&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;github&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;organization&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;tfe_organization&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;private&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;name&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;project_id&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;tfe_project&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;default&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;id&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="3-dot-ディレクトリ構成変更"&gt;3. ディレクトリ構成変更&lt;/h3&gt;
+&lt;p&gt;元々はentrypoint1つですべてを流せるようにしていたが、次のようにサービスごとに分け、 &lt;code&gt;cd&lt;/code&gt; で移動してからterraformを実行する運用に変更した。
+この対応によって他サービスの変更に依存せずにversionを上げられるようになった。&lt;/p&gt;</description></item><item><title>お名前comからCloudflareにドメイン移管してTerraformで管理する</title><link>https://www.takeokunn.org/posts/fleeting/20250403220528-migrate_onamae_to_cloudflare_and_managed_by_terraform/</link><pubDate>Thu, 03 Apr 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250403220528-migrate_onamae_to_cloudflare_and_managed_by_terraform/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;お名前comで管理していた &lt;code&gt;takeokunn.org&lt;/code&gt; をCloudflareに移管したのでメモしておく。&lt;/p&gt;
+&lt;h2 id="background"&gt;Background&lt;/h2&gt;
+&lt;p&gt;お名前comには世の中のエンジニアと同じように、長年次の不満を抱えていた。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;管理画面がとにかく使いづらい&lt;/li&gt;
+&lt;li&gt;広告・営業メールが多い&lt;/li&gt;
+&lt;li&gt;自動更新やオプションの設定が本当に分かりづらい&lt;/li&gt;
+&lt;li&gt;IaCに対応していない&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;vim-jpで令和時代にドメインを管理するならCloudflare一択という意見をもらったので移管した。&lt;/p&gt;
+&lt;h2 id="作業手順"&gt;作業手順&lt;/h2&gt;
+&lt;p&gt;ドメインの移管はじめてだったこと、個人ドメインであることからダウンタイムが発生許容した。
+2と3を入れ替えればダウンタイムが発生しなかったかもしれない。&lt;/p&gt;
+&lt;h3 id="1-dot-cloudflareにアカウントを作成する"&gt;1. Cloudflareにアカウントを作成する&lt;/h3&gt;
+&lt;p&gt;公式サイトから新規登録をしてクレジットカードを登録する。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.cloudflare.com/ja-jp/"&gt;https://www.cloudflare.com/ja-jp/&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id="2-dot-お名前comからcloudflareに移管する"&gt;2. お名前comからCloudflareに移管する&lt;/h3&gt;
+&lt;p&gt;&lt;a href="https://zenn.dev/muchoco/articles/9039762136e15c"&gt;お名前.com から Cloudflare Registrar にドメイン移管した話 - Zenn&lt;/a&gt; を参考に移管した。&lt;/p&gt;
+&lt;p&gt;「トランスファー申請の承認」が15分以上かかったがいずれ来るので気長に待てばよい。&lt;/p&gt;
+&lt;h3 id="3-dot-terraformで管理する"&gt;3. Terraformで管理する&lt;/h3&gt;
+&lt;p&gt;Terraform Cloudflare Providerを使う。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs"&gt;https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs&lt;/a&gt;&lt;/p&gt;
+&lt;h4 id="3-dot-1-provider作成"&gt;3.1 provider作成&lt;/h4&gt;
+&lt;p&gt;&lt;a href="https://github.com/getsops/sops"&gt;sops&lt;/a&gt; にAPI Tokenを保存して &lt;a href="https://github.com/carlpett/terraform-provider-sops"&gt;terraform-provider-sops&lt;/a&gt; 経由で入れる。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-terraform" data-lang="terraform"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;terraform&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;required_providers&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;sops&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;source&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;carlpett/sops&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;version&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;~&amp;gt; 0.5&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;cloudflare&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;source&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;cloudflare/cloudflare&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;version&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;~&amp;gt; 5&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;provider&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;sops&amp;#34;&lt;/span&gt; {}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;data&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;sops_file&amp;#34;&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;secret&amp;#34;&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;source_file&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;./secrets.yaml&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;provider&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;cloudflare&amp;#34;&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;api_token&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; data.&lt;span style="color:#a6e22e"&gt;sops_file&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;secret&lt;/span&gt;.data.&lt;span style="color:#a6e22e"&gt;cloudflare&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id="3-dot-2-レコード作成"&gt;3.2 レコード作成&lt;/h4&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-terraform" data-lang="terraform"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;locals&lt;/span&gt; {&lt;span style="color:#75715e"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt; # for takeokunn.org
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;takeokunn_org_zone_id&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;xxx&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;resource&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;cloudflare_dns_record&amp;#34;&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;a_records&amp;#34;&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;provider&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;cloudflare&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;for_each&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; toset([
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;185.199.108.153&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;185.199.109.153&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;185.199.110.153&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;185.199.111.153&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ])
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;zone_id&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;local&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;takeokunn_org_zone_id&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;name&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;takeokunn.org&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;content&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; each.&lt;span style="color:#a6e22e"&gt;key&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;type&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;A&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;ttl&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;proxied&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;false&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;resource&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;cloudflare_dns_record&amp;#34;&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;cname_emacs&amp;#34;&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;zone_id&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;local&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;takeokunn_org_zone_id&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;name&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;emacs.takeokunn.org&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;content&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;takeokunn.github.io&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;type&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;CNAME&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;ttl&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;proxied&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;false&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="4-dot-管理画面から確認する"&gt;4. 管理画面から確認する&lt;/h3&gt;
+&lt;p&gt;正常に &lt;code&gt;terraform apply&lt;/code&gt; されていることを確認する。&lt;/p&gt;</description></item><item><title>Terraform GitHub Providerを導入した</title><link>https://www.takeokunn.org/posts/fleeting/20250402001222-setup_private_terraform_github_provider/</link><pubDate>Wed, 02 Apr 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250402001222-setup_private_terraform_github_provider/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;個人の運用でTerraform GitHub Providerを導入したのでメモしておく。&lt;/p&gt;
+&lt;h2 id="motiviation"&gt;Motiviation&lt;/h2&gt;
+&lt;p&gt;長年ソフトウェアエンジニアをやってたらリポジトリが増えていく。特に最近のLLMの流行で検証用に作るリポジトリが顕著に増えている。
+「Automatically delete head branchesは必ず有効にする」など、統一的な環境を宣言的にしたいという欲求があった。&lt;/p&gt;
+&lt;p&gt;また、SSH keysの設定など個人の設定も可能な限り宣言的に記述したい。&lt;/p&gt;
+&lt;h2 id="作業手順"&gt;作業手順&lt;/h2&gt;
+&lt;p&gt;こちらのproviderを使って導入する。
+&lt;a href="https://registry.terraform.io/providers/integrations/github/latest"&gt;https://registry.terraform.io/providers/integrations/github/latest&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id="0-dot-access-tokenを用意する"&gt;0. Access Tokenを用意する&lt;/h3&gt;
+&lt;p&gt;「Personal access tokens &amp;gt; Fine-grained personal access tokens」で必要に応じて権限を付与してTokenを発行する。&lt;/p&gt;
+&lt;h3 id="1-dot-provider定義"&gt;1. provider定義&lt;/h3&gt;
+&lt;p&gt;&lt;a href="https://github.com/getsops/sops"&gt;sops&lt;/a&gt; にGitHub API Tokenを保存して &lt;a href="https://github.com/carlpett/terraform-provider-sops"&gt;terraform-provider-sops&lt;/a&gt; 経由で入れる。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-terraform" data-lang="terraform"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;terraform&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;required_providers&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;sops&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;source&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;carlpett/sops&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;version&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;~&amp;gt; 0.5&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;github&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;source&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;integrations/github&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;version&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;~&amp;gt; 6.0&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;provider&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;sops&amp;#34;&lt;/span&gt; {}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;data&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;sops_file&amp;#34;&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;secret&amp;#34;&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;source_file&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;./secrets.yaml&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;provider&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;github&amp;#34;&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;token&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; data.&lt;span style="color:#a6e22e"&gt;sops_file&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;secret&lt;/span&gt;.data.&lt;span style="color:#a6e22e"&gt;github&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="2-dot-ssh-key定義"&gt;2. ssh key定義&lt;/h3&gt;
+&lt;p&gt;&lt;a href="https://registry.terraform.io/providers/integrations/github/latest/docs/resources/user_ssh_key"&gt;github_user_ssh_key&lt;/a&gt; で定義できる。&lt;/p&gt;</description></item></channel></rss>

@@ -1,0 +1,15 @@
+{
+  "id": "624F0A4B-0F8A-40B1-8AAD-DCC88CFC719A",
+  "title": "Authyからpassword-store-otpに移行した",
+  "raw": ":PROPERTIES:\n:ID:       624F0A4B-0F8A-40B1-8AAD-DCC88CFC719A\n:END:\n#+TITLE: Authyからpassword-store-otpに移行した\n#+AUTHOR: takeokunn\n#+DESCRIPTION: description\n#+DATE: 2024-01-10T12:31:49+0900\n#+HUGO_BASE_DIR: ../../\n#+HUGO_CATEGORIES: fleeting\n#+HUGO_SECTION: posts/fleeting\n#+HUGO_TAGS: fleeting pasword-store\n#+HUGO_DRAFT: false\n#+STARTUP: fold\n* Introduction\n\n[[id:8311DF4F-44EF-4541-BB28-889161EE216A][Bitwardenからpassword-storeに移行した]] でpassword-storeに移行できたので、TOTPも[[https://authy.com/][ Authy ]]から移行する。\n\n* Goal\n\n- 過去の案件で使ってたものを断捨離する\n- password-store-otp経由でOTP Codeを取得できるようにする\n- Authy管理しているデータをpassword-storeに移行する\n\n* Not Goal\n\n- Authyを完全に削除する\n  - Bitwarden同様数年間使わなくても問題なかったら適切に削除する\n\n* 作業手順\n** 1. password-store-otpを有効にする\n\n私はNixユーザーなので[[https://search.nixos.org/packages?channel=23.11&show=pass&from=0&size=50&sort=relevance&type=packages&query=pass][Nix Packageからpass]]を落としてくる。次のような設定で[[https://github.com/nix-community/home-manager][home-manager]]経由で入れると勝手にExtensionが有効になる。\n\n#+begin_src nix\n  { pkgs, ... }:\n\n  {\n    home.packages = with pkgs; [\n      (pass.withExtensions (extensions: with extensions; [ pass-otp ]))\n    ];\n  }\n#+end_src\n\nfish shellで拡張を有効にする。\n\n#+begin_src fish\n  set -x PASSWORD_STORE_ENABLE_EXTENSIONS true\n#+end_src\n\n** 2. AuthyからExportする\n\n公式のExport方法は見あたらなかったので、[[https://gist.github.com/gboudreau/94bb0c11a6209c82418d01a59d958c93][Export TOTP tokens from Authy - gist]]を参考にAuthy Desktopから情報を抜き出す。\n\n** 3. password-storeに貼りつける\n\n次のようなフォーマットでパスワードの下に =otppath= を入力する。\n\n#+begin_src text\n  P@ssw0rd\n  otpauth://totp/Discord:foo@gmail.com?secret=XXX&issuer=Discord\n  url: https://discordapp.com/\n  username: foo@gmail.com\n#+end_src\n** 4. アクセスできるか確認する\n\n次のコマンドをたたくとclipboardにOTP codeがコピーされる。\n\n#+begin_src console\n  $ pass otp -c private/life/tech/discord\n  Copied OTP code for private/life/tech/discord to clipboard. Will clear in 45 seconds.\n#+end_src\n* Result\n16個のTOTP情報を移行した。\n* 所感\nAuthyに特に問題があった訳ではなく使い勝手が良かったのでこれから導入する人にはお勧めできる。\npassword-storeを使う方が時代に逆行しているので参考にしない方がよい。\n",
+  "backlinks": [
+    {
+      "title": "BitwardenとAuthyのアカウントを削除した",
+      "source": "7ACD0B88-960A-44C6-954B-C597AE60ECD1"
+    },
+    {
+      "title": "GPG KeyのYubiKey運用をはじめた",
+      "source": "B3ECD5FA-DFCE-447B-AAB0-72BEAAA28AEF"
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Mysql on takeokunn's blog</title><link>https://www.takeokunn.org/tags/mysql/</link><description>Recent content in Mysql on takeokunn's blog</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Sat, 09 Mar 2019 09:00:00 +0900</lastBuildDate><atom:link href="https://www.takeokunn.org/tags/mysql/index.xml" rel="self" type="application/rss+xml"/><item><title>MySQLのmax_allowed_packetについて</title><link>https://www.takeokunn.org/posts/permanent/20190309201924-mysql_max_allowed_packet/</link><pubDate>Sat, 09 Mar 2019 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/permanent/20190309201924-mysql_max_allowed_packet/</guid><description>&lt;p&gt;先日、カイシャのギョームでこんなことがあった。&lt;/p&gt;
+&lt;p&gt;「なんか、普通に投稿はできるんだけど、下書きが保存できないんだよね。ちょっと原因わからない？」&lt;/p&gt;
+&lt;p&gt;Railsで書かれている対象のコードを読んだのだが、まったく問題がなさそうだ。普通に &lt;code&gt;ActiveRecord&lt;/code&gt; のメソッドを読んでテキスト情報を保存しているだけだからだ。&lt;/p&gt;
+&lt;p&gt;今扱っているプロジェクトは負債が多くてどこが本当に原因なのかはわからなかったので途方に暮れていたら、カイシャの凄腕の人が「多分 &lt;code&gt;max_allowed_packet&lt;/code&gt; かな」と言い、サクッと直してしまった。&lt;/p&gt;
+&lt;p&gt;こういうのが技術力なんだなぁとしみじみ思ったので、どういうことが起こっていたのかちゃんと復習して、次同じようなことが合った時ドヤ顔できるようにする（間違いがあるかもなので指摘してもらえると幸い）&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;まず、対象の &lt;code&gt;table&lt;/code&gt; を &lt;code&gt;show create table&lt;/code&gt;
+するとこんな感じだった（一部抜粋）&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-sql" data-lang="sql"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;CREATE&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;TABLE&lt;/span&gt; &lt;span style="color:#f92672"&gt;`&lt;/span&gt;drafts&lt;span style="color:#f92672"&gt;`&lt;/span&gt; (
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;`&lt;/span&gt;id&lt;span style="color:#f92672"&gt;`&lt;/span&gt; int(&lt;span style="color:#ae81ff"&gt;11&lt;/span&gt;) &lt;span style="color:#66d9ef"&gt;NOT&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;NULL&lt;/span&gt; AUTO_INCREMENT,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;`&lt;/span&gt;dump_obj_encode_in_base64&lt;span style="color:#f92672"&gt;`&lt;/span&gt; longtext &lt;span style="color:#66d9ef"&gt;NOT&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;NULL&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;`&lt;/span&gt;created_at&lt;span style="color:#f92672"&gt;`&lt;/span&gt; datetime &lt;span style="color:#66d9ef"&gt;NOT&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;NULL&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;`&lt;/span&gt;updated_at&lt;span style="color:#f92672"&gt;`&lt;/span&gt; datetime &lt;span style="color:#66d9ef"&gt;NOT&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;NULL&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;PRIMARY&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;KEY&lt;/span&gt; (&lt;span style="color:#f92672"&gt;`&lt;/span&gt;id&lt;span style="color:#f92672"&gt;`&lt;/span&gt;),
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;) ENGINEInnoDB AUTO_INCREMENT&lt;span style="color:#f92672"&gt;~&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;145&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;DEFAULT&lt;/span&gt; CHARSET&lt;span style="color:#f92672"&gt;~&lt;/span&gt;utf8 ROW_FORMAT&lt;span style="color:#f92672"&gt;~&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;DYNAMIC&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;引き継いだプログラムなのでなぜこうなっていたのかまったくわからないが、 &lt;code&gt;dump_obj_encode_in_base64&lt;/code&gt; の型が &lt;code&gt;longtext&lt;/code&gt; で保存されていた。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;longtext&lt;/code&gt; は &lt;code&gt;最長4,294,967,295、または4GB (232 - 1) バイト&lt;/code&gt; と非常にsizeが大きい。&lt;/p&gt;
+&lt;p&gt;参考： &lt;a href="https://www.dbonline.jp/mysql/type/index6.html"&gt;BLOB型とTEXT型(DB Online)&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;MySQLのclientがserver投げられる最大のデータ量はどのくらいだろうか。&lt;/p&gt;
+&lt;p&gt;それを定義しているのが &lt;code&gt;max_allowed_packet&lt;/code&gt; だ。&lt;/p&gt;
+&lt;p&gt;現在このブログを書いているPCのMySQL(&lt;code&gt;Server version: 5.7.25-0ubuntu0.18.04.2 (Ubuntu)&lt;/code&gt;)はどうだろうか。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;mysql&amp;gt; show variables like &amp;#39;max_allowed_packet&amp;#39;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;+--------------------+----------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| Variable_name | Value |
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;+--------------------+----------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;| max_allowed_packet | 16777216 |
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;+--------------------+----------+
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;1 row in set (0.06 sec)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;約16MBだった。 &lt;code&gt;longtext&lt;/code&gt; では全然足りないサイズだ。&lt;/p&gt;</description></item></channel></rss>

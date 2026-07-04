@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Network on takeokunn's blog</title><link>https://www.takeokunn.org/tags/network/</link><description>Recent content in Network on takeokunn's blog</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Wed, 24 Dec 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://www.takeokunn.org/tags/network/index.xml" rel="self" type="application/rss+xml"/><item><title>digツールはdoggoが便利</title><link>https://www.takeokunn.org/posts/fleeting/20251220235900-dig_tool_doggo/</link><pubDate>Wed, 24 Dec 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20251220235900-dig_tool_doggo/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;インフラ構築する時にdigを叩くことは必須なのだが、2025年にdigコマンドをそのまま使うのは流石に辛い。
+もう少しリッチなものがないか調べた所、doggoが良さそうだったので導入してみた。&lt;/p&gt;
+&lt;h2 id="試したこと-やったこと"&gt;試したこと・やったこと&lt;/h2&gt;
+&lt;h3 id="0-dot-ツール選定"&gt;0. ツール選定&lt;/h3&gt;
+&lt;p&gt;Rust製のツールに &lt;a href="https://github.com/ogham/dog"&gt;dog&lt;/a&gt; というものがあるが、最終更新が2021年前と期間が空いてる。&lt;/p&gt;
+&lt;p&gt;後継にあたるツールがないかなと思って調査した所、Golang製の &lt;a href="https://github.com/mr-karan/doggo"&gt;doggo&lt;/a&gt; というツールがあった。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;It&amp;rsquo;s totally inspired by dog which is written in Rust. I wanted to add some features to it but since I don&amp;rsquo;t know Rust, I found it as a nice opportunity to experiment with writing a DNS Client from scratch in Go myself. Hence the name dog + go =&amp;gt; doggo.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Nixでパッケージングされているし、CLIとしての完成度も高く、アクティブなプロジェクトだったので導入した。&lt;/p&gt;
+&lt;h3 id="1-dot-home-manager-module用意"&gt;1. home-manager module用意&lt;/h3&gt;
+&lt;p&gt;特に設定項目がないのでshell completionだけ有効にしている。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-nix" data-lang="nix"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; pkgs&lt;span style="color:#f92672"&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; lib&lt;span style="color:#f92672"&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; config&lt;span style="color:#f92672"&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;...&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;let&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; cfg &lt;span style="color:#f92672"&gt;=&lt;/span&gt; config&lt;span style="color:#f92672"&gt;.&lt;/span&gt;programs&lt;span style="color:#f92672"&gt;.&lt;/span&gt;doggo;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;in&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;with&lt;/span&gt; lib;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; options&lt;span style="color:#f92672"&gt;.&lt;/span&gt;programs&lt;span style="color:#f92672"&gt;.&lt;/span&gt;doggo &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; enable &lt;span style="color:#f92672"&gt;=&lt;/span&gt; mkEnableOption &lt;span style="color:#e6db74"&gt;&amp;#34;Command-line DNS Client for Humans. Written in Golang&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; package &lt;span style="color:#f92672"&gt;=&lt;/span&gt; mkPackageOption pkgs &lt;span style="color:#e6db74"&gt;&amp;#34;doggo&amp;#34;&lt;/span&gt; { };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; enableBashIntegration &lt;span style="color:#f92672"&gt;=&lt;/span&gt; lib&lt;span style="color:#f92672"&gt;.&lt;/span&gt;hm&lt;span style="color:#f92672"&gt;.&lt;/span&gt;shell&lt;span style="color:#f92672"&gt;.&lt;/span&gt;mkBashIntegrationOption { &lt;span style="color:#66d9ef"&gt;inherit&lt;/span&gt; config; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; enableZshIntegration &lt;span style="color:#f92672"&gt;=&lt;/span&gt; lib&lt;span style="color:#f92672"&gt;.&lt;/span&gt;hm&lt;span style="color:#f92672"&gt;.&lt;/span&gt;shell&lt;span style="color:#f92672"&gt;.&lt;/span&gt;mkZshIntegrationOption { &lt;span style="color:#66d9ef"&gt;inherit&lt;/span&gt; config; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; enableFishIntegration &lt;span style="color:#f92672"&gt;=&lt;/span&gt; lib&lt;span style="color:#f92672"&gt;.&lt;/span&gt;hm&lt;span style="color:#f92672"&gt;.&lt;/span&gt;shell&lt;span style="color:#f92672"&gt;.&lt;/span&gt;mkFishIntegrationOption { &lt;span style="color:#66d9ef"&gt;inherit&lt;/span&gt; config; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; config &lt;span style="color:#f92672"&gt;=&lt;/span&gt; mkIf cfg&lt;span style="color:#f92672"&gt;.&lt;/span&gt;enable {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; home&lt;span style="color:#f92672"&gt;.&lt;/span&gt;packages &lt;span style="color:#f92672"&gt;=&lt;/span&gt; [ cfg&lt;span style="color:#f92672"&gt;.&lt;/span&gt;package ];
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; programs &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; bash&lt;span style="color:#f92672"&gt;.&lt;/span&gt;initExtra &lt;span style="color:#f92672"&gt;=&lt;/span&gt; mkIf (cfg&lt;span style="color:#f92672"&gt;.&lt;/span&gt;enableBashIntegration &lt;span style="color:#f92672"&gt;&amp;amp;&amp;amp;&lt;/span&gt; cfg&lt;span style="color:#f92672"&gt;.&lt;/span&gt;package &lt;span style="color:#f92672"&gt;!=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;null&lt;/span&gt;) &lt;span style="color:#e6db74"&gt;&amp;#39;&amp;#39;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; eval &amp;#34;$(&lt;/span&gt;&lt;span style="color:#e6db74"&gt;${&lt;/span&gt;getExe cfg&lt;span style="color:#f92672"&gt;.&lt;/span&gt;package&lt;span style="color:#e6db74"&gt;}&lt;/span&gt;&lt;span style="color:#e6db74"&gt; completions bash)&amp;#34;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; &amp;#39;&amp;#39;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; zsh&lt;span style="color:#f92672"&gt;.&lt;/span&gt;initContent &lt;span style="color:#f92672"&gt;=&lt;/span&gt; mkIf (cfg&lt;span style="color:#f92672"&gt;.&lt;/span&gt;enableZshIntegration &lt;span style="color:#f92672"&gt;&amp;amp;&amp;amp;&lt;/span&gt; cfg&lt;span style="color:#f92672"&gt;.&lt;/span&gt;package &lt;span style="color:#f92672"&gt;!=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;null&lt;/span&gt;) &lt;span style="color:#e6db74"&gt;&amp;#39;&amp;#39;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; eval &amp;#34;$(&lt;/span&gt;&lt;span style="color:#e6db74"&gt;${&lt;/span&gt;getExe cfg&lt;span style="color:#f92672"&gt;.&lt;/span&gt;package&lt;span style="color:#e6db74"&gt;}&lt;/span&gt;&lt;span style="color:#e6db74"&gt; completions zsh)&amp;#34;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; &amp;#39;&amp;#39;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; fish&lt;span style="color:#f92672"&gt;.&lt;/span&gt;interactiveShellInit &lt;span style="color:#f92672"&gt;=&lt;/span&gt; mkIf (cfg&lt;span style="color:#f92672"&gt;.&lt;/span&gt;enableFishIntegration &lt;span style="color:#f92672"&gt;&amp;amp;&amp;amp;&lt;/span&gt; cfg&lt;span style="color:#f92672"&gt;.&lt;/span&gt;package &lt;span style="color:#f92672"&gt;!=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;null&lt;/span&gt;) &lt;span style="color:#e6db74"&gt;&amp;#39;&amp;#39;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; &lt;/span&gt;&lt;span style="color:#e6db74"&gt;${&lt;/span&gt;getExe cfg&lt;span style="color:#f92672"&gt;.&lt;/span&gt;package&lt;span style="color:#e6db74"&gt;}&lt;/span&gt;&lt;span style="color:#e6db74"&gt; completions fish | source
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; &amp;#39;&amp;#39;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;あとは &lt;code&gt;programs.doggo.enable = true;&lt;/code&gt; で有効にするだけで使えるようになる。&lt;/p&gt;</description></item></channel></rss>

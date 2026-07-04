@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Mcp on takeokunn's blog</title><link>https://www.takeokunn.org/tags/mcp/</link><description>Recent content in Mcp on takeokunn's blog</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Wed, 09 Apr 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://www.takeokunn.org/tags/mcp/index.xml" rel="self" type="application/rss+xml"/><item><title>mcp-servers-nixを導入した</title><link>https://www.takeokunn.org/posts/fleeting/20250409210655-introduction_mcp_servers_nix/</link><pubDate>Wed, 09 Apr 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250409210655-introduction_mcp_servers_nix/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;natsukium謹製の &lt;a href="https://github.com/natsukium/mcp-servers-nix"&gt;natsukium/mcp-servers-nix&lt;/a&gt; を &lt;a href="https://github.com/takeokunn/nixos-configuration"&gt;takeokunn/nixos-configuration&lt;/a&gt; に導入したのでメモしておく。&lt;/p&gt;
+&lt;h2 id="変更点"&gt;変更点&lt;/h2&gt;
+&lt;h3 id="before"&gt;Before&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Orgファイルから &lt;code&gt;org-babel-tangle&lt;/code&gt; で &lt;code&gt;~/Library/Application\ Support/Claude/claude_desktop_config.json&lt;/code&gt; を出力&lt;/li&gt;
+&lt;li&gt;必要なpackageは &lt;a href="https://github.com/svanderburg/node2nix"&gt;node2nix&lt;/a&gt; 経由で入れる&lt;/li&gt;
+&lt;li&gt;秘密鍵はOrgファイルで &lt;code&gt;org-encrypt&lt;/code&gt; して管理
+&lt;ul&gt;
+&lt;li&gt;ref. &lt;a href="https://www.takeokunn.org/posts/fleeting/20250127144907-my_usage_org_crypt/"&gt;org-crypt運用メモ&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="after"&gt;After&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/natsukium/mcp-servers-nix"&gt;natsukium/mcp-servers-nix&lt;/a&gt; からMCPに必要なものをjsonを出力&lt;/li&gt;
+&lt;li&gt;必要なpackageは大体 &lt;a href="https://github.com/natsukium/mcp-servers-nix"&gt;natsukium/mcp-servers-nix&lt;/a&gt; に同梱されてる
+&lt;ul&gt;
+&lt;li&gt;足りないものは &lt;a href="https://github.com/svanderburg/node2nix"&gt;node2nix&lt;/a&gt; 経由で入れる&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;秘密鍵は &lt;a href="https://github.com/Mic92/sops-nix"&gt;sops-nix&lt;/a&gt; で管理&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="作業内容"&gt;作業内容&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://zenn.dev/natsukium/articles/f010c1ec1c51b2"&gt;MCPサーバーの設定をセキュアでGit friendlyにする - Zenn&lt;/a&gt; を事前に読む。&lt;/p&gt;
+&lt;h3 id="1-dot-sops-nixに登録"&gt;1. sops-nixに登録&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;sops/password.yml&lt;/code&gt; に以下を登録する。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;brave-api-token&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;BRAVE_API_KEY=xxxx&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;sops/default.nix&lt;/code&gt; で読み込めるようにする。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-nix" data-lang="nix"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; sops &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; defaultSopsFile &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;./password.yaml&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; secrets &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; brave-api-token &lt;span style="color:#f92672"&gt;=&lt;/span&gt; { };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="2-dot-mcp-serversを記述する"&gt;2. mcp-serversを記述する&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;envFile = config.sops.secrets.brave-api-token.path;&lt;/code&gt; のように環境変数を渡す。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-nix" data-lang="nix"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; pkgs&lt;span style="color:#f92672"&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; config&lt;span style="color:#f92672"&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; mcp-servers-nix&lt;span style="color:#f92672"&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; nodePkgs&lt;span style="color:#f92672"&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;let&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; programs &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; fetch&lt;span style="color:#f92672"&gt;.&lt;/span&gt;enable &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; playwright&lt;span style="color:#f92672"&gt;.&lt;/span&gt;enable &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; brave-search &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; enable &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; envFile &lt;span style="color:#f92672"&gt;=&lt;/span&gt; config&lt;span style="color:#f92672"&gt;.&lt;/span&gt;sops&lt;span style="color:#f92672"&gt;.&lt;/span&gt;secrets&lt;span style="color:#f92672"&gt;.&lt;/span&gt;brave-api-token&lt;span style="color:#f92672"&gt;.&lt;/span&gt;path;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;in&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;[
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; home&lt;span style="color:#f92672"&gt;.&lt;/span&gt;file&lt;span style="color:#f92672"&gt;.&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;Library/Application&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;\ &lt;/span&gt;&lt;span style="color:#e6db74"&gt;Support/Claude/claude_desktop_config.json&amp;#34;&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; source &lt;span style="color:#f92672"&gt;=&lt;/span&gt; mcp-servers-nix&lt;span style="color:#f92672"&gt;.&lt;/span&gt;lib&lt;span style="color:#f92672"&gt;.&lt;/span&gt;mkConfig pkgs {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;inherit&lt;/span&gt; programs;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="3-dot-home-managerに組込み"&gt;3. home-managerに組込み&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;home-manager/advanced.nix&lt;/code&gt; で &lt;code&gt;imports&lt;/code&gt; で登録すればよい。&lt;/p&gt;</description></item></channel></rss>

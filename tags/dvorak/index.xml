@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Dvorak on takeokunn's blog</title><link>https://www.takeokunn.org/tags/dvorak/</link><description>Recent content in Dvorak on takeokunn's blog</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Mon, 15 Jan 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://www.takeokunn.org/tags/dvorak/index.xml" rel="self" type="application/rss+xml"/><item><title>AquaSKKをDvorak仕様にする方法</title><link>https://www.takeokunn.org/posts/fleeting/20240115131839-how_to_use_dvorak_in_aquaskk/</link><pubDate>Mon, 15 Jan 2024 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20240115131839-how_to_use_dvorak_in_aquaskk/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://ja.wikipedia.org/wiki/QWERTY%E9%85%8D%E5%88%97"&gt;QWERTY配列&lt;/a&gt;から&lt;a href="https://ja.wikipedia.org/wiki/Dvorak%E9%85%8D%E5%88%97"&gt;Dvorak配列&lt;/a&gt;に移行するにあたって&lt;a href="https://ja.osdn.net/projects/aquaskk/"&gt;AquaSKK&lt;/a&gt;もDvorak仕様にする必要があったのでメモ。&lt;/p&gt;
+&lt;h2 id="mac標準キーボード"&gt;Mac標準キーボード&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://support.apple.com/ja-jp/guide/mac-help/mh27976/mac"&gt;MacでDvorakキーボードレイアウトを使用する - macOSユーザガイド&lt;/a&gt; によると、Mac標準キーボードにはDvorakが4種類ある。
+自分のユースケースは標準的な使い方なので &lt;code&gt;Dvorak: 最もよく使用されるキーが指の下に配置されています。&lt;/code&gt; を選択しました。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;- Dvorak: 最もよく使用されるキーが指の下に配置されています。
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;- Dvorak - 左利き: 最もよく使用されるキーが左手の下に配置されています。
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;- Dvorak - QWERTY ⌘: Commandキーを押したままにしたときに、一時的にレイアウトをQWERTYに変更します。
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;- Dvorak - 右利き: 最もよく使用されるキーが右手の下に配置されています。
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;次のような設定になってればよい。&lt;/p&gt;
+&lt;figure&gt;&lt;img src="https://www.takeokunn.org/images/7F6C45FE-1CBF-468E-A23A-4FDA51F8265F.png"&gt;
+&lt;/figure&gt;
+&lt;h2 id="aquaskk設定"&gt;AquaSKK設定&lt;/h2&gt;
+&lt;p&gt;AquaSKKの設定画面にキーボードレイアウトを指定できる場所がある。さきほど指定したDvorak配列を指定する。&lt;/p&gt;
+&lt;figure&gt;&lt;img src="https://www.takeokunn.org/images/EA7ACD8B-52C4-4927-9EB2-A24906E9263B.png"&gt;
+&lt;/figure&gt;
+&lt;p&gt;即時で反映されない場合は設定反映を押して明示的に反映させる。&lt;/p&gt;
+&lt;figure&gt;&lt;img src="https://www.takeokunn.org/images/ED26E819-448B-41F9-800A-A5C8F56679F8.png"&gt;
+&lt;/figure&gt;</description></item></channel></rss>

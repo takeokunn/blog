@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Tips on takeokunn's blog</title><link>https://www.takeokunn.org/tags/tips/</link><description>Recent content in Tips on takeokunn's blog</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Thu, 25 Dec 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://www.takeokunn.org/tags/tips/index.xml" rel="self" type="application/rss+xml"/><item><title>複数人でAirbnbを借りた時の清算方法</title><link>https://www.takeokunn.org/posts/fleeting/20251130154336-airbnb_warikan/</link><pubDate>Thu, 25 Dec 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20251130154336-airbnb_warikan/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;毎年VimConfでは秋葉原付近に2泊3日でAirbnbを借りて参加している。
+10人くらい入れる物件を借りて、複数人が色んなパターンで遊びに来る。
+きれいに清算をしたい時のTipsをメモしておく。&lt;/p&gt;
+&lt;h2 id="試したこと-やったこと"&gt;試したこと・やったこと&lt;/h2&gt;
+&lt;h3 id="1-dot-条件を整理する"&gt;1. 条件を整理する&lt;/h3&gt;
+&lt;p&gt;割り勘をするにあたって、ステータスに応じて重みづけしたい。
+学生には多く払わせる訳にはいかないし、途中で帰ったりする人にもある程度支払ってもらいたいもの。&lt;/p&gt;
+&lt;p&gt;とはいえ、あまり複雑にしてもややこしくなるので、次の2軸で重みつけして清算することにした。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;宿泊数
+&lt;ul&gt;
+&lt;li&gt;基本はコアメンバーで割り勘&lt;/li&gt;
+&lt;li&gt;一泊したら1、途中で帰ったら0.5みたいに雑に計算する&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;役割
+&lt;ul&gt;
+&lt;li&gt;学生は0倍、新卒は0.5倍、多く出していい人は1.5〜2倍などを用意する&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="2-dot-清算シートを作る"&gt;2. 清算シートを作る&lt;/h3&gt;
+&lt;p&gt;次のように清算シートを作った。
+人ごとに重みつけをして支払い金額を按分し、100円単位で丸める。&lt;/p&gt;
+&lt;p&gt;あとはslack上で専用チャンネルを作り、支払い先を用意して払ってもらい、シート上で支払い状況を可視化して、未払の人に対してリマインドしやすい形を作る。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://docs.google.com/spreadsheets/d/13xlbYMcAHZ_7I0vcUYEmQ4fnoPiOXdbbdrOmfoaerHA/edit?gid=551108005#gid=551108005"&gt;https://docs.google.com/spreadsheets/d/13xlbYMcAHZ_7I0vcUYEmQ4fnoPiOXdbbdrOmfoaerHA/edit?gid=551108005#gid=551108005&lt;/a&gt;&lt;/p&gt;
+&lt;figure&gt;&lt;img src="https://www.takeokunn.org/images/A07647FD-EDD8-42C4-9665-E8DAD086833E.png"&gt;
+&lt;/figure&gt;
+&lt;h2 id="得られた結果-所感"&gt;得られた結果・所感&lt;/h2&gt;
+&lt;p&gt;スプレッドシートを共有して納得感があるか確認し、支払い状況をシート上で可視化したらスムーズに清算できるようになった。&lt;/p&gt;
+&lt;p&gt;「学生に払わせる訳にはいかない」という個人的なポリシーがあるので、自分が清算業務をしてそもそも多く払うことで解決することにしてる。
+細かいコンビニでの買い物は面倒なので、その場にいる人で都度清算かポケットマネーで出すようにしてる。&lt;/p&gt;
+&lt;p&gt;清算業務でもっとも重要なのは「ややこしさを減らす」「困ったら自分の金で解決」なので、ケチケチしない方が早く終わる。&lt;/p&gt;
+&lt;h2 id="今後の展開-検討事項"&gt;今後の展開・検討事項&lt;/h2&gt;
+&lt;p&gt;この考え方を使えば他のユースケースでも使えるのであらゆる所で使いたい。&lt;/p&gt;</description></item></channel></rss>

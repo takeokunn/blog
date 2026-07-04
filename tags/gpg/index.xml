@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Gpg on takeokunn's blog</title><link>https://www.takeokunn.org/tags/gpg/</link><description>Recent content in Gpg on takeokunn's blog</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Wed, 28 May 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://www.takeokunn.org/tags/gpg/index.xml" rel="self" type="application/rss+xml"/><item><title>keyoxideセットアップ</title><link>https://www.takeokunn.org/posts/fleeting/20250528112340-setup_keyoxide/</link><pubDate>Wed, 28 May 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250528112340-setup_keyoxide/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;友人のこまもか君（@Comamoca_）がTwitterでなりすましをされていた。&lt;/p&gt;
+&lt;blockquote class="twitter-tweet"&gt;&lt;p lang="ja" dir="ltr"&gt;なりすましを発見したので本物であることを主張しておきますね〜&lt;br&gt;&lt;br&gt;署名済みテキスト:&lt;a href="https://t.co/Q5jcSsJACw"&gt;https://t.co/Q5jcSsJACw&lt;/a&gt;&lt;br&gt;&lt;br&gt;keybase:&lt;br&gt;僕のGitコミットは基本的にkeybase管理下のPGP鍵で署名してるので、なんか怪しい人いたら各自検証してください&lt;br&gt;🙏&lt;a href="https://t.co/ufJ5K1j5ig"&gt;https://t.co/ufJ5K1j5ig&lt;/a&gt;&lt;/p&gt;&amp;mdash; こまもか🦊 (@Comamoca_) &lt;a href="https://twitter.com/Comamoca_/status/1927205397250646518?ref_src=twsrc%5Etfw"&gt;May 27, 2025&lt;/a&gt;&lt;/blockquote&gt; &lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8"&gt;&lt;/script&gt;
+&lt;p&gt;自分はまだされたことがないが、将来的になりすまされた時の為に今のうちに手を打っておこうということで今回対応した。&lt;/p&gt;
+&lt;h2 id="試したこと-やったこと"&gt;試したこと・やったこと&lt;/h2&gt;
+&lt;h3 id="0-dot-方針を決める"&gt;0. 方針を決める&lt;/h3&gt;
+&lt;p&gt;インターネットでなりすましではないことを証明するのは根本的に難しい。&lt;/p&gt;
+&lt;p&gt;ChatGPTによると、本人性を証明するためのアプローチは次の3つが上げられる。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;A. 他媒体連携型証明（クロスメディア検証）&lt;/li&gt;
+&lt;li&gt;B. 動画・写真による自己証明&lt;/li&gt;
+&lt;li&gt;C. 本人だけが知る事実・履歴を提示&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;今回の要件としては、自分のことをあまり知らない不特定多数から見て自己をどう証明するのかというものがある。
+私の場合Twitter/GitHub/ブログがメインなので、これらを証明する手段が求められている。（A. 他媒体連携型証明）&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20250514155803-yubikey_gpg_operation/"&gt;GPG KeyのYubiKey運用をはじめた&lt;/a&gt; にも書いたとおり、可能な限りGPGに寄せたいと考えている。
+自分のソーシャルアカウントや公開鍵との関連性を証明するサービスはいくつかあるようだ。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Keybase&lt;/li&gt;
+&lt;li&gt;Keyoxide&lt;/li&gt;
+&lt;li&gt;Sigstore&lt;/li&gt;
+&lt;li&gt;etc..&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;当初keybaseを採用しようとしていたが、自分にとってSNS機能は不要だったり、Zoomが買収してから開発が停滞気味という噂を聞き、Keyoxideを採用することにした。&lt;/p&gt;
+&lt;p&gt;また友人のnatsukiumも利用していたので決断の後押しになった。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://keyoxide.org/DCCB2D69E06EEAA48904F8A12D5ADD7530F56A42"&gt;https://keyoxide.org/DCCB2D69E06EEAA48904F8A12D5ADD7530F56A42&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id="1-dot-keyoxideに認識させる"&gt;1. Keyoxideに認識させる&lt;/h3&gt;
+&lt;p&gt;基本的にはドキュメントを参考に上から順に行えばよい。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://docs.keyoxide.org/getting-started/creating-profile-openpgp/"&gt;https://docs.keyoxide.org/getting-started/creating-profile-openpgp/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20250514155803-yubikey_gpg_operation/"&gt;GPG KeyのYubiKey運用をはじめた&lt;/a&gt; ですでにSigned Keyは持っていたのでGPG Key生成手順はスキップできた。&lt;/p&gt;
+&lt;p&gt;次のコマンドで &lt;code&gt;public.asc&lt;/code&gt; を生成して管理画面からアップロードする。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://keys.openpgp.org/upload"&gt;https://keys.openpgp.org/upload&lt;/a&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-console" data-lang="console"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ gpg --armor --output public.asc --export &amp;lt;key&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;keyoxide側が勝手にopenpgpを参照してページを作ってくれる。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://keyoxide.org/0B10DAA7BA0236D7382287660F79C0AB03FD7A1C"&gt;https://keyoxide.org/0B10DAA7BA0236D7382287660F79C0AB03FD7A1C&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id="2-dot-twitter紐付け作業"&gt;2. Twitter紐付け作業&lt;/h3&gt;
+&lt;p&gt;こちらを参考に対応する。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://docs.keyoxide.org/service-providers/twitter/"&gt;https://docs.keyoxide.org/service-providers/twitter/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;openpgp4fpr:&amp;lt;fpr&amp;gt;&lt;/code&gt; を含めたツイートをする。&lt;/p&gt;
+&lt;blockquote class="twitter-tweet"&gt;&lt;p lang="in" dir="ltr"&gt;keyoxide用&lt;br&gt;&lt;br&gt;openpgp4fpr:0B10DAA7BA0236D7382287660F79C0AB03FD7A1C&lt;/p&gt;&amp;mdash; たけてぃ𓁈𓈷 (@takeokunn) &lt;a href="https://twitter.com/takeokunn/status/1927387715441414384?ref_src=twsrc%5Etfw"&gt;May 27, 2025&lt;/a&gt;&lt;/blockquote&gt; &lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8"&gt;&lt;/script&gt;
+&lt;p&gt;ツイートのリンクを &lt;code&gt;notation&lt;/code&gt; で付与する。&lt;/p&gt;</description></item><item><title>GitHub Actions内で署名付きCommitをする</title><link>https://www.takeokunn.org/posts/fleeting/20250518201409-signed_commit_in_github_actions/</link><pubDate>Sun, 18 May 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250518201409-signed_commit_in_github_actions/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20250402001222-setup_private_terraform_github_provider/"&gt;Terraform GitHub Providerを導入した&lt;/a&gt; で署名付きCommitを強制するBranch Ruleを網羅的に適用した。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-terraform" data-lang="terraform"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;resource&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;github_repository_ruleset&amp;#34;&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;default-branch&amp;#34;&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;name&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;main&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;repository&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;repo-name&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;target&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;branch&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;enforcement&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;active&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;conditions&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;ref_name&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;include&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; [&lt;span style="color:#e6db74"&gt;&amp;#34;~DEFAULT_BRANCH&amp;#34;&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;exclude&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; []
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;rules&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;required_signatures&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;non_fast_forward&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;2025年5月現在、 &lt;a href="https://github.com/takeokunn/nixos-configuration"&gt;takeokunn/nixos-configuration&lt;/a&gt; では次のGitHub Actionsが動いている。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;毎日20時に発火する&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;nix flake update&lt;/code&gt; などを実行して依存を更新する&lt;/li&gt;
+&lt;li&gt;変更をcommitしてpushする&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;署名付きCommitを強制する変更を加えた影響で「3. 変更をcommitしてpushする」が動かなくなってしまった。&lt;/p&gt;
+&lt;p&gt;調べた所、GitHub Actions内で署名付きCommitをしている人が世の中に少なかったので対応方法を纏めておく。&lt;/p&gt;
+&lt;h2 id="試したこと-やったこと"&gt;試したこと・やったこと&lt;/h2&gt;
+&lt;h3 id="1-dot-署名用のgpg-keyを生成する"&gt;1. 署名用のGPG Keyを生成する&lt;/h3&gt;
+&lt;p&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20250514155803-yubikey_gpg_operation/"&gt;GPG KeyのYubiKey運用をはじめた&lt;/a&gt; にあるとおり、自分の手元では主鍵副鍵運用をしている。&lt;/p&gt;
+&lt;p&gt;主鍵から &lt;code&gt;addkey&lt;/code&gt; Signのみを付与した副鍵を生成する。
+生成する際に必ずパスフレーズも設定する。&lt;/p&gt;
+&lt;p&gt;後に使うのでフィンガープリントもメモしておく。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-console" data-lang="console"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ gpg -K --with-fingerprint
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="2-dot-github-actions-secretに副鍵のprivate-keyを登録する"&gt;2. GitHub Actions Secretに副鍵のPrivate Keyを登録する&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;GPG_PRIVATE_KEY&lt;/code&gt; と &lt;code&gt;PASSPHRASE&lt;/code&gt; を設定する。&lt;/p&gt;</description></item><item><title>2025年5月 Macの再インストール手順メモ</title><link>https://www.takeokunn.org/posts/fleeting/20250514222418-reinstall_mac_with_nix/</link><pubDate>Wed, 14 May 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250514222418-reinstall_mac_with_nix/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;たまたまMacを再インストールする必要があった。
+普段、手元のマシンの環境構築手順を洗練させてたお陰で少ないステップで構築できたので何をやったのか後学の為にメモしておく。&lt;/p&gt;
+&lt;h2 id="試したこと-やったこと"&gt;試したこと・やったこと&lt;/h2&gt;
+&lt;h3 id="0-dot-macの生前整理と初期化動線"&gt;0. Macの生前整理と初期化動線&lt;/h3&gt;
+&lt;p&gt;データが消えてもいいようにバックアップしておく。
+基本的にGoogle DriveかGitHubにすべてが置いていて今日PCが故障しても問題ない運用にしている。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;消えてほしくないデータをGoogle Driveに置く&lt;/li&gt;
+&lt;li&gt;commit漏れてるrepoがないか確認して必要ならpushしておく&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;初期化動線は通常のmacの初期セットアップなので割愛。&lt;/p&gt;
+&lt;h3 id="1-dot-homebrewを入れる"&gt;1. homebrewを入れる&lt;/h3&gt;
+&lt;p&gt;terminal.appを開いてhomebrewをインストールする。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://brew.sh/ja/"&gt;https://brew.sh/ja/&lt;/a&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-console" data-lang="console"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ /bin/bash -c &lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="2-dot-nixos-configurationを実行する"&gt;2. nixos-configurationを実行する&lt;/h3&gt;
+&lt;p&gt;YubiKeyを挿した状態でnix buildを実行する。
+必要なツールとmac固有の設定はほぼすべて自動で入るようになっている。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-console" data-lang="console"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ git clone https://github.com/takeokunn/nixos-configuration
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ cd nixos-configuration
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ nix run nix-darwin --extra-experimental-features &lt;span style="color:#e6db74"&gt;&amp;#39;flakes nix-command&amp;#39;&lt;/span&gt; -- switch --flake .#OPL2212-2 --show-trace
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="3-dot-gpg-ssh回りを設定する"&gt;3. GPG/SSH回りを設定する&lt;/h3&gt;
+&lt;p&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20250514155803-yubikey_gpg_operation/"&gt;GPG KeyのYubiKey運用をはじめた&lt;/a&gt; にある「3. 新規端末で副鍵（Sign, Auth）を入れる」以降を行う。&lt;/p&gt;
+&lt;p&gt;GitHubのssh認証を確認する。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ ssh -T git@github.com
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Hi takeokunn! You&lt;span style="color:#960050;background-color:#1e0010"&gt;&amp;#39;&lt;/span&gt;ve successfully authenticated, but GitHub does not provide shell access.
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="4-dot-必要なレポジトリを落としてsecret-dot-orgをorg-babel-tangleする"&gt;4. 必要なレポジトリを落としてsecret.orgをorg-babel-tangleする&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;$ ghq get&lt;/code&gt; で必要なレポジトリを網羅的に落とす。
+&lt;a href="https://www.takeokunn.org/posts/fleeting/20250414001634-migrate_credential_manager_to_password_store/"&gt;credential管理をorg-encryptからpassword-storeに移行した&lt;/a&gt; のとおり、 &lt;code&gt;M-x org-babel-tangle&lt;/code&gt; でpassword-storeを実行して必要な設定ファイルのほぼすべてを配置できるようにしている。&lt;/p&gt;</description></item><item><title>GPG KeyのYubiKey運用をはじめた</title><link>https://www.takeokunn.org/posts/fleeting/20250514155803-yubikey_gpg_operation/</link><pubDate>Sun, 11 May 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250514155803-yubikey_gpg_operation/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;2025年5月の自分の手元の環境はGPGに重度に依存している。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20240108211345-migrate_bitwarden_to_password_store/"&gt;Bitwardenからpassword-storeに移行した&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20240110123142-migrate_authy_to_password_store_otp/"&gt;Authyからpassword-store-otpに移行した&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20250414001634-migrate_credential_manager_to_password_store/"&gt;credential管理をorg-encryptからpassword-storeに移行した&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;GPG Keyの運用についてかねてから悩んでいたが、YubiKey運用が一番よいという結論に至った。
+ちょうどMacを初期化するタイミングがあったので完全に移行した。&lt;/p&gt;
+&lt;p&gt;次の記事を参考にした。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://zenn.dev/lambdalisue/articles/gpg-with-yubikey-2024"&gt;GPG 鍵と YubiKey の運用メモ - Zenn&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://keens.github.io/blog/2021/03/23/yubikeywotsukau_openpghen/"&gt;YubikeyでOpenPGP鍵をセキュアに使う - κeenのHappy Hacκing Blog&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://fuwa.dev/posts/yubikey/"&gt;YubiKey(OpenPGP card)には主鍵を入れよう - ふわわあのへや&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="試したこと-やったこと"&gt;試したこと・やったこと&lt;/h2&gt;
+&lt;h3 id="0-dot-運用方針を決める"&gt;0. 運用方針を決める&lt;/h3&gt;
+&lt;p&gt;&lt;a href="https://zenn.dev/lambdalisue/articles/gpg-with-yubikey-2024"&gt;GPG 鍵と YubiKey の運用メモ - Zenn&lt;/a&gt; と同様、次の方針で運用してくことにした。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;YubiKey には主鍵と副鍵 （Encrypt） を焼き、持ち歩く&lt;/li&gt;
+&lt;li&gt;YubiKey の主鍵を利用して副鍵 （Sign, Auth） をデバイス毎に作成・保存しておく
+&lt;ul&gt;
+&lt;li&gt;コミット署名はデバイス毎の副鍵 （Sign） を利用する&lt;/li&gt;
+&lt;li&gt;SSH Keyはデバイス毎の副鍵（Auth） &lt;code&gt;gpg --export-ssh-key&lt;/code&gt; 経由で端末ごとに生成する
+&lt;ul&gt;
+&lt;li&gt;keygrepを &lt;code&gt;~/.gnupg/sshcontrol&lt;/code&gt; に入れる&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;暗号化・復号機能は YubiKey の副鍵 （Encrypt） を利用する&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;元記事に加えてSSH KeyもGPG経由で生成することにした。
+&lt;a href="https://www.takeokunn.org/posts/fleeting/20250402001222-setup_private_terraform_github_provider/"&gt;Terraform GitHub Providerを導入した&lt;/a&gt; でIaCの土壌が用意されているので、端末が増えるごとに毎回追加する運用にしていく。&lt;/p&gt;
+&lt;p&gt;GPGの仕組みについてはChatGPTにひたすら質問して不安な部分を潰した。&lt;/p&gt;
+&lt;h3 id="1-dot-yubikeyを購入する"&gt;1. YubiKeyを購入する&lt;/h3&gt;
+&lt;p&gt;Amazonで &lt;a href="https://www.amazon.co.jp/dp/B08DHL1YDL?ref=ppx_yo2ov_dt_b_fed_asin_title"&gt;Yubico セキュリティキー YubiKey 5C NFC USB-C/FIDO2/WebAuthn/U2F/2段階認証/高耐久性/耐衝撃性/防水&lt;/a&gt; を購入した。&lt;/p&gt;</description></item><item><title>GnuPG 2.4.4でEmacsで発生していたバグ修正された</title><link>https://www.takeokunn.org/posts/fleeting/20240127163627-fix_emacs_gpg_bug/</link><pubDate>Sat, 27 Jan 2024 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20240127163627-fix_emacs_gpg_bug/</guid><description>&lt;h2 id="summary"&gt;Summary&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20230624130858-how_to_escape_emacs_gpg_bug/"&gt;Emacs内でgpg fileがsaveできなくなった時に対応したことメモ&lt;/a&gt; にもあるとおり、GnuPG 2.4.0を使うとEasyPGが正常に動かないという問題があったが、GnuPGを2.4.4に上げると解決した。&lt;/p&gt;
+&lt;h2 id="一連の流れ"&gt;一連の流れ&lt;/h2&gt;
+&lt;blockquote class="twitter-tweet"&gt;&lt;p lang="ja" dir="ltr"&gt;以前も見て、私の環境ではならんなと思ってたけど、たんに gpgtools の gpg2 を読んでいたからだった。 &lt;a href="https://t.co/UdI5QtmC4N"&gt;https://t.co/UdI5QtmC4N&lt;/a&gt; &lt;a href="https://t.co/SNSj5Jd2DT"&gt;pic.twitter.com/SNSj5Jd2DT&lt;/a&gt;&lt;/p&gt;&amp;mdash; . (@takaxp) &lt;a href="https://twitter.com/takaxp/status/1751131754465996931?ref_src=twsrc%5Etfw"&gt;January 27, 2024&lt;/a&gt;&lt;/blockquote&gt; &lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8"&gt;&lt;/script&gt;
+&lt;blockquote class="twitter-tweet"&gt;&lt;p lang="ja" dir="ltr"&gt;2.4.4 が降ってくれば直る説。&lt;a href="https://t.co/zG6kkrQg4s"&gt;https://t.co/zG6kkrQg4s&lt;/a&gt; &lt;a href="https://t.co/YqDEmiDJit"&gt;pic.twitter.com/YqDEmiDJit&lt;/a&gt;&lt;/p&gt;&amp;mdash; . (@takaxp) &lt;a href="https://twitter.com/takaxp/status/1751134178488512668?ref_src=twsrc%5Etfw"&gt;January 27, 2024&lt;/a&gt;&lt;/blockquote&gt; &lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8"&gt;&lt;/script&gt;
+&lt;p&gt;&lt;a href="https://www.mail-archive.com/gnupg-users@gnupg.org/msg41435.html"&gt;Re: epg-encrypt-string in Emacs seems to be incompatible with GnuPG 2.4.1 on macOS, 2.4.0 works&lt;/a&gt; を見ていると、 &lt;code&gt;2.4.4&lt;/code&gt; で直るっぽいとの記述がある。&lt;/p&gt;
+&lt;p&gt;GnuPG側の変更は&lt;a href="https://git.gnupg.org/cgi-bin/gitweb.cgi?p=gnupg.git;a=commit;h=2f872fa68c6576724b9dabee9fb0844266f55d0d"&gt;こちら&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;Homebrewではすでに&lt;a href="https://github.com/Homebrew/homebrew-core/commit/efdeda1c8613c9eda4b75ec6603e876fab593cd9"&gt;こちらのcommit&lt;/a&gt;で対応済みなので &lt;code&gt;brew update&lt;/code&gt; で更新される。&lt;/p&gt;
+&lt;p&gt;Nixユーザーは&lt;a href="https://github.com/NixOS/nixpkgs/blob/nixos-23.11/pkgs/tools/security/gnupg/24.nix"&gt;nixpkgs&lt;/a&gt;が対応するまでは次のようにoverlayを定義して対応すればよい。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-nix" data-lang="nix"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; nixpkgs&lt;span style="color:#f92672"&gt;.&lt;/span&gt;overlays &lt;span style="color:#f92672"&gt;=&lt;/span&gt; [
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; (final: prev: {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; gnupg &lt;span style="color:#f92672"&gt;=&lt;/span&gt; prev&lt;span style="color:#f92672"&gt;.&lt;/span&gt;gnupg&lt;span style="color:#f92672"&gt;.&lt;/span&gt;overrideAttrs (old: {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; src &lt;span style="color:#f92672"&gt;=&lt;/span&gt; prev&lt;span style="color:#f92672"&gt;.&lt;/span&gt;fetchurl {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; url &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;mirror://gnupg/gnupg/gnupg-2.4.4.tar.bz2&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; hash &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;sha256-Z+vgFsqQ+naIzmejh+vYLGJh6ViX23sj3yT/M1voW8Y=&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; });
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; })
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ];
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;実際に自分Emacs環境で実験した所正常に動作することが確認取れた。&lt;/p&gt;</description></item></channel></rss>
