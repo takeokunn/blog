@@ -117,6 +117,10 @@
               name = "publishing-nix-series-software-design";
               type = "slide";
             };
+            develop-emacs-nskk = buildTypstProject {
+              name = "develop-emacs-nskk";
+              type = "slide";
+            };
           };
         }
     );

@@ -1,0 +1,199 @@
+:PROPERTIES:
+:ID:       347380e6-9435-6834-39cb-0ede09280c1f
+:END:
+#+TITLE: 推測しない日本語入力 ── 40年前の設計を、いまの技術で作り直す
+#+AUTHOR: takeokunn
+#+STARTUP: fold
+#+TYPST: #import "./alucard.typ": *
+#+TYPST: #show: setup
+* Title
+#+begin_export typst
+#slide[
+    #set page(header: none, footer: none, margin: 3em)
+
+    #text(size: 1.3em)[
+        推測しない日本語入力 ── 40年前の設計を、いまの技術で作り直す
+    ]
+
+    <登壇場所>
+
+    #divider
+
+    #set text(size: .8em, weight: "light")
+    \@takeokunn
+
+    <日付>
+]
+#+end_export
+* Agenda
+#+begin_export typst
+#slide[
+   = Agenda
+
+    #outline
+]
+#+end_export
+* 自己紹介
+#+begin_export typst
+#new-section[自己紹介]
+
+#slide[
+    #place(
+        top + right,
+        image("./images/51d28d9e-899d-54f4-4273-91c6ef640e8a.jpeg", width: 100pt)
+    )
+
+    = 自己紹介
+
+    - たけてぃ \@takeokunn
+    - Emacs, Org Mode, Nix, Lispあたりが好き
+]
+#+end_export
+* はじめに
+#+begin_export typst
+#new-section[はじめに]
+#+end_export
+** 日々なにがしかの日本語入力をしている
+#+begin_export typst
+#slide[
+  = 日々なにがしかの日本語入力をしている
+
+  - xxx
+]
+#+end_export
+** 日本語入力からは逃れられない
+#+begin_export typst
+#slide[
+  = 日本語入力からは逃れられない
+
+  - xxx
+]
+#+end_export
+* IMEの歴史とSKK
+#+begin_export typst
+#new-section[IMEの歴史とSKK]
+#+end_export
+** 初期IME
+#+begin_export typst
+#slide[
+  = 初期のIME
+
+  - xxx
+]
+#+end_export
+** 現代のIME
+#+begin_export typst
+#slide[
+  = 現代のIME
+
+  - xxx
+]
+#+end_export
+** SKKについて
+#+begin_export typst
+#slide[
+  = SKKについて
+
+  - xxx
+]
+#+end_export
+* テキストエディタで文章を書く
+#+begin_export typst
+#new-section[テキストエディタで文章を書く]
+#+end_export
+** テキストエディタで文章を書くメリット
+#+begin_export typst
+#slide[
+  = テキストエディタで文章を書くメリット
+
+  - xxx
+]
+#+end_export
+** VIME / EIME 紹介
+#+begin_export typst
+#slide[
+  = VIME / EIME 紹介
+
+  - xxx
+]
+#+end_export
+** DDSKKの課題
+#+begin_export typst
+#slide[
+  = DDSKKの課題
+
+  - xxx
+]
+#+end_export
+* 自作SKKの技術的特徴
+#+begin_export typst
+#new-section[自作SKKの技術的特徴]
+#+end_export
+** コンセプト
+#+begin_export typst
+#slide[
+  = コンセプト
+
+  - xxx
+]
+#+end_export
+** SKKの仕組み
+#+begin_export typst
+#slide[
+  = SKKの仕組み
+
+  - xxx
+]
+#+end_export
+** Prologで記述する
+#+begin_export typst
+#slide[
+  = Prologで記述する
+
+  - xxx
+]
+#+end_export
+** CPS変換を採用
+#+begin_export typst
+#slide[
+  = CPS変換を採用
+
+  - xxx
+]
+#+end_export
+** テスト
+#+begin_export typst
+#slide[
+  = CPS変換を採用
+
+  - xxx
+]
+#+end_export
+** デバッグ方法
+#+begin_export typst
+#slide[
+  = CPS変換を採用
+
+  - xxx
+]
+#+end_export
+* おわりに
+#+begin_export typst
+#new-section[おわりに]
+#+end_export
+** まとめ
+#+begin_export typst
+#slide[
+  = まとめ
+
+  - xxx
+]
+#+end_export
+** ご清聴ありがとうございました
+#+begin_export typst
+#slide[
+    #show: focus
+
+    ご清聴ありがとうございました
+]
+#+end_export
