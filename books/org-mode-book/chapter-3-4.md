@@ -1,0 +1,55 @@
+---
+title: "3.4. org-exportの内部構造"
+---
+
+
+
+# エクスポートバックエンドの仕組み
+
+-   ox.el の構造
+-   org-export-define-backend
+-   org-export-define-derived-backend
+-   トランスコーダー関数の役割
+
+
+# 標準バックエンド
+
+-   ox-html: HTML出力
+-   ox-latex: LaTeX/PDF出力
+-   ox-md: Markdown出力
+-   ox-odt: OpenDocument出力
+-   ox-ascii: プレーンテキスト出力
+
+
+# #+OPTIONS: の詳細
+
+-   toc:nil/t/2 - 目次制御
+-   num:nil/t - 見出し番号
+-   author:nil/t - 著者表示
+-   date:nil/t - 日付表示
+-   H:4 - 見出しレベル
+-   ^:nil/{} - 上付き文字
+-   -:nil/t - 特殊文字変換
+-   ':nil/t - スマートクォート
+
+
+# バックエンド固有オプション
+
+-   HTML: html-style, html-scripts
+-   LaTeX: latex-class, latex-header
+-   各バックエンドのカスタマイズポイント
+
+
+# フィルター関数
+
+-   org-export-filter-\*-functions
+-   パース後、出力前の変換
+-   最終出力の加工
+-   実践的なフィルター例
+
+
+# カスタムバックエンドの作成
+
+-   派生バックエンドの定義
+-   トランスコーダーの実装
+-   実例: Zenn用バックエンドの概念

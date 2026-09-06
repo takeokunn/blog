@@ -1,0 +1,87 @@
+---
+title: "5.1. Org-roamによる知識のネットワーク化"
+---
+
+
+
+# Org-roamとは
+
+-   Roam Researchのインスピレーション
+-   Zettelkasten（メモ箱）メソッド
+-   Emacsネイティブ実装
+
+
+# インストールと初期設定
+
+-   org-roam-directory
+-   org-roam-db-autosync-mode
+-   SQLiteデータベース
+
+
+# ノートの作成
+
+-   org-roam-node-find
+-   org-roam-node-insert
+-   テンプレートの設定（org-roam-capture-templates）
+
+
+# バックリンクとグラフ
+
+-   org-roam-buffer
+-   バックリンクの表示
+-   org-roam-graph（グラフ可視化）
+-   org-roam-ui（インタラクティブUI）
+
+
+# Zettelkastenの実践
+
+-   永続ノート vs 一時ノート
+-   原子性（1ノート1アイデア）
+-   リンクの重要性
+-   デイリーノート
+
+
+# 注意点
+
+-   ノートの粒度
+-   過剰なリンク
+-   グラフの意味
+
+
+# org-roam v1からv2への移行
+
+-   v1とv2の違い
+    -   データベーススキーマの変更
+    -   ノード概念の導入（ファイル→ノード）
+    -   ID必須化
+-   移行手順
+    -   バックアップの作成
+    -   org-roam-migrate-wizard の実行
+    -   IDの自動付与
+-   移行時の注意点
+    -   リンク形式の変更
+    -   カスタマイズの見直し
+    -   既存パッケージとの互換性
+
+
+# org-roam-dailiesの活用パターン
+
+-   デイリーノートとは
+    -   日付ごとのノート自動生成
+    -   ジャーナリングの入り口
+-   基本設定
+    -   org-roam-dailies-directory
+    -   org-roam-dailies-capture-templates
+-   使い方
+    -   org-roam-dailies-goto-today
+    -   org-roam-dailies-goto-date
+    -   org-roam-dailies-capture-today
+-   活用パターン
+    -   朝のプランニング
+    -   日中のメモ収集
+    -   夕方の振り返り
+    -   週次レビューとの連携
+-   カスタムテンプレート例
+    -   セクション構成の工夫
+    -   自動挿入される情報
+    -   タスクとの連携
