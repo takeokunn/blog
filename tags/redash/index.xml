@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Redash on takeokunn's blog</title><link>https://www.takeokunn.org/tags/redash/</link><description>Recent content in Redash on takeokunn's blog</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Mon, 11 May 2020 09:00:00 +0900</lastBuildDate><atom:link href="https://www.takeokunn.org/tags/redash/index.xml" rel="self" type="application/rss+xml"/><item><title>RedashのQuery一覧を保存する方法</title><link>https://www.takeokunn.org/posts/permanent/20200511164322-redash_save_query_list/</link><pubDate>Mon, 11 May 2020 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/permanent/20200511164322-redash_save_query_list/</guid><description>&lt;p&gt;仕事でRedashの情報を保存したいという要望があった。&lt;/p&gt;
+&lt;p&gt;AMIをとるのは大げさだよなぁと思ったのでqueryの一覧を取得する方法について調べてみた。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;とりあえず世の中に同じようなことを考えている人がいないかを調べてみた。&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://ariarijp.hatenablog.com/entry/redash-query-backup-with-redashman"&gt;redashmanを使ってRedashのクエリをお手軽にバックアップする&lt;/a&gt;という記事があった。&lt;a href="https://github.com/ariarijp/redashman"&gt;ariarijp/redashman&lt;/a&gt;というgolang自作ツールを介してRedashAPIを叩いているようだ。&lt;/p&gt;
+&lt;p&gt;Redash APIのドキュメントはこれだ。&lt;a href="https://redash.io/help/user-guide/integrations-and-api/api"&gt;Integrations and API&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;queryのCRUDとdashboardのCRUDが用意されている。api tokenを発行してそれを使えば楽に操作ができるようだ。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/ariarijp/redashman"&gt;ariarijp/redashman&lt;/a&gt;はすごく良さそうなのだが、自分が欲しいのはqueryの一覧であって豪華なAPI Clientではない。&lt;/p&gt;
+&lt;p&gt;Golangを入れることすら面倒くさいのだ。&lt;/p&gt;
+&lt;p&gt;今回の用途では雑にcurlで取得できればよかったので次のように投げた。
+あとは必要なフォーマットに合わせてよしなにjqを使えばよい。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ curl &lt;span style="color:#e6db74"&gt;&amp;#34;https://&amp;lt;redash url&amp;gt;/api/queries&amp;#34;&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt; -H &lt;span style="color:#e6db74"&gt;&amp;#34;Accept: application/json&amp;#34;&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt; -H &lt;span style="color:#e6db74"&gt;&amp;#34;Authorization: Key &amp;lt;auth key&amp;gt;&amp;#34;&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt; | jq &lt;span style="color:#e6db74"&gt;&amp;#34;.results&amp;#34;&lt;/span&gt; | jq &lt;span style="color:#e6db74"&gt;&amp;#34;map({ id, name, query })&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;responseはこんな感じ。きれいに出せた。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-json" data-lang="json"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;[
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;id&amp;#34;&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;13&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;name&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;ユーザ一覧&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;query&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;select * from users;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; },
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;id&amp;#34;&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;12&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;name&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;ユーザ詳細&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;&amp;#34;query&amp;#34;&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#34;select * from users where id = 1;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description></item></channel></rss>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Npm on takeokunn's blog</title><link>https://www.takeokunn.org/tags/npm/</link><description>Recent content in Npm on takeokunn's blog</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Sun, 17 Mar 2019 09:00:00 +0900</lastBuildDate><atom:link href="https://www.takeokunn.org/tags/npm/index.xml" rel="self" type="application/rss+xml"/><item><title>npm libraryのbuild formatについて</title><link>https://www.takeokunn.org/posts/permanent/20190317001306-publish_npm_library_build_format/</link><pubDate>Sun, 17 Mar 2019 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/permanent/20190317001306-publish_npm_library_build_format/</guid><description>&lt;p&gt;半年前くらいにnpm package作ってみたいなぁと思って作ってみた時学んだことをまとめていく。&lt;/p&gt;
+&lt;p&gt;次の記事でだいたい理解できたのだが、実際にやってみて細かいところでつまずた部分を書いていく。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://qiita.com/TsutomuNakamura/items/f943e0490d509f128ae2"&gt;初めてのnpmパッケージ公開&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://qiita.com/fnobi/items/f6b1574fb9f4518ed520"&gt;3分でできるnpmモジュール&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;ちなみに、repoは &lt;a href="https://github.com/takeokunn/businesh"&gt;takeokunn/businesh&lt;/a&gt; で、ビジネッシュ翻訳してくれるようなゴミみたいなpackageだ。意外とdownloadがあるのウケる。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-js" data-lang="js"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;const&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;before_text&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;任意の文字列をビジネッシュ・テキストに変換するライブラリです。&amp;#39;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;businesh&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;translate&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;before_text&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; .&lt;span style="color:#a6e22e"&gt;then&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;after_text&lt;/span&gt; =&amp;gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;// 半強制のコンテクストをハイクオリティなビジネス的サティスファクション・テキストにコンバートフレキシブルに対応するフィジビリティスタディって、この前読んだビジネス書に書いてあった、実例もたくさんある。
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;console&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;log&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;after_text&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; })
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; .&lt;span style="color:#66d9ef"&gt;catch&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;err&lt;/span&gt; =&amp;gt; &lt;span style="color:#a6e22e"&gt;console&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;log&lt;/span&gt;(&lt;span style="color:#a6e22e"&gt;err&lt;/span&gt;));
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;hr&gt;
+&lt;p&gt;&lt;code&gt;npm&lt;/code&gt; のpackageと一口に言っても、 &lt;code&gt;server side javascript&lt;/code&gt; なのか、 &lt;code&gt;frontend javascript&lt;/code&gt; なのかで毛色が違う。通常次のようにライブラリを呼び出す。&lt;/p&gt;
+&lt;p&gt;frontend:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-js" data-lang="js"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;import&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;businesh&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;from&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;businesh&amp;#39;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;server side:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-js" data-lang="js"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;const&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;businesh&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;require&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#39;businesh&amp;#39;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;上記のように呼び出すには、次のようにpackageを提供する必要がある。&lt;/p&gt;
+&lt;p&gt;frontend:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-js" data-lang="js"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;export&lt;/span&gt; { &lt;span style="color:#a6e22e"&gt;businesh&lt;/span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;server side:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-js" data-lang="js"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;exports&lt;/span&gt;.&lt;span style="color:#a6e22e"&gt;businesh&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;businesh&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;javascript&lt;/code&gt; の &lt;code&gt;module&lt;/code&gt; には主に4種類ある。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;AMD&lt;/li&gt;
+&lt;li&gt;CommonJS&lt;/li&gt;
+&lt;li&gt;ES&lt;/li&gt;
+&lt;li&gt;UMD&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;この辺の記事が参考になる。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://qiita.com/chuck0523/items/1868a4c04ab4d8cdfb23"&gt;[意訳]初学者のためのJavaScriptモジュール講座 #Part1&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.davidbcalhoun.com/2014/what-is-amd-commonjs-and-umd/"&gt;What is AMD, CommonJS, and UMD?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://auth0.com/blog/javascript-module-systems-showdown/"&gt;JavaScript Module Systems Showdown: CommonJS vs AMD vs ES2015&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;code&gt;bundler&lt;/code&gt; のbuild optionで解決できる。 &lt;code&gt;rollup&lt;/code&gt; を使っているので次のように設定すればよい。&lt;/p&gt;</description></item></channel></rss>

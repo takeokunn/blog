@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Phpstudy on takeokunn's blog</title><link>https://www.takeokunn.org/tags/phpstudy/</link><description>Recent content in Phpstudy on takeokunn's blog</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Mon, 20 Feb 2023 09:00:00 +0900</lastBuildDate><atom:link href="https://www.takeokunn.org/tags/phpstudy/index.xml" rel="self" type="application/rss+xml"/><item><title>「第149回 PHP勉強会＠東京」で登壇してきました</title><link>https://www.takeokunn.org/posts/diary/20230220161138-phpstudy_149_report/</link><pubDate>Mon, 20 Feb 2023 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/diary/20230220161138-phpstudy_149_report/</guid><description>&lt;h2 id="始めに"&gt;始めに&lt;/h2&gt;
+&lt;p&gt;2023-02-15（水）に &lt;a href="https://www.gmo.jp/csr/partners/office/#gmo-yours"&gt;GMO Yours&lt;/a&gt; で行われた &lt;a href="https://phpstudy.doorkeeper.jp/events/151021"&gt;第149回 PHP勉強会＠東京&lt;/a&gt; で登壇してきました。
+現地には30人、オンラインの視聴者は20人くらいで非常に和気藹々とした勉強会でした。&lt;/p&gt;
+&lt;blockquote class="twitter-tweet"&gt;&lt;p lang="ja" dir="ltr"&gt;GMO Yours に来てます! &lt;a href="https://twitter.com/hashtag/phpstudy?src=hash&amp;amp;ref_src=twsrc%5Etfw"&gt;#phpstudy&lt;/a&gt;&lt;/p&gt;&amp;mdash; た҉͜け҉͜て҉͜ぃ҉͜𓁈𓈷 (@takeokunn) &lt;a href="https://twitter.com/takeokunn/status/1625810497215029248?ref_src=twsrc%5Etfw"&gt;February 15, 2023&lt;/a&gt;&lt;/blockquote&gt; &lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8"&gt;&lt;/script&gt;
+&lt;h2 id="登壇"&gt;登壇&lt;/h2&gt;
+&lt;h3 id="内容について"&gt;内容について&lt;/h3&gt;
+&lt;p&gt;&lt;a href="https://docs.google.com/presentation/d/1WXgJP9oqydr-5Vn1oXDti9Gdfaxc_OhvVg6tgIi5LEs/edit#slide=id.p"&gt;phpstan-strict-rulesでよりbetterなphpを手に入れよう&lt;/a&gt; というタイトルで話しました。&lt;/p&gt;
+&lt;iframe
+src="https://docs.google.com/presentation/d/e/2PACX-1vR2CYaDCANUaSo4Aq2RJ82Z0Bh2rxMKTWljxzg9OO-V7fi_7yi0AgaEMCvCdHizHUxFTuVD2HwB9HAi/embed?start=false&amp;loop=false&amp;delayms=3000"
+frameborder="0"
+width="960"
+height="569"
+allowfullscreen="true"
+mozallowfullscreen="true"
+webkitallowfullscreen="true"&gt;
+&lt;/iframe&gt;
+&lt;p&gt;関連するツイートはこのあたりです。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://togetter.com/li/2082268?page=9"&gt;https://togetter.com/li/2082268?page=9&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://togetter.com/li/2082268?page=10"&gt;https://togetter.com/li/2082268?page=10&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://togetter.com/li/2082268?page=11"&gt;https://togetter.com/li/2082268?page=11&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://togetter.com/li/2082268?page=12"&gt;https://togetter.com/li/2082268?page=12&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://togetter.com/li/2082268?page=13"&gt;https://togetter.com/li/2082268?page=13&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;YouTubeのアーカイブも残っているので気になる人はこちらから見てください。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.youtube.com/live/k0GkmSYhtrQ?feature=share&amp;amp;t=7526"&gt;https://www.youtube.com/live/k0GkmSYhtrQ?feature=share&amp;amp;t=7526&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id="補足など"&gt;補足など&lt;/h3&gt;
+&lt;h4 id="emacsと申します"&gt;Emacsと申します&lt;/h4&gt;
+&lt;p&gt;&lt;a href="https://dic.pixiv.net/a/%E4%BF%BA%E3%81%8C%E3%82%AC%E3%83%B3%E3%83%80%E3%83%A0%E3%81%A0"&gt;&lt;code&gt;俺がEmacsだ&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;h4 id="phpstan-tシャツについて"&gt;PHPStan Tシャツについて&lt;/h4&gt;
+&lt;p&gt;いつぞやのイベントでたっどさんから託されたTシャツ。
+日本で数人しか持っていない実はレアなやつ。&lt;/p&gt;
+&lt;blockquote class="twitter-tweet"&gt;&lt;p lang="ja" dir="ltr"&gt;日本で数人のPHPStanを着こなしている男 &lt;a href="https://twitter.com/hashtag/phpstudy?src=hash&amp;amp;ref_src=twsrc%5Etfw"&gt;#phpstudy&lt;/a&gt; &lt;a href="https://t.co/XOW4FRp535"&gt;pic.twitter.com/XOW4FRp535&lt;/a&gt;&lt;/p&gt;&amp;mdash; にゃんだーすわん (@tadsan) &lt;a href="https://twitter.com/tadsan/status/1625828730173284353?ref_src=twsrc%5Etfw"&gt;February 15, 2023&lt;/a&gt;&lt;/blockquote&gt; &lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8"&gt;&lt;/script&gt;
+&lt;h4 id="php-src-を毎朝-git-pull-していることについて"&gt;&lt;code&gt;php-src&lt;/code&gt; を毎朝 &lt;code&gt;git pull&lt;/code&gt; していることについて&lt;/h4&gt;
+&lt;p&gt;自分の好きなプロジェクトを毎朝 &lt;code&gt;git pull&lt;/code&gt; して変更を見る行為は季節の移ろいを感じられてお勧めです。&lt;/p&gt;
+&lt;h4 id="hanhanさんの-今週の-php-を毎週かかさずチェックしよう"&gt;hanhanさんの「今週の PHP」を毎週かかさずチェックしよう&lt;/h4&gt;
+&lt;p&gt;&lt;code&gt;hanhan&lt;/code&gt; さんいつもありがとう。&lt;/p&gt;
+&lt;blockquote class="twitter-tweet"&gt;&lt;p lang="ja" dir="ltr"&gt;&lt;a href="https://t.co/fGEjRAZuUN"&gt;https://t.co/fGEjRAZuUN&lt;/a&gt; &lt;a href="https://twitter.com/hashtag/%E4%BB%8A%E9%80%B1%E3%81%AEPHP?src=hash&amp;amp;ref_src=twsrc%5Etfw"&gt;#今週のPHP&lt;/a&gt; はこちらです。 &lt;a href="https://twitter.com/hashtag/phpstudy?src=hash&amp;amp;ref_src=twsrc%5Etfw"&gt;#phpstudy&lt;/a&gt;&lt;/p&gt;&amp;mdash; Ryo Tomidokoro (@hanhan1978) &lt;a href="https://twitter.com/hanhan1978/status/1625827379645153286?ref_src=twsrc%5Etfw"&gt;February 15, 2023&lt;/a&gt;&lt;/blockquote&gt; &lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8"&gt;&lt;/script&gt;
+&lt;h4 id="皆さんは会社や個人のプロジェクトでphpstanを入れていますか"&gt;皆さんは会社や個人のプロジェクトでPHPStanを入れていますか?&lt;/h4&gt;
+&lt;p&gt;会場は半分くらいの方が手を上げていました。&lt;/p&gt;
+&lt;h4 id="phpstanのlevelは5より上か下か"&gt;PHPStanのlevelは5より上か下か&lt;/h4&gt;
+&lt;p&gt;会場はさらに半分くらいの方がlevel5よりも上と手を上げていました。&lt;/p&gt;
+&lt;h4 id="phpstanを入れて良かったかどうか"&gt;PHPStanを入れて良かったかどうか&lt;/h4&gt;
+&lt;p&gt;おおむねみなさん手を上げていました。&lt;/p&gt;
+&lt;h4 id="初期開発でphpstan-level-maxを選択"&gt;初期開発でPHPStan Level Maxを選択&lt;/h4&gt;
+&lt;p&gt;既存のコードがない場合ほど制約を厳しくできて良いですね、という声がちらほらありました。
+TypeScriptでも &lt;code&gt;noImplicitAny&lt;/code&gt; を有効にするには初期じゃないとできない等、既存のコードベースがあるかどうかはかなり大きいです。&lt;/p&gt;</description></item></channel></rss>

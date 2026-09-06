@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Llm on takeokunn's blog</title><link>https://www.takeokunn.org/tags/llm/</link><description>Recent content in Llm on takeokunn's blog</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Fri, 18 Jul 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://www.takeokunn.org/tags/llm/index.xml" rel="self" type="application/rss+xml"/><item><title>Hugoで生成したブログにllms.txtとllms-full.txtを導入した</title><link>https://www.takeokunn.org/posts/fleeting/20250718160938-add_llms_txt/</link><pubDate>Fri, 18 Jul 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250718160938-add_llms_txt/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://tech.basemachina.jp/entry/llms-full-txt-ai-support-chat"&gt;llms-full.txtで始めるAIサポートチャット - basemachina&lt;/a&gt; を読んだ。&lt;/p&gt;
+&lt;p&gt;最近gemini-cliで文章を書かせることが増えたので、自分の文章スタイルを学習させればブログを半自動生成できるんだろうなと思ったので試してみた。&lt;/p&gt;
+&lt;h2 id="試したこと-やったこと"&gt;試したこと・やったこと&lt;/h2&gt;
+&lt;h3 id="1-dot-llms-dot-txtの規格について簡単に調査する"&gt;1. llms.txtの規格について簡単に調査する&lt;/h3&gt;
+&lt;p&gt;以下が仕様。
+&lt;a href="https://llmstxt.org/"&gt;https://llmstxt.org/&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;llms.txt: サイトの概要や、サイトに含まれるページへのリンク一覧&lt;/li&gt;
+&lt;li&gt;llms-full.txt: サイト全体の情報を1つに収めた文書ファイル&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;各サービスのlls-full.txtは以下。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Cursor （約500KB）
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://docs.cursor.com/llms-full.txt"&gt;https://docs.cursor.com/llms-full.txt&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Anthropic （約2.5MB）
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://docs.anthropic.com/llms-full.txt"&gt;https://docs.anthropic.com/llms-full.txt&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Mastra （約4MB）
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://mastra.ai/llms-full.txt"&gt;https://mastra.ai/llms-full.txt&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Cloudflare （約17MB）
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://developers.cloudflare.com/llms-full.txt"&gt;https://developers.cloudflare.com/llms-full.txt&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="2-dot-hugoに導入する"&gt;2. hugoに導入する&lt;/h3&gt;
+&lt;p&gt;&lt;a href="https://masutaka.net/2025-05-18-1/"&gt;Hugo で作ったサイトに llms.txt と llms-full.txt を設置した&lt;/a&gt; を参考にした。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/takeokunn/hugo-take-theme"&gt;takeokunn/hugo-take-theme&lt;/a&gt; で次のlayoutを作成した。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/takeokunn/hugo-take-theme/blob/main/layouts/index.llms.txt"&gt;index.llms.txt&lt;/a&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-markdown" data-lang="markdown"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;# takeokunn&amp;#39;s blog
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;たけてぃ(@takeokunn)の個人的なメモです。
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;## URL Structure
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Zettelkasten
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; fleeting
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; 小さい技術的なメモ
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; permanent
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; 纏まった技術的メモ
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; poem
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; 個人的なポエム
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; diary
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; 個人的な日記
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;## Content
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{{ range .Site.RegularPages }}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;-&lt;/span&gt; [&lt;span style="color:#f92672"&gt;{{ .Title }}&lt;/span&gt;](&lt;span style="color:#a6e22e"&gt;{{ .Permalink }}&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{{ end }}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;a href="https://github.com/takeokunn/hugo-take-theme/blob/main/layouts/index.llmsfull.txt"&gt;index.llmsfull.txt&lt;/a&gt;:&lt;/p&gt;</description></item></channel></rss>

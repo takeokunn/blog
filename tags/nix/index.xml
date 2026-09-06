@@ -1,0 +1,1053 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Nix on takeokunn's blog</title><link>https://www.takeokunn.org/tags/nix/</link><description>Recent content in Nix on takeokunn's blog</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Sat, 10 Jan 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://www.takeokunn.org/tags/nix/index.xml" rel="self" type="application/rss+xml"/><item><title>nix-darwinのlinux-builderでNixOSを動かす</title><link>https://www.takeokunn.org/posts/fleeting/20251130151735-run_nixos_apple_linux_builder/</link><pubDate>Sat, 10 Jan 2026 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20251130151735-run_nixos_apple_linux_builder/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;元々OrbStack VMでNixOSを動かしていたのだが、k8sを動かす時にOrbStackだと動かずDocker for Macだと動くという事象が発生した。&lt;/p&gt;
+&lt;p&gt;調査をした所、nix-darwinがlinux-builderというものをサポートしてることがわかったのでメモしておく。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://scrapbox.io/kanna/nix_linux-builder"&gt;https://scrapbox.io/kanna/nix_linux-builder&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id="試したこと-やったこと"&gt;試したこと・やったこと&lt;/h2&gt;
+&lt;h3 id="1-dot-linux-builderについて調査"&gt;1. linux-builderについて調査&lt;/h3&gt;
+&lt;p&gt;このあたりに纏まっている。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://scrapbox.io/kanna/nix_linux-builder"&gt;nix linux-builder - scrapbox&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://nixcademy.com/posts/macos-linux-builder/"&gt;Build and Deploy Linux Systems from macOS&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;nix-darwinには &lt;a href="https://github.com/nix-darwin/nix-darwin/blob/master/modules/nix/linux-builder.nix"&gt;modules/nix/linux-builder.nix&lt;/a&gt; が提供されており、 &lt;code&gt;enable=true&lt;/code&gt; するだけで &lt;code&gt;launchd.daemons&lt;/code&gt; に登録されるようだ。&lt;/p&gt;
+&lt;h3 id="2-dot-nix-darwinを導入してみる"&gt;2. nix-darwinを導入してみる&lt;/h3&gt;
+&lt;p&gt;現状の設定は以下。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/takeokunn/nixos-configuration/blob/9b70ffde2c5d0233c0c78b63a1ad36d2638d5268/nix-darwin/config/linux-builder.nix"&gt;https://github.com/takeokunn/nixos-configuration/blob/9b70ffde2c5d0233c0c78b63a1ad36d2638d5268/nix-darwin/config/linux-builder.nix&lt;/a&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-nix" data-lang="nix"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{ lib&lt;span style="color:#f92672"&gt;,&lt;/span&gt; &lt;span style="color:#f92672"&gt;...&lt;/span&gt; }:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; nix&lt;span style="color:#f92672"&gt;.&lt;/span&gt;linux-builder &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; enable &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ephemeral &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;false&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; systems &lt;span style="color:#f92672"&gt;=&lt;/span&gt; [ &lt;span style="color:#e6db74"&gt;&amp;#34;aarch64-linux&amp;#34;&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;x86_64-linux&amp;#34;&lt;/span&gt; ];
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; config &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; boot&lt;span style="color:#f92672"&gt;.&lt;/span&gt;binfmt&lt;span style="color:#f92672"&gt;.&lt;/span&gt;emulatedSystems &lt;span style="color:#f92672"&gt;=&lt;/span&gt; [ &lt;span style="color:#e6db74"&gt;&amp;#34;x86_64-linux&amp;#34;&lt;/span&gt; ];
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; virtualisation &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; cores &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;6&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; memorySize &lt;span style="color:#f92672"&gt;=&lt;/span&gt; lib&lt;span style="color:#f92672"&gt;.&lt;/span&gt;mkForce (&lt;span style="color:#ae81ff"&gt;1024&lt;/span&gt; &lt;span style="color:#f92672"&gt;*&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;16&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; diskSize &lt;span style="color:#f92672"&gt;=&lt;/span&gt; lib&lt;span style="color:#f92672"&gt;.&lt;/span&gt;mkForce (&lt;span style="color:#ae81ff"&gt;1024&lt;/span&gt; &lt;span style="color:#f92672"&gt;*&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;200&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; nix&lt;span style="color:#f92672"&gt;.&lt;/span&gt;settings &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; experimental-features &lt;span style="color:#f92672"&gt;=&lt;/span&gt; [
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;nix-command&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;flakes&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ];
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; security&lt;span style="color:#f92672"&gt;.&lt;/span&gt;sudo&lt;span style="color:#f92672"&gt;.&lt;/span&gt;extraRules &lt;span style="color:#f92672"&gt;=&lt;/span&gt; [
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; users &lt;span style="color:#f92672"&gt;=&lt;/span&gt; [ &lt;span style="color:#e6db74"&gt;&amp;#34;builder&amp;#34;&lt;/span&gt; ];
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; commands &lt;span style="color:#f92672"&gt;=&lt;/span&gt; [
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; command &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;ALL&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; options &lt;span style="color:#f92672"&gt;=&lt;/span&gt; [ &lt;span style="color:#e6db74"&gt;&amp;#34;NOPASSWD&amp;#34;&lt;/span&gt; ];
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ];
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ];
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="3-dot-動いてることを確認する"&gt;3. 動いてることを確認する&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;take&lt;/code&gt; 部分はwhoamiに読み替えてください。&lt;/p&gt;</description></item><item><title>Neovimの設定をNixvimに移行した</title><link>https://www.takeokunn.org/posts/fleeting/20251124235900-migrate_nixvim/</link><pubDate>Thu, 25 Dec 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20251124235900-migrate_nixvim/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;私はEmacsユーザだが、最近同僚エンジニアが全員Neovimユーザの会社に転職してしまった。
+よい機会だしある程度Neovimを使えた方がいいなと思い、Neovimをひととおり設定したのでメモしておく。&lt;/p&gt;
+&lt;h2 id="試したこと-やったこと"&gt;試したこと・やったこと&lt;/h2&gt;
+&lt;h3 id="1-dot-管理方法選定"&gt;1. 管理方法選定&lt;/h3&gt;
+&lt;p&gt;次のニーズを満たすものを探していた。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;普段メインで触らないので塩漬ビリティの高い状態にする&lt;/li&gt;
+&lt;li&gt;lua scriptは可能なら書きたくない、期間が開くとどうせ忘れる&lt;/li&gt;
+&lt;li&gt;AIに書かせても動くことを保証しやすい状態にする&lt;/li&gt;
+&lt;li&gt;プラグイン管理と設定が近い状態にする&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Nixにないかなと調査してた所、&lt;a href="https://github.com/nix-community/nixvim"&gt;Nixvim&lt;/a&gt; を使えば上記の要件を満たせることがわかったので導入してみた。&lt;/p&gt;
+&lt;p&gt;余談だが公式ドキュメントは情報量が少ないのでソースコードを読んだ方がいい。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://nix-community.github.io/nixvim/index.html"&gt;https://nix-community.github.io/nixvim/index.html&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id="2-dot-初期構築"&gt;2. 初期構築&lt;/h3&gt;
+&lt;p&gt;インストールガイドなどを参考に導入する。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://nix-community.github.io/nixvim/user-guide/install.html"&gt;https://nix-community.github.io/nixvim/user-guide/install.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;flake.nixで設定する。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-nix" data-lang="nix"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; inputs &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; nixvim &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; url &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;github:nix-community/nixvim&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; inputs&lt;span style="color:#f92672"&gt;.&lt;/span&gt;nixpkgs&lt;span style="color:#f92672"&gt;.&lt;/span&gt;follows &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;nixpkgs&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;home-managerのsharedModulesで読み込む。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-nix" data-lang="nix"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;nix-darwin&lt;span style="color:#f92672"&gt;.&lt;/span&gt;lib&lt;span style="color:#f92672"&gt;.&lt;/span&gt;darwinSystem {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; modules &lt;span style="color:#f92672"&gt;=&lt;/span&gt; [
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; home-manager&lt;span style="color:#f92672"&gt;.&lt;/span&gt;darwinModules&lt;span style="color:#f92672"&gt;.&lt;/span&gt;home-manager
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; home-manager &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; sharedModules &lt;span style="color:#f92672"&gt;=&lt;/span&gt; [ nixvim&lt;span style="color:#f92672"&gt;.&lt;/span&gt;homeModules&lt;span style="color:#f92672"&gt;.&lt;/span&gt;nixvim ];
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ];
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;あとはNixvimを有効にするだけ。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-nix" data-lang="nix"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; programs&lt;span style="color:#f92672"&gt;.&lt;/span&gt;nixvim &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; enable &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; colorschemes&lt;span style="color:#f92672"&gt;.&lt;/span&gt;catppuccin&lt;span style="color:#f92672"&gt;.&lt;/span&gt;enable &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; plugins&lt;span style="color:#f92672"&gt;.&lt;/span&gt;lualine&lt;span style="color:#f92672"&gt;.&lt;/span&gt;enable &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="3-dot-aiに設定させる"&gt;3. AIに設定させる&lt;/h3&gt;
+&lt;p&gt;あとは好みの設定をするだけ。&lt;/p&gt;</description></item><item><title>個人的sketchybar設定</title><link>https://www.takeokunn.org/posts/fleeting/20251124235900-setting_sketchybar/</link><pubDate>Sun, 30 Nov 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20251124235900-setting_sketchybar/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20251124235900-setting_aerospace/"&gt;個人的Aerospace設定&lt;/a&gt; に続き、sketchybarの設定もしたのでメモしておく。&lt;/p&gt;
+&lt;p&gt;大体の対応は公式ドキュメントを元にClaude Codeに対応させた。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://felixkratz.github.io/SketchyBar/"&gt;https://felixkratz.github.io/SketchyBar/&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id="試したこと-やったこと"&gt;試したこと・やったこと&lt;/h2&gt;
+&lt;h3 id="1-dot-完成イメージと設計方針"&gt;1. 完成イメージと設計方針&lt;/h3&gt;
+&lt;p&gt;世の中のsketchybarのサンプルを作成して、こんな感じで作る目論見を立てた。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Hack Nerd Font: アイコンとラベル用&lt;/li&gt;
+&lt;li&gt;SF Pro: Appleロゴ用（macOS標準搭載）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;!--listend--&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-console" data-lang="console"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;┌─────────────────────────────────────────────────────────────────────────┐
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;│ [􀣺] [1 2 3 4 5 6 7 8 9 0] Firefox | 󰻠 5% 󰍛 42% | 󰖩 Home | 󰕾 50% | 󰁹 85% | 󰃭 01/15 Mon 󰥔 14:30 │
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;└─────────────────────────────────────────────────────────────────────────┘
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;また、すべてをdracula themeに寄せるのでカラーパレットをAIに作らせた。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-nix" data-lang="nix"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;colors &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; background &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;0xff282a36&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; backgroundTransparent &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;0xcc282a36&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; currentLine &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;0xff44475a&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; foreground &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;0xfff8f8f2&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; comment &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;0xff6272a4&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; cyan &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;0xff8be9fd&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; green &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;0xff50fa7b&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; orange &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;0xffffb86c&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; pink &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;0xffff79c6&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; purple &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;0xffbd93f9&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; red &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;0xffff5555&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; yellow &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;0xfff1fa8c&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; transparent &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;0x00000000&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; black &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;0xff21222c&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="2-dot-基本設定"&gt;2. 基本設定&lt;/h3&gt;
+&lt;h4 id="2-dot-1-dot-home-manager設定"&gt;2.1. home-manager設定&lt;/h4&gt;
+&lt;p&gt;home-manager moduleで定義されているので &lt;code&gt;enable=true&lt;/code&gt; するだけで入る。&lt;/p&gt;</description></item><item><title>k9sをDracula Theme対応した</title><link>https://www.takeokunn.org/posts/fleeting/20251124235900-k9s_dracula_theme/</link><pubDate>Sat, 29 Nov 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20251124235900-k9s_dracula_theme/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;最近仕事でkubernetesを使う機会に恵まれた。
+kubernetesを使うにあたって、モニタリングツールは&lt;a href="https://k9scli.io/"&gt;k9s&lt;/a&gt;がデファクトのようなのでhome-managerを使って導入した。
+「すべてのツールのカラーテーマはdracula themeに寄せる」という方針なので漏れなく対応した。&lt;/p&gt;
+&lt;h2 id="試したこと-やったこと"&gt;試したこと・やったこと&lt;/h2&gt;
+&lt;h3 id="1-dot-home-managerで導入"&gt;1. home-managerで導入&lt;/h3&gt;
+&lt;p&gt;home-manager moduleはすでに用意されているのでenableするだけでよい。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;C-c&lt;/code&gt; で閉じるよりも &lt;code&gt;:q&lt;/code&gt; で閉じる方が直感的なので &lt;code&gt;noExitOnCtrlC&lt;/code&gt; を有効化した。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/nix-community/home-manager/blob/master/modules/programs/k9s.nix"&gt;https://github.com/nix-community/home-manager/blob/master/modules/programs/k9s.nix&lt;/a&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-nix" data-lang="nix"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; programs&lt;span style="color:#f92672"&gt;.&lt;/span&gt;k9s &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; enable &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; settings&lt;span style="color:#f92672"&gt;.&lt;/span&gt;k9s &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; noExitOnCtrlC &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="2-dot-dracula-theme対応"&gt;2. dracula theme対応&lt;/h3&gt;
+&lt;p&gt;k9sはskinという機能を用意しており、自前で用意したものを適用できる。
+Claude Codeに必要なものを用意させた。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://k9scli.io/topics/skins/"&gt;https://k9scli.io/topics/skins/&lt;/a&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-nix" data-lang="nix"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; programs&lt;span style="color:#f92672"&gt;.&lt;/span&gt;k9s &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; settings&lt;span style="color:#f92672"&gt;.&lt;/span&gt;k9s &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ui&lt;span style="color:#f92672"&gt;.&lt;/span&gt;skin &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;dracula&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; skins &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; dracula &lt;span style="color:#f92672"&gt;=&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;let&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; foreground &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;#f8f8f2&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; background &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;#282a36&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; current_line &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;#44475a&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; selection &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;#44475a&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; comment &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;#6272a4&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; cyan &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;#8be9fd&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; green &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;#50fa7b&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; orange &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;#ffb86c&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; pink &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;#ff79c6&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; purple &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;#bd93f9&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; red &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;#ff5555&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; yellow &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;#f1fa8c&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;in&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; k9s &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; body &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; fgColor &lt;span style="color:#f92672"&gt;=&lt;/span&gt; foreground;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; bgColor &lt;span style="color:#f92672"&gt;=&lt;/span&gt; background;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; logoColor &lt;span style="color:#f92672"&gt;=&lt;/span&gt; purple;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; prompt &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; fgColor &lt;span style="color:#f92672"&gt;=&lt;/span&gt; foreground;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; bgColor &lt;span style="color:#f92672"&gt;=&lt;/span&gt; background;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; suggestColor &lt;span style="color:#f92672"&gt;=&lt;/span&gt; purple;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; info &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; fgColor &lt;span style="color:#f92672"&gt;=&lt;/span&gt; pink;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; sectionColor &lt;span style="color:#f92672"&gt;=&lt;/span&gt; foreground;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; dialog &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; fgColor &lt;span style="color:#f92672"&gt;=&lt;/span&gt; foreground;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; bgColor &lt;span style="color:#f92672"&gt;=&lt;/span&gt; background;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; buttonFgColor &lt;span style="color:#f92672"&gt;=&lt;/span&gt; foreground;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; buttonBgColor &lt;span style="color:#f92672"&gt;=&lt;/span&gt; purple;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; buttonFocusFgColor &lt;span style="color:#f92672"&gt;=&lt;/span&gt; yellow;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; buttonFocusBgColor &lt;span style="color:#f92672"&gt;=&lt;/span&gt; pink;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; labelFgColor &lt;span style="color:#f92672"&gt;=&lt;/span&gt; orange;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; fieldFgColor &lt;span style="color:#f92672"&gt;=&lt;/span&gt; foreground;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; frame &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; border &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; fgColor &lt;span style="color:#f92672"&gt;=&lt;/span&gt; selection;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; focusColor &lt;span style="color:#f92672"&gt;=&lt;/span&gt; current_line;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; menu &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; fgColor &lt;span style="color:#f92672"&gt;=&lt;/span&gt; foreground;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; keyColor &lt;span style="color:#f92672"&gt;=&lt;/span&gt; pink;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; numKeyColor &lt;span style="color:#f92672"&gt;=&lt;/span&gt; pink;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; crumbs &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; fgColor &lt;span style="color:#f92672"&gt;=&lt;/span&gt; foreground;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; bgColor &lt;span style="color:#f92672"&gt;=&lt;/span&gt; current_line;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; activeColor &lt;span style="color:#f92672"&gt;=&lt;/span&gt; current_line;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; status &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; newColor &lt;span style="color:#f92672"&gt;=&lt;/span&gt; cyan;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; modifyColor &lt;span style="color:#f92672"&gt;=&lt;/span&gt; purple;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; addColor &lt;span style="color:#f92672"&gt;=&lt;/span&gt; green;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; errorColor &lt;span style="color:#f92672"&gt;=&lt;/span&gt; red;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; highlightColor &lt;span style="color:#f92672"&gt;=&lt;/span&gt; orange;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; killColor &lt;span style="color:#f92672"&gt;=&lt;/span&gt; comment;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; completedColor &lt;span style="color:#f92672"&gt;=&lt;/span&gt; comment;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; title &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; fgColor &lt;span style="color:#f92672"&gt;=&lt;/span&gt; foreground;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; bgColor &lt;span style="color:#f92672"&gt;=&lt;/span&gt; current_line;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; highlightColor &lt;span style="color:#f92672"&gt;=&lt;/span&gt; orange;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; counterColor &lt;span style="color:#f92672"&gt;=&lt;/span&gt; purple;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; filterColor &lt;span style="color:#f92672"&gt;=&lt;/span&gt; pink;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; views &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; charts &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; bgColor &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;default&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; defaultDialColors &lt;span style="color:#f92672"&gt;=&lt;/span&gt; [
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; purple
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; red
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ];
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; defaultChartColors &lt;span style="color:#f92672"&gt;=&lt;/span&gt; [
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; purple
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; red
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ];
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; table &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; fgColor &lt;span style="color:#f92672"&gt;=&lt;/span&gt; foreground;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; bgColor &lt;span style="color:#f92672"&gt;=&lt;/span&gt; background;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; header &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; fgColor &lt;span style="color:#f92672"&gt;=&lt;/span&gt; foreground;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; bgColor &lt;span style="color:#f92672"&gt;=&lt;/span&gt; background;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; sorterColor &lt;span style="color:#f92672"&gt;=&lt;/span&gt; cyan;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; xray &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; fgColor &lt;span style="color:#f92672"&gt;=&lt;/span&gt; foreground;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; bgColor &lt;span style="color:#f92672"&gt;=&lt;/span&gt; background;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; cursorColor &lt;span style="color:#f92672"&gt;=&lt;/span&gt; current_line;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; graphicColor &lt;span style="color:#f92672"&gt;=&lt;/span&gt; purple;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; showIcons &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;false&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; yaml &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; keyColor &lt;span style="color:#f92672"&gt;=&lt;/span&gt; pink;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; colonColor &lt;span style="color:#f92672"&gt;=&lt;/span&gt; purple;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; valueColor &lt;span style="color:#f92672"&gt;=&lt;/span&gt; foreground;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; logs &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; fgColor &lt;span style="color:#f92672"&gt;=&lt;/span&gt; foreground;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; bgColor &lt;span style="color:#f92672"&gt;=&lt;/span&gt; background;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; indicator &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; fgColor &lt;span style="color:#f92672"&gt;=&lt;/span&gt; foreground;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; bgColor &lt;span style="color:#f92672"&gt;=&lt;/span&gt; purple;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; toggleOnColor &lt;span style="color:#f92672"&gt;=&lt;/span&gt; green;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; toggleOffColor &lt;span style="color:#f92672"&gt;=&lt;/span&gt; cyan;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="3-dot-k9s起動する"&gt;3. k9s起動する&lt;/h3&gt;
+&lt;p&gt;無事反映されてることが確認できた。&lt;/p&gt;</description></item><item><title>個人的Aerospace設定</title><link>https://www.takeokunn.org/posts/fleeting/20251124235900-setting_aerospace/</link><pubDate>Sat, 29 Nov 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20251124235900-setting_aerospace/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;タイル型Window Managerは割と好きで、Linux Desktopではswayを使っているのだが、macOSでも使いたいと思っていた。
+macOSでは昔ながらの&lt;a href="https://github.com/koekeishiya/yabai"&gt;yabai&lt;/a&gt;と後発の&lt;a href="https://github.com/nikitabobko/AeroSpace"&gt;AeroSpace&lt;/a&gt;があるが、AeroSpaceで自分のユースケースをすべて満たせていたので採用した。&lt;/p&gt;
+&lt;p&gt;1年使ってほぼ運用が固まったので後学の為にブログに書いておく。&lt;/p&gt;
+&lt;p&gt;設定の全文はこちら。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/takeokunn/nixos-configuration/blob/main/nix-darwin/config/services/aerospace/default.nix"&gt;https://github.com/takeokunn/nixos-configuration/blob/main/nix-darwin/config/services/aerospace/default.nix&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id="試したこと-やったこと"&gt;試したこと・やったこと&lt;/h2&gt;
+&lt;h3 id="1-dot-nix-darwinでaerospaceを有効にする"&gt;1. nix-darwinでAeroSpaceを有効にする&lt;/h3&gt;
+&lt;p&gt;nix-darwinでservices moduleが提供されている。
+enableにするだけでlaunchd agentの設定が有効になり、 &lt;code&gt;Quit AeroSpace&lt;/code&gt; しても再起動されるようになる。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/nix-darwin/nix-darwin/blob/master/modules/services/aerospace/default.nix"&gt;https://github.com/nix-darwin/nix-darwin/blob/master/modules/services/aerospace/default.nix&lt;/a&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-nix" data-lang="nix"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# 自分の設定&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; services&lt;span style="color:#f92672"&gt;.&lt;/span&gt;aerospace &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; enable &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-nix" data-lang="nix"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# nix-darwin記述抜粋&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; launchd&lt;span style="color:#f92672"&gt;.&lt;/span&gt;user&lt;span style="color:#f92672"&gt;.&lt;/span&gt;agents&lt;span style="color:#f92672"&gt;.&lt;/span&gt;aerospace &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; command &lt;span style="color:#f92672"&gt;=&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;&lt;span style="color:#e6db74"&gt;${&lt;/span&gt;cfg&lt;span style="color:#f92672"&gt;.&lt;/span&gt;package&lt;span style="color:#e6db74"&gt;}&lt;/span&gt;&lt;span style="color:#e6db74"&gt;/Applications/AeroSpace.app/Contents/MacOS/AeroSpace&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;+&lt;/span&gt; (lib&lt;span style="color:#f92672"&gt;.&lt;/span&gt;optionalString (cfg&lt;span style="color:#f92672"&gt;.&lt;/span&gt;settings &lt;span style="color:#f92672"&gt;!=&lt;/span&gt; { }) &lt;span style="color:#e6db74"&gt;&amp;#34; --config-path &lt;/span&gt;&lt;span style="color:#e6db74"&gt;${&lt;/span&gt;configFile&lt;span style="color:#e6db74"&gt;}&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; serviceConfig &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; KeepAlive &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; RunAtLoad &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; managedBy &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;services.aerospace.enable&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="2-dot-基本設定"&gt;2. 基本設定&lt;/h3&gt;
+&lt;p&gt;適当に便利そうな設定を入れている。
+&lt;a href="https://github.com/FelixKratz/SketchyBar"&gt;sketchybar&lt;/a&gt; の関係で &lt;code&gt;gaps.outer.top=10&lt;/code&gt; を入れて調整している。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-nix" data-lang="nix"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; settings &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; enable-normalization-flatten-containers &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; enable-normalization-opposite-orientation-for-nested-containers &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; accordion-padding &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; on-focused-monitor-changed &lt;span style="color:#f92672"&gt;=&lt;/span&gt; [ &lt;span style="color:#e6db74"&gt;&amp;#34;move-mouse monitor-lazy-center&amp;#34;&lt;/span&gt; ];
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; exec-on-workspace-change &lt;span style="color:#f92672"&gt;=&lt;/span&gt; [
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;/bin/bash&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;-c&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$(/run/current-system/sw/bin/aerospace list-workspaces --focused)&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ];
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; gaps &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; inner &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; horizontal &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; vertical &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; outer &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; left &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; bottom &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; top &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;10&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; right &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="3-dot-keybind周りの設定"&gt;3. keybind周りの設定&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;alt&lt;/code&gt; で操作する割と一般的な設定をしている。&lt;/p&gt;</description></item><item><title>node2nixの使い方</title><link>https://www.takeokunn.org/posts/fleeting/20250622133346-how_to_use_node2nix/</link><pubDate>Sun, 22 Jun 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250622133346-how_to_use_node2nix/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;最近のAIツールの隆盛でnpm packageを使う機会が増えてきた。
+MCP実行するpackageの管理や、claude codeのようなpackageの管理をNixなどが具体例として挙げられる。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20250327190937-usage_github_copilot_language_server/"&gt;@github/copilot-language-serverをNixで扱う時のメモ&lt;/a&gt; や &lt;a href="https://www.takeokunn.org/posts/fleeting/20250409210655-introduction_mcp_servers_nix/"&gt;mcp-servers-nixを導入した&lt;/a&gt; でも &lt;code&gt;node2nix&lt;/code&gt; を使っていることを書いていたので、 &lt;code&gt;node2nix&lt;/code&gt; の使い方について後学の為に纏めておく。&lt;/p&gt;
+&lt;h2 id="試したこと-やったこと"&gt;試したこと・やったこと&lt;/h2&gt;
+&lt;h3 id="1-dot-node2nix周辺調査"&gt;1. node2nix周辺調査&lt;/h3&gt;
+&lt;p&gt;公式レポジトリは以下で、「Generate Nix expressions to build NPM packages」というdescriptionがあるとおり、npm packageをnix packageとして扱えるようにしてくれるもの。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/svanderburg/node2nix"&gt;https://github.com/svanderburg/node2nix&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;日本語解説記事は以下。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://zenn.dev/pandaman64/articles/zenn-built-with-nix"&gt;NixでZenn CLIをビルドする - Zenn&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://scrapbox.io/mrsekut-p/node2nix"&gt;node2nix - mrsekut-p scrapbox&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="2-dot-node2nixセットアップ"&gt;2. node2nixセットアップ&lt;/h3&gt;
+&lt;p&gt;自分のnixos-configurationに &lt;code&gt;node2nix/&lt;/code&gt; というディレクトリを掘った。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/takeokunn/nixos-configuration/tree/main/node2nix"&gt;https://github.com/takeokunn/nixos-configuration/tree/main/node2nix&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;次のようにコマンドを叩くと必要なファイルが作成される。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-console" data-lang="console"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ nix-shell -p nodePackages.node2nix
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ echo &lt;span style="color:#e6db74"&gt;&amp;#39;[&amp;#34;@github/copilot-language-server&amp;#34;, &amp;#34;@anthropic-ai/claude-code&amp;#34;, &amp;#34;sitemcp&amp;#34;]&amp;#39;&lt;/span&gt; &amp;gt;&amp;gt; node-packages.json
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ node2nix -i node-packages.json
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="3-dot-home-managerに組込み"&gt;3. home-managerに組込み&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;node2nix&lt;/code&gt; のディレクトリをimportして &lt;code&gt;home.packages&lt;/code&gt; に登録するだけ。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-nix" data-lang="nix"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;let&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; pkgs &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#f92672"&gt;import&lt;/span&gt; nixpkgs {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;inherit&lt;/span&gt; system;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; config&lt;span style="color:#f92672"&gt;.&lt;/span&gt;allowUnfree &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; overlays &lt;span style="color:#f92672"&gt;=&lt;/span&gt; basicOverlay &lt;span style="color:#f92672"&gt;++&lt;/span&gt; advancedOverlay;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; nodePkgs &lt;span style="color:#f92672"&gt;=&lt;/span&gt; pkgs&lt;span style="color:#f92672"&gt;.&lt;/span&gt;callPackage &lt;span style="color:#e6db74"&gt;../node2nix&lt;/span&gt; { &lt;span style="color:#66d9ef"&gt;inherit&lt;/span&gt; pkgs; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;in&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;n{
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; home&lt;span style="color:#f92672"&gt;.&lt;/span&gt;packages &lt;span style="color:#f92672"&gt;=&lt;/span&gt; [
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; nodePkgs&lt;span style="color:#f92672"&gt;.&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;@anthropic-ai/claude-code&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ];
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="4-dot-github-actionsで定期的に更新"&gt;4. GitHub Actionsで定期的に更新&lt;/h3&gt;
+&lt;p&gt;一部抜粋すると以下。毎日packageの更新するようにしている。&lt;/p&gt;</description></item><item><title>home-managerで自作moduleを作る</title><link>https://www.takeokunn.org/posts/fleeting/20250613195154-home_manager_custom_module/</link><pubDate>Sat, 14 Jun 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250613195154-home_manager_custom_module/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;home-managerには沢山のmoduleが提供されている。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/nix-community/home-manager/tree/master/modules"&gt;https://github.com/nix-community/home-manager/tree/master/modules&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;home-manager moduleは自分でも作成可能なので後学のためにメモしておく。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/takeokunn/nixos-configuration/tree/e2cf7d9df556a56e242b3f44b0957884cd6191dd/home-manager/modules"&gt;https://github.com/takeokunn/nixos-configuration/tree/e2cf7d9df556a56e242b3f44b0957884cd6191dd/home-manager/modules&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id="試したこと-やったこと"&gt;試したこと・やったこと&lt;/h2&gt;
+&lt;h3 id="0-dot-なぜやるのかの整理"&gt;0. なぜやるのかの整理&lt;/h3&gt;
+&lt;p&gt;大きく分けて3パターンが考えられる。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;home-managerで自作moduleを作る&lt;/li&gt;
+&lt;li&gt;ファイルを作成してhome-managerでsymbolic linkを貼る&lt;/li&gt;
+&lt;li&gt;Nix管理外でメンテする&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;1とそれ以外で次のようなメリット/デメリットが考えられる。
+可能な限りNix（Nix式）に寄せたいと考えているので今回採用することにした。&lt;/p&gt;
+&lt;h4 id="pros"&gt;Pros&lt;/h4&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;観点&lt;/th&gt;
+&lt;th&gt;内容&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;フォーマット抽象化&lt;/td&gt;
+&lt;td&gt;多様なフォーマットを意識せずに Nix 式で統一管理できる&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;IDE支援&lt;/td&gt;
+&lt;td&gt;Nix LSP の補完・型チェックの恩恵を受けられる&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;統一性&lt;/td&gt;
+&lt;td&gt;`nixpkgs` の差し替えなど、構成記述の一貫性・統一性が上がる&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;再利用性&lt;/td&gt;
+&lt;td&gt;モジュールとして切り出すことで複数環境で再利用しやすくなる&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;ライフサイクル&lt;/td&gt;
+&lt;td&gt;rebuild switchのライフサイクルで反映できる&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;変数埋込&lt;/td&gt;
+&lt;td&gt;Nixから変数を代入できる&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4 id="cons"&gt;Cons&lt;/h4&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;観点&lt;/th&gt;
+&lt;th&gt;内容&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;表現力の制限&lt;/td&gt;
+&lt;td&gt;tmux.confのようなフォーマットは文字列での管理が必要&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;LSPの範囲&lt;/td&gt;
+&lt;td&gt;LSP は Nix に対してしか効かず、生成対象の構文チェックは別途必要&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;保守性&lt;/td&gt;
+&lt;td&gt;作り込むと構造が複雑化し、メンテナンスコストが上がる可能性がある&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;依存性&lt;/td&gt;
+&lt;td&gt;home-manager に構成が強く依存し、他ツールへの移行が難しくなることも&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;デバッグ性&lt;/td&gt;
+&lt;td&gt;モジュール解決や展開の追跡が難しく、デバッグの難易度が多少上がる&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id="1-dot-自作home-manager-moduleを作成する"&gt;1. 自作home-manager moduleを作成する&lt;/h3&gt;
+&lt;p&gt;home-mnaagerのobjectでimportするだけで使える。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/takeokunn/nixos-configuration/blob/e2cf7d9df556a56e242b3f44b0957884cd6191dd/home-manager/advanced.nix#L71"&gt;https://github.com/takeokunn/nixos-configuration/blob/e2cf7d9df556a56e242b3f44b0957884cd6191dd/home-manager/advanced.nix#L71&lt;/a&gt;&lt;/p&gt;
+&lt;h4 id="1-dot-1-dot-tigの場合"&gt;1.1. tigの場合&lt;/h4&gt;
+&lt;p&gt;&lt;code&gt;~/.tigrc&lt;/code&gt; に文字列をそのまま出力する運用にしている。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/takeokunn/nixos-configuration/blob/e2cf7d9df556a56e242b3f44b0957884cd6191dd/home-manager/modules/tig/default.nix"&gt;home-manager/modules/tig/default.nix&lt;/a&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-nix" data-lang="nix"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; pkgs&lt;span style="color:#f92672"&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; lib&lt;span style="color:#f92672"&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; config&lt;span style="color:#f92672"&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;...&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;let&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; cfg &lt;span style="color:#f92672"&gt;=&lt;/span&gt; config&lt;span style="color:#f92672"&gt;.&lt;/span&gt;programs&lt;span style="color:#f92672"&gt;.&lt;/span&gt;tig;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;in&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;with&lt;/span&gt; lib;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; options&lt;span style="color:#f92672"&gt;.&lt;/span&gt;programs&lt;span style="color:#f92672"&gt;.&lt;/span&gt;tig &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; enable &lt;span style="color:#f92672"&gt;=&lt;/span&gt; mkEnableOption &lt;span style="color:#e6db74"&gt;&amp;#34;Text-mode interface for git&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; package &lt;span style="color:#f92672"&gt;=&lt;/span&gt; mkPackageOption pkgs &lt;span style="color:#e6db74"&gt;&amp;#34;tig&amp;#34;&lt;/span&gt; { };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; config &lt;span style="color:#f92672"&gt;=&lt;/span&gt; mkOption {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; type &lt;span style="color:#f92672"&gt;=&lt;/span&gt; types&lt;span style="color:#f92672"&gt;.&lt;/span&gt;lines;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; default &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; config &lt;span style="color:#f92672"&gt;=&lt;/span&gt; mkIf cfg&lt;span style="color:#f92672"&gt;.&lt;/span&gt;enable {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; home&lt;span style="color:#f92672"&gt;.&lt;/span&gt;packages &lt;span style="color:#f92672"&gt;=&lt;/span&gt; [ cfg&lt;span style="color:#f92672"&gt;.&lt;/span&gt;package ];
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; home&lt;span style="color:#f92672"&gt;.&lt;/span&gt;file&lt;span style="color:#f92672"&gt;.&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;.tigrc&amp;#34;&lt;/span&gt;&lt;span style="color:#f92672"&gt;.&lt;/span&gt;text &lt;span style="color:#f92672"&gt;=&lt;/span&gt; cfg&lt;span style="color:#f92672"&gt;.&lt;/span&gt;config;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id="1-dot-2-dot-lnavの場合"&gt;1.2. lnavの場合&lt;/h4&gt;
+&lt;p&gt;&lt;code&gt;~/.config/lnav/config.json&lt;/code&gt; にNix式をJsonに変換して出力するようにしている。&lt;/p&gt;</description></item><item><title>2025年5月 Macの再インストール手順メモ</title><link>https://www.takeokunn.org/posts/fleeting/20250514222418-reinstall_mac_with_nix/</link><pubDate>Wed, 14 May 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250514222418-reinstall_mac_with_nix/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;たまたまMacを再インストールする必要があった。
+普段、手元のマシンの環境構築手順を洗練させてたお陰で少ないステップで構築できたので何をやったのか後学の為にメモしておく。&lt;/p&gt;
+&lt;h2 id="試したこと-やったこと"&gt;試したこと・やったこと&lt;/h2&gt;
+&lt;h3 id="0-dot-macの生前整理と初期化動線"&gt;0. Macの生前整理と初期化動線&lt;/h3&gt;
+&lt;p&gt;データが消えてもいいようにバックアップしておく。
+基本的にGoogle DriveかGitHubにすべてが置いていて今日PCが故障しても問題ない運用にしている。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;消えてほしくないデータをGoogle Driveに置く&lt;/li&gt;
+&lt;li&gt;commit漏れてるrepoがないか確認して必要ならpushしておく&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;初期化動線は通常のmacの初期セットアップなので割愛。&lt;/p&gt;
+&lt;h3 id="1-dot-homebrewを入れる"&gt;1. homebrewを入れる&lt;/h3&gt;
+&lt;p&gt;terminal.appを開いてhomebrewをインストールする。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://brew.sh/ja/"&gt;https://brew.sh/ja/&lt;/a&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-console" data-lang="console"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ /bin/bash -c &lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;$(&lt;/span&gt;curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh&lt;span style="color:#66d9ef"&gt;)&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="2-dot-nixos-configurationを実行する"&gt;2. nixos-configurationを実行する&lt;/h3&gt;
+&lt;p&gt;YubiKeyを挿した状態でnix buildを実行する。
+必要なツールとmac固有の設定はほぼすべて自動で入るようになっている。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-console" data-lang="console"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ git clone https://github.com/takeokunn/nixos-configuration
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ cd nixos-configuration
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ nix run nix-darwin --extra-experimental-features &lt;span style="color:#e6db74"&gt;&amp;#39;flakes nix-command&amp;#39;&lt;/span&gt; -- switch --flake .#OPL2212-2 --show-trace
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="3-dot-gpg-ssh回りを設定する"&gt;3. GPG/SSH回りを設定する&lt;/h3&gt;
+&lt;p&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20250514155803-yubikey_gpg_operation/"&gt;GPG KeyのYubiKey運用をはじめた&lt;/a&gt; にある「3. 新規端末で副鍵（Sign, Auth）を入れる」以降を行う。&lt;/p&gt;
+&lt;p&gt;GitHubのssh認証を確認する。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ ssh -T git@github.com
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Hi takeokunn! You&lt;span style="color:#960050;background-color:#1e0010"&gt;&amp;#39;&lt;/span&gt;ve successfully authenticated, but GitHub does not provide shell access.
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="4-dot-必要なレポジトリを落としてsecret-dot-orgをorg-babel-tangleする"&gt;4. 必要なレポジトリを落としてsecret.orgをorg-babel-tangleする&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;$ ghq get&lt;/code&gt; で必要なレポジトリを網羅的に落とす。
+&lt;a href="https://www.takeokunn.org/posts/fleeting/20250414001634-migrate_credential_manager_to_password_store/"&gt;credential管理をorg-encryptからpassword-storeに移行した&lt;/a&gt; のとおり、 &lt;code&gt;M-x org-babel-tangle&lt;/code&gt; でpassword-storeを実行して必要な設定ファイルのほぼすべてを配置できるようにしている。&lt;/p&gt;</description></item><item><title>GitHub ActionsでCachixを導入する</title><link>https://www.takeokunn.org/posts/fleeting/20250510192642-use_cachix_in_github_actions/</link><pubDate>Sat, 10 May 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250510192642-use_cachix_in_github_actions/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;NixにハマってからGitHub Actions上でNixを実行する機会が増えた。
+Nixというツールの性質上、どうしても実行環境の準備に時間がかかってしまうのでキャッシュ機能を導入したいと以前から思っていた。&lt;/p&gt;
+&lt;p&gt;Cachixが一番メジャーなサービスであり、個人利用程度なら無料で使えるので今回はじめて利用してみた。&lt;/p&gt;
+&lt;h2 id="試したこと-やったこと"&gt;試したこと・やったこと&lt;/h2&gt;
+&lt;h3 id="1-dot-cachixの設定をする"&gt;1. Cachixの設定をする&lt;/h3&gt;
+&lt;p&gt;アカウントを新規作成して、New Cacheで作成した。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://app.cachix.org/"&gt;https://app.cachix.org/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;「Settings &amp;gt; Cache Auth Tokens」でアクセストークンを作成して,GitHub Actions Secretに &lt;code&gt;CACHIX_AUTH_TOKEN&lt;/code&gt; に登録した。&lt;/p&gt;
+&lt;h3 id="2-dot-github-actionsで設定する"&gt;2. GitHub Actionsで設定する&lt;/h3&gt;
+&lt;p&gt;reusable actionで次のように定義した。
+reusable actionからは &lt;code&gt;secrets.XX&lt;/code&gt; を参照できないので引数で渡す必要がある。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;name&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;Run setup-nix&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;description&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;Set up Nix environment for GitHub Actions&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;inputs&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;cachix-auth-token&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;required&lt;/span&gt;: &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;runs&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;using&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;composite&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;steps&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#f92672"&gt;uses&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;cachix/install-nix-action@v31&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#f92672"&gt;uses&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;cachix/cachix-action@v14&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;with&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;name&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;takeokunn-blog&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;authToken&lt;/span&gt;: &lt;span style="color:#e6db74"&gt;&amp;#39;${{ inputs.cachix-auth-token }}&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;次のように呼び出すとよしなにCache HitしたらCachixからCopyしてくれるようになった。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;steps&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; - &lt;span style="color:#f92672"&gt;name&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;Setup nix&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;uses&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;./.github/actions/setup-nix&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;with&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;cachix-auth-token&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;${{ secrets.CACHIX_AUTH_TOKEN }}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;あとはよしなにnixを実行する。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# nix buildの場合&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;- &lt;span style="color:#f92672"&gt;name&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;Build zenn&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;run&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;nix build .#build-zenn&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# nix developの場合&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;- &lt;span style="color:#f92672"&gt;name&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;flake check&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;run&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;nix develop --command bash -c &amp;#34;textlint &amp;#39;org/**/*.org&amp;#39;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="得られた結果-所感"&gt;得られた結果・所感&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://github.com/takeokunn/blog"&gt;takeokunn/blog&lt;/a&gt; の場合、平均して1分でNix実行環境を用意できるようになり大幅なCI速度改善を実現できた。&lt;/p&gt;</description></item><item><title>nixpkgsのunstableでEmacs Nativecomp Buildができない問題とワークアラウンド</title><link>https://www.takeokunn.org/posts/fleeting/20250417001805-emacs_nativecomp_bulid_error_nixpkgs_and_workaround/</link><pubDate>Thu, 17 Apr 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250417001805-emacs_nativecomp_bulid_error_nixpkgs_and_workaround/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;2025年4月16日現在、 &lt;code&gt;aarch64-darwin&lt;/code&gt; 環境でnixpkgs unstableのemacs（nativecomp）をビルドできない問題が発生している。&lt;/p&gt;
+&lt;h2 id="ワークアラウンド方法"&gt;ワークアラウンド方法&lt;/h2&gt;
+&lt;p&gt;packageに &lt;code&gt;withNativeCompilation = false;&lt;/code&gt; を書く。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/NixOS/nixpkgs/blob/e51f02babf0ecf7d66e081917e609ae2c3d43ef2/pkgs/applications/editors/emacs/make-emacs.nix#L69"&gt;https://github.com/NixOS/nixpkgs/blob/e51f02babf0ecf7d66e081917e609ae2c3d43ef2/pkgs/applications/editors/emacs/make-emacs.nix#L69&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;home-managerをoverlayする場合:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-nix" data-lang="nix"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{ emacs-overlay }:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;[
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; (&lt;span style="color:#f92672"&gt;import&lt;/span&gt; emacs-overlay)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;# bug: https://github.com/NixOS/nixpkgs/issues/395169&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; (final: prev: {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; emacs &lt;span style="color:#f92672"&gt;=&lt;/span&gt; prev&lt;span style="color:#f92672"&gt;.&lt;/span&gt;emacs&lt;span style="color:#f92672"&gt;.&lt;/span&gt;override {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; withNativeCompilation &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;false&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; emacs-unstable &lt;span style="color:#f92672"&gt;=&lt;/span&gt; prev&lt;span style="color:#f92672"&gt;.&lt;/span&gt;emacs-unstable&lt;span style="color:#f92672"&gt;.&lt;/span&gt;override {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; withNativeCompilation &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;false&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; emacs-git &lt;span style="color:#f92672"&gt;=&lt;/span&gt; prev&lt;span style="color:#f92672"&gt;.&lt;/span&gt;emacs-git&lt;span style="color:#f92672"&gt;.&lt;/span&gt;override {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; withNativeCompilation &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;false&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; })
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;pkgsをoverrideする場合:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-nix" data-lang="nix"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{ pkgs }:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;pkgs&lt;span style="color:#f92672"&gt;.&lt;/span&gt;emacs&lt;span style="color:#f92672"&gt;.&lt;/span&gt;override {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; withNativeCompilation &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;false&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="原因"&gt;原因&lt;/h2&gt;
+&lt;p&gt;「emacs: fails to launch on macOS Sequoia 15.4 #395169」に纏まってる。
+&lt;a href="https://github.com/NixOS/nixpkgs/issues/395169"&gt;https://github.com/NixOS/nixpkgs/issues/395169&lt;/a&gt;&lt;/p&gt;</description></item><item><title>mcp-servers-nixを導入した</title><link>https://www.takeokunn.org/posts/fleeting/20250409210655-introduction_mcp_servers_nix/</link><pubDate>Wed, 09 Apr 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250409210655-introduction_mcp_servers_nix/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;natsukium謹製の &lt;a href="https://github.com/natsukium/mcp-servers-nix"&gt;natsukium/mcp-servers-nix&lt;/a&gt; を &lt;a href="https://github.com/takeokunn/nixos-configuration"&gt;takeokunn/nixos-configuration&lt;/a&gt; に導入したのでメモしておく。&lt;/p&gt;
+&lt;h2 id="変更点"&gt;変更点&lt;/h2&gt;
+&lt;h3 id="before"&gt;Before&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Orgファイルから &lt;code&gt;org-babel-tangle&lt;/code&gt; で &lt;code&gt;~/Library/Application\ Support/Claude/claude_desktop_config.json&lt;/code&gt; を出力&lt;/li&gt;
+&lt;li&gt;必要なpackageは &lt;a href="https://github.com/svanderburg/node2nix"&gt;node2nix&lt;/a&gt; 経由で入れる&lt;/li&gt;
+&lt;li&gt;秘密鍵はOrgファイルで &lt;code&gt;org-encrypt&lt;/code&gt; して管理
+&lt;ul&gt;
+&lt;li&gt;ref. &lt;a href="https://www.takeokunn.org/posts/fleeting/20250127144907-my_usage_org_crypt/"&gt;org-crypt運用メモ&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="after"&gt;After&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/natsukium/mcp-servers-nix"&gt;natsukium/mcp-servers-nix&lt;/a&gt; からMCPに必要なものをjsonを出力&lt;/li&gt;
+&lt;li&gt;必要なpackageは大体 &lt;a href="https://github.com/natsukium/mcp-servers-nix"&gt;natsukium/mcp-servers-nix&lt;/a&gt; に同梱されてる
+&lt;ul&gt;
+&lt;li&gt;足りないものは &lt;a href="https://github.com/svanderburg/node2nix"&gt;node2nix&lt;/a&gt; 経由で入れる&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;秘密鍵は &lt;a href="https://github.com/Mic92/sops-nix"&gt;sops-nix&lt;/a&gt; で管理&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="作業内容"&gt;作業内容&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://zenn.dev/natsukium/articles/f010c1ec1c51b2"&gt;MCPサーバーの設定をセキュアでGit friendlyにする - Zenn&lt;/a&gt; を事前に読む。&lt;/p&gt;
+&lt;h3 id="1-dot-sops-nixに登録"&gt;1. sops-nixに登録&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;sops/password.yml&lt;/code&gt; に以下を登録する。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;brave-api-token&lt;/span&gt;: &lt;span style="color:#ae81ff"&gt;BRAVE_API_KEY=xxxx&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;sops/default.nix&lt;/code&gt; で読み込めるようにする。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-nix" data-lang="nix"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; sops &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; defaultSopsFile &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;./password.yaml&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; secrets &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; brave-api-token &lt;span style="color:#f92672"&gt;=&lt;/span&gt; { };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="2-dot-mcp-serversを記述する"&gt;2. mcp-serversを記述する&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;envFile = config.sops.secrets.brave-api-token.path;&lt;/code&gt; のように環境変数を渡す。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-nix" data-lang="nix"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; pkgs&lt;span style="color:#f92672"&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; config&lt;span style="color:#f92672"&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; mcp-servers-nix&lt;span style="color:#f92672"&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; nodePkgs&lt;span style="color:#f92672"&gt;,&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;let&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; programs &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; fetch&lt;span style="color:#f92672"&gt;.&lt;/span&gt;enable &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; playwright&lt;span style="color:#f92672"&gt;.&lt;/span&gt;enable &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; brave-search &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; enable &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; envFile &lt;span style="color:#f92672"&gt;=&lt;/span&gt; config&lt;span style="color:#f92672"&gt;.&lt;/span&gt;sops&lt;span style="color:#f92672"&gt;.&lt;/span&gt;secrets&lt;span style="color:#f92672"&gt;.&lt;/span&gt;brave-api-token&lt;span style="color:#f92672"&gt;.&lt;/span&gt;path;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;in&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;[
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; home&lt;span style="color:#f92672"&gt;.&lt;/span&gt;file&lt;span style="color:#f92672"&gt;.&lt;/span&gt;&lt;span style="color:#e6db74"&gt;&amp;#34;Library/Application&lt;/span&gt;&lt;span style="color:#ae81ff"&gt;\ &lt;/span&gt;&lt;span style="color:#e6db74"&gt;Support/Claude/claude_desktop_config.json&amp;#34;&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; source &lt;span style="color:#f92672"&gt;=&lt;/span&gt; mcp-servers-nix&lt;span style="color:#f92672"&gt;.&lt;/span&gt;lib&lt;span style="color:#f92672"&gt;.&lt;/span&gt;mkConfig pkgs {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;inherit&lt;/span&gt; programs;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="3-dot-home-managerに組込み"&gt;3. home-managerに組込み&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;home-manager/advanced.nix&lt;/code&gt; で &lt;code&gt;imports&lt;/code&gt; で登録すればよい。&lt;/p&gt;</description></item><item><title>flake.nixでポータブルな最小構成のEmacsを作成する</title><link>https://www.takeokunn.org/posts/fleeting/20250403230709-portable_minimal_emacs_with_flake_nix/</link><pubDate>Thu, 03 Apr 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250403230709-portable_minimal_emacs_with_flake_nix/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;「任意のEmacs Packageが動かない」がおま環かバグかというのを切り分けることは非常に重要。
+誰でも同じ環境を整えられるようにすると問題解決が捗るので構築方法をメモしておく。&lt;/p&gt;
+&lt;h2 id="作業手順"&gt;作業手順&lt;/h2&gt;
+&lt;h3 id="1-dot-init-dot-el作成"&gt;1. init.el作成&lt;/h3&gt;
+&lt;p&gt;今回のサンプルは&lt;a href="https://melpa.org/#/rainbow-delimiters"&gt;rainbow-delimiters&lt;/a&gt;が動作するか確認するものにする。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-emacs-lisp" data-lang="emacs-lisp"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(use-package rainbow-delimiters
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; :ensure &lt;span style="color:#66d9ef"&gt;t&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; :hook
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; (prog-mode-hook &lt;span style="color:#f92672"&gt;.&lt;/span&gt; rainbow-delimiters-mode))
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="2-dot-flake-dot-nix作成"&gt;2. flake.nix作成&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;alwaysEnsure = true;&lt;/code&gt; にすると &lt;code&gt;init.el&lt;/code&gt; 内の &lt;code&gt;:ensure t&lt;/code&gt; を読んでNix Build時によしなにインストールしてくれる。&lt;/p&gt;
+&lt;p&gt;また、&lt;a href="https://github.com/nix-community/emacs-overlay"&gt;emacs-overlay&lt;/a&gt; を使うと &lt;code&gt;unstable/stable/head&lt;/code&gt; など複数バージョンで実行できるので検証の幅を簡単に広げられる。
+&lt;a href="https://github.com/nix-community/emacs-overlay/blob/master/overlays/emacs.nix"&gt;https://github.com/nix-community/emacs-overlay/blob/master/overlays/emacs.nix&lt;/a&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-nix" data-lang="nix"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; inputs &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; nixpkgs&lt;span style="color:#f92672"&gt;.&lt;/span&gt;url &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;github:NixOS/nixpkgs/nixpkgs-unstable&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; emacs-overlay &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; url &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;github:nix-community/emacs-overlay&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; inputs&lt;span style="color:#f92672"&gt;.&lt;/span&gt;nixpkgs&lt;span style="color:#f92672"&gt;.&lt;/span&gt;follows &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;nixpkgs&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; outputs &lt;span style="color:#f92672"&gt;=&lt;/span&gt; { self&lt;span style="color:#f92672"&gt;,&lt;/span&gt; nixpkgs&lt;span style="color:#f92672"&gt;,&lt;/span&gt; emacs-overlay }:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;let&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; system &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;aarch64-darwin&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; pkgs &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#f92672"&gt;import&lt;/span&gt; nixpkgs {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;inherit&lt;/span&gt; system;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; overlays &lt;span style="color:#f92672"&gt;=&lt;/span&gt; [ emacs-overlay&lt;span style="color:#f92672"&gt;.&lt;/span&gt;overlay ];
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; emacs &lt;span style="color:#f92672"&gt;=&lt;/span&gt; pkgs&lt;span style="color:#f92672"&gt;.&lt;/span&gt;emacsWithPackagesFromUsePackage {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; config &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;./init.el&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; package &lt;span style="color:#f92672"&gt;=&lt;/span&gt; pkgs&lt;span style="color:#f92672"&gt;.&lt;/span&gt;emacs-unstable;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; alwaysEnsure &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;in&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; packages&lt;span style="color:#f92672"&gt;.&lt;/span&gt;&lt;span style="color:#e6db74"&gt;${&lt;/span&gt;system&lt;span style="color:#e6db74"&gt;}&lt;/span&gt;&lt;span style="color:#f92672"&gt;.&lt;/span&gt;default &lt;span style="color:#f92672"&gt;=&lt;/span&gt; emacs;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="3-dot-nix-buildして実行"&gt;3. Nix Buildして実行&lt;/h3&gt;
+&lt;p&gt;Localに一切依存しない形でEmacsをBuildできる。&lt;/p&gt;</description></item><item><title>@github/copilot-language-serverをNixで扱う時のメモ</title><link>https://www.takeokunn.org/posts/fleeting/20250327190937-usage_github_copilot_language_server/</link><pubDate>Thu, 27 Feb 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250327190937-usage_github_copilot_language_server/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://github.com/orgs/github/packages/npm/package/copilot-language-server"&gt;@github/copilot-language-server&lt;/a&gt; を &lt;a href="https://github.com/takeokunn/nixos-configuration"&gt;takeokunn/nixos-configuration&lt;/a&gt; 上で扱えるようにしたのでメモしておく。&lt;/p&gt;
+&lt;h2 id="background"&gt;Background&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/copilot-emacs/copilot.el"&gt;copilot.el&lt;/a&gt; のバージョンが上がった&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/orgs/github/packages/npm/package/copilot-language-server"&gt;@github/copilot-language-server&lt;/a&gt; をnpmでインストールして使う必要があった&lt;/li&gt;
+&lt;li&gt;次の要件を満たしたい
+&lt;ul&gt;
+&lt;li&gt;Nixでパッケージングしたい&lt;/li&gt;
+&lt;li&gt;Neovimなどのエディタでも汎用的に使えるようにしたい&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="対応手順"&gt;対応手順&lt;/h2&gt;
+&lt;h3 id="1-dot-node2nixでパッケージングする"&gt;1. node2nixでパッケージングする&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;node2nix/node-packages.json&lt;/code&gt; に次のような記述をした。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-json" data-lang="json"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;[&lt;span style="color:#e6db74"&gt;&amp;#34;@github/copilot-language-server&amp;#34;&lt;/span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;次のshell scriptを実行するとファイルが生成された。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;node2nix/default.nix&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;node2nix/node-env.nix&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;node2nix/node-packages.nix&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;!--listend--&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-console" data-lang="console"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ nix-shell -p nodePackages.node2nix --command &lt;span style="color:#e6db74"&gt;&amp;#34;node2nix -i ./node-packages.json -o node-packages.nix&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="2-dot-実行ファイルを取得する"&gt;2. 実行ファイルを取得する&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;node2nix/default.nix&lt;/code&gt; をimportするとpackageが読み込めるようになった。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-nix" data-lang="nix"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;nodePkgs &lt;span style="color:#f92672"&gt;=&lt;/span&gt; pkgs&lt;span style="color:#f92672"&gt;.&lt;/span&gt;callPackage &lt;span style="color:#e6db74"&gt;../node2nix&lt;/span&gt; { &lt;span style="color:#66d9ef"&gt;inherit&lt;/span&gt; pkgs; };
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;copilot-language-server は次のようなディレクトリ構造になっている。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-console" data-lang="console"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ dust native/
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#960050;background-color:#1e0010"&gt;&lt;/span&gt; 65M ├─┬ native/darwin-x64
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; 65M │ └── native/darwin-x64/copilot-language-server
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; 60M ├─┬ native/darwin-arm64
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; 60M │ └── native/darwin-arm64/copilot-language-server
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; 59M ├─┬ native/linux-x64
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; 59M │ └── native/linux-x64/copilot-language-server
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; 50M └─┬ native/win32-x64
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; 50M └── native/win32-x64/copilot-language-server.exe
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;そこで、platformごとに対応表を作って &lt;code&gt;COPILOT_LANGUAGE_SERVER_PATH&lt;/code&gt; にPATHを通してあげた。&lt;/p&gt;</description></item><item><title>2025年2月 Neovimセットアップ</title><link>https://www.takeokunn.org/posts/fleeting/20250211111032-setup_neovim/</link><pubDate>Tue, 11 Feb 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250211111032-setup_neovim/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;Neovimに入門したいと思い早n年だったが、vim-jpの皆さんのおかげでようやくミニマムの設定が完了したのでブログにまとめておきます。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20230209152709-using-vim-and-neovim-for-differenct-purposes-and-minimum-settings/"&gt;VimとNeovimの使い分けと最小構成&lt;/a&gt; のとおりVimは最小構成にしているので、Neovimはヘビーカスタマイズしていく方針です。&lt;/p&gt;
+&lt;p&gt;Neovimの設定はこちら。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/takeokunn/nixos-configuration/tree/main/home-manager/programs/neovim"&gt;https://github.com/takeokunn/nixos-configuration/tree/main/home-manager/programs/neovim&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id="setup"&gt;Setup&lt;/h2&gt;
+&lt;h3 id="neovim本体"&gt;Neovim本体&lt;/h3&gt;
+&lt;p&gt;Nix経由でインストールしています。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/takeokunn/nixos-configuration/blob/main/home-manager/programs/neovim/default.nix"&gt;https://github.com/takeokunn/nixos-configuration/blob/main/home-manager/programs/neovim/default.nix&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;withNodeJs&lt;/code&gt; や &lt;code&gt;withRuby&lt;/code&gt; などはイマドキ使わない設定まらしいので &lt;code&gt;false&lt;/code&gt; にしました。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-nix" data-lang="nix"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{ pkgs&lt;span style="color:#f92672"&gt;,&lt;/span&gt; sources }:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; programs&lt;span style="color:#f92672"&gt;.&lt;/span&gt;neovim &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; enable &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; withNodeJs &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;false&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; withRuby &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;false&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; withPython3 &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;false&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; plugins &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#f92672"&gt;import&lt;/span&gt; &lt;span style="color:#e6db74"&gt;./plugins&lt;/span&gt; { &lt;span style="color:#66d9ef"&gt;inherit&lt;/span&gt; pkgs sources; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; extraLuaConfig &lt;span style="color:#f92672"&gt;=&lt;/span&gt; builtins&lt;span style="color:#f92672"&gt;.&lt;/span&gt;readFile &lt;span style="color:#e6db74"&gt;./init.lua&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="plugin-manager"&gt;Plugin Manager&lt;/h3&gt;
+&lt;p&gt;VimのPlugin Managerは乱立しているようで、デファクトスタンダードはないらしいです。
+私はNixユーザーなのでNixで管理することにしました。&lt;/p&gt;
+&lt;p&gt;また、各Pluginごとの設定もNix内に記述する方針にしました。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-nix" data-lang="nix"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;# 実際の例&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{ pkgs }:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;with&lt;/span&gt; pkgs&lt;span style="color:#f92672"&gt;.&lt;/span&gt;vimPlugins;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;[
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; type &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;lua&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; plugin &lt;span style="color:#f92672"&gt;=&lt;/span&gt; dracula-nvim;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; config &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;&amp;#39;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; vim.cmd[[colorscheme dracula]]
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; &amp;#39;&amp;#39;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="terminal-emulator"&gt;Terminal Emulator&lt;/h3&gt;
+&lt;p&gt;「Terminal Emulatorにこだわらない」というこだわりを持っていたが、&lt;a href="https://timingapp.com/terminal-time-tracking"&gt;Mac標準のTerminal.app&lt;/a&gt;だとうまく描画してくれない問題があった。&lt;/p&gt;</description></item><item><title>org-nix-shell入門</title><link>https://www.takeokunn.org/posts/fleeting/20250126140928-introduction_org_nix_shell/</link><pubDate>Sat, 08 Feb 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250126140928-introduction_org_nix_shell/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;org-nix-shellはOrg関連パッケージの中でもキラーアプリケーションと呼べるもので、個人的に今熱いパッケージのひとつです。
+簡単な使い方と実際のユースケースを紹介していきます。&lt;/p&gt;
+&lt;h2 id="インストール"&gt;インストール&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;GitHub: &lt;a href="https://github.com/AntonHakansson/org-nix-shell/blob/main/README.org"&gt;https://github.com/AntonHakansson/org-nix-shell/blob/main/README.org&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;melpa: &lt;a href="https://melpa.org/#/org-nix-shell"&gt;https://melpa.org/#/org-nix-shell&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Melpa経由で入れてもよいし、GitHub経由で直接インストールしてもよい。
+次のように設定するだけで機能してくれる。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-emacs-lisp" data-lang="emacs-lisp"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(require &lt;span style="color:#e6db74"&gt;&amp;#39;org-nix-shell&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(with-eval-after-load &lt;span style="color:#e6db74"&gt;&amp;#39;org&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; (add-hook &lt;span style="color:#e6db74"&gt;&amp;#39;org-mode-hook&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;#&amp;#39;&lt;/span&gt;org-nix-shell-mode))
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="使い方"&gt;使い方&lt;/h2&gt;
+&lt;h3 id="basic"&gt;Basic&lt;/h3&gt;
+&lt;p&gt;次のようにNixを定義して &lt;code&gt;:nix-shell&lt;/code&gt; で読み込む。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-org" data-lang="org"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#+name&lt;/span&gt;&lt;span style="color:#75715e"&gt;: tmp-shell&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#+BEGIN_SRC &lt;/span&gt;&lt;span style="color:#75715e"&gt;nix&lt;/span&gt;&lt;span style="color:#75715e"&gt; :noweb yes
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt; { pkgs &lt;span style="color:#f92672"&gt;?&lt;/span&gt; &lt;span style="color:#f92672"&gt;import&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;lt;nixpkgs&amp;gt;&lt;/span&gt; { } }:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; pkgs&lt;span style="color:#f92672"&gt;.&lt;/span&gt;mkShell { buildInputs &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;with&lt;/span&gt; pkgs; [ php ]; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt; #+END_SRC&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#+begin_src &lt;/span&gt;&lt;span style="color:#75715e"&gt;shell&lt;/span&gt;&lt;span style="color:#75715e"&gt; :nix-shell tmp-shell :results output
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt; php --version
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#+end_src&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;また、次のURLから古いバージョンを取ってきて実行することも可能。
+&lt;a href="https://lazamar.co.uk/nix-versions"&gt;https://lazamar.co.uk/nix-versions&lt;/a&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-org" data-lang="org"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#+name&lt;/span&gt;&lt;span style="color:#75715e"&gt;: php74-shell&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#+BEGIN_SRC &lt;/span&gt;&lt;span style="color:#75715e"&gt;nix&lt;/span&gt;&lt;span style="color:#75715e"&gt; :noweb yes
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;let&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; url &lt;span style="color:#f92672"&gt;=&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;https://github.com/NixOS/nixpkgs/archive/4426104c8c900fbe048c33a0e6f68a006235ac50.tar.gz&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; pkgs &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#f92672"&gt;import&lt;/span&gt; (builtins&lt;span style="color:#f92672"&gt;.&lt;/span&gt;fetchTarball { &lt;span style="color:#66d9ef"&gt;inherit&lt;/span&gt; url; }) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; system &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;&amp;lt;&amp;lt;wandbox-system&amp;gt;&amp;gt;&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;in&lt;/span&gt; pkgs&lt;span style="color:#f92672"&gt;.&lt;/span&gt;mkShell { buildInputs &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;with&lt;/span&gt; pkgs; [ php74 ]; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#+END_SRC&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#+begin_src &lt;/span&gt;&lt;span style="color:#75715e"&gt;php&lt;/span&gt;&lt;span style="color:#75715e"&gt; :nix-shell php74-shell :exports both
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;echo&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;phpversion&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#+end_src&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#+RESULTS&lt;/span&gt;&lt;span style="color:#75715e"&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;: 7.4.4
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;property指定もできる。&lt;/p&gt;</description></item><item><title>Nixでdap-modeがエラーになった時のメモ</title><link>https://www.takeokunn.org/posts/fleeting/20250203131440-workaround_nix_dap_mode/</link><pubDate>Mon, 03 Feb 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250203131440-workaround_nix_dap_mode/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;2025/02/02（Sun）に &lt;code&gt;nix flake update&lt;/code&gt; で最新にしてBuildしたらエラーで落ちるようになったのでメモ。&lt;/p&gt;
+&lt;h2 id="現象"&gt;現象&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;2025/01/31に &lt;a href="https://github.com/emacs-lsp/dap-mode/commit/438679755e880f2a662a63bc04da9e843257e248"&gt;dapui.elがdap-ui.elにrename&lt;/a&gt; される&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://melpa.org/#/dap-mode"&gt;dap-mode 20250131.1624&lt;/a&gt; に反映される&lt;/li&gt;
+&lt;li&gt;2025/02/02の &lt;a href="https://github.com/NixOS/nixpkgs/blob/master/pkgs/applications/editors/emacs/elisp-packages/melpa-packages.nix#L984-L991"&gt;nix flake update nixpkgsのdap-modeのpreBuild&lt;/a&gt; でdapui.elがなくて落ちるようになった&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id="最小構成と解決策"&gt;最小構成と解決策&lt;/h2&gt;
+&lt;p&gt;次のように &lt;code&gt;preBuild&lt;/code&gt; をoverlaysに追加すればBuildできるようになった。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-nix" data-lang="nix"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; inputs &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; nixpkgs&lt;span style="color:#f92672"&gt;.&lt;/span&gt;url &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;github:NixOS/nixpkgs/nixpkgs-unstable&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; emacs-overlay&lt;span style="color:#f92672"&gt;.&lt;/span&gt;url &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;github:nix-community/emacs-overlay&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; outputs &lt;span style="color:#f92672"&gt;=&lt;/span&gt; { self&lt;span style="color:#f92672"&gt;,&lt;/span&gt; nixpkgs&lt;span style="color:#f92672"&gt;,&lt;/span&gt; emacs-overlay&lt;span style="color:#f92672"&gt;,&lt;/span&gt; &lt;span style="color:#f92672"&gt;...&lt;/span&gt; }:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;let&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; system &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;aarch64-darwin&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; pkgs &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#f92672"&gt;import&lt;/span&gt; nixpkgs {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;inherit&lt;/span&gt; system;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; overlays &lt;span style="color:#f92672"&gt;=&lt;/span&gt; [
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#75715e"&gt;# ここを追加&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; (self: super: {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; emacsPackages &lt;span style="color:#f92672"&gt;=&lt;/span&gt; super&lt;span style="color:#f92672"&gt;.&lt;/span&gt;emacsPackages &lt;span style="color:#f92672"&gt;//&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; dap-mode &lt;span style="color:#f92672"&gt;=&lt;/span&gt; super&lt;span style="color:#f92672"&gt;.&lt;/span&gt;emacsPackages&lt;span style="color:#f92672"&gt;.&lt;/span&gt;dap-mode&lt;span style="color:#f92672"&gt;.&lt;/span&gt;overrideAttrs (old: {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; preBuild &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;null&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; });
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; })
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; emacs-overlay&lt;span style="color:#f92672"&gt;.&lt;/span&gt;overlay
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ];
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;in&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; defaultPackage&lt;span style="color:#f92672"&gt;.&lt;/span&gt;&lt;span style="color:#e6db74"&gt;${&lt;/span&gt;system&lt;span style="color:#e6db74"&gt;}&lt;/span&gt; &lt;span style="color:#f92672"&gt;=&lt;/span&gt; pkgs&lt;span style="color:#f92672"&gt;.&lt;/span&gt;emacsPackages&lt;span style="color:#f92672"&gt;.&lt;/span&gt;dap-mode;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;また、 &lt;code&gt;emacs-overlay&lt;/code&gt; 使う場合は &lt;code&gt;pkgs.emacsWithPackagesFromPackageRequires&lt;/code&gt; にoverlayを追加すればBuildできるようになる。
+&lt;a href="https://github.com/nix-community/Emacs-overlay/blob/a7f332f6e0813c9d0f53fe6539be1e7a65fff2e4/packreq.nix#L13"&gt;https://github.com/nix-community/Emacs-overlay/blob/a7f332f6e0813c9d0f53fe6539be1e7a65fff2e4/packreq.nix#L13&lt;/a&gt;&lt;/p&gt;</description></item><item><title>個人的devenv運用</title><link>https://www.takeokunn.org/posts/fleeting/20250126135045-personal_devenv_tips/</link><pubDate>Mon, 27 Jan 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250126135045-personal_devenv_tips/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;devenvをヘビーユーズしているので、個人的なdevenv運用についてやTipsについてまとめる。&lt;/p&gt;
+&lt;h2 id="devenvとは"&gt;devenvとは&lt;/h2&gt;
+&lt;p&gt;devenvはcachix社が作っているflake.nixラッパ。
+&lt;a href="https://devenv.sh/"&gt;https://devenv.sh/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;flake.nixよりも圧倒的に高級に書ける割に柔軟性がかなり高いのでプロジェクトに必要なツールを入れる場合に便利。&lt;/p&gt;
+&lt;p&gt;類似ールにdevboxがありますが、devboxはjsonでのみ記述できるので個人的にはNixで書けるdevenvの方が好み。&lt;/p&gt;
+&lt;h2 id="devevnの個人的な期待役割"&gt;devevnの個人的な期待役割&lt;/h2&gt;
+&lt;p&gt;自分のローカル環境でNixが担っている役割は以下。
+自分の手元にはNixOSとMacとAndroidのマシンがありますが、環境ごとの役割の差異は特にないです。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;システム設定
+&lt;ul&gt;
+&lt;li&gt;e.g. network, font, daemon&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;システムグローバルのパッケージ管理
+&lt;ul&gt;
+&lt;li&gt;e.g. fish, Git, Emacs&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;プロジェクト固有のパッケージ管理+α
+&lt;ul&gt;
+&lt;li&gt;e.g. php, language-server, pre-commit&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;プロジェクト固有のビルドツール&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;code&gt;1. システム設定&lt;/code&gt; と &lt;code&gt;2. システムグローバルのパッケージ管理&lt;/code&gt; は &lt;a href="https://github.com/takeokunn/nixos-configuration"&gt;takeokunn/nixos-configuration&lt;/a&gt; が担っている。
+&lt;code&gt;4. ビルドツール&lt;/code&gt; は &lt;a href="https://www.takeokunn.org/posts/fleeting/20250126114218-build_and_deploy_typst_using_nix/"&gt;NixでTypstをBuildしGitHub Pagesでホスティングする&lt;/a&gt; のように &lt;code&gt;flake.nix&lt;/code&gt; を定義して使っている。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;3. プロジェクト固有のパッケージ管理+α&lt;/code&gt; をdevenvが担っており、 &lt;code&gt;2. システムグローバルのパッケージ管理&lt;/code&gt; は必要最小限に抑えているので都度インストールする必要がある。&lt;/p&gt;
+&lt;p&gt;自分は普通の人よりも幅広い言語やフレームワークのリポジトリを扱うので、逐次必要なツールを明示的に入れている。
+自分の為に用意しているので、プロジェクトには &lt;code&gt;git push&lt;/code&gt; せず、自分用プライベートリポジトリで管理している。&lt;/p&gt;
+&lt;p&gt;また Emacsからもよい感じにpackageを実行できるようにする必要があるので工夫が必要。&lt;/p&gt;
+&lt;h2 id="実運用"&gt;実運用&lt;/h2&gt;
+&lt;h3 id="laravelプロジェク用devenvのサンプルコード"&gt;Laravelプロジェク用devenvのサンプルコード&lt;/h3&gt;
+&lt;p&gt;実際に会社のLaravelプロジェクトで使っているコードは以下。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;language serverやawscliなどプロジェクで必要なものは都度入れている&lt;/li&gt;
+&lt;li&gt;言語のバージョンを大まかに定義する
+&lt;ul&gt;
+&lt;li&gt;phpなら &lt;code&gt;8.2&lt;/code&gt; という定義をして、 &lt;code&gt;8.2.x&lt;/code&gt; レベルの細かい指定まではしない&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;php.iniはdevenv内で定義する&lt;/li&gt;
+&lt;li&gt;pre-commitをストレスのない範囲で可能な限り設定する
+&lt;ul&gt;
+&lt;li&gt;ref. &lt;a href="https://devenv.sh/reference/options/#pre-commit"&gt;https://devenv.sh/reference/options/#pre-commit&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;!--listend--&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-nix" data-lang="nix"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{ pkgs&lt;span style="color:#f92672"&gt;,&lt;/span&gt; config&lt;span style="color:#f92672"&gt;,&lt;/span&gt; inputs&lt;span style="color:#f92672"&gt;,&lt;/span&gt; &lt;span style="color:#f92672"&gt;...&lt;/span&gt; }: {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; cachix&lt;span style="color:#f92672"&gt;.&lt;/span&gt;enable &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;false&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; dotenv&lt;span style="color:#f92672"&gt;.&lt;/span&gt;disableHint &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; env&lt;span style="color:#f92672"&gt;.&lt;/span&gt;COMPOSER_MEMORY_LIMIT &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;4G&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; packages &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;with&lt;/span&gt; pkgs; [ gh hub nodePackages_latest&lt;span style="color:#f92672"&gt;.&lt;/span&gt;intelephense ssm-session-manager-plugin tbls rain mariadb awscli ];
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; languages&lt;span style="color:#f92672"&gt;.&lt;/span&gt;javascript &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; enable &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; package &lt;span style="color:#f92672"&gt;=&lt;/span&gt; pkgs&lt;span style="color:#f92672"&gt;.&lt;/span&gt;nodejs_20;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; yarn&lt;span style="color:#f92672"&gt;.&lt;/span&gt;enable &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; languages&lt;span style="color:#f92672"&gt;.&lt;/span&gt;php &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; enable &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; package &lt;span style="color:#f92672"&gt;=&lt;/span&gt; pkgs&lt;span style="color:#f92672"&gt;.&lt;/span&gt;php82&lt;span style="color:#f92672"&gt;.&lt;/span&gt;buildEnv {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; extensions &lt;span style="color:#f92672"&gt;=&lt;/span&gt; { all&lt;span style="color:#f92672"&gt;,&lt;/span&gt; enabled }: &lt;span style="color:#66d9ef"&gt;with&lt;/span&gt; all; enabled &lt;span style="color:#f92672"&gt;++&lt;/span&gt; [ xdebug ];
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; extraConfig &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;&amp;#39;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; memory_limit=-1
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; &amp;#39;&amp;#39;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; pre-commit&lt;span style="color:#f92672"&gt;.&lt;/span&gt;hooks &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; actionlint&lt;span style="color:#f92672"&gt;.&lt;/span&gt;enable &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; editorconfig-checker&lt;span style="color:#f92672"&gt;.&lt;/span&gt;enable &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; check-json&lt;span style="color:#f92672"&gt;.&lt;/span&gt;enable &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; check-merge-conflicts&lt;span style="color:#f92672"&gt;.&lt;/span&gt;enable &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; check-yaml&lt;span style="color:#f92672"&gt;.&lt;/span&gt;enable &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; check-case-conflicts&lt;span style="color:#f92672"&gt;.&lt;/span&gt;enable &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;true&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="org-tangleして各プロジェクトに配置"&gt;org-tangleして各プロジェクトに配置&lt;/h3&gt;
+&lt;p&gt;&lt;a href="https://github.com/emacs-mirror/emacs"&gt;emacs-mirror/emacs&lt;/a&gt; の場合は次のようなOrgファイルを定義して &lt;code&gt;org-babel-tangle&lt;/code&gt; する。
+&lt;code&gt;devenv.lock&lt;/code&gt; は管理運用方法は現状思いついてないので諦めている。&lt;/p&gt;</description></item><item><title>NixでTypstをBuildしGitHub Pagesでホスティングする</title><link>https://www.takeokunn.org/posts/fleeting/20250126114218-build_and_deploy_typst_using_nix/</link><pubDate>Sun, 26 Jan 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250126114218-build_and_deploy_typst_using_nix/</guid><description>&lt;h2 id="背景"&gt;背景&lt;/h2&gt;
+&lt;p&gt;スライドや組版記事を生成する為にTypstを採用することにした。
+工数を最小限に安定的に量産できるようなしくみを整える必要が迫られていたので、今回対応したことをメモしておく。&lt;/p&gt;
+&lt;p&gt;ソースコードは&lt;a href="https://github.com/takeokunn/blog/tree/11609d8503ffd9b9eb8a3e2a5d19f3f51ee5b579/typst"&gt;takeokunn/blogのtypstディレクトリ下&lt;/a&gt;に置いている。&lt;/p&gt;
+&lt;h2 id="条件"&gt;条件&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;MUST
+&lt;ul&gt;
+&lt;li&gt;Localに一切依存しない再現性の高いBuild環境構築&lt;/li&gt;
+&lt;li&gt;org-modeで記述できる&lt;/li&gt;
+&lt;li&gt;Typstのエコシステムを使う&lt;/li&gt;
+&lt;li&gt;スライド生成と組版記事両方に対応する&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;SHOULD
+&lt;ul&gt;
+&lt;li&gt;takeokunn.orgから配信できる&lt;/li&gt;
+&lt;li&gt;リリースまでのリードタイムが短い&lt;/li&gt;
+&lt;li&gt;org-roamなど周辺のエコシステムとの親和性を高める&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="方針"&gt;方針&lt;/h2&gt;
+&lt;p&gt;次の3ステップで実現した。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;org-modeで記述したファイルをTypstに変換&lt;/li&gt;
+&lt;li&gt;NixでTypstをBuildできるようにする&lt;/li&gt;
+&lt;li&gt;GitHub ActionsでBuildしてGitHub Pagesで配信できる&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure&gt;&lt;img src="https://www.takeokunn.org/images/D91F417B-0FFC-4C67-A814-A267565ADE63.png"&gt;
+&lt;/figure&gt;
+&lt;h2 id="作業ステップ"&gt;作業ステップ&lt;/h2&gt;
+&lt;h3 id="0-dot-どこに置くか検討"&gt;0. どこに置くか検討&lt;/h3&gt;
+&lt;p&gt;以下を理由に &lt;a href="https://github.com/takeokunn/blog"&gt;takeokunn/blog&lt;/a&gt; 上に構築することにした。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.takeokunn.org/"&gt;takeokunn.org&lt;/a&gt; から配信できる&lt;/li&gt;
+&lt;li&gt;既存のorg-roam上に相乗りできる&lt;/li&gt;
+&lt;li&gt;新しいリポジトリを作ると関心ことが増える&lt;/li&gt;
+&lt;li&gt;すでにあるGitHub Actions上に構築することによって実装コストとメンテナンスコストを抑えられる&lt;/li&gt;
+&lt;li&gt;今回の用途だと作業途中でもパブリックにして問題がない&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;商業誌のような公開制限をかける必要のあるものは都度プライベートリポジトリを作って対応することにした。&lt;/p&gt;
+&lt;h3 id="1-dot-org-modeで記述したファイルをtypstに変換"&gt;1. org-modeで記述したファイルをTypstに変換&lt;/h3&gt;
+&lt;p&gt;組版記事の場合、&lt;a href="https://github.com/jmpunkt/ox-typst"&gt;jmpunkt/ox-typst&lt;/a&gt; を用いて通常とおりOrgファイルをTypstに変換する。(&lt;code&gt;M-x org-typst-export-to-typst&lt;/code&gt; を実行)&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/takeokunn/blog/blob/11609d8503ffd9b9eb8a3e2a5d19f3f51ee5b579/typst/phperkaigi-2025-pamphlet/article.org"&gt;PHPerKaigi2025のパンフ記事&lt;/a&gt;の場合、次のようにTypstの設定をExportしている。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-org" data-lang="org"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#+BEGIN_EXPORT &lt;/span&gt;&lt;span style="color:#75715e"&gt;typst&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;#set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;text&lt;/span&gt;(lang: &lt;span style="color:#e6db74"&gt;&amp;#34;ja&amp;#34;&lt;/span&gt;, font: &lt;span style="color:#e6db74"&gt;&amp;#34;Migu&amp;#34;&lt;/span&gt;, size: &lt;span style="color:#ae81ff"&gt;8&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;pt&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;#set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;page&lt;/span&gt;(
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; width: &lt;span style="color:#ae81ff"&gt;210&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;mm&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; height: &lt;span style="color:#ae81ff"&gt;297&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;mm&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; margin: &lt;span style="color:#ae81ff"&gt;20&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;mm&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; columns: &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;#import&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;@preview/codly:1.2.0&amp;#34;&lt;/span&gt;: &lt;span style="color:#f92672"&gt;*&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;#import&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;@preview/codly-languages:0.1.1&amp;#34;&lt;/span&gt;: &lt;span style="color:#f92672"&gt;*&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;#show&lt;/span&gt;: codly-init.&lt;span style="color:#a6e22e"&gt;with&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;#codly&lt;/span&gt;(languages: codly-languages)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;#align&lt;/span&gt;(center)[
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;#set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;text&lt;/span&gt;(size: &lt;span style="color:#ae81ff"&gt;18&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;pt&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Phpactorから学ぶLanguage Server Protocolの仕組み
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;#set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;text&lt;/span&gt;(size: &lt;span style="color:#ae81ff"&gt;12&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;pt&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; たけてぃ \@takeokunn
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#+END_EXPORT&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;スライドの場合、 Orgファイルには登壇メモをしつつ、 &lt;code&gt;#+BEGIN_EXPORT typst&lt;/code&gt; のみ出力してほしかったので次のようなElispを書いた。&lt;/p&gt;</description></item><item><title>tcardgenをnixでパッケージ化する方法</title><link>https://www.takeokunn.org/posts/fleeting/20241122091116-how_to_package_tcardgen_with_nix/</link><pubDate>Fri, 22 Nov 2024 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20241122091116-how_to_package_tcardgen_with_nix/</guid><description>&lt;h2 id="背景"&gt;背景&lt;/h2&gt;
+&lt;p&gt;HugoからOGPを動的に吐き出すツールとして &lt;a href="https://github.com/Ladicle/tcardgen"&gt;Ladicle/tcardgen&lt;/a&gt; がある。
+2024/11/22 現在当ブログでも利用していて、 &lt;a href="https://github.com/takeokunn/blog"&gt;takeokunn/blog&lt;/a&gt; のNix化に伴い tcardgen もNixでパッケージングする必要があった。&lt;/p&gt;
+&lt;h2 id="流れ"&gt;流れ&lt;/h2&gt;
+&lt;h3 id="1-dot-自作nur-packages-に登録"&gt;1. 自作nur-packages に登録&lt;/h3&gt;
+&lt;p&gt;&lt;a href="https://github.com/takeokunn/nur-packages"&gt;takeokunn/nur-packages&lt;/a&gt; に雑に次のようにパッケージングをした。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-nix" data-lang="nix"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{ buildGoModule&lt;span style="color:#f92672"&gt;,&lt;/span&gt; fetchFromGitHub }:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;buildGoModule {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; pname &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;tcardgen&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; version &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;0.0.1&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; src &lt;span style="color:#f92672"&gt;=&lt;/span&gt; fetchFromGitHub {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; owner &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;Ladicle&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; repo &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;tcardgen&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; rev &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;2222547ac37c2d6e1961b00acef3771f48ac8220&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; hash &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;sha256-6Z4SWpjdPMMCC6xm+xjSNAWQpO2FD91p+Mk9Y+Hh7AY=&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; vendorHash &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; doCheck &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;false&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; meta &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; description &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;Generate a TwitterCard(OGP) image for your Hugo posts.&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; homepage &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;https://github.com/Ladicle/tcardgen&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; mainProgram &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;tcardgen&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;src&lt;/code&gt; 部分は &lt;a href="https://github.com/seppeljordan/nix-prefetch-github"&gt;seppeljordan/nix-prefetch-github&lt;/a&gt; を利用して取得。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ nix-shell -p nix-prefetch-github
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ nix-prefetch-github-latest-release --nix Ladicle tcardgen
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;let
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; pkgs &lt;span style="color:#f92672"&gt;=&lt;/span&gt; import &amp;lt;nixpkgs&amp;gt; &lt;span style="color:#f92672"&gt;{}&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;in
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; pkgs.fetchFromGitHub &lt;span style="color:#f92672"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; owner &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;Ladicle&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; repo &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;tcardgen&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; rev &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;2222547ac37c2d6e1961b00acef3771f48ac8220&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; hash &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;sha256-6Z4SWpjdPMMCC6xm+xjSNAWQpO2FD91p+Mk9Y+Hh7AY=&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#f92672"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="2-dot-手元のbuildが通ることを確認"&gt;2. 手元のBuildが通ることを確認&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;vendorHash&lt;/code&gt; は空文字にしてbuildをするとエラーメッセージに書いてあるのでそれを埋める。&lt;/p&gt;</description></item></channel></rss>

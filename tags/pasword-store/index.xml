@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Pasword-Store on takeokunn's blog</title><link>https://www.takeokunn.org/tags/pasword-store/</link><description>Recent content in Pasword-Store on takeokunn's blog</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Wed, 10 Jan 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://www.takeokunn.org/tags/pasword-store/index.xml" rel="self" type="application/rss+xml"/><item><title>Authyからpassword-store-otpに移行した</title><link>https://www.takeokunn.org/posts/fleeting/20240110123142-migrate_authy_to_password_store_otp/</link><pubDate>Wed, 10 Jan 2024 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20240110123142-migrate_authy_to_password_store_otp/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20240108211345-migrate_bitwarden_to_password_store/"&gt;Bitwardenからpassword-storeに移行した&lt;/a&gt; でpassword-storeに移行できたので、TOTPも&lt;a href="https://authy.com/"&gt; Authy &lt;/a&gt;から移行する。&lt;/p&gt;
+&lt;h2 id="goal"&gt;Goal&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;過去の案件で使ってたものを断捨離する&lt;/li&gt;
+&lt;li&gt;password-store-otp経由でOTP Codeを取得できるようにする&lt;/li&gt;
+&lt;li&gt;Authy管理しているデータをpassword-storeに移行する&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="not-goal"&gt;Not Goal&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Authyを完全に削除する
+&lt;ul&gt;
+&lt;li&gt;Bitwarden同様数年間使わなくても問題なかったら適切に削除する&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="作業手順"&gt;作業手順&lt;/h2&gt;
+&lt;h3 id="1-dot-password-store-otpを有効にする"&gt;1. password-store-otpを有効にする&lt;/h3&gt;
+&lt;p&gt;私はNixユーザーなので&lt;a href="https://search.nixos.org/packages?channel=23.11&amp;amp;show=pass&amp;amp;from=0&amp;amp;size=50&amp;amp;sort=relevance&amp;amp;type=packages&amp;amp;query=pass"&gt;Nix Packageからpass&lt;/a&gt;を落としてくる。次のような設定で&lt;a href="https://github.com/nix-community/home-manager"&gt;home-manager&lt;/a&gt;経由で入れると勝手にExtensionが有効になる。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-nix" data-lang="nix"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{ pkgs&lt;span style="color:#f92672"&gt;,&lt;/span&gt; &lt;span style="color:#f92672"&gt;...&lt;/span&gt; }:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; home&lt;span style="color:#f92672"&gt;.&lt;/span&gt;packages &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;with&lt;/span&gt; pkgs; [
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; (pass&lt;span style="color:#f92672"&gt;.&lt;/span&gt;withExtensions (extensions: &lt;span style="color:#66d9ef"&gt;with&lt;/span&gt; extensions; [ pass-otp ]))
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ];
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;fish shellで拡張を有効にする。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-fish" data-lang="fish"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;-x&lt;/span&gt; PASSWORD_STORE_ENABLE_EXTENSIONS true
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="2-dot-authyからexportする"&gt;2. AuthyからExportする&lt;/h3&gt;
+&lt;p&gt;公式のExport方法は見あたらなかったので、&lt;a href="https://gist.github.com/gboudreau/94bb0c11a6209c82418d01a59d958c93"&gt;Export TOTP tokens from Authy - gist&lt;/a&gt;を参考にAuthy Desktopから情報を抜き出す。&lt;/p&gt;
+&lt;h3 id="3-dot-password-storeに貼りつける"&gt;3. password-storeに貼りつける&lt;/h3&gt;
+&lt;p&gt;次のようなフォーマットでパスワードの下に &lt;code&gt;otppath&lt;/code&gt; を入力する。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;P@ssw0rd
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;otpauth://totp/Discord:foo@gmail.com?secret=XXX&amp;amp;issuer=Discord
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;url: https://discordapp.com/
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;username: foo@gmail.com
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="4-dot-アクセスできるか確認する"&gt;4. アクセスできるか確認する&lt;/h3&gt;
+&lt;p&gt;次のコマンドをたたくとclipboardにOTP codeがコピーされる。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-console" data-lang="console"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ pass otp -c private/life/tech/discord
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;Copied OTP code for private/life/tech/discord to clipboard. Will clear in 45 seconds.
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="result"&gt;Result&lt;/h2&gt;
+&lt;p&gt;16個のTOTP情報を移行した。&lt;/p&gt;</description></item></channel></rss>

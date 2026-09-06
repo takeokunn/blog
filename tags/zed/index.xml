@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Zed on takeokunn's blog</title><link>https://www.takeokunn.org/tags/zed/</link><description>Recent content in Zed on takeokunn's blog</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Thu, 25 Jan 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://www.takeokunn.org/tags/zed/index.xml" rel="self" type="application/rss+xml"/><item><title>Zedファーストインプレッション</title><link>https://www.takeokunn.org/posts/fleeting/20240125232318-first_research_about_zed/</link><pubDate>Thu, 25 Jan 2024 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20240125232318-first_research_about_zed/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://forest.watch.impress.co.jp/docs/news/1563594.html"&gt;Rust製コードエディター「Zed」がオープンソースに ～v1.0リリースへ向けて門戸を開く - 窓の杜&lt;/a&gt; にもあるとおり、&lt;a href="https://github.com/zed-industries/zed"&gt;zed-industries/zed&lt;/a&gt;が公開されたのでコードをざっくり読んでみたのでメモする。&lt;/p&gt;
+&lt;p&gt;Rustへの知見が皆無であること、雑なコードリーディング要素があるのでご了承ください。&lt;/p&gt;
+&lt;h2 id="feature"&gt;Feature&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://zed.dev/"&gt;https://zed.dev/&lt;/a&gt; には次のようなことを書いている。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;ハイパフォーマンス&lt;/li&gt;
+&lt;li&gt;AIサポート&lt;/li&gt;
+&lt;li&gt;LSP&lt;/li&gt;
+&lt;li&gt;Package
+&lt;ul&gt;
+&lt;li&gt;vim-mode&lt;/li&gt;
+&lt;li&gt;terminal&lt;/li&gt;
+&lt;li&gt;theme&lt;/li&gt;
+&lt;li&gt;etc.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;チーム開発&lt;/li&gt;
+&lt;li&gt;UI/データ構造
+&lt;ul&gt;
+&lt;li&gt;マルチコアサポート&lt;/li&gt;
+&lt;li&gt;Tree-sitterサポート&lt;/li&gt;
+&lt;li&gt;共同編集アルゴリズム&lt;a href="https://en.wikipedia.org/wiki/Conflict-free_replicated_data_type"&gt;CRDT&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="local-build"&gt;Local Build&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://github.com/zed-industries/zed/blob/7068161bd7405553fd3fecaf44057449d8137878/docs/src/developing_zed__building_zed.md"&gt;docs/src/developing_zed__building_zed.md&lt;/a&gt; にある手順とおりコマンドを実行したら手元で簡単にBuildできた。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/zed-industries/zed/blob/7068161bd7405553fd3fecaf44057449d8137878/docs/src/system_requirements.md"&gt;docs/src/system_requirements.md&lt;/a&gt; にはMacしかサポートしてないことが記述されている。&lt;/p&gt;
+&lt;h2 id="docs"&gt;Docs&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://github.com/zed-industries/zed/blob/7068161bd7405553fd3fecaf44057449d8137878/docs/src/configuring_zed.md"&gt;docs/src/configuring_zed.md&lt;/a&gt; に設定方法が書いてあるが、基本的に&lt;a href="https://json5.org/"&gt;json5&lt;/a&gt;で管理していて細かい設定ができそうなことが伺える。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/zed-industries/zed/blob/7068161bd7405553fd3fecaf44057449d8137878/docs/src/configuring_zed__configuring_vim.md"&gt;docs/src/configuring_zed__configuring_vim.md&lt;/a&gt; にvim-modeの使い方が書かれている。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/zed-industries/zed/blob/7068161bd7405553fd3fecaf44057449d8137878/docs/src/telemetry.md"&gt;docs/src/telemetry.md&lt;/a&gt; にサービス改善の為に匿名でzed.devに利用状況を送信することが書かれている。&lt;/p&gt;
+&lt;h2 id="コードリーディング"&gt;コードリーディング&lt;/h2&gt;
+&lt;p&gt;ディレクトリごとに雑にコメントを書いていく。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ tree -L &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt; .
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;├── CODE_OF_CONDUCT.md
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;├── CONTRIBUTING.md
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;├── Cargo.lock
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;├── Cargo.toml
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;├── Dockerfile
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;├── LICENSE-AGPL
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;├── LICENSE-APACHE
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;├── LICENSE-GPL
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;├── Procfile
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;├── README.md
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;├── assets
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;├── crates
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;├── debug.plist
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;├── docker-compose.sql
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;├── docker-compose.yml
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;├── docs
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;├── plugins
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;├── rust-toolchain.toml
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;├── script
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;├── target
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;└── typos.toml
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="assets"&gt;&lt;a href="https://github.com/zed-industries/zed/tree/7068161bd7405553fd3fecaf44057449d8137878/assets"&gt;assets/&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;a href="https://github.com/zed-industries/zed/tree/7068161bd7405553fd3fecaf44057449d8137878/assets/fonts"&gt;font&lt;/a&gt;情報や&lt;a href="https://github.com/zed-industries/zed/tree/7068161bd7405553fd3fecaf44057449d8137878/assets/icons"&gt;icon&lt;/a&gt;や&lt;a href="https://github.com/zed-industries/zed/tree/7068161bd7405553fd3fecaf44057449d8137878/assets/sounds"&gt;sounds&lt;/a&gt;が入っている。
+また、&lt;a href="https://github.com/zed-industries/zed/tree/7068161bd7405553fd3fecaf44057449d8137878/assets/keymaps"&gt;keymaps&lt;/a&gt;や&lt;a href="https://github.com/zed-industries/zed/tree/7068161bd7405553fd3fecaf44057449d8137878/assets/settings"&gt;settings&lt;/a&gt;にデフォルトの設定がjsonで格納されている。&lt;/p&gt;</description></item></channel></rss>

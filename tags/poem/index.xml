@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Poem on takeokunn's blog</title><link>https://www.takeokunn.org/tags/poem/</link><description>Recent content in Poem on takeokunn's blog</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Fri, 19 Jan 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://www.takeokunn.org/tags/poem/index.xml" rel="self" type="application/rss+xml"/><item><title>Emacsユーザーから見たvim-jp</title><link>https://www.takeokunn.org/posts/poem/20240117104306-perspective_of_vim_jp_from_emacser/</link><pubDate>Fri, 19 Jan 2024 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/poem/20240117104306-perspective_of_vim_jp_from_emacser/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;この記事は&lt;a href="https://vim-jp.org/ekiden/"&gt;Vim駅伝&lt;/a&gt;の2024-01-19の記事です。&lt;/p&gt;
+&lt;p&gt;前回の記事は&lt;a href="https://zenn.dev/kawarimidoll"&gt;kawarimidoll&lt;/a&gt;さんの「&lt;a href="https://zenn.dev/vim_jp/articles/358848a5144b63"&gt;俺自身がVimのstatuslineになることだ&lt;/a&gt;」です。&lt;/p&gt;
+&lt;h2 id="この記事を読むにあたっての注意点"&gt;この記事を読むにあたっての注意点&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;筆者の主観要素&lt;/li&gt;
+&lt;li&gt;筆者のEmacs愛要素&lt;/li&gt;
+&lt;li&gt;筆者のEmacsコミュニティ活動への努力不足要素
+&lt;ul&gt;
+&lt;li&gt;2024年はEmacsイベントを精力的に開催します&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="対象読者"&gt;対象読者&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;これからEmacsを始めたい人&lt;/li&gt;
+&lt;li&gt;vim-jp slackにまだ参加していない人&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="今北産業"&gt;今北産業&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://blog.tomoya.dev/posts/vim-jp-is-a-paradise-for-engineers/"&gt;エンジニアの楽園 vim-jp - 日々、とんは語る。&lt;/a&gt;を読み &lt;a href="https://vim-jp.org/docs/chat.html"&gt;vim-jpのチャットルームについて&lt;/a&gt; を参考にvim-jp slackに入る&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;#welcome&lt;/code&gt; で自己紹介をする&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;#hobby-gourmet&lt;/code&gt; で直近の食事をアップロードする&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;自己紹介テンプレートは以下。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;はじめまして。
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;これからEmacsを学びたくてvim-jp slackに参加しました。
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;言語は主に○○を使っていますが、最近は○○を勉強しています。
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;よろしくお願いします。
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="vim-emacsエディタ戦争について"&gt;Vim/Emacsエディタ戦争について&lt;/h2&gt;
+&lt;p&gt;「VimmerとEmacsユーザーは仲が悪い」と&lt;a href="https://ja.wikipedia.org/wiki/%E3%82%A8%E3%83%87%E3%82%A3%E3%82%BF%E6%88%A6%E4%BA%89"&gt;エディタ戦争&lt;/a&gt;のようなことを巷ではいわれてますが、実際のところはそんなことありません。
+エディタ戦争と言っている人達はどちらのテキストエディタも大して使っていない素人であることが多く、実際のところは少なくとも日本人コミュニティでは一切そんなことありません。&lt;/p&gt;
+&lt;p&gt;たとえば&lt;a href="https://github.com/easymotion/vim-easymotion"&gt;easymotion/vim-easymotion&lt;/a&gt;が&lt;a href="https://github.com/abo-abo/avy"&gt;abo-abo/avy&lt;/a&gt;で再実装されたように、Vim Pluginで有用なものはEmacs Packageに移植されたり、常に互いを高め合うものとして存在しています。（逆もまた然り）&lt;/p&gt;
+&lt;p&gt;私個人としてはEmacsが世界最強のテキストエディタでありほかのテキストエディタの追随を許さない圧倒的に優れたものだという思想を持っています。
+こういう思想を持った私でもVimコミュニティ内で問題なくVimmerと交流できているので、世間が思っている以上にテキストエディタコミュニティは他テキストエディタに寛容です。&lt;/p&gt;
+&lt;h2 id="emacsコミュニティの抱える問題"&gt;Emacsコミュニティの抱える問題&lt;/h2&gt;
+&lt;p&gt;私がEmacsを始めたのは5年前くらいですが、私の観測範囲内ではコミュニティ活動するEmacsユーザーの数は5年前からほぼ変わらず、悲しいことに新規で入ってくる人はほとんどいません。
+つまりEmacsコミュニティは平均年齢が5歳分上がっているのです。&lt;/p&gt;
+&lt;p&gt;Emacs日本コミュニティに&lt;a href="https://github.com/emacs-jp/emacs-jp.github.com"&gt;emacs-jp slack&lt;/a&gt;があります。
+分からないことがあったらちょっとしたことでも &lt;code&gt;#question&lt;/code&gt; に気軽に投げてほしいし、 &lt;code&gt;#today-i-learned&lt;/code&gt; に学んだことを共有してほしいです。
+しかし残念ながら投稿の流速が遅く、特に初心者は雑談や質問しつらいという現状があります。&lt;/p&gt;
+&lt;p&gt;同じくらいの初心者が少ない技術コミュニティでは、質問するのも人間関係を構築するのも難易度がどうしても高くなってしまいます。
+ベテラン達も「イマドキEmacsを長い時間苦労してやらずにVSCodeとか使った方がいいんじゃないか?」と思っている人も少なくなく、初心者を増やす活動を中々できていないという側面もあります。&lt;/p&gt;
+&lt;p&gt;本来なら&lt;a href="https://gorillavim.connpass.com/"&gt;ゴリラ.vim&lt;/a&gt;のような初心者歓迎イベントを定期開催して、少しでもEmacsへのハードルを下げるべきなのかもしれないなと反省しています。&lt;/p&gt;
+&lt;h2 id="vim-jp-slackって何"&gt;vim-jp slackって何？&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://blog.tomoya.dev/posts/vim-jp-is-a-paradise-for-engineers/"&gt;エンジニアの楽園 vim-jp - 日々、とんは語る。&lt;/a&gt; に非常に分かりやすくまとまっています。
+vim-jpはVimという名前を冠しているにもかかわらず、以下のようなchannelがあり生活全般の会話をできます。（あくまで一例）&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;#hobby-*&lt;/code&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;#hobby-gourmet&lt;/code&gt; : 食事全般&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;#hobby-gadget&lt;/code&gt; : ガジェット全般&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;#life-*&lt;/code&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;#life-housekeeping&lt;/code&gt; : 家事全般&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;#life-healthcare&lt;/code&gt; : 健康全般&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;#event-*&lt;/code&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;#event-gorillavim&lt;/code&gt; : ゴリラvim関連&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;#game-*&lt;/code&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;#game-minecraft&lt;/code&gt; : マイクラ関連&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;#times-&lt;/code&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;#times&lt;/code&gt; : 全員の分報&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;#times-take&lt;/code&gt; : 私の分報&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Emacsユーザーは以下のチャンネルに入っておくことをお勧めします。&lt;/p&gt;</description></item></channel></rss>

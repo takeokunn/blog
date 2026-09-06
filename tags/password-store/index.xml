@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Password-Store on takeokunn's blog</title><link>https://www.takeokunn.org/tags/password-store/</link><description>Recent content in Password-Store on takeokunn's blog</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Mon, 14 Apr 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://www.takeokunn.org/tags/password-store/index.xml" rel="self" type="application/rss+xml"/><item><title>credential管理をorg-encryptからpassword-storeに移行した</title><link>https://www.takeokunn.org/posts/fleeting/20250414001634-migrate_credential_manager_to_password_store/</link><pubDate>Mon, 14 Apr 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250414001634-migrate_credential_manager_to_password_store/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;credential管理をorg-encryptからpassword-storeに移行したので作業内容をメモしておく。&lt;/p&gt;
+&lt;h2 id="現状の運用と問題"&gt;現状の運用と問題&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20250127144907-my_usage_org_crypt/"&gt;org-crypt運用メモ&lt;/a&gt; に書いたとおり、 &lt;code&gt;~/.aws/credentials&lt;/code&gt; のような秘匿情報を &lt;code&gt;secret.org&lt;/code&gt; を &lt;code&gt;org-babel-tangle&lt;/code&gt; して出力していた。&lt;/p&gt;
+&lt;p&gt;次のように &lt;code&gt;org-decrypt-entries&lt;/code&gt; と &lt;code&gt;org-encrypt-entries&lt;/code&gt; をadviceして対応していたのだが、&lt;a href="https://github.com/AntonHakansson/org-nix-shell"&gt;org-nix-shell&lt;/a&gt; がうまく動かなくなってしまった。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-emacs-lisp" data-lang="emacs-lisp"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(advice-add &lt;span style="color:#e6db74"&gt;&amp;#39;org-babel-tangle&lt;/span&gt; :before &lt;span style="color:#a6e22e"&gt;#&amp;#39;&lt;/span&gt;org-decrypt-entries)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(advice-add &lt;span style="color:#e6db74"&gt;&amp;#39;org-babel-tangle&lt;/span&gt; :after &lt;span style="color:#a6e22e"&gt;#&amp;#39;&lt;/span&gt;org-encrypt-entries)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;a href="https://github.com/astahlman/ob-async"&gt;ob-async&lt;/a&gt; を有効にした時も&lt;a href="https://github.com/AntonHakansson/org-nix-shell"&gt;org-nix-shell&lt;/a&gt;が実行できなくなってしまったので、 &lt;code&gt;advice-add&lt;/code&gt; をすると問題が起きるのかもしれない。（要検証）
+&lt;a href="https://www.takeokunn.org/posts/fleeting/20250126140928-introduction_org_nix_shell/"&gt;org-nix-shell入門&lt;/a&gt; にも書いたが、&lt;a href="https://github.com/AntonHakansson/org-nix-shell"&gt;org-nix-shell&lt;/a&gt;はキラーアプリケーションなので消す訳にはいかない。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;M-x org-encrypt-entries&lt;/code&gt; を手動で実行する運用にしていたが、うっかり叩き忘れたままcommitを何度かしてしまった。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/newren/git-filter-repo"&gt;newren/git-filter-repo&lt;/a&gt;などを使ってcommit hisotryから消したが面倒だった。&lt;/p&gt;
+&lt;p&gt;また、&lt;a href="https://www.takeokunn.org/posts/fleeting/20250409210655-introduction_mcp_servers_nix/"&gt;mcp-servers-nixを導入した&lt;/a&gt;時点では実装されてなかったが、&lt;a href="https://github.com/natsukium/mcp-servers-nix"&gt;mcp-servers-nix&lt;/a&gt; は &lt;code&gt;passwordCommand&lt;/code&gt; をサポートしてくれた。
+よい機会なのでpassword-store管理に移行にすることにした。&lt;/p&gt;
+&lt;h2 id="作業手順"&gt;作業手順&lt;/h2&gt;
+&lt;h3 id="1-dot-既存のorg-encryptしてた鍵情報をpassword-store管理下に移行"&gt;1. 既存のorg-encryptしてた鍵情報をpassword-store管理下に移行&lt;/h3&gt;
+&lt;p&gt;次のように秘密鍵をpassコマンドで検索できるようにする。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-console" data-lang="console"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;pass show gemini/private
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="2-dot-org-babel-templateを作成"&gt;2. org-babel templateを作成&lt;/h3&gt;
+&lt;p&gt;passコマンドをwrapするコマンドを用意する。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-org" data-lang="org"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#+name&lt;/span&gt;&lt;span style="color:#75715e"&gt;: pass&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#+begin_src &lt;/span&gt;&lt;span style="color:#75715e"&gt;emacs-lisp&lt;/span&gt;&lt;span style="color:#75715e"&gt; :var id=&amp;#34;&amp;#34; :results value raw
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt; (string-trim (shell-command-to-string (&lt;span style="color:#a6e22e"&gt;format&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;pass show %s&amp;#34;&lt;/span&gt; id)))
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#+end_src&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="3-dot-各秘密鍵に埋め込み"&gt;3. 各秘密鍵に埋め込み&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;:noweb yes&lt;/code&gt; で関数を実行できるようにする。
+&lt;code&gt;M-x org-babel-tangle&lt;/code&gt; を実行すると、秘密鍵の入った状態で &lt;code&gt;~/.aider.conf.yml&lt;/code&gt; が出力される。&lt;/p&gt;</description></item><item><title>Bitwardenからpassword-storeに移行した</title><link>https://www.takeokunn.org/posts/fleeting/20240108211345-migrate_bitwarden_to_password_store/</link><pubDate>Mon, 08 Jan 2024 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20240108211345-migrate_bitwarden_to_password_store/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;Bitwardenからpassword-storeに移行したので作業内容をメモしておく。&lt;/p&gt;
+&lt;h2 id="basic"&gt;Basic&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;普段使うものは可能な限りPlain TextとGitで管理したい&lt;/li&gt;
+&lt;li&gt;EmacsやTerminalから簡単に呼び出したい&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.gnupg.org/"&gt;GnuPG&lt;/a&gt;を可能な限り活用したい&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="goal"&gt;Goal&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Bitwardenに保存されているすべての情報をpassword-storeに移行する&lt;/li&gt;
+&lt;li&gt;EmacsやTerminalから簡単にパスワードを取得できるようにする&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="not-goal"&gt;Not Goal&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Bitwardenのアカウントを完全に削除する
+&lt;ul&gt;
+&lt;li&gt;数年間使わなくても問題なかったら適切に削除する&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="技術選定"&gt;技術選定&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://www.passwordstore.org/"&gt;password-store&lt;/a&gt;を選択した理由は以下。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;十分に枯れている&lt;/li&gt;
+&lt;li&gt;Plain TextとGitで管理できる&lt;/li&gt;
+&lt;li&gt;password-storeが挙動しなくなってもGPGさえ動けばよい
+&lt;ul&gt;
+&lt;li&gt;shell scriptの小さなコードベースで書かれている&lt;/li&gt;
+&lt;li&gt;GPGが動かない時は &lt;code&gt;git commit&lt;/code&gt; もできない状態なので根本的に問題&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;2024年現在所属している会社でpassword-storeを使っている
+&lt;ul&gt;
+&lt;li&gt;ref. &lt;a href="https://qiita.com/karronoli/items/7ac1984712495fdc570d"&gt;Pass: The Standard Unix Password Manager の紹介 - Qiita&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://ja.wikipedia.org/wiki/Time-based_One-time_Password"&gt;TOTP&lt;/a&gt;に対応している&lt;/li&gt;
+&lt;li&gt;Emacs Packageがある&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;周りのエンジニアに何を使っているのか聞いたところ、&lt;a href="https://1password.com/jp"&gt;1password&lt;/a&gt;や&lt;a href="https://bitwarden.com/"&gt;Bitwarden&lt;/a&gt;を使っている人が大半だった。&lt;/p&gt;
+&lt;h2 id="作業手順"&gt;作業手順&lt;/h2&gt;
+&lt;h3 id="1-dot-bitwardenからパスワードを抽出する"&gt;1. Bitwardenからパスワードを抽出する&lt;/h3&gt;
+&lt;p&gt;&lt;a href="https://github.com/bitwarden/clients"&gt;bitwarden/clients&lt;/a&gt; を手元のPCに入れる。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-console" data-lang="console"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ bw --version
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;2023.12.1
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Loginしてセッションを取得。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-console" data-lang="console"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ bw login
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;bw list items&lt;/code&gt; コマンドを叩いてパスワードを抽出する。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-console" data-lang="console"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ bw list items --session &amp;lt;session_id&amp;gt; &lt;span style="color:#ae81ff"&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#ae81ff"&gt;&lt;/span&gt; | jq &amp;#39;.[] | { folderId: .folderId, name: .name, login: .login }&amp;#39; \
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; | jq . &amp;gt; /tmp/bw.json
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;次のようなjsonが &lt;code&gt;/tmp/bw.json&lt;/code&gt; に出力される。&lt;/p&gt;</description></item></channel></rss>

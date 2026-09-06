@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Vimconf on takeokunn's blog</title><link>https://www.takeokunn.org/tags/vimconf/</link><description>Recent content in Vimconf on takeokunn's blog</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Sat, 23 Nov 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://www.takeokunn.org/tags/vimconf/index.xml" rel="self" type="application/rss+xml"/><item><title>VimConf2024 参加記</title><link>https://www.takeokunn.org/posts/diary/20241123101757-participation_vimconf_2024/</link><pubDate>Sat, 23 Nov 2024 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/diary/20241123101757-participation_vimconf_2024/</guid><description>&lt;h2 id="はじめに"&gt;はじめに&lt;/h2&gt;
+&lt;p&gt;2024-11-23 Satに行われたvimconf 2024に参加しました。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://vimconf.org/2024/"&gt;https://vimconf.org/2024/&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id="登壇感想"&gt;登壇感想&lt;/h2&gt;
+&lt;p&gt;英語の登壇であること、前日はしゃいで睡眠不足あったので聞き逃した所もあるが登壇メモを書いておく。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://vimconf.org/2024/sessions/"&gt;https://vimconf.org/2024/sessions/&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id="keynote-the-new-vim-project-what-has-changed-after-bram-by-christian-brabandt"&gt;Keynote - The new Vim project - What has changed after Bram by Christian Brabandt&lt;/h3&gt;
+&lt;h4 id="一言"&gt;一言&lt;/h4&gt;
+&lt;p&gt;vim projectを引き継ぐにあたって大変なことについて。
+vim本体のコードの引き継ぎも大変だけど、それ以外の引き継ぎも大変だったという話。&lt;/p&gt;
+&lt;h4 id="内容メモ"&gt;内容メモ&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Bramが超人すぎて引き継ぎ量が多い&lt;/li&gt;
+&lt;li&gt;git repoの引き継ぎ
+&lt;ul&gt;
+&lt;li&gt;権限周りや新しいメンテナの招待&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;vim.org のホームページ引き継ぎ
+&lt;ul&gt;
+&lt;li&gt;php5/7とか古いバージョン&lt;/li&gt;
+&lt;li&gt;DBやらドメインやら&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Emailアカウント周り&lt;/li&gt;
+&lt;li&gt;Google Groupを使ってる
+&lt;ul&gt;
+&lt;li&gt;正直イマイチなのでどうしたものか&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;セキュリティレポート
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://huntr.com/bounties/63f51299-008a-4112-b85b-1e904aadd4ba"&gt;Huntr&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;GitHub security advisory&lt;/li&gt;
+&lt;li&gt;private mailing list&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://iccf-holland.org/"&gt;ICCF&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;まだ動いてるし、変えずにやっていく&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.vim.org/sponsor/vote_results.php"&gt;voting feature&lt;/a&gt; は廃止&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;開発進捗
+&lt;ul&gt;
+&lt;li&gt;Development did not stop&lt;/li&gt;
+&lt;li&gt;Vim9 classサポート&lt;/li&gt;
+&lt;li&gt;XDGサポート/Editorconfigサポート/Waylandサポート&lt;/li&gt;
+&lt;li&gt;BC Breakが起きないように十分にテストをする&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;コミュニティにとって何が重要か
+&lt;ul&gt;
+&lt;li&gt;e.g. IDEっぽいことができた方が良いか、エディタのままでいいか&lt;/li&gt;
+&lt;li&gt;e.g. Vim9は楽しいかどうか等&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;開発者に求めてること
+&lt;ul&gt;
+&lt;li&gt;安全なC関数を使う&lt;/li&gt;
+&lt;li&gt;CIを通してカバレッジの確認をするなど&lt;/li&gt;
+&lt;li&gt;管理しやすいようにリファクタリングをする&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;何を改善すべきか
+&lt;ul&gt;
+&lt;li&gt;GUI(GTK4)などのサポートを向上させるかどうか&lt;/li&gt;
+&lt;li&gt;Tree-sitterサポートするかどうか&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;結論
+&lt;ul&gt;
+&lt;li&gt;Vimメンテナンスは大変&lt;/li&gt;
+&lt;li&gt;コミュニティを健全性を維持したい&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;質疑応答
+&lt;ul&gt;
+&lt;li&gt;NeovimとVimは相互に協力して開発を進めていきたい&lt;/li&gt;
+&lt;li&gt;Vimにコントリビューションを始める方法を教えてほしい
+&lt;ul&gt;
+&lt;li&gt;ドキュメントなど全ての貢献に感謝してる&lt;/li&gt;
+&lt;li&gt;Vim scriptのC言語を読めば良い&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;貴方が独裁者になってない?
+&lt;ul&gt;
+&lt;li&gt;自分が休暇中は他の人がmerge作業をしてる&lt;/li&gt;
+&lt;li&gt;コミュニティの意向を尊重してmergeしてる&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;言語の壁でも越えるのが大変だけどどうしてる?
+&lt;ul&gt;
+&lt;li&gt;英語でコミュニケーションしかできない&lt;/li&gt;
+&lt;li&gt;メンテナは各国にいるので英語がコミュニケーションの言語になってる&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;初心者に対してどういうことを期待してる?
+&lt;ul&gt;
+&lt;li&gt;まず日本のコミュニティに繋がることから始めると良い&lt;/li&gt;
+&lt;li&gt;他の人から学ぶ、バグレポートから始めたり、ソースコードをチェックしてどう変更されたのか確認する、テストをする&lt;/li&gt;
+&lt;li&gt;ソースコードに馴染んできた時にパッチを送ると良い&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="keynote--neo--vim-made-me-a-better-software-developer-by-tj-devries"&gt;Keynote - (Neo)Vim Made Me a Better Software Developer by TJ DeVries&lt;/h3&gt;
+&lt;h4 id="一言"&gt;一言&lt;/h4&gt;
+&lt;p&gt;Neovimの話というよりは仕事のやり方に通じるものだった。
+youtuberっぽい警戒なトークで面白すぎた。&lt;/p&gt;</description></item></channel></rss>

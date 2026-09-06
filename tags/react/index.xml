@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>React on takeokunn's blog</title><link>https://www.takeokunn.org/tags/react/</link><description>Recent content in React on takeokunn's blog</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Mon, 16 Jun 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://www.takeokunn.org/tags/react/index.xml" rel="self" type="application/rss+xml"/><item><title>React Router v7周辺キャッチアップメモ</title><link>https://www.takeokunn.org/posts/fleeting/20250616132230-catch_up_react_router_v7/</link><pubDate>Mon, 16 Jun 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250616132230-catch_up_react_router_v7/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;普段からWebフロントエンドは書いているものの、2025年6月現在の最新のフロントエンド事情は追えていなかった。
+最後にWebフロントエンドを追っていたのが2021年頃だったので3〜4年のビハインドがあった。
+2021年頃はNext.jsが最盛期でNext.js一択だった。&lt;/p&gt;
+&lt;p&gt;仕事の都合で最新のWebフロントエンド事情をキャッチアップする必要に迫られた。
+新規プロジェクトに生かせる為にどのPackageを使うのがよいのか、トレンドはどう変化したのか、過去使っていたpackageはどうなったのか、新しい概念はあるのか等を調べたのでメモしておく。&lt;/p&gt;
+&lt;p&gt;また、将来的にAIに書かせること前提にドキュメントの整備方法についても検討する。&lt;/p&gt;
+&lt;h2 id="試したこと-やったこと"&gt;試したこと・やったこと&lt;/h2&gt;
+&lt;p&gt;作業レポジトリは以下。
+練習がてら可能な限りAI（Aider + Gemini 2.5 Pro）に書かせたのでコミット数が多い。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/takeokunn/react-router-sandbox"&gt;https://github.com/takeokunn/react-router-sandbox&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id="0-dot-キャッチアップ方針決め"&gt;0. キャッチアップ方針決め&lt;/h3&gt;
+&lt;p&gt;キャッチアップをする方法で一番よいのは詳しい人に聞くことなので &lt;a href="https://x.com/ryoppippi"&gt;@ryoppippi&lt;/a&gt; と &lt;a href="https://x.com/tomoyaton"&gt;@tomoyaton&lt;/a&gt; にそれぞれ2〜3時間くらい質問攻めにした。&lt;/p&gt;
+&lt;p&gt;その結果次のことが分かった。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Bundleツール
+&lt;ul&gt;
+&lt;li&gt;Webpackは遅いしモダンではない
+&lt;ul&gt;
+&lt;li&gt;TurbopackやRspackなどWebpack互換のRust製ツールが隆盛&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;今使うならVite
+&lt;ul&gt;
+&lt;li&gt;esbuildとrollupとのよい所取り&lt;/li&gt;
+&lt;li&gt;rollup互換のRust製ツールであるrolldownが隆盛（experimental）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Component Library
+&lt;ul&gt;
+&lt;li&gt;結局Reactが選択され続けている&lt;/li&gt;
+&lt;li&gt;Vue周りの話は減った&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Framework
+&lt;ul&gt;
+&lt;li&gt;Next.jsはモダンではない認識
+&lt;ul&gt;
+&lt;li&gt;Webpack依存を剥せなくてBuildが重い&lt;/li&gt;
+&lt;li&gt;SSGは廃れた&lt;/li&gt;
+&lt;li&gt;CJS依存&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;2025年6月はReactを使うならReact Router v7を使うのが無難
+&lt;ul&gt;
+&lt;li&gt;Remixと合流し、「モダンReactのデファクトルーティング」へ変化中
+&lt;ul&gt;
+&lt;li&gt;ref. &lt;a href="https://remix.run/blog/react-router-v7"&gt;https://remix.run/blog/react-router-v7&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;SSR + Partial Rendering
+&lt;ul&gt;
+&lt;li&gt;Partial Renderingはこの記事が分かりやすい
+&lt;ul&gt;
+&lt;li&gt;ref. &lt;a href="https://nextjs.org/docs/app/getting-started/partial-prerendering"&gt;https://nextjs.org/docs/app/getting-started/partial-prerendering&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;オススメのディレクトリ構造などを教えてもらった&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;react-router typegen&lt;/code&gt; で型情報を出力できるようになって一気にType Safeになったらしい&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;UI Library
+&lt;ul&gt;
+&lt;li&gt;Mantineが使い勝手がよい&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Request Library
+&lt;ul&gt;
+&lt;li&gt;swrあたりを使っておくのが無難&lt;/li&gt;
+&lt;li&gt;最近はtanstack queryの方が人気らしい&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Logging Library
+&lt;ul&gt;
+&lt;li&gt;pinoが使い勝手良かったらしい&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Testing Library
+&lt;ul&gt;
+&lt;li&gt;Lint/Formatter
+&lt;ul&gt;
+&lt;li&gt;依然としてESLint/PrettierがあるけどBiomeが強い&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Unit TestはVitestを使うとよい
+&lt;ul&gt;
+&lt;li&gt;Jest互換でTypeScript Native&lt;/li&gt;
+&lt;li&gt;ESMベース&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;残りのE2Eやらは都度考える
+&lt;ul&gt;
+&lt;li&gt;場合によってstorybookやらPlaywrightやらを使うとよい&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;CI/CD
+&lt;ul&gt;
+&lt;li&gt;GitHub Actionsで回しちゃうのが楽でよい&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Package Manager
+&lt;ul&gt;
+&lt;li&gt;npm/yarn/pnpmがあるが、基本的には好きなものを使えばよい&lt;/li&gt;
+&lt;li&gt;OSSはpnpmを使ってるプロジェクトが多い&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Form/Validation Library
+&lt;ul&gt;
+&lt;li&gt;conformが使い勝手良くてよいらしい&lt;/li&gt;
+&lt;li&gt;zod/valibotあたりを使うのば無難らしい&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Hosting
+&lt;ul&gt;
+&lt;li&gt;SSRするのでWebサーバを用意する必要がある&lt;/li&gt;
+&lt;li&gt;Cloudflare workerやらAWS ECSやら選択肢が色々ある&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Runtime
+&lt;ul&gt;
+&lt;li&gt;Node/Deno/Bunがある&lt;/li&gt;
+&lt;li&gt;Node/DenoはV8、BunはJavaScript Coreを積んでいる&lt;/li&gt;
+&lt;li&gt;何も考えたくなければNodeだけど、Bunの方が速度出るかも?&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="1-dot-技術選定"&gt;1. 技術選定&lt;/h3&gt;
+&lt;p&gt;今回の練習用レポジトリで実際に試してみる技術は以下。&lt;/p&gt;</description></item></channel></rss>

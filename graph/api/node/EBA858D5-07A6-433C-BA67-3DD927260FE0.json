@@ -1,0 +1,6 @@
+{
+  "id": "EBA858D5-07A6-433C-BA67-3DD927260FE0",
+  "title": "2024年 LLM個人的振り返り",
+  "raw": ":PROPERTIES:\n:ID:       EBA858D5-07A6-433C-BA67-3DD927260FE0\n:END:\n#+TITLE: 2024年 LLM個人的振り返り\n#+AUTHOR: takeokunn\n#+DESCRIPTION: description\n#+DATE: 2024-12-21T14:25:32+0900\n#+HUGO_BASE_DIR: ../../\n#+HUGO_CATEGORIES: permanent\n#+HUGO_SECTION: posts/permanent\n#+HUGO_TAGS: permanent llm\n#+HUGO_DRAFT: true\n#+STARTUP: fold\n* Introduction\n* LLMに時間を投資する理由とゴール\n\n- これからの時代は間違いなく生成AI\n- 今の自分の仕事でどういう場面で活躍するのか、どのツールがよいのかを吟味する\n- 利用者としてAIをやりこむなら何をすればよいのか、どういうユースケースが存在しうるのか吟味する\n\n* LLM / Local LLMに何を期待しているのか\n\n- コード編集\n- エラー\n\n* 取り組んだこと\n** Local LLM\n*** ollama環境\n*** ollama-Webui検証\n*** Dify検証\n\n- firecrawler\n- Nixで用意してくれたらうれしいんだけどなー\n\n*** Emacs integration\n** LLM\n*** 複数サービスの検討とChatGPT課金\n\n- chefrepiでめちゃくちゃ活用している\n- ChatGPTとClaude\n\n*** 普段の仕事での活用\n\n- 翻訳\n- エラーログ\n- 競プロ\n  - Property Based Test生成\n\n*** コード編集支援（GitHub copilot）ツールに求めていることを言語化と使い方の模索\n* 所感\n\n- 2024年になって急激に実用化できるようになった\n\n** トレンド\n** Local LLMが必要かどうか\n** 単発タスクとWorkflowの両方に力を入れていくべき\n* Next Action\n\n- Difyをやりこむ\n- ソフトウェアテストに投資をする必要がある\n- プロンプトを用意する\n- org-modeとの連携\n\n* 終わりに\n",
+  "backlinks": []
+}

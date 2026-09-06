@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Mac on takeokunn's blog</title><link>https://www.takeokunn.org/tags/mac/</link><description>Recent content in Mac on takeokunn's blog</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Sat, 03 Oct 2020 09:00:00 +0900</lastBuildDate><atom:link href="https://www.takeokunn.org/tags/mac/index.xml" rel="self" type="application/rss+xml"/><item><title>MacBookProの生前整理をする</title><link>https://www.takeokunn.org/posts/permanent/20201003000022-pc_cleaninng_before_out_of_order/</link><pubDate>Sat, 03 Oct 2020 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/permanent/20201003000022-pc_cleaninng_before_out_of_order/</guid><description>&lt;h2 id="不要な情報の削除"&gt;不要な情報の削除&lt;/h2&gt;
+&lt;p&gt;まずは整理整頓の基本である不要なモノを捨てるところから。次のような手順を踖んだら容量カツカツ状態から62GB開けることができた。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://hnw.hatenablog.com/entry/20131117"&gt;hardlink.pyを使ったらディスクの空き容量が劇的に増えた&lt;/a&gt; こういうのもあるが今回は使わない。&lt;/p&gt;
+&lt;h3 id="不要repoの削除"&gt;不要repoの削除&lt;/h3&gt;
+&lt;p&gt;僕はすべてのソースコードをghqで管理している。snippet的なコードは適当なファイルやディレクトリを作って書き、終わったらブログにまとめてから削除するという運用をとっている。&lt;/p&gt;
+&lt;p&gt;気になるrepoはすぐにghq getでcloneして容量を食いまくっていたので、次のscriptでガンガン削除していった。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ ls ~/.ghq/github.com | peco | xargs rm -fr
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ ghq list --full-path | peco | xargs -L1 rm -fr
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="不要なbrew-packageの削除"&gt;不要なbrew packageの削除&lt;/h3&gt;
+&lt;p&gt;勢いでbrew installしたpackageなどが相当あったのでいらないものは削除していった。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ brew list | peco | xargs brew uninstall
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="不要なnpm-go-gem-packageの削除"&gt;不要なnpm/go/gem packageの削除&lt;/h3&gt;
+&lt;p&gt;普段 &lt;code&gt;npm i -g xxx&lt;/code&gt; や &lt;code&gt;go get -u xxx&lt;/code&gt; や &lt;code&gt;gem install xxx&lt;/code&gt; などで気軽にpackageをいれてたので削除していった。&lt;/p&gt;
+&lt;h3 id="chromeのcacheやextensionの削除"&gt;chromeのcacheやextensionの削除&lt;/h3&gt;
+&lt;p&gt;意外と大事。新しい環境でも同じ体験ができるように一度消してみるのもよいだろう。&lt;/p&gt;
+&lt;p&gt;bookmarkなどは一切使わなく、url barに直接入力する運用をとっているので削除した直後は不便にはなるが、何が必要なのか分かるのでそれはそれでよい（パスワード周りとか特にそう）&lt;/p&gt;
+&lt;h3 id="docker関係の整理"&gt;Docker関係の整理&lt;/h3&gt;
+&lt;p&gt;&lt;a href="https://qiita.com/ksato9700/items/b0075dc54dfffc64b999"&gt;Dockerのあれこれを断捨離する&lt;/a&gt; この記事がすごい良かった。Dockerは再現性のある環境なはずなので一度すべてを消してもよいだろう。&lt;/p&gt;
+&lt;p&gt;このへんを適当にたたくとだいたい消えてくれる。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ docker ps -q | xargs docker rm -f
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ docker images -q | xargs docker rmi -q
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ docker system prune
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ docker image prune
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ docker container prune
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;$ docker volume prune
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="不要なdesktop-applicationの削除"&gt;不要なDesktop Applicationの削除&lt;/h3&gt;
+&lt;p&gt;入れたはよいけど使わなかったものは多いだろう。必要ならまたinstallすればよいのでいったん消すというのもあり。VSCodeなどを削除した。&lt;/p&gt;</description></item></channel></rss>

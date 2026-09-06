@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Proposal on takeokunn's blog</title><link>https://www.takeokunn.org/tags/proposal/</link><description>Recent content in Proposal on takeokunn's blog</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Tue, 22 Jul 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://www.takeokunn.org/tags/proposal/index.xml" rel="self" type="application/rss+xml"/><item><title>プロポーザルの出し方・心構え</title><link>https://www.takeokunn.org/posts/fleeting/20250722020425-proposal_guide/</link><pubDate>Tue, 22 Jul 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250722020425-proposal_guide/</guid><description>&lt;h2 id="1-dot-introduction"&gt;1. Introduction&lt;/h2&gt;
+&lt;p&gt;最近プロポーザルの出し方について話す機会が身近で増えました。
+私自身、過去にPHPカンファレンスなどの技術イベントで何度も登壇した経験があります。
+本記事ではそうした経験から得られたプロポーザルを書く上での心構えや具体的なTipsについて解説します。&lt;/p&gt;
+&lt;p&gt;また、多くの人が悩む「プロポーザルを出すネタがない」という課題に対する私なりの解決策も提示したいと考えています。&lt;/p&gt;
+&lt;p&gt;あくまで私個人の経験に基づく独断と偏見が多分に含まれている点、また、自分はこうありたいという理想を書いている点をご了承ください。&lt;/p&gt;
+&lt;h2 id="2-dot-今北産業"&gt;2. 今北産業&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;日々学んだことや取り組んだことをアウトプットしよう&lt;/li&gt;
+&lt;li&gt;アウトプットしたものを元に魅力的なプロポーザルを作ろう&lt;/li&gt;
+&lt;li&gt;カンファレンスに限らず積極的に打席に立とう&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="3-dot-今回のスコープ"&gt;3. 今回のスコープ&lt;/h2&gt;
+&lt;p&gt;本記事で対象とするカンファレンスは、主にPHPカンファレンスのような技術カンファレンスを想定しています。&lt;/p&gt;
+&lt;p&gt;一口にカンファレンスと言ってもその規模や目的はさまざまです。
+たとえば国際カンファレンスであれば一定の権威性がありますし、地方のカンファレンスであれば一般的な勉強会の延長線上にあります。
+本記事では特にカンファレンスの規模を区別せずに書いています。&lt;/p&gt;
+&lt;p&gt;また、トークの長さとしては15分〜30分程度のものをイメージしています。
+5分程度のLTはゲーム性が異なると考えているため本記事のスコープ外とします。&lt;/p&gt;
+&lt;h2 id="4-dot-直近出したプロポーザル"&gt;4. 直近出したプロポーザル&lt;/h2&gt;
+&lt;h3 id="4-dot-1-dot-実例"&gt;4.1. 実例&lt;/h3&gt;
+&lt;p&gt;直近の2025年前半に提出したプロポーザルを実例として紹介します。&lt;/p&gt;
+&lt;p&gt;PHPConで採択されたプロポーザルは次のとおりです。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://fortee.jp/phpcon-nagoya-2025/proposal/8c520c5c-d564-4f6e-b5d9-10821b35d98c"&gt;PHPUnitを低速化する技術 - PHPカンファレンス名古屋2025&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://fortee.jp/phperkaigi-2025/proposal/9484cc8e-4002-4d1e-8b30-f11f6a91f853"&gt;Phpactorから学ぶLanguage Server Protocolの仕組み - PHPerKaigi 2025&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;pdf: &lt;a href="https://www.takeokunn.org/pdf/phperkaigi-2025-pamphlet.pdf"&gt;https://www.takeokunn.org/pdf/phperkaigi-2025-pamphlet.pdf&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://fortee.jp/phpconodawara-2025/proposal/6d853d31-19ed-4e75-b7fb-841b9490d9a8"&gt;定義ジャンプ入門 - PHPカンファレンス小田原2025&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://fortee.jp/phpconniigata-2025/proposal/ab0380b4-95fd-4dad-8788-c0795bb15815"&gt;AWS SQSとLaravelで大規模トラフィックを捌く - PHPカンファレンス新潟2025&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://fortee.jp/phpcon-2025/proposal/fcae051f-5b13-4e08-989b-721edadb7134"&gt;yieldが変えるLaravelの世界：LazyCollection徹底入門 - PHP Conference Japan 2025&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;PHPCon関西で不採択となったプロポーザルは次のとおりです。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://fortee.jp/phpcon-kansai2025/proposal/rejected?q=takeokunn"&gt;https://fortee.jp/phpcon-kansai2025/proposal/rejected?q=takeokunn&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;VimConfではEmacsに関するテーマで応募しましたが、残念ながら不採択となりました。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://gist.github.com/takeokunn/141f85d437390607772135f6f98a3882"&gt;Org My Life with Vim&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://gist.github.com/takeokunn/2db3fec85d4c374e9ffaacfe4ad1d221"&gt;Beyond One Thing: A Vim &amp;amp; Emacs Strategy for Role Separation&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="4-dot-2-dot-ポリシー"&gt;4.2. ポリシー&lt;/h3&gt;
+&lt;p&gt;これはあくまで私個人のルールなので参考にされてもされなくても構いません。&lt;/p&gt;</description></item></channel></rss>

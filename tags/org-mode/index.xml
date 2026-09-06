@@ -1,0 +1,454 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Org-Mode on takeokunn's blog</title><link>https://www.takeokunn.org/tags/org-mode/</link><description>Recent content in Org-Mode on takeokunn's blog</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Thu, 25 Dec 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://www.takeokunn.org/tags/org-mode/index.xml" rel="self" type="application/rss+xml"/><item><title>blogをdev.toサポートした</title><link>https://www.takeokunn.org/posts/fleeting/20251124235900-support_dev_to/</link><pubDate>Thu, 25 Dec 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20251124235900-support_dev_to/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://github.com/takeokunn/blog"&gt;takeokunn/blog&lt;/a&gt; でdev.toの記事を管理できるようにしたのでメモしておく。&lt;/p&gt;
+&lt;h2 id="試したこと-やったこと"&gt;試したこと・やったこと&lt;/h2&gt;
+&lt;h3 id="1-dot-対応理由整理"&gt;1. 対応理由整理&lt;/h3&gt;
+&lt;p&gt;&lt;a href="https://github.com/takeokunn/blog"&gt;takeokunn/blog&lt;/a&gt; は次の3つのターゲットに対してorg-roamでコンテンツ管理をしている。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Hugo
+&lt;ul&gt;
+&lt;li&gt;Repo: &lt;a href="https://github.com/takeokunn/blog/tree/main/hugo"&gt;https://github.com/takeokunn/blog/tree/main/hugo&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Url: &lt;a href="https://www.takeokunn.org/"&gt;https://www.takeokunn.org/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Zenn
+&lt;ul&gt;
+&lt;li&gt;Repo: &lt;a href="https://github.com/takeokunn/blog/tree/main/zenn"&gt;https://github.com/takeokunn/blog/tree/main/zenn&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Url: &lt;a href="https://zenn.dev/takeokunn"&gt;https://zenn.dev/takeokunn&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;PDF（Typst）
+&lt;ul&gt;
+&lt;li&gt;Repo: &lt;a href="https://github.com/takeokunn/blog/tree/main/typst"&gt;https://github.com/takeokunn/blog/tree/main/typst&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Url: &lt;a href="https://www.takeokunn.org/pdf/phperkaigi-2026-pamphlet.pdf"&gt;https://www.takeokunn.org/pdf/phperkaigi-2026-pamphlet.pdf&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;以前から英語でもブログを書きたいという欲求があった。
+ホスティング先はどこがよいのか検討した所、&lt;a href="https://dev.to/"&gt;dev.to&lt;/a&gt; がなんだかんだ安牌であることがわかったので対応することにした。&lt;/p&gt;
+&lt;h3 id="2-dot-nixでbuildできるようにする"&gt;2. NixでBuildできるようにする&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;flake.nix&lt;/code&gt; は以下。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/takeokunn/blog/blob/main/devto/flake.nix"&gt;https://github.com/takeokunn/blog/blob/main/devto/flake.nix&lt;/a&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-nix" data-lang="nix"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; packages &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; build-devto &lt;span style="color:#f92672"&gt;=&lt;/span&gt; pkgs&lt;span style="color:#f92672"&gt;.&lt;/span&gt;stdenv&lt;span style="color:#f92672"&gt;.&lt;/span&gt;mkDerivation {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; name &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;build-devto&amp;#34;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; src &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;./.&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; nativeBuildInputs &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;with&lt;/span&gt; pkgs; [
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; (emacsPkg&lt;span style="color:#f92672"&gt;.&lt;/span&gt;pkgs&lt;span style="color:#f92672"&gt;.&lt;/span&gt;withPackages (epkgs: (&lt;span style="color:#66d9ef"&gt;with&lt;/span&gt; epkgs&lt;span style="color:#f92672"&gt;.&lt;/span&gt;melpaPackages; [ ox-gfm ])))
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ];
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; buildPhase &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;&amp;#39;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; mkdir -p ./articles
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; emacs --batch --load scripts/ox-devto.el --funcall export-org-devto-files
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; &amp;#39;&amp;#39;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; installPhase &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#39;&amp;#39;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; mkdir -p $out
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; # Article Sync Format: articles/{slug}/article.json + article.md
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; for dir in ./articles/*/; do
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; if [ -f &amp;#34;$dir/article.json&amp;#34; ]; then
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; cp -r &amp;#34;$dir&amp;#34; $out/
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; fi
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; done
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#e6db74"&gt; &amp;#39;&amp;#39;&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;ox-devto.el&lt;/code&gt; を適当に作り、 &lt;code&gt;ox-gfm&lt;/code&gt; をdev.to用にwrapした。&lt;/p&gt;</description></item><item><title>org-roam-ui-liteでblogの関係性を可視化する</title><link>https://www.takeokunn.org/posts/fleeting/20250511015532-host_org_roam_ui_lite/</link><pubDate>Sat, 10 May 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250511015532-host_org_roam_ui_lite/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://www.takeokunn.org/posts/permanent/20231219122351-how_to_manage_blog_by_org_roam/"&gt;org-roamで記事を管理しGitHub Actionsで適切に公開する&lt;/a&gt; に書いたとおり &lt;a href="https://www.takeokunn.org/"&gt;takeokunn.org&lt;/a&gt; は &lt;a href="https://www.orgroam.com/"&gt;org-roam&lt;/a&gt; で管理している。&lt;/p&gt;
+&lt;p&gt;org-roamの可視化ツールに &lt;a href="https://github.com/org-roam/org-roam-ui"&gt;org-roam-ui&lt;/a&gt; があるが、次のような問題を抱えていた。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Next.jsでリッチに作られすぎてる
+&lt;ul&gt;
+&lt;li&gt;NixでPackagingするのが大変&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;GitHub ActionsでBuildするのが大変&lt;/li&gt;
+&lt;li&gt;GitHub PagesでHostingするのが大変&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;GitHub Pagesに継続的にHostingする仕組みを作りたいと考えて早n年経っていたが、taniさんが &lt;a href="https://github.com/tani/org-roam-ui-lite"&gt;org-roam-ui-lite&lt;/a&gt; という軽量なorg-roam-uiを作ってくれたので今回導入してみた。&lt;/p&gt;
+&lt;h2 id="試したこと-やったこと"&gt;試したこと・やったこと&lt;/h2&gt;
+&lt;p&gt;変更はここに纏まっている。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/takeokunn/blog/commit/5703949e2212fa0e5f23d23869d61ea2b74b8dad"&gt;https://github.com/takeokunn/blog/commit/5703949e2212fa0e5f23d23869d61ea2b74b8dad&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id="1-dot-flake-dot-nixでbuildできるようにする"&gt;1. flake.nixでBuildできるようにする&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;scripts/org-roam-ui.el&lt;/code&gt; を用意した。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-emacs-lisp" data-lang="emacs-lisp"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(require &lt;span style="color:#e6db74"&gt;&amp;#39;org-roam&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(setq org-roam-db-location &lt;span style="color:#e6db74"&gt;&amp;#34;./org-roam.db&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(setq org-id-locations-file &lt;span style="color:#e6db74"&gt;&amp;#34;./.org-id-locations&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(setq org-roam-directory default-directory)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;flake.nixでorg-roam-ui-liteをimportして &lt;code&gt;stdenv.mkDerivation&lt;/code&gt; でpackageを作成した。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-diff" data-lang="diff"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;diff --git a/hugo/flake.nix b/hugo/flake.nix
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;index c35c860..155c924 100644
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;--- a/hugo/flake.nix
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;&lt;/span&gt;&lt;span style="color:#a6e22e"&gt;+++ b/hugo/flake.nix
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;&lt;/span&gt;&lt;span style="color:#75715e"&gt;@@ -3,9 +3,10 @@
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt; nixpkgs.url = &amp;#34;github:NixOS/nixpkgs&amp;#34;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; nur-packages.url = &amp;#34;github:takeokunn/nur-packages&amp;#34;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; flake-utils.url = &amp;#34;github:numtide/flake-utils&amp;#34;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;+ org-roam-ui-lite.url = &amp;#34;github:tani/org-roam-ui-lite&amp;#34;;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;&lt;/span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;- outputs = { self, nixpkgs, nur-packages, flake-utils }:
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;&lt;/span&gt;&lt;span style="color:#a6e22e"&gt;+ outputs = { self, nixpkgs, nur-packages, flake-utils, org-roam-ui-lite }:
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;&lt;/span&gt; flake-utils.lib.eachDefaultSystem (
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; system:
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; let
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;@@ -85,6 +86,22 @@
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt; cp -r ./public $out/
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &amp;#39;&amp;#39;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;+ build-org-roam-ui-lite = pkgs.stdenv.mkDerivation {
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;+ name = &amp;#34;build-org-roam-ui-lite&amp;#34;;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;+ src = ./.;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;+ nativeBuildInputs = with pkgs; [
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;+ org-roam-ui-lite.packages.${system}.export
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;+ (emacsPkg.pkgs.withPackages (epkgs: (with epkgs.melpaPackages; [ org-roam ])))
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;+ ];
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;+ buildPhase = &amp;#39;&amp;#39;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;+ rm -fr org/private/
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;+ emacs --batch --load scripts/org-roam-ui.el --funcall org-roam-db-sync
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;+ org-roam-ui-lite-export -d org-roam.db -o ./public
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;+ &amp;#39;&amp;#39;;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;+ installPhase = &amp;#39;&amp;#39;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;+ cp -r ./public $out/
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;+ &amp;#39;&amp;#39;;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;+ };
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;&lt;/span&gt; };
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; );
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;nix build&lt;/code&gt; でbuildできることを確認する。&lt;/p&gt;</description></item><item><title>Typstテーマを自作した</title><link>https://www.takeokunn.org/posts/fleeting/20250506220914-create_typst_slide_theme/</link><pubDate>Tue, 06 May 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250506220914-create_typst_slide_theme/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20250126114218-build_and_deploy_typst_using_nix/"&gt;NixでTypstをBuildしGitHub Pagesでホスティングする&lt;/a&gt; でTypstから生成したPDFスライドを配信する仕組みを作った。
+今後の登壇は可能な限りTypstから生成するつもりなのでテーマを自作した。&lt;/p&gt;
+&lt;p&gt;次の要件を満たす必要があった。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;ライトテーマ/ダークテーマなどテーマを簡単に切り替えられるようにする&lt;/li&gt;
+&lt;li&gt;ソースコードのシンタックスハイライトサポート&lt;/li&gt;
+&lt;li&gt;数式サポート&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;個人的にDracula Themeが好きなのでDracula Theme風に作る。&lt;/p&gt;
+&lt;h2 id="試したこと-やったこと"&gt;試したこと・やったこと&lt;/h2&gt;
+&lt;h3 id="1-dot-theme自作"&gt;1. theme自作&lt;/h3&gt;
+&lt;p&gt;&lt;a href="https://typst.app/universe/package/polylux/"&gt;polylux&lt;/a&gt; をベースに自作した。&lt;a href="https://typst.app/universe/package/basic-polylux/"&gt;basic-polylux&lt;/a&gt; あたりを参考に改造した。&lt;/p&gt;
+&lt;p&gt;シンタックスハイライトは &lt;a href="https://typst.app/universe/package/codly/"&gt;codelst&lt;/a&gt; に &lt;a href="https://github.com/dracula/textmate/blob/master/Dracula.tmTheme"&gt;Dracula.tmTheme&lt;/a&gt; を読ませてハイライトしている。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-typst" data-lang="typst"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;#import&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;@preview/codelst:2.0.2&amp;#34;&lt;/span&gt;: sourcecode
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;#import&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;@preview/polylux:0.4.0&amp;#34;&lt;/span&gt;: &lt;span style="color:#f92672"&gt;*&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;#let&lt;/span&gt; blue &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;rgb&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;#282a36&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;#let&lt;/span&gt; white &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;rgb&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;#f8f8f2&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;#let&lt;/span&gt; pink &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;rgb&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;#ff79c6&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;#let&lt;/span&gt; purple &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;rgb&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;#bd93f9&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;#let&lt;/span&gt; orange &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;rgb&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;#ffb86c&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;#let&lt;/span&gt; green &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;rgb&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;#50fa7b&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;#let&lt;/span&gt; gray &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;rgb&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;#6272a4&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;#let&lt;/span&gt; slide-title-header &lt;span style="color:#f92672"&gt;=&lt;/span&gt; toolbox.&lt;span style="color:#a6e22e"&gt;next-heading&lt;/span&gt;(h &lt;span style="color:#f92672"&gt;=&amp;gt;&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; show: toolbox.full-width-block.&lt;span style="color:#a6e22e"&gt;with&lt;/span&gt;(fill: blue, inset: &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;em&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;text&lt;/span&gt;(fill: purple, size: &lt;span style="color:#ae81ff"&gt;1.2&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;em&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;strong&lt;/span&gt;(h)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;})
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;#let&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;the-footer&lt;/span&gt;(content) &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;text&lt;/span&gt;(size: &lt;span style="color:#ae81ff"&gt;0.8&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;em&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; show: pad.&lt;span style="color:#a6e22e"&gt;with&lt;/span&gt;(.&lt;span style="color:#ae81ff"&gt;5&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;em&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;align&lt;/span&gt;(bottom)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; context &lt;span style="color:#a6e22e"&gt;text&lt;/span&gt;(fill: white.&lt;span style="color:#a6e22e"&gt;lighten&lt;/span&gt;(&lt;span style="color:#ae81ff"&gt;40&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;%&lt;/span&gt;), content)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;h&lt;/span&gt;(&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;fr&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;#let&lt;/span&gt; outline &lt;span style="color:#f92672"&gt;=&lt;/span&gt; toolbox.&lt;span style="color:#a6e22e"&gt;all-sections&lt;/span&gt;((sections, _current) &lt;span style="color:#f92672"&gt;=&amp;gt;&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;enum&lt;/span&gt;(tight: &lt;span style="color:#66d9ef"&gt;false&lt;/span&gt;, ..sections)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;})
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;#let&lt;/span&gt; progress-bar &lt;span style="color:#f92672"&gt;=&lt;/span&gt; toolbox.&lt;span style="color:#a6e22e"&gt;progress-ratio&lt;/span&gt;(ratio &lt;span style="color:#f92672"&gt;=&amp;gt;&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;set&lt;/span&gt; grid.&lt;span style="color:#a6e22e"&gt;cell&lt;/span&gt;(inset: (y: .&lt;span style="color:#ae81ff"&gt;03&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;em&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#a6e22e"&gt;grid&lt;/span&gt;(
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; columns: (ratio &lt;span style="color:#f92672"&gt;*&lt;/span&gt; &lt;span style="color:#ae81ff"&gt;100&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;%&lt;/span&gt;, &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;fr&lt;/span&gt;),
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; grid.&lt;span style="color:#a6e22e"&gt;cell&lt;/span&gt;(fill: pink)[],
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; grid.&lt;span style="color:#a6e22e"&gt;cell&lt;/span&gt;(fill: purple)[],
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; )
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;})
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;#let&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;new-section&lt;/span&gt;(name) &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;slide&lt;/span&gt;({
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;page&lt;/span&gt;(header: &lt;span style="color:#66d9ef"&gt;none&lt;/span&gt;, footer: &lt;span style="color:#66d9ef"&gt;none&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; show: pad.&lt;span style="color:#a6e22e"&gt;with&lt;/span&gt;(&lt;span style="color:#ae81ff"&gt;20&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;%&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;text&lt;/span&gt;(size: &lt;span style="color:#ae81ff"&gt;1.5&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;em&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; name
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; toolbox.&lt;span style="color:#a6e22e"&gt;register-section&lt;/span&gt;(name)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; progress-bar
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;})
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;#let&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;focus&lt;/span&gt;(body) &lt;span style="color:#f92672"&gt;=&lt;/span&gt; context {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;page&lt;/span&gt;(header: &lt;span style="color:#66d9ef"&gt;none&lt;/span&gt;, footer: &lt;span style="color:#66d9ef"&gt;none&lt;/span&gt;, fill: blue, margin: &lt;span style="color:#ae81ff"&gt;2&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;em&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;text&lt;/span&gt;(fill: orange, size: &lt;span style="color:#ae81ff"&gt;1.5&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;em&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;align&lt;/span&gt;(center)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; body
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;#let&lt;/span&gt; divider &lt;span style="color:#f92672"&gt;=&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;line&lt;/span&gt;(length: &lt;span style="color:#ae81ff"&gt;100&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;%&lt;/span&gt;, stroke: .&lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;em&lt;/span&gt; &lt;span style="color:#f92672"&gt;+&lt;/span&gt; pink)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;#let&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;setup&lt;/span&gt;(
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; footer: &lt;span style="color:#66d9ef"&gt;none&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; text-font: &lt;span style="color:#e6db74"&gt;&amp;#34;Migu&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; math-font: &lt;span style="color:#e6db74"&gt;&amp;#34;Fira Math&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; code-font: &lt;span style="color:#e6db74"&gt;&amp;#34;Fira Code&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; text-size: &lt;span style="color:#ae81ff"&gt;23&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;pt&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; body,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;) &lt;span style="color:#f92672"&gt;=&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;raw&lt;/span&gt;(theme: &lt;span style="color:#e6db74"&gt;&amp;#34;./Dracula.tmTheme&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;page&lt;/span&gt;(
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; paper: &lt;span style="color:#e6db74"&gt;&amp;#34;presentation-16-9&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; fill: blue,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; margin: (rest: &lt;span style="color:#ae81ff"&gt;4&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;em&lt;/span&gt;),
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; footer: &lt;span style="color:#a6e22e"&gt;the-footer&lt;/span&gt;(footer),
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; header: slide-title-header,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; )
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;text&lt;/span&gt;(
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; font: text-font,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; size: text-size,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; fill: white,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; )
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;strong&lt;/span&gt;(delta: &lt;span style="color:#ae81ff"&gt;100&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;show&lt;/span&gt; math.equation: &lt;span style="color:#66d9ef"&gt;set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;text&lt;/span&gt;(font: math-font)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;show&lt;/span&gt; raw: &lt;span style="color:#66d9ef"&gt;set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;text&lt;/span&gt;(font: code-font)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;align&lt;/span&gt;(horizon)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;show&lt;/span&gt; emph: it &lt;span style="color:#f92672"&gt;=&amp;gt;&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;text&lt;/span&gt;(fill: pink, it.body)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;show&lt;/span&gt; heading.&lt;span style="color:#a6e22e"&gt;where&lt;/span&gt;(level: &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;): _ &lt;span style="color:#f92672"&gt;=&amp;gt;&lt;/span&gt; &lt;span style="color:#66d9ef"&gt;none&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; body
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="2-dot-flake-dot-nixでbuildする"&gt;2. flake.nixでBuildする&lt;/h3&gt;
+&lt;p&gt;以下抜粋。
+&lt;a href="https://github.com/takeokunn/blog/blob/d7501711936b11d3f53c312c2775e20faab35602/typst/flake.nix"&gt;https://github.com/takeokunn/blog/blob/d7501711936b11d3f53c312c2775e20faab35602/typst/flake.nix&lt;/a&gt;&lt;/p&gt;</description></item><item><title>credential管理をorg-encryptからpassword-storeに移行した</title><link>https://www.takeokunn.org/posts/fleeting/20250414001634-migrate_credential_manager_to_password_store/</link><pubDate>Mon, 14 Apr 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250414001634-migrate_credential_manager_to_password_store/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;credential管理をorg-encryptからpassword-storeに移行したので作業内容をメモしておく。&lt;/p&gt;
+&lt;h2 id="現状の運用と問題"&gt;現状の運用と問題&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20250127144907-my_usage_org_crypt/"&gt;org-crypt運用メモ&lt;/a&gt; に書いたとおり、 &lt;code&gt;~/.aws/credentials&lt;/code&gt; のような秘匿情報を &lt;code&gt;secret.org&lt;/code&gt; を &lt;code&gt;org-babel-tangle&lt;/code&gt; して出力していた。&lt;/p&gt;
+&lt;p&gt;次のように &lt;code&gt;org-decrypt-entries&lt;/code&gt; と &lt;code&gt;org-encrypt-entries&lt;/code&gt; をadviceして対応していたのだが、&lt;a href="https://github.com/AntonHakansson/org-nix-shell"&gt;org-nix-shell&lt;/a&gt; がうまく動かなくなってしまった。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-emacs-lisp" data-lang="emacs-lisp"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(advice-add &lt;span style="color:#e6db74"&gt;&amp;#39;org-babel-tangle&lt;/span&gt; :before &lt;span style="color:#a6e22e"&gt;#&amp;#39;&lt;/span&gt;org-decrypt-entries)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(advice-add &lt;span style="color:#e6db74"&gt;&amp;#39;org-babel-tangle&lt;/span&gt; :after &lt;span style="color:#a6e22e"&gt;#&amp;#39;&lt;/span&gt;org-encrypt-entries)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;a href="https://github.com/astahlman/ob-async"&gt;ob-async&lt;/a&gt; を有効にした時も&lt;a href="https://github.com/AntonHakansson/org-nix-shell"&gt;org-nix-shell&lt;/a&gt;が実行できなくなってしまったので、 &lt;code&gt;advice-add&lt;/code&gt; をすると問題が起きるのかもしれない。（要検証）
+&lt;a href="https://www.takeokunn.org/posts/fleeting/20250126140928-introduction_org_nix_shell/"&gt;org-nix-shell入門&lt;/a&gt; にも書いたが、&lt;a href="https://github.com/AntonHakansson/org-nix-shell"&gt;org-nix-shell&lt;/a&gt;はキラーアプリケーションなので消す訳にはいかない。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;M-x org-encrypt-entries&lt;/code&gt; を手動で実行する運用にしていたが、うっかり叩き忘れたままcommitを何度かしてしまった。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/newren/git-filter-repo"&gt;newren/git-filter-repo&lt;/a&gt;などを使ってcommit hisotryから消したが面倒だった。&lt;/p&gt;
+&lt;p&gt;また、&lt;a href="https://www.takeokunn.org/posts/fleeting/20250409210655-introduction_mcp_servers_nix/"&gt;mcp-servers-nixを導入した&lt;/a&gt;時点では実装されてなかったが、&lt;a href="https://github.com/natsukium/mcp-servers-nix"&gt;mcp-servers-nix&lt;/a&gt; は &lt;code&gt;passwordCommand&lt;/code&gt; をサポートしてくれた。
+よい機会なのでpassword-store管理に移行にすることにした。&lt;/p&gt;
+&lt;h2 id="作業手順"&gt;作業手順&lt;/h2&gt;
+&lt;h3 id="1-dot-既存のorg-encryptしてた鍵情報をpassword-store管理下に移行"&gt;1. 既存のorg-encryptしてた鍵情報をpassword-store管理下に移行&lt;/h3&gt;
+&lt;p&gt;次のように秘密鍵をpassコマンドで検索できるようにする。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-console" data-lang="console"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;pass show gemini/private
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="2-dot-org-babel-templateを作成"&gt;2. org-babel templateを作成&lt;/h3&gt;
+&lt;p&gt;passコマンドをwrapするコマンドを用意する。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-org" data-lang="org"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#+name&lt;/span&gt;&lt;span style="color:#75715e"&gt;: pass&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#+begin_src &lt;/span&gt;&lt;span style="color:#75715e"&gt;emacs-lisp&lt;/span&gt;&lt;span style="color:#75715e"&gt; :var id=&amp;#34;&amp;#34; :results value raw
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt; (string-trim (shell-command-to-string (&lt;span style="color:#a6e22e"&gt;format&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;pass show %s&amp;#34;&lt;/span&gt; id)))
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#+end_src&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id="3-dot-各秘密鍵に埋め込み"&gt;3. 各秘密鍵に埋め込み&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;:noweb yes&lt;/code&gt; で関数を実行できるようにする。
+&lt;code&gt;M-x org-babel-tangle&lt;/code&gt; を実行すると、秘密鍵の入った状態で &lt;code&gt;~/.aider.conf.yml&lt;/code&gt; が出力される。&lt;/p&gt;</description></item><item><title>org-crypt運用メモ</title><link>https://www.takeokunn.org/posts/fleeting/20250127144907-my_usage_org_crypt/</link><pubDate>Mon, 27 Jan 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250127144907-my_usage_org_crypt/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;org-crypt&lt;/code&gt; の使い方をイマイチに理解していなかったが、ふと調べてたら急に理解が進んだ。&lt;/p&gt;
+&lt;p&gt;個人的な運用が固まったのでメモしておく。&lt;/p&gt;
+&lt;h2 id="motivation"&gt;Motivation&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;~/.aws/credentials&lt;/code&gt; のような秘匿情報を &lt;code&gt;secret.org.gpg&lt;/code&gt; から &lt;code&gt;org-babel-tangle&lt;/code&gt; から出力していた。
+ファイルごとGPGで暗号化すると &lt;code&gt;git diff&lt;/code&gt; がきれいに取れないので地味に困っていた。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;org-crypt&lt;/code&gt; で必要な分を部分的に暗号化することによって、以前よりはGitフレンドリーにすることが可能になることが分かった。&lt;/p&gt;
+&lt;h2 id="org-crypt-使い方"&gt;&lt;code&gt;org-crypt&lt;/code&gt; 使い方&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://github.com/emacs-mirror/emacs/blob/6a390fd42ec4ef97d637899fc93f34ea65639e3c/lisp/org/org-crypt.el"&gt;org-crypt.el&lt;/a&gt; を読むのでもよいが、 &lt;a href="https://fluca1978.github.io/2021/09/16/Emacs_Org_Encrypt.html"&gt;Encrypting the content of Emacs Org files&lt;/a&gt; にわかりやすくまとまっている。&lt;/p&gt;
+&lt;p&gt;次のように設定した。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-emacs-lisp" data-lang="emacs-lisp"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(with-eval-after-load &lt;span style="color:#e6db74"&gt;&amp;#39;org&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; (setopt org-tags-exclude-from-inheritance &lt;span style="color:#f92672"&gt;&amp;#39;&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;crypt&amp;#34;&lt;/span&gt;)))
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(with-eval-after-load &lt;span style="color:#e6db74"&gt;&amp;#39;org-crypt&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; (setopt org-crypt-key &lt;span style="color:#e6db74"&gt;&amp;#34;0B10DAA7BA0236D7382287660F79C0AB03FD7A1C&amp;#34;&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;:crypt:&lt;/code&gt; タグをつけて &lt;code&gt;M-x org-encrypt-entries&lt;/code&gt; を実行すると次のようにGPGで暗号化される。
+タグはヘッダで &lt;code&gt;C-c C-c&lt;/code&gt; を押すと入力できる。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;M-x org-decrypt-entries&lt;/code&gt; でファイル内全体を復号することも可能。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;:crypt:&lt;/code&gt; タグを変えたいなら &lt;code&gt;org-crypt-tag-matcher&lt;/code&gt; を設定すればよい。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-org" data-lang="org"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;*&lt;span style="font-weight:bold"&gt; before&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;**&lt;/span&gt; access token
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#+begin_src &lt;/span&gt;&lt;span style="color:#75715e"&gt;text&lt;/span&gt;&lt;span style="color:#75715e"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt;P@ssw0rd
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#+end_src&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;*&lt;span style="font-weight:bold"&gt; after &lt;/span&gt;&lt;span style="font-style:italic"&gt; :crypt:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;-----BEGIN PGP MESSAGE-----
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;hQIMA6smtgkkGn+yAQ/+N67k5bFjZ+o/n3cRncdI7AXxZ4fcw7+vM9G/twKBkRqB
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;caleG2+FZy2u3ZHIE04ZnvKKPxZCDdm79Q6QxwBuuLsQiSn/jJ57QwNJySggQjwZ
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;aWQCzBFL5fBHgCR0eTZKX3Otr8Cpe2Eg1oH5SrUMEiRJ+uap+ZeVGs960icDy3AI
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;FRZ7z8BmaqFmA/ZRr3HO2nkFxJutzDnf7uCACa2JxpkJVDrhBOvGVrgHSqn/kzWu
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;+sriWo19z6O2mvVoWXOeg/3PNOP76ZCYFmqAa5zqoutBZ3GVEZ4M&lt;span style="color:#f92672"&gt;+uBcFJtQ6BHT
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;LgWLGNBEJeNjVWF1kGQYot4iArzrSbRzvNsEFzCiGyVYukgJSJuWWlC93aL4bJH+&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;c52Grie0DDacmiCADUVdUabvx16r82ptRylqV6um7mqdYGmPUErLhkp6zOwwhLgx
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;saAG4lY07DZeEdBtUfnYB39CRqxI/jVwSYoyTQC9PYUyo2y4E7Q2LjcoSyuJ8sPr
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;qgenSMn0gkF86ffm2ITmHDv5iQPgfhdzYIjtwrrDBpwCRkkoDfD68nS/zvekAe74
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;mO3fUOoM8jmMtQvCo9OMnVKkEXRXnzsyMI12KVIzMakljxnzvgDaELr5s6XTR/0F
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;FgAP19OQNbf24Ax3W+/m5GYxf5ltm+W4qDO0add5z2WLavOYGdknCCLFSN74/VLS
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;bwHums4w2RPZ00nnEX5zI+eN76UM42yZ53gDRjQgfVzfKdX4Rub/D19ZhL+bfqXR
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;iOJwPGz6yfeCDbz4RVvQgd/U8g5LkTrRu/itq9eZpCEjfH/HamC4meOrChI7xvJZ
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;nBkMYucqr7d5DPWEp4gYzQ==
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;=/Ual
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;-----END PGP MESSAGE-----
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="org-babel-tangle-との連携"&gt;&lt;code&gt;org-babel-tangle&lt;/code&gt; との連携&lt;/h2&gt;
+&lt;p&gt;自分のユースケースだと &lt;code&gt;org-babel-tangle&lt;/code&gt; と組み合わせて実行するのだが、 &lt;code&gt;org-babel-tangle&lt;/code&gt; はencrypt/decryptとは関係のない処理ですので、実行前後でencrypt/decryptする必要がある。&lt;/p&gt;</description></item><item><title>NixでTypstをBuildしGitHub Pagesでホスティングする</title><link>https://www.takeokunn.org/posts/fleeting/20250126114218-build_and_deploy_typst_using_nix/</link><pubDate>Sun, 26 Jan 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250126114218-build_and_deploy_typst_using_nix/</guid><description>&lt;h2 id="背景"&gt;背景&lt;/h2&gt;
+&lt;p&gt;スライドや組版記事を生成する為にTypstを採用することにした。
+工数を最小限に安定的に量産できるようなしくみを整える必要が迫られていたので、今回対応したことをメモしておく。&lt;/p&gt;
+&lt;p&gt;ソースコードは&lt;a href="https://github.com/takeokunn/blog/tree/11609d8503ffd9b9eb8a3e2a5d19f3f51ee5b579/typst"&gt;takeokunn/blogのtypstディレクトリ下&lt;/a&gt;に置いている。&lt;/p&gt;
+&lt;h2 id="条件"&gt;条件&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;MUST
+&lt;ul&gt;
+&lt;li&gt;Localに一切依存しない再現性の高いBuild環境構築&lt;/li&gt;
+&lt;li&gt;org-modeで記述できる&lt;/li&gt;
+&lt;li&gt;Typstのエコシステムを使う&lt;/li&gt;
+&lt;li&gt;スライド生成と組版記事両方に対応する&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;SHOULD
+&lt;ul&gt;
+&lt;li&gt;takeokunn.orgから配信できる&lt;/li&gt;
+&lt;li&gt;リリースまでのリードタイムが短い&lt;/li&gt;
+&lt;li&gt;org-roamなど周辺のエコシステムとの親和性を高める&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="方針"&gt;方針&lt;/h2&gt;
+&lt;p&gt;次の3ステップで実現した。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;org-modeで記述したファイルをTypstに変換&lt;/li&gt;
+&lt;li&gt;NixでTypstをBuildできるようにする&lt;/li&gt;
+&lt;li&gt;GitHub ActionsでBuildしてGitHub Pagesで配信できる&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure&gt;&lt;img src="https://www.takeokunn.org/images/D91F417B-0FFC-4C67-A814-A267565ADE63.png"&gt;
+&lt;/figure&gt;
+&lt;h2 id="作業ステップ"&gt;作業ステップ&lt;/h2&gt;
+&lt;h3 id="0-dot-どこに置くか検討"&gt;0. どこに置くか検討&lt;/h3&gt;
+&lt;p&gt;以下を理由に &lt;a href="https://github.com/takeokunn/blog"&gt;takeokunn/blog&lt;/a&gt; 上に構築することにした。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.takeokunn.org/"&gt;takeokunn.org&lt;/a&gt; から配信できる&lt;/li&gt;
+&lt;li&gt;既存のorg-roam上に相乗りできる&lt;/li&gt;
+&lt;li&gt;新しいリポジトリを作ると関心ことが増える&lt;/li&gt;
+&lt;li&gt;すでにあるGitHub Actions上に構築することによって実装コストとメンテナンスコストを抑えられる&lt;/li&gt;
+&lt;li&gt;今回の用途だと作業途中でもパブリックにして問題がない&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;商業誌のような公開制限をかける必要のあるものは都度プライベートリポジトリを作って対応することにした。&lt;/p&gt;
+&lt;h3 id="1-dot-org-modeで記述したファイルをtypstに変換"&gt;1. org-modeで記述したファイルをTypstに変換&lt;/h3&gt;
+&lt;p&gt;組版記事の場合、&lt;a href="https://github.com/jmpunkt/ox-typst"&gt;jmpunkt/ox-typst&lt;/a&gt; を用いて通常とおりOrgファイルをTypstに変換する。(&lt;code&gt;M-x org-typst-export-to-typst&lt;/code&gt; を実行)&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/takeokunn/blog/blob/11609d8503ffd9b9eb8a3e2a5d19f3f51ee5b579/typst/phperkaigi-2025-pamphlet/article.org"&gt;PHPerKaigi2025のパンフ記事&lt;/a&gt;の場合、次のようにTypstの設定をExportしている。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-org" data-lang="org"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#+BEGIN_EXPORT &lt;/span&gt;&lt;span style="color:#75715e"&gt;typst&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;#set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;text&lt;/span&gt;(lang: &lt;span style="color:#e6db74"&gt;&amp;#34;ja&amp;#34;&lt;/span&gt;, font: &lt;span style="color:#e6db74"&gt;&amp;#34;Migu&amp;#34;&lt;/span&gt;, size: &lt;span style="color:#ae81ff"&gt;8&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;pt&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;#set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;page&lt;/span&gt;(
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; width: &lt;span style="color:#ae81ff"&gt;210&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;mm&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; height: &lt;span style="color:#ae81ff"&gt;297&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;mm&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; margin: &lt;span style="color:#ae81ff"&gt;20&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;mm&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; columns: &lt;span style="color:#ae81ff"&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;#import&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;@preview/codly:1.2.0&amp;#34;&lt;/span&gt;: &lt;span style="color:#f92672"&gt;*&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#f92672"&gt;#import&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;@preview/codly-languages:0.1.1&amp;#34;&lt;/span&gt;: &lt;span style="color:#f92672"&gt;*&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#66d9ef"&gt;#show&lt;/span&gt;: codly-init.&lt;span style="color:#a6e22e"&gt;with&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;#codly&lt;/span&gt;(languages: codly-languages)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#a6e22e"&gt;#align&lt;/span&gt;(center)[
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;#set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;text&lt;/span&gt;(size: &lt;span style="color:#ae81ff"&gt;18&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;pt&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Phpactorから学ぶLanguage Server Protocolの仕組み
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; &lt;span style="color:#66d9ef"&gt;#set&lt;/span&gt; &lt;span style="color:#a6e22e"&gt;text&lt;/span&gt;(size: &lt;span style="color:#ae81ff"&gt;12&lt;/span&gt;&lt;span style="color:#66d9ef"&gt;pt&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; たけてぃ \@takeokunn
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;]
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#+END_EXPORT&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;スライドの場合、 Orgファイルには登壇メモをしつつ、 &lt;code&gt;#+BEGIN_EXPORT typst&lt;/code&gt; のみ出力してほしかったので次のようなElispを書いた。&lt;/p&gt;</description></item><item><title>2023年のorg-mode活用と今後の抱負</title><link>https://www.takeokunn.org/posts/permanent/20240112071806-my_relationship_with_org_mode_in_2023_and_how_navigate_in_2024/</link><pubDate>Thu, 25 Jan 2024 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/permanent/20240112071806-my_relationship_with_org_mode_in_2023_and_how_navigate_in_2024/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;この記事は&lt;a href="https://vim-jp.org/ekiden/"&gt;Vim駅伝&lt;/a&gt;の2024-01-24の記事です。&lt;/p&gt;
+&lt;p&gt;前回の記事はyasunoriさんの「&lt;a href="https://zenn.dev/vim_jp/articles/0007-vim-recommend-method"&gt;Vimを勧めるときのすヽめ&lt;/a&gt;」です。&lt;/p&gt;
+&lt;p&gt;私にとっての2023年はorg-modeの年でした。
+org-modeで実現できることは何があるのかと、自分にとってのorg-modeはなんなのか、ということに腰を据えてちゃんと向き合えたので実際に取り組んだことを記事にしておきます。&lt;/p&gt;
+&lt;h2 id="emacsとの出会いと使えるようになるまで"&gt;Emacsとの出会いと使えるようになるまで&lt;/h2&gt;
+&lt;p&gt;私のEmacs歴は6年程度で、&lt;a href="https://github.com/takeokunn/.emacs.d"&gt;takeokunn/.emacs.d&lt;/a&gt; のfirst commitは &lt;code&gt;Sat Nov 3 18:15:51 2018 +0900&lt;/code&gt; です。
+もともとSublime Textを使っており、Emacsを使い始めたきっかけは&lt;a href="https://www.amazon.co.jp/%E3%83%8F%E3%83%83%E3%82%AB%E3%83%BC%E3%81%A8%E7%94%BB%E5%AE%B6-%E3%82%B3%E3%83%B3%E3%83%94%E3%83%A5%E3%83%BC%E3%82%BF%E6%99%82%E4%BB%A3%E3%81%AE%E5%89%B5%E9%80%A0%E8%80%85%E3%81%9F%E3%81%A1-%E3%83%9D%E3%83%BC%E3%83%AB-%E3%82%B0%E3%83%AC%E3%82%A2%E3%83%A0/dp/4274065979"&gt;ハッカーと画家&lt;/a&gt;でした。
+&lt;a href="https://www.amazon.co.jp/%E3%83%8F%E3%83%83%E3%82%AB%E3%83%BC%E3%81%A8%E7%94%BB%E5%AE%B6-%E3%82%B3%E3%83%B3%E3%83%94%E3%83%A5%E3%83%BC%E3%82%BF%E6%99%82%E4%BB%A3%E3%81%AE%E5%89%B5%E9%80%A0%E8%80%85%E3%81%9F%E3%81%A1-%E3%83%9D%E3%83%BC%E3%83%AB-%E3%82%B0%E3%83%AC%E3%82%A2%E3%83%A0/dp/4274065979"&gt;ハッカーと画家&lt;/a&gt;にLispのすばらしさが書いてあり、Lispを書くならEmacsだろうということで安易な気持ちで入門しました。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://blog.tomoya.dev/posts/only-those-who-want-to-be-the-wind-should-use-emacs-2020/"&gt;風になりたい奴だけがEmacsを使えば良い 2020&lt;/a&gt; などEmacsの魅力を語っている記事がたくさんあったのも理由のひとつでした。&lt;/p&gt;
+&lt;p&gt;最初の2年はEmacsを操作するのに慣れるまで必死でした。
+世の中にはEmacsを入門してすぐに有名なOSSにコントリビューションしたり、自分でキラーアプリケーションを作ったりする天才のような人達がごろごろいるが、私は要領が悪いため残念ながらそういう人間ではありませんでした。
+生まれたての小鹿みたいなおぼつかない操作、何をしたらどう動くのか分からないし何がどう動いるのか分からず、どう質問をしてよいのかすら分からない状態が続きました。&lt;/p&gt;
+&lt;p&gt;3年くらい使ってようやく概要を把握でき、Sublime Textと同じくらいの編集速度を出すことができるようになりました。
+徐々にEmacsの気持ちが分かってきて、ざっくり何ができるのか、どのくらいのポテンシャルを秘めているのかということを肌感覚でつかめてきました。
+それと同時に、Emacsで実現可能なものの輪郭を見たくなってきました。
+その為には他人のEmacsの設定を漁りまくり、少しでも便利そうだと思ったパッケージはすべて検証するという運用をしてみました。&lt;/p&gt;
+&lt;p&gt;4年目はとにかくinit.elの管理方法と起動速度にこだわった1年になりました。
+&lt;a href="https://zenn.dev/takeokunn/articles/56010618502ccc"&gt;Emacsを世界最速級で起動する方法 - Zenn&lt;/a&gt; の目的は起動時間を短縮することによって、設定の検証効率を上げることでした。
+また、起動速度チューニングすることによってどうEmacs本体がEmacs Lispを実行するのか深く理解できたので非常に有意義な取り組みだったと感じています。&lt;/p&gt;
+&lt;h2 id="課題"&gt;課題&lt;/h2&gt;
+&lt;p&gt;ソフトェアの開発は「趣味だろうと仕事だろうとプログラミングに閉じることはできない」という問題があります。
+メール確認だったりブログの執筆だったりパスワードマネージャーだったり、「ソフトウェアエンジニアなら必要なもの」というのはかなりあります。&lt;/p&gt;
+&lt;p&gt;自分がやりたかったのは「Emacs内で最高の環境」を作ることです。Emacsはそれを許容してくれます。
+カーソル移動だったり、keybindの最適化だけではなく、自分の普段のワークフローをしっかりEmacsに落としきる必要があります。&lt;/p&gt;
+&lt;p&gt;通常のプログラミングのためのチューニングとは別に、次のようなことをやりたいと考えていました。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;メールの確認やパスワード管理を自動化したい&lt;/li&gt;
+&lt;li&gt;日報や工数入力を最短で入力できるようにしたい&lt;/li&gt;
+&lt;li&gt;質の担保されたブログ記事を最短で公開したい&lt;/li&gt;
+&lt;li&gt;すべてのコンピュータ上での作業をメモしたい
+&lt;ul&gt;
+&lt;li&gt;たとえ案件が変わろうとPCが壊れようと過去に行ったことを検索可能な状態にしたい&lt;/li&gt;
+&lt;li&gt;Local LLMに食わせることによって自分専用のAIを作りたい&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;etc&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;私は特に怠惰でだらしない人間ですので、いかにワークフローを整えて自動化をしてドキュメントとして残すか、サボったツケを効率良く払うことに注力する必要がありました。&lt;/p&gt;
+&lt;h2 id="なぜorg-modeなのか"&gt;なぜorg-modeなのか&lt;/h2&gt;
+&lt;p&gt;私はプレーンテキストに対して強いこだわりがあるので、可能な限りプレーンテキストをGitで管理する運用にしたいと考えていました。&lt;/p&gt;
+&lt;p&gt;Emacsとの親和性なども考えると&lt;a href="https://orgmode.org/ja/"&gt;org-mode&lt;/a&gt;しかないだろう、という結論に至りました。
+&lt;a href="https://orgmode.org/features.html"&gt;org-mode features&lt;/a&gt; を見ているとまさしく私がやりたかったことを網羅していました。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Markup&lt;/li&gt;
+&lt;li&gt;構造的な編集&lt;/li&gt;
+&lt;li&gt;テーブル操作&lt;/li&gt;
+&lt;li&gt;コードブロック&lt;/li&gt;
+&lt;li&gt;エクスポート&lt;/li&gt;
+&lt;li&gt;タスク管理&lt;/li&gt;
+&lt;li&gt;スケジュール&lt;/li&gt;
+&lt;li&gt;時間計測&lt;/li&gt;
+&lt;li&gt;メモ&lt;/li&gt;
+&lt;li&gt;強力な拡張パッケージ&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;org-modeはコンピュータを使う時に必要なものをすべて用意してくれています。
+当然のことながら、Emacsのパッケージなので &lt;a href="https://qiita.com/takaxp/items/a5a3383d7358c58240d0"&gt;org-mode のキーバインド、その先 - Qiita&lt;/a&gt; にもあるとおりEmacsのkeybindで操作できます。&lt;/p&gt;</description></item><item><title>ob-phpstanを作った</title><link>https://www.takeokunn.org/posts/permanent/20230416154043-create_ob_phpstan/</link><pubDate>Sun, 16 Apr 2023 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/permanent/20230416154043-create_ob_phpstan/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;最近&lt;a href="https://phpstan.org/"&gt;phpstan&lt;/a&gt;を弄ることが増えたのですが、逐一&lt;a href="https://phpstan.org/try"&gt;playground&lt;/a&gt;を開いてWebエディタ内で編集をするのが面倒に感じていました。
+org-mode内で完結をするようにしたいと考えるのはEmacsユーザーなら当然の発想です。
+そこで今回は &lt;code&gt;org-babel&lt;/code&gt; 経由でphpstanの実行結果をorg内で管理できるようにしました。&lt;/p&gt;
+&lt;h2 id="使い方"&gt;使い方&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://github.com/emacs-php/ob-phpstan"&gt;https://github.com/emacs-php/ob-phpstan&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;2023/04/16現在、melpaにはまだ登録をしていないので各自で落してきてパスを通してください。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-emacs-lisp" data-lang="emacs-lisp"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(add-to-list &lt;span style="color:#e6db74"&gt;&amp;#39;load-path&lt;/span&gt; &lt;span style="color:#e6db74"&gt;&amp;#34;/path/to/ob-phpstan.el&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(require &lt;span style="color:#e6db74"&gt;&amp;#39;ob-phpstan&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;次に &lt;code&gt;php-mode&lt;/code&gt; を派生させた &lt;code&gt;phpstan-mode&lt;/code&gt; を作成してください。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-emacs-lisp" data-lang="emacs-lisp"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(eval-after-load &lt;span style="color:#e6db74"&gt;&amp;#34;org&amp;#34;&lt;/span&gt; &lt;span style="color:#f92672"&gt;&amp;#39;&lt;/span&gt;(add-to-list &lt;span style="color:#e6db74"&gt;&amp;#39;org-src-lang-modes&lt;/span&gt; &lt;span style="color:#f92672"&gt;&amp;#39;&lt;/span&gt;(&lt;span style="color:#e6db74"&gt;&amp;#34;phpstan&amp;#34;&lt;/span&gt; &lt;span style="color:#f92672"&gt;.&lt;/span&gt; phpstan)))
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;org-babel-phpstan-command&lt;/code&gt; に各自で &lt;code&gt;phpstan&lt;/code&gt; へのパスを設定してください。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-emacs-lisp" data-lang="emacs-lisp"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;(with-eval-after-load &lt;span style="color:#e6db74"&gt;&amp;#39;ob-phpstan&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; (setq org-babel-phpstan-command &lt;span style="color:#e6db74"&gt;&amp;#34;/path/to/dir/phpstan&amp;#34;&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;あとは適宜orgファイル内でコードブロック作成し、 &lt;code&gt;org-babel&lt;/code&gt; を実行してください。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-org" data-lang="org"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#+begin_src &lt;/span&gt;&lt;span style="color:#75715e"&gt;phpstan&lt;/span&gt;&lt;span style="color:#75715e"&gt; :level 0
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;&lt;/span&gt; class HelloWorld
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; public function sayHello(DateTimeImutable $date): void
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; echo &amp;#39;Hello, &amp;#39; . $date-&amp;gt;format(&amp;#39;j. n. Y&amp;#39;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; }
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#+end_src&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#+RESULTS&lt;/span&gt;&lt;span style="color:#75715e"&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#+begin_example&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ------ ----------------------------------------------------------------------------------
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; Line /var/folders/z5/sk1q5qj96xg4g87vkcp4hq9h0000gn/T/babel-TGYZJB/phpstan-ulqeYI.php
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ------ ----------------------------------------------------------------------------------
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; 4 Parameter $date of method HelloWorld::sayHello() has invalid type
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; DateTimeImutable.
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; ------ ----------------------------------------------------------------------------------
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt; [ERROR] Found 1 error
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;&lt;span style="color:#75715e"&gt;#+end_example&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="実装方法について"&gt;実装方法について&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;ob-phpstan&lt;/code&gt; は100行にも満たない小さなコードで実装されています。
+&lt;a href="https://github.com/emacs-php/ob-phpstan/blob/main/ob-phpstan.el"&gt;https://github.com/emacs-php/ob-phpstan/blob/main/ob-phpstan.el&lt;/a&gt;&lt;/p&gt;</description></item></channel></rss>
