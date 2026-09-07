@@ -1,0 +1,14 @@
+:PROPERTIES:
+:ID:       C2BE1FFF-6E42-40ED-B513-8DFA1E3CD2BC
+:END:
+#+TITLE: フルマラソンを完走した
+#+AUTHOR: takeokunn
+#+DESCRIPTION: description
+#+DATE: 2025-12-08T23:53:10+0900
+#+HUGO_BASE_DIR: ../../
+#+HUGO_CATEGORIES: fleeting
+#+HUGO_SECTION: posts/fleeting
+#+HUGO_TAGS: fleeting poem
+#+HUGO_DRAFT: true
+#+STARTUP: fold
+* aaa
