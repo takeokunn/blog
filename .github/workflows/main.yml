@@ -55,13 +55,20 @@ jobs:
         run: |
           mkdir -p public/
           rsync -a --chmod=u+w result/ public/
-      - name: Sync articles to dev.to
-        uses: calvinmclean/article-sync@v1.3.4
+      - name: Setup Go
+        uses: actions/setup-go@v7
         with:
-          api_key: ${{ secrets.DEV_TO_TOKEN }}
-          article_path: ./devto/public
-          type: synchronize
-          gh_token: ${{ secrets.GITHUB_TOKEN }}
+          go-version: "1.21"
+          cache: false
+      - name: Sync articles to dev.to
+        # Run article-sync directly instead of its composite action, whose
+        # synchronize mode ends with `git commit` + `git push` to main. The
+        # write-back target (devto/public) is gitignored and dev.to IDs live in
+        # each org file's #+DEVTO_ID, so that push only ever raced main and an
+        # actual commit would be unsigned and rejected by the main ruleset.
+        env:
+          API_KEY: ${{ secrets.DEV_TO_TOKEN }}
+        run: go run -mod=mod github.com/calvinmclean/article-sync@v1.3.4 --api-key "$API_KEY" --path ./public
       - name: Create devto branch
         uses: peaceiris/actions-gh-pages@v4
         with:
