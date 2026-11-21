@@ -3,6 +3,8 @@ baseURL = 'https://www.takeokunn.org/'
 
 defaultContentLanguage = "ja-jp"
 
+hasCJKLanguage = true
+
 enableEmoji = true
 ignoreErrors = ["additional-script-loading-error"]
 theme = "hugo-take-theme"
@@ -10,10 +12,8 @@ theme = "hugo-take-theme"
 timeZone = "Asia/Tokyo"
 
 [params]
-DateForm = "2006.1.2"
-heroTitle = "takeokunn's blog"
-heroSubtitle = "poem driven development"
-author = { name = "takeokunn" }
+DateForm = "2006.01.02"
+brand = "{name}.blog"
 featuredArticles = [
     "/posts/fleeting/20250722020425-proposal_guide/",
     "/posts/fleeting/20250518144557-local_git_branch_operation/",
@@ -24,7 +24,12 @@ featuredArticles = [
     "/posts/permanent/20221217132815-emacs_more_faster/",
     "/posts/permanent/20201003015736-most_important_thing_number_of_trials_for_newbie/"
 ]
-featuredArticlesMoreLink = "/posts/"
+
+[params.author]
+name = "takeokunn"
+role = "Web エンジニア · 東京"
+bio = "フロントエンドからインフラまで Web 開発の運用を担当し、CI/CD や開発環境などの足回りを整える仕事が好きです。東京Emacs勉強会と Nix 日本語コミュニティを主催しています。"
+topics = ["Nix", "Emacs", "PHP"]
 
 [params.social]
 zenn = "https://zenn.dev/takeokunn"
@@ -33,20 +38,34 @@ github = "https://github.com/takeokunn"
 keyoxide = "https://keyoxide.org/0B10DAA7BA0236D7382287660F79C0AB03FD7A1C"
 rss = "/index.xml"
 
+[params.socialHandles]
+github = "@takeokunn"
+twitter = "@takeokunn"
+zenn = "@takeokunn"
+
+[params.tagColors]
+nix = "cyan"
+emacs = "purple"
+php = "orange"
+typst = "green"
+
 [[params.pdfLinks]]
 title = "2025年5月 個人的Nixユースケース紹介"
 url = "/pdf/nix-meetup-3-my-nix-usecase.pdf"
 date = "2025-05-01"
+event = "Nix Meetup #3"
 
 [[params.pdfLinks]]
 title = "Phpactorから学ぶLanguage Server Protocolの仕組み"
 url = "/pdf/phperkaigi-2025-pamphlet.pdf"
 date = "2025-03-01"
+event = "PHPerKaigi 2025 パンフレット"
 
 [[params.pdfLinks]]
 title = "パッケージマネージャNixで実現する宣言的でクリーンなPHP開発環境の構築"
 url = "/pdf/phperkaigi-2026-pamphlet.pdf"
 date = "2026-03-01"
+event = "PHPerKaigi 2026 パンフレット"
 
 [[params.pdfLinks]]
 title = "Software DesignでNix連載をした"
@@ -57,6 +76,7 @@ date = "2024-06-01"
 title = "Typstで登壇できるようになったので練習させてくれ"
 url = "/pdf/typst-presentation-practice.pdf"
 date = "2024-01-01"
+event = "第177回 PHP勉強会＠東京"
 
 [[params.pdfLinks]]
 title = "Example Slide"
@@ -70,7 +90,7 @@ date = "2024-01-01"
 
 [markup]
 [markup.highlight]
-noClasses = true
+noClasses = false
 
 [markup.goldmark.renderer]
 unsafe = true
@@ -80,12 +100,24 @@ startLevel = 2
 endLevel = 4
 ordered = false
 
+[related]
+includeNewer = true
+threshold = 80
+
+[[related.indices]]
+name = "tags"
+weight = 100
+
+[[related.indices]]
+name = "date"
+weight = 10
+
 [taxonomies]
 tag = "tags"
 
 [Languages.ja-jp]
-languageName = "Japanese"
-languageCode = "ja-jp"
+label = "Japanese"
+locale = "ja-jp"
 contentDir = "content/"
 
 [Languages.ja-jp.params]
