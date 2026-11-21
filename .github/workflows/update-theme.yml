@@ -7,6 +7,15 @@ on:
   repository_dispatch:
     types: [theme-updated]
   workflow_dispatch:
+    inputs:
+      theme_ref:
+        description: "hugo-take-theme commit or ref to pin (default: main)"
+        required: false
+        default: main
+      dry_run:
+        description: "Create and check the signed commit without moving main"
+        type: boolean
+        default: false
 
 # Serialize runs so a scheduled run and a dispatched run never race on main.
 concurrency:
@@ -14,42 +23,74 @@ concurrency:
   cancel-in-progress: false
 
 permissions:
-  contents: write # commit and push the submodule bump
+  contents: write # create the submodule bump commit and move main
   actions: write # trigger the Deploy workflow via workflow_dispatch
+
+env:
+  SUBMODULE_PATH: hugo/themes/hugo-take-theme
+  THEME_REPO: takeokunn/hugo-take-theme
 
 jobs:
   update-theme:
     runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-        with:
-          # Initialize the submodule so `git submodule update --remote` can bump it.
-          submodules: true
-      - name: Update theme submodule
-        id: update
+      - name: Resolve current and target theme commits
+        id: resolve
+        env:
+          THEME_REF: ${{ inputs.theme_ref || 'main' }}
         run: |
-          git submodule update --remote hugo/themes/hugo-take-theme
-          if git diff --quiet hugo/themes/hugo-take-theme; then
+          base_sha="$(gh api "repos/${GITHUB_REPOSITORY}/git/ref/heads/main" --jq .object.sha)"
+          current_sha="$(gh api "repos/${GITHUB_REPOSITORY}/contents/${SUBMODULE_PATH}?ref=${base_sha}" --jq 'select(.type == "submodule") | .sha')"
+          target_sha="$(gh api "repos/${THEME_REPO}/commits/${THEME_REF}" --jq .sha)"
+          test -n "$current_sha"
+          echo "base_sha=${base_sha}" >> "$GITHUB_OUTPUT"
+          echo "target_sha=${target_sha}" >> "$GITHUB_OUTPUT"
+          if [ "$current_sha" = "$target_sha" ]; then
+            echo "Theme submodule is already at ${target_sha}."
             echo "changed=false" >> "$GITHUB_OUTPUT"
           else
-            short_sha="$(git -C hugo/themes/hugo-take-theme rev-parse --short HEAD)"
+            echo "Theme submodule: ${current_sha} -> ${target_sha}"
             echo "changed=true" >> "$GITHUB_OUTPUT"
-            echo "short_sha=${short_sha}" >> "$GITHUB_OUTPUT"
           fi
-      - name: Commit and push
-        if: steps.update.outputs.changed == 'true'
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add hugo/themes/hugo-take-theme
-          git commit -m "build(theme): bump hugo-take-theme to ${{ steps.update.outputs.short_sha }}"
-          git push
-      - name: Trigger deploy workflow
-        # A push made with GITHUB_TOKEN does not fire `on: push`, so kick the
-        # Deploy workflow explicitly. workflow_dispatch created via GITHUB_TOKEN
-        # is exempt from the recursive-trigger prevention rule.
-        if: steps.update.outputs.changed == 'true'
+      - name: Create signed commit
+        # The main ruleset requires verified signatures. GitHub signs commits
+        # created through the REST API by GITHUB_TOKEN (an App installation
+        # token) only when no author, committer, or signature is supplied.
+        # GraphQL createCommitOnBranch cannot write a gitlink (mode 160000).
+        id: commit
+        if: steps.resolve.outputs.changed == 'true'
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh workflow run main.yml --ref main
+          BASE_SHA: ${{ steps.resolve.outputs.base_sha }}
+          TARGET_SHA: ${{ steps.resolve.outputs.target_sha }}
+        run: |
+          base_tree="$(gh api "repos/${GITHUB_REPOSITORY}/git/commits/${BASE_SHA}" --jq .tree.sha)"
+          tree_sha="$(jq -n --arg base "$base_tree" --arg path "$SUBMODULE_PATH" --arg sha "$TARGET_SHA" \
+              '{base_tree: $base, tree: [{path: $path, mode: "160000", type: "commit", sha: $sha}]}' \
+            | gh api -X POST "repos/${GITHUB_REPOSITORY}/git/trees" --input - --jq .sha)"
+          commit_json="$(jq -n --arg tree "$tree_sha" --arg parent "$BASE_SHA" \
+              --arg msg "build(theme): bump hugo-take-theme to ${TARGET_SHA:0:7}" \
+              '{message: $msg, tree: $tree, parents: [$parent]}' \
+            | gh api -X POST "repos/${GITHUB_REPOSITORY}/git/commits" --input -)"
+          commit_sha="$(jq -r .sha <<<"$commit_json")"
+          echo "Created ${commit_sha}: $(jq -c '.verification | {verified, reason}' <<<"$commit_json")"
+          if [ "$(jq -r .verification.verified <<<"$commit_json")" != "true" ]; then
+            echo "::error::Commit ${commit_sha} is not verified; the main ruleset would reject it."
+            exit 1
+          fi
+          echo "sha=${commit_sha}" >> "$GITHUB_OUTPUT"
+      - name: Fast-forward main
+        # force=false rejects anything but a fast-forward, matching the
+        # ruleset's non_fast_forward rule. A concurrent push to main makes this
+        # fail; the next run retries from the new head.
+        if: steps.commit.outputs.sha != '' && !inputs.dry_run
+        env:
+          COMMIT_SHA: ${{ steps.commit.outputs.sha }}
+        run: gh api -X PATCH "repos/${GITHUB_REPOSITORY}/git/refs/heads/main" -f sha="$COMMIT_SHA" -F force=false --jq .object.sha
+      - name: Trigger deploy workflow
+        # A ref update made with GITHUB_TOKEN does not fire `on: push`, so kick
+        # the Deploy workflow explicitly. workflow_dispatch created via
+        # GITHUB_TOKEN is exempt from the recursive-trigger prevention rule.
+        if: steps.commit.outputs.sha != '' && !inputs.dry_run
+        run: gh workflow run main.yml --repo "$GITHUB_REPOSITORY" --ref main
