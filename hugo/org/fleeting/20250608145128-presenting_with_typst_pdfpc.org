@@ -3,7 +3,7 @@
 :END:
 #+TITLE: Typstとpdfpcでプレゼン機能を実現する
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: Google Slideのプレゼンター表示の代わりに、Typstのpolyluxとpdfpcでスピーカーノートを別画面で確認できるようにした。polylux2pdfpcの使い方とM1 Macへの導入もまとめた。
 #+DATE: 2025-06-08T14:52:33+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting

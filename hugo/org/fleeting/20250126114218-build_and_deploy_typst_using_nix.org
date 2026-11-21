@@ -3,7 +3,7 @@
 :END:
 #+TITLE: NixでTypstをBuildしGitHub Pagesでホスティングする
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: Typstでスライドと組版記事を作るため、org-modeからox-typstで変換し、NixでPDFをビルドしてGitHub Actions経由でGitHub Pagesに配信する構成を書いた。
 #+DATE: 2025-01-26T11:42:26+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting

@@ -3,7 +3,7 @@
 :END:
 #+TITLE: AquaSKKをDvorak仕様にする方法
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: QWERTYからDvorak配列へ移る際に、macOSのキーボード設定とAquaSKKの設定画面でレイアウトをDvorakにそろえる手順のメモ。
 #+DATE: 2024-01-15T13:18:52+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting

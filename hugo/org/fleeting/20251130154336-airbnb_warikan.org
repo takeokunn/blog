@@ -3,7 +3,7 @@
 :END:
 #+TITLE: 複数人でAirbnbを借りた時の清算方法
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: VimConfで10人規模のAirbnbを借りた際の割り勘方法。宿泊数と役割（学生は0倍、新卒は0.5倍など）の2軸で重みづけし、清算シートで按分して支払い状況を共有した。
 #+DATE: 2025-12-25T06:48:50+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting

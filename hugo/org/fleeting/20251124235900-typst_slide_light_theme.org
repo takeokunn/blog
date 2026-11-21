@@ -3,7 +3,7 @@
 :END:
 #+TITLE: Typst SlideのDracula Light Theme作成した
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: ダークテーマのスライドが会場によって見にくいため、Alucardを元にTypstスライドのライトテーマとTextMate Themeを作り、登壇で使った。
 #+DATE: 2025-12-24T14:40:44+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting

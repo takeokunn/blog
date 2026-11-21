@@ -3,7 +3,7 @@
 :END:
 #+TITLE: NextDNSを導入した
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: NextDNSをTerraform Providerとnix-darwin、NixOSの設定で導入した手順。アカウント作成、Terraform設定、Nix設定、接続確認を書き、体感で速くなったと報告している。
 #+DATE: 2025-04-02T01:41:49+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting

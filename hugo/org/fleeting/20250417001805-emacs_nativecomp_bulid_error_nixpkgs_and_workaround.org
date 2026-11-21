@@ -3,7 +3,7 @@
 :END:
 #+TITLE: nixpkgsのunstableでEmacs Nativecomp Buildができない問題とワークアラウンド
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: aarch64-darwinのnixpkgs unstableでEmacsのnativecompがビルドできない問題の回避策としてwithNativeCompilation = falseを使う方法と、原因の重複LC_RPATHを書いた。
 #+DATE: 2025-04-17T00:18:12+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting

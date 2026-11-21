@@ -3,7 +3,7 @@
 :END:
 #+TITLE: 社内読書会でThe Rust Programming Languageを読破した
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: 社内で2025年9月から12月まで平日毎日30分、The Rust Programming Languageを読破した読書会の記録。開催方法、うまくいった理由、今後やりたいことを書いた。
 #+DATE: 2025-12-25T10:09:25+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: permanent

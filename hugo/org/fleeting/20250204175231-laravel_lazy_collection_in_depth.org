@@ -3,7 +3,7 @@
 :END:
 #+TITLE: Laravel LazyCollection in depth
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: Laravel 10のLazyCollectionについて、sourceのClosureの扱い、遅延評価と即時評価の関数の違い、passthru関数をソースコードから読み解いてまとめた。
 #+DATE: 2025-02-04T17:52:58+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting

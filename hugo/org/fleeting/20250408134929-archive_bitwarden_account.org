@@ -3,7 +3,7 @@
 :END:
 #+TITLE: BitwardenとAuthyのアカウントを削除した
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: 移行後に使わなくなったBitwardenとAuthyのアカウントを、それぞれの公式の手順で削除した記録。
 #+DATE: 2025-04-08T13:49:42+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting

@@ -3,7 +3,7 @@
 :END:
 #+TITLE: 2024年版private-isu構築メモ
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: ISUCON14の練習用にprivate-isuをAWSへ構築する際、CloudFormationテンプレートのAMIが存在せず失敗した件の対処メモ。動くAMIとt2.mediumに差し替えた。
 #+DATE: 2024-11-17T17:20:48+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting

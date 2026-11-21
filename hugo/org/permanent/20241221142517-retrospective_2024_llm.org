@@ -3,7 +3,7 @@
 :END:
 #+TITLE: 2024年 LLM個人的振り返り
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: 2024年のLLM振り返り。ollamaやDifyによるLocal LLMの検証、ChatGPTへの課金、仕事での活用を箇条書きで整理し、所感と次の目標を書いた。
 #+DATE: 2024-12-21T14:25:32+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: permanent

@@ -5,7 +5,7 @@
 :END:
 #+TITLE: Emacs内でgpg fileがsaveできなくなった時に対応したことメモ
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: Emacsでgpgファイルを保存するとhangする問題をGnuPGのバージョンを下げて回避した手順のメモ。Homebrewでgnupg@2.2を入れ直した。
 #+DATE: 2023-06-24T09:00:00+09:00
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/fleeting

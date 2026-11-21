@@ -5,7 +5,7 @@
 :END:
 #+TITLE: PHP Exceptionのpropertyにあるcodeはuser-defined error code
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: PHPのExceptionのcodeがユーザー定義の整数値であることを、php-srcのコードを読んで確かめたメモ。getCodeの実装と使用例、PHPUnitのexpectExceptionCodeにも触れる。
 #+DATE: 2023-08-01T09:00:00+09:00
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/fleeting

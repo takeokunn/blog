@@ -3,7 +3,7 @@
 :END:
 #+TITLE: AIを駆使してTypstスライドを生成する
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: PHP勉強会のLT用に、AIで作った目次案からGemini 2.5 ProでTypstスライドを生成し、手直ししてGitHub Pagesで公開した。生成から公開までの流れを書いた。
 #+DATE: 2025-06-10T22:00:23+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting

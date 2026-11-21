@@ -3,7 +3,7 @@
 :END:
 #+TITLE: org-crypt運用メモ
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: org-cryptで秘匿情報を部分的にGPG暗号化する設定と、org-babel-tangleと組み合わせたときのsave hookの問題をadviceで回避した方法をメモした。
 #+DATE: 2025-01-27T14:49:25+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting

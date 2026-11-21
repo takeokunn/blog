@@ -3,7 +3,7 @@
 :END:
 #+TITLE: markdown-preview-modeとxwidgetsでリアルタイムプレビューする
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: markdown-preview-modeとpandocを導入し、Emacsのxwidgetでブラウザ表示してMarkdownをリアルタイムにプレビューする設定を書いた。
 #+DATE: 2025-05-10T18:40:29+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting

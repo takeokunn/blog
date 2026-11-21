@@ -3,7 +3,7 @@
 :END:
 #+TITLE: nix-darwinのlinux-builderでNixOSを動かす
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: OrbStackではk8sが動かなかったため、nix-darwinのlinux-builderを有効にしてNixOSを動かした。設定例とsshで接続する手順を書いた。
 #+DATE: 2026-01-10T15:27:34+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting

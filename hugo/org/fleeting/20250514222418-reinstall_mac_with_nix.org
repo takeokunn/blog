@@ -3,7 +3,7 @@
 :END:
 #+TITLE: 2025年5月 Macの再インストール手順メモ
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: Macを再インストールした際の手順メモ。環境の大半はnixos-configurationのnix-darwinで構築し、GPG/SSH、IME、キーボードなどMac固有の設定は手作業で行った。
 #+DATE: 2025-05-14T22:24:34+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting

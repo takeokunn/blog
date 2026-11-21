@@ -3,7 +3,7 @@
 :END:
 #+TITLE: 個人的Local環境のGit Branch運用について
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: 手元にLocal Branchを残さず、作業するときだけorigin/mainからブランチを作るGit運用をまとめた。MagitからGitHub CLIでPRをCheckoutする拡張も載せている。
 #+DATE: 2025-05-18T14:49:03+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting

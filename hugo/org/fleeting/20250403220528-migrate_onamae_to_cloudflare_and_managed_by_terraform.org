@@ -3,7 +3,7 @@
 :END:
 #+TITLE: お名前comからCloudflareにドメイン移管してTerraformで管理する
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: お名前comで管理していた個人ドメインをCloudflareに移管し、Terraformで管理するようにした手順。移管の動機と、providerとレコードの作成を書いた。
 #+DATE: 2025-04-03T22:05:33+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting

@@ -5,7 +5,7 @@
 :END:
 #+TITLE: phperkaigi 2023でパンフレット記事寄稿&登壇してきました
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: phperkaigi 2023に参加した報告。パンフレットにPHP 8のJITの記事を寄稿し、スポンサーセッションで約10年もののPHPアプリケーションの改善について登壇した。
 #+DATE: 2023-03-27T09:00:00+09:00
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/diary

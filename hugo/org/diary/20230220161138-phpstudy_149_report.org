@@ -5,7 +5,7 @@
 :END:
 #+TITLE: 「第149回 PHP勉強会＠東京」で登壇してきました
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: 2023年2月15日の第149回 PHP勉強会＠東京で、phpstan-strict-rulesをテーマに登壇した報告。会場の挙手の結果や、PHPStanとemptyについての補足を書いた。
 #+DATE: 2023-02-20T09:00:00+09:00
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/diary

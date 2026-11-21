@@ -3,7 +3,7 @@
 :END:
 #+TITLE: テキストエディタがPHPをシンタックスハイライトする仕組みとモダンテキストエディタ事情について
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: テキストエディタが構文をハイライトする仕組みを、正規表現ベースとTree-sitterなどのASTベースに分けて、PHPを例に説明した。PHPerKaigi 2024のパンフレット記事。
 #+DATE: 2024-01-18T12:20:39+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: permanent

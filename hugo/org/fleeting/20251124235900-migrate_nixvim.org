@@ -3,7 +3,7 @@
 :END:
 #+TITLE: Neovimの設定をNixvimに移行した
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: 転職を機にNeovimをNixvimで設定した。Luaを書かずにNixで管理でき、AIにも設定させ、Nixの更新サイクルに乗せた。
 #+DATE: 2025-12-25T06:48:38+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting

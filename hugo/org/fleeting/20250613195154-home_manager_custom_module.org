@@ -3,7 +3,7 @@
 :END:
 #+TITLE: home-managerで自作moduleを作る
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: home-managerの自作moduleの作り方をまとめた。tigは文字列、lnavはNix式をJSONに変換して設定ファイルを出力する例と、自作moduleの利点と欠点を載せた。
 #+DATE: 2025-06-14T06:29:49+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting

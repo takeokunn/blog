@@ -3,7 +3,7 @@
 :END:
 #+TITLE: PHPカンファレンス北海道2024に参加してきました
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: 2024年1月のPHPカンファレンス北海道2024に2泊3日で参加した記録。前夜祭と本編の各セッション・LTの感想と、3日目に小樽を回った行程を書いた。
 #+DATE: 2024-01-12T06:31:28+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: diary

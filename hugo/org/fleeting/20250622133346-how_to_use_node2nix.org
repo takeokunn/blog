@@ -3,7 +3,7 @@
 :END:
 #+TITLE: node2nixの使い方
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: npm packageをNixで扱うnode2nixの使い方。node-packages.jsonから生成してhome-managerに組み込み、GitHub Actionsで毎日更新する。
 #+DATE: 2025-06-22T13:34:59+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting

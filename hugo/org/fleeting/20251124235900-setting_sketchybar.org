@@ -3,7 +3,7 @@
 :END:
 #+TITLE: 個人的sketchybar設定
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: macOSのsketchybarをdracula themeの配色で設定した。左にAppleロゴ、ワークスペース、前面のアプリ、右にCPU、メモリ、Wi-Fi、音量、バッテリー、日時を表示する。
 #+DATE: 2025-11-30T13:21:51+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting

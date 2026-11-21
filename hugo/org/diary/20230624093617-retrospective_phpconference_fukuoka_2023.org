@@ -5,7 +5,7 @@
 :END:
 #+TITLE: phpカンファレンス福岡2023に参加してきました
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: 2023年6月に3泊4日で参加したPHPカンファレンス福岡2023の旅行記。前夜祭、各セッションの感想、懇親会、北九州への移動と、次の遠征への持ち物メモを書いた。
 #+DATE: 2023-06-24T09:00:00+09:00
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/diary

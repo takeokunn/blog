@@ -3,7 +3,7 @@
 :END:
 #+TITLE: tcardgenをnixでパッケージ化する方法
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: Hugo用のOGP画像生成ツールtcardgenをNixでパッケージ化した手順。vendorHashの取得、Go 1.23に合わせたbuildGo123Moduleへの変更、devenvでの利用を書いた。
 #+DATE: 2024-11-22T09:11:24+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting

@@ -3,7 +3,7 @@
 :END:
 #+TITLE: Geminiで専門家カスタムGemを作る
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: チャット型AIをGeminiに寄せた理由と、カスタムGemの作り方。Gemを作るGemや専門家Gemなど約20個を作り、回答の精度と情報量が上がった。
 #+DATE: 2025-07-27T13:41:33+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting

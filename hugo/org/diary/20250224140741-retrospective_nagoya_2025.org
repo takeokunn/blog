@@ -3,7 +3,7 @@
 :END:
 #+TITLE: 2025年2月名古屋旅行
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: 2025年2月21日から24日の名古屋旅行の振り返り。phpcon名古屋での登壇と懇親会、喫茶マウンテンや東山動物園、名古屋グルメの記録を書いた。
 #+DATE: 2025-02-24T14:07:46+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: diary

@@ -5,7 +5,7 @@
 :END:
 #+TITLE: Emacsを世界最速級で起動する方法
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: Emacsの起動時間を15〜25ms程度にした方法。起動速度の測り方を整理したうえで、NativeComp、early-init.el、byte-compile、async load、autoload、GC設定などの具体策を書いた。
 #+DATE: 2022-12-17T09:00:00+09:00
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/permanent

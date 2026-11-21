@@ -3,7 +3,7 @@
 :END:
 #+TITLE: 2024年 Emacs振り返り
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: 2024年のEmacs振り返り。org-nix-shell、init.elのNix移行、setopt移行、毎日のHEAD Buildなどの取り組みと、Emacsイベントの開催、次の目標を箇条書きでまとめた。
 #+DATE: 2024-12-21T14:21:21+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: permanent

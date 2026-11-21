@@ -3,7 +3,7 @@
 :END:
 #+TITLE: VimConf2024 参加記
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: 2024年11月23日に開かれたVimConf 2024の参加記。キーノート、各セッション、LTの内容メモと感想、前日からの交流の様子を書いた。
 #+DATE: 2024-11-23T10:18:02+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: diary

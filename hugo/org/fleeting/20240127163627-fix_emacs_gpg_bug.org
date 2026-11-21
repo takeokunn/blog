@@ -3,7 +3,7 @@
 :END:
 #+TITLE: GnuPG 2.4.4でEmacsで発生していたバグ修正された
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: GnuPG 2.4.4でEmacsのEasyPGが保存時にhangする問題が直った。Homebrewでの更新方法と、nixpkgs未対応の間にoverlayで2.4.4を使う方法を書いた。
 #+DATE: 2024-01-27T16:37:08+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting

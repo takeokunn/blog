@@ -3,7 +3,7 @@
 :END:
 #+TITLE: blogをdev.toサポートした
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: org-roamで管理しているブログをdev.toにも対応させた。ox-gfmをwrapしたox-devto.elをNixでBuildし、GitHub Actionsで同期する。
 #+DATE: 2025-12-25T07:11:04+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting

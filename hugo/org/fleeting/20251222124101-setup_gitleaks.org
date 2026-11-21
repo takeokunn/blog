@@ -3,7 +3,7 @@
 :END:
 #+TITLE: gitleaksを導入した
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: 秘密鍵をcommitしないためにgitleaksを導入した記録。home-manager moduleを自作し、devenvのgit hookにもpre-commitとしてgitleaksを設定した。
 #+DATE: 2025-12-23T20:50:37+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting

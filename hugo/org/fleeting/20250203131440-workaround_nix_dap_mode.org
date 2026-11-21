@@ -3,7 +3,7 @@
 :END:
 #+TITLE: Nixでdap-modeがエラーになった時のメモ
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: 2025年2月2日のnix flake update後にdap-modeのビルドが失敗した原因（dapui.elのdap-ui.elへのrename）と、preBuildをnullにするoverlayでの回避策を書いた。
 #+DATE: 2025-02-03T13:15:02+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting

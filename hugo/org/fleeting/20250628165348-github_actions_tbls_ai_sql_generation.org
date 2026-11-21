@@ -3,7 +3,7 @@
 :END:
 #+TITLE: GitHub Actions上でtblsを使ってスキーマ情報を取得してAIでSQLを生成する
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: GitHub ActionsでMySQLにスキーマを反映してtblsのドキュメントをdbdocブランチに出力し、dbdocのリポジトリでAI AgentにSQLを生成させる運用のメモ。
 #+DATE: 2025-06-28T16:53:54+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting

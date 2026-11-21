@@ -3,7 +3,7 @@
 :END:
 #+TITLE: GitHub Actions内で署名付きCommitをする
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: 署名付きCommitを強制したリポジトリで、GitHub Actionsから署名付きCommitをする方法。Sign専用の副鍵をActions Secretに登録し、ghaction-import-gpgで読み込む。
 #+DATE: 2025-05-18T20:14:16+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting

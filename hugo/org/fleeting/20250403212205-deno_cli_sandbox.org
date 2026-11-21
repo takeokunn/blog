@@ -3,7 +3,7 @@
 :END:
 #+TITLE: Denoで簡易的なCLIツールを作る
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: Denoのcliffyでcatとgrepをサブコマンドに持つ簡易的なCLIツールを試作した手順。ディレクトリ構造、依存関係の追加、各コマンドの実装と実行例を載せている。
 #+DATE: 2025-04-03T21:23:45+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting

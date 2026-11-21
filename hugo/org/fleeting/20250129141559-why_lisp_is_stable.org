@@ -3,7 +3,7 @@
 :END:
 #+TITLE: 「Lispが安定してることがアピールポイントか」に対しての考察
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: 「Lispが安定していることはアピールポイントか」というconao3の指摘を受けて、自分の主張、指摘への回答、個人的な結論を整理した。
 #+DATE: 2025-01-29T14:16:04+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting lisp emacs
