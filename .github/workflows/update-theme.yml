@@ -19,7 +19,7 @@ on:
 
 # Serialize runs so a scheduled run and a dispatched run never race on main.
 concurrency:
-  group: update-theme
+  group: ${{ github.workflow }}
   cancel-in-progress: false
 
 permissions:
