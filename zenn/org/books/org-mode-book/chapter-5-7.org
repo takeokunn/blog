@@ -244,7 +244,7 @@ data/95/95d50008-c12e-479f-a4f2-cc0238205319/
 #+end_src
 
 * 添付ファイルへのリンク
-** attachment:filename 形式
+** =attachment:filename= 形式
 #+begin_src org
 ,* ドキュメント
   :PROPERTIES:
@@ -257,7 +257,7 @@ data/95/95d50008-c12e-479f-a4f2-cc0238205319/
 行番号指定: [[attachment:code.py::42]]
 #+end_src
 
-** [[attachment:image.png]] の表示
+** =[[attachment:image.png]]= の表示
 #+begin_src emacs-lisp
 ;; インライン画像として添付ファイルを表示
 (setq org-startup-with-inline-images t)
