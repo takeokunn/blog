@@ -3,7 +3,7 @@
 :END:
 #+TITLE: 2025年2月 Neovimセットアップ
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: Neovimの最小設定を、Nixでの導入、Nixによるプラグイン管理、Kittyの採用、Luaでの設定の順にまとめた。lsp、skk、telescopeなどの設定も載せている。
 #+DATE: 2025-02-11T11:11:01+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting

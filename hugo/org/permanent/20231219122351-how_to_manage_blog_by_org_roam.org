@@ -5,7 +5,7 @@
 :END:
 #+TITLE: org-roamで記事を管理しGitHub Actionsで適切に公開する
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: org-roamで記事を管理し、GitHub Actions上でtextlintとsecretlintを通してHugoとZennへ公開するワークフロー。org-roamの設定、OrgからMarkdownへの変換、公開先ごとの設定を書いた。
 #+DATE: 2023-12-19T12:31:50+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: permanent

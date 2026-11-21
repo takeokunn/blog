@@ -3,7 +3,7 @@
 :END:
 #+TITLE: 2024年 Nix振り返り
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: 2024年のNix振り返り。dotfilesと.Emacs.dのarchive、nix-darwinとhome-managerへの移行、NixOSやdevenvの導入などの取り組みと、Nix meetup #1の開催、次の目標を書いた。
 #+DATE: 2024-12-21T14:23:33+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: permanent

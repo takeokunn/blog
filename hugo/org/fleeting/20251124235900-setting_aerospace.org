@@ -3,7 +3,7 @@
 :END:
 #+TITLE: 個人的Aerospace設定
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: macOSのタイル型Window ManagerであるAeroSpaceをnix-darwinで有効にし、基本設定、keybind、アプリケーション配置、外部ディスプレイ表示の設定をまとめた。
 #+DATE: 2025-11-29T22:00:24+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting

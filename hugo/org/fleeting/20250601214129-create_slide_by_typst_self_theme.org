@@ -3,7 +3,7 @@
 :END:
 #+TITLE: Typst自作テーマで登壇スライドを作成した
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: Nix meetup #3 大阪向けに、自作のTypstテーマでスライドを作った記録。オープニング、Agenda、自己紹介、ソースコードなど各スライドの書き方を例示している。
 #+DATE: 2025-06-01T21:41:33+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting

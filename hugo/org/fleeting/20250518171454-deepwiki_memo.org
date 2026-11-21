@@ -3,7 +3,7 @@
 :END:
 #+TITLE: DeepWiki調査メモ
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: DeepWikiとOSS版のdeepwiki-openを、規模の異なるOSSや自分のリポジトリで試し、生成されるドキュメントの質とChatの精度を調べたメモ。
 #+DATE: 2025-05-18T17:15:44+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting

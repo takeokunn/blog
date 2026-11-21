@@ -3,7 +3,7 @@
 :END:
 #+TITLE: Makefileを便利コマンドメモとして使うことに対する違和感
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: Makefileをプロジェクトのコマンドメモとして使う手法に感じる違和感の整理。想定利用者ごとに検討し、READMEの充実やpackage固有のscript機能を優先したい理由を書いた。
 #+DATE: 2025-07-11T16:41:09+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/permanent

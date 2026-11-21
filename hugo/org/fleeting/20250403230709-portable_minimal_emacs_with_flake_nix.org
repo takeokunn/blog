@@ -3,7 +3,7 @@
 :END:
 #+TITLE: flake.nixでポータブルな最小構成のEmacsを作成する
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: flake.nixでローカル環境に依存しない最小構成のEmacsをビルドする手順。init.elのuse-packageの:ensureをNixが読み、nix buildで実行できる。
 #+DATE: 2025-04-03T13:07:14+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting

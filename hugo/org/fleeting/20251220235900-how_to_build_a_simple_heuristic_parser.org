@@ -3,7 +3,7 @@
 :END:
 #+TITLE: 簡易的なヒューリスティックパーサの自作方法
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: Dirtyな値を正規化するヒューリスティックパーサの作り方のメモ。適否の見極め、yamlでのテストデータ作成、Claude Codeにvitestで実装させる流れを書いた。
 #+DATE: 2025-12-23T20:18:08+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting

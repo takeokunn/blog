@@ -3,7 +3,7 @@
 :END:
 #+TITLE: GPG KeyのYubiKey運用をはじめた
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: GPG鍵の主鍵と副鍵（Encrypt）をYubiKeyに焼き、端末ごとに作る副鍵（Sign、Auth）でコミット署名とSSH認証を行う運用を始めた手順。
 #+DATE: 2025-05-11T17:02:52+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting

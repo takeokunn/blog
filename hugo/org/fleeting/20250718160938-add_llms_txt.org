@@ -3,7 +3,7 @@
 :END:
 #+TITLE: Hugoで生成したブログにllms.txtとllms-full.txtを導入した
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: llms.txtとllms-full.txtの仕様を調べ、hugo-take-themeにlayoutを作ってこのブログにホスティングした。
 #+DATE: 2025-07-18T16:09:48+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting

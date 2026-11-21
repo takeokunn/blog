@@ -3,7 +3,7 @@
 :END:
 #+TITLE: EventBridge Ruleデバッグ方法メモ
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: AWS ConsoleでEventBridge RuleをSample eventとEvent patternでテストする手順と、suffix-matchingがstringにしか使えず数値には発火しない点のメモ。
 #+DATE: 2025-06-08T16:16:20+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting

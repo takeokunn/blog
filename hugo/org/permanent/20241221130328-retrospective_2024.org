@@ -3,7 +3,7 @@
 :END:
 #+TITLE: 2024年 全体振り返り
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: 2024年の全体振り返り。目標にした文芸的プログラミング（org-mode）、Nix、LLMの結果と、コミュニティ活動、イベント、仕事、2025年の目標をまとめた。
 #+DATE: 2025-01-05T13:00:00+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: permanent

@@ -3,7 +3,7 @@
 :END:
 #+TITLE: 2024年 個人的流行語振り返り
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: 2024年に身の回りで流行した言葉を、vim-jp、個人、バイト先、仕事の4分類で振り返った一覧。後輩の勧めで書き、思い出し次第追記している。
 #+DATE: 2024-12-21T16:11:30+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: poem

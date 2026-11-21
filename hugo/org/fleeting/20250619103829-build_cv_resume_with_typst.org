@@ -3,7 +3,7 @@
 :END:
 #+TITLE: Typstで履歴書と職務経歴書をBuildする
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: 履歴書と職務経歴書をYAMLのコンテンツとTypstのテンプレートに分け、Nix BuildでPDFを生成できるようにした。フォントはHackGenを使った。
 #+DATE: 2025-06-19T11:04:30+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting

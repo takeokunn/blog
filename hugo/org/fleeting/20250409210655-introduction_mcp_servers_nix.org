@@ -3,7 +3,7 @@
 :END:
 #+TITLE: mcp-servers-nixを導入した
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: MCPサーバーの設定を、org-babel-tangleとnode2nixでの管理からmcp-servers-nixとsops-nixでの管理に切り替えた。変更前後の違いと、home-managerへの組み込みを書いた。
 #+DATE: 2025-04-09T21:09:33+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting

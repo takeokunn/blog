@@ -3,7 +3,7 @@
 :END:
 #+TITLE: org-nix-shell入門
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: Org関連パッケージorg-nix-shellの入れ方と、Nixで定義した環境をsrcブロックの:nix-shellで読み込む使い方をまとめた。古いPHPを動かす例や、wandbox風の使い方も載せている。
 #+DATE: 2025-02-08T11:00:00+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting

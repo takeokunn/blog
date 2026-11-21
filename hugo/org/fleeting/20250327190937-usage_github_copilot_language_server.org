@@ -3,7 +3,7 @@
 :END:
 #+TITLE: @github/copilot-language-serverをNixで扱う時のメモ
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: @github/copilot-language-serverをnode2nixでNixのパッケージにし、実行ファイルを取得してcopilot.elにPATHを通すまでの手順をメモした。
 #+DATE: 2025-02-27T21:37:32+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting

@@ -3,7 +3,7 @@
 :END:
 #+TITLE: 個人的devenv運用
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: cachix社のflake.nixラッパdevenvを、プロジェクト固有のパッケージ管理に使う個人的な運用をまとめた。Laravel用の設定例、direnvでの起動、dir-locals2.elでのPATH設定を書いている。
 #+DATE: 2025-01-27T23:30:00+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting

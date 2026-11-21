@@ -3,7 +3,7 @@
 :END:
 #+TITLE: php-srcとyieldについて調査メモ
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: PHPのyieldについて、RFC、サンプルコード、php-srcのコンパイラ実装を読んで調べたメモ。
 #+DATE: 2025-06-25T11:57:47+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting

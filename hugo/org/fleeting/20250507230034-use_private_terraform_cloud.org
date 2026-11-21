@@ -3,7 +3,7 @@
 :END:
 #+TITLE: private-terraformをHCP Terraformに移行した
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: ローカルで管理していたtfstateをHCP Terraformに移行した記録。500 resourcesまで無料な点を理由に選び、サービスごとにディレクトリを分けてterraform importで既存リソースを移した。
 #+DATE: 2025-05-07T23:00:55+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting

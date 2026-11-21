@@ -3,7 +3,7 @@
 :END:
 #+TITLE: GitHub ActionsでCachixを導入する
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: GitHub Actionsのreusable actionにCachixを組み込み、Nixの実行環境を平均1分で用意できるようにしてCIを速くした。
 #+DATE: 2025-05-10T19:28:45+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting

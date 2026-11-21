@@ -1,3 +1,5 @@
+;;; ox-zenn.el --- Export Org articles and books to Zenn markdown -*- lexical-binding: t; -*-
+
 (require 'ox-zenn)
 
 (setq org-publish-timestamp-directory "./.org-timestamps")

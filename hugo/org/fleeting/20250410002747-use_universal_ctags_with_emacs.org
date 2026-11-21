@@ -3,7 +3,7 @@
 :END:
 #+TITLE: emacsでuniversal-ctagsを使う
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: universal-ctagsをNix経由で実行してTAGSを生成する方法と、TAGSがあればEmacsのxrefでM-.による定義ジャンプができることをまとめた。
 #+DATE: 2025-04-09T23:58:30+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting

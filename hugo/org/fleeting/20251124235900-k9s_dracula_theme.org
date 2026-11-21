@@ -3,7 +3,7 @@
 :END:
 #+TITLE: k9sをDracula Theme対応した
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: k9sをhome-managerで導入し、skin機能で自作したdracula themeを適用した。Claude Codeにテーマを書かせた。
 #+DATE: 2025-11-29T22:00:24+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting

@@ -3,7 +3,7 @@
 :END:
 #+TITLE: React Router v7周辺キャッチアップメモ
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: React Router v7、Mantine、Biome、Vite、Vitest、pnpmでサンドボックスを作り、2025年6月時点のWebフロントエンド事情をキャッチアップした記録。
 #+DATE: 2025-06-16T13:22:53+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting

@@ -3,7 +3,7 @@
 :END:
 #+TITLE: Emacsユーザーから見たvim-jp
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: Emacsユーザーの視点でvim-jp slackへの参加手順を書いた記事。#welcomeでの自己紹介、#hobby-gourmetへの投稿などの流れと、Vim/Emacsエディタ戦争についての見解を書いた。
 #+DATE: 2024-01-19T10:37:53+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: poem

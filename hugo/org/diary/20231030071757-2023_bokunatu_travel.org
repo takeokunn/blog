@@ -1,6 +1,6 @@
 #+TITLE: 2023年小田原旅行記
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: 2023年10月に1泊2日で小田原へ行った旅行記。他社との合同勉強会を開くことになった経緯、当日の様子、懇親会、2日目の過ごし方を書いた。
 #+DATE: 2023-10-30T09:00:00+09:00
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/diary

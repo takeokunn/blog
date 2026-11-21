@@ -5,7 +5,7 @@
 :END:
 #+TITLE: 「PHP Lovers Meetup vol.0 ~ はじまりは<?phpから」に参加しました
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: 2023年7月10日のPHP Lovers Meetup vol.0の参加記。Brefの作者によるサーバレスPHPのトークとBrefの本番運用の話、懇親会の様子を書いた。
 #+DATE: 2023-07-10T09:00:00+09:00
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/diary

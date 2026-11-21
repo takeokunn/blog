@@ -3,7 +3,7 @@
 :END:
 #+TITLE: Zedファーストインプレッション
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: オープンソースになったエディタZedの初見メモ。手元でローカルビルドし、公式ドキュメントとディレクトリ構成をざっくり読んだ感想を書いた。
 #+DATE: 2024-01-25T23:18:14+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting

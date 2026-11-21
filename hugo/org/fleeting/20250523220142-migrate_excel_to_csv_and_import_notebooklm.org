@@ -3,7 +3,7 @@
 :END:
 #+TITLE: Excelファイルをtxtファイルに変換してNotebookLMに食わせる
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: APIドキュメントのExcelファイルをxlsx2csvでcsvに変換し、拡張子をtxtにしてNotebookLMに読み込ませ、内容を質問できるようにした手順。
 #+DATE: 2025-05-23T22:12:39+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting

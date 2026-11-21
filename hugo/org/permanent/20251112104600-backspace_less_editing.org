@@ -3,7 +3,7 @@
 :END:
 #+TITLE: Backspace不要論
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: Backspace（C-h）で後ろ向きに消す編集をやめ、C-k、C-d、C-tなどで前方に操作する運用の提案。その問題意識と個人的な運用方法を書いた。
 #+DATE: 2025-11-12T10:46:33+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: permanent

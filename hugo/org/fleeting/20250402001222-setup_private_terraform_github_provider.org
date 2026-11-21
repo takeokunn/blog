@@ -3,7 +3,7 @@
 :END:
 #+TITLE: Terraform GitHub Providerを導入した
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: 個人リポジトリを宣言的に管理するため、Terraform GitHub Providerを導入した手順。sopsでトークンを渡すprovider定義と、ssh key、gpg key、repositoryの定義を書いた。
 #+DATE: 2025-04-02T00:12:35+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting

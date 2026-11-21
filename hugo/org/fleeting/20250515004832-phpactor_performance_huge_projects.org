@@ -3,7 +3,7 @@
 :END:
 #+TITLE: 巨大なLaravelレポジトリでphpactorを使うTips
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: 140万行規模のLaravelリポジトリでphpactorを快適に動かす設定集。PHPのメモリとJIT、.phpactor.jsonのタイムアウト、lsp-mode、laravel-ide-helperなどを調整した。
 #+DATE: 2025-05-14T23:48:37+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting

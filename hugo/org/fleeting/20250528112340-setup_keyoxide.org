@@ -3,7 +3,7 @@
 :END:
 #+TITLE: keyoxideセットアップ
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: なりすまし対策として、GPG鍵をKeyoxideに登録し、Twitter、GitHub、DNSのTXTレコードをnotationで紐付けて本人性を示せるようにした手順。
 #+DATE: 2025-05-28T11:23:45+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting

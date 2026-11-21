@@ -3,7 +3,7 @@
 :END:
 #+TITLE: プロポーザルの出し方・心構え
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: カンファレンスのプロポーザルを書く心構えとTips。日々のアウトプットをブログにまとめてプロポーザルにする流れ、不採択時の考え方、ネタがない時の対処を登壇経験から書いた。
 #+DATE: 2025-07-22T19:00:00+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting

@@ -3,7 +3,7 @@
 :END:
 #+TITLE: 個人的embark活用テクニック
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: 個人的なembarkの活用テクニックを扱う記事。本文は見出しのみで未記入の下書きになっている。
 #+DATE: 2025-01-26T14:17:59+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting

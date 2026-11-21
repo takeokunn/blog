@@ -3,7 +3,7 @@
 :END:
 #+TITLE: Typstテーマを自作した
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: polyluxをベースにDracula Theme風のTypstスライドテーマを自作し、flake.nixでのPDFビルドとorg-modeからのスライド作成までをまとめた。
 #+DATE: 2025-05-06T22:12:04+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting

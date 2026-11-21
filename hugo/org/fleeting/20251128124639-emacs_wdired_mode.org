@@ -3,7 +3,7 @@
 :END:
 #+TITLE: emacs wdiredが便利だった
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: Emacs標準のwdiredでDiredのバッファを直接編集してファイル操作する方法を調べた。起動キーの割り当てと、パーミッション変更の設定を確認した。
 #+DATE: 2025-11-29T21:06:48+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting

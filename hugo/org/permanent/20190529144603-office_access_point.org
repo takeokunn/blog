@@ -5,7 +5,7 @@
 :END:
 #+TITLE: オフィスにアクセスポイントを導入した時やったこと
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: オフィスに無線ルータをアクセスポイントとして導入した際のメモ。転送速度、セキュリティ、最大接続数という選定基準と、管理画面での設定、PoEの感想を書いた。
 #+DATE: 2019-05-29T09:00:00+09:00
 #+HUGO_BASE_DIR: ../../
 #+HUGO_SECTION: posts/permanent

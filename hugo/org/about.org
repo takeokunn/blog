@@ -5,11 +5,12 @@
 #+HUGO_SECTION: ./
 #+TITLE: About Me
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: Webエンジニアたけてぃ（@takeokunn）のプロフィールページ。仕事の内容と使う技術、Emacs・Nixなどの個人活動、登壇履歴をまとめている。
 #+DATE: 2025-06-08T19:35:24+0900
 #+HUGO_CATEGORIES: about
 #+HUGO_TAGS: about
 #+HUGO_DRAFT: false
+#+HUGO_LAYOUT: about
 #+STARTUP: fold
 * Hello World
 

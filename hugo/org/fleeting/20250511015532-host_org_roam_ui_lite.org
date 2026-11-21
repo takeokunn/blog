@@ -3,7 +3,7 @@
 :END:
 #+TITLE: org-roam-ui-liteでblogの関係性を可視化する
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: org-roam-ui-liteをflake.nixでビルドしてGitHub Actionsに組み込み、blogの記事の関係図をGitHub Pagesで公開した手順。
 #+DATE: 2025-05-10T23:58:43+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting

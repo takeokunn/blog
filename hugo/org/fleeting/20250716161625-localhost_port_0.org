@@ -3,7 +3,7 @@
 :END:
 #+TITLE: localhost:0 でサーバを立てると空いてるエフェメラルポートが割り当てられる
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: localhost:0でサーバを起動すると空きのエフェメラルポートが割り当てられる挙動を、PHPの組み込みサーバ、RFC 6335、Linuxのbind実装で確認したメモ。
 #+DATE: 2025-07-16T16:16:52+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting

@@ -3,7 +3,7 @@
 :END:
 #+TITLE: 技術イベントのパンフレット記事をTypstでBuildする
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: 技術イベントのパンフレット記事をTypstで組版した。HackGenと2段組、codlyによる構文ハイライトを設定し、GitHub ActionsでBuildしてGitHub Pagesで公開した。
 #+DATE: 2025-12-24T22:45:57+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting

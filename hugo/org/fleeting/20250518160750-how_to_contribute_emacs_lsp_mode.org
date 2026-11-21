@@ -3,7 +3,7 @@
 :END:
 #+TITLE: Emacs lsp-modeに新しいClientを追加する方法
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: Emacsのlsp-modeに新しいLanguage ServerのClientを追加する手順。clients/配下のファイル作成、動作確認、lsp-mode.elやCHANGELOGの更新、Pull Requestまで。
 #+DATE: 2025-05-18T16:09:49+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting

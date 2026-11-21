@@ -3,7 +3,7 @@
 :END:
 #+TITLE: digツールはdoggoが便利
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: digの代わりにGo製のDNSクライアントdoggoを導入した記録。dogの更新が止まっていたため選び、home-manager moduleでshell completionを有効にし、quicやtlsへの対応を確認した。
 #+DATE: 2025-12-24T13:21:22+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting

@@ -3,7 +3,7 @@
 :END:
 #+TITLE: はてなブックマークコメント非表示にした
 #+AUTHOR: takeokunn
-#+DESCRIPTION: description
+#+DESCRIPTION: 自作ブログだけ、metaタグでHatena::Bookmarkのnocommentを指定し、はてなブックマークのコメント一覧を非表示にした。
 #+DATE: 2025-07-09T11:36:58+0900
 #+HUGO_BASE_DIR: ../../
 #+HUGO_CATEGORIES: fleeting
