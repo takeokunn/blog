@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Wifi on takeokunn's blog</title><link>https://www.takeokunn.org/tags/wifi/</link><description>Recent content in Wifi on takeokunn's blog</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Wed, 29 May 2019 09:00:00 +0900</lastBuildDate><atom:link href="https://www.takeokunn.org/tags/wifi/index.xml" rel="self" type="application/rss+xml"/><item><title>オフィスにアクセスポイントを導入した時やったこと</title><link>https://www.takeokunn.org/posts/permanent/20190529144603-office_access_point/</link><pubDate>Wed, 29 May 2019 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/permanent/20190529144603-office_access_point/</guid><description>&lt;p&gt;無線ルータを購入してアクセスポイントを設定した時に学んだことをメモしておく。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id="無線ルータ選定"&gt;無線ルータ選定&lt;/h2&gt;
+&lt;p&gt;ポイントは3点。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;転送速度&lt;/li&gt;
+&lt;li&gt;セキュリティ&lt;/li&gt;
+&lt;li&gt;無線端末 最大接続数&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="転送速度"&gt;転送速度&lt;/h3&gt;
+&lt;p&gt;種類ありすぎてわけわからないけど、とりあえず &lt;code&gt;1ac&lt;/code&gt; に対応してればよいかな。GHzが低いほど壁などの障害に強い。&lt;/p&gt;</description></item></channel></rss>

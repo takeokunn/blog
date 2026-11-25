@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Permanent on takeokunn's blog</title><link>https://www.takeokunn.org/tags/permanent/</link><description>Recent content in Permanent on takeokunn's blog</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Tue, 30 Dec 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://www.takeokunn.org/tags/permanent/index.xml" rel="self" type="application/rss+xml"/><item><title>2025年12月 個人的claude codeワークフロー</title><link>https://www.takeokunn.org/posts/permanent/20251220235900-my_claude_code_workflow/</link><pubDate>Tue, 30 Dec 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/permanent/20251220235900-my_claude_code_workflow/</guid><description>&lt;h2 id="1-dot-はじめに"&gt;1. はじめに&lt;/h2&gt;
+&lt;p&gt;Claude Codeを本格的に使い始めました。&lt;/p&gt;
+&lt;p&gt;最初はGitHub Copilotと同じ感覚で、コード生成ツールの延長として使っていたのですが、あるとき気づきました。「セキュリティレビューをお願いしたら、コードスタイルの指摘ばかり返ってきた」「昨日と同じ質問をしたのに、まったく違うフォーマットで回答された」「プロジェクトの規約を毎回説明するのが面倒」。これ、Claude Codeの問題じゃなくて、自分の使い方の問題でした。&lt;/p&gt;</description></item><item><title>社内読書会でThe Rust Programming Languageを読破した</title><link>https://www.takeokunn.org/posts/permanent/20251220235900-read_the_rust_programming_language/</link><pubDate>Thu, 25 Dec 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/permanent/20251220235900-read_the_rust_programming_language/</guid><description>&lt;h2 id="1-dot-introduction"&gt;1. Introduction&lt;/h2&gt;
+&lt;p&gt;社内でRust本の読書会を開催したのですが、大成功で終わりました。
+過去に社内読書会に参加した経験から、読書会というのはうまくいかないものだと思っていました。
+途中で自然消滅したり、一部の人だけが話して終わったり、結局何も身につかなかったりと、苦い経験がいくつもあります。&lt;/p&gt;</description></item><item><title>Makefileを便利コマンドメモとして使うことに対する違和感</title><link>https://www.takeokunn.org/posts/permanent/20250711132607-why_not_command_memo_makefile/</link><pubDate>Fri, 11 Jul 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/permanent/20250711132607-why_not_command_memo_makefile/</guid><description>&lt;h2 id="追記"&gt;追記&lt;/h2&gt;
+&lt;p&gt;この記事に対するyasunoriの補足記事はこちら。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://blog.yasunori0418.dev/p/appendix-makefile/"&gt;https://blog.yasunori0418.dev/p/appendix-makefile/&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;yasunoriがZennに書いた「&lt;a href="https://zenn.dev/loglass/articles/0016-make-makefile"&gt;職場のプロジェクトに必ず配置しちゃうMakefileの話&lt;/a&gt;」というのがバズっています。
+「コマンドが覚え辛い」という、どのプロジェクトにもあるような問題を「Makefileをコマンドメモとして整える」ことによって解決するという記事でした。
+SNSやvim-jp slackを見ていると賛同の声が多い印象を受けています。&lt;/p&gt;</description></item><item><title>2024年 全体振り返り</title><link>https://www.takeokunn.org/posts/permanent/20241221130328-retrospective_2024/</link><pubDate>Sun, 05 Jan 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/permanent/20241221130328-retrospective_2024/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;2024年振り返りの振り返り記事です。
+立てた目標に対してどうだったか、2025年はどうするべきかを書いておきます。&lt;/p&gt;
+&lt;h2 id="年始に立てた目標"&gt;年始に立てた目標&lt;/h2&gt;
+&lt;p&gt;プログラミングのほぼすべての問題は「Aという問題に対してBというツールを使ってCをする」の連続だということに気がつきました。
+「日報を書く時はorg-modeのテンプレートを使って記述する」や「日本語を書く時はskkを使って入力する」など、それぞれの問題は細分化をするとほぼすべてこの形式になります。&lt;/p&gt;</description></item><item><title>2023年のorg-mode活用と今後の抱負</title><link>https://www.takeokunn.org/posts/permanent/20240112071806-my_relationship_with_org_mode_in_2023_and_how_navigate_in_2024/</link><pubDate>Thu, 25 Jan 2024 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/permanent/20240112071806-my_relationship_with_org_mode_in_2023_and_how_navigate_in_2024/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;この記事は&lt;a href="https://vim-jp.org/ekiden/"&gt;Vim駅伝&lt;/a&gt;の2024-01-24の記事です。&lt;/p&gt;
+&lt;p&gt;前回の記事はyasunoriさんの「&lt;a href="https://zenn.dev/vim_jp/articles/0007-vim-recommend-method"&gt;Vimを勧めるときのすヽめ&lt;/a&gt;」です。&lt;/p&gt;
+&lt;p&gt;私にとっての2023年はorg-modeの年でした。
+org-modeで実現できることは何があるのかと、自分にとってのorg-modeはなんなのか、ということに腰を据えてちゃんと向き合えたので実際に取り組んだことを記事にしておきます。&lt;/p&gt;</description></item><item><title>テキストエディタがPHPをシンタックスハイライトする仕組みとモダンテキストエディタ事情について</title><link>https://www.takeokunn.org/posts/permanent/20240107122028-how_to_syntax_highlight_in_text_editor/</link><pubDate>Thu, 18 Jan 2024 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/permanent/20240107122028-how_to_syntax_highlight_in_text_editor/</guid><description>&lt;h2 id="注意"&gt;注意&lt;/h2&gt;
+&lt;p&gt;この記事はPHPerKaigi 2024のパンフレット記事です。A4ページ4枚程度の量を書いています。
+書面での掲載につきハイパーリンクがないことをご了承ください。&lt;/p&gt;</description></item></channel></rss>

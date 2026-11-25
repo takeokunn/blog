@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Rust on takeokunn's blog</title><link>https://www.takeokunn.org/tags/rust/</link><description>Recent content in Rust on takeokunn's blog</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Thu, 25 Dec 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://www.takeokunn.org/tags/rust/index.xml" rel="self" type="application/rss+xml"/><item><title>「The Rust Programming Language 日本語版」の読書記録</title><link>https://www.takeokunn.org/posts/literature/therustp1-online/</link><pubDate>Thu, 25 Dec 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/literature/therustp1-online/</guid><description>&lt;h2 id="文献情報"&gt;文献情報&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;出典: &lt;a href="https://doc.rust-jp.rs/book-ja/title-page.html"&gt;The Rust Programming Language 日本語版&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;著者: Rust日本語ドキュメント翻訳プロジェクト&lt;/li&gt;
+&lt;li&gt;参照日: 2025-12-25&lt;/li&gt;
+&lt;li&gt;種別: オンライン書籍&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="読む目的-背景"&gt;読む目的・背景&lt;/h2&gt;
+&lt;p&gt;社内でRustを使っているため、業務で必要な知識として勉強する必要があった。
+他言語で得た知識で知ったかぶりせず、Rust固有の概念を正確に理解したい。
+特に所有権・借用・ライフタイム・スマートポインタといった概念の本質を理解することを目標とした。&lt;/p&gt;</description></item><item><title>社内読書会でThe Rust Programming Languageを読破した</title><link>https://www.takeokunn.org/posts/permanent/20251220235900-read_the_rust_programming_language/</link><pubDate>Thu, 25 Dec 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/permanent/20251220235900-read_the_rust_programming_language/</guid><description>&lt;h2 id="1-dot-introduction"&gt;1. Introduction&lt;/h2&gt;
+&lt;p&gt;社内でRust本の読書会を開催したのですが、大成功で終わりました。
+過去に社内読書会に参加した経験から、読書会というのはうまくいかないものだと思っていました。
+途中で自然消滅したり、一部の人だけが話して終わったり、結局何も身につかなかったりと、苦い経験がいくつもあります。&lt;/p&gt;</description></item></channel></rss>

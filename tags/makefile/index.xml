@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Makefile on takeokunn's blog</title><link>https://www.takeokunn.org/tags/makefile/</link><description>Recent content in Makefile on takeokunn's blog</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Fri, 11 Jul 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://www.takeokunn.org/tags/makefile/index.xml" rel="self" type="application/rss+xml"/><item><title>Makefileを便利コマンドメモとして使うことに対する違和感</title><link>https://www.takeokunn.org/posts/permanent/20250711132607-why_not_command_memo_makefile/</link><pubDate>Fri, 11 Jul 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/permanent/20250711132607-why_not_command_memo_makefile/</guid><description>&lt;h2 id="追記"&gt;追記&lt;/h2&gt;
+&lt;p&gt;この記事に対するyasunoriの補足記事はこちら。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://blog.yasunori0418.dev/p/appendix-makefile/"&gt;https://blog.yasunori0418.dev/p/appendix-makefile/&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;yasunoriがZennに書いた「&lt;a href="https://zenn.dev/loglass/articles/0016-make-makefile"&gt;職場のプロジェクトに必ず配置しちゃうMakefileの話&lt;/a&gt;」というのがバズっています。
+「コマンドが覚え辛い」という、どのプロジェクトにもあるような問題を「Makefileをコマンドメモとして整える」ことによって解決するという記事でした。
+SNSやvim-jp slackを見ていると賛同の声が多い印象を受けています。&lt;/p&gt;</description></item></channel></rss>

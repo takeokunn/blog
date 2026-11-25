@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Pasword-Store on takeokunn's blog</title><link>https://www.takeokunn.org/tags/pasword-store/</link><description>Recent content in Pasword-Store on takeokunn's blog</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Wed, 10 Jan 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://www.takeokunn.org/tags/pasword-store/index.xml" rel="self" type="application/rss+xml"/><item><title>Authyからpassword-store-otpに移行した</title><link>https://www.takeokunn.org/posts/fleeting/20240110123142-migrate_authy_to_password_store_otp/</link><pubDate>Wed, 10 Jan 2024 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20240110123142-migrate_authy_to_password_store_otp/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20240108211345-migrate_bitwarden_to_password_store/"&gt;Bitwardenからpassword-storeに移行した&lt;/a&gt; でpassword-storeに移行できたので、TOTPも&lt;a href="https://authy.com/"&gt; Authy &lt;/a&gt;から移行する。&lt;/p&gt;
+&lt;h2 id="goal"&gt;Goal&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;過去の案件で使ってたものを断捨離する&lt;/li&gt;
+&lt;li&gt;password-store-otp経由でOTP Codeを取得できるようにする&lt;/li&gt;
+&lt;li&gt;Authy管理しているデータをpassword-storeに移行する&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="not-goal"&gt;Not Goal&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Authyを完全に削除する
+&lt;ul&gt;
+&lt;li&gt;Bitwarden同様数年間使わなくても問題なかったら適切に削除する&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="作業手順"&gt;作業手順&lt;/h2&gt;
+&lt;h3 id="1-dot-password-store-otpを有効にする"&gt;1. password-store-otpを有効にする&lt;/h3&gt;
+&lt;p&gt;私はNixユーザーなので&lt;a href="https://search.nixos.org/packages?channel=23.11&amp;amp;show=pass&amp;amp;from=0&amp;amp;size=50&amp;amp;sort=relevance&amp;amp;type=packages&amp;amp;query=pass"&gt;Nix Packageからpass&lt;/a&gt;を落としてくる。次のような設定で&lt;a href="https://github.com/nix-community/home-manager"&gt;home-manager&lt;/a&gt;経由で入れると勝手にExtensionが有効になる。&lt;/p&gt;</description></item></channel></rss>

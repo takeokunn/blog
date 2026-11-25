@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Org-Mode on takeokunn's blog</title><link>https://www.takeokunn.org/tags/org-mode/</link><description>Recent content in Org-Mode on takeokunn's blog</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Thu, 25 Dec 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://www.takeokunn.org/tags/org-mode/index.xml" rel="self" type="application/rss+xml"/><item><title>blogをdev.toサポートした</title><link>https://www.takeokunn.org/posts/fleeting/20251124235900-support_dev_to/</link><pubDate>Thu, 25 Dec 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20251124235900-support_dev_to/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://github.com/takeokunn/blog"&gt;takeokunn/blog&lt;/a&gt; でdev.toの記事を管理できるようにしたのでメモしておく。&lt;/p&gt;
+&lt;h2 id="試したこと-やったこと"&gt;試したこと・やったこと&lt;/h2&gt;
+&lt;h3 id="1-dot-対応理由整理"&gt;1. 対応理由整理&lt;/h3&gt;
+&lt;p&gt;&lt;a href="https://github.com/takeokunn/blog"&gt;takeokunn/blog&lt;/a&gt; は次の3つのターゲットに対してorg-roamでコンテンツ管理をしている。&lt;/p&gt;</description></item><item><title>org-roam-ui-liteでblogの関係性を可視化する</title><link>https://www.takeokunn.org/posts/fleeting/20250511015532-host_org_roam_ui_lite/</link><pubDate>Sat, 10 May 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250511015532-host_org_roam_ui_lite/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://www.takeokunn.org/posts/permanent/20231219122351-how_to_manage_blog_by_org_roam/"&gt;org-roamで記事を管理しGitHub Actionsで適切に公開する&lt;/a&gt; に書いたとおり &lt;a href="https://www.takeokunn.org/"&gt;takeokunn.org&lt;/a&gt; は &lt;a href="https://www.orgroam.com/"&gt;org-roam&lt;/a&gt; で管理している。&lt;/p&gt;
+&lt;p&gt;org-roamの可視化ツールに &lt;a href="https://github.com/org-roam/org-roam-ui"&gt;org-roam-ui&lt;/a&gt; があるが、次のような問題を抱えていた。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Next.jsでリッチに作られすぎてる
+&lt;ul&gt;
+&lt;li&gt;NixでPackagingするのが大変&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;GitHub ActionsでBuildするのが大変&lt;/li&gt;
+&lt;li&gt;GitHub PagesでHostingするのが大変&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;GitHub Pagesに継続的にHostingする仕組みを作りたいと考えて早n年経っていたが、taniさんが &lt;a href="https://github.com/tani/org-roam-ui-lite"&gt;org-roam-ui-lite&lt;/a&gt; という軽量なorg-roam-uiを作ってくれたので今回導入してみた。&lt;/p&gt;</description></item><item><title>Typstテーマを自作した</title><link>https://www.takeokunn.org/posts/fleeting/20250506220914-create_typst_slide_theme/</link><pubDate>Tue, 06 May 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250506220914-create_typst_slide_theme/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20250126114218-build_and_deploy_typst_using_nix/"&gt;NixでTypstをBuildしGitHub Pagesでホスティングする&lt;/a&gt; でTypstから生成したPDFスライドを配信する仕組みを作った。
+今後の登壇は可能な限りTypstから生成するつもりなのでテーマを自作した。&lt;/p&gt;</description></item><item><title>credential管理をorg-encryptからpassword-storeに移行した</title><link>https://www.takeokunn.org/posts/fleeting/20250414001634-migrate_credential_manager_to_password_store/</link><pubDate>Mon, 14 Apr 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250414001634-migrate_credential_manager_to_password_store/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;credential管理をorg-encryptからpassword-storeに移行したので作業内容をメモしておく。&lt;/p&gt;
+&lt;h2 id="現状の運用と問題"&gt;現状の運用と問題&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20250127144907-my_usage_org_crypt/"&gt;org-crypt運用メモ&lt;/a&gt; に書いたとおり、 &lt;code&gt;~/.aws/credentials&lt;/code&gt; のような秘匿情報を &lt;code&gt;secret.org&lt;/code&gt; を &lt;code&gt;org-babel-tangle&lt;/code&gt; して出力していた。&lt;/p&gt;</description></item><item><title>org-crypt運用メモ</title><link>https://www.takeokunn.org/posts/fleeting/20250127144907-my_usage_org_crypt/</link><pubDate>Mon, 27 Jan 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250127144907-my_usage_org_crypt/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;org-crypt&lt;/code&gt; の使い方をイマイチに理解していなかったが、ふと調べてたら急に理解が進んだ。&lt;/p&gt;
+&lt;p&gt;個人的な運用が固まったのでメモしておく。&lt;/p&gt;
+&lt;h2 id="motivation"&gt;Motivation&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;~/.aws/credentials&lt;/code&gt; のような秘匿情報を &lt;code&gt;secret.org.gpg&lt;/code&gt; から &lt;code&gt;org-babel-tangle&lt;/code&gt; から出力していた。
+ファイルごとGPGで暗号化すると &lt;code&gt;git diff&lt;/code&gt; がきれいに取れないので地味に困っていた。&lt;/p&gt;</description></item><item><title>NixでTypstをBuildしGitHub Pagesでホスティングする</title><link>https://www.takeokunn.org/posts/fleeting/20250126114218-build_and_deploy_typst_using_nix/</link><pubDate>Sun, 26 Jan 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250126114218-build_and_deploy_typst_using_nix/</guid><description>&lt;h2 id="背景"&gt;背景&lt;/h2&gt;
+&lt;p&gt;スライドや組版記事を生成する為にTypstを採用することにした。
+工数を最小限に安定的に量産できるようなしくみを整える必要が迫られていたので、今回対応したことをメモしておく。&lt;/p&gt;</description></item><item><title>2023年のorg-mode活用と今後の抱負</title><link>https://www.takeokunn.org/posts/permanent/20240112071806-my_relationship_with_org_mode_in_2023_and_how_navigate_in_2024/</link><pubDate>Thu, 25 Jan 2024 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/permanent/20240112071806-my_relationship_with_org_mode_in_2023_and_how_navigate_in_2024/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;この記事は&lt;a href="https://vim-jp.org/ekiden/"&gt;Vim駅伝&lt;/a&gt;の2024-01-24の記事です。&lt;/p&gt;
+&lt;p&gt;前回の記事はyasunoriさんの「&lt;a href="https://zenn.dev/vim_jp/articles/0007-vim-recommend-method"&gt;Vimを勧めるときのすヽめ&lt;/a&gt;」です。&lt;/p&gt;
+&lt;p&gt;私にとっての2023年はorg-modeの年でした。
+org-modeで実現できることは何があるのかと、自分にとってのorg-modeはなんなのか、ということに腰を据えてちゃんと向き合えたので実際に取り組んだことを記事にしておきます。&lt;/p&gt;</description></item><item><title>ob-phpstanを作った</title><link>https://www.takeokunn.org/posts/permanent/20230416154043-create_ob_phpstan/</link><pubDate>Sun, 16 Apr 2023 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/permanent/20230416154043-create_ob_phpstan/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;最近&lt;a href="https://phpstan.org/"&gt;phpstan&lt;/a&gt;を弄ることが増えたのですが、逐一&lt;a href="https://phpstan.org/try"&gt;playground&lt;/a&gt;を開いてWebエディタ内で編集をするのが面倒に感じていました。
+org-mode内で完結をするようにしたいと考えるのはEmacsユーザーなら当然の発想です。
+そこで今回は &lt;code&gt;org-babel&lt;/code&gt; 経由でphpstanの実行結果をorg内で管理できるようにしました。&lt;/p&gt;</description></item></channel></rss>

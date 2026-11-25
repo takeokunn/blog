@@ -1,0 +1,613 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>takeokunn's blog</title><link>https://www.takeokunn.org/</link><description>Recent content on takeokunn's blog</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Sat, 10 Jan 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://www.takeokunn.org/index.xml" rel="self" type="application/rss+xml"/><item><title>nix-darwinのlinux-builderでNixOSを動かす</title><link>https://www.takeokunn.org/posts/fleeting/20251130151735-run_nixos_apple_linux_builder/</link><pubDate>Sat, 10 Jan 2026 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20251130151735-run_nixos_apple_linux_builder/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;元々OrbStack VMでNixOSを動かしていたのだが、k8sを動かす時にOrbStackだと動かずDocker for Macだと動くという事象が発生した。&lt;/p&gt;</description></item><item><title>2025年12月 個人的claude codeワークフロー</title><link>https://www.takeokunn.org/posts/permanent/20251220235900-my_claude_code_workflow/</link><pubDate>Tue, 30 Dec 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/permanent/20251220235900-my_claude_code_workflow/</guid><description>&lt;h2 id="1-dot-はじめに"&gt;1. はじめに&lt;/h2&gt;
+&lt;p&gt;Claude Codeを本格的に使い始めました。&lt;/p&gt;
+&lt;p&gt;最初はGitHub Copilotと同じ感覚で、コード生成ツールの延長として使っていたのですが、あるとき気づきました。「セキュリティレビューをお願いしたら、コードスタイルの指摘ばかり返ってきた」「昨日と同じ質問をしたのに、まったく違うフォーマットで回答された」「プロジェクトの規約を毎回説明するのが面倒」。これ、Claude Codeの問題じゃなくて、自分の使い方の問題でした。&lt;/p&gt;</description></item><item><title>「The Rust Programming Language 日本語版」の読書記録</title><link>https://www.takeokunn.org/posts/literature/therustp1-online/</link><pubDate>Thu, 25 Dec 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/literature/therustp1-online/</guid><description>&lt;h2 id="文献情報"&gt;文献情報&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;出典: &lt;a href="https://doc.rust-jp.rs/book-ja/title-page.html"&gt;The Rust Programming Language 日本語版&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;著者: Rust日本語ドキュメント翻訳プロジェクト&lt;/li&gt;
+&lt;li&gt;参照日: 2025-12-25&lt;/li&gt;
+&lt;li&gt;種別: オンライン書籍&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="読む目的-背景"&gt;読む目的・背景&lt;/h2&gt;
+&lt;p&gt;社内でRustを使っているため、業務で必要な知識として勉強する必要があった。
+他言語で得た知識で知ったかぶりせず、Rust固有の概念を正確に理解したい。
+特に所有権・借用・ライフタイム・スマートポインタといった概念の本質を理解することを目標とした。&lt;/p&gt;</description></item><item><title>blogをdev.toサポートした</title><link>https://www.takeokunn.org/posts/fleeting/20251124235900-support_dev_to/</link><pubDate>Thu, 25 Dec 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20251124235900-support_dev_to/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://github.com/takeokunn/blog"&gt;takeokunn/blog&lt;/a&gt; でdev.toの記事を管理できるようにしたのでメモしておく。&lt;/p&gt;
+&lt;h2 id="試したこと-やったこと"&gt;試したこと・やったこと&lt;/h2&gt;
+&lt;h3 id="1-dot-対応理由整理"&gt;1. 対応理由整理&lt;/h3&gt;
+&lt;p&gt;&lt;a href="https://github.com/takeokunn/blog"&gt;takeokunn/blog&lt;/a&gt; は次の3つのターゲットに対してorg-roamでコンテンツ管理をしている。&lt;/p&gt;</description></item><item><title>Neovimの設定をNixvimに移行した</title><link>https://www.takeokunn.org/posts/fleeting/20251124235900-migrate_nixvim/</link><pubDate>Thu, 25 Dec 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20251124235900-migrate_nixvim/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;私はEmacsユーザだが、最近同僚エンジニアが全員Neovimユーザの会社に転職してしまった。
+よい機会だしある程度Neovimを使えた方がいいなと思い、Neovimをひととおり設定したのでメモしておく。&lt;/p&gt;</description></item><item><title>社内読書会でThe Rust Programming Languageを読破した</title><link>https://www.takeokunn.org/posts/permanent/20251220235900-read_the_rust_programming_language/</link><pubDate>Thu, 25 Dec 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/permanent/20251220235900-read_the_rust_programming_language/</guid><description>&lt;h2 id="1-dot-introduction"&gt;1. Introduction&lt;/h2&gt;
+&lt;p&gt;社内でRust本の読書会を開催したのですが、大成功で終わりました。
+過去に社内読書会に参加した経験から、読書会というのはうまくいかないものだと思っていました。
+途中で自然消滅したり、一部の人だけが話して終わったり、結局何も身につかなかったりと、苦い経験がいくつもあります。&lt;/p&gt;</description></item><item><title>複数人でAirbnbを借りた時の清算方法</title><link>https://www.takeokunn.org/posts/fleeting/20251130154336-airbnb_warikan/</link><pubDate>Thu, 25 Dec 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20251130154336-airbnb_warikan/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;毎年VimConfでは秋葉原付近に2泊3日でAirbnbを借りて参加している。
+10人くらい入れる物件を借りて、複数人が色んなパターンで遊びに来る。
+きれいに清算をしたい時のTipsをメモしておく。&lt;/p&gt;</description></item><item><title>digツールはdoggoが便利</title><link>https://www.takeokunn.org/posts/fleeting/20251220235900-dig_tool_doggo/</link><pubDate>Wed, 24 Dec 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20251220235900-dig_tool_doggo/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;インフラ構築する時にdigを叩くことは必須なのだが、2025年にdigコマンドをそのまま使うのは流石に辛い。
+もう少しリッチなものがないか調べた所、doggoが良さそうだったので導入してみた。&lt;/p&gt;</description></item><item><title>Typst SlideのDracula Light Theme作成した</title><link>https://www.takeokunn.org/posts/fleeting/20251124235900-typst_slide_light_theme/</link><pubDate>Wed, 24 Dec 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20251124235900-typst_slide_light_theme/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20250506220914-create_typst_slide_theme/"&gt;Typstテーマを自作した&lt;/a&gt; でDrauclaテーマのスライドを自作したのだが、実際登壇してみるとダークテーマは登壇会場によっては見にくくなってしまうことがわかった。
+Draculaテーマだけでなくライトテーマでも生成できるようにしなくちゃいけなくなったので自作してみた。&lt;/p&gt;</description></item><item><title>技術イベントのパンフレット記事をTypstでBuildする</title><link>https://www.takeokunn.org/posts/fleeting/20251130140627-build_pamphlet_article_by_typst/</link><pubDate>Wed, 24 Dec 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20251130140627-build_pamphlet_article_by_typst/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;組版が必要なあらゆるものはTypstを採用することにしている。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20250619103829-build_cv_resume_with_typst/"&gt;Typstで履歴書と職務経歴書をBuildする&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20250610215948-ai_powered_typst_slide_generation/"&gt;AIを駆使してTypstスライドを生成する&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20250126114218-build_and_deploy_typst_using_nix/"&gt;NixでTypstをBuildしGitHub Pagesでホスティングする&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;パンフレット記事や同人誌の組版をする時にも例に漏れずTypstで作成しているのでメモしておく。&lt;/p&gt;</description></item><item><title>gitleaksを導入した</title><link>https://www.takeokunn.org/posts/fleeting/20251222124101-setup_gitleaks/</link><pubDate>Tue, 23 Dec 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20251222124101-setup_gitleaks/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;秘密鍵をgit commitしないようにしたいと以前から考えていた。
+大体のプロジェクトのCIにsecretlintを導入していたが、手元でもpre-commitでも設定したいと思っていた所、gitleaksなら設定不要で楽に導入できることが分かったので導入した。&lt;/p&gt;</description></item><item><title>簡易的なヒューリスティックパーサの自作方法</title><link>https://www.takeokunn.org/posts/fleeting/20251220235900-how_to_build_a_simple_heuristic_parser/</link><pubDate>Tue, 23 Dec 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20251220235900-how_to_build_a_simple_heuristic_parser/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;クローリング結果や業務で使ってるデータベースの値など世の中にはDirtyな値が山のようにある。
+一定のルールで正規化した値を取得したい場合にヒューリスティックパーサが便利。&lt;/p&gt;</description></item><item><title>emacs wgrepが便利だった</title><link>https://www.takeokunn.org/posts/fleeting/20251130141030-emacs_wgrep/</link><pubDate>Tue, 02 Dec 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20251130141030-emacs_wgrep/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;本記事は &lt;a href="https://qiita.com/advent-calendar/2025/emacs"&gt;Emacs Advent Calendar 2025&lt;/a&gt; の2日目の記事です。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20251128124639-emacs_wdired_mode/"&gt;emacs wdiredが便利だった&lt;/a&gt; でwgrepも便利だということが判明したのでこちらも調査してみる。&lt;/p&gt;
+&lt;h2 id="試したこと-やったこと"&gt;試したこと・やったこと&lt;/h2&gt;
+&lt;h3 id="1-dot-wgrepの機能調査"&gt;1. wgrepの機能調査&lt;/h3&gt;
+&lt;p&gt;&lt;a href="https://github.com/mhayashi1120/Emacs-wgrep"&gt;mhayashi1120/Emacs-wgrep&lt;/a&gt; のサードパーティpackageでMelpaから落とすことができる。&lt;/p&gt;</description></item><item><title>個人的sketchybar設定</title><link>https://www.takeokunn.org/posts/fleeting/20251124235900-setting_sketchybar/</link><pubDate>Sun, 30 Nov 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20251124235900-setting_sketchybar/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20251124235900-setting_aerospace/"&gt;個人的Aerospace設定&lt;/a&gt; に続き、sketchybarの設定もしたのでメモしておく。&lt;/p&gt;
+&lt;p&gt;大体の対応は公式ドキュメントを元にClaude Codeに対応させた。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://felixkratz.github.io/SketchyBar/"&gt;https://felixkratz.github.io/SketchyBar/&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id="試したこと-やったこと"&gt;試したこと・やったこと&lt;/h2&gt;
+&lt;h3 id="1-dot-完成イメージと設計方針"&gt;1. 完成イメージと設計方針&lt;/h3&gt;
+&lt;p&gt;世の中のsketchybarのサンプルを作成して、こんな感じで作る目論見を立てた。&lt;/p&gt;</description></item><item><title>emacs wdiredが便利だった</title><link>https://www.takeokunn.org/posts/fleeting/20251128124639-emacs_wdired_mode/</link><pubDate>Sat, 29 Nov 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20251128124639-emacs_wdired_mode/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://x.com/ryoppippi"&gt;ryoppippi&lt;/a&gt; の「【外資ITエンジニアの開発環境】VimmerによるVimmer（になりたい人）のためのVim動画」という動画を見た。&lt;/p&gt;
+&lt;p&gt;{{&amp;lt; youtube id=&amp;ldquo;XsAlXYWzcv4&amp;rdquo; title=&amp;quot;【外資ITエンジニアの開発環境】VimmerによるVimmer（になりたい人）のためのVim動画&amp;quot; &amp;gt;}}&lt;/p&gt;</description></item><item><title>k9sをDracula Theme対応した</title><link>https://www.takeokunn.org/posts/fleeting/20251124235900-k9s_dracula_theme/</link><pubDate>Sat, 29 Nov 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20251124235900-k9s_dracula_theme/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;最近仕事でkubernetesを使う機会に恵まれた。
+kubernetesを使うにあたって、モニタリングツールは&lt;a href="https://k9scli.io/"&gt;k9s&lt;/a&gt;がデファクトのようなのでhome-managerを使って導入した。
+「すべてのツールのカラーテーマはdracula themeに寄せる」という方針なので漏れなく対応した。&lt;/p&gt;</description></item><item><title>個人的Aerospace設定</title><link>https://www.takeokunn.org/posts/fleeting/20251124235900-setting_aerospace/</link><pubDate>Sat, 29 Nov 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20251124235900-setting_aerospace/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;タイル型Window Managerは割と好きで、Linux Desktopではswayを使っているのだが、macOSでも使いたいと思っていた。
+macOSでは昔ながらの&lt;a href="https://github.com/koekeishiya/yabai"&gt;yabai&lt;/a&gt;と後発の&lt;a href="https://github.com/nikitabobko/AeroSpace"&gt;AeroSpace&lt;/a&gt;があるが、AeroSpaceで自分のユースケースをすべて満たせていたので採用した。&lt;/p&gt;</description></item><item><title>Geminiで専門家カスタムGemを作る</title><link>https://www.takeokunn.org/posts/fleeting/20250727134126-build_your_gemini_expert/</link><pubDate>Sun, 27 Jul 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250727134126-build_your_gemini_expert/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;普段使いのチャットベースのAIサービスを完全にGeminiに寄せる決断ができた。
+元々ChatGPTやClaudeを使っていたが、次の理由でGeminiがいいだろうという結論に落ち着いた。&lt;/p&gt;</description></item><item><title>プロポーザルの出し方・心構え</title><link>https://www.takeokunn.org/posts/fleeting/20250722020425-proposal_guide/</link><pubDate>Tue, 22 Jul 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250722020425-proposal_guide/</guid><description>&lt;h2 id="1-dot-introduction"&gt;1. Introduction&lt;/h2&gt;
+&lt;p&gt;最近プロポーザルの出し方について話す機会が身近で増えました。
+私自身、過去にPHPカンファレンスなどの技術イベントで何度も登壇した経験があります。
+本記事ではそうした経験から得られたプロポーザルを書く上での心構えや具体的なTipsについて解説します。&lt;/p&gt;</description></item><item><title>Hugoで生成したブログにllms.txtとllms-full.txtを導入した</title><link>https://www.takeokunn.org/posts/fleeting/20250718160938-add_llms_txt/</link><pubDate>Fri, 18 Jul 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250718160938-add_llms_txt/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://tech.basemachina.jp/entry/llms-full-txt-ai-support-chat"&gt;llms-full.txtで始めるAIサポートチャット - basemachina&lt;/a&gt; を読んだ。&lt;/p&gt;
+&lt;p&gt;最近gemini-cliで文章を書かせることが増えたので、自分の文章スタイルを学習させればブログを半自動生成できるんだろうなと思ったので試してみた。&lt;/p&gt;</description></item><item><title>Makefileを便利コマンドメモとして使うことに対する違和感</title><link>https://www.takeokunn.org/posts/permanent/20250711132607-why_not_command_memo_makefile/</link><pubDate>Fri, 11 Jul 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/permanent/20250711132607-why_not_command_memo_makefile/</guid><description>&lt;h2 id="追記"&gt;追記&lt;/h2&gt;
+&lt;p&gt;この記事に対するyasunoriの補足記事はこちら。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://blog.yasunori0418.dev/p/appendix-makefile/"&gt;https://blog.yasunori0418.dev/p/appendix-makefile/&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;yasunoriがZennに書いた「&lt;a href="https://zenn.dev/loglass/articles/0016-make-makefile"&gt;職場のプロジェクトに必ず配置しちゃうMakefileの話&lt;/a&gt;」というのがバズっています。
+「コマンドが覚え辛い」という、どのプロジェクトにもあるような問題を「Makefileをコマンドメモとして整える」ことによって解決するという記事でした。
+SNSやvim-jp slackを見ていると賛同の声が多い印象を受けています。&lt;/p&gt;</description></item><item><title>はてなブックマークコメント非表示にした</title><link>https://www.takeokunn.org/posts/fleeting/20250709113618-disable_hatena_bookmark_comment/</link><pubDate>Wed, 09 Jul 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250709113618-disable_hatena_bookmark_comment/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;バズった記事のはてなブックマークのコメントを見る度に、嫉妬や見苦しいコメントが際立つなという感想を長年持っていた。&lt;/p&gt;
+&lt;p&gt;自分のブログがはてなブックマークで書かれたことはないが、変な火種を生んでもしょうがないので非表示にすることにした。&lt;/p&gt;</description></item><item><title>GitHub Actions上でtblsを使ってスキーマ情報を取得してAIでSQLを生成する</title><link>https://www.takeokunn.org/posts/fleeting/20250628165348-github_actions_tbls_ai_sql_generation/</link><pubDate>Sat, 28 Jun 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250628165348-github_actions_tbls_ai_sql_generation/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;日頃から &lt;a href="https://github.com/k1LoW/tbls"&gt;k1LoW/tbls&lt;/a&gt; を 利用しているが、個人的に気に入ってる運用をメモしておく。&lt;/p&gt;
+&lt;h2 id="試したこと-やったこと"&gt;試したこと・やったこと&lt;/h2&gt;
+&lt;h3 id="1-dot-github-actionsでdbに入れつつtblsを実行する"&gt;1. GitHub ActionsでDBに入れつつtblsを実行する&lt;/h3&gt;
+&lt;p&gt;&lt;a href="https://k1low.hatenablog.com/entry/2023/02/16/093315"&gt;tblsをセットアップするGitHub Actionとしてsetup-tbls（を作るツールとしてgh-setup）を作った&lt;/a&gt; にもあるとおり、&lt;a href="https://github.com/k1low/setup-tbls"&gt;k1low/setup-tbls&lt;/a&gt; を利用すればGitHub Actions上でtblsを簡単に利用できる。&lt;/p&gt;</description></item><item><title>php-srcとyieldについて調査メモ</title><link>https://www.takeokunn.org/posts/fleeting/20250625115611-yield_in_php_src/</link><pubDate>Wed, 25 Jun 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250625115611-yield_in_php_src/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://github.com/php/php-src"&gt;php/php-src&lt;/a&gt; でyieldはどう扱われているのか調査したのでメモしておく。&lt;/p&gt;
+&lt;h2 id="試したこと-やったこと"&gt;試したこと・やったこと&lt;/h2&gt;
+&lt;h3 id="rfcを読む"&gt;RFCを読む&lt;/h3&gt;
+&lt;p&gt;2012/06/05にNikita Popov氏が「Request for Comments: Generators」というRFCを出している。
+yield構文はPHP 5.5で導入されたようだ。&lt;/p&gt;</description></item><item><title>node2nixの使い方</title><link>https://www.takeokunn.org/posts/fleeting/20250622133346-how_to_use_node2nix/</link><pubDate>Sun, 22 Jun 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250622133346-how_to_use_node2nix/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;最近のAIツールの隆盛でnpm packageを使う機会が増えてきた。
+MCP実行するpackageの管理や、claude codeのようなpackageの管理をNixなどが具体例として挙げられる。&lt;/p&gt;</description></item><item><title>Typstで履歴書と職務経歴書をBuildする</title><link>https://www.takeokunn.org/posts/fleeting/20250619103829-build_cv_resume_with_typst/</link><pubDate>Thu, 19 Jun 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250619103829-build_cv_resume_with_typst/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;直近履歴書と職務経歴書を書く必要があった。&lt;/p&gt;
+&lt;p&gt;以前はGoogle Docsやpagesを使って適当に書いていたのだが、これからのAI時代はコードベースで管理できた方がよいだろうということで移行を決意した。
+最近Typst推しなのでTypstからPDFをNix Buildで生成できるようにしてみた。&lt;/p&gt;</description></item><item><title>React Router v7周辺キャッチアップメモ</title><link>https://www.takeokunn.org/posts/fleeting/20250616132230-catch_up_react_router_v7/</link><pubDate>Mon, 16 Jun 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250616132230-catch_up_react_router_v7/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;普段からWebフロントエンドは書いているものの、2025年6月現在の最新のフロントエンド事情は追えていなかった。
+最後にWebフロントエンドを追っていたのが2021年頃だったので3〜4年のビハインドがあった。
+2021年頃はNext.jsが最盛期でNext.js一択だった。&lt;/p&gt;</description></item><item><title>home-managerで自作moduleを作る</title><link>https://www.takeokunn.org/posts/fleeting/20250613195154-home_manager_custom_module/</link><pubDate>Sat, 14 Jun 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250613195154-home_manager_custom_module/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;home-managerには沢山のmoduleが提供されている。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/nix-community/home-manager/tree/master/modules"&gt;https://github.com/nix-community/home-manager/tree/master/modules&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;home-manager moduleは自分でも作成可能なので後学のためにメモしておく。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/takeokunn/nixos-configuration/tree/e2cf7d9df556a56e242b3f44b0957884cd6191dd/home-manager/modules"&gt;https://github.com/takeokunn/nixos-configuration/tree/e2cf7d9df556a56e242b3f44b0957884cd6191dd/home-manager/modules&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id="試したこと-やったこと"&gt;試したこと・やったこと&lt;/h2&gt;
+&lt;h3 id="0-dot-なぜやるのかの整理"&gt;0. なぜやるのかの整理&lt;/h3&gt;
+&lt;p&gt;大きく分けて3パターンが考えられる。&lt;/p&gt;</description></item><item><title>AIを駆使してTypstスライドを生成する</title><link>https://www.takeokunn.org/posts/fleeting/20250610215948-ai_powered_typst_slide_generation/</link><pubDate>Tue, 10 Jun 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250610215948-ai_powered_typst_slide_generation/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20250608145128-presenting_with_typst_pdfpc/"&gt;Typstとpdfpcでプレゼン機能を実現する&lt;/a&gt; のNext Actionに次のようなことを書いた。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;登壇の場数を踏んでより洗練させていきたい。
+登壇周りのすべてがプレーンテキスト（Org）で管理できるようになったので、次はAIによるスライド生成にチャレンジしたい。&lt;/p&gt;
+&lt;/blockquote&gt;</description></item><item><title>About Me</title><link>https://www.takeokunn.org/about/</link><pubDate>Sun, 08 Jun 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/about/</guid><description>&lt;h2 id="hello-world"&gt;Hello World&lt;/h2&gt;
+&lt;p&gt;Webエンジニアとして日々ものづくりを楽しんでいるたけてぃ（@takeokunn）です。
+このページでは、私の仕事としての活動と、個人としての技術探究を分けてご紹介します。&lt;/p&gt;</description></item><item><title>EventBridge Ruleデバッグ方法メモ</title><link>https://www.takeokunn.org/posts/fleeting/20250608160858-how_to_debug_eventbridge_rule/</link><pubDate>Sun, 08 Jun 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250608160858-how_to_debug_eventbridge_rule/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;業務をしていると、「EventBridgeでメタ情報を付与してSQSに流す」といった要件に出くわす機会がある。&lt;/p&gt;
+&lt;p&gt;e.g. &lt;a href="https://docs.google.com/presentation/d/1_vOdQO0SY671SRQpnpEz1xvVyUy-Vzl_Dk4Ph6ujy84/edit?slide=id.p#slide=id.p"&gt;AWS SQSとLaravelで大規模トラフィックを捌く - phpcon新潟&lt;/a&gt;&lt;/p&gt;</description></item><item><title>Typstとpdfpcでプレゼン機能を実現する</title><link>https://www.takeokunn.org/posts/fleeting/20250608145128-presenting_with_typst_pdfpc/</link><pubDate>Sun, 08 Jun 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250608145128-presenting_with_typst_pdfpc/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;Typstでスライドを作るフローがだいぶ固まってきた。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20250126114218-build_and_deploy_typst_using_nix/"&gt;NixでTypstをBuildしGitHub Pagesでホスティングする&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20250506220914-create_typst_slide_theme/"&gt;Typstテーマを自作した&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20250601214129-create_slide_by_typst_self_theme/"&gt;Typst自作テーマで登壇スライドを作成した&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;過去に普段資料はGoogle Slideで作成していたのだが、次の理由でGoogle Slideを使っていた。&lt;/p&gt;</description></item><item><title>Typst自作テーマで登壇スライドを作成した</title><link>https://www.takeokunn.org/posts/fleeting/20250601214129-create_slide_by_typst_self_theme/</link><pubDate>Sun, 01 Jun 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250601214129-create_slide_by_typst_self_theme/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://nix-ja.connpass.com/event/353532/"&gt;Nix meetup #3 大阪&lt;/a&gt; で大阪への新幹線の中で登壇スライドを作成した。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.takeokunn.org/pdf/nix-meetup-3-my-nix-usecase.pdf"&gt;https://www.takeokunn.org/pdf/nix-meetup-3-my-nix-usecase.pdf&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;今まではGoogle Slideでスライドを作成していたが、今回は &lt;a href="https://www.takeokunn.org/posts/fleeting/20250506220914-create_typst_slide_theme/"&gt;Typstテーマを自作した&lt;/a&gt; にもあるとおり自作テーマで初の登壇仕様を作成してみた。&lt;/p&gt;</description></item><item><title>keyoxideセットアップ</title><link>https://www.takeokunn.org/posts/fleeting/20250528112340-setup_keyoxide/</link><pubDate>Wed, 28 May 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250528112340-setup_keyoxide/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;友人のこまもか君（@Comamoca_）がTwitterでなりすましをされていた。&lt;/p&gt;
+&lt;blockquote class="twitter-tweet"&gt;&lt;p lang="ja" dir="ltr"&gt;なりすましを発見したので本物であることを主張しておきますね〜&lt;br&gt;&lt;br&gt;署名済みテキスト:&lt;a href="https://t.co/Q5jcSsJACw"&gt;https://t.co/Q5jcSsJACw&lt;/a&gt;&lt;br&gt;&lt;br&gt;keybase:&lt;br&gt;僕のGitコミットは基本的にkeybase管理下のPGP鍵で署名してるので、なんか怪しい人いたら各自検証してください&lt;br&gt;🙏&lt;a href="https://t.co/ufJ5K1j5ig"&gt;https://t.co/ufJ5K1j5ig&lt;/a&gt;&lt;/p&gt;&amp;mdash; こまもか🦊 (@Comamoca_) &lt;a href="https://twitter.com/Comamoca_/status/1927205397250646518?ref_src=twsrc%5Etfw"&gt;May 27, 2025&lt;/a&gt;&lt;/blockquote&gt; &lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8"&gt;&lt;/script&gt;
+&lt;p&gt;自分はまだされたことがないが、将来的になりすまされた時の為に今のうちに手を打っておこうということで今回対応した。&lt;/p&gt;</description></item><item><title>Excelファイルをtxtファイルに変換してNotebookLMに食わせる</title><link>https://www.takeokunn.org/posts/fleeting/20250523220142-migrate_excel_to_csv_and_import_notebooklm/</link><pubDate>Fri, 23 May 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250523220142-migrate_excel_to_csv_and_import_notebooklm/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;利用規約の関係で明確に言及できないが、某ECプラットフォーム（以下 A社）とのAPI連携を実装していた。&lt;/p&gt;
+&lt;p&gt;A社のAPI含む全体的なドキュメントの管理方法は次のようになっている。&lt;/p&gt;</description></item><item><title>DeepWiki調査メモ</title><link>https://www.takeokunn.org/posts/fleeting/20250518171454-deepwiki_memo/</link><pubDate>Sun, 18 May 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250518171454-deepwiki_memo/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;Devin社が開発したDeepWikiが世間を賑わせていた。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://deepwiki.com/"&gt;https://deepwiki.com/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://huggingface.co/blog/lynn-mikami/deepwiki-ja"&gt;DeepWiki: あらゆるGitHubリポジトリに対応する最高のAIドキュメントジェネレーター&lt;/a&gt; にもあるとおり、DeepWikiは次のような機能を提供してくれている。
+DeepWikiが生成するドキュメントは圧倒的に質が高く、まさしく顧客が求めていたものを提供してくれているなという感想。&lt;/p&gt;</description></item><item><title>Emacs lsp-modeに新しいClientを追加する方法</title><link>https://www.takeokunn.org/posts/fleeting/20250518160750-how_to_contribute_emacs_lsp_mode/</link><pubDate>Sun, 18 May 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250518160750-how_to_contribute_emacs_lsp_mode/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;メジャーなEmacsのLSP Clientは3種類ある。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/joaotavora/eglot"&gt;eglot&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/emacs-lsp/lsp-mode"&gt;lsp-mode&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/manateelazycat/lsp-bridge"&gt;lsp-bridge&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;それぞれメリットデメリットがあるが、自分としてはlsp-modeを推していて今後も使い続けるつもりでいる。
+lsp-mode最大のメリットはClientサポート数の多さにあり、メジャーなLSP Clientなら必ず収録されていると言っても過言ではない。&lt;/p&gt;</description></item><item><title>GitHub Actions内で署名付きCommitをする</title><link>https://www.takeokunn.org/posts/fleeting/20250518201409-signed_commit_in_github_actions/</link><pubDate>Sun, 18 May 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250518201409-signed_commit_in_github_actions/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20250402001222-setup_private_terraform_github_provider/"&gt;Terraform GitHub Providerを導入した&lt;/a&gt; で署名付きCommitを強制するBranch Ruleを網羅的に適用した。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-terraform" data-lang="terraform"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="kr"&gt;resource&lt;/span&gt; &lt;span class="s2"&gt;&amp;#34;github_repository_ruleset&amp;#34;&lt;/span&gt; &lt;span class="s2"&gt;&amp;#34;default-branch&amp;#34;&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;#34;main&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;repository&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;#34;repo-name&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;target&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;#34;branch&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;enforcement&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;#34;active&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;conditions&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;ref_name&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;include&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;~DEFAULT_BRANCH&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;exclude&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;rules&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;required_signatures&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;true&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nx"&gt;non_fast_forward&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;true&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;2025年5月現在、 &lt;a href="https://github.com/takeokunn/nixos-configuration"&gt;takeokunn/nixos-configuration&lt;/a&gt; では次のGitHub Actionsが動いている。&lt;/p&gt;</description></item><item><title>個人的Local環境のGit Branch運用について</title><link>https://www.takeokunn.org/posts/fleeting/20250518144557-local_git_branch_operation/</link><pubDate>Sun, 18 May 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250518144557-local_git_branch_operation/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;複数人で触っているRepoをLocalでGit操作する時、次のような問題が発生していた。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;直pushしてしまった&lt;/li&gt;
+&lt;li&gt;意図しない作業ブランチで作業してしまった&lt;/li&gt;
+&lt;li&gt;コンフリクト解消ミスで本来必要なコードを消してしまう&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;GitHubのBranch RuleやCIなどでミスを防ぐべきだが、そういうのが整っていない環境というのは多々ある。
+自衛のために個人的に行っているGit Branch運用について纏めておく。&lt;/p&gt;</description></item><item><title>2025年5月 Macの再インストール手順メモ</title><link>https://www.takeokunn.org/posts/fleeting/20250514222418-reinstall_mac_with_nix/</link><pubDate>Wed, 14 May 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250514222418-reinstall_mac_with_nix/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;たまたまMacを再インストールする必要があった。
+普段、手元のマシンの環境構築手順を洗練させてたお陰で少ないステップで構築できたので何をやったのか後学の為にメモしておく。&lt;/p&gt;</description></item><item><title>巨大なLaravelレポジトリでphpactorを使うTips</title><link>https://www.takeokunn.org/posts/fleeting/20250515004832-phpactor_performance_huge_projects/</link><pubDate>Wed, 14 May 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250515004832-phpactor_performance_huge_projects/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;手元で &lt;a href="https://intelephense.com/"&gt;intelephense&lt;/a&gt; が最近調子が悪く、定義ジャンプや補完が全然効かなくなってしまった。&lt;/p&gt;
+&lt;p&gt;phpactorの方がintelephenseよりもちゃんと機能してくれる肌感があったが、いかんせん大きいプロジェクトでは重く使いものにならない印象を持っていた。
+しかし、phpactor周辺の設定を徹底したら快適に動くようになってくれたので対応項目をメモしておく。&lt;/p&gt;</description></item><item><title>GPG KeyのYubiKey運用をはじめた</title><link>https://www.takeokunn.org/posts/fleeting/20250514155803-yubikey_gpg_operation/</link><pubDate>Sun, 11 May 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250514155803-yubikey_gpg_operation/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;2025年5月の自分の手元の環境はGPGに重度に依存している。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20240108211345-migrate_bitwarden_to_password_store/"&gt;Bitwardenからpassword-storeに移行した&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20240110123142-migrate_authy_to_password_store_otp/"&gt;Authyからpassword-store-otpに移行した&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20250414001634-migrate_credential_manager_to_password_store/"&gt;credential管理をorg-encryptからpassword-storeに移行した&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;GPG Keyの運用についてかねてから悩んでいたが、YubiKey運用が一番よいという結論に至った。
+ちょうどMacを初期化するタイミングがあったので完全に移行した。&lt;/p&gt;</description></item><item><title>GitHub ActionsでCachixを導入する</title><link>https://www.takeokunn.org/posts/fleeting/20250510192642-use_cachix_in_github_actions/</link><pubDate>Sat, 10 May 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250510192642-use_cachix_in_github_actions/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;NixにハマってからGitHub Actions上でNixを実行する機会が増えた。
+Nixというツールの性質上、どうしても実行環境の準備に時間がかかってしまうのでキャッシュ機能を導入したいと以前から思っていた。&lt;/p&gt;</description></item><item><title>markdown-preview-modeとxwidgetsでリアルタイムプレビューする</title><link>https://www.takeokunn.org/posts/fleeting/20250510184016-preview_markdown_with_xwidgets/</link><pubDate>Sat, 10 May 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250510184016-preview_markdown_with_xwidgets/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;最近AIが生成したMarkdownを読む機会が増えた。
+Emacs Buffer上で読むのもよいのだが、ブラウザ上でCSSを当てた方が読みやすいので今回対応した。&lt;/p&gt;</description></item><item><title>org-roam-ui-liteでblogの関係性を可視化する</title><link>https://www.takeokunn.org/posts/fleeting/20250511015532-host_org_roam_ui_lite/</link><pubDate>Sat, 10 May 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250511015532-host_org_roam_ui_lite/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://www.takeokunn.org/posts/permanent/20231219122351-how_to_manage_blog_by_org_roam/"&gt;org-roamで記事を管理しGitHub Actionsで適切に公開する&lt;/a&gt; に書いたとおり &lt;a href="https://www.takeokunn.org/"&gt;takeokunn.org&lt;/a&gt; は &lt;a href="https://www.orgroam.com/"&gt;org-roam&lt;/a&gt; で管理している。&lt;/p&gt;
+&lt;p&gt;org-roamの可視化ツールに &lt;a href="https://github.com/org-roam/org-roam-ui"&gt;org-roam-ui&lt;/a&gt; があるが、次のような問題を抱えていた。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Next.jsでリッチに作られすぎてる
+&lt;ul&gt;
+&lt;li&gt;NixでPackagingするのが大変&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;GitHub ActionsでBuildするのが大変&lt;/li&gt;
+&lt;li&gt;GitHub PagesでHostingするのが大変&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;GitHub Pagesに継続的にHostingする仕組みを作りたいと考えて早n年経っていたが、taniさんが &lt;a href="https://github.com/tani/org-roam-ui-lite"&gt;org-roam-ui-lite&lt;/a&gt; という軽量なorg-roam-uiを作ってくれたので今回導入してみた。&lt;/p&gt;</description></item><item><title>private-terraformをHCP Terraformに移行した</title><link>https://www.takeokunn.org/posts/fleeting/20250507230034-use_private_terraform_cloud/</link><pubDate>Wed, 07 May 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250507230034-use_private_terraform_cloud/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;個人用のTerraformプロジェクトを用意して、GitHubとCloudflareとNextDNSの管理をしている。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20250402001222-setup_private_terraform_github_provider/"&gt;Terraform GitHub Providerを導入した&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20250403220528-migrate_onamae_to_cloudflare_and_managed_by_terraform/"&gt;お名前comからCloudflareにドメイン移管してTerraformで管理する&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20250402012730-setup_nextdns/"&gt;NextDNSを導入した&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;tfstateのファイルをLocalマシンで雑に管理をしていたのだが、PCの引越し作業が発生したので管理方法を検討する必要があったので対応したことを纏めておく。&lt;/p&gt;</description></item><item><title>Typstテーマを自作した</title><link>https://www.takeokunn.org/posts/fleeting/20250506220914-create_typst_slide_theme/</link><pubDate>Tue, 06 May 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250506220914-create_typst_slide_theme/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20250126114218-build_and_deploy_typst_using_nix/"&gt;NixでTypstをBuildしGitHub Pagesでホスティングする&lt;/a&gt; でTypstから生成したPDFスライドを配信する仕組みを作った。
+今後の登壇は可能な限りTypstから生成するつもりなのでテーマを自作した。&lt;/p&gt;</description></item><item><title>nixpkgsのunstableでEmacs Nativecomp Buildができない問題とワークアラウンド</title><link>https://www.takeokunn.org/posts/fleeting/20250417001805-emacs_nativecomp_bulid_error_nixpkgs_and_workaround/</link><pubDate>Thu, 17 Apr 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250417001805-emacs_nativecomp_bulid_error_nixpkgs_and_workaround/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;2025年4月16日現在、 &lt;code&gt;aarch64-darwin&lt;/code&gt; 環境でnixpkgs unstableのemacs（nativecomp）をビルドできない問題が発生している。&lt;/p&gt;
+&lt;h2 id="ワークアラウンド方法"&gt;ワークアラウンド方法&lt;/h2&gt;
+&lt;p&gt;packageに &lt;code&gt;withNativeCompilation = false;&lt;/code&gt; を書く。&lt;/p&gt;</description></item><item><title>credential管理をorg-encryptからpassword-storeに移行した</title><link>https://www.takeokunn.org/posts/fleeting/20250414001634-migrate_credential_manager_to_password_store/</link><pubDate>Mon, 14 Apr 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250414001634-migrate_credential_manager_to_password_store/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;credential管理をorg-encryptからpassword-storeに移行したので作業内容をメモしておく。&lt;/p&gt;
+&lt;h2 id="現状の運用と問題"&gt;現状の運用と問題&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20250127144907-my_usage_org_crypt/"&gt;org-crypt運用メモ&lt;/a&gt; に書いたとおり、 &lt;code&gt;~/.aws/credentials&lt;/code&gt; のような秘匿情報を &lt;code&gt;secret.org&lt;/code&gt; を &lt;code&gt;org-babel-tangle&lt;/code&gt; して出力していた。&lt;/p&gt;</description></item><item><title>emacsでuniversal-ctagsを使う</title><link>https://www.takeokunn.org/posts/fleeting/20250410002747-use_universal_ctags_with_emacs/</link><pubDate>Wed, 09 Apr 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250410002747-use_universal_ctags_with_emacs/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://github.com/universal-ctags/ctags"&gt;universal-ctags/ctags&lt;/a&gt; の検証をしたのでメモしておく。&lt;/p&gt;
+&lt;h2 id="概要"&gt;概要&lt;/h2&gt;
+&lt;p&gt;Wikipedia的には以下。
+&lt;a href="https://ja.wikipedia.org/wiki/Ctags"&gt;https://ja.wikipedia.org/wiki/Ctags&lt;/a&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Ctags（英: Ctags）はソース及びヘッダ内にある名前のインデックス（又はタグ）ファイルを生成するプログラム。様々なプログラミング言語に対応している。言語に依存するが、サブルーチン(関数)、変数、クラスのメンバ、マクロ等がインデックス化される。これらのタグによりテキストエディタなどのツールで高速かつ容易に定義を参照できる。相互参照ファイルを出力でき、また名前についての情報を人が読みやすい形で列挙した言語ファイルを生成することもできる。&lt;/p&gt;
+&lt;p&gt;Ctagsはケン・アーノルドがBSD Unix用に開発した。後にJim KlecknerによりFortranがサポートされ、ビル・ジョイによりPascalがサポートされた。&lt;/p&gt;
+&lt;/blockquote&gt;</description></item><item><title>mcp-servers-nixを導入した</title><link>https://www.takeokunn.org/posts/fleeting/20250409210655-introduction_mcp_servers_nix/</link><pubDate>Wed, 09 Apr 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250409210655-introduction_mcp_servers_nix/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;natsukium謹製の &lt;a href="https://github.com/natsukium/mcp-servers-nix"&gt;natsukium/mcp-servers-nix&lt;/a&gt; を &lt;a href="https://github.com/takeokunn/nixos-configuration"&gt;takeokunn/nixos-configuration&lt;/a&gt; に導入したのでメモしておく。&lt;/p&gt;
+&lt;h2 id="変更点"&gt;変更点&lt;/h2&gt;
+&lt;h3 id="before"&gt;Before&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Orgファイルから &lt;code&gt;org-babel-tangle&lt;/code&gt; で &lt;code&gt;~/Library/Application\ Support/Claude/claude_desktop_config.json&lt;/code&gt; を出力&lt;/li&gt;
+&lt;li&gt;必要なpackageは &lt;a href="https://github.com/svanderburg/node2nix"&gt;node2nix&lt;/a&gt; 経由で入れる&lt;/li&gt;
+&lt;li&gt;秘密鍵はOrgファイルで &lt;code&gt;org-encrypt&lt;/code&gt; して管理
+&lt;ul&gt;
+&lt;li&gt;ref. &lt;a href="https://www.takeokunn.org/posts/fleeting/20250127144907-my_usage_org_crypt/"&gt;org-crypt運用メモ&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="after"&gt;After&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/natsukium/mcp-servers-nix"&gt;natsukium/mcp-servers-nix&lt;/a&gt; からMCPに必要なものをjsonを出力&lt;/li&gt;
+&lt;li&gt;必要なpackageは大体 &lt;a href="https://github.com/natsukium/mcp-servers-nix"&gt;natsukium/mcp-servers-nix&lt;/a&gt; に同梱されてる
+&lt;ul&gt;
+&lt;li&gt;足りないものは &lt;a href="https://github.com/svanderburg/node2nix"&gt;node2nix&lt;/a&gt; 経由で入れる&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;秘密鍵は &lt;a href="https://github.com/Mic92/sops-nix"&gt;sops-nix&lt;/a&gt; で管理&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="作業内容"&gt;作業内容&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://zenn.dev/natsukium/articles/f010c1ec1c51b2"&gt;MCPサーバーの設定をセキュアでGit friendlyにする - Zenn&lt;/a&gt; を事前に読む。&lt;/p&gt;</description></item><item><title>BitwardenとAuthyのアカウントを削除した</title><link>https://www.takeokunn.org/posts/fleeting/20250408134929-archive_bitwarden_account/</link><pubDate>Tue, 08 Apr 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250408134929-archive_bitwarden_account/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20240108211345-migrate_bitwarden_to_password_store/"&gt;Bitwardenからpassword-storeに移行した&lt;/a&gt; でBitwardenから離れて1年以上経った。
+当初はBitwardenにしかない情報もあったのでを開くこともあったが、今になっては使うことがなくなったのでアカウントを完全に削除する。&lt;/p&gt;</description></item><item><title>Denoで簡易的なCLIツールを作る</title><link>https://www.takeokunn.org/posts/fleeting/20250403212205-deno_cli_sandbox/</link><pubDate>Thu, 03 Apr 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250403212205-deno_cli_sandbox/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;DenoでCLIツールを試験的に作ったのでメモしておく。&lt;/p&gt;
+&lt;h2 id="方針"&gt;方針&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://cliffy.io/"&gt;cliffy&lt;/a&gt; で作成&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;cat&lt;/code&gt; と &lt;code&gt;grep&lt;/code&gt; をSub Commandで簡易的に作成&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="ディレクトリ構造"&gt;ディレクトリ構造&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-console" data-lang="console"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="gp"&gt;$&lt;/span&gt; nix run nixpkgs#tree .
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="go"&gt;.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="go"&gt;├── deno.json
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="go"&gt;├── deno.lock
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="go"&gt;└── src
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="go"&gt; ├── commands
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="go"&gt; │   ├── cat.ts
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="go"&gt; │   └── grep.ts
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="go"&gt; ├── deps.ts
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="go"&gt; └── main.ts
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="err"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="go"&gt;3 directories, 6 files
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="作業手順"&gt;作業手順&lt;/h2&gt;
+&lt;h3 id="1-dot-依存関係をインストール"&gt;1. 依存関係をインストール&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;$ deno install&lt;/code&gt; で入れて使い易いように &lt;code&gt;src/deps.ts&lt;/code&gt; を用意する&lt;/p&gt;</description></item><item><title>flake.nixでポータブルな最小構成のEmacsを作成する</title><link>https://www.takeokunn.org/posts/fleeting/20250403230709-portable_minimal_emacs_with_flake_nix/</link><pubDate>Thu, 03 Apr 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250403230709-portable_minimal_emacs_with_flake_nix/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;「任意のEmacs Packageが動かない」がおま環かバグかというのを切り分けることは非常に重要。
+誰でも同じ環境を整えられるようにすると問題解決が捗るので構築方法をメモしておく。&lt;/p&gt;</description></item><item><title>お名前comからCloudflareにドメイン移管してTerraformで管理する</title><link>https://www.takeokunn.org/posts/fleeting/20250403220528-migrate_onamae_to_cloudflare_and_managed_by_terraform/</link><pubDate>Thu, 03 Apr 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250403220528-migrate_onamae_to_cloudflare_and_managed_by_terraform/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;お名前comで管理していた &lt;code&gt;takeokunn.org&lt;/code&gt; をCloudflareに移管したのでメモしておく。&lt;/p&gt;
+&lt;h2 id="background"&gt;Background&lt;/h2&gt;
+&lt;p&gt;お名前comには世の中のエンジニアと同じように、長年次の不満を抱えていた。&lt;/p&gt;</description></item><item><title>NextDNSを導入した</title><link>https://www.takeokunn.org/posts/fleeting/20250402012730-setup_nextdns/</link><pubDate>Wed, 02 Apr 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250402012730-setup_nextdns/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;かねてから興味があった &lt;a href="https://nextdns.io/"&gt;NextDNS&lt;/a&gt; が Terraform Provider と nix-darwin/nixos で設定できることを知り、せっかくなので導入してみた。&lt;/p&gt;
+&lt;h2 id="what-is-nextdns"&gt;What is NextDNS?&lt;/h2&gt;
+&lt;p&gt;流行のDeep Reasearchの結果は以下Gist。&lt;/p&gt;</description></item><item><title>Terraform GitHub Providerを導入した</title><link>https://www.takeokunn.org/posts/fleeting/20250402001222-setup_private_terraform_github_provider/</link><pubDate>Wed, 02 Apr 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250402001222-setup_private_terraform_github_provider/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;個人の運用でTerraform GitHub Providerを導入したのでメモしておく。&lt;/p&gt;
+&lt;h2 id="motiviation"&gt;Motiviation&lt;/h2&gt;
+&lt;p&gt;長年ソフトウェアエンジニアをやってたらリポジトリが増えていく。特に最近のLLMの流行で検証用に作るリポジトリが顕著に増えている。
+「Automatically delete head branchesは必ず有効にする」など、統一的な環境を宣言的にしたいという欲求があった。&lt;/p&gt;</description></item><item><title>@github/copilot-language-serverをNixで扱う時のメモ</title><link>https://www.takeokunn.org/posts/fleeting/20250327190937-usage_github_copilot_language_server/</link><pubDate>Thu, 27 Feb 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250327190937-usage_github_copilot_language_server/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://github.com/orgs/github/packages/npm/package/copilot-language-server"&gt;@github/copilot-language-server&lt;/a&gt; を &lt;a href="https://github.com/takeokunn/nixos-configuration"&gt;takeokunn/nixos-configuration&lt;/a&gt; 上で扱えるようにしたのでメモしておく。&lt;/p&gt;
+&lt;h2 id="background"&gt;Background&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/copilot-emacs/copilot.el"&gt;copilot.el&lt;/a&gt; のバージョンが上がった&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/orgs/github/packages/npm/package/copilot-language-server"&gt;@github/copilot-language-server&lt;/a&gt; をnpmでインストールして使う必要があった&lt;/li&gt;
+&lt;li&gt;次の要件を満たしたい
+&lt;ul&gt;
+&lt;li&gt;Nixでパッケージングしたい&lt;/li&gt;
+&lt;li&gt;Neovimなどのエディタでも汎用的に使えるようにしたい&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="対応手順"&gt;対応手順&lt;/h2&gt;
+&lt;h3 id="1-dot-node2nixでパッケージングする"&gt;1. node2nixでパッケージングする&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;node2nix/node-packages.json&lt;/code&gt; に次のような記述をした。&lt;/p&gt;</description></item><item><title>2025年2月名古屋旅行</title><link>https://www.takeokunn.org/posts/diary/20250224140741-retrospective_nagoya_2025/</link><pubDate>Mon, 24 Feb 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/diary/20250224140741-retrospective_nagoya_2025/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;2025/2/21から2025/2/24までの名古屋旅行についての振り返りです。&lt;/p&gt;
+&lt;p&gt;名古屋上陸ははじめてでしたが、非常に楽しい旅行になりました。思い出したらまた追記するかもしれません。&lt;/p&gt;</description></item><item><title>2025年2月 Neovimセットアップ</title><link>https://www.takeokunn.org/posts/fleeting/20250211111032-setup_neovim/</link><pubDate>Tue, 11 Feb 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250211111032-setup_neovim/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;Neovimに入門したいと思い早n年だったが、vim-jpの皆さんのおかげでようやくミニマムの設定が完了したのでブログにまとめておきます。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20230209152709-using-vim-and-neovim-for-differenct-purposes-and-minimum-settings/"&gt;VimとNeovimの使い分けと最小構成&lt;/a&gt; のとおりVimは最小構成にしているので、Neovimはヘビーカスタマイズしていく方針です。&lt;/p&gt;</description></item><item><title>org-nix-shell入門</title><link>https://www.takeokunn.org/posts/fleeting/20250126140928-introduction_org_nix_shell/</link><pubDate>Sat, 08 Feb 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250126140928-introduction_org_nix_shell/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;org-nix-shellはOrg関連パッケージの中でもキラーアプリケーションと呼べるもので、個人的に今熱いパッケージのひとつです。
+簡単な使い方と実際のユースケースを紹介していきます。&lt;/p&gt;</description></item><item><title>Laravel LazyCollection in depth</title><link>https://www.takeokunn.org/posts/fleeting/20250204175231-laravel_lazy_collection_in_depth/</link><pubDate>Tue, 04 Feb 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250204175231-laravel_lazy_collection_in_depth/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;LaravelのLazyCollectionは巨大なデータを扱う時に便利であるという話は巷で良く聞くが、実際の所どういうときに便利なのか、内部的にはどうなっているのかという情報はあまり聞かない。
+LazyCollection自体のソースコードを読んでかなり理解できたのでメモしておく。&lt;/p&gt;</description></item><item><title>Nixでdap-modeがエラーになった時のメモ</title><link>https://www.takeokunn.org/posts/fleeting/20250203131440-workaround_nix_dap_mode/</link><pubDate>Mon, 03 Feb 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250203131440-workaround_nix_dap_mode/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;2025/02/02（Sun）に &lt;code&gt;nix flake update&lt;/code&gt; で最新にしてBuildしたらエラーで落ちるようになったのでメモ。&lt;/p&gt;
+&lt;h2 id="現象"&gt;現象&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;2025/01/31に &lt;a href="https://github.com/emacs-lsp/dap-mode/commit/438679755e880f2a662a63bc04da9e843257e248"&gt;dapui.elがdap-ui.elにrename&lt;/a&gt; される&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://melpa.org/#/dap-mode"&gt;dap-mode 20250131.1624&lt;/a&gt; に反映される&lt;/li&gt;
+&lt;li&gt;2025/02/02の &lt;a href="https://github.com/NixOS/nixpkgs/blob/master/pkgs/applications/editors/emacs/elisp-packages/melpa-packages.nix#L984-L991"&gt;nix flake update nixpkgsのdap-modeのpreBuild&lt;/a&gt; でdapui.elがなくて落ちるようになった&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id="最小構成と解決策"&gt;最小構成と解決策&lt;/h2&gt;
+&lt;p&gt;次のように &lt;code&gt;preBuild&lt;/code&gt; をoverlaysに追加すればBuildできるようになった。&lt;/p&gt;</description></item><item><title>「Lispが安定してることがアピールポイントか」に対しての考察</title><link>https://www.takeokunn.org/posts/fleeting/20250129141559-why_lisp_is_stable/</link><pubDate>Wed, 29 Jan 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250129141559-why_lisp_is_stable/</guid><description>&lt;h2 id="背景"&gt;背景&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://zenn.dev/takeokunn/articles/20250126133908"&gt;vim-jpラジオのEmacs回に出演しました - Zenn&lt;/a&gt; を書いたのだが、conao3から「n年前のコードを動かすためにはn年成長しなければよい、そこはアピールポイントにならないという気持ちではある」という指摘を受けた。
+その過程でvim-jpの &lt;code&gt;#random&lt;/code&gt; チャンネルで議論になった。
+人によってかなり前提や置かれている状況が違うので、自分が想定していた条件や「Lispが安定している」についての理解と主張を文書という形でまとめておく。&lt;/p&gt;</description></item><item><title>org-crypt運用メモ</title><link>https://www.takeokunn.org/posts/fleeting/20250127144907-my_usage_org_crypt/</link><pubDate>Mon, 27 Jan 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250127144907-my_usage_org_crypt/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;org-crypt&lt;/code&gt; の使い方をイマイチに理解していなかったが、ふと調べてたら急に理解が進んだ。&lt;/p&gt;
+&lt;p&gt;個人的な運用が固まったのでメモしておく。&lt;/p&gt;
+&lt;h2 id="motivation"&gt;Motivation&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;~/.aws/credentials&lt;/code&gt; のような秘匿情報を &lt;code&gt;secret.org.gpg&lt;/code&gt; から &lt;code&gt;org-babel-tangle&lt;/code&gt; から出力していた。
+ファイルごとGPGで暗号化すると &lt;code&gt;git diff&lt;/code&gt; がきれいに取れないので地味に困っていた。&lt;/p&gt;</description></item><item><title>個人的devenv運用</title><link>https://www.takeokunn.org/posts/fleeting/20250126135045-personal_devenv_tips/</link><pubDate>Mon, 27 Jan 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250126135045-personal_devenv_tips/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;devenvをヘビーユーズしているので、個人的なdevenv運用についてやTipsについてまとめる。&lt;/p&gt;
+&lt;h2 id="devenvとは"&gt;devenvとは&lt;/h2&gt;
+&lt;p&gt;devenvはcachix社が作っているflake.nixラッパ。
+&lt;a href="https://devenv.sh/"&gt;https://devenv.sh/&lt;/a&gt;&lt;/p&gt;</description></item><item><title>NixでTypstをBuildしGitHub Pagesでホスティングする</title><link>https://www.takeokunn.org/posts/fleeting/20250126114218-build_and_deploy_typst_using_nix/</link><pubDate>Sun, 26 Jan 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250126114218-build_and_deploy_typst_using_nix/</guid><description>&lt;h2 id="背景"&gt;背景&lt;/h2&gt;
+&lt;p&gt;スライドや組版記事を生成する為にTypstを採用することにした。
+工数を最小限に安定的に量産できるようなしくみを整える必要が迫られていたので、今回対応したことをメモしておく。&lt;/p&gt;</description></item><item><title>2024年 全体振り返り</title><link>https://www.takeokunn.org/posts/permanent/20241221130328-retrospective_2024/</link><pubDate>Sun, 05 Jan 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/permanent/20241221130328-retrospective_2024/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;2024年振り返りの振り返り記事です。
+立てた目標に対してどうだったか、2025年はどうするべきかを書いておきます。&lt;/p&gt;
+&lt;h2 id="年始に立てた目標"&gt;年始に立てた目標&lt;/h2&gt;
+&lt;p&gt;プログラミングのほぼすべての問題は「Aという問題に対してBというツールを使ってCをする」の連続だということに気がつきました。
+「日報を書く時はorg-modeのテンプレートを使って記述する」や「日本語を書く時はskkを使って入力する」など、それぞれの問題は細分化をするとほぼすべてこの形式になります。&lt;/p&gt;</description></item><item><title>VimConf2024 参加記</title><link>https://www.takeokunn.org/posts/diary/20241123101757-participation_vimconf_2024/</link><pubDate>Sat, 23 Nov 2024 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/diary/20241123101757-participation_vimconf_2024/</guid><description>&lt;h2 id="はじめに"&gt;はじめに&lt;/h2&gt;
+&lt;p&gt;2024-11-23 Satに行われたvimconf 2024に参加しました。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://vimconf.org/2024/"&gt;https://vimconf.org/2024/&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id="登壇感想"&gt;登壇感想&lt;/h2&gt;
+&lt;p&gt;英語の登壇であること、前日はしゃいで睡眠不足あったので聞き逃した所もあるが登壇メモを書いておく。&lt;/p&gt;</description></item><item><title>tcardgenをnixでパッケージ化する方法</title><link>https://www.takeokunn.org/posts/fleeting/20241122091116-how_to_package_tcardgen_with_nix/</link><pubDate>Fri, 22 Nov 2024 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20241122091116-how_to_package_tcardgen_with_nix/</guid><description>&lt;h2 id="背景"&gt;背景&lt;/h2&gt;
+&lt;p&gt;HugoからOGPを動的に吐き出すツールとして &lt;a href="https://github.com/Ladicle/tcardgen"&gt;Ladicle/tcardgen&lt;/a&gt; がある。
+2024/11/22 現在当ブログでも利用していて、 &lt;a href="https://github.com/takeokunn/blog"&gt;takeokunn/blog&lt;/a&gt; のNix化に伴い tcardgen もNixでパッケージングする必要があった。&lt;/p&gt;</description></item><item><title>2024年版private-isu構築メモ</title><link>https://www.takeokunn.org/posts/fleeting/20241117172034-how_to_launch_private_isu_2024/</link><pubDate>Sun, 17 Nov 2024 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20241117172034-how_to_launch_private_isu_2024/</guid><description>&lt;h2 id="背景"&gt;背景&lt;/h2&gt;
+&lt;p&gt;ISUCON14の練習の為&lt;a href="https://github.com/catatsuy/private-isu"&gt;catatsuy/private-isu&lt;/a&gt;を自分のAWSに構築しようとしたが、 &lt;a href="https://gist.github.com/tohutohu/024551682a9004da286b0abd6366fa55"&gt;tohutohu/private-isu.yaml - gist&lt;/a&gt;が構築できなかったのでメモ。&lt;/p&gt;
+&lt;h2 id="問題点"&gt;問題点&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://gist.github.com/tohutohu/024551682a9004da286b0abd6366fa55"&gt;tohutohu/private-isu.yaml - gist&lt;/a&gt; のCloudFormationをそのまま起動しようとするとAMIがないと怒られる。&lt;/p&gt;</description></item><item><title>GnuPG 2.4.4でEmacsで発生していたバグ修正された</title><link>https://www.takeokunn.org/posts/fleeting/20240127163627-fix_emacs_gpg_bug/</link><pubDate>Sat, 27 Jan 2024 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20240127163627-fix_emacs_gpg_bug/</guid><description>&lt;h2 id="summary"&gt;Summary&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20230624130858-how_to_escape_emacs_gpg_bug/"&gt;Emacs内でgpg fileがsaveできなくなった時に対応したことメモ&lt;/a&gt; にもあるとおり、GnuPG 2.4.0を使うとEasyPGが正常に動かないという問題があったが、GnuPGを2.4.4に上げると解決した。&lt;/p&gt;</description></item><item><title>2023年のorg-mode活用と今後の抱負</title><link>https://www.takeokunn.org/posts/permanent/20240112071806-my_relationship_with_org_mode_in_2023_and_how_navigate_in_2024/</link><pubDate>Thu, 25 Jan 2024 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/permanent/20240112071806-my_relationship_with_org_mode_in_2023_and_how_navigate_in_2024/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;この記事は&lt;a href="https://vim-jp.org/ekiden/"&gt;Vim駅伝&lt;/a&gt;の2024-01-24の記事です。&lt;/p&gt;
+&lt;p&gt;前回の記事はyasunoriさんの「&lt;a href="https://zenn.dev/vim_jp/articles/0007-vim-recommend-method"&gt;Vimを勧めるときのすヽめ&lt;/a&gt;」です。&lt;/p&gt;
+&lt;p&gt;私にとっての2023年はorg-modeの年でした。
+org-modeで実現できることは何があるのかと、自分にとってのorg-modeはなんなのか、ということに腰を据えてちゃんと向き合えたので実際に取り組んだことを記事にしておきます。&lt;/p&gt;</description></item><item><title>Zedファーストインプレッション</title><link>https://www.takeokunn.org/posts/fleeting/20240125232318-first_research_about_zed/</link><pubDate>Thu, 25 Jan 2024 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20240125232318-first_research_about_zed/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://forest.watch.impress.co.jp/docs/news/1563594.html"&gt;Rust製コードエディター「Zed」がオープンソースに ～v1.0リリースへ向けて門戸を開く - 窓の杜&lt;/a&gt; にもあるとおり、&lt;a href="https://github.com/zed-industries/zed"&gt;zed-industries/zed&lt;/a&gt;が公開されたのでコードをざっくり読んでみたのでメモする。&lt;/p&gt;
+&lt;p&gt;Rustへの知見が皆無であること、雑なコードリーディング要素があるのでご了承ください。&lt;/p&gt;</description></item><item><title>Emacsユーザーから見たvim-jp</title><link>https://www.takeokunn.org/posts/poem/20240117104306-perspective_of_vim_jp_from_emacser/</link><pubDate>Fri, 19 Jan 2024 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/poem/20240117104306-perspective_of_vim_jp_from_emacser/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;この記事は&lt;a href="https://vim-jp.org/ekiden/"&gt;Vim駅伝&lt;/a&gt;の2024-01-19の記事です。&lt;/p&gt;
+&lt;p&gt;前回の記事は&lt;a href="https://zenn.dev/kawarimidoll"&gt;kawarimidoll&lt;/a&gt;さんの「&lt;a href="https://zenn.dev/vim_jp/articles/358848a5144b63"&gt;俺自身がVimのstatuslineになることだ&lt;/a&gt;」です。&lt;/p&gt;
+&lt;h2 id="この記事を読むにあたっての注意点"&gt;この記事を読むにあたっての注意点&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;筆者の主観要素&lt;/li&gt;
+&lt;li&gt;筆者のEmacs愛要素&lt;/li&gt;
+&lt;li&gt;筆者のEmacsコミュニティ活動への努力不足要素
+&lt;ul&gt;
+&lt;li&gt;2024年はEmacsイベントを精力的に開催します&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="対象読者"&gt;対象読者&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;これからEmacsを始めたい人&lt;/li&gt;
+&lt;li&gt;vim-jp slackにまだ参加していない人&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="今北産業"&gt;今北産業&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://blog.tomoya.dev/posts/vim-jp-is-a-paradise-for-engineers/"&gt;エンジニアの楽園 vim-jp - 日々、とんは語る。&lt;/a&gt;を読み &lt;a href="https://vim-jp.org/docs/chat.html"&gt;vim-jpのチャットルームについて&lt;/a&gt; を参考にvim-jp slackに入る&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;#welcome&lt;/code&gt; で自己紹介をする&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;#hobby-gourmet&lt;/code&gt; で直近の食事をアップロードする&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;自己紹介テンプレートは以下。&lt;/p&gt;</description></item><item><title>テキストエディタがPHPをシンタックスハイライトする仕組みとモダンテキストエディタ事情について</title><link>https://www.takeokunn.org/posts/permanent/20240107122028-how_to_syntax_highlight_in_text_editor/</link><pubDate>Thu, 18 Jan 2024 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/permanent/20240107122028-how_to_syntax_highlight_in_text_editor/</guid><description>&lt;h2 id="注意"&gt;注意&lt;/h2&gt;
+&lt;p&gt;この記事はPHPerKaigi 2024のパンフレット記事です。A4ページ4枚程度の量を書いています。
+書面での掲載につきハイパーリンクがないことをご了承ください。&lt;/p&gt;</description></item><item><title>AquaSKKをDvorak仕様にする方法</title><link>https://www.takeokunn.org/posts/fleeting/20240115131839-how_to_use_dvorak_in_aquaskk/</link><pubDate>Mon, 15 Jan 2024 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20240115131839-how_to_use_dvorak_in_aquaskk/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://ja.wikipedia.org/wiki/QWERTY%E9%85%8D%E5%88%97"&gt;QWERTY配列&lt;/a&gt;から&lt;a href="https://ja.wikipedia.org/wiki/Dvorak%E9%85%8D%E5%88%97"&gt;Dvorak配列&lt;/a&gt;に移行するにあたって&lt;a href="https://ja.osdn.net/projects/aquaskk/"&gt;AquaSKK&lt;/a&gt;もDvorak仕様にする必要があったのでメモ。&lt;/p&gt;
+&lt;h2 id="mac標準キーボード"&gt;Mac標準キーボード&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://support.apple.com/ja-jp/guide/mac-help/mh27976/mac"&gt;MacでDvorakキーボードレイアウトを使用する - macOSユーザガイド&lt;/a&gt; によると、Mac標準キーボードにはDvorakが4種類ある。
+自分のユースケースは標準的な使い方なので &lt;code&gt;Dvorak: 最もよく使用されるキーが指の下に配置されています。&lt;/code&gt; を選択しました。&lt;/p&gt;</description></item><item><title>PHPカンファレンス北海道2024に参加してきました</title><link>https://www.takeokunn.org/posts/diary/20240112063123-retrospective_phpcondo_2024/</link><pubDate>Fri, 12 Jan 2024 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/diary/20240112063123-retrospective_phpcondo_2024/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;2024/1/13（土）に行われたPHPカンファレンス北海道2024に参加してきました。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://phpcon.hokkaido.jp/"&gt;https://phpcon.hokkaido.jp/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;今回は2024/1/12（金）〜2024/1/14（日）の2泊3日の旅行でした。
+なおこの記事は3日目 自由行動からが本編なのでよしなに飛ばしてもかまいません。&lt;/p&gt;</description></item><item><title>Authyからpassword-store-otpに移行した</title><link>https://www.takeokunn.org/posts/fleeting/20240110123142-migrate_authy_to_password_store_otp/</link><pubDate>Wed, 10 Jan 2024 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20240110123142-migrate_authy_to_password_store_otp/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20240108211345-migrate_bitwarden_to_password_store/"&gt;Bitwardenからpassword-storeに移行した&lt;/a&gt; でpassword-storeに移行できたので、TOTPも&lt;a href="https://authy.com/"&gt; Authy &lt;/a&gt;から移行する。&lt;/p&gt;
+&lt;h2 id="goal"&gt;Goal&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;過去の案件で使ってたものを断捨離する&lt;/li&gt;
+&lt;li&gt;password-store-otp経由でOTP Codeを取得できるようにする&lt;/li&gt;
+&lt;li&gt;Authy管理しているデータをpassword-storeに移行する&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="not-goal"&gt;Not Goal&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Authyを完全に削除する
+&lt;ul&gt;
+&lt;li&gt;Bitwarden同様数年間使わなくても問題なかったら適切に削除する&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="作業手順"&gt;作業手順&lt;/h2&gt;
+&lt;h3 id="1-dot-password-store-otpを有効にする"&gt;1. password-store-otpを有効にする&lt;/h3&gt;
+&lt;p&gt;私はNixユーザーなので&lt;a href="https://search.nixos.org/packages?channel=23.11&amp;amp;show=pass&amp;amp;from=0&amp;amp;size=50&amp;amp;sort=relevance&amp;amp;type=packages&amp;amp;query=pass"&gt;Nix Packageからpass&lt;/a&gt;を落としてくる。次のような設定で&lt;a href="https://github.com/nix-community/home-manager"&gt;home-manager&lt;/a&gt;経由で入れると勝手にExtensionが有効になる。&lt;/p&gt;</description></item><item><title>Bitwardenからpassword-storeに移行した</title><link>https://www.takeokunn.org/posts/fleeting/20240108211345-migrate_bitwarden_to_password_store/</link><pubDate>Mon, 08 Jan 2024 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20240108211345-migrate_bitwarden_to_password_store/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;Bitwardenからpassword-storeに移行したので作業内容をメモしておく。&lt;/p&gt;
+&lt;h2 id="basic"&gt;Basic&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;普段使うものは可能な限りPlain TextとGitで管理したい&lt;/li&gt;
+&lt;li&gt;EmacsやTerminalから簡単に呼び出したい&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.gnupg.org/"&gt;GnuPG&lt;/a&gt;を可能な限り活用したい&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="goal"&gt;Goal&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Bitwardenに保存されているすべての情報をpassword-storeに移行する&lt;/li&gt;
+&lt;li&gt;EmacsやTerminalから簡単にパスワードを取得できるようにする&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="not-goal"&gt;Not Goal&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Bitwardenのアカウントを完全に削除する
+&lt;ul&gt;
+&lt;li&gt;数年間使わなくても問題なかったら適切に削除する&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="技術選定"&gt;技術選定&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://www.passwordstore.org/"&gt;password-store&lt;/a&gt;を選択した理由は以下。&lt;/p&gt;</description></item><item><title>org-roamで記事を管理しGitHub Actionsで適切に公開する</title><link>https://www.takeokunn.org/posts/permanent/20231219122351-how_to_manage_blog_by_org_roam/</link><pubDate>Tue, 19 Dec 2023 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/permanent/20231219122351-how_to_manage_blog_by_org_roam/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://qiita.com/advent-calendar/2023/emacs"&gt;2023年度Emacsアドベントカレンダー&lt;/a&gt;2日目の記事です。&lt;/p&gt;
+&lt;p&gt;当記事ではorg-roamを用いたブログ記事のコンテンツ管理方法と、ZennやHugoへ公開する方法の一連の流れについて解説しています。&lt;/p&gt;
+&lt;p&gt;個々の技術への深堀は必要に応じて別途記事に認めますのでご了承ください。&lt;/p&gt;</description></item><item><title>2023年小田原旅行記</title><link>https://www.takeokunn.org/posts/diary/20231030071757-2023_bokunatu_travel/</link><pubDate>Mon, 30 Oct 2023 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/diary/20231030071757-2023_bokunatu_travel/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;2023年10月27日から1泊2日で小田原に夏休みを利用して旅行しました。
+ノープラン要素、適当要素、他人に迷惑をかける要素が存分に含まれているので、迷惑をかけた方本当にすみませんでした。
+写真や情報は適宜追加していきます。&lt;/p&gt;</description></item><item><title>PHP Exceptionのpropertyにあるcodeはuser-defined error code</title><link>https://www.takeokunn.org/posts/fleeting/20230801135235-what_is_php_exception_code/</link><pubDate>Tue, 01 Aug 2023 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20230801135235-what_is_php_exception_code/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;仕事でPHPStanの修正をしている時、 &lt;code&gt;Exception&lt;/code&gt; classのconstructorでcodeを指定しているコードに出くわした。
+&lt;code&gt;Exception&lt;/code&gt; におけるcodeの扱いについて記述している記事がなかったので &lt;a href="https://github.com/php/php-src"&gt;php/php-src&lt;/a&gt; のコードにあたってみた。&lt;/p&gt;</description></item><item><title>「PHP Lovers Meetup vol.0 ~ はじまりは&lt;?phpから」に参加しました</title><link>https://www.takeokunn.org/posts/diary/20230710082646-retrospective_php_lovers_meetup_vol_0/</link><pubDate>Mon, 10 Jul 2023 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/diary/20230710082646-retrospective_php_lovers_meetup_vol_0/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;2023/07/10（Mon）に行われた「PHP Lovers Meetup vol.0 ~ 始まりは&amp;lt;?phpから」に参加しました。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;connpass
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://php-lovers-meetup.connpass.com/event/280822/"&gt;https://php-lovers-meetup.connpass.com/event/280822/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;togetter
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://togetter.com/li/2184479"&gt;https://togetter.com/li/2184479&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;repo
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/brefphp/bref"&gt;https://github.com/brefphp/bref&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;PHP-DIやBrefの作者として有名な &lt;a href="https://twitter.com/matthieunapoli"&gt;@matthieunapoli&lt;/a&gt; 氏が来日するということで &lt;a href="https://twitter.com/seike460"&gt;@seike460&lt;/a&gt; 氏も福岡から招き、サーバレスフレームワークについて語っていただきました。
+自分はBrefを使ったことがないのでBref本体のコードをダラダラ読みながら登壇を聞いていました。&lt;/p&gt;</description></item><item><title>Emacs内でgpg fileがsaveできなくなった時に対応したことメモ</title><link>https://www.takeokunn.org/posts/fleeting/20230624130858-how_to_escape_emacs_gpg_bug/</link><pubDate>Sat, 24 Jun 2023 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20230624130858-how_to_escape_emacs_gpg_bug/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;自分用のメモです。
+何もしていないのに急にgpg fileがEmacsでsaveできなくなったので調査した。&lt;/p&gt;
+&lt;h2 id="再現手順"&gt;再現手順&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;MacでEmacsを起動する&lt;/li&gt;
+&lt;li&gt;Emacsでgpg fileを開く&lt;/li&gt;
+&lt;li&gt;適当に編集する&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;C-x C-s&lt;/code&gt; で &lt;code&gt;save-buffer&lt;/code&gt; を実行するとsaveできずにhangする&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id="原因について"&gt;原因について&lt;/h2&gt;
+&lt;p&gt;「&lt;a href="https://stackoverflow.com/questions/76388376/emacs-org-encrypt-entry-hangs-when-file-is-modified"&gt;emacs org-encrypt-entry hangs when file is modified - stackoverflow&lt;/a&gt;」に同様の問題が投稿されていました。&lt;/p&gt;</description></item><item><title>phpカンファレンス福岡2023に参加してきました</title><link>https://www.takeokunn.org/posts/diary/20230624093617-retrospective_phpconference_fukuoka_2023/</link><pubDate>Sat, 24 Jun 2023 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/diary/20230624093617-retrospective_phpconference_fukuoka_2023/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;2023/6/24(土）に行われたphpconference福岡に参加してきました。
+&lt;a href="https://phpcon.fukuoka.jp/2023/"&gt;https://phpcon.fukuoka.jp/2023/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;今回は2023/6/23(金）〜2023/6/26(月）の3泊4日の旅行でした。&lt;/p&gt;</description></item><item><title>ob-phpstanを作った</title><link>https://www.takeokunn.org/posts/permanent/20230416154043-create_ob_phpstan/</link><pubDate>Sun, 16 Apr 2023 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/permanent/20230416154043-create_ob_phpstan/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;最近&lt;a href="https://phpstan.org/"&gt;phpstan&lt;/a&gt;を弄ることが増えたのですが、逐一&lt;a href="https://phpstan.org/try"&gt;playground&lt;/a&gt;を開いてWebエディタ内で編集をするのが面倒に感じていました。
+org-mode内で完結をするようにしたいと考えるのはEmacsユーザーなら当然の発想です。
+そこで今回は &lt;code&gt;org-babel&lt;/code&gt; 経由でphpstanの実行結果をorg内で管理できるようにしました。&lt;/p&gt;</description></item><item><title>phperkaigi 2023でパンフレット記事寄稿&amp;登壇してきました</title><link>https://www.takeokunn.org/posts/diary/20230327015058-phperkaigi_2023_report/</link><pubDate>Mon, 27 Mar 2023 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/diary/20230327015058-phperkaigi_2023_report/</guid><description>&lt;h2 id="始めに"&gt;始めに&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://phperkaigi.jp/2023/"&gt;phperkaigi 2023&lt;/a&gt; に参加しました。&lt;/p&gt;
+&lt;p&gt;phperkaigiとは、年1回大都会練馬のココネリホールで開催されるphperのためのイベントです。
+よくphpカンファレンスとごっちゃにされがちなので一応書いておくと、phpカンファレンスは秋に蒲田で、phperkaigiは春に大都会練馬で開かれる別のイベントです。&lt;/p&gt;</description></item><item><title>「第149回 PHP勉強会＠東京」で登壇してきました</title><link>https://www.takeokunn.org/posts/diary/20230220161138-phpstudy_149_report/</link><pubDate>Mon, 20 Feb 2023 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/diary/20230220161138-phpstudy_149_report/</guid><description>&lt;h2 id="始めに"&gt;始めに&lt;/h2&gt;
+&lt;p&gt;2023-02-15（水）に &lt;a href="https://www.gmo.jp/csr/partners/office/#gmo-yours"&gt;GMO Yours&lt;/a&gt; で行われた &lt;a href="https://phpstudy.doorkeeper.jp/events/151021"&gt;第149回 PHP勉強会＠東京&lt;/a&gt; で登壇してきました。
+現地には30人、オンラインの視聴者は20人くらいで非常に和気藹々とした勉強会でした。&lt;/p&gt;</description></item><item><title>Docker VolumeをCopy/Renameする方法</title><link>https://www.takeokunn.org/posts/fleeting/20230209111810-how_to_copy_and_rename_docker_volume/</link><pubDate>Thu, 09 Feb 2023 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20230209111810-how_to_copy_and_rename_docker_volume/</guid><description>&lt;h2 id="前提"&gt;前提&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;docker volume&lt;/code&gt; のデフォルトの機能にcopyやrenameはありません。
+&lt;a href="https://matsuand.github.io/docs.docker.jp.onthefly/storage/volumes/"&gt;https://matsuand.github.io/docs.docker.jp.onthefly/storage/volumes/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/moby/moby/issues/31154"&gt;Rename docker volume #31154&lt;/a&gt; というissueも立っているが、対応される見込がないです。&lt;/p&gt;
+&lt;p&gt;interfaceとして提供してくれていないだけで、実態はDocker File System内どこかにはあるはず。
+絶対できるはずだという前提のもと調べてみたらできたのでまとめておきます。&lt;/p&gt;</description></item><item><title>VimとNeovimの使い分けと最小構成</title><link>https://www.takeokunn.org/posts/fleeting/20230209152709-using-vim-and-neovim-for-differenct-purposes-and-minimum-settings/</link><pubDate>Thu, 09 Feb 2023 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20230209152709-using-vim-and-neovim-for-differenct-purposes-and-minimum-settings/</guid><description>&lt;h2 id="vimとneovimの運用方針"&gt;VimとNeovimの運用方針&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://mobile.twitter.com/takeokunn/status/1464971704124710915"&gt;Twitterではずっと主張してること&lt;/a&gt; だが、VimとNeovimの設定は共通化しない方がよいと考えています。&lt;/p&gt;
+&lt;p&gt;次のような使い分けをしています。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Vim → サーバ用の最小設定&lt;/li&gt;
+&lt;li&gt;Neovim → 日常的な開発用&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;コンテナ全盛期の現代といえど、サーバに入って作業をする必要がある人も多いんじゃないでしょうか。
+不自由な環境でちょっとしたファイルを開いて数行変更するだけに関しては、Vimほど適したテキストエディタはないでしょう。&lt;/p&gt;</description></item><item><title>aws-cliとecs-cliのconfigをorgで管理してdefault値を一切設定しない運用をする</title><link>https://www.takeokunn.org/posts/permanent/20230119162342-aws_cli_ecs_cli_configure_without_default_value_by_org/</link><pubDate>Thu, 19 Jan 2023 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/permanent/20230119162342-aws_cli_ecs_cli_configure_without_default_value_by_org/</guid><description>&lt;h2 id="前提"&gt;前提&lt;/h2&gt;
+&lt;p&gt;私は普段次のような条件でAWSを触っています。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;AWSアカウントを複数社分扱っている&lt;/li&gt;
+&lt;li&gt;SwitchRoleで複数扱っている&lt;/li&gt;
+&lt;li&gt;手元から頻繁にコマンドをたたく&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;さまざまな環境で作業をしていると、「想定と違う環境に対してAPIを投げてしまう」「意図したリソースが取得できない」等さまざまなトラブルに直面します。
+全部CI/CDで管理をして、localからは一切なにもしないというのは1つの理想ではあるものの、そうはいかないのが現実というものです。&lt;/p&gt;</description></item><item><title>PHP8から追加されたJITについて学ぼう!</title><link>https://www.takeokunn.org/posts/permanent/20221222111924-about_php_jit/</link><pubDate>Thu, 22 Dec 2022 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/permanent/20221222111924-about_php_jit/</guid><description>&lt;h2 id="始めに"&gt;始めに&lt;/h2&gt;
+&lt;p&gt;2023年現在、PHPは世界中の企業で使われており、もっとも成功しているプログラミング言語の1つと言っても過言ではないくらい開発者から愛されています。
+WikipediaやWordPressもPHP製のプロダクトですので、開発者でなくてもPHPの恩恵を受けている人は多いでしょう。&lt;/p&gt;</description></item><item><title>sitemap.xmlからURLを良い感じに抽出してPlaywrightでUIを目視確認する</title><link>https://www.takeokunn.org/posts/fleeting/20221222102844-run_playwright_by_sitemap/</link><pubDate>Thu, 22 Dec 2022 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20221222102844-run_playwright_by_sitemap/</guid><description>&lt;h2 id="やりたいこと"&gt;やりたいこと&lt;/h2&gt;
+&lt;p&gt;フレームワークや言語のバージョンを上げたり、UI周りのリファクタリングをした際に、500やデザイン崩れがないかを確認したい。
+理想をいうとxUnitのようなテストコードを書いたりする方がよいのだが、テストコードを書くと工数が非常にかかるし、もともとテストコードがない環境だとしんどい。&lt;/p&gt;</description></item><item><title>Emacsを世界最速級で起動する方法</title><link>https://www.takeokunn.org/posts/permanent/20221217132815-emacs_more_faster/</link><pubDate>Sat, 17 Dec 2022 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/permanent/20221217132815-emacs_more_faster/</guid><description>&lt;p&gt;&lt;a href="https://qiita.com/advent-calendar/2022/emacs"&gt;Emacs Advent Calendar 2022&lt;/a&gt; 19日目です。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://qiita.com/advent-calendar/2022/vim"&gt;Vim Advent Calendar 2022&lt;/a&gt; 3日目の &lt;a href="https://qiita.com/delphinus/items/fb905e452b2de72f1a0f"&gt;爆速で起動する Neovim を作る&lt;/a&gt; に触発されて、「自分もEmacs版を書くぞ！」ということで書いていきます。&lt;/p&gt;
+&lt;p&gt;なお、VimとEmacsの比較をし易くするためになるべく文章の構成を寄せて書くことをご了承ください。&lt;/p&gt;</description></item><item><title>aws-sdk-php v3.245.0でBC breakをおこす</title><link>https://www.takeokunn.org/posts/fleeting/20221214165044-bc_break_aws_sdk_php_v3/</link><pubDate>Wed, 14 Dec 2022 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20221214165044-bc_break_aws_sdk_php_v3/</guid><description>&lt;h2 id="結論"&gt;結論&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;aws-sdk-php&lt;/code&gt; の &lt;code&gt;v3.245.0&lt;/code&gt; で &lt;code&gt;AwcClient&lt;/code&gt; のconstructorの引数が変わった&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;SqsClient&lt;/code&gt; などの継承しているclassにも影響が出る&lt;/li&gt;
+&lt;li&gt;Composer.jsonで &lt;code&gt;&amp;quot;aws/aws-sdk-php&amp;quot;: &amp;quot;^3.0&amp;quot;&lt;/code&gt; のように指定しているとversionが上がって事故る&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="現象"&gt;現象&lt;/h2&gt;
+&lt;p&gt;2022年11月に &lt;code&gt;aws-sdk-php&lt;/code&gt; の &lt;code&gt;v3.245.0&lt;/code&gt; がリリースされた。&lt;/p&gt;</description></item><item><title>fluent-bitに入門する</title><link>https://www.takeokunn.org/posts/permanent/20221207214034-about_fluent_bit/</link><pubDate>Wed, 07 Dec 2022 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/permanent/20221207214034-about_fluent_bit/</guid><description>&lt;h2 id="始めに"&gt;始めに&lt;/h2&gt;
+&lt;p&gt;複数のサーバを管理すればする程、loggingの重要性が高まります。
+特に2022年はコンテナ最盛期と言っても過言ではないくらいコンテナ化が進んでいています。&lt;/p&gt;</description></item><item><title>fluent-bitをDockerで動かす</title><link>https://www.takeokunn.org/posts/fleeting/20221207173426-run_fluent_bit_docker/</link><pubDate>Wed, 07 Dec 2022 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20221207173426-run_fluent_bit_docker/</guid><description>&lt;h2 id="プロジェクト構成"&gt;プロジェクト構成&lt;/h2&gt;
+&lt;p&gt;次のように適当なディレクトリを作成する。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;$ tree .
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;.
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;├── Dockerfile
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;├── application.conf
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;└── docker-compose.yml
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="m"&gt;0&lt;/span&gt; directories, &lt;span class="m"&gt;3&lt;/span&gt; files
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;Dockerfile&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-dockerfile" data-lang="dockerfile"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="k"&gt;FROM&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s"&gt;public.ecr.aws/aws-observability/aws-for-fluent-bit:2.21.3&lt;/span&gt;&lt;span class="err"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="err"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="k"&gt;COPY&lt;/span&gt; application.conf /fluent-bit/etc/application.conf&lt;span class="err"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;docker-compose.yml&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nt"&gt;version&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;3.8&amp;#34;&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nt"&gt;services&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;fluentbit&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;build&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l"&gt;.&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;command&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;/fluent-bit/bin/fluent-bit&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;-c&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;/fluent-bit/etc/application.conf&amp;#34;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;volumes&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;- &lt;span class="l"&gt;./application.conf:/fluent-bit/etc/application.conf&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;application.conf&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-cfg" data-lang="cfg"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="k"&gt;[SERVICE]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="na"&gt;Flush 5&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="na"&gt;Log_Level info&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="k"&gt;[INPUT]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="na"&gt;Name dummy&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="na"&gt;Tag *-firelens-*&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="na"&gt;Dummy {&amp;#34;date&amp;#34;:&amp;#34;2022-01-23T03:10:33.317817Z&amp;#34;,&amp;#34;source&amp;#34;:&amp;#34;stdout&amp;#34;,&amp;#34;log&amp;#34;:&amp;#34;time:2022-01-23T03:10:33+00:00\tprotocol:HTTP/1.1\tstatus:200\tsize:1450\treqsize:150\treferer:-\tvhost:10.10.18.102\treqtime:0.176\tcache:-\truntime:-\t&amp;#34;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="k"&gt;[OUTPUT]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="na"&gt;Name stdout&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="na"&gt;Match *&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="実行方法"&gt;実行方法&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;docker compose up&lt;/code&gt; を立ち上げると上記の &lt;code&gt;[INPUT]&lt;/code&gt; に記述したdummyのinputが出力される。&lt;/p&gt;</description></item><item><title>2021年に自分がemacs.dのカスタイマイズしたことについて</title><link>https://www.takeokunn.org/posts/permanent/20211203151122-configure_emacs_in_2021/</link><pubDate>Fri, 03 Dec 2021 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/permanent/20211203151122-configure_emacs_in_2021/</guid><description>&lt;p&gt;&lt;a href="https://qiita.com/advent-calendar/2021/emacs"&gt;Emacs Advent Calendar 2021&lt;/a&gt; 5日目の記事。&lt;/p&gt;
+&lt;p&gt;今年も&lt;a href="https://github.com/takeokunn/.emacs.d"&gt;takeokunn/.emacs.d&lt;/a&gt; をかなり改造した。 &lt;code&gt;git log --reverse&lt;/code&gt; してみるとfirst commitが &lt;code&gt;Sat Nov 3 18:15:51 2018 +0900&lt;/code&gt; のようなので3年使っているようだ。&lt;/p&gt;
+&lt;p&gt;最初と比べて圧倒的に快適になってはいるものの、分からないことが増えていく一方だ。
+とはいえ使っていくうちに理解が深まっていくのも事実。
+ざっくりやったことについてまとめていく（去年やったことも含まれているが御愛嬌）&lt;/p&gt;</description></item><item><title>TwitterUIDの挙動とJavaScriptのBigIntについて</title><link>https://www.takeokunn.org/posts/permanent/20201028052323-twitter_uid_javascript_bigint/</link><pubDate>Wed, 28 Oct 2020 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/permanent/20201028052323-twitter_uid_javascript_bigint/</guid><description>&lt;p&gt;TwitterのUIDについて調べてたら、自分の浮動小数点の挙動についての理解度が低かったので調べたことについてまとめておく。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;ことの発端は、spreadsheet上の人力で管理されているTwitterのユーザー情報をデータベースに入れる作業をしていた時だった。&lt;/p&gt;</description></item><item><title>MacBookProの生前整理をする</title><link>https://www.takeokunn.org/posts/permanent/20201003000022-pc_cleaninng_before_out_of_order/</link><pubDate>Sat, 03 Oct 2020 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/permanent/20201003000022-pc_cleaninng_before_out_of_order/</guid><description>&lt;h2 id="不要な情報の削除"&gt;不要な情報の削除&lt;/h2&gt;
+&lt;p&gt;まずは整理整頓の基本である不要なモノを捨てるところから。次のような手順を踖んだら容量カツカツ状態から62GB開けることができた。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://hnw.hatenablog.com/entry/20131117"&gt;hardlink.pyを使ったらディスクの空き容量が劇的に増えた&lt;/a&gt; こういうのもあるが今回は使わない。&lt;/p&gt;</description></item><item><title>新人教育をしていて一番大事なのは「試行回数」だと思った</title><link>https://www.takeokunn.org/posts/permanent/20201003015736-most_important_thing_number_of_trials_for_newbie/</link><pubDate>Sat, 03 Oct 2020 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/permanent/20201003015736-most_important_thing_number_of_trials_for_newbie/</guid><description>&lt;p&gt;3ヵ月~半年くらいで普通の社員と遜色ない人もいる。数年やっても向いてないんじゃないかというくらいできない人もいる。少しずつ着実に成長している人もいる。&lt;/p&gt;</description></item><item><title>半年間毎週dependabotをmergeしたので知見を纏める</title><link>https://www.takeokunn.org/posts/permanent/20200909061755-knowledge_dependabot_merge/</link><pubDate>Wed, 09 Sep 2020 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/permanent/20200909061755-knowledge_dependabot_merge/</guid><description>&lt;p&gt;Railsプロジェクトのdependabotをひたすら毎週月曜日の11時にmergeし続けて半年以上たったのでそろそろ知見をまとめておく。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id="始めに"&gt;始めに&lt;/h2&gt;
+&lt;p&gt;世の中のライブラリには大きく分けて3種類ある。&lt;/p&gt;</description></item><item><title>RedashのQuery一覧を保存する方法</title><link>https://www.takeokunn.org/posts/permanent/20200511164322-redash_save_query_list/</link><pubDate>Mon, 11 May 2020 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/permanent/20200511164322-redash_save_query_list/</guid><description>&lt;p&gt;仕事でRedashの情報を保存したいという要望があった。&lt;/p&gt;
+&lt;p&gt;AMIをとるのは大げさだよなぁと思ったのでqueryの一覧を取得する方法について調べてみた。&lt;/p&gt;</description></item><item><title>エンジニア採用面接で考えていること</title><link>https://www.takeokunn.org/posts/permanent/20200202015651-thinking_about_recruit_interview/</link><pubDate>Sun, 02 Feb 2020 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/permanent/20200202015651-thinking_about_recruit_interview/</guid><description>&lt;p&gt;これはポエムです。&lt;/p&gt;
+&lt;p&gt;個人的意見だし、エンジニアの採用面接専門で雇われているわけじゃないので詳しいことやベストプラクティスはわからないです。会社の方針と違う部分もあるし。&lt;/p&gt;</description></item><item><title>開発体験向上について考えてること</title><link>https://www.takeokunn.org/posts/permanent/20190930175912-thinking_about_developer_experience/</link><pubDate>Mon, 30 Sep 2019 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/permanent/20190930175912-thinking_about_developer_experience/</guid><description>&lt;p&gt;会社での仕事の大半はDX向上な気がしているので、普段やっていることについてまとめていく。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;a href="https://gfx.hatenablog.com/entry/2018/06/28/100103"&gt;DX: Developer Experience （開発体験）は重要だ&lt;/a&gt; にDX向上のメリットについて書いてあるのだが、具体的な作業は何かについて書いていないので自分なりのやり方を書いていく。&lt;/p&gt;</description></item><item><title>JavaScriptのthisについて</title><link>https://www.takeokunn.org/posts/permanent/20190701050011-javascript_this_in_depth/</link><pubDate>Mon, 01 Jul 2019 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/permanent/20190701050011-javascript_this_in_depth/</guid><description>&lt;p&gt;会社のインターン生にJavaScriptの &lt;code&gt;this&lt;/code&gt; についてドヤ顔で説明してたら、間違って理解していたことがわかってしまった。&lt;/p&gt;
+&lt;p&gt;同僚と &lt;code&gt;this&lt;/code&gt; がどのような挙動をするのかで盛り上がって楽しかった。&lt;/p&gt;</description></item><item><title>EsLintでGlobの挙動で詰まった時のメモ</title><link>https://www.takeokunn.org/posts/permanent/20190531143338-eslint_glob_shell/</link><pubDate>Fri, 31 May 2019 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/permanent/20190531143338-eslint_glob_shell/</guid><description>&lt;p&gt;詰まった内容は以下だ。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;同じコマンドを実行しているはずなのに出力される結果が違うので困っています。
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;開発環境では通って、circleci上ではエラーが出ている状態です。
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;A: npm run test:lint
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;B: ./node_module/.bin/eslint --debug app/javascript/**/*.{vue,ts}
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&amp;#34;scripts&amp;#34;: {
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&amp;#34;test:lint&amp;#34;: &amp;#34;eslint --debug app/javascript/**/*.{vue,ts}&amp;#34;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;A&lt;/code&gt; と &lt;code&gt;B&lt;/code&gt; で同じコードを実行しているはずなのでなぜか違う結果を吐き出すのだ。 &lt;code&gt;local&lt;/code&gt; では &lt;code&gt;eslint&lt;/code&gt; が通るけど &lt;code&gt;circleci&lt;/code&gt; ではコケる、といった問題が起きていて困っていた。&lt;/p&gt;</description></item><item><title>オフィスにアクセスポイントを導入した時やったこと</title><link>https://www.takeokunn.org/posts/permanent/20190529144603-office_access_point/</link><pubDate>Wed, 29 May 2019 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/permanent/20190529144603-office_access_point/</guid><description>&lt;p&gt;無線ルータを購入してアクセスポイントを設定した時に学んだことをメモしておく。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id="無線ルータ選定"&gt;無線ルータ選定&lt;/h2&gt;
+&lt;p&gt;ポイントは3点。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;転送速度&lt;/li&gt;
+&lt;li&gt;セキュリティ&lt;/li&gt;
+&lt;li&gt;無線端末 最大接続数&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="転送速度"&gt;転送速度&lt;/h3&gt;
+&lt;p&gt;種類ありすぎてわけわからないけど、とりあえず &lt;code&gt;1ac&lt;/code&gt; に対応してればよいかな。GHzが低いほど壁などの障害に強い。&lt;/p&gt;</description></item><item><title>SVGにグラデーションのアニメーションをかける</title><link>https://www.takeokunn.org/posts/permanent/20190414045600-svg_gradation_animation/</link><pubDate>Sun, 14 Apr 2019 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/permanent/20190414045600-svg_gradation_animation/</guid><description>&lt;p&gt;ソースコードはこんな感じ。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-xml" data-lang="xml"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nt"&gt;&amp;lt;svg&lt;/span&gt; &lt;span class="na"&gt;version=&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;1.1&amp;#34;&lt;/span&gt; &lt;span class="na"&gt;xmlns=&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;http://www.w3.org/2000/svg&amp;#34;&lt;/span&gt; &lt;span class="na"&gt;xmlns:xlink=&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;http://www.w3.org/1999/xlink&amp;#34;&lt;/span&gt; &lt;span class="na"&gt;x=&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;0px&amp;#34;&lt;/span&gt; &lt;span class="na"&gt;y=&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;0px&amp;#34;&lt;/span&gt; &lt;span class="na"&gt;viewBox=&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;0 0 1000 1000&amp;#34;&lt;/span&gt; &lt;span class="na"&gt;enable-background=&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;new 0 0 1000 1000&amp;#34;&lt;/span&gt; &lt;span class="na"&gt;xml:space=&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;preserve&amp;#34;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nt"&gt;&amp;lt;defs&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nt"&gt;&amp;lt;linearGradient&lt;/span&gt; &lt;span class="na"&gt;id=&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;bearGratient&amp;#34;&lt;/span&gt; &lt;span class="na"&gt;x1=&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;100%&amp;#34;&lt;/span&gt; &lt;span class="na"&gt;y1=&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;100%&amp;#34;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nt"&gt;&amp;lt;stop&lt;/span&gt; &lt;span class="na"&gt;offset=&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;0%&amp;#34;&lt;/span&gt; &lt;span class="na"&gt;stop-color=&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;#69d2ff&amp;#34;&lt;/span&gt; &lt;span class="na"&gt;stop-opacity=&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;.5&amp;#34;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nt"&gt;&amp;lt;animate&lt;/span&gt; &lt;span class="na"&gt;attributeName=&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;stop-color&amp;#34;&lt;/span&gt; &lt;span class="na"&gt;values=&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;#69d2ff;#71dca7;#ffd458;#ffa7de;#69d2ff&amp;#34;&lt;/span&gt; &lt;span class="na"&gt;dur=&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;14s&amp;#34;&lt;/span&gt; &lt;span class="na"&gt;repeatCount=&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;indefinite&amp;#34;&lt;/span&gt; &lt;span class="nt"&gt;/&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nt"&gt;&amp;lt;/stop&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nt"&gt;&amp;lt;stop&lt;/span&gt; &lt;span class="na"&gt;offset=&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;100%&amp;#34;&lt;/span&gt; &lt;span class="na"&gt;stop-color=&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;#69d2ff&amp;#34;&lt;/span&gt; &lt;span class="na"&gt;stop-opacity=&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;.5&amp;#34;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nt"&gt;&amp;lt;animate&lt;/span&gt; &lt;span class="na"&gt;attributeName=&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;stop-color&amp;#34;&lt;/span&gt; &lt;span class="na"&gt;values=&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;#69d2ff;#71dca7;#ffd458;#ffa7de;#69d2ff&amp;#34;&lt;/span&gt; &lt;span class="na"&gt;dur=&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;14s&amp;#34;&lt;/span&gt; &lt;span class="na"&gt;repeatCount=&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;indefinite&amp;#34;&lt;/span&gt; &lt;span class="nt"&gt;/&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nt"&gt;&amp;lt;animate&lt;/span&gt; &lt;span class="na"&gt;attributeName=&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;offset&amp;#34;&lt;/span&gt; &lt;span class="na"&gt;values=&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;.95;.80;.60;.40;.20;0;.20;.40;.60;.80;.95&amp;#34;&lt;/span&gt; &lt;span class="na"&gt;dur=&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;14s&amp;#34;&lt;/span&gt; &lt;span class="na"&gt;repeatCount=&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;indefinite&amp;#34;&lt;/span&gt; &lt;span class="nt"&gt;/&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nt"&gt;&amp;lt;/stop&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nt"&gt;&amp;lt;/linearGradient&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nt"&gt;&amp;lt;/defs&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nt"&gt;&amp;lt;g&lt;/span&gt; &lt;span class="na"&gt;fill=&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;url(#bearGratient)&amp;#34;&lt;/span&gt; &lt;span class="na"&gt;transform=&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;translate(0.000000,511.000000) scale(0.100000,-0.100000)&amp;#34;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nt"&gt;&amp;lt;path&lt;/span&gt; &lt;span class="na"&gt;d=&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;/* 中略 *//&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="s"&gt; &amp;lt;path d=&amp;#34;&lt;/span&gt;&lt;span class="err"&gt;/*&lt;/span&gt; &lt;span class="err"&gt;中略&lt;/span&gt; &lt;span class="err"&gt;*/&lt;/span&gt;&lt;span class="nt"&gt;/&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nt"&gt;&amp;lt;path&lt;/span&gt; &lt;span class="na"&gt;d=&lt;/span&gt;&lt;span class="s"&gt;&amp;#34;/*&lt;/span&gt; &lt;span class="err"&gt;中略&lt;/span&gt; &lt;span class="err"&gt;*/&lt;/span&gt;&lt;span class="nt"&gt;/&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nt"&gt;&amp;lt;/g&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nt"&gt;&amp;lt;/svg&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;最初、 &lt;code&gt;css&lt;/code&gt; の &lt;code&gt;linear-gradient&lt;/code&gt; で線形グラデーションをかけようと思ったのだが、どうも &lt;code&gt;svg&lt;/code&gt; には対応していないらしい。&lt;/p&gt;</description></item><item><title>Ubuntu FirefoxをEmacs Keybindにする</title><link>https://www.takeokunn.org/posts/permanent/20190413091854-ubuntu_firefox_emacs_keybind/</link><pubDate>Sat, 13 Apr 2019 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/permanent/20190413091854-ubuntu_firefox_emacs_keybind/</guid><description>&lt;p&gt;普段Chromeを使っているのだが、外で作業するとき電池の消費量が異常だったのでFirefoxの環境も整備する必要が出てきた。&lt;/p&gt;
+&lt;p&gt;しかしながら、Emacs脳である自分にはネットサーフィンもEmacsでしたいという欲求が非常に強い。&lt;/p&gt;</description></item><item><title>WebpackerでBulmaをbuildするとwarningが出るものの調査と対応</title><link>https://www.takeokunn.org/posts/permanent/20190411111745-webpacker_bulma_build_warning/</link><pubDate>Thu, 11 Apr 2019 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/permanent/20190411111745-webpacker_bulma_build_warning/</guid><description>&lt;p&gt;「Webpackerでbuildするとめっちゃwarning出るんだけど調べてくれない？」&lt;/p&gt;
+&lt;p&gt;と、会社の先輩からいわれたので調査対応をした時学んだことをメモしていく。&lt;/p&gt;</description></item><item><title>AjaxとBrowser Cookie</title><link>https://www.takeokunn.org/posts/permanent/20190330064337-ajax_browser_cookie/</link><pubDate>Sat, 30 Mar 2019 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/permanent/20190330064337-ajax_browser_cookie/</guid><description>&lt;p&gt;「ブラウザからアクセスするのと、AjaxからアクセスするのってCookieってかわっちゃうの？」という質問をされたので自分なりの答えを書いていく。&lt;/p&gt;</description></item><item><title>npm libraryのbuild formatについて</title><link>https://www.takeokunn.org/posts/permanent/20190317001306-publish_npm_library_build_format/</link><pubDate>Sun, 17 Mar 2019 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/permanent/20190317001306-publish_npm_library_build_format/</guid><description>&lt;p&gt;半年前くらいにnpm package作ってみたいなぁと思って作ってみた時学んだことをまとめていく。&lt;/p&gt;
+&lt;p&gt;次の記事でだいたい理解できたのだが、実際にやってみて細かいところでつまずた部分を書いていく。&lt;/p&gt;</description></item><item><title>Common Lispのquoteについて</title><link>https://www.takeokunn.org/posts/permanent/20190316220021-common_lispdata_command_mode/</link><pubDate>Sat, 16 Mar 2019 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/permanent/20190316220021-common_lispdata_command_mode/</guid><description>&lt;p&gt;stack overflowに次の2つの質問をした。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://stackoverflow.com/questions/54868796/cannot-post-slack-webhook-url-in-common-lisp"&gt;Cannot post slack webhook url in common lisp&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://stackoverflow.com/questions/55066131/getenv-xxx-is-not-a-lisp-string-or-pointer"&gt;(GETENV XXX) is not a Lisp string or pointer Ask Question&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;両方とも &lt;code&gt;sds&lt;/code&gt; という方が答えてくれたのですが、 どうも自分は &lt;code&gt;quote&lt;/code&gt; について理解をしていないことがわかりました。&lt;/p&gt;</description></item><item><title>MySQLのmax_allowed_packetについて</title><link>https://www.takeokunn.org/posts/permanent/20190309201924-mysql_max_allowed_packet/</link><pubDate>Sat, 09 Mar 2019 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/permanent/20190309201924-mysql_max_allowed_packet/</guid><description>&lt;p&gt;先日、カイシャのギョームでこんなことがあった。&lt;/p&gt;
+&lt;p&gt;「なんか、普通に投稿はできるんだけど、下書きが保存できないんだよね。ちょっと原因わからない？」&lt;/p&gt;
+&lt;p&gt;Railsで書かれている対象のコードを読んだのだが、まったく問題がなさそうだ。普通に &lt;code&gt;ActiveRecord&lt;/code&gt; のメソッドを読んでテキスト情報を保存しているだけだからだ。&lt;/p&gt;</description></item><item><title>docker-compose.ymlのportsについてのメモ</title><link>https://www.takeokunn.org/posts/permanent/20190226214952-docker_compose_yml_ports/</link><pubDate>Tue, 26 Feb 2019 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/permanent/20190226214952-docker_compose_yml_ports/</guid><description>&lt;p&gt;おもしろい挙動をするので記事化する。&lt;/p&gt;
+&lt;p&gt;中のコード読んでみたい。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-yaml" data-lang="yaml"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nt"&gt;version&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;3&amp;#39;&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nt"&gt;services&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;nginx&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;image&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="l"&gt;nginx&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nt"&gt;ports&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="w"&gt; &lt;/span&gt;- &lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="m"&gt;80&lt;/span&gt;&lt;span class="w"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;portを0にするとどうなるだろうか。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-shell" data-lang="shell"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;~/D/test &lt;span class="o"&gt;(&lt;/span&gt;*´ω｀*&lt;span class="o"&gt;)&lt;/span&gt; &amp;lt; docker ps
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;CONTAINER ID IMAGE COMMAND CREATED STATUS PORTS NAMES
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;05e0975ea3d1 nginx &lt;span class="s2"&gt;&amp;#34;nginx -g &amp;#39;daemon of…&amp;#34;&lt;/span&gt; &lt;span class="m"&gt;51&lt;/span&gt; seconds ago Up &lt;span class="m"&gt;49&lt;/span&gt; seconds 0.0.0.0:32768-&amp;gt;80/tcp test_nginx_1
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;0.0.0.0:32768-&amp;gt;80/tcp&lt;/code&gt; なんと、 &lt;code&gt;32768&lt;/code&gt; にforwardされるのだ。&lt;/p&gt;</description></item></channel></rss>

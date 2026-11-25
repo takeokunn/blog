@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Cliffy on takeokunn's blog</title><link>https://www.takeokunn.org/tags/cliffy/</link><description>Recent content in Cliffy on takeokunn's blog</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Thu, 03 Apr 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://www.takeokunn.org/tags/cliffy/index.xml" rel="self" type="application/rss+xml"/><item><title>Denoで簡易的なCLIツールを作る</title><link>https://www.takeokunn.org/posts/fleeting/20250403212205-deno_cli_sandbox/</link><pubDate>Thu, 03 Apr 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250403212205-deno_cli_sandbox/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;DenoでCLIツールを試験的に作ったのでメモしておく。&lt;/p&gt;
+&lt;h2 id="方針"&gt;方針&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://cliffy.io/"&gt;cliffy&lt;/a&gt; で作成&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;cat&lt;/code&gt; と &lt;code&gt;grep&lt;/code&gt; をSub Commandで簡易的に作成&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="ディレクトリ構造"&gt;ディレクトリ構造&lt;/h2&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-console" data-lang="console"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="gp"&gt;$&lt;/span&gt; nix run nixpkgs#tree .
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="go"&gt;.
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="go"&gt;├── deno.json
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="go"&gt;├── deno.lock
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="go"&gt;└── src
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="go"&gt; ├── commands
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="go"&gt; │   ├── cat.ts
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="go"&gt; │   └── grep.ts
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="go"&gt; ├── deps.ts
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="go"&gt; └── main.ts
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="err"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="go"&gt;3 directories, 6 files
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id="作業手順"&gt;作業手順&lt;/h2&gt;
+&lt;h3 id="1-dot-依存関係をインストール"&gt;1. 依存関係をインストール&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;$ deno install&lt;/code&gt; で入れて使い易いように &lt;code&gt;src/deps.ts&lt;/code&gt; を用意する&lt;/p&gt;</description></item></channel></rss>

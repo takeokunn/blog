@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Nix on takeokunn's blog</title><link>https://www.takeokunn.org/tags/nix/</link><description>Recent content in Nix on takeokunn's blog</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Sat, 10 Jan 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://www.takeokunn.org/tags/nix/index.xml" rel="self" type="application/rss+xml"/><item><title>nix-darwinのlinux-builderでNixOSを動かす</title><link>https://www.takeokunn.org/posts/fleeting/20251130151735-run_nixos_apple_linux_builder/</link><pubDate>Sat, 10 Jan 2026 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20251130151735-run_nixos_apple_linux_builder/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;元々OrbStack VMでNixOSを動かしていたのだが、k8sを動かす時にOrbStackだと動かずDocker for Macだと動くという事象が発生した。&lt;/p&gt;</description></item><item><title>Neovimの設定をNixvimに移行した</title><link>https://www.takeokunn.org/posts/fleeting/20251124235900-migrate_nixvim/</link><pubDate>Thu, 25 Dec 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20251124235900-migrate_nixvim/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;私はEmacsユーザだが、最近同僚エンジニアが全員Neovimユーザの会社に転職してしまった。
+よい機会だしある程度Neovimを使えた方がいいなと思い、Neovimをひととおり設定したのでメモしておく。&lt;/p&gt;</description></item><item><title>個人的sketchybar設定</title><link>https://www.takeokunn.org/posts/fleeting/20251124235900-setting_sketchybar/</link><pubDate>Sun, 30 Nov 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20251124235900-setting_sketchybar/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20251124235900-setting_aerospace/"&gt;個人的Aerospace設定&lt;/a&gt; に続き、sketchybarの設定もしたのでメモしておく。&lt;/p&gt;
+&lt;p&gt;大体の対応は公式ドキュメントを元にClaude Codeに対応させた。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://felixkratz.github.io/SketchyBar/"&gt;https://felixkratz.github.io/SketchyBar/&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id="試したこと-やったこと"&gt;試したこと・やったこと&lt;/h2&gt;
+&lt;h3 id="1-dot-完成イメージと設計方針"&gt;1. 完成イメージと設計方針&lt;/h3&gt;
+&lt;p&gt;世の中のsketchybarのサンプルを作成して、こんな感じで作る目論見を立てた。&lt;/p&gt;</description></item><item><title>k9sをDracula Theme対応した</title><link>https://www.takeokunn.org/posts/fleeting/20251124235900-k9s_dracula_theme/</link><pubDate>Sat, 29 Nov 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20251124235900-k9s_dracula_theme/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;最近仕事でkubernetesを使う機会に恵まれた。
+kubernetesを使うにあたって、モニタリングツールは&lt;a href="https://k9scli.io/"&gt;k9s&lt;/a&gt;がデファクトのようなのでhome-managerを使って導入した。
+「すべてのツールのカラーテーマはdracula themeに寄せる」という方針なので漏れなく対応した。&lt;/p&gt;</description></item><item><title>個人的Aerospace設定</title><link>https://www.takeokunn.org/posts/fleeting/20251124235900-setting_aerospace/</link><pubDate>Sat, 29 Nov 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20251124235900-setting_aerospace/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;タイル型Window Managerは割と好きで、Linux Desktopではswayを使っているのだが、macOSでも使いたいと思っていた。
+macOSでは昔ながらの&lt;a href="https://github.com/koekeishiya/yabai"&gt;yabai&lt;/a&gt;と後発の&lt;a href="https://github.com/nikitabobko/AeroSpace"&gt;AeroSpace&lt;/a&gt;があるが、AeroSpaceで自分のユースケースをすべて満たせていたので採用した。&lt;/p&gt;</description></item><item><title>node2nixの使い方</title><link>https://www.takeokunn.org/posts/fleeting/20250622133346-how_to_use_node2nix/</link><pubDate>Sun, 22 Jun 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250622133346-how_to_use_node2nix/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;最近のAIツールの隆盛でnpm packageを使う機会が増えてきた。
+MCP実行するpackageの管理や、claude codeのようなpackageの管理をNixなどが具体例として挙げられる。&lt;/p&gt;</description></item><item><title>home-managerで自作moduleを作る</title><link>https://www.takeokunn.org/posts/fleeting/20250613195154-home_manager_custom_module/</link><pubDate>Sat, 14 Jun 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250613195154-home_manager_custom_module/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;home-managerには沢山のmoduleが提供されている。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/nix-community/home-manager/tree/master/modules"&gt;https://github.com/nix-community/home-manager/tree/master/modules&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;home-manager moduleは自分でも作成可能なので後学のためにメモしておく。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/takeokunn/nixos-configuration/tree/e2cf7d9df556a56e242b3f44b0957884cd6191dd/home-manager/modules"&gt;https://github.com/takeokunn/nixos-configuration/tree/e2cf7d9df556a56e242b3f44b0957884cd6191dd/home-manager/modules&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id="試したこと-やったこと"&gt;試したこと・やったこと&lt;/h2&gt;
+&lt;h3 id="0-dot-なぜやるのかの整理"&gt;0. なぜやるのかの整理&lt;/h3&gt;
+&lt;p&gt;大きく分けて3パターンが考えられる。&lt;/p&gt;</description></item><item><title>2025年5月 Macの再インストール手順メモ</title><link>https://www.takeokunn.org/posts/fleeting/20250514222418-reinstall_mac_with_nix/</link><pubDate>Wed, 14 May 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250514222418-reinstall_mac_with_nix/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;たまたまMacを再インストールする必要があった。
+普段、手元のマシンの環境構築手順を洗練させてたお陰で少ないステップで構築できたので何をやったのか後学の為にメモしておく。&lt;/p&gt;</description></item><item><title>GitHub ActionsでCachixを導入する</title><link>https://www.takeokunn.org/posts/fleeting/20250510192642-use_cachix_in_github_actions/</link><pubDate>Sat, 10 May 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250510192642-use_cachix_in_github_actions/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;NixにハマってからGitHub Actions上でNixを実行する機会が増えた。
+Nixというツールの性質上、どうしても実行環境の準備に時間がかかってしまうのでキャッシュ機能を導入したいと以前から思っていた。&lt;/p&gt;</description></item><item><title>nixpkgsのunstableでEmacs Nativecomp Buildができない問題とワークアラウンド</title><link>https://www.takeokunn.org/posts/fleeting/20250417001805-emacs_nativecomp_bulid_error_nixpkgs_and_workaround/</link><pubDate>Thu, 17 Apr 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250417001805-emacs_nativecomp_bulid_error_nixpkgs_and_workaround/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;2025年4月16日現在、 &lt;code&gt;aarch64-darwin&lt;/code&gt; 環境でnixpkgs unstableのemacs（nativecomp）をビルドできない問題が発生している。&lt;/p&gt;
+&lt;h2 id="ワークアラウンド方法"&gt;ワークアラウンド方法&lt;/h2&gt;
+&lt;p&gt;packageに &lt;code&gt;withNativeCompilation = false;&lt;/code&gt; を書く。&lt;/p&gt;</description></item><item><title>mcp-servers-nixを導入した</title><link>https://www.takeokunn.org/posts/fleeting/20250409210655-introduction_mcp_servers_nix/</link><pubDate>Wed, 09 Apr 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250409210655-introduction_mcp_servers_nix/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;natsukium謹製の &lt;a href="https://github.com/natsukium/mcp-servers-nix"&gt;natsukium/mcp-servers-nix&lt;/a&gt; を &lt;a href="https://github.com/takeokunn/nixos-configuration"&gt;takeokunn/nixos-configuration&lt;/a&gt; に導入したのでメモしておく。&lt;/p&gt;
+&lt;h2 id="変更点"&gt;変更点&lt;/h2&gt;
+&lt;h3 id="before"&gt;Before&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Orgファイルから &lt;code&gt;org-babel-tangle&lt;/code&gt; で &lt;code&gt;~/Library/Application\ Support/Claude/claude_desktop_config.json&lt;/code&gt; を出力&lt;/li&gt;
+&lt;li&gt;必要なpackageは &lt;a href="https://github.com/svanderburg/node2nix"&gt;node2nix&lt;/a&gt; 経由で入れる&lt;/li&gt;
+&lt;li&gt;秘密鍵はOrgファイルで &lt;code&gt;org-encrypt&lt;/code&gt; して管理
+&lt;ul&gt;
+&lt;li&gt;ref. &lt;a href="https://www.takeokunn.org/posts/fleeting/20250127144907-my_usage_org_crypt/"&gt;org-crypt運用メモ&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="after"&gt;After&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/natsukium/mcp-servers-nix"&gt;natsukium/mcp-servers-nix&lt;/a&gt; からMCPに必要なものをjsonを出力&lt;/li&gt;
+&lt;li&gt;必要なpackageは大体 &lt;a href="https://github.com/natsukium/mcp-servers-nix"&gt;natsukium/mcp-servers-nix&lt;/a&gt; に同梱されてる
+&lt;ul&gt;
+&lt;li&gt;足りないものは &lt;a href="https://github.com/svanderburg/node2nix"&gt;node2nix&lt;/a&gt; 経由で入れる&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;秘密鍵は &lt;a href="https://github.com/Mic92/sops-nix"&gt;sops-nix&lt;/a&gt; で管理&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="作業内容"&gt;作業内容&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://zenn.dev/natsukium/articles/f010c1ec1c51b2"&gt;MCPサーバーの設定をセキュアでGit friendlyにする - Zenn&lt;/a&gt; を事前に読む。&lt;/p&gt;</description></item><item><title>flake.nixでポータブルな最小構成のEmacsを作成する</title><link>https://www.takeokunn.org/posts/fleeting/20250403230709-portable_minimal_emacs_with_flake_nix/</link><pubDate>Thu, 03 Apr 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250403230709-portable_minimal_emacs_with_flake_nix/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;「任意のEmacs Packageが動かない」がおま環かバグかというのを切り分けることは非常に重要。
+誰でも同じ環境を整えられるようにすると問題解決が捗るので構築方法をメモしておく。&lt;/p&gt;</description></item><item><title>@github/copilot-language-serverをNixで扱う時のメモ</title><link>https://www.takeokunn.org/posts/fleeting/20250327190937-usage_github_copilot_language_server/</link><pubDate>Thu, 27 Feb 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250327190937-usage_github_copilot_language_server/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://github.com/orgs/github/packages/npm/package/copilot-language-server"&gt;@github/copilot-language-server&lt;/a&gt; を &lt;a href="https://github.com/takeokunn/nixos-configuration"&gt;takeokunn/nixos-configuration&lt;/a&gt; 上で扱えるようにしたのでメモしておく。&lt;/p&gt;
+&lt;h2 id="background"&gt;Background&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/copilot-emacs/copilot.el"&gt;copilot.el&lt;/a&gt; のバージョンが上がった&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/orgs/github/packages/npm/package/copilot-language-server"&gt;@github/copilot-language-server&lt;/a&gt; をnpmでインストールして使う必要があった&lt;/li&gt;
+&lt;li&gt;次の要件を満たしたい
+&lt;ul&gt;
+&lt;li&gt;Nixでパッケージングしたい&lt;/li&gt;
+&lt;li&gt;Neovimなどのエディタでも汎用的に使えるようにしたい&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="対応手順"&gt;対応手順&lt;/h2&gt;
+&lt;h3 id="1-dot-node2nixでパッケージングする"&gt;1. node2nixでパッケージングする&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;node2nix/node-packages.json&lt;/code&gt; に次のような記述をした。&lt;/p&gt;</description></item><item><title>2025年2月 Neovimセットアップ</title><link>https://www.takeokunn.org/posts/fleeting/20250211111032-setup_neovim/</link><pubDate>Tue, 11 Feb 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250211111032-setup_neovim/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;Neovimに入門したいと思い早n年だったが、vim-jpの皆さんのおかげでようやくミニマムの設定が完了したのでブログにまとめておきます。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20230209152709-using-vim-and-neovim-for-differenct-purposes-and-minimum-settings/"&gt;VimとNeovimの使い分けと最小構成&lt;/a&gt; のとおりVimは最小構成にしているので、Neovimはヘビーカスタマイズしていく方針です。&lt;/p&gt;</description></item><item><title>org-nix-shell入門</title><link>https://www.takeokunn.org/posts/fleeting/20250126140928-introduction_org_nix_shell/</link><pubDate>Sat, 08 Feb 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250126140928-introduction_org_nix_shell/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;org-nix-shellはOrg関連パッケージの中でもキラーアプリケーションと呼べるもので、個人的に今熱いパッケージのひとつです。
+簡単な使い方と実際のユースケースを紹介していきます。&lt;/p&gt;</description></item><item><title>Nixでdap-modeがエラーになった時のメモ</title><link>https://www.takeokunn.org/posts/fleeting/20250203131440-workaround_nix_dap_mode/</link><pubDate>Mon, 03 Feb 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250203131440-workaround_nix_dap_mode/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;2025/02/02（Sun）に &lt;code&gt;nix flake update&lt;/code&gt; で最新にしてBuildしたらエラーで落ちるようになったのでメモ。&lt;/p&gt;
+&lt;h2 id="現象"&gt;現象&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;2025/01/31に &lt;a href="https://github.com/emacs-lsp/dap-mode/commit/438679755e880f2a662a63bc04da9e843257e248"&gt;dapui.elがdap-ui.elにrename&lt;/a&gt; される&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://melpa.org/#/dap-mode"&gt;dap-mode 20250131.1624&lt;/a&gt; に反映される&lt;/li&gt;
+&lt;li&gt;2025/02/02の &lt;a href="https://github.com/NixOS/nixpkgs/blob/master/pkgs/applications/editors/emacs/elisp-packages/melpa-packages.nix#L984-L991"&gt;nix flake update nixpkgsのdap-modeのpreBuild&lt;/a&gt; でdapui.elがなくて落ちるようになった&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id="最小構成と解決策"&gt;最小構成と解決策&lt;/h2&gt;
+&lt;p&gt;次のように &lt;code&gt;preBuild&lt;/code&gt; をoverlaysに追加すればBuildできるようになった。&lt;/p&gt;</description></item><item><title>個人的devenv運用</title><link>https://www.takeokunn.org/posts/fleeting/20250126135045-personal_devenv_tips/</link><pubDate>Mon, 27 Jan 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250126135045-personal_devenv_tips/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;devenvをヘビーユーズしているので、個人的なdevenv運用についてやTipsについてまとめる。&lt;/p&gt;
+&lt;h2 id="devenvとは"&gt;devenvとは&lt;/h2&gt;
+&lt;p&gt;devenvはcachix社が作っているflake.nixラッパ。
+&lt;a href="https://devenv.sh/"&gt;https://devenv.sh/&lt;/a&gt;&lt;/p&gt;</description></item><item><title>NixでTypstをBuildしGitHub Pagesでホスティングする</title><link>https://www.takeokunn.org/posts/fleeting/20250126114218-build_and_deploy_typst_using_nix/</link><pubDate>Sun, 26 Jan 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250126114218-build_and_deploy_typst_using_nix/</guid><description>&lt;h2 id="背景"&gt;背景&lt;/h2&gt;
+&lt;p&gt;スライドや組版記事を生成する為にTypstを採用することにした。
+工数を最小限に安定的に量産できるようなしくみを整える必要が迫られていたので、今回対応したことをメモしておく。&lt;/p&gt;</description></item><item><title>tcardgenをnixでパッケージ化する方法</title><link>https://www.takeokunn.org/posts/fleeting/20241122091116-how_to_package_tcardgen_with_nix/</link><pubDate>Fri, 22 Nov 2024 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20241122091116-how_to_package_tcardgen_with_nix/</guid><description>&lt;h2 id="背景"&gt;背景&lt;/h2&gt;
+&lt;p&gt;HugoからOGPを動的に吐き出すツールとして &lt;a href="https://github.com/Ladicle/tcardgen"&gt;Ladicle/tcardgen&lt;/a&gt; がある。
+2024/11/22 現在当ブログでも利用していて、 &lt;a href="https://github.com/takeokunn/blog"&gt;takeokunn/blog&lt;/a&gt; のNix化に伴い tcardgen もNixでパッケージングする必要があった。&lt;/p&gt;</description></item></channel></rss>

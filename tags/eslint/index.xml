@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Eslint on takeokunn's blog</title><link>https://www.takeokunn.org/tags/eslint/</link><description>Recent content in Eslint on takeokunn's blog</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Fri, 31 May 2019 09:00:00 +0900</lastBuildDate><atom:link href="https://www.takeokunn.org/tags/eslint/index.xml" rel="self" type="application/rss+xml"/><item><title>EsLintでGlobの挙動で詰まった時のメモ</title><link>https://www.takeokunn.org/posts/permanent/20190531143338-eslint_glob_shell/</link><pubDate>Fri, 31 May 2019 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/permanent/20190531143338-eslint_glob_shell/</guid><description>&lt;p&gt;詰まった内容は以下だ。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-text" data-lang="text"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;同じコマンドを実行しているはずなのに出力される結果が違うので困っています。
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;開発環境では通って、circleci上ではエラーが出ている状態です。
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;A: npm run test:lint
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;B: ./node_module/.bin/eslint --debug app/javascript/**/*.{vue,ts}
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&amp;#34;scripts&amp;#34;: {
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&amp;#34;test:lint&amp;#34;: &amp;#34;eslint --debug app/javascript/**/*.{vue,ts}&amp;#34;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;A&lt;/code&gt; と &lt;code&gt;B&lt;/code&gt; で同じコードを実行しているはずなのでなぜか違う結果を吐き出すのだ。 &lt;code&gt;local&lt;/code&gt; では &lt;code&gt;eslint&lt;/code&gt; が通るけど &lt;code&gt;circleci&lt;/code&gt; ではコケる、といった問題が起きていて困っていた。&lt;/p&gt;</description></item></channel></rss>

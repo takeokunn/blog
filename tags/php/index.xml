@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Php on takeokunn's blog</title><link>https://www.takeokunn.org/tags/php/</link><description>Recent content in Php on takeokunn's blog</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Wed, 25 Jun 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://www.takeokunn.org/tags/php/index.xml" rel="self" type="application/rss+xml"/><item><title>php-srcとyieldについて調査メモ</title><link>https://www.takeokunn.org/posts/fleeting/20250625115611-yield_in_php_src/</link><pubDate>Wed, 25 Jun 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250625115611-yield_in_php_src/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://github.com/php/php-src"&gt;php/php-src&lt;/a&gt; でyieldはどう扱われているのか調査したのでメモしておく。&lt;/p&gt;
+&lt;h2 id="試したこと-やったこと"&gt;試したこと・やったこと&lt;/h2&gt;
+&lt;h3 id="rfcを読む"&gt;RFCを読む&lt;/h3&gt;
+&lt;p&gt;2012/06/05にNikita Popov氏が「Request for Comments: Generators」というRFCを出している。
+yield構文はPHP 5.5で導入されたようだ。&lt;/p&gt;</description></item><item><title>巨大なLaravelレポジトリでphpactorを使うTips</title><link>https://www.takeokunn.org/posts/fleeting/20250515004832-phpactor_performance_huge_projects/</link><pubDate>Wed, 14 May 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250515004832-phpactor_performance_huge_projects/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;手元で &lt;a href="https://intelephense.com/"&gt;intelephense&lt;/a&gt; が最近調子が悪く、定義ジャンプや補完が全然効かなくなってしまった。&lt;/p&gt;
+&lt;p&gt;phpactorの方がintelephenseよりもちゃんと機能してくれる肌感があったが、いかんせん大きいプロジェクトでは重く使いものにならない印象を持っていた。
+しかし、phpactor周辺の設定を徹底したら快適に動くようになってくれたので対応項目をメモしておく。&lt;/p&gt;</description></item><item><title>Laravel LazyCollection in depth</title><link>https://www.takeokunn.org/posts/fleeting/20250204175231-laravel_lazy_collection_in_depth/</link><pubDate>Tue, 04 Feb 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250204175231-laravel_lazy_collection_in_depth/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;LaravelのLazyCollectionは巨大なデータを扱う時に便利であるという話は巷で良く聞くが、実際の所どういうときに便利なのか、内部的にはどうなっているのかという情報はあまり聞かない。
+LazyCollection自体のソースコードを読んでかなり理解できたのでメモしておく。&lt;/p&gt;</description></item><item><title>テキストエディタがPHPをシンタックスハイライトする仕組みとモダンテキストエディタ事情について</title><link>https://www.takeokunn.org/posts/permanent/20240107122028-how_to_syntax_highlight_in_text_editor/</link><pubDate>Thu, 18 Jan 2024 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/permanent/20240107122028-how_to_syntax_highlight_in_text_editor/</guid><description>&lt;h2 id="注意"&gt;注意&lt;/h2&gt;
+&lt;p&gt;この記事はPHPerKaigi 2024のパンフレット記事です。A4ページ4枚程度の量を書いています。
+書面での掲載につきハイパーリンクがないことをご了承ください。&lt;/p&gt;</description></item><item><title>2023年小田原旅行記</title><link>https://www.takeokunn.org/posts/diary/20231030071757-2023_bokunatu_travel/</link><pubDate>Mon, 30 Oct 2023 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/diary/20231030071757-2023_bokunatu_travel/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;2023年10月27日から1泊2日で小田原に夏休みを利用して旅行しました。
+ノープラン要素、適当要素、他人に迷惑をかける要素が存分に含まれているので、迷惑をかけた方本当にすみませんでした。
+写真や情報は適宜追加していきます。&lt;/p&gt;</description></item><item><title>PHP Exceptionのpropertyにあるcodeはuser-defined error code</title><link>https://www.takeokunn.org/posts/fleeting/20230801135235-what_is_php_exception_code/</link><pubDate>Tue, 01 Aug 2023 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20230801135235-what_is_php_exception_code/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;仕事でPHPStanの修正をしている時、 &lt;code&gt;Exception&lt;/code&gt; classのconstructorでcodeを指定しているコードに出くわした。
+&lt;code&gt;Exception&lt;/code&gt; におけるcodeの扱いについて記述している記事がなかったので &lt;a href="https://github.com/php/php-src"&gt;php/php-src&lt;/a&gt; のコードにあたってみた。&lt;/p&gt;</description></item><item><title>「PHP Lovers Meetup vol.0 ~ はじまりは&lt;?phpから」に参加しました</title><link>https://www.takeokunn.org/posts/diary/20230710082646-retrospective_php_lovers_meetup_vol_0/</link><pubDate>Mon, 10 Jul 2023 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/diary/20230710082646-retrospective_php_lovers_meetup_vol_0/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;2023/07/10（Mon）に行われた「PHP Lovers Meetup vol.0 ~ 始まりは&amp;lt;?phpから」に参加しました。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;connpass
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://php-lovers-meetup.connpass.com/event/280822/"&gt;https://php-lovers-meetup.connpass.com/event/280822/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;togetter
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://togetter.com/li/2184479"&gt;https://togetter.com/li/2184479&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;repo
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/brefphp/bref"&gt;https://github.com/brefphp/bref&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;PHP-DIやBrefの作者として有名な &lt;a href="https://twitter.com/matthieunapoli"&gt;@matthieunapoli&lt;/a&gt; 氏が来日するということで &lt;a href="https://twitter.com/seike460"&gt;@seike460&lt;/a&gt; 氏も福岡から招き、サーバレスフレームワークについて語っていただきました。
+自分はBrefを使ったことがないのでBref本体のコードをダラダラ読みながら登壇を聞いていました。&lt;/p&gt;</description></item><item><title>phpカンファレンス福岡2023に参加してきました</title><link>https://www.takeokunn.org/posts/diary/20230624093617-retrospective_phpconference_fukuoka_2023/</link><pubDate>Sat, 24 Jun 2023 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/diary/20230624093617-retrospective_phpconference_fukuoka_2023/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;2023/6/24(土）に行われたphpconference福岡に参加してきました。
+&lt;a href="https://phpcon.fukuoka.jp/2023/"&gt;https://phpcon.fukuoka.jp/2023/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;今回は2023/6/23(金）〜2023/6/26(月）の3泊4日の旅行でした。&lt;/p&gt;</description></item><item><title>phperkaigi 2023でパンフレット記事寄稿&amp;登壇してきました</title><link>https://www.takeokunn.org/posts/diary/20230327015058-phperkaigi_2023_report/</link><pubDate>Mon, 27 Mar 2023 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/diary/20230327015058-phperkaigi_2023_report/</guid><description>&lt;h2 id="始めに"&gt;始めに&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://phperkaigi.jp/2023/"&gt;phperkaigi 2023&lt;/a&gt; に参加しました。&lt;/p&gt;
+&lt;p&gt;phperkaigiとは、年1回大都会練馬のココネリホールで開催されるphperのためのイベントです。
+よくphpカンファレンスとごっちゃにされがちなので一応書いておくと、phpカンファレンスは秋に蒲田で、phperkaigiは春に大都会練馬で開かれる別のイベントです。&lt;/p&gt;</description></item><item><title>「第149回 PHP勉強会＠東京」で登壇してきました</title><link>https://www.takeokunn.org/posts/diary/20230220161138-phpstudy_149_report/</link><pubDate>Mon, 20 Feb 2023 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/diary/20230220161138-phpstudy_149_report/</guid><description>&lt;h2 id="始めに"&gt;始めに&lt;/h2&gt;
+&lt;p&gt;2023-02-15（水）に &lt;a href="https://www.gmo.jp/csr/partners/office/#gmo-yours"&gt;GMO Yours&lt;/a&gt; で行われた &lt;a href="https://phpstudy.doorkeeper.jp/events/151021"&gt;第149回 PHP勉強会＠東京&lt;/a&gt; で登壇してきました。
+現地には30人、オンラインの視聴者は20人くらいで非常に和気藹々とした勉強会でした。&lt;/p&gt;</description></item><item><title>PHP8から追加されたJITについて学ぼう!</title><link>https://www.takeokunn.org/posts/permanent/20221222111924-about_php_jit/</link><pubDate>Thu, 22 Dec 2022 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/permanent/20221222111924-about_php_jit/</guid><description>&lt;h2 id="始めに"&gt;始めに&lt;/h2&gt;
+&lt;p&gt;2023年現在、PHPは世界中の企業で使われており、もっとも成功しているプログラミング言語の1つと言っても過言ではないくらい開発者から愛されています。
+WikipediaやWordPressもPHP製のプロダクトですので、開発者でなくてもPHPの恩恵を受けている人は多いでしょう。&lt;/p&gt;</description></item><item><title>aws-sdk-php v3.245.0でBC breakをおこす</title><link>https://www.takeokunn.org/posts/fleeting/20221214165044-bc_break_aws_sdk_php_v3/</link><pubDate>Wed, 14 Dec 2022 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20221214165044-bc_break_aws_sdk_php_v3/</guid><description>&lt;h2 id="結論"&gt;結論&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;aws-sdk-php&lt;/code&gt; の &lt;code&gt;v3.245.0&lt;/code&gt; で &lt;code&gt;AwcClient&lt;/code&gt; のconstructorの引数が変わった&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;SqsClient&lt;/code&gt; などの継承しているclassにも影響が出る&lt;/li&gt;
+&lt;li&gt;Composer.jsonで &lt;code&gt;&amp;quot;aws/aws-sdk-php&amp;quot;: &amp;quot;^3.0&amp;quot;&lt;/code&gt; のように指定しているとversionが上がって事故る&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="現象"&gt;現象&lt;/h2&gt;
+&lt;p&gt;2022年11月に &lt;code&gt;aws-sdk-php&lt;/code&gt; の &lt;code&gt;v3.245.0&lt;/code&gt; がリリースされた。&lt;/p&gt;</description></item></channel></rss>

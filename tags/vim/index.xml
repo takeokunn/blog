@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Vim on takeokunn's blog</title><link>https://www.takeokunn.org/tags/vim/</link><description>Recent content in Vim on takeokunn's blog</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Tue, 11 Feb 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://www.takeokunn.org/tags/vim/index.xml" rel="self" type="application/rss+xml"/><item><title>2025年2月 Neovimセットアップ</title><link>https://www.takeokunn.org/posts/fleeting/20250211111032-setup_neovim/</link><pubDate>Tue, 11 Feb 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250211111032-setup_neovim/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;Neovimに入門したいと思い早n年だったが、vim-jpの皆さんのおかげでようやくミニマムの設定が完了したのでブログにまとめておきます。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20230209152709-using-vim-and-neovim-for-differenct-purposes-and-minimum-settings/"&gt;VimとNeovimの使い分けと最小構成&lt;/a&gt; のとおりVimは最小構成にしているので、Neovimはヘビーカスタマイズしていく方針です。&lt;/p&gt;</description></item><item><title>VimとNeovimの使い分けと最小構成</title><link>https://www.takeokunn.org/posts/fleeting/20230209152709-using-vim-and-neovim-for-differenct-purposes-and-minimum-settings/</link><pubDate>Thu, 09 Feb 2023 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20230209152709-using-vim-and-neovim-for-differenct-purposes-and-minimum-settings/</guid><description>&lt;h2 id="vimとneovimの運用方針"&gt;VimとNeovimの運用方針&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://mobile.twitter.com/takeokunn/status/1464971704124710915"&gt;Twitterではずっと主張してること&lt;/a&gt; だが、VimとNeovimの設定は共通化しない方がよいと考えています。&lt;/p&gt;
+&lt;p&gt;次のような使い分けをしています。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Vim → サーバ用の最小設定&lt;/li&gt;
+&lt;li&gt;Neovim → 日常的な開発用&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;コンテナ全盛期の現代といえど、サーバに入って作業をする必要がある人も多いんじゃないでしょうか。
+不自由な環境でちょっとしたファイルを開いて数行変更するだけに関しては、Vimほど適したテキストエディタはないでしょう。&lt;/p&gt;</description></item></channel></rss>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Aws on takeokunn's blog</title><link>https://www.takeokunn.org/tags/aws/</link><description>Recent content in Aws on takeokunn's blog</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Sun, 08 Jun 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://www.takeokunn.org/tags/aws/index.xml" rel="self" type="application/rss+xml"/><item><title>EventBridge Ruleデバッグ方法メモ</title><link>https://www.takeokunn.org/posts/fleeting/20250608160858-how_to_debug_eventbridge_rule/</link><pubDate>Sun, 08 Jun 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250608160858-how_to_debug_eventbridge_rule/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;業務をしていると、「EventBridgeでメタ情報を付与してSQSに流す」といった要件に出くわす機会がある。&lt;/p&gt;
+&lt;p&gt;e.g. &lt;a href="https://docs.google.com/presentation/d/1_vOdQO0SY671SRQpnpEz1xvVyUy-Vzl_Dk4Ph6ujy84/edit?slide=id.p#slide=id.p"&gt;AWS SQSとLaravelで大規模トラフィックを捌く - phpcon新潟&lt;/a&gt;&lt;/p&gt;</description></item><item><title>aws-cliとecs-cliのconfigをorgで管理してdefault値を一切設定しない運用をする</title><link>https://www.takeokunn.org/posts/permanent/20230119162342-aws_cli_ecs_cli_configure_without_default_value_by_org/</link><pubDate>Thu, 19 Jan 2023 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/permanent/20230119162342-aws_cli_ecs_cli_configure_without_default_value_by_org/</guid><description>&lt;h2 id="前提"&gt;前提&lt;/h2&gt;
+&lt;p&gt;私は普段次のような条件でAWSを触っています。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;AWSアカウントを複数社分扱っている&lt;/li&gt;
+&lt;li&gt;SwitchRoleで複数扱っている&lt;/li&gt;
+&lt;li&gt;手元から頻繁にコマンドをたたく&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;さまざまな環境で作業をしていると、「想定と違う環境に対してAPIを投げてしまう」「意図したリソースが取得できない」等さまざまなトラブルに直面します。
+全部CI/CDで管理をして、localからは一切なにもしないというのは1つの理想ではあるものの、そうはいかないのが現実というものです。&lt;/p&gt;</description></item></channel></rss>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Git on takeokunn's blog</title><link>https://www.takeokunn.org/tags/git/</link><description>Recent content in Git on takeokunn's blog</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Tue, 23 Dec 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://www.takeokunn.org/tags/git/index.xml" rel="self" type="application/rss+xml"/><item><title>gitleaksを導入した</title><link>https://www.takeokunn.org/posts/fleeting/20251222124101-setup_gitleaks/</link><pubDate>Tue, 23 Dec 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20251222124101-setup_gitleaks/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;秘密鍵をgit commitしないようにしたいと以前から考えていた。
+大体のプロジェクトのCIにsecretlintを導入していたが、手元でもpre-commitでも設定したいと思っていた所、gitleaksなら設定不要で楽に導入できることが分かったので導入した。&lt;/p&gt;</description></item><item><title>個人的Local環境のGit Branch運用について</title><link>https://www.takeokunn.org/posts/fleeting/20250518144557-local_git_branch_operation/</link><pubDate>Sun, 18 May 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250518144557-local_git_branch_operation/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;複数人で触っているRepoをLocalでGit操作する時、次のような問題が発生していた。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;直pushしてしまった&lt;/li&gt;
+&lt;li&gt;意図しない作業ブランチで作業してしまった&lt;/li&gt;
+&lt;li&gt;コンフリクト解消ミスで本来必要なコードを消してしまう&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;GitHubのBranch RuleやCIなどでミスを防ぐべきだが、そういうのが整っていない環境というのは多々ある。
+自衛のために個人的に行っているGit Branch運用について纏めておく。&lt;/p&gt;</description></item></channel></rss>

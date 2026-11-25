@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Emacs on takeokunn's blog</title><link>https://www.takeokunn.org/tags/emacs/</link><description>Recent content in Emacs on takeokunn's blog</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Tue, 02 Dec 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://www.takeokunn.org/tags/emacs/index.xml" rel="self" type="application/rss+xml"/><item><title>emacs wgrepが便利だった</title><link>https://www.takeokunn.org/posts/fleeting/20251130141030-emacs_wgrep/</link><pubDate>Tue, 02 Dec 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20251130141030-emacs_wgrep/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;本記事は &lt;a href="https://qiita.com/advent-calendar/2025/emacs"&gt;Emacs Advent Calendar 2025&lt;/a&gt; の2日目の記事です。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20251128124639-emacs_wdired_mode/"&gt;emacs wdiredが便利だった&lt;/a&gt; でwgrepも便利だということが判明したのでこちらも調査してみる。&lt;/p&gt;
+&lt;h2 id="試したこと-やったこと"&gt;試したこと・やったこと&lt;/h2&gt;
+&lt;h3 id="1-dot-wgrepの機能調査"&gt;1. wgrepの機能調査&lt;/h3&gt;
+&lt;p&gt;&lt;a href="https://github.com/mhayashi1120/Emacs-wgrep"&gt;mhayashi1120/Emacs-wgrep&lt;/a&gt; のサードパーティpackageでMelpaから落とすことができる。&lt;/p&gt;</description></item><item><title>emacs wdiredが便利だった</title><link>https://www.takeokunn.org/posts/fleeting/20251128124639-emacs_wdired_mode/</link><pubDate>Sat, 29 Nov 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20251128124639-emacs_wdired_mode/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://x.com/ryoppippi"&gt;ryoppippi&lt;/a&gt; の「【外資ITエンジニアの開発環境】VimmerによるVimmer（になりたい人）のためのVim動画」という動画を見た。&lt;/p&gt;
+&lt;p&gt;{{&amp;lt; youtube id=&amp;ldquo;XsAlXYWzcv4&amp;rdquo; title=&amp;quot;【外資ITエンジニアの開発環境】VimmerによるVimmer（になりたい人）のためのVim動画&amp;quot; &amp;gt;}}&lt;/p&gt;</description></item><item><title>Emacs lsp-modeに新しいClientを追加する方法</title><link>https://www.takeokunn.org/posts/fleeting/20250518160750-how_to_contribute_emacs_lsp_mode/</link><pubDate>Sun, 18 May 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250518160750-how_to_contribute_emacs_lsp_mode/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;メジャーなEmacsのLSP Clientは3種類ある。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/joaotavora/eglot"&gt;eglot&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/emacs-lsp/lsp-mode"&gt;lsp-mode&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/manateelazycat/lsp-bridge"&gt;lsp-bridge&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;それぞれメリットデメリットがあるが、自分としてはlsp-modeを推していて今後も使い続けるつもりでいる。
+lsp-mode最大のメリットはClientサポート数の多さにあり、メジャーなLSP Clientなら必ず収録されていると言っても過言ではない。&lt;/p&gt;</description></item><item><title>個人的Local環境のGit Branch運用について</title><link>https://www.takeokunn.org/posts/fleeting/20250518144557-local_git_branch_operation/</link><pubDate>Sun, 18 May 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250518144557-local_git_branch_operation/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;複数人で触っているRepoをLocalでGit操作する時、次のような問題が発生していた。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;直pushしてしまった&lt;/li&gt;
+&lt;li&gt;意図しない作業ブランチで作業してしまった&lt;/li&gt;
+&lt;li&gt;コンフリクト解消ミスで本来必要なコードを消してしまう&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;GitHubのBranch RuleやCIなどでミスを防ぐべきだが、そういうのが整っていない環境というのは多々ある。
+自衛のために個人的に行っているGit Branch運用について纏めておく。&lt;/p&gt;</description></item><item><title>markdown-preview-modeとxwidgetsでリアルタイムプレビューする</title><link>https://www.takeokunn.org/posts/fleeting/20250510184016-preview_markdown_with_xwidgets/</link><pubDate>Sat, 10 May 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250510184016-preview_markdown_with_xwidgets/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;最近AIが生成したMarkdownを読む機会が増えた。
+Emacs Buffer上で読むのもよいのだが、ブラウザ上でCSSを当てた方が読みやすいので今回対応した。&lt;/p&gt;</description></item><item><title>nixpkgsのunstableでEmacs Nativecomp Buildができない問題とワークアラウンド</title><link>https://www.takeokunn.org/posts/fleeting/20250417001805-emacs_nativecomp_bulid_error_nixpkgs_and_workaround/</link><pubDate>Thu, 17 Apr 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250417001805-emacs_nativecomp_bulid_error_nixpkgs_and_workaround/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;2025年4月16日現在、 &lt;code&gt;aarch64-darwin&lt;/code&gt; 環境でnixpkgs unstableのemacs（nativecomp）をビルドできない問題が発生している。&lt;/p&gt;
+&lt;h2 id="ワークアラウンド方法"&gt;ワークアラウンド方法&lt;/h2&gt;
+&lt;p&gt;packageに &lt;code&gt;withNativeCompilation = false;&lt;/code&gt; を書く。&lt;/p&gt;</description></item><item><title>emacsでuniversal-ctagsを使う</title><link>https://www.takeokunn.org/posts/fleeting/20250410002747-use_universal_ctags_with_emacs/</link><pubDate>Wed, 09 Apr 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250410002747-use_universal_ctags_with_emacs/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://github.com/universal-ctags/ctags"&gt;universal-ctags/ctags&lt;/a&gt; の検証をしたのでメモしておく。&lt;/p&gt;
+&lt;h2 id="概要"&gt;概要&lt;/h2&gt;
+&lt;p&gt;Wikipedia的には以下。
+&lt;a href="https://ja.wikipedia.org/wiki/Ctags"&gt;https://ja.wikipedia.org/wiki/Ctags&lt;/a&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Ctags（英: Ctags）はソース及びヘッダ内にある名前のインデックス（又はタグ）ファイルを生成するプログラム。様々なプログラミング言語に対応している。言語に依存するが、サブルーチン(関数)、変数、クラスのメンバ、マクロ等がインデックス化される。これらのタグによりテキストエディタなどのツールで高速かつ容易に定義を参照できる。相互参照ファイルを出力でき、また名前についての情報を人が読みやすい形で列挙した言語ファイルを生成することもできる。&lt;/p&gt;
+&lt;p&gt;Ctagsはケン・アーノルドがBSD Unix用に開発した。後にJim KlecknerによりFortranがサポートされ、ビル・ジョイによりPascalがサポートされた。&lt;/p&gt;
+&lt;/blockquote&gt;</description></item><item><title>flake.nixでポータブルな最小構成のEmacsを作成する</title><link>https://www.takeokunn.org/posts/fleeting/20250403230709-portable_minimal_emacs_with_flake_nix/</link><pubDate>Thu, 03 Apr 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250403230709-portable_minimal_emacs_with_flake_nix/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;「任意のEmacs Packageが動かない」がおま環かバグかというのを切り分けることは非常に重要。
+誰でも同じ環境を整えられるようにすると問題解決が捗るので構築方法をメモしておく。&lt;/p&gt;</description></item><item><title>@github/copilot-language-serverをNixで扱う時のメモ</title><link>https://www.takeokunn.org/posts/fleeting/20250327190937-usage_github_copilot_language_server/</link><pubDate>Thu, 27 Feb 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250327190937-usage_github_copilot_language_server/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://github.com/orgs/github/packages/npm/package/copilot-language-server"&gt;@github/copilot-language-server&lt;/a&gt; を &lt;a href="https://github.com/takeokunn/nixos-configuration"&gt;takeokunn/nixos-configuration&lt;/a&gt; 上で扱えるようにしたのでメモしておく。&lt;/p&gt;
+&lt;h2 id="background"&gt;Background&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/copilot-emacs/copilot.el"&gt;copilot.el&lt;/a&gt; のバージョンが上がった&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/orgs/github/packages/npm/package/copilot-language-server"&gt;@github/copilot-language-server&lt;/a&gt; をnpmでインストールして使う必要があった&lt;/li&gt;
+&lt;li&gt;次の要件を満たしたい
+&lt;ul&gt;
+&lt;li&gt;Nixでパッケージングしたい&lt;/li&gt;
+&lt;li&gt;Neovimなどのエディタでも汎用的に使えるようにしたい&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="対応手順"&gt;対応手順&lt;/h2&gt;
+&lt;h3 id="1-dot-node2nixでパッケージングする"&gt;1. node2nixでパッケージングする&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;node2nix/node-packages.json&lt;/code&gt; に次のような記述をした。&lt;/p&gt;</description></item><item><title>GnuPG 2.4.4でEmacsで発生していたバグ修正された</title><link>https://www.takeokunn.org/posts/fleeting/20240127163627-fix_emacs_gpg_bug/</link><pubDate>Sat, 27 Jan 2024 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20240127163627-fix_emacs_gpg_bug/</guid><description>&lt;h2 id="summary"&gt;Summary&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20230624130858-how_to_escape_emacs_gpg_bug/"&gt;Emacs内でgpg fileがsaveできなくなった時に対応したことメモ&lt;/a&gt; にもあるとおり、GnuPG 2.4.0を使うとEasyPGが正常に動かないという問題があったが、GnuPGを2.4.4に上げると解決した。&lt;/p&gt;</description></item><item><title>org-roamで記事を管理しGitHub Actionsで適切に公開する</title><link>https://www.takeokunn.org/posts/permanent/20231219122351-how_to_manage_blog_by_org_roam/</link><pubDate>Tue, 19 Dec 2023 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/permanent/20231219122351-how_to_manage_blog_by_org_roam/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://qiita.com/advent-calendar/2023/emacs"&gt;2023年度Emacsアドベントカレンダー&lt;/a&gt;2日目の記事です。&lt;/p&gt;
+&lt;p&gt;当記事ではorg-roamを用いたブログ記事のコンテンツ管理方法と、ZennやHugoへ公開する方法の一連の流れについて解説しています。&lt;/p&gt;
+&lt;p&gt;個々の技術への深堀は必要に応じて別途記事に認めますのでご了承ください。&lt;/p&gt;</description></item><item><title>Emacs内でgpg fileがsaveできなくなった時に対応したことメモ</title><link>https://www.takeokunn.org/posts/fleeting/20230624130858-how_to_escape_emacs_gpg_bug/</link><pubDate>Sat, 24 Jun 2023 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20230624130858-how_to_escape_emacs_gpg_bug/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;自分用のメモです。
+何もしていないのに急にgpg fileがEmacsでsaveできなくなったので調査した。&lt;/p&gt;
+&lt;h2 id="再現手順"&gt;再現手順&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;MacでEmacsを起動する&lt;/li&gt;
+&lt;li&gt;Emacsでgpg fileを開く&lt;/li&gt;
+&lt;li&gt;適当に編集する&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;C-x C-s&lt;/code&gt; で &lt;code&gt;save-buffer&lt;/code&gt; を実行するとsaveできずにhangする&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id="原因について"&gt;原因について&lt;/h2&gt;
+&lt;p&gt;「&lt;a href="https://stackoverflow.com/questions/76388376/emacs-org-encrypt-entry-hangs-when-file-is-modified"&gt;emacs org-encrypt-entry hangs when file is modified - stackoverflow&lt;/a&gt;」に同様の問題が投稿されていました。&lt;/p&gt;</description></item><item><title>ob-phpstanを作った</title><link>https://www.takeokunn.org/posts/permanent/20230416154043-create_ob_phpstan/</link><pubDate>Sun, 16 Apr 2023 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/permanent/20230416154043-create_ob_phpstan/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;最近&lt;a href="https://phpstan.org/"&gt;phpstan&lt;/a&gt;を弄ることが増えたのですが、逐一&lt;a href="https://phpstan.org/try"&gt;playground&lt;/a&gt;を開いてWebエディタ内で編集をするのが面倒に感じていました。
+org-mode内で完結をするようにしたいと考えるのはEmacsユーザーなら当然の発想です。
+そこで今回は &lt;code&gt;org-babel&lt;/code&gt; 経由でphpstanの実行結果をorg内で管理できるようにしました。&lt;/p&gt;</description></item><item><title>aws-cliとecs-cliのconfigをorgで管理してdefault値を一切設定しない運用をする</title><link>https://www.takeokunn.org/posts/permanent/20230119162342-aws_cli_ecs_cli_configure_without_default_value_by_org/</link><pubDate>Thu, 19 Jan 2023 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/permanent/20230119162342-aws_cli_ecs_cli_configure_without_default_value_by_org/</guid><description>&lt;h2 id="前提"&gt;前提&lt;/h2&gt;
+&lt;p&gt;私は普段次のような条件でAWSを触っています。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;AWSアカウントを複数社分扱っている&lt;/li&gt;
+&lt;li&gt;SwitchRoleで複数扱っている&lt;/li&gt;
+&lt;li&gt;手元から頻繁にコマンドをたたく&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;さまざまな環境で作業をしていると、「想定と違う環境に対してAPIを投げてしまう」「意図したリソースが取得できない」等さまざまなトラブルに直面します。
+全部CI/CDで管理をして、localからは一切なにもしないというのは1つの理想ではあるものの、そうはいかないのが現実というものです。&lt;/p&gt;</description></item><item><title>Emacsを世界最速級で起動する方法</title><link>https://www.takeokunn.org/posts/permanent/20221217132815-emacs_more_faster/</link><pubDate>Sat, 17 Dec 2022 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/permanent/20221217132815-emacs_more_faster/</guid><description>&lt;p&gt;&lt;a href="https://qiita.com/advent-calendar/2022/emacs"&gt;Emacs Advent Calendar 2022&lt;/a&gt; 19日目です。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://qiita.com/advent-calendar/2022/vim"&gt;Vim Advent Calendar 2022&lt;/a&gt; 3日目の &lt;a href="https://qiita.com/delphinus/items/fb905e452b2de72f1a0f"&gt;爆速で起動する Neovim を作る&lt;/a&gt; に触発されて、「自分もEmacs版を書くぞ！」ということで書いていきます。&lt;/p&gt;
+&lt;p&gt;なお、VimとEmacsの比較をし易くするためになるべく文章の構成を寄せて書くことをご了承ください。&lt;/p&gt;</description></item><item><title>2021年に自分がemacs.dのカスタイマイズしたことについて</title><link>https://www.takeokunn.org/posts/permanent/20211203151122-configure_emacs_in_2021/</link><pubDate>Fri, 03 Dec 2021 09:00:00 +0900</pubDate><guid>https://www.takeokunn.org/posts/permanent/20211203151122-configure_emacs_in_2021/</guid><description>&lt;p&gt;&lt;a href="https://qiita.com/advent-calendar/2021/emacs"&gt;Emacs Advent Calendar 2021&lt;/a&gt; 5日目の記事。&lt;/p&gt;
+&lt;p&gt;今年も&lt;a href="https://github.com/takeokunn/.emacs.d"&gt;takeokunn/.emacs.d&lt;/a&gt; をかなり改造した。 &lt;code&gt;git log --reverse&lt;/code&gt; してみるとfirst commitが &lt;code&gt;Sat Nov 3 18:15:51 2018 +0900&lt;/code&gt; のようなので3年使っているようだ。&lt;/p&gt;
+&lt;p&gt;最初と比べて圧倒的に快適になってはいるものの、分からないことが増えていく一方だ。
+とはいえ使っていくうちに理解が深まっていくのも事実。
+ざっくりやったことについてまとめていく（去年やったことも含まれているが御愛嬌）&lt;/p&gt;</description></item></channel></rss>

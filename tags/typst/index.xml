@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Typst on takeokunn's blog</title><link>https://www.takeokunn.org/tags/typst/</link><description>Recent content in Typst on takeokunn's blog</description><generator>Hugo -- gohugo.io</generator><language>ja-jp</language><lastBuildDate>Wed, 24 Dec 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://www.takeokunn.org/tags/typst/index.xml" rel="self" type="application/rss+xml"/><item><title>Typst SlideのDracula Light Theme作成した</title><link>https://www.takeokunn.org/posts/fleeting/20251124235900-typst_slide_light_theme/</link><pubDate>Wed, 24 Dec 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20251124235900-typst_slide_light_theme/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20250506220914-create_typst_slide_theme/"&gt;Typstテーマを自作した&lt;/a&gt; でDrauclaテーマのスライドを自作したのだが、実際登壇してみるとダークテーマは登壇会場によっては見にくくなってしまうことがわかった。
+Draculaテーマだけでなくライトテーマでも生成できるようにしなくちゃいけなくなったので自作してみた。&lt;/p&gt;</description></item><item><title>技術イベントのパンフレット記事をTypstでBuildする</title><link>https://www.takeokunn.org/posts/fleeting/20251130140627-build_pamphlet_article_by_typst/</link><pubDate>Wed, 24 Dec 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20251130140627-build_pamphlet_article_by_typst/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;組版が必要なあらゆるものはTypstを採用することにしている。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20250619103829-build_cv_resume_with_typst/"&gt;Typstで履歴書と職務経歴書をBuildする&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20250610215948-ai_powered_typst_slide_generation/"&gt;AIを駆使してTypstスライドを生成する&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20250126114218-build_and_deploy_typst_using_nix/"&gt;NixでTypstをBuildしGitHub Pagesでホスティングする&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;パンフレット記事や同人誌の組版をする時にも例に漏れずTypstで作成しているのでメモしておく。&lt;/p&gt;</description></item><item><title>Typstで履歴書と職務経歴書をBuildする</title><link>https://www.takeokunn.org/posts/fleeting/20250619103829-build_cv_resume_with_typst/</link><pubDate>Thu, 19 Jun 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250619103829-build_cv_resume_with_typst/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;直近履歴書と職務経歴書を書く必要があった。&lt;/p&gt;
+&lt;p&gt;以前はGoogle Docsやpagesを使って適当に書いていたのだが、これからのAI時代はコードベースで管理できた方がよいだろうということで移行を決意した。
+最近Typst推しなのでTypstからPDFをNix Buildで生成できるようにしてみた。&lt;/p&gt;</description></item><item><title>AIを駆使してTypstスライドを生成する</title><link>https://www.takeokunn.org/posts/fleeting/20250610215948-ai_powered_typst_slide_generation/</link><pubDate>Tue, 10 Jun 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250610215948-ai_powered_typst_slide_generation/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20250608145128-presenting_with_typst_pdfpc/"&gt;Typstとpdfpcでプレゼン機能を実現する&lt;/a&gt; のNext Actionに次のようなことを書いた。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;登壇の場数を踏んでより洗練させていきたい。
+登壇周りのすべてがプレーンテキスト（Org）で管理できるようになったので、次はAIによるスライド生成にチャレンジしたい。&lt;/p&gt;
+&lt;/blockquote&gt;</description></item><item><title>Typstとpdfpcでプレゼン機能を実現する</title><link>https://www.takeokunn.org/posts/fleeting/20250608145128-presenting_with_typst_pdfpc/</link><pubDate>Sun, 08 Jun 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250608145128-presenting_with_typst_pdfpc/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;Typstでスライドを作るフローがだいぶ固まってきた。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20250126114218-build_and_deploy_typst_using_nix/"&gt;NixでTypstをBuildしGitHub Pagesでホスティングする&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20250506220914-create_typst_slide_theme/"&gt;Typstテーマを自作した&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20250601214129-create_slide_by_typst_self_theme/"&gt;Typst自作テーマで登壇スライドを作成した&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;過去に普段資料はGoogle Slideで作成していたのだが、次の理由でGoogle Slideを使っていた。&lt;/p&gt;</description></item><item><title>Typst自作テーマで登壇スライドを作成した</title><link>https://www.takeokunn.org/posts/fleeting/20250601214129-create_slide_by_typst_self_theme/</link><pubDate>Sun, 01 Jun 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250601214129-create_slide_by_typst_self_theme/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://nix-ja.connpass.com/event/353532/"&gt;Nix meetup #3 大阪&lt;/a&gt; で大阪への新幹線の中で登壇スライドを作成した。&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.takeokunn.org/pdf/nix-meetup-3-my-nix-usecase.pdf"&gt;https://www.takeokunn.org/pdf/nix-meetup-3-my-nix-usecase.pdf&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;今まではGoogle Slideでスライドを作成していたが、今回は &lt;a href="https://www.takeokunn.org/posts/fleeting/20250506220914-create_typst_slide_theme/"&gt;Typstテーマを自作した&lt;/a&gt; にもあるとおり自作テーマで初の登壇仕様を作成してみた。&lt;/p&gt;</description></item><item><title>Typstテーマを自作した</title><link>https://www.takeokunn.org/posts/fleeting/20250506220914-create_typst_slide_theme/</link><pubDate>Tue, 06 May 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250506220914-create_typst_slide_theme/</guid><description>&lt;h2 id="背景-動機"&gt;背景・動機&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://www.takeokunn.org/posts/fleeting/20250126114218-build_and_deploy_typst_using_nix/"&gt;NixでTypstをBuildしGitHub Pagesでホスティングする&lt;/a&gt; でTypstから生成したPDFスライドを配信する仕組みを作った。
+今後の登壇は可能な限りTypstから生成するつもりなのでテーマを自作した。&lt;/p&gt;</description></item><item><title>NixでTypstをBuildしGitHub Pagesでホスティングする</title><link>https://www.takeokunn.org/posts/fleeting/20250126114218-build_and_deploy_typst_using_nix/</link><pubDate>Sun, 26 Jan 2025 00:00:00 +0000</pubDate><guid>https://www.takeokunn.org/posts/fleeting/20250126114218-build_and_deploy_typst_using_nix/</guid><description>&lt;h2 id="背景"&gt;背景&lt;/h2&gt;
+&lt;p&gt;スライドや組版記事を生成する為にTypstを採用することにした。
+工数を最小限に安定的に量産できるようなしくみを整える必要が迫られていたので、今回対応したことをメモしておく。&lt;/p&gt;</description></item></channel></rss>
