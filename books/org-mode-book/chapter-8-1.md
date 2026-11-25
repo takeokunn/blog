@@ -1,0 +1,40 @@
+---
+title: "8.1. パフォーマンス・チューニングの技術"
+---
+
+
+
+# ガベージコレクション
+
+-   gc-cons-threshold の調整
+-   gcmh-mode（Garbage Collector Magic Hack）
+-   起動時と通常時の切り替え
+
+
+# org-element-cache
+
+-   キャッシュの仕組み
+-   有効化と無効化
+-   キャッシュ破損時の対処
+-   org-element-cache-reset
+
+
+# フォントロック
+
+-   jit-lock-defer-time
+-   org-fontify-\* 変数
+-   必要最小限のフォントロック
+
+
+# 行番号表示
+
+-   display-line-numbers-mode の影響
+-   Org-modeでの無効化
+-   nlinum vs native line numbers
+
+
+# その他の最適化
+
+-   org-startup-folded
+-   org-agenda-inhibit-startup
+-   so-long-mode

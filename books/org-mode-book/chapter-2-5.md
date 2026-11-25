@@ -1,0 +1,40 @@
+---
+title: "2.5. Org-modeの拡張（Hacking）と内部構造"
+---
+
+
+
+# org-mode-hook の活用
+
+-   モード有効化時の処理
+-   バッファローカル設定
+-   実用的なhook例
+
+
+# Org-elementの内部構造
+
+-   Greater Elements（見出し、ブロック等）
+-   Lesser Elements（段落、リスト項目等）
+-   Objects（強調、リンク等）
+-   AST（抽象構文木）としてのOrg文書
+
+
+# org-element-parse-buffer
+
+-   バッファ全体のパース
+-   返り値の構造（プロパティリスト）
+-   org-element-map での走査
+
+
+# 実践的なElisp例
+
+-   特定TODOの見出しを抽出
+-   プロパティの一括変更
+-   カスタムエクスポートの前処理
+-   org-element-interpret-data での再構築
+
+
+# advice-add による挙動変更
+
+-   既存関数の前後に処理を追加
+-   org-capture の拡張例

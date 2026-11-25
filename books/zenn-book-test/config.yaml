@@ -1,0 +1,8 @@
+title: "zenn-book-test"
+summary: "for test"
+topics: ["markdown", "zenn"]
+published: false
+price: 0
+chapters:
+  - chapter-1
+  - chapter-2

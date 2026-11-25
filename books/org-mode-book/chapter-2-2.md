@@ -1,0 +1,46 @@
+---
+title: "2.2. org-capture：情報収集の入り口"
+---
+
+
+
+# org-captureの概念
+
+-   「今やっていることを中断せずに」情報を記録
+-   GTDにおけるInboxの実現
+
+
+# キャプチャテンプレートの基本
+
+-   org-capture-templates の構造
+-   %<sup>prompt</sup>, %t, %T, %U, %a 等のテンプレート変数
+-   ファイル指定、見出し指定、日付ツリー
+
+
+# 実践的なテンプレート例
+
+-   TODO項目のキャプチャ
+-   日記/ジャーナルエントリ
+-   読書メモ
+-   会議メモ
+-   コードスニペット
+
+
+# org-protocol連携
+
+-   ブラウザからのキャプチャ設定
+-   bookmarklet の作成
+-   org-protocol-capture-html
+
+
+# org-refile
+
+-   キャプチャした項目の再配置
+-   org-refile-targets の設定
+-   org-refile-use-outline-path
+
+
+# キャプチャからアジェンダへのワークフロー
+
+-   Inboxの定期的なレビュー
+-   2分ルールの適用

@@ -1,0 +1,537 @@
+---
+title: "Appendix H. Org-modeで書かれた有名プロジェクトと成果物"
+---
+
+
+
+# 書籍・出版物
+
+Org Modeは学術論文から技術書まで幅広い出版物の執筆に使われている。
+
+
+## 科学論文での活用例
+
+-   Kitchin Research Group（CMU）の論文
+    -   化学工学分野の査読論文をOrg Modeで執筆
+    -   Supporting Informationに実行可能なコードを埋め込み
+    -   <https://kitchingroup.cheme.cmu.edu/>
+-   Journal of Statistical Software Vol.46 Issue 3（2012）
+    -   "A Multi-Language Computing Environment for Literate Programming and Reproducible Research"
+    -   Schulte E., Davison D., Dye T., Dominik C.
+-   Computing in Science & Engineering Vol.13 Issue 3（2011）
+    -   "Active Documents with Org-Mode"
+    -   Schulte E., Davison D.
+-   ACM SIGOPS Operating Systems Review（2015）
+    -   "An Effective Git And Org-Mode Based Workflow For Reproducible Research"
+    -   Stanisic L., Legrand A., Danjean V.
+
+
+## 技術書執筆での利用
+
+-   ox-leanpub: Leanpubでの書籍出版
+    -   <https://github.com/zzamboni/ox-leanpub>
+    -   Org Modeから直接Leanpub形式へエクスポート
+-   "Python Computations in Science and Engineering"
+    -   John Kitchin著
+    -   Org形式で実行可能なコードを含む
+-   "Literate Configuration"（Leanpub）
+    -   Emacsとorg-modeによる設定ファイルのリテラルプログラミング解説
+
+
+## 電子書籍の生成
+
+-   ox-epub: EPUB形式へのエクスポート
+    -   <https://github.com/ofosos/ox-epub>
+-   org-kindle: Kindle形式への変換
+-   Pandocを経由した各種フォーマット変換
+
+
+# ソフトウェアドキュメント
+
+
+## GNU Emacsのドキュメント
+
+-   `etc/ORG-NEWS`: Org Modeの変更履歴
+    -   <https://github.com/emacs-mirror/emacs/blob/master/etc/ORG-NEWS>
+-   =CONTRIBUTE=ファイル: 開発参加ガイド
+-   GNU Free Documentation Licenseの下で公開
+
+
+## Org-mode自体のドキュメント
+
+-   公式マニュアル: <https://orgmode.org/org.html>
+-   Worg（コミュニティWiki）: <https://orgmode.org/worg/>
+    -   Org形式のGitリポジトリで管理
+    -   HTMLとして自動公開
+-   チュートリアル集: <https://orgmode.org/worg/org-tutorials/>
+
+
+## 各種Emacsパッケージのドキュメント
+
+多くのEmacsパッケージがREADME.orgを採用:
+
+-   Magit
+-   Projectile
+-   Org-roam
+-   Doom Emacs
+
+
+## org-info.jsによるWebドキュメント
+
+-   Sebastian Roseによる開発
+-   Info風の階層表示とフォールディング表示
+-   <https://orgmode.org/org-info.js>
+-   設定例: `#+INFOJS_OPT: view:info toc:nil`
+
+
+## org-html-themes
+
+-   Fabrice Niessenによる美しいHTMLテーマ
+-   <https://github.com/fniessen/org-html-themes>
+-   Bigblow: 汎用ドキュメントテーマ
+-   ReadTheOrg: Sphinx/Read The Docs風テーマ
+
+
+# Literate Programmingプロジェクト
+
+
+## Emacs設定（.emacs.d）
+
+Literate Config（設定ファイルのドキュメント化）はもっとも一般的なユースケース。
+
+代表的なリポジトリ:
+
+-   Tecosaur's Doom Config
+    -   <https://tecosaur.github.io/emacs-config/config.html>
+    -   詳細なコメント付きの美しい設定
+-   Rohit Goswami's dotDoom
+    -   <https://dotdoom.rgoswami.me/config.html>
+-   dangirsh/.doom.d
+    -   <https://github.com/dangirsh/.doom.d>
+    -   Literate Doom Emacs config
+-   Hugo Cisneros's Org Config
+    -   <https://hugocisneros.com/org-config/>
+
+
+## Doom Emacs, Spacemacsの設定構造
+
+-   Doom Emacs
+    -   =:lang org=モジュールでOrg Mode強化
+    -   =literate=モジュールでconfig.orgからの自動tangle
+    -   起動時に自動的にconfig.orgを処理
+-   Spacemacs
+    -   レイヤーシステムによるモジュール化
+    -   orgレイヤーで豊富なOrg Mode機能を提供
+    -   <https://develop.spacemacs.org/layers/+emacs/org/README.html>
+
+
+## NixOS設定のLiterate化
+
+-   vidbina/dotfiles
+    -   <https://github.com/vidbina/dotfiles>
+    -   Nix + home-manager + Org Modeの組み合わせ
+    -   Literate設定でNix設定を文書化
+-   tiborpilz/NixOS
+    -   <https://github.com/tiborpilz/NixOS>
+    -   NixOS/nix-darwin/Home Manager設定
+    -   Literate Emacs configを含む
+-   IronShark: "One File System Configuration with NixOS and Emacs Org-Mode"
+    -   <https://ironshark.org/posts/2023-01-onefileconfiguration/>
+
+
+## Kubernetes設定のドキュメント化
+
+-   インフラ設定のLiterate化
+-   =kubectl=コマンドの埋め込みと実行
+-   YAMLマニフェストの生成とドキュメント化
+
+
+# 学術・研究
+
+
+## Reproducible Researchでの活用
+
+Org Modeは再現可能な研究（Reproducible Research）の主要ツール。
+
+-   FOSDEM 2021: "Emacs and org-mode for reproducible research"
+    -   <https://archive.fosdem.org/2021/schedule/event/open_research_emacs_orgmode/>
+-   vikasrawal/orgpaper
+    -   <https://github.com/vikasrawal/orgpaper>
+    -   "Reproducible Research Papers using Org-mode and R: A Guide"
+-   Org Babel論文集
+    -   <https://orgmode.org/worg/org-papers.html>
+
+
+## Jupyter Notebook代替としての利用
+
+Org Modeの優位点:
+
+-   プレーンテキストでバージョン管理に適合
+-   Emacsの強力な編集機能
+-   複数言語の混在実行
+-   LaTeX数式の直接埋め込み
+
+参考:
+
+-   ob-jupyter: JupyterカーネルをOrg Babelから利用
+-   EIN（Emacs IPython Notebook）との連携
+
+
+## データ分析パイプライン
+
+-   R + org-babel-R
+-   Python + ob-python
+-   Julia + ob-julia
+-   統計解析の完全な再現性確保
+
+
+## 研究ノートの管理
+
+-   org-roam: Zettelkasten方式のノート管理
+    -   <https://www.orgroam.com/>
+    -   Roam Researchのオープンソース代替
+    -   双方向リンクとバックリンク
+-   org-ref: 学術論文向け引用管理
+    -   <https://github.com/jkitchin/org-ref>
+    -   BibTeX統合
+    -   40,000以上のダウンロード
+
+
+# 企業・組織での活用
+
+
+## タスク管理システムとして
+
+-   GTD（Getting Things Done）実装
+    -   org-gtd.el: <https://github.com/Trevoke/org-gtd.el>
+    -   Charles Cave's GTD workflow
+    -   コンテキストタグ（@home, @office等）
+-   emacs-gtd by Nicolas Rougier
+    -   <https://github.com/rougier/emacs-gtd>
+
+
+## ナレッジベースとして
+
+-   org-roam/org-brain によるWiki構築
+-   社内ドキュメントの一元管理
+-   Deft/org-roam-uiによる検索
+
+
+## プロジェクト管理
+
+-   org-agendaによるタスク一覧
+-   クロック機能による時間追跡
+-   Effort estimateによる見積もり
+
+
+## 議事録システム
+
+-   org-captureによる素早い記録
+-   テンプレートによる定型フォーマット
+-   アジェンダとの連携
+
+
+# ブログ・Webサイト
+
+
+## ox-hugoによるHugoサイト
+
+-   ox-hugo: <https://ox-hugo.scripter.co/>
+    -   GitHub: <https://github.com/kaushalmodi/ox-hugo>
+    -   1つのOrgファイルからサイト全体を生成可能
+    -   TOML/YAMLフロントマター自動生成
+    -   自動エクスポート機能
+
+活用例:
+
+-   zzamboni.org: <https://zzamboni.org/>
+-   多くの技術ブログ
+
+
+## ox-publishによるスタティックサイト
+
+-   公式機能として組み込み
+-   HTMLへの直接エクスポート
+-   サイトマップ自動生成
+-   チュートリアル: <https://orgmode.org/worg/org-tutorials/org-publish-html-tutorial.html>
+
+
+## Jekyll連携
+
+-   org-jekyll
+-   Org形式からMarkdown/HTML変換
+-   GitHub Pages対応
+
+
+## 有名なOrg-modeブログ一覧
+
+-   Irreal: <https://irreal.org/blog/>
+    -   Org Modeニュースを継続的に発信
+-   Sacha Chua's Blog: <https://sachachua.com/blog/>
+    -   Emacs Newsの発行
+-   Karl Voit's Blog: <https://karl-voit.at/>
+    -   Personal Information Management関連
+-   The Lucid Manager: <https://lucidmanager.org/>
+    -   Emacs/Org Mode生産性記事
+
+
+# プレゼンテーション
+
+
+## org-reveal（reveal.js）
+
+-   org-reveal: <https://github.com/yjwen/org-reveal>
+-   Reveal.jsベースの3Dプレゼンテーション
+-   HTMLで配布可能
+-   カスタムテーマ対応
+
+
+## org-beamer（LaTeX Beamer）
+
+-   Org Mode組み込み機能
+-   高品質なPDFスライド生成
+-   チュートリアル: <https://orgmode.org/worg/exporters/beamer/tutorial.html>
+-   `#+startup: beamer` で有効化
+-   noxdafox/orgmode-beamer: テンプレート集
+    -   <https://github.com/noxdafox/orgmode-beamer>
+
+
+## Marp連携
+
+-   Markdown Presentation Ecosystem
+-   Org Mode -> Markdown変換経由
+
+
+## 学会発表での活用
+
+-   Karl Voit: "Presentation Slides Via Reveal and PDF Handout"
+    -   <https://karl-voit.at/2019/10/12/org-reveal-handout/>
+-   Beamerによる学会発表資料
+-   デュアルフォーマット出力（スライド+配布資料）
+
+
+## その他のプレゼンツール
+
+-   org-tree-slide: Emacs内でのスライドショー
+    -   `M-x org-tree-slide-mode`
+-   Epresent: インラインイメージ、LaTeX対応
+
+
+# 技術同人誌・Zine
+
+
+## 日本の技術同人誌コミュニティ
+
+-   技術書典: <https://techbookfest.org/>
+    -   技術書オンリーの同人即売会
+    -   2016年開始、年2回開催
+    -   来場者1万人超
+-   技術書の同人誌博覧会（技書博）
+-   コミックマーケット技術島
+
+
+## コミケでのOrg-mode本
+
+-   Emacsユーザーコミュニティによる同人誌
+-   Org Modeチートシート
+-   Literate Programming入門
+
+
+## Zennでの技術書（本書含む）
+
+-   ox-zenn: Zenn Flavored Markdown生成
+    -   <https://zenn.dev/conao3/articles/ox-zenn-usage>
+    -   conao3氏による開発
+-   本書もOrg Modeで執筆
+
+
+## 日本語Org Mode記事
+
+Qiita:
+
+-   org-modeタグ: <https://qiita.com/tags/org-mode>
+-   "org-mode でブログ生成"
+-   "org-publishを使ってorgでブログを書く話"
+-   "TODO リストとメモ書きにだけ Emacs を使ってみませんか？"
+
+Zenn:
+
+-   Org Mode関連記事多数
+-   ox-hugo活用記事
+
+個人ブログ:
+
+-   grugrut.net: ox-hugo活用
+-   takeokunn.org: Org Mode活用実践
+
+
+# 興味深いユースケース
+
+Org Modeの柔軟性により、さまざまな用途で活用されている。
+
+
+## 家計簿
+
+-   org-ledger: Ledger CLIとの連携
+-   Beancount統合
+-   テーブル機能での簡易管理
+
+
+## 料理レシピ管理
+
+-   org-chef: レシピ管理パッケージ
+-   Webからのレシピ取り込み
+-   材料リストの自動生成
+
+
+## 読書記録
+
+-   org-books: 読書リスト管理
+-   org-noter: PDF注釈との同期
+-   Goodreads連携
+
+
+## ゲーム攻略メモ
+
+-   チェックリスト機能
+-   プログレス追跡
+-   画像埋め込み
+
+
+## 楽譜管理
+
+-   lilypond連携（ob-lilypond）
+-   MusicXMLとの変換
+-   練習記録
+
+
+## その他のユースケース
+
+-   日記・ジャーナリング（org-journal）
+-   ワークアウト記録
+-   旅行計画
+-   引っ越しチェックリスト
+-   確定申告資料整理
+
+
+# コミュニティプロジェクト
+
+
+## Worg（コミュニティWiki）
+
+-   <https://orgmode.org/worg/>
+-   Git管理のOrg形式Wiki
+-   チュートリアル、Tips、設定例
+-   貢献方法: <https://orgmode.org/worg/org-contribute.html>
+
+
+## org-contrib
+
+-   <https://github.com/emacsmirror/org-contrib>
+-   Org Mode本体から分離されたcontribパッケージ
+-   実験的・メンテナンス低優先度の機能
+-   ox-extra, org-checklist等
+
+
+## awesome-org-mode
+
+-   <https://github.com/topics/org-mode>
+-   GitHubトピックでOrg Mode関連リポジトリを探索
+-   awesome-orgmode organization: <https://github.com/awesome-orgmode>
+
+
+## その他のコミュニティリソース
+
+-   emacs-orgmode メーリングリスト
+    -   <https://list.orgmode.org/>
+    -   開発者・ユーザー間の交流
+-   Reddit r/orgmode
+    -   <https://www.reddit.com/r/orgmode/>
+-   Discord/Matrixコミュニティ
+
+
+# 参考にできるリポジトリ
+
+
+## GitHubで公開されている代表的なOrg-modeプロジェクト
+
+
+### Literate Emacs Configs
+
+| リポジトリ            | 説明                 | URL                                        |
+| --------------------- | -------------------- | ------------------------------------------ |
+| tecosaur/emacs-config | Doom Emacs設定       | <https://github.com/tecosaur/emacs-config> |
+| dangirsh/.doom.d      | Literate Doom config | <https://github.com/dangirsh/.doom.d>      |
+| hlissner/doom-emacs   | Doom Emacs本体       | <https://github.com/doomemacs/doomemacs>   |
+
+
+### Org Mode拡張パッケージ
+
+| パッケージ       | 説明                 | URL                                             |
+| ---------------- | -------------------- | ----------------------------------------------- |
+| org-roam         | Zettelkasten for Org | <https://github.com/org-roam/org-roam>          |
+| org-ref          | 学術引用管理         | <https://github.com/jkitchin/org-ref>           |
+| ox-hugo          | Hugoエクスポート     | <https://github.com/kaushalmodi/ox-hugo>        |
+| org-super-agenda | アジェンダ強化       | <https://github.com/alphapapa/org-super-agenda> |
+
+
+### ドキュメント・ブログ
+
+| プロジェクト    | 説明                        | URL                                           |
+| --------------- | --------------------------- | --------------------------------------------- |
+| orgpaper        | Reproducible Research guide | <https://github.com/vikasrawal/orgpaper>      |
+| org-html-themes | HTMLテーマ                  | <https://github.com/fniessen/org-html-themes> |
+
+
+## 検索のコツ
+
+
+### GitHubでの検索
+
+-   `language:org` フィルタ
+-   `extension:org` フィルタ
+-   トピック検索: `topic:org-mode`, `topic:emacs`
+-   スター数順: `stars:>100`
+
+
+### 効果的なクエリ例
+
+```text
+# Literate config探し
+filename:config.org stars:>50
+
+# org-mode拡張探し
+topic:org-mode language:emacs-lisp stars:>100
+
+# Doom Emacs設定探し
+doom.d config.org
+```
+
+
+### その他のリソース
+
+-   MELPA: <https://melpa.org/>
+    -   Emacsパッケージアーカイブ
+    -   Org Mode関連パッケージ多数
+-   EmacsWiki: <https://www.emacswiki.org/>
+    -   歴史的な情報源
+
+
+# まとめ
+
+Org Modeは単なるメモツールを超え、次の分野で実際に活用されている:
+
+1.  **学術出版**: 再現可能な研究論文の執筆
+2.  **ソフトウェア開発**: ドキュメント、設定管理
+3.  **個人生産性**: タスク管理、ナレッジベース
+4.  **Web出版**: ブログ、静的サイト生成
+5.  **プレゼンテーション**: スライド作成
+
+プレーンテキストの持続性とEmacsのエコシステムにより、長期的なプロジェクトでの採用が増えている。
+
+
+## さらに探索するには
+
+-   Worgのチュートリアル: <https://orgmode.org/worg/org-tutorials/>
+-   Org Mode公式: <https://orgmode.org/>
+-   EmacsConf発表: <https://emacsconf.org/>
