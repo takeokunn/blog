@@ -1,0 +1,15 @@
+:PROPERTIES:
+:ID:       F3B5D5AF-00E4-4076-B93B-07CC7D3FAB2E
+:END:
+#+TITLE: Terminalの将来性について
+#+AUTHOR: takeokunn
+#+DESCRIPTION: description
+#+DATE: 2025-11-30T15:23:51+0900
+#+HUGO_BASE_DIR: ../../
+#+HUGO_CATEGORIES: permanent
+#+HUGO_SECTION: posts/permanent
+#+HUGO_TAGS: permanent terminal
+#+HUGO_DRAFT: true
+#+STARTUP: fold
+* aaa
+bbb
